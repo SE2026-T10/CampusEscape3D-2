@@ -1,6 +1,6 @@
 extends Node
 
-## Lightweight Phase 1 smoke test. Run this scene directly in Godot.
+## Lightweight Phase 1 smoke test. Run this scene directly in Godot. a
 func _ready() -> void:
 	var library_scene := load("res://scenes/level/library_graybox.tscn") as PackedScene
 	assert(library_scene != null, "The library graybox scene must load.")
