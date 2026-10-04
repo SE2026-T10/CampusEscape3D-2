@@ -11,6 +11,14 @@
 [ext_resource type="Script" path="res://scripts/systems/stealth_director.gd" id="11_director"]
 [ext_resource type="Script" path="res://scripts/ui/stealth_hud.gd" id="12_hud"]
 [ext_resource type="Script" path="res://scripts/systems/navigation_debug.gd" id="4_navdebug"]
+[ext_resource type="Script" path="res://scripts/systems/objectives/objective_manager.gd" id="13_objectives"]
+[ext_resource type="Script" path="res://scripts/systems/objectives/objective_trigger.gd" id="14_trigger"]
+[ext_resource type="Script" path="res://scripts/systems/objectives/access_card.gd" id="15_card"]
+[ext_resource type="Script" path="res://scripts/systems/objectives/exit_door.gd" id="16_exit"]
+[ext_resource type="Script" path="res://scripts/systems/checkpoints/checkpoint.gd" id="17_checkpoint"]
+[ext_resource type="Script" path="res://scripts/systems/checkpoints/checkpoint_manager.gd" id="18_checkpoints"]
+[ext_resource type="Script" path="res://scripts/ui/objective_hud.gd" id="19_objective_hud"]
+[ext_resource type="Script" path="res://scripts/systems/noise/noise_maker.gd" id="20_noise_maker"]
 
 [sub_resource type="Environment" id="ENV"]
 background_mode = 1
@@ -339,6 +347,81 @@ size = Vector3(1.4, 1.2, 1.0)
 [sub_resource type="BoxMesh" id="Box_hide_floor"]
 material = SubResource("Material_hide_floor")
 size = Vector3(1.4, 0.01, 1.0)
+
+[sub_resource type="StandardMaterial3D" id="Material_desk"]
+albedo_color = Color(0.33, 0.22, 0.13, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="Box_desk"]
+material = SubResource("Material_desk")
+size = Vector3(0.8, 0.75, 1.6)
+
+[sub_resource type="BoxShape3D" id="Shape_desk"]
+size = Vector3(0.8, 0.75, 1.6)
+
+[sub_resource type="StandardMaterial3D" id="Material_card"]
+albedo_color = Color(1, 0.78, 0.15, 1)
+emission_enabled = true
+emission = Color(1, 0.7, 0.1, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="BoxMesh" id="Box_card"]
+material = SubResource("Material_card")
+size = Vector3(0.32, 0.02, 0.2)
+
+[sub_resource type="BoxShape3D" id="Shape_card_area"]
+size = Vector3(0.7, 0.45, 0.9)
+
+[sub_resource type="BoxShape3D" id="Shape_door_area"]
+size = Vector3(0.5, 2.4, 2.4)
+
+[sub_resource type="BoxShape3D" id="Shape_trigger_enter"]
+size = Vector3(3.6, 2, 2.5)
+
+[sub_resource type="BoxShape3D" id="Shape_trigger_restricted"]
+size = Vector3(14, 2, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_trigger_exit"]
+size = Vector3(10, 2, 10)
+
+[sub_resource type="BoxShape3D" id="Shape_checkpoint_hallway"]
+size = Vector3(2.6, 2, 2)
+
+[sub_resource type="BoxShape3D" id="Shape_checkpoint_nook"]
+size = Vector3(1.8, 2, 2.2)
+
+[sub_resource type="CylinderMesh" id="Cylinder_checkpoint_pad"]
+top_radius = 0.75
+bottom_radius = 0.75
+height = 0.02
+
+[sub_resource type="BoxMesh" id="Box_nook_floor"]
+material = SubResource("StandardMaterial3D_34")
+size = Vector3(2, 0.2, 3)
+
+[sub_resource type="BoxShape3D" id="Shape_nook_floor"]
+size = Vector3(2, 0.2, 3)
+
+[sub_resource type="BoxMesh" id="Box_nook_wall_side"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 3.3)
+
+[sub_resource type="BoxShape3D" id="Shape_nook_wall_side"]
+size = Vector3(0.3, 3.5, 3.3)
+
+[sub_resource type="BoxMesh" id="Box_nook_wall_back"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(2.6, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_nook_wall_back"]
+size = Vector3(2.6, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="Box_corridor_wall_half"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(9.15, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_corridor_wall_half"]
+size = Vector3(9.15, 3.5, 0.3)
 
 [node name="LibraryGraybox" type="Node3D"]
 
@@ -729,6 +812,15 @@ mesh = SubResource("BoxMesh_52")
 [node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Shelf3"]
 shape = SubResource("BoxShape3D_53")
 
+[node name="ArchiveDesk" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-15.45, 0.375, -24.9)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/ArchiveDesk"]
+mesh = SubResource("Box_desk")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/ArchiveDesk"]
+shape = SubResource("Shape_desk")
+
 [node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
 position = Vector3(-9, 0, -19)
 
@@ -752,13 +844,58 @@ mesh = SubResource("BoxMesh_54")
 shape = SubResource("BoxShape3D_55")
 
 [node name="Wall1" type="StaticBody3D" parent="NavigationRegion3D/Areas/BackCorridor"]
-position = Vector3(8, 1.75, -24)
+position = Vector3(2.425, 1.75, -24)
 
 [node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/BackCorridor/Wall1"]
-mesh = SubResource("BoxMesh_56")
+mesh = SubResource("Box_corridor_wall_half")
 
 [node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/BackCorridor/Wall1"]
-shape = SubResource("BoxShape3D_57")
+shape = SubResource("Shape_corridor_wall_half")
+
+[node name="Wall1East" type="StaticBody3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(13.575, 1.75, -24)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/BackCorridor/Wall1East"]
+mesh = SubResource("Box_corridor_wall_half")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/BackCorridor/Wall1East"]
+shape = SubResource("Shape_corridor_wall_half")
+
+[node name="FloorNook" type="StaticBody3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(8, -0.1, -25.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/BackCorridor/FloorNook"]
+mesh = SubResource("Box_nook_floor")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/BackCorridor/FloorNook"]
+shape = SubResource("Shape_nook_floor")
+
+[node name="WallNookWest" type="StaticBody3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(6.85, 1.75, -25.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/BackCorridor/WallNookWest"]
+mesh = SubResource("Box_nook_wall_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/BackCorridor/WallNookWest"]
+shape = SubResource("Shape_nook_wall_side")
+
+[node name="WallNookEast" type="StaticBody3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(9.15, 1.75, -25.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/BackCorridor/WallNookEast"]
+mesh = SubResource("Box_nook_wall_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/BackCorridor/WallNookEast"]
+shape = SubResource("Shape_nook_wall_side")
+
+[node name="WallNookBack" type="StaticBody3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(8, 1.75, -27)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/BackCorridor/WallNookBack"]
+mesh = SubResource("Box_nook_wall_back")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/BackCorridor/WallNookBack"]
+shape = SubResource("Shape_nook_wall_back")
 
 [node name="Wall2" type="StaticBody3D" parent="NavigationRegion3D/Areas/BackCorridor"]
 position = Vector3(8, 1.75, -21)
@@ -778,6 +915,14 @@ billboard = 1
 text = "BACK CORRIDOR"
 font_size = 96
 outline_size = 16
+modulate = Color(1, 1, 1, 0.85)
+
+[node name="NookLabel" type="Label3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(8, 2.9, -25.5)
+billboard = 1
+text = "STAFF NOOK"
+font_size = 48
+outline_size = 10
 modulate = Color(1, 1, 1, 0.85)
 
 [node name="HallwayEast" type="Node3D" parent="NavigationRegion3D/Areas"]
@@ -1148,7 +1293,7 @@ metadata/distance_to_obstacle = 3.35
 position = Vector3(-4.83, 2.2, 19.5)
 rotation_degrees = Vector3(0, 90, 0)
 text = "PLAYER TEST AREA
-WASD walk  ·  Shift sprint  ·  C / Ctrl crouch
+WASD walk  ·  Shift sprint  ·  C / Ctrl crouch  ·  E use
 Esc release mouse  ·  F3 debug view"
 font_size = 40
 outline_size = 8
@@ -1260,3 +1405,124 @@ position = Vector3(0, 0.05, 21)
 transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 6, 40, -3)
 projection = 1
 size = 54.0
+
+[node name="Gameplay" type="Node3D" parent="."]
+
+[node name="ObjectiveManager" type="Node" parent="Gameplay"]
+script = ExtResource("13_objectives")
+
+[node name="CheckpointManager" type="Node" parent="Gameplay"]
+script = ExtResource("18_checkpoints")
+
+[node name="EnterLibraryTrigger" type="Area3D" parent="Gameplay"]
+position = Vector3(0, 1, 12.5)
+script = ExtResource("14_trigger")
+objective_id = &"enter_library"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/EnterLibraryTrigger"]
+shape = SubResource("Shape_trigger_enter")
+
+[node name="RestrictedStacksTrigger" type="Area3D" parent="Gameplay"]
+position = Vector3(-9, 1, -20)
+script = ExtResource("14_trigger")
+objective_id = &"reach_restricted"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/RestrictedStacksTrigger"]
+shape = SubResource("Shape_trigger_restricted")
+
+[node name="ExitAreaTrigger" type="Area3D" parent="Gameplay"]
+position = Vector3(23, 1, -23)
+script = ExtResource("14_trigger")
+objective_id = &"reach_exit"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/ExitAreaTrigger"]
+shape = SubResource("Shape_trigger_exit")
+
+[node name="AccessCard" type="Area3D" parent="Gameplay"]
+position = Vector3(-15.45, 0.9, -24.9)
+script = ExtResource("15_card")
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/AccessCard"]
+shape = SubResource("Shape_card_area")
+
+[node name="Model" type="Node3D" parent="Gameplay/AccessCard"]
+position = Vector3(0, -0.13, 0)
+
+[node name="Card" type="MeshInstance3D" parent="Gameplay/AccessCard/Model"]
+mesh = SubResource("Box_card")
+
+[node name="Label" type="Label3D" parent="Gameplay/AccessCard"]
+position = Vector3(0, 0.45, 0)
+billboard = 1
+text = "ACCESS CARD"
+font_size = 28
+outline_size = 8
+modulate = Color(1, 0.85, 0.3, 1)
+
+[node name="ExitDoor" type="Area3D" parent="Gameplay" node_paths=PackedStringArray("door_mesh")]
+position = Vector3(27.6, 1.2, -23)
+script = ExtResource("16_exit")
+door_mesh = NodePath("../../NavigationRegion3D/Areas/ExitArea/ExitDoor")
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/ExitDoor"]
+shape = SubResource("Shape_door_area")
+
+[node name="Noise" type="Node3D" parent="Gameplay/ExitDoor"]
+script = ExtResource("20_noise_maker")
+radius = 6.0
+
+[node name="Sign" type="Label3D" parent="Gameplay/ExitDoor"]
+position = Vector3(-0.3, 1.55, 0)
+billboard = 1
+text = "LOCKED · ACCESS CARD"
+font_size = 40
+outline_size = 10
+
+[node name="CheckpointHallwayWest" type="Area3D" parent="Gameplay"]
+position = Vector3(-10.5, 1, -9.5)
+script = ExtResource("17_checkpoint")
+checkpoint_name = "Hallway West"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/CheckpointHallwayWest"]
+shape = SubResource("Shape_checkpoint_hallway")
+
+[node name="Spawn" type="Marker3D" parent="Gameplay/CheckpointHallwayWest"]
+position = Vector3(0, -0.95, 0.3)
+rotation_degrees = Vector3(0, 0, 0)
+
+[node name="Pad" type="MeshInstance3D" parent="Gameplay/CheckpointHallwayWest"]
+position = Vector3(0, -0.99, 0)
+mesh = SubResource("Cylinder_checkpoint_pad")
+
+[node name="Label" type="Label3D" parent="Gameplay/CheckpointHallwayWest"]
+position = Vector3(0, 1.2, 0)
+billboard = 1
+text = "CHECKPOINT"
+font_size = 28
+outline_size = 8
+
+[node name="CheckpointStaffNook" type="Area3D" parent="Gameplay"]
+position = Vector3(8, 1, -25.8)
+script = ExtResource("17_checkpoint")
+checkpoint_name = "Staff Nook"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/CheckpointStaffNook"]
+shape = SubResource("Shape_checkpoint_nook")
+
+[node name="Spawn" type="Marker3D" parent="Gameplay/CheckpointStaffNook"]
+position = Vector3(0, -0.95, 0)
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="Pad" type="MeshInstance3D" parent="Gameplay/CheckpointStaffNook"]
+position = Vector3(0, -0.99, 0)
+mesh = SubResource("Cylinder_checkpoint_pad")
+
+[node name="Label" type="Label3D" parent="Gameplay/CheckpointStaffNook"]
+position = Vector3(0, 1.2, 0)
+billboard = 1
+text = "CHECKPOINT"
+font_size = 28
+outline_size = 8
+
+[node name="ObjectiveHud" type="CanvasLayer" parent="."]
+script = ExtResource("19_objective_hud")

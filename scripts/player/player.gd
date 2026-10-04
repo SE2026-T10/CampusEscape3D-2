@@ -121,6 +121,15 @@ func apply_look(look_delta: Vector2) -> void:
 	head.rotation.x = clampf(head.rotation.x - look_delta.y, -limit, limit)
 
 
+## Where respawn() puts the player: the level start until a checkpoint sets a new one.
+func set_spawn_transform(spawn: Transform3D) -> void:
+	_spawn_transform = spawn
+
+
+func get_spawn_transform() -> Transform3D:
+	return _spawn_transform
+
+
 func respawn() -> void:
 	global_transform = _spawn_transform
 	velocity = Vector3.ZERO

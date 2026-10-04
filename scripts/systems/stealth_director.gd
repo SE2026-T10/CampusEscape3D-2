@@ -4,16 +4,18 @@ extends Node
 ## Ties the stealth loop together for the player:
 ##   - works out one player-facing status from all guards (for the HUD)
 ##   - catches the player when a chasing guard reaches them in sight
-##   - after a short pause, resets the level: player back to the entrance,
+##   - after a short pause, resets the level: player back to their spawn point,
 ##     every guard back to its start in PATROL with a clear memory
-## This is a temporary fail state until objectives and checkpoints exist.
+##   - freezes everything when the level is finished (the player escaped)
+## Where the player respawns, and what objective progress survives, is up to
+## CheckpointManager (it gives the player its spawn point and listens to level_reset).
 
 signal status_changed(previous: Status, current: Status)
 signal player_caught(by: Guard)
 signal level_reset
 
-## Player-facing situation, most urgent last.
-enum Status { NONE, HIDDEN, INVESTIGATING, SPOTTED, CHASE, CAUGHT }
+## Player-facing situation, most urgent last. ESCAPED: the level is finished.
+enum Status { NONE, HIDDEN, INVESTIGATING, SPOTTED, CHASE, CAUGHT, ESCAPED }
 
 ## A chasing guard this close (metres, horizontal) with the player in sight catches them.
 @export var catch_distance := 1.2
@@ -36,6 +38,8 @@ static func find(node: Node) -> StealthDirector:
 
 
 func _physics_process(delta: float) -> void:
+	if status == Status.ESCAPED:
+		return
 	if status == Status.CAUGHT:
 		_reset_left -= delta
 		if _reset_left <= 0.0:
@@ -94,31 +98,45 @@ func is_catching(guard: Guard, player: Node3D) -> bool:
 	return d.length() <= catch_distance
 
 
-## Puts the player back at the entrance and every guard back on patrol.
+## Puts the player back at their spawn point (the last checkpoint) and every
+## guard back at its start on patrol with a clear memory.
 func reset_level() -> void:
+	# Move everyone first, then switch processing back on, so their bodies
+	# rejoin the physics world at the new positions (not where they were caught,
+	# which would briefly re-enter areas there, such as objective triggers).
 	var player := _player()
 	if player:
-		player.process_mode = Node.PROCESS_MODE_INHERIT
 		if player.has_method("respawn"):
 			player.respawn()
+		player.process_mode = Node.PROCESS_MODE_INHERIT
 	for guard in _guards():
-		guard.process_mode = Node.PROCESS_MODE_INHERIT
 		guard.reset_to_start()
+		guard.process_mode = Node.PROCESS_MODE_INHERIT
 	_set_status(Status.NONE)
 	level_reset.emit()
+
+
+## Ends the level after a successful escape: freezes the player and the guards.
+func finish_level() -> void:
+	_freeze_actors()
+	_set_status(Status.ESCAPED)
 
 
 func _catch(guard: Guard) -> void:
 	catches += 1
 	_reset_left = reset_delay
 	# Freeze the scene's actors while the "caught" screen shows.
+	_freeze_actors()
+	_set_status(Status.CAUGHT)
+	player_caught.emit(guard)
+
+
+func _freeze_actors() -> void:
 	var player := _player()
 	if player:
 		player.process_mode = Node.PROCESS_MODE_DISABLED
 	for g in _guards():
 		g.process_mode = Node.PROCESS_MODE_DISABLED
-	_set_status(Status.CAUGHT)
-	player_caught.emit(guard)
 
 
 func _set_status(value: Status) -> void:

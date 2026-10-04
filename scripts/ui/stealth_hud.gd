@@ -7,7 +7,7 @@ extends CanvasLayer
 ##     pointing toward that guard, filling with its detection meter, coloured
 ##     white → yellow "?" (suspicious / investigating) → red "!" (alerted / chasing)
 ##   - Stance and noise (bottom left): e.g. "CROUCHED · noise: QUIET"
-##   - Caught overlay
+##   - Caught overlay, naming the checkpoint the player goes back to
 ## All information comes from the guards' own perception and the StealthDirector.
 
 const COLOUR_NOTICE := Color(1, 1, 1)
@@ -21,6 +21,7 @@ const BANNERS := {
 	StealthDirector.Status.SPOTTED: ["YOU ARE BEING SEEN", Color(1.0, 0.55, 0.15)],
 	StealthDirector.Status.CHASE: ["CHASED — break line of sight!", COLOUR_ALERT],
 	StealthDirector.Status.CAUGHT: ["", COLOUR_ALERT],
+	StealthDirector.Status.ESCAPED: ["", Color.WHITE],
 }
 ## Distance of the indicators from the screen centre, in pixels.
 const RING_RADIUS := 90.0
@@ -28,6 +29,7 @@ const RING_RADIUS := 90.0
 var _banner: Label
 var _stance: Label
 var _caught: ColorRect
+var _caught_label: Label
 var _indicators: Control
 
 
@@ -56,11 +58,10 @@ func _ready() -> void:
 	_caught.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_caught.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_caught.visible = false
-	var caught_label := _make_label(44, HORIZONTAL_ALIGNMENT_CENTER)
-	caught_label.text = "CAUGHT\nBack to the entrance…"
-	caught_label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	caught_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_caught.add_child(caught_label)
+	_caught_label = _make_label(44, HORIZONTAL_ALIGNMENT_CENTER)
+	_caught_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_caught_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_caught.add_child(_caught_label)
 	add_child(_caught)
 
 
@@ -71,8 +72,17 @@ func _process(_delta: float) -> void:
 	_banner.text = banner[0]
 	_banner.add_theme_color_override("font_color", banner[1])
 	_caught.visible = status == StealthDirector.Status.CAUGHT
+	if _caught.visible:
+		_caught_label.text = get_caught_text()
 	_stance.text = get_stance_text()
 	_indicators.queue_redraw()
+
+
+## Caught overlay text, naming where the player will respawn.
+func get_caught_text() -> String:
+	var checkpoints := CheckpointManager.find(self)
+	var where := checkpoints.get_respawn_name() if checkpoints else "the entrance"
+	return "CAUGHT\nBack to %s…" % where
 
 
 ## Bottom-left text, e.g. "CROUCHED · noise: QUIET".
