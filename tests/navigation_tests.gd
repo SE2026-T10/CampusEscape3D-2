@@ -9,6 +9,7 @@ extends RefCounted
 
 const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
 const PROBE_SCENE := "res://scenes/npc/navigation_probe.tscn"
+const TestUtils := preload("res://tests/test_utils.gd")
 const REGION := "NavigationRegion3D"
 const AREAS := ["Entrance", "MainRoom", "ReadingArea", "MainStacks", "HallwayWest",
 		"RestrictedStacks", "BackCorridor", "HallwayEast", "ExitArea"]
@@ -28,12 +29,14 @@ var _obstacles: Array[AABB] = []    # walls and props
 func run(host: Node) -> Array[String]:
 	_host = host
 	var level: Node3D = (load(LIBRARY_SCENE) as PackedScene).instantiate()
-	# The level's own probe walks a route; tests drive their own probe instead.
-	var level_probe := level.get_node_or_null("NavigationProbe")
-	if level_probe:
-		level.remove_child(level_probe)
-		level_probe.free()
-	_host.add_child(level)
+	# Guards walk on their own (tested in guard_tests.gd); these tests drive their own probe.
+	for moving in ["Guards", "NavigationProbe"]:
+		var node := level.get_node_or_null(moving)
+		if node:
+			level.remove_child(node)
+			node.free()
+	var map_ready: bool = await TestUtils.add_level_and_wait_for_navigation(
+		_host, level, (level.get_node("%s/Areas/Entrance/NavPoint" % REGION) as Node3D).position)
 	var region := level.get_node_or_null(REGION) as NavigationRegion3D
 	_expect(region != null and region.navigation_mesh != null, "Level needs a NavigationRegion3D with a NavigationMesh.")
 	if region == null or region.navigation_mesh == null:
@@ -44,8 +47,7 @@ func run(host: Node) -> Array[String]:
 	_collect_geometry(region)
 	_check_navmesh_saved_and_current(region)
 	_check_navmesh_inside_floors(region.navigation_mesh)
-	# The navigation map picks up the region on the next physics frames.
-	await _physics_frames(3)
+	_expect(map_ready, "The navigation map never synced the level.")
 	var map := region.get_navigation_map()
 	_check_coverage(map)
 	_check_outside_points_snap_inside(map)

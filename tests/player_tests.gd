@@ -96,11 +96,12 @@ func _check_movement_math() -> void:
 
 func _check_movement_in_level() -> void:
 	var level: Node3D = (load(LIBRARY_SCENE) as PackedScene).instantiate()
-	# The debug navigation probe walks around on its own; remove it so it cannot bump the player.
-	var probe := level.get_node_or_null("NavigationProbe")
-	if probe:
-		level.remove_child(probe)
-		probe.free()
+	# Guards walk around on their own; remove them so they cannot bump the player.
+	for moving in ["Guards", "NavigationProbe"]:
+		var node := level.get_node_or_null(moving)
+		if node:
+			level.remove_child(node)
+			node.free()
 	_host.add_child(level)
 	var player := level.get_node_or_null("Player") as FirstPersonPlayer
 	var test_area := level.get_node_or_null(TEST_AREA)

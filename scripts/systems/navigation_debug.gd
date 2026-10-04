@@ -1,9 +1,11 @@
 extends Node3D
 
 ## Development tool: draws the baked navigation mesh as a translucent cyan
-## overlay with outlined polygons, and draws the current path of every
-## NavigationProbe in the scene in yellow. Toggle with the
-## "toggle_navigation_debug" action (F3). Removed from release builds.
+## overlay with outlined polygons, and the current path of every node in the
+## "navigation_debug_agents" group (guards, the navigation probe) in yellow.
+## The "toggle_navigation_debug" action (F3) also shows or hides every node in
+## the "debug_visuals" group (guard labels, patrol route lines).
+## Removed from release builds.
 
 ## The NavigationRegion3D whose navigation mesh is drawn.
 @export var region: NavigationRegion3D
@@ -39,18 +41,25 @@ func _ready() -> void:
 	if region:
 		region.bake_finished.connect(rebuild)
 	rebuild()
-	visible = visible_on_start
+	# Deferred so guards and routes that become ready after this node are included.
+	set_debug_visible.call_deferred(visible_on_start)
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_navigation_debug"):
-		visible = not visible
+		set_debug_visible(not visible)
 		get_viewport().set_input_as_handled()
+
+
+## Shows or hides the overlay together with all "debug_visuals" nodes.
+func set_debug_visible(value: bool) -> void:
+	visible = value
+	get_tree().call_group("debug_visuals", "set_visible", value)
 
 
 func _process(_delta: float) -> void:
 	if visible:
-		_draw_probe_paths()
+		_draw_agent_paths()
 
 
 ## Rebuilds the overlay from the region's navigation mesh. Called again after a rebake.
@@ -85,10 +94,10 @@ func rebuild() -> void:
 	drawn_polygon_count = nav_mesh.get_polygon_count()
 
 
-func _draw_probe_paths() -> void:
+func _draw_agent_paths() -> void:
 	_path_mesh.clear_surfaces()
-	for probe in get_tree().get_nodes_in_group("navigation_probes"):
-		var path: PackedVector3Array = probe.agent.get_current_navigation_path()
+	for node in get_tree().get_nodes_in_group("navigation_debug_agents"):
+		var path: PackedVector3Array = node.agent.get_current_navigation_path()
 		if path.size() < 2:
 			continue
 		_path_mesh.surface_begin(Mesh.PRIMITIVE_LINE_STRIP)

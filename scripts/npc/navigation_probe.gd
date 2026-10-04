@@ -28,16 +28,15 @@ func _ready() -> void:
 	if not OS.is_debug_build():
 		queue_free()
 		return
-	add_to_group("navigation_probes")  # NavigationDebug draws the paths of this group.
+	add_to_group("navigation_debug_agents")  # NavigationDebug draws the paths of this group.
 	for path in route:
 		var point := get_node_or_null(path) as Node3D
 		if point:
 			_route_points.append(point.global_position)
 	agent.navigation_finished.connect(_on_navigation_finished)
 	if autostart and not _route_points.is_empty():
-		# The navigation map is only ready after the first physics frame.
-		await get_tree().physics_frame
-		go_to(_route_points[0])
+		if await NavigationUtils.wait_for_navigation(self):
+			go_to(_route_points[0])
 
 
 ## Starts walking to a point on the navigation mesh.
