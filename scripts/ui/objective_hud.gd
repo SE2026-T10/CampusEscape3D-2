@@ -6,8 +6,7 @@ extends CanvasLayer
 ##     of every objective: [x] done, [>] current, [ ] still locked
 ##   - Interaction prompt under the crosshair, e.g. "[E] Take the access card"
 ##   - Short messages: objective done, checkpoint reached, exit locked
-##   - "Escaped" screen with the time and the number of times caught;
-##     the interact key starts the level again
+## The end-of-level screen and restarting belong to GameMenus / GameFlow.
 ## Everything shown comes from ObjectiveManager, CheckpointManager, the exit
 ## door and the player's PlayerInteractor.
 
@@ -19,9 +18,6 @@ const COLOUR_GOOD := Color(0.45, 0.95, 0.6)
 ## Seconds a message stays on screen (it fades during the last second).
 const MESSAGE_TIME := 3.5
 
-## Seconds played since the level started (stops when the player escapes).
-var elapsed := 0.0
-
 var _panel: PanelContainer
 var _current: Label
 var _hint: Label
@@ -29,8 +25,6 @@ var _list: RichTextLabel
 var _prompt: Label
 var _message: Label
 var _message_left := 0.0
-var _escaped: ColorRect
-var _escaped_label: Label
 
 
 func _ready() -> void:
@@ -48,16 +42,6 @@ func _ready() -> void:
 	_message.size = Vector2(900, 40)
 	add_child(_message)
 
-	_escaped = ColorRect.new()
-	_escaped.color = Color(0.02, 0.18, 0.1, 0.8)
-	_escaped.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_escaped.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_escaped.visible = false
-	_escaped_label = _make_label(40, HORIZONTAL_ALIGNMENT_CENTER)
-	_escaped_label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_escaped_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_escaped.add_child(_escaped_label)
-	add_child(_escaped)
 	_connect_signals.call_deferred()
 
 
@@ -76,8 +60,6 @@ func _connect_signals() -> void:
 func _process(delta: float) -> void:
 	var objectives := ObjectiveManager.find(self)
 	var finished := objectives != null and objectives.is_finished()
-	if not finished:
-		elapsed += delta
 	_update_panel(objectives)
 	_prompt.text = get_prompt_text()
 	_prompt.add_theme_color_override("font_color", COLOUR_WARNING if _prompt.text.contains("locked") else Color.WHITE)
@@ -86,18 +68,9 @@ func _process(delta: float) -> void:
 		_message.modulate.a = clampf(_message_left, 0.0, 1.0)
 		if _message_left <= 0.0:
 			_message.text = ""
-	_escaped.visible = finished
 	_panel.visible = not finished
 	_prompt.visible = not finished
 	_message.visible = not finished
-	if finished:
-		_escaped_label.text = get_escape_text()
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if _escaped.visible and event.is_action_pressed("interact"):
-		get_viewport().set_input_as_handled()
-		get_tree().reload_current_scene()
 
 
 ## Current objective title, or "" when finished.
@@ -134,14 +107,6 @@ func get_prompt_text() -> String:
 
 func get_message_text() -> String:
 	return _message.text
-
-
-func get_escape_text() -> String:
-	var director := StealthDirector.find(self)
-	var catches := director.catches if director else 0
-	var seconds := int(elapsed)
-	return "ESCAPED\nTime %d:%02d  ·  caught %d time%s\n\nPress E to play again" % [
-		seconds / 60, seconds % 60, catches, "" if catches == 1 else "s"]
 
 
 func show_message(text: String, colour := Color.WHITE) -> void:

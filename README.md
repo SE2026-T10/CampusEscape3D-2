@@ -7,13 +7,13 @@ Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university
 - Engine: Godot 4.7.2 Stable (`ed1daf0bf`)
 - Language: GDScript
 - Target: Windows desktop
-- Current phase: Phase 9 — Objectives and Checkpoints
+- Current phase: Phase 10 — Game Flow
 
 ## Run the project
 
 1. Install Godot 4.7.2 Stable.
 2. Import `project.godot` in the Godot Project Manager.
-3. Open the project and press **F5** to play the Library graybox.
+3. Open the project and press **F5**. The game opens on the main menu: **Start game** loads the library. To jump straight into the level while developing, open `scenes/level/library_graybox.tscn` and press **F6**.
 
 ### Controls
 
@@ -22,9 +22,9 @@ Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university
 | Move | **W A S D** |
 | Sprint | hold **Shift** |
 | Crouch (quieter, harder to see, slower) | hold **C** or **Ctrl** |
-| Use (take the access card, open the exit; restart after escaping) | **E** |
+| Use (take the access card, open the exit) | **E** |
 | Look | mouse |
-| Release the mouse cursor | **Escape** (click the game window to capture it again) |
+| Pause / resume (shows the cursor and the pause menu) | **Escape** or **P** |
 | Debug view: navigation, guard paths, routes, vision cones, detection, AI state, noise rings and hearing estimates (debug builds) | **F3** |
 
 There is no jump: the library has no vertical routes, and jumping onto shelves would let the player skip sections or climb out. All keys are defined in **Project Settings → Input Map**.
@@ -72,6 +72,21 @@ Objectives complete in order. The exit door stays locked (red) until you have th
 
 Checkpoints don't activate during a chase.
 
+**Game flow.** The game has four game-level states, separate from the guards' AI:
+
+- **PLAYING**
+- **CAUGHT**: the short caught screen
+- **PAUSED**
+- **WIN**: escaped
+
+What happens in each:
+
+- **Pause** (Esc/P, or the window losing focus) freezes the whole level: guards, navigation, physics, noise and timers. The cursor appears and the pause menu offers **Resume**, **Restart level** and **Main menu**.
+- **Caught:** after the caught screen the game respawns you and returns to PLAYING. You can't pause during the caught screen.
+- **Win:** escaping shows your time and catches, with **Play again** and **Main menu**.
+
+The mouse is captured only while playing.
+
 Press **F3** to show the navigation mesh (cyan), each guard's current path (yellow), its route (coloured lines), its vision cone (green/yellow/red by awareness), a line to you while you're seen, the last-known-position marker, and a label with state and meter. A panel at the top left lists every guard's meter.
 
 ### Adding or changing a guard patrol
@@ -93,7 +108,7 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 
 ## Run the tests
 
-In the editor: open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives).` to the Output panel and exits.
+In the editor: open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow).` to the Output panel and exits.
 
 From a terminal (no window), with the Godot 4.7.2 executable on your `PATH`:
 
@@ -102,7 +117,7 @@ godot --headless --path . --editor --quit          # first run only: imports the
 godot --headless --path . res://tests/test_scene.tscn
 ```
 
-The run exits with code `0` when every check passes and `1` otherwise, listing each failure as an error. It takes about two and a half minutes because the movement, navigation, guard and vision tests step real physics frames, mostly with time sped up 4–6×.
+The run exits with code `0` when every check passes and `1` otherwise, listing each failure as an error. It takes about two and a half to three minutes because the movement, navigation, guard and vision tests step real physics frames, mostly with time sped up 4–6×.
 
 - `tests/test_scene.gd` — checks that every script compiles, Phase 1 setup checks (engine version, project settings, Windows export preset, folders, graybox) and the test runner.
 - `tests/player_tests.gd` — Phase 2 player checks: InputMap bindings, movement maths, mouse-look clamping, and in-level movement (landing, walk and sprint speed, stopping, crate and wall collision, fall respawn).
@@ -132,6 +147,12 @@ The run exits with code `0` when every check passes and `1` otherwise, listing e
   - checkpoints keep progress from before them and undo progress after them
   - all guards reset on respawn; no activation during a chase
   - no guard sees a checkpoint's respawn point during its patrol
+- `tests/game_flow_tests.gd` — Phase 10 checks:
+  - the game-state machine: allowed transitions only, no duplicates, 3000 random requests
+  - main menu Start/Quit; Esc/P pause binding
+  - pause and resume by key, button and focus loss, with the cursor right in each state
+  - everything frozen while paused: guards, navigation, vision meters, player, noise clock, timers
+  - caught → respawn; victory; restart and main menu, with only one scene change at a time
 - `tests/vision_tests.gd` — Phase 5 checks in a purpose-built arena: FOV and range maths, a player straight ahead is seen and the meter fills in the expected time, the meter holds then drains after losing sight, the last known position never updates while hidden, walls and tall shelves block sight but a low table doesn't, players outside the cone or out of range are not seen, far players fill the meter slowly, thresholds are configurable, and the debug cone stops at walls. In the library: every guard has vision, and no guard sees the spawn during a full patrol loop.
 - `tests/navigation_tests.gd` — Phase 3 checks: every room exists, navigation covers open floor and none of the walls or furniture, nothing is baked outside the rooms or on furniture, every floor edge is walled, paths reach every room without crossing walls, a `NavigationAgent3D` probe walks from the entrance to the exit, the debug overlay draws the navmesh, and the saved navmesh matches a fresh bake.
 
@@ -146,3 +167,4 @@ The run exits with code `0` when every check passes and `1` otherwise, listing e
 - `docs/phase-7-hearing-and-noise.md`
 - `docs/phase-8-stealth-loop.md`
 - `docs/phase-9-objectives-and-checkpoints.md`
+- `docs/phase-10-game-flow.md`

@@ -19,6 +19,8 @@
 [ext_resource type="Script" path="res://scripts/systems/checkpoints/checkpoint_manager.gd" id="18_checkpoints"]
 [ext_resource type="Script" path="res://scripts/ui/objective_hud.gd" id="19_objective_hud"]
 [ext_resource type="Script" path="res://scripts/systems/noise/noise_maker.gd" id="20_noise_maker"]
+[ext_resource type="Script" path="res://scripts/game/game_flow.gd" id="21_game_flow"]
+[ext_resource type="Script" path="res://scripts/ui/game_menus.gd" id="22_menus"]
 
 [sub_resource type="Environment" id="ENV"]
 background_mode = 1
@@ -1294,7 +1296,7 @@ position = Vector3(-4.83, 2.2, 19.5)
 rotation_degrees = Vector3(0, 90, 0)
 text = "PLAYER TEST AREA
 WASD walk  ·  Shift sprint  ·  C / Ctrl crouch  ·  E use
-Esc release mouse  ·  F3 debug view"
+Esc pause  ·  F3 debug view"
 font_size = 40
 outline_size = 8
 
@@ -1526,3 +1528,9 @@ outline_size = 8
 
 [node name="ObjectiveHud" type="CanvasLayer" parent="."]
 script = ExtResource("19_objective_hud")
+
+[node name="GameFlow" type="Node" parent="."]
+script = ExtResource("21_game_flow")
+
+[node name="GameMenus" type="CanvasLayer" parent="."]
+script = ExtResource("22_menus")

@@ -33,7 +33,7 @@ func _check_input_map() -> void:
 	var expected := {
 		"move_forward": KEY_W, "move_backward": KEY_S,
 		"move_left": KEY_A, "move_right": KEY_D,
-		"sprint": KEY_SHIFT, "release_mouse": KEY_ESCAPE,
+		"sprint": KEY_SHIFT, "pause": KEY_ESCAPE,
 	}
 	for action in expected:
 		_expect(InputMap.has_action(action), "InputMap is missing '%s'." % action)

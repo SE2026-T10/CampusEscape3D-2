@@ -238,7 +238,10 @@ func _check_card_and_escape() -> void:
 	_expect(_objectives.is_finished() and escaped.count == 1, "Escaping should complete the last objective.")
 	_expect(_director.status == S.ESCAPED and _player.process_mode == Node.PROCESS_MODE_DISABLED,
 		"Escaping should end the level and freeze the player.")
-	_expect(_hud._escaped.visible and _hud.get_escape_text().begins_with("ESCAPED"), "The ESCAPED screen should show.")
+	var flow: GameFlow = _level.get_node("GameFlow")
+	var menus: GameMenus = _level.get_node("GameMenus")
+	_expect(flow.state == GameStateMachine.State.WIN and menus.win_panel.visible and menus.get_win_text().begins_with("Time"),
+		"Escaping should switch the game to WIN and show the ESCAPED screen.")
 	var at := _player.global_position
 	await _frames(20)
 	_expect(_player.global_position.distance_to(at) < 0.01 and _director.catches == 0, "Nothing happens after escaping.")

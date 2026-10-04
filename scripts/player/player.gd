@@ -60,14 +60,13 @@ func _ready() -> void:
 	# Own copy of the capsule so crouching never changes a shared resource.
 	_capsule = (_collision.shape as CapsuleShape3D).duplicate()
 	_collision.shape = _capsule
-	capture_mouse()
+	# The mouse is captured by GameFlow when play starts (and released for menus).
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("release_mouse"):
-		release_mouse()
-		get_viewport().set_input_as_handled()
-	elif event is InputEventMouseButton and event.pressed and not is_mouse_captured():
+	# Escape is the pause action, handled by GameFlow. While playing, a click
+	# takes the mouse back if it was freed some other way (e.g. by the OS).
+	if event is InputEventMouseButton and event.pressed and not is_mouse_captured():
 		# Clicking the game window takes control again after Escape.
 		capture_mouse()
 		get_viewport().set_input_as_handled()
