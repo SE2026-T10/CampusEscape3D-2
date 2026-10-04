@@ -37,5 +37,8 @@ func get_text() -> String:
 		if vision.has_last_known_position:
 			lkp = "(%.1f, %.1f)" % [vision.last_known_position.x, vision.last_known_position.z]
 		var ai: String = guard.machine.get_debug_text() if guard.machine else "-"
-		lines.append("%-16s %-34s %s  last seen at %s" % [guard.name, ai, vision.get_debug_text(), lkp])
+		var heard := ""
+		if guard.hearing and guard.hearing.has_report:
+			heard = "  " + guard.hearing.get_debug_text()
+		lines.append("%-16s %-34s %s  last seen at %s%s" % [guard.name, ai, vision.get_debug_text(), lkp, heard])
 	return "\n".join(lines)

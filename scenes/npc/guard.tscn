@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/npc/guard.gd" id="1_guard"]
 [ext_resource type="Script" path="res://scripts/npc/guard_vision.gd" id="2_vision"]
+[ext_resource type="Script" path="res://scripts/npc/guard_hearing.gd" id="3_hearing"]
 
 [sub_resource type="CapsuleShape3D" id="Capsule_guard"]
 radius = 0.35
@@ -25,6 +26,7 @@ size = Vector3(0.5, 0.12, 0.6)
 [node name="Guard" type="CharacterBody3D"]
 collision_layer = 4
 collision_mask = 7
+platform_floor_layers = 1
 script = ExtResource("1_guard")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -42,6 +44,10 @@ mesh = SubResource("Mesh_cap")
 [node name="Vision" type="Node3D" parent="."]
 position = Vector3(0, 1.6, 0)
 script = ExtResource("2_vision")
+
+[node name="Hearing" type="Node3D" parent="."]
+position = Vector3(0, 1.6, 0)
+script = ExtResource("3_hearing")
 
 [node name="DebugLabel" type="Label3D" parent="."]
 position = Vector3(0, 2.3, 0)

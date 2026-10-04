@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/npc/patrol_route.gd" id="6_route"]
 [ext_resource type="Script" path="res://scripts/npc/patrol_point.gd" id="7_point"]
 [ext_resource type="Script" path="res://scripts/systems/detection_debug_hud.gd" id="8_hud"]
+[ext_resource type="Script" path="res://scripts/systems/noise/noise_system.gd" id="9_noise"]
 [ext_resource type="Script" path="res://scripts/systems/navigation_debug.gd" id="4_navdebug"]
 
 [sub_resource type="Environment" id="ENV"]
@@ -958,6 +959,9 @@ script = ExtResource("4_navdebug")
 region = NodePath("../NavigationRegion3D")
 visible_on_start = false
 
+
+[node name="NoiseSystem" type="Node3D" parent="."]
+script = ExtResource("9_noise")
 
 [node name="DetectionDebugHud" type="CanvasLayer" parent="."]
 script = ExtResource("8_hud")

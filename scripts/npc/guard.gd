@@ -74,6 +74,8 @@ var _pending_noise := {}
 @onready var debug_label: Label3D = $DebugLabel
 ## Line-of-sight perception and detection meter (may be absent on custom guards).
 @onready var vision: GuardVision = get_node_or_null("Vision")
+## Hearing; reports estimated noise positions through hear_noise() (may be absent).
+@onready var hearing: GuardHearing = get_node_or_null("Hearing")
 
 
 ## Patrol point the guard is walking to or waiting at.
@@ -138,8 +140,9 @@ func build_perception() -> GuardPerception:
 	return p
 
 
-## Reports a noise at a world position. The hearing system (a later phase)
-## will call this; it is processed on the next physics frame.
+## Reports a heard noise at an (estimated) world position. GuardHearing calls
+## this; it reaches the state machine as GuardPerception.noise_heard on the
+## next physics frame. The loudest noise of the frame wins.
 func hear_noise(position: Vector3, loudness := 1.0) -> void:
 	if _pending_noise.is_empty() or loudness > _pending_noise.loudness:
 		_pending_noise = {"position": position, "loudness": loudness}
@@ -265,6 +268,8 @@ func get_debug_text() -> String:
 	var text := "%s\n%s" % [name, machine.get_debug_text() if machine else "NONE"]
 	if vision:
 		text += "\n" + vision.get_debug_text()
+	if hearing and hearing.has_report:
+		text += "\n" + hearing.get_debug_text()
 	return text
 
 

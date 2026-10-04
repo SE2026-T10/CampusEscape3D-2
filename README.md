@@ -7,7 +7,7 @@ Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university
 - Engine: Godot 4.7.2 Stable (`ed1daf0bf`)
 - Language: GDScript
 - Target: Windows desktop
-- Current phase: Phase 6 — NPC AI State Machine
+- Current phase: Phase 7 — Hearing and Noise
 
 ## Run the project
 
@@ -23,7 +23,7 @@ Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university
 | Sprint | hold **Shift** |
 | Look | mouse |
 | Release the mouse cursor | **Escape** (click the game window to capture it again) |
-| Debug view: navigation, guard paths, routes, vision cones, detection and AI state (debug builds) | **F3** |
+| Debug view: navigation, guard paths, routes, vision cones, detection, AI state, noise rings and hearing estimates (debug builds) | **F3** |
 
 There is no jump: the library has no vertical routes, and jumping onto shelves would let the player skip sections or climb out. All keys are defined in **Project Settings → Input Map**.
 
@@ -36,6 +36,15 @@ Three **guards** (dark blue) patrol the main room, the restricted stacks and the
 - **PATROL:** walks its route.
 - **INVESTIGATE:** walks to where it saw something suspicious (meter ≥ 30) or heard a noise, then searches there for 6 s before going back to patrol.
 - **CHASE:** runs after you once the meter is full and it can see you. If it loses sight, it heads to where it last saw you and investigates there.
+
+Guards also **hear**:
+
+- Walking makes quiet footsteps, heard within about 5 m.
+- Sprinting makes loud ones, heard within about 12 m.
+- Walls halve those distances.
+- A guard that hears you investigates where it *thinks* the noise came from. That estimate is always somewhat off, and the further away the noise, the worse the guess.
+
+Seeing you always outranks hearing you, and a chasing guard ignores noise.
 
 Being caught has no consequence yet; that comes in a later phase.
 
@@ -60,7 +69,7 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 
 ## Run the tests
 
-In the editor: open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI).` to the Output panel and exits.
+In the editor: open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing).` to the Output panel and exits.
 
 From a terminal (no window), with the Godot 4.7.2 executable on your `PATH`:
 
@@ -69,13 +78,21 @@ godot --headless --path . --editor --quit          # first run only: imports the
 godot --headless --path . res://tests/test_scene.tscn
 ```
 
-The run exits with code `0` when every check passes and `1` otherwise, listing each failure as an error. It takes about 45 seconds because the movement, navigation, guard and vision tests step real physics frames, mostly with time sped up 4–6×.
+The run exits with code `0` when every check passes and `1` otherwise, listing each failure as an error. It takes about a minute because the movement, navigation, guard and vision tests step real physics frames, mostly with time sped up 4–6×.
 
 - `tests/test_scene.gd` — checks that every script compiles, Phase 1 setup checks (engine version, project settings, Windows export preset, folders, graybox) and the test runner.
 - `tests/player_tests.gd` — Phase 2 player checks: InputMap bindings, movement maths, mouse-look clamping, and in-level movement (landing, walk and sprint speed, stopping, crate and wall collision, fall respawn).
 - `tests/guard_tests.gd` — Phase 4 checks: patrol route logic, the guard scene, every library guard's points are walkable and reachable, every guard completes its loop in order, waits match the configured times, no teleporting or leaving the navmesh, guards never overlap, two guards pass head-on, a blocked guard skips its point, a guard without a route stands still, and a non-looping route stops at its end.
 - `tests/ai_state_tests.gd` — Phase 6 state machine unit tests with a fake guard, so no physics: initial state, every allowed transition, priority (a confirmed sighting beats noise), rejected transitions, enter/exit order, repeated requests, a 2000-step random stress test, and no shared state.
 - `tests/ai_behavior_tests.gd` — Phase 6 in the library: a guard goes PATROL → INVESTIGATE → CHASE → INVESTIGATE → PATROL against the real player, follows only the last known position once sight is lost, and investigates a noise.
+- `tests/hearing_tests.gd` — Phase 7 checks:
+  - noise presets and range; walls muffle
+  - estimates are never exact, are deterministic, get worse with distance, and differ between guards
+  - stale and expired events are ignored; duplicates are processed once; repeated footsteps merge
+  - multiple guards; a guard ignores noise from other guards
+  - player footsteps: walking gives WALK, sprinting gives RUN, standing still and teleporting give nothing
+  - `NoiseMaker` makes interaction noise
+  - in the library: walking behind a guard isn't heard, sprinting is (INVESTIGATE near an estimate, never the exact spot), and a chase ignores noise
 - `tests/vision_tests.gd` — Phase 5 checks in a purpose-built arena: FOV and range maths, a player straight ahead is seen and the meter fills in the expected time, the meter holds then drains after losing sight, the last known position never updates while hidden, walls and tall shelves block sight but a low table doesn't, players outside the cone or out of range are not seen, far players fill the meter slowly, thresholds are configurable, and the debug cone stops at walls. In the library: every guard has vision, and no guard sees the spawn during a full patrol loop.
 - `tests/navigation_tests.gd` — Phase 3 checks: every room exists, navigation covers open floor and none of the walls or furniture, nothing is baked outside the rooms or on furniture, every floor edge is walled, paths reach every room without crossing walls, a `NavigationAgent3D` probe walks from the entrance to the exit, the debug overlay draws the navmesh, and the saved navmesh matches a fresh bake.
 
@@ -87,3 +104,4 @@ The run exits with code `0` when every check passes and `1` otherwise, listing e
 - `docs/phase-4-npc-patrol.md`
 - `docs/phase-5-npc-vision.md`
 - `docs/phase-6-npc-ai-state-machine.md`
+- `docs/phase-7-hearing-and-noise.md`
