@@ -7,7 +7,7 @@ Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university
 - Engine: Godot 4.7.2 Stable (`ed1daf0bf`)
 - Language: GDScript
 - Target: Windows desktop
-- Current phase: Phase 10 — Game Flow
+- Current phase: Phase 11 — Final Level
 
 ## Run the project
 
@@ -31,9 +31,18 @@ There is no jump: the library has no vertical routes, and jumping onto shelves w
 
 ### The level
 
-The library graybox (`scenes/level/library_graybox.tscn`) has an **Entrance** (player spawn), the **Main Library Room** with shelf stacks, a **Reading Area** and circulation desk, **Hallway West** to the **Restricted Stacks**, a **Back Corridor** (with a small **Staff Nook**), and **Hallway East**, both leading to the **Exit Area**. The access card sits on an **archive desk** at the back of the Restricted Stacks. There are two routes from the main room to the exit. The Phase 2 player test area (sprint lane and crate) is in the entrance.
+The library level (`scenes/level/library_graybox.tscn`; the file name is kept from the graybox so references stay stable) is one small low-poly university library:
 
-Three **guards** (dark blue) patrol the main room, the restricted stacks and the east hallway/exit. Each walks its own looping route with `NavigationAgent3D` and pauses at every patrol point. Guards **see**: each has a 90° vision cone reaching 14 m, blocked by walls and shelves. While a guard can see you, its detection meter (0–100) fills: fast up close, slowly at long range. Once you're out of sight it drains again. At 30 the guard becomes SUSPICIOUS, at 100 ALERTED. It remembers where it last saw you, and nothing else. Each guard runs an explicit state machine with three states:
+- **Entrance:** spawn, with a red rug, plants and a notice board.
+- **Main Library Room:** four tall bookcases on the west side; on the east, a **Reading Area** with tables, green lamps, low 1.2 m bookcases (crouch cover) and the circulation desk with a globe. A wall clock on the north wall faces the entrance.
+- **Hallway West** to the **Restricted Stacks** (the objective area: red carpet, red RESTRICTED signs on both doors, and the access card under a spotlight on the archive desk).
+- **Back Corridor** with book carts and the **Staff Nook** checkpoint.
+- **Hallway East** with a **study alcove** carrel.
+- **Exit Area**, guarded, with crates, a rack and the exit door.
+
+There are two routes to the card (west via Hallway West, east via Hallway East and the back corridor) and two ways from the card to the exit. Green EXIT signs mark both escape routes. How the level got here, with measurements and before/after pictures for each version, is in `docs/level/LEVEL_LOG.md`.
+
+Three **guards** (dark blue) patrol the main room, the restricted stacks and the exit area (GuardEast is the exit warden). Each walks its own looping route with `NavigationAgent3D` and pauses at every patrol point. Guards **see**: each has a 90° vision cone reaching 14 m, blocked by walls and shelves. While a guard can see you, its detection meter (0–100) fills: fast up close, slowly at long range. Once you're out of sight it drains again. At 30 the guard becomes SUSPICIOUS, at 100 ALERTED. It remembers where it last saw you, and nothing else. Each guard runs an explicit state machine with three states:
 
 - **PATROL:** walks its route.
 - **INVESTIGATE:** walks to where it saw something suspicious (meter ≥ 30) or heard a noise, then searches there for 6 s before going back to patrol.
@@ -48,7 +57,7 @@ Guards also **hear**:
 
 Seeing you always outranks hearing you, and a chasing guard ignores noise.
 
-Crouching halves how fast a guard's meter fills, makes you a smaller target and makes your footsteps very quiet (about 2 m), at the cost of speed. Four **study carrels** (desk booths with 1.4 m panels) are hiding spots: crouch inside one and the panels block sight from the sides and back. Standing, your head shows over them.
+Crouching halves how fast a guard's meter fills, makes you a smaller target and makes your footsteps very quiet (about 2 m), at the cost of speed. Five **study carrels** (desk booths with 1.4 m panels) are hiding spots: crouch inside one and the panels block sight from the sides and back. Standing, your head shows over them.
 
 **Detection UI.** A banner at the top tells you the most urgent situation: **CHASED — break line of sight!** (red), **YOU ARE BEING SEEN** (orange), **A guard is investigating** (yellow) or **HIDDEN** (blue). Triangles around the crosshair point to each guard that is noticing, investigating or chasing you, including guards behind you. Guards show a `?` or `!` above their heads. The bottom-left line shows your stance and noise level.
 
@@ -97,6 +106,28 @@ Press **F3** to show the navigation mesh (cyan), each guard's current path (yell
 
 The tests check that every patrol point in the library is on the navigation mesh and reachable.
 
+### Level-design tools
+
+Measure the level and record a version (run on the commit you want to record):
+
+```
+godot --path . --script res://tools/level_report.gd -- --out=docs/level/v5 --version=v5
+godot --path . --resolution 1280x720 --script res://tools/capture_views.gd -- --out=docs/level/v5/views
+godot --headless --path . --script res://tools/level_compare.gd -- --before=docs/level/v4 --after=docs/level/v5
+```
+
+What each one produces:
+
+- `level_report.gd` writes `report.md`, `metrics.json` and, when run with a display, `map.png`. It measures:
+  - exposure: how much of each guard's patrol loop a spot is inside its view cone;
+  - cover;
+  - patrol loops;
+  - shortest and safest player routes;
+  - hiding-spot and respawn-point exposure.
+- `--scene=res://other.tscn` measures an experimental copy of the level instead.
+- `capture_views.gd` renders the 8 fixed viewpoints and a top-down view, so versions can be compared shot for shot.
+- `level_compare.gd` writes a before/after table, `compare.md`.
+
 ### Rebaking navigation after changing the level
 
 Navigation is baked from the level's static collision into `scenes/level/library_navmesh.tres`. After moving walls, shelves or furniture, rebake using either of these:
@@ -108,7 +139,7 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 
 ## Run the tests
 
-In the editor: open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow).` to the Output panel and exits.
+In the editor: open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design).` to the Output panel and exits.
 
 From a terminal (no window), with the Godot 4.7.2 executable on your `PATH`:
 
@@ -153,6 +184,13 @@ The run exits with code `0` when every check passes and `1` otherwise, listing e
   - pause and resume by key, button and focus loss, with the cursor right in each state
   - everything frozen while paused: guards, navigation, vision meters, player, noise clock, timers
   - caught → respawn; victory; restart and main menu, with only one scene change at a time
+- `tests/level_design_tests.gd` — Phase 11 checks:
+  - every required space exists
+  - two independent routes to the card and two ways to the exit
+  - carrels reachable, including the east-route alcove
+  - RESTRICTED, room and EXIT signs; the card spotlight and clock landmark
+  - decoration (books, signs, lights, ceilings) has no collision; ceilings on render layer 2
+  - books generated the same way every time and kept inside their bookcase
 - `tests/vision_tests.gd` — Phase 5 checks in a purpose-built arena: FOV and range maths, a player straight ahead is seen and the meter fills in the expected time, the meter holds then drains after losing sight, the last known position never updates while hidden, walls and tall shelves block sight but a low table doesn't, players outside the cone or out of range are not seen, far players fill the meter slowly, thresholds are configurable, and the debug cone stops at walls. In the library: every guard has vision, and no guard sees the spawn during a full patrol loop.
 - `tests/navigation_tests.gd` — Phase 3 checks: every room exists, navigation covers open floor and none of the walls or furniture, nothing is baked outside the rooms or on furniture, every floor edge is walled, paths reach every room without crossing walls, a `NavigationAgent3D` probe walks from the entrance to the exit, the debug overlay draws the navmesh, and the saved navmesh matches a fresh bake.
 
@@ -168,3 +206,5 @@ The run exits with code `0` when every check passes and `1` otherwise, listing e
 - `docs/phase-8-stealth-loop.md`
 - `docs/phase-9-objectives-and-checkpoints.md`
 - `docs/phase-10-game-flow.md`
+- `docs/phase-11-final-level.md`
+- `docs/level/LEVEL_LOG.md` (level-design versions v0–v4 with evidence)

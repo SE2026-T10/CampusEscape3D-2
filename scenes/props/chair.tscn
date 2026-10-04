@@ -1,0 +1,35 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_wood"]
+albedo_color = Color(0.42, 0.27, 0.15, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_cushion"]
+albedo_color = Color(0.18, 0.34, 0.3, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="Box_seat"]
+material = SubResource("Mat_cushion")
+size = Vector3(0.44, 0.07, 0.42)
+
+[sub_resource type="BoxMesh" id="Box_back"]
+material = SubResource("Mat_wood")
+size = Vector3(0.44, 0.45, 0.05)
+
+[sub_resource type="BoxMesh" id="Box_legs"]
+material = SubResource("Mat_wood")
+size = Vector3(0.38, 0.42, 0.36)
+
+[node name="Chair" type="Node3D"]
+
+[node name="Legs" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.21, 0)
+mesh = SubResource("Box_legs")
+
+[node name="Seat" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.455, 0)
+mesh = SubResource("Box_seat")
+
+[node name="Back" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.71, 0.19)
+mesh = SubResource("Box_back")

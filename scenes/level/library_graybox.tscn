@@ -21,25 +21,29 @@
 [ext_resource type="Script" path="res://scripts/systems/noise/noise_maker.gd" id="20_noise_maker"]
 [ext_resource type="Script" path="res://scripts/game/game_flow.gd" id="21_game_flow"]
 [ext_resource type="Script" path="res://scripts/ui/game_menus.gd" id="22_menus"]
+[ext_resource type="Script" path="res://scripts/level/shelf_books.gd" id="30_books"]
+[ext_resource type="PackedScene" path="res://scenes/props/ceiling_light.tscn" id="31_ceiling_light"]
+[ext_resource type="PackedScene" path="res://scenes/props/chair.tscn" id="32_chair"]
+[ext_resource type="PackedScene" path="res://scenes/props/potted_plant.tscn" id="33_plant"]
 
 [sub_resource type="Environment" id="ENV"]
 background_mode = 1
 background_color = Color(0.055, 0.07, 0.09, 1)
 ambient_light_source = 3
-ambient_light_color = Color(0.55, 0.6, 0.66, 1)
-ambient_light_energy = 0.65
+ambient_light_color = Color(0.72, 0.66, 0.58, 1)
+ambient_light_energy = 0.42
 tonemap_mode = 2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
-albedo_color = Color(0.45, 0.47, 0.48, 1)
+albedo_color = Color(0.78, 0.72, 0.62, 1)
 roughness = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2"]
-albedo_color = Color(0.19, 0.12, 0.075, 1)
+albedo_color = Color(0.33, 0.21, 0.12, 1)
 roughness = 0.82
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3"]
-albedo_color = Color(0.36, 0.25, 0.15, 1)
+albedo_color = Color(0.55, 0.37, 0.21, 1)
 roughness = 0.8
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4"]
@@ -51,7 +55,7 @@ albedo_color = Color(0.85, 0.62, 0.18, 1)
 roughness = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6"]
-albedo_color = Color(0.15, 0.75, 0.35, 1)
+albedo_color = Color(0.1, 0.42, 0.2, 1)
 roughness = 0.6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7"]
@@ -59,7 +63,7 @@ albedo_color = Color(0.3, 0.2, 0.12, 1)
 roughness = 0.7
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8"]
-albedo_color = Color(0.3, 0.34, 0.4, 1)
+albedo_color = Color(0.5, 0.48, 0.45, 1)
 roughness = 0.9
 
 [sub_resource type="BoxMesh" id="BoxMesh_9"]
@@ -84,7 +88,7 @@ size = Vector3(0.3, 3.5, 8.3)
 size = Vector3(0.3, 3.5, 8.3)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_15"]
-albedo_color = Color(0.22, 0.25, 0.28, 1)
+albedo_color = Color(0.4, 0.3, 0.22, 1)
 roughness = 0.9
 
 [sub_resource type="BoxMesh" id="BoxMesh_16"]
@@ -151,7 +155,7 @@ size = Vector3(0.6, 2.2, 10)
 size = Vector3(0.6, 2.2, 10)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_34"]
-albedo_color = Color(0.17, 0.18, 0.2, 1)
+albedo_color = Color(0.3, 0.33, 0.38, 1)
 roughness = 0.9
 
 [sub_resource type="BoxMesh" id="BoxMesh_35"]
@@ -162,7 +166,7 @@ size = Vector3(3, 0.2, 8)
 size = Vector3(3, 0.2, 8)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_37"]
-albedo_color = Color(0.3, 0.18, 0.17, 1)
+albedo_color = Color(0.34, 0.1, 0.11, 1)
 roughness = 0.9
 
 [sub_resource type="BoxMesh" id="BoxMesh_38"]
@@ -257,7 +261,7 @@ size = Vector3(0.3, 3.5, 23.3)
 size = Vector3(0.3, 3.5, 23.3)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_64"]
-albedo_color = Color(0.16, 0.28, 0.2, 1)
+albedo_color = Color(0.4, 0.4, 0.38, 1)
 roughness = 0.9
 
 [sub_resource type="BoxMesh" id="BoxMesh_65"]
@@ -425,6 +429,442 @@ size = Vector3(9.15, 3.5, 0.3)
 [sub_resource type="BoxShape3D" id="Shape_corridor_wall_half"]
 size = Vector3(9.15, 3.5, 0.3)
 
+[sub_resource type="StandardMaterial3D" id="Material_low_shelf"]
+albedo_color = Color(0.4, 0.27, 0.16, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Material_cabinet"]
+albedo_color = Color(0.3, 0.2, 0.12, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Material_crate"]
+albedo_color = Color(0.55, 0.42, 0.25, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Box_low_shelf"]
+material = SubResource("Material_low_shelf")
+size = Vector3(2.4, 1.2, 0.5)
+
+[sub_resource type="BoxShape3D" id="Shape_low_shelf"]
+size = Vector3(2.4, 1.2, 0.5)
+
+[sub_resource type="BoxMesh" id="Box_low_shelf_long"]
+material = SubResource("Material_low_shelf")
+size = Vector3(3, 1.2, 0.5)
+
+[sub_resource type="BoxShape3D" id="Shape_low_shelf_long"]
+size = Vector3(3, 1.2, 0.5)
+
+[sub_resource type="BoxMesh" id="Box_catalogue"]
+material = SubResource("Material_cabinet")
+size = Vector3(1.6, 1.6, 1.2)
+
+[sub_resource type="BoxShape3D" id="Shape_catalogue"]
+size = Vector3(1.6, 1.6, 1.2)
+
+[sub_resource type="BoxMesh" id="Box_book_cart"]
+material = SubResource("Material_low_shelf")
+size = Vector3(1.4, 1.1, 0.6)
+
+[sub_resource type="BoxShape3D" id="Shape_book_cart"]
+size = Vector3(1.4, 1.1, 0.6)
+
+[sub_resource type="BoxMesh" id="Box_crate_stack"]
+material = SubResource("Material_crate")
+size = Vector3(1.2, 1.2, 1.2)
+
+[sub_resource type="BoxShape3D" id="Shape_crate_stack"]
+size = Vector3(1.2, 1.2, 1.2)
+
+[sub_resource type="BoxMesh" id="Box_storage_rack"]
+material = SubResource("Material_cabinet")
+size = Vector3(2, 2, 0.6)
+
+[sub_resource type="BoxShape3D" id="Shape_storage_rack"]
+size = Vector3(2, 2, 0.6)
+
+[sub_resource type="BoxMesh" id="Box_wall4_north"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 13.55)
+
+[sub_resource type="BoxShape3D" id="Shape_wall4_north"]
+size = Vector3(0.3, 3.5, 13.55)
+
+[sub_resource type="BoxMesh" id="Box_wall4_south"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 6.55)
+
+[sub_resource type="BoxShape3D" id="Shape_wall4_south"]
+size = Vector3(0.3, 3.5, 6.55)
+
+[sub_resource type="BoxMesh" id="Box_alcove_side"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(3.9, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_alcove_side"]
+size = Vector3(3.9, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="Box_alcove_back"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 3.8)
+
+[sub_resource type="BoxShape3D" id="Shape_alcove_back"]
+size = Vector3(0.3, 3.5, 3.8)
+
+[sub_resource type="BoxMesh" id="Box_alcove_floor"]
+material = SubResource("StandardMaterial3D_34")
+size = Vector3(3.6, 0.2, 3.2)
+
+[sub_resource type="BoxShape3D" id="Shape_alcove_floor"]
+size = Vector3(3.6, 0.2, 3.2)
+
+[sub_resource type="StandardMaterial3D" id="Mat_trim"]
+albedo_color = Color(0.36, 0.24, 0.14, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="Mat_header"]
+albedo_color = Color(0.78, 0.74, 0.66, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_door"]
+albedo_color = Color(0.45, 0.3, 0.18, 1)
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_restricted_trim"]
+albedo_color = Color(0.6, 0.12, 0.1, 1)
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_sign_board"]
+albedo_color = Color(0.12, 0.14, 0.18, 1)
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_sign_red"]
+albedo_color = Color(0.55, 0.06, 0.05, 1)
+emission_enabled = true
+emission = Color(0.6, 0.05, 0.03, 1)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_exit_sign"]
+albedo_color = Color(0.05, 0.45, 0.18, 1)
+emission_enabled = true
+emission = Color(0.1, 0.9, 0.35, 1)
+emission_energy_multiplier = 1.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_clock_face"]
+albedo_color = Color(0.95, 0.93, 0.85, 1)
+emission_enabled = true
+emission = Color(1, 0.96, 0.85, 1)
+emission_energy_multiplier = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_dark_metal"]
+albedo_color = Color(0.1, 0.1, 0.11, 1)
+metallic = 0.6
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_brass"]
+albedo_color = Color(0.72, 0.56, 0.24, 1)
+metallic = 0.7
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Mat_globe"]
+albedo_color = Color(0.2, 0.45, 0.65, 1)
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_lamp_shade"]
+albedo_color = Color(0.1, 0.45, 0.25, 1)
+emission_enabled = true
+emission = Color(0.9, 0.85, 0.5, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_rug_red"]
+albedo_color = Color(0.5, 0.12, 0.12, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_bin"]
+albedo_color = Color(0.2, 0.32, 0.5, 1)
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="Cyl_clock"]
+material = SubResource("Mat_clock_face")
+top_radius = 0.55
+bottom_radius = 0.55
+height = 0.06
+radial_segments = 16
+
+[sub_resource type="CylinderMesh" id="Cyl_clock_rim"]
+material = SubResource("Mat_dark_metal")
+top_radius = 0.62
+bottom_radius = 0.62
+height = 0.05
+radial_segments = 16
+
+[sub_resource type="BoxMesh" id="Box_clock_hand_long"]
+material = SubResource("Mat_dark_metal")
+size = Vector3(0.04, 0.45, 0.02)
+
+[sub_resource type="BoxMesh" id="Box_clock_hand_short"]
+material = SubResource("Mat_dark_metal")
+size = Vector3(0.05, 0.3, 0.02)
+
+[sub_resource type="SphereMesh" id="Sphere_globe"]
+material = SubResource("Mat_globe")
+radius = 0.32
+height = 0.64
+radial_segments = 10
+rings = 6
+
+[sub_resource type="CylinderMesh" id="Cyl_globe_stand"]
+material = SubResource("Mat_brass")
+top_radius = 0.04
+bottom_radius = 0.18
+height = 0.3
+radial_segments = 8
+
+[sub_resource type="TorusMesh" id="Torus_globe_ring"]
+material = SubResource("Mat_brass")
+inner_radius = 0.33
+outer_radius = 0.37
+rings = 12
+ring_segments = 4
+
+[sub_resource type="CylinderMesh" id="Cyl_lamp_base"]
+material = SubResource("Mat_brass")
+top_radius = 0.06
+bottom_radius = 0.1
+height = 0.3
+radial_segments = 8
+
+[sub_resource type="BoxMesh" id="Box_lamp_shade"]
+material = SubResource("Mat_lamp_shade")
+size = Vector3(0.4, 0.1, 0.16)
+
+[sub_resource type="BoxMesh" id="Box_desk_plaque"]
+material = SubResource("Mat_brass")
+size = Vector3(0.5, 0.12, 0.04)
+
+[sub_resource type="BoxMesh" id="Box_exit_sign"]
+material = SubResource("Mat_exit_sign")
+size = Vector3(1.0, 0.32, 0.05)
+
+[sub_resource type="BoxMesh" id="Box_header_3_7"]
+material = SubResource("Mat_header")
+size = Vector3(3.72, 0.9, 0.3)
+
+[sub_resource type="BoxMesh" id="Box_header_2_7"]
+material = SubResource("Mat_header")
+size = Vector3(2.72, 0.9, 0.3)
+
+[sub_resource type="BoxMesh" id="Box_header_2"]
+material = SubResource("Mat_header")
+size = Vector3(2.02, 0.9, 0.3)
+
+[sub_resource type="BoxMesh" id="Box_header_3_2"]
+material = SubResource("Mat_header")
+size = Vector3(3.22, 0.9, 0.3)
+
+[sub_resource type="BoxMesh" id="Box_trim_post"]
+material = SubResource("Mat_trim")
+size = Vector3(0.14, 2.6, 0.38)
+
+[sub_resource type="BoxMesh" id="Box_lintel_3_7"]
+material = SubResource("Mat_trim")
+size = Vector3(3.8400000000000003, 0.12, 0.38)
+
+[sub_resource type="BoxMesh" id="Box_lintel_2_7"]
+material = SubResource("Mat_trim")
+size = Vector3(2.8400000000000003, 0.12, 0.38)
+
+[sub_resource type="BoxMesh" id="Box_lintel_2_0"]
+material = SubResource("Mat_trim")
+size = Vector3(2.14, 0.12, 0.38)
+
+[sub_resource type="BoxMesh" id="Box_lintel_3_2"]
+material = SubResource("Mat_trim")
+size = Vector3(3.3400000000000003, 0.12, 0.38)
+
+[sub_resource type="BoxMesh" id="Box_trim_post_red"]
+material = SubResource("Mat_restricted_trim")
+size = Vector3(0.14, 2.6, 0.38)
+
+[sub_resource type="BoxMesh" id="Box_lintel_3_7_red"]
+material = SubResource("Mat_restricted_trim")
+size = Vector3(3.8400000000000003, 0.12, 0.38)
+
+[sub_resource type="BoxMesh" id="Box_lintel_2_7_red"]
+material = SubResource("Mat_restricted_trim")
+size = Vector3(2.8400000000000003, 0.12, 0.38)
+
+[sub_resource type="BoxMesh" id="Box_lintel_2_0_red"]
+material = SubResource("Mat_restricted_trim")
+size = Vector3(2.14, 0.12, 0.38)
+
+[sub_resource type="BoxMesh" id="Box_lintel_3_2_red"]
+material = SubResource("Mat_restricted_trim")
+size = Vector3(3.3400000000000003, 0.12, 0.38)
+
+[sub_resource type="BoxMesh" id="Box_leaf_1_8"]
+material = SubResource("Mat_door")
+size = Vector3(1.8, 2.4, 0.06)
+
+[sub_resource type="BoxMesh" id="Box_leaf_1_3"]
+material = SubResource("Mat_door")
+size = Vector3(1.3, 2.4, 0.06)
+
+[sub_resource type="BoxMesh" id="Box_board_2_4"]
+material = SubResource("Mat_sign_board")
+size = Vector3(2.4, 0.34, 0.04)
+
+[sub_resource type="BoxMesh" id="Box_board_2_2"]
+material = SubResource("Mat_sign_board")
+size = Vector3(2.2, 0.34, 0.04)
+
+[sub_resource type="BoxMesh" id="Box_board_1_8"]
+material = SubResource("Mat_sign_board")
+size = Vector3(1.8, 0.34, 0.04)
+
+[sub_resource type="BoxMesh" id="Box_board_2_0"]
+material = SubResource("Mat_sign_board")
+size = Vector3(2.0, 0.34, 0.04)
+
+[sub_resource type="BoxMesh" id="Box_board_2_6"]
+material = SubResource("Mat_sign_board")
+size = Vector3(2.6, 0.34, 0.04)
+
+[sub_resource type="BoxMesh" id="Box_board_1_4"]
+material = SubResource("Mat_sign_board")
+size = Vector3(1.4, 0.34, 0.04)
+
+[sub_resource type="BoxMesh" id="Box_board_1_2"]
+material = SubResource("Mat_sign_board")
+size = Vector3(1.2, 0.34, 0.04)
+
+[sub_resource type="BoxMesh" id="Box_board_2_6_red"]
+material = SubResource("Mat_sign_red")
+size = Vector3(2.6, 0.34, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ceiling"]
+albedo_color = Color(0.86, 0.83, 0.76, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_window"]
+albedo_color = Color(0.16, 0.24, 0.4, 1)
+emission_enabled = true
+emission = Color(0.3, 0.45, 0.75, 1)
+emission_energy_multiplier = 0.7
+
+[sub_resource type="StandardMaterial3D" id="Mat_window_frame"]
+albedo_color = Color(0.3, 0.2, 0.12, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_rug_teal"]
+albedo_color = Color(0.13, 0.33, 0.33, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_runner"]
+albedo_color = Color(0.45, 0.11, 0.11, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_hazard_yellow"]
+albedo_color = Color(0.9, 0.72, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_hazard_black"]
+albedo_color = Color(0.08, 0.08, 0.08, 1)
+
+[sub_resource type="BoxMesh" id="Box_window"]
+material = SubResource("Mat_window")
+size = Vector3(1.0, 1.1, 0.04)
+
+[sub_resource type="BoxMesh" id="Box_window_frame"]
+material = SubResource("Mat_window_frame")
+size = Vector3(1.16, 1.26, 0.03)
+
+[sub_resource type="BoxMesh" id="Box_rug_reading"]
+material = SubResource("Mat_rug_teal")
+size = Vector3(7.6, 0.012, 8.4)
+
+[sub_resource type="BoxMesh" id="Box_runner"]
+material = SubResource("Mat_runner")
+size = Vector3(1.6, 0.01, 18.5)
+
+[sub_resource type="BoxMesh" id="Box_hazard"]
+material = SubResource("Mat_hazard_yellow")
+size = Vector3(0.3, 0.012, 3.2)
+
+[sub_resource type="BoxMesh" id="Box_hazard_dark"]
+material = SubResource("Mat_hazard_black")
+size = Vector3(0.3, 0.012, 3.2)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Poster_a"]
+albedo_color = Color(0.62, 0.2, 0.15, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Box_Poster_a"]
+material = SubResource("Mat_Poster_a")
+size = Vector3(0.7, 1.0, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Poster_b"]
+albedo_color = Color(0.2, 0.38, 0.55, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Box_Poster_b"]
+material = SubResource("Mat_Poster_b")
+size = Vector3(0.7, 1.0, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Poster_c"]
+albedo_color = Color(0.75, 0.6, 0.22, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Box_Poster_c"]
+material = SubResource("Mat_Poster_c")
+size = Vector3(0.7, 1.0, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Poster_d"]
+albedo_color = Color(0.25, 0.45, 0.28, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Box_Poster_d"]
+material = SubResource("Mat_Poster_d")
+size = Vector3(0.7, 1.0, 0.02)
+
+[sub_resource type="BoxMesh" id="Box_ceiling_Entrance"]
+material = SubResource("Mat_ceiling")
+size = Vector3(10.3, 0.1, 8.3)
+
+[sub_resource type="BoxMesh" id="Box_ceiling_MainRoom"]
+material = SubResource("Mat_ceiling")
+size = Vector3(28.3, 0.1, 20.3)
+
+[sub_resource type="BoxMesh" id="Box_ceiling_HallwayWest"]
+material = SubResource("Mat_ceiling")
+size = Vector3(3.3, 0.1, 8.3)
+
+[sub_resource type="BoxMesh" id="Box_ceiling_RestrictedStacks"]
+material = SubResource("Mat_ceiling")
+size = Vector3(14.3, 0.1, 12.3)
+
+[sub_resource type="BoxMesh" id="Box_ceiling_BackCorridor"]
+material = SubResource("Mat_ceiling")
+size = Vector3(20.3, 0.1, 3.3)
+
+[sub_resource type="BoxMesh" id="Box_ceiling_StaffNook"]
+material = SubResource("Mat_ceiling")
+size = Vector3(2.3, 0.1, 3.3)
+
+[sub_resource type="BoxMesh" id="Box_ceiling_HallwayEastLink"]
+material = SubResource("Mat_ceiling")
+size = Vector3(10.3, 0.1, 3.3)
+
+[sub_resource type="BoxMesh" id="Box_ceiling_HallwayEast"]
+material = SubResource("Mat_ceiling")
+size = Vector3(3.3, 0.1, 20.3)
+
+[sub_resource type="BoxMesh" id="Box_ceiling_StudyAlcove"]
+material = SubResource("Mat_ceiling")
+size = Vector3(3.9, 0.1, 3.5)
+
+[sub_resource type="BoxMesh" id="Box_ceiling_ExitArea"]
+material = SubResource("Mat_ceiling")
+size = Vector3(10.3, 0.1, 10.3)
+
 [node name="LibraryGraybox" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -432,8 +872,8 @@ environment = SubResource("ENV")
 
 [node name="KeyLight" type="DirectionalLight3D" parent="."]
 rotation_degrees = Vector3(-52, -28, 0)
-light_color = Color(0.82, 0.88, 1, 1)
-light_energy = 1.2
+light_color = Color(1, 0.95, 0.88, 1)
+light_energy = 0.4
 shadow_enabled = true
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
@@ -483,6 +923,7 @@ shape = SubResource("BoxShape3D_14")
 position = Vector3(0, 0, 18)
 
 [node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/Entrance"]
+visible = false
 position = Vector3(0, 3.2, 18)
 billboard = 1
 text = "ENTRANCE"
@@ -564,10 +1005,20 @@ mesh = SubResource("BoxMesh_26")
 [node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/Wall7"]
 shape = SubResource("BoxShape3D_27")
 
+[node name="CatalogueCabinet" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainRoom"]
+position = Vector3(-6.5, 0.8, -5.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/CatalogueCabinet"]
+mesh = SubResource("Box_catalogue")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/CatalogueCabinet"]
+shape = SubResource("Shape_catalogue")
+
 [node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/MainRoom"]
 position = Vector3(0, 0, 4)
 
 [node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/MainRoom"]
+visible = false
 position = Vector3(0, 3.2, 10)
 billboard = 1
 text = "MAIN LIBRARY ROOM"
@@ -622,10 +1073,38 @@ mesh = SubResource("BoxMesh_30")
 [node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/CirculationDesk"]
 shape = SubResource("BoxShape3D_31")
 
+[node name="LowShelf1" type="StaticBody3D" parent="NavigationRegion3D/Areas/ReadingArea"]
+position = Vector3(6, 0.6, 5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ReadingArea/LowShelf1"]
+mesh = SubResource("Box_low_shelf")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/LowShelf1"]
+shape = SubResource("Shape_low_shelf")
+
+[node name="LowShelf2" type="StaticBody3D" parent="NavigationRegion3D/Areas/ReadingArea"]
+position = Vector3(10, 0.6, 5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ReadingArea/LowShelf2"]
+mesh = SubResource("Box_low_shelf")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/LowShelf2"]
+shape = SubResource("Shape_low_shelf")
+
+[node name="LowShelf3" type="StaticBody3D" parent="NavigationRegion3D/Areas/ReadingArea"]
+position = Vector3(8, 0.6, -1.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ReadingArea/LowShelf3"]
+mesh = SubResource("Box_low_shelf_long")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/LowShelf3"]
+shape = SubResource("Shape_low_shelf_long")
+
 [node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/ReadingArea"]
 position = Vector3(8, 0, 5)
 
 [node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/ReadingArea"]
+visible = false
 position = Vector3(8, 3.2, 5)
 billboard = 1
 text = "READING AREA"
@@ -675,6 +1154,7 @@ shape = SubResource("BoxShape3D_33")
 position = Vector3(-8.25, 0, 3)
 
 [node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/MainStacks"]
+visible = false
 position = Vector3(-8.25, 3.2, 3)
 billboard = 1
 text = "STACKS"
@@ -715,6 +1195,7 @@ shape = SubResource("BoxShape3D_14")
 position = Vector3(-10.5, 0, -10)
 
 [node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/HallwayWest"]
+visible = false
 position = Vector3(-10.5, 3.2, -10)
 billboard = 1
 text = "HALLWAY WEST"
@@ -827,6 +1308,7 @@ shape = SubResource("Shape_desk")
 position = Vector3(-9, 0, -19)
 
 [node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+visible = false
 position = Vector3(-9, 3.2, -20)
 billboard = 1
 text = "RESTRICTED STACKS"
@@ -908,10 +1390,29 @@ mesh = SubResource("BoxMesh_56")
 [node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/BackCorridor/Wall2"]
 shape = SubResource("BoxShape3D_57")
 
+[node name="BookCart1" type="StaticBody3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(13.5, 0.55, -21.45)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/BackCorridor/BookCart1"]
+mesh = SubResource("Box_book_cart")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/BackCorridor/BookCart1"]
+shape = SubResource("Shape_book_cart")
+
+[node name="BookCart2" type="StaticBody3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(5, 0.55, -23.55)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/BackCorridor/BookCart2"]
+mesh = SubResource("Box_book_cart")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/BackCorridor/BookCart2"]
+shape = SubResource("Shape_book_cart")
+
 [node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/BackCorridor"]
 position = Vector3(8, 0, -22.5)
 
 [node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+visible = false
 position = Vector3(8, 3.2, -22.5)
 billboard = 1
 text = "BACK CORRIDOR"
@@ -975,18 +1476,106 @@ mesh = SubResource("BoxMesh_20")
 shape = SubResource("BoxShape3D_21")
 
 [node name="Wall4" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast"]
-position = Vector3(24, 1.75, -6.5)
+position = Vector3(24, 1.75, -1.625)
 
 [node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/Wall4"]
-mesh = SubResource("BoxMesh_62")
+mesh = SubResource("Box_wall4_north")
 
 [node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/Wall4"]
-shape = SubResource("BoxShape3D_63")
+shape = SubResource("Shape_wall4_north")
+
+[node name="Wall4South" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(24, 1.75, -14.875)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/Wall4South"]
+mesh = SubResource("Box_wall4_south")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/Wall4South"]
+shape = SubResource("Shape_wall4_south")
+
+[node name="FloorAlcove" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(25.8, -0.1, -10)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/FloorAlcove"]
+mesh = SubResource("Box_alcove_floor")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/FloorAlcove"]
+shape = SubResource("Shape_alcove_floor")
+
+[node name="WallAlcoveSouth" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(25.95, 1.75, -8.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/WallAlcoveSouth"]
+mesh = SubResource("Box_alcove_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/WallAlcoveSouth"]
+shape = SubResource("Shape_alcove_side")
+
+[node name="WallAlcoveNorth" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(25.95, 1.75, -11.75)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/WallAlcoveNorth"]
+mesh = SubResource("Box_alcove_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/WallAlcoveNorth"]
+shape = SubResource("Shape_alcove_side")
+
+[node name="WallAlcoveBack" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(27.75, 1.75, -10)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/WallAlcoveBack"]
+mesh = SubResource("Box_alcove_back")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/WallAlcoveBack"]
+shape = SubResource("Shape_alcove_back")
+
+[node name="CarrelHallway" type="Node3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(26.8, 0, -10)
+rotation_degrees = Vector3(0, -90, 0)
+
+[node name="Back" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast/CarrelHallway"]
+position = Vector3(0, 0.7, -0.55)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/CarrelHallway/Back"]
+mesh = SubResource("Box_carrel_back")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/CarrelHallway/Back"]
+shape = SubResource("Shape_carrel_back")
+
+[node name="SideLeft" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast/CarrelHallway"]
+position = Vector3(-0.75, 0.7, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/CarrelHallway/SideLeft"]
+mesh = SubResource("Box_carrel_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/CarrelHallway/SideLeft"]
+shape = SubResource("Shape_carrel_side")
+
+[node name="SideRight" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast/CarrelHallway"]
+position = Vector3(0.75, 0.7, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/CarrelHallway/SideRight"]
+mesh = SubResource("Box_carrel_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/CarrelHallway/SideRight"]
+shape = SubResource("Shape_carrel_side")
+
+[node name="HidingSpot" type="Area3D" parent="NavigationRegion3D/Areas/HallwayEast/CarrelHallway"]
+position = Vector3(0, 0.6, 0)
+script = ExtResource("10_hide")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/CarrelHallway/HidingSpot"]
+shape = SubResource("Shape_hiding_area")
+
+[node name="FloorMark" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/CarrelHallway"]
+position = Vector3(0, 0.006, 0)
+mesh = SubResource("Box_hide_floor")
 
 [node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/HallwayEast"]
 position = Vector3(22.5, 0, -8)
 
 [node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+visible = false
 position = Vector3(22.5, 3.2, -6)
 billboard = 1
 text = "HALLWAY EAST"
@@ -1077,10 +1666,29 @@ mesh = SubResource("BoxMesh_75")
 [node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/Crate2"]
 shape = SubResource("BoxShape3D_76")
 
+[node name="CrateStack" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(24.2, 0.6, -21.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/CrateStack"]
+mesh = SubResource("Box_crate_stack")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/CrateStack"]
+shape = SubResource("Shape_crate_stack")
+
+[node name="StorageRack" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(21, 1, -25.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/StorageRack"]
+mesh = SubResource("Box_storage_rack")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/StorageRack"]
+shape = SubResource("Shape_storage_rack")
+
 [node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/ExitArea"]
 position = Vector3(25, 0, -23)
 
 [node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/ExitArea"]
+visible = false
 position = Vector3(23, 3.2, -23)
 billboard = 1
 text = "EXIT"
@@ -1268,9 +1876,12 @@ shape = SubResource("Shape_hiding_area")
 position = Vector3(0, 0.006, 0)
 mesh = SubResource("Box_hide_floor")
 
+[node name="Props" type="Node3D" parent="NavigationRegion3D"]
+
 [node name="PlayerTestArea" type="Node3D" parent="NavigationRegion3D"]
 
 [node name="SprintLane" type="MeshInstance3D" parent="NavigationRegion3D/PlayerTestArea"]
+material_override = SubResource("Mat_rug_red")
 position = Vector3(0, 0.005, 18)
 mesh = SubResource("BoxMesh_80")
 
@@ -1278,6 +1889,7 @@ mesh = SubResource("BoxMesh_80")
 position = Vector3(-3.5, 0.5, 17)
 
 [node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/PlayerTestArea/TestCrate"]
+material_override = SubResource("Mat_bin")
 mesh = SubResource("BoxMesh_81")
 
 [node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/PlayerTestArea/TestCrate"]
@@ -1294,7 +1906,7 @@ metadata/distance_to_obstacle = 3.35
 [node name="Sign" type="Label3D" parent="NavigationRegion3D/PlayerTestArea"]
 position = Vector3(-4.83, 2.2, 19.5)
 rotation_degrees = Vector3(0, 90, 0)
-text = "PLAYER TEST AREA
+text = "NOTICE BOARD
 WASD walk  ·  Shift sprint  ·  C / Ctrl crouch  ·  E use
 Esc pause  ·  F3 debug view"
 font_size = 40
@@ -1378,26 +1990,27 @@ script = ExtResource("6_route")
 debug_color = Color(0.6, 1, 0.3, 1)
 
 [node name="P1" type="Marker3D" parent="Guards/EastRoute"]
-position = Vector3(22.5, 0, 3.5)
+position = Vector3(22.5, 0, -16)
 script = ExtResource("7_point")
 wait_time = 2.0
 
 [node name="P2" type="Marker3D" parent="Guards/EastRoute"]
-position = Vector3(22.5, 0, -15)
-script = ExtResource("7_point")
-
-[node name="P3" type="Marker3D" parent="Guards/EastRoute"]
-position = Vector3(25.5, 0, -25)
+position = Vector3(26, 0, -25.5)
 script = ExtResource("7_point")
 wait_time = 3.0
 
+[node name="P3" type="Marker3D" parent="Guards/EastRoute"]
+position = Vector3(19.5, 0, -22.5)
+script = ExtResource("7_point")
+wait_time = 1.0
+
 [node name="P4" type="Marker3D" parent="Guards/EastRoute"]
-position = Vector3(20, 0, -22.5)
+position = Vector3(24.5, 0, -19.5)
 script = ExtResource("7_point")
 wait_time = 2.0
 
 [node name="GuardEast" parent="Guards" node_paths=PackedStringArray("patrol_route") instance=ExtResource("5_guard")]
-position = Vector3(22.5, 0.05, 3.5)
+position = Vector3(22.5, 0.05, -16)
 patrol_route = NodePath("../EastRoute")
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
@@ -1534,3 +2147,1037 @@ script = ExtResource("21_game_flow")
 
 [node name="GameMenus" type="CanvasLayer" parent="."]
 script = ExtResource("22_menus")
+
+[node name="Dressing" type="Node3D" parent="."]
+
+[node name="Doorways" type="Node3D" parent="Dressing"]
+
+[node name="Signs" type="Node3D" parent="Dressing"]
+
+[node name="Landmarks" type="Node3D" parent="Dressing"]
+
+[node name="EntranceDoor" type="Node3D" parent="Dressing/Doorways"]
+
+[node name="Header" type="MeshInstance3D" parent="Dressing/Doorways/EntranceDoor"]
+position = Vector3(0.0, 3.05, 14.0)
+mesh = SubResource("Box_header_3_7")
+
+[node name="Post1" type="MeshInstance3D" parent="Dressing/Doorways/EntranceDoor"]
+position = Vector3(-1.85, 1.3, 14.0)
+mesh = SubResource("Box_trim_post")
+
+[node name="Post2" type="MeshInstance3D" parent="Dressing/Doorways/EntranceDoor"]
+position = Vector3(1.85, 1.3, 14.0)
+mesh = SubResource("Box_trim_post")
+
+[node name="Lintel" type="MeshInstance3D" parent="Dressing/Doorways/EntranceDoor"]
+position = Vector3(0.0, 2.62, 14.0)
+mesh = SubResource("Box_lintel_3_7")
+
+[node name="Leaf1" type="MeshInstance3D" parent="Dressing/Doorways/EntranceDoor"]
+position = Vector3(-2.8000000000000003, 1.2, 13.8)
+mesh = SubResource("Box_leaf_1_8")
+
+[node name="Leaf2" type="MeshInstance3D" parent="Dressing/Doorways/EntranceDoor"]
+position = Vector3(2.8000000000000003, 1.2, 13.8)
+mesh = SubResource("Box_leaf_1_8")
+
+[node name="HallwayWestDoor" type="Node3D" parent="Dressing/Doorways"]
+
+[node name="Header" type="MeshInstance3D" parent="Dressing/Doorways/HallwayWestDoor"]
+position = Vector3(-10.5, 3.05, -6.0)
+mesh = SubResource("Box_header_2_7")
+
+[node name="Post1" type="MeshInstance3D" parent="Dressing/Doorways/HallwayWestDoor"]
+position = Vector3(-11.85, 1.3, -6.0)
+mesh = SubResource("Box_trim_post")
+
+[node name="Post2" type="MeshInstance3D" parent="Dressing/Doorways/HallwayWestDoor"]
+position = Vector3(-9.15, 1.3, -6.0)
+mesh = SubResource("Box_trim_post")
+
+[node name="Lintel" type="MeshInstance3D" parent="Dressing/Doorways/HallwayWestDoor"]
+position = Vector3(-10.5, 2.62, -6.0)
+mesh = SubResource("Box_lintel_2_7")
+
+[node name="Leaf1" type="MeshInstance3D" parent="Dressing/Doorways/HallwayWestDoor"]
+position = Vector3(-12.549999999999999, 1.2, -5.8)
+mesh = SubResource("Box_leaf_1_3")
+
+[node name="Leaf2" type="MeshInstance3D" parent="Dressing/Doorways/HallwayWestDoor"]
+position = Vector3(-8.450000000000001, 1.2, -5.8)
+mesh = SubResource("Box_leaf_1_3")
+
+[node name="RestrictedDoorSouth" type="Node3D" parent="Dressing/Doorways"]
+
+[node name="Header" type="MeshInstance3D" parent="Dressing/Doorways/RestrictedDoorSouth"]
+position = Vector3(-10.5, 3.05, -14.0)
+mesh = SubResource("Box_header_2_7")
+
+[node name="Post1" type="MeshInstance3D" parent="Dressing/Doorways/RestrictedDoorSouth"]
+position = Vector3(-11.85, 1.3, -14.0)
+mesh = SubResource("Box_trim_post_red")
+
+[node name="Post2" type="MeshInstance3D" parent="Dressing/Doorways/RestrictedDoorSouth"]
+position = Vector3(-9.15, 1.3, -14.0)
+mesh = SubResource("Box_trim_post_red")
+
+[node name="Lintel" type="MeshInstance3D" parent="Dressing/Doorways/RestrictedDoorSouth"]
+position = Vector3(-10.5, 2.62, -14.0)
+mesh = SubResource("Box_lintel_2_7_red")
+
+[node name="Leaf1" type="MeshInstance3D" parent="Dressing/Doorways/RestrictedDoorSouth"]
+position = Vector3(-12.549999999999999, 1.2, -14.2)
+mesh = SubResource("Box_leaf_1_3")
+
+[node name="Leaf2" type="MeshInstance3D" parent="Dressing/Doorways/RestrictedDoorSouth"]
+position = Vector3(-8.450000000000001, 1.2, -14.2)
+mesh = SubResource("Box_leaf_1_3")
+
+[node name="ReadingEastDoor" type="Node3D" parent="Dressing/Doorways"]
+
+[node name="Header" type="MeshInstance3D" parent="Dressing/Doorways/ReadingEastDoor"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(14.0, 3.05, 3.5)
+mesh = SubResource("Box_header_2_7")
+
+[node name="Post1" type="MeshInstance3D" parent="Dressing/Doorways/ReadingEastDoor"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(14.0, 1.3, 2.15)
+mesh = SubResource("Box_trim_post")
+
+[node name="Post2" type="MeshInstance3D" parent="Dressing/Doorways/ReadingEastDoor"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(14.0, 1.3, 4.85)
+mesh = SubResource("Box_trim_post")
+
+[node name="Lintel" type="MeshInstance3D" parent="Dressing/Doorways/ReadingEastDoor"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(14.0, 2.62, 3.5)
+mesh = SubResource("Box_lintel_2_7")
+
+[node name="Leaf1" type="MeshInstance3D" parent="Dressing/Doorways/ReadingEastDoor"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(14.2, 1.2, 1.4499999999999997)
+mesh = SubResource("Box_leaf_1_3")
+
+[node name="Leaf2" type="MeshInstance3D" parent="Dressing/Doorways/ReadingEastDoor"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(14.2, 1.2, 5.55)
+mesh = SubResource("Box_leaf_1_3")
+
+[node name="RestrictedDoorEast" type="Node3D" parent="Dressing/Doorways"]
+
+[node name="Header" type="MeshInstance3D" parent="Dressing/Doorways/RestrictedDoorEast"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-2.0, 3.05, -22.5)
+mesh = SubResource("Box_header_2_7")
+
+[node name="Post1" type="MeshInstance3D" parent="Dressing/Doorways/RestrictedDoorEast"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-2.0, 1.3, -23.85)
+mesh = SubResource("Box_trim_post_red")
+
+[node name="Post2" type="MeshInstance3D" parent="Dressing/Doorways/RestrictedDoorEast"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-2.0, 1.3, -21.15)
+mesh = SubResource("Box_trim_post_red")
+
+[node name="Lintel" type="MeshInstance3D" parent="Dressing/Doorways/RestrictedDoorEast"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-2.0, 2.62, -22.5)
+mesh = SubResource("Box_lintel_2_7_red")
+
+[node name="Leaf1" type="MeshInstance3D" parent="Dressing/Doorways/RestrictedDoorEast"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-1.8, 1.2, -24.55)
+mesh = SubResource("Box_leaf_1_3")
+
+[node name="Leaf2" type="MeshInstance3D" parent="Dressing/Doorways/RestrictedDoorEast"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-1.8, 1.2, -20.45)
+mesh = SubResource("Box_leaf_1_3")
+
+[node name="ExitDoorWest" type="Node3D" parent="Dressing/Doorways"]
+
+[node name="Header" type="MeshInstance3D" parent="Dressing/Doorways/ExitDoorWest"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(18.0, 3.05, -22.5)
+mesh = SubResource("Box_header_2_7")
+
+[node name="Post1" type="MeshInstance3D" parent="Dressing/Doorways/ExitDoorWest"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(18.0, 1.3, -23.85)
+mesh = SubResource("Box_trim_post")
+
+[node name="Post2" type="MeshInstance3D" parent="Dressing/Doorways/ExitDoorWest"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(18.0, 1.3, -21.15)
+mesh = SubResource("Box_trim_post")
+
+[node name="Lintel" type="MeshInstance3D" parent="Dressing/Doorways/ExitDoorWest"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(18.0, 2.62, -22.5)
+mesh = SubResource("Box_lintel_2_7")
+
+[node name="Leaf1" type="MeshInstance3D" parent="Dressing/Doorways/ExitDoorWest"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(17.8, 1.2, -24.55)
+mesh = SubResource("Box_leaf_1_3")
+
+[node name="Leaf2" type="MeshInstance3D" parent="Dressing/Doorways/ExitDoorWest"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(17.8, 1.2, -20.45)
+mesh = SubResource("Box_leaf_1_3")
+
+[node name="ExitDoorSouth" type="Node3D" parent="Dressing/Doorways"]
+
+[node name="Header" type="MeshInstance3D" parent="Dressing/Doorways/ExitDoorSouth"]
+position = Vector3(22.5, 3.05, -18.0)
+mesh = SubResource("Box_header_2_7")
+
+[node name="Post1" type="MeshInstance3D" parent="Dressing/Doorways/ExitDoorSouth"]
+position = Vector3(21.15, 1.3, -18.0)
+mesh = SubResource("Box_trim_post")
+
+[node name="Post2" type="MeshInstance3D" parent="Dressing/Doorways/ExitDoorSouth"]
+position = Vector3(23.85, 1.3, -18.0)
+mesh = SubResource("Box_trim_post")
+
+[node name="Lintel" type="MeshInstance3D" parent="Dressing/Doorways/ExitDoorSouth"]
+position = Vector3(22.5, 2.62, -18.0)
+mesh = SubResource("Box_lintel_2_7")
+
+[node name="Leaf1" type="MeshInstance3D" parent="Dressing/Doorways/ExitDoorSouth"]
+position = Vector3(20.45, 1.2, -17.8)
+mesh = SubResource("Box_leaf_1_3")
+
+[node name="Leaf2" type="MeshInstance3D" parent="Dressing/Doorways/ExitDoorSouth"]
+position = Vector3(24.55, 1.2, -17.8)
+mesh = SubResource("Box_leaf_1_3")
+
+[node name="NookOpening" type="Node3D" parent="Dressing/Doorways"]
+
+[node name="Header" type="MeshInstance3D" parent="Dressing/Doorways/NookOpening"]
+position = Vector3(8.0, 3.05, -24.0)
+mesh = SubResource("Box_header_2")
+
+[node name="Post1" type="MeshInstance3D" parent="Dressing/Doorways/NookOpening"]
+position = Vector3(7.0, 1.3, -24.0)
+mesh = SubResource("Box_trim_post")
+
+[node name="Post2" type="MeshInstance3D" parent="Dressing/Doorways/NookOpening"]
+position = Vector3(9.0, 1.3, -24.0)
+mesh = SubResource("Box_trim_post")
+
+[node name="Lintel" type="MeshInstance3D" parent="Dressing/Doorways/NookOpening"]
+position = Vector3(8.0, 2.62, -24.0)
+mesh = SubResource("Box_lintel_2_0")
+
+[node name="AlcoveOpening" type="Node3D" parent="Dressing/Doorways"]
+
+[node name="Header" type="MeshInstance3D" parent="Dressing/Doorways/AlcoveOpening"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(24.0, 3.05, -10.0)
+mesh = SubResource("Box_header_3_2")
+
+[node name="Post1" type="MeshInstance3D" parent="Dressing/Doorways/AlcoveOpening"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(24.0, 1.3, -11.6)
+mesh = SubResource("Box_trim_post")
+
+[node name="Post2" type="MeshInstance3D" parent="Dressing/Doorways/AlcoveOpening"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(24.0, 1.3, -8.4)
+mesh = SubResource("Box_trim_post")
+
+[node name="Lintel" type="MeshInstance3D" parent="Dressing/Doorways/AlcoveOpening"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(24.0, 2.62, -10.0)
+mesh = SubResource("Box_lintel_3_2")
+
+[node name="SignMainLibrary" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 3.05, 14.17)
+
+[node name="Board" type="MeshInstance3D" parent="Dressing/Signs/SignMainLibrary"]
+position = Vector3(0, 0, -0.03)
+mesh = SubResource("Box_board_2_6")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/SignMainLibrary"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "MAIN LIBRARY"
+font_size = 36
+outline_size = 8
+modulate = Color(1, 0.95, 0.85, 1)
+
+[node name="SignEntrance" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(0, 3.05, 13.83)
+
+[node name="Board" type="MeshInstance3D" parent="Dressing/Signs/SignEntrance"]
+position = Vector3(0, 0, -0.03)
+mesh = SubResource("Box_board_2_0")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/SignEntrance"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "ENTRANCE"
+font_size = 36
+outline_size = 8
+modulate = Color(1, 0.95, 0.85, 1)
+
+[node name="SignHallwayWest" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(-10.5, 3.05, -5.83)
+
+[node name="Board" type="MeshInstance3D" parent="Dressing/Signs/SignHallwayWest"]
+position = Vector3(0, 0, -0.03)
+mesh = SubResource("Box_board_2_6")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/SignHallwayWest"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "HALLWAY WEST · STACKS"
+font_size = 36
+outline_size = 8
+modulate = Color(1, 0.95, 0.85, 1)
+
+[node name="SignRestricted" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(-10.5, 3.05, -13.83)
+
+[node name="Board" type="MeshInstance3D" parent="Dressing/Signs/SignRestricted"]
+position = Vector3(0, 0, -0.03)
+mesh = SubResource("Box_board_2_6_red")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/SignRestricted"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "RESTRICTED · STAFF ONLY"
+font_size = 36
+outline_size = 8
+modulate = Color(1, 0.75, 0.7, 1)
+
+[node name="SignRestrictedEast" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-1.83, 3.05, -22.5)
+
+[node name="Board" type="MeshInstance3D" parent="Dressing/Signs/SignRestrictedEast"]
+position = Vector3(0, 0, -0.03)
+mesh = SubResource("Box_board_2_6_red")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/SignRestrictedEast"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "RESTRICTED · STAFF ONLY"
+font_size = 36
+outline_size = 8
+modulate = Color(1, 0.75, 0.7, 1)
+
+[node name="SignReading" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(8, 3.1, 13.83)
+
+[node name="Board" type="MeshInstance3D" parent="Dressing/Signs/SignReading"]
+position = Vector3(0, 0, -0.03)
+mesh = SubResource("Box_board_2_4")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/SignReading"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "READING ROOM"
+font_size = 36
+outline_size = 8
+modulate = Color(1, 0.95, 0.85, 1)
+
+[node name="SignHallwayEast" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, -90, 0)
+position = Vector3(13.83, 3.05, 3.5)
+
+[node name="Board" type="MeshInstance3D" parent="Dressing/Signs/SignHallwayEast"]
+position = Vector3(0, 0, -0.03)
+mesh = SubResource("Box_board_2_2")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/SignHallwayEast"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "HALLWAY EAST"
+font_size = 36
+outline_size = 8
+modulate = Color(1, 0.95, 0.85, 1)
+
+[node name="SignArchive" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-15.82, 2.0, -24.9)
+
+[node name="Board" type="MeshInstance3D" parent="Dressing/Signs/SignArchive"]
+position = Vector3(0, 0, -0.03)
+mesh = SubResource("Box_board_1_4")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/SignArchive"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "ARCHIVE"
+font_size = 36
+outline_size = 8
+modulate = Color(1, 0.85, 0.5, 1)
+
+[node name="SignStaffNook" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(8, 3.05, -23.83)
+
+[node name="Board" type="MeshInstance3D" parent="Dressing/Signs/SignStaffNook"]
+position = Vector3(0, 0, -0.03)
+mesh = SubResource("Box_board_1_8")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/SignStaffNook"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "STAFF ROOM"
+font_size = 36
+outline_size = 8
+modulate = Color(1, 0.95, 0.85, 1)
+
+[node name="SignStudyAlcove" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, -90, 0)
+position = Vector3(23.83, 3.05, -10)
+
+[node name="Board" type="MeshInstance3D" parent="Dressing/Signs/SignStudyAlcove"]
+position = Vector3(0, 0, -0.03)
+mesh = SubResource("Box_board_1_2")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/SignStudyAlcove"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "STUDY"
+font_size = 36
+outline_size = 8
+modulate = Color(1, 0.95, 0.85, 1)
+
+[node name="ExitSignBackCorridorWest" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(0.5, 2.7, -21.17)
+
+[node name="Box" type="MeshInstance3D" parent="Dressing/Signs/ExitSignBackCorridorWest"]
+position = Vector3(0, 0, -0.025)
+mesh = SubResource("Box_exit_sign")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/ExitSignBackCorridorWest"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "EXIT ←"
+font_size = 40
+outline_size = 8
+modulate = Color(1, 1, 1, 1)
+
+[node name="ExitSignBackCorridorMid" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(11, 2.7, -21.17)
+
+[node name="Box" type="MeshInstance3D" parent="Dressing/Signs/ExitSignBackCorridorMid"]
+position = Vector3(0, 0, -0.025)
+mesh = SubResource("Box_exit_sign")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/ExitSignBackCorridorMid"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "EXIT ←"
+font_size = 40
+outline_size = 8
+modulate = Color(1, 1, 1, 1)
+
+[node name="ExitSignHallwayEast" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(21.17, 2.7, -4)
+
+[node name="Box" type="MeshInstance3D" parent="Dressing/Signs/ExitSignHallwayEast"]
+position = Vector3(0, 0, -0.025)
+mesh = SubResource("Box_exit_sign")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/ExitSignHallwayEast"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "EXIT →"
+font_size = 40
+outline_size = 8
+modulate = Color(1, 1, 1, 1)
+
+[node name="ExitSignHallwayEastNorth" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(21.17, 2.7, -14)
+
+[node name="Box" type="MeshInstance3D" parent="Dressing/Signs/ExitSignHallwayEastNorth"]
+position = Vector3(0, 0, -0.025)
+mesh = SubResource("Box_exit_sign")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/ExitSignHallwayEastNorth"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "EXIT →"
+font_size = 40
+outline_size = 8
+modulate = Color(1, 1, 1, 1)
+
+[node name="ExitSignReadingDoor" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, -90, 0)
+position = Vector3(13.83, 2.65, 1.2)
+
+[node name="Box" type="MeshInstance3D" parent="Dressing/Signs/ExitSignReadingDoor"]
+position = Vector3(0, 0, -0.025)
+mesh = SubResource("Box_exit_sign")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/ExitSignReadingDoor"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "EXIT →"
+font_size = 40
+outline_size = 8
+modulate = Color(1, 1, 1, 1)
+
+[node name="ExitSignOverDoor" type="Node3D" parent="Dressing/Signs"]
+rotation_degrees = Vector3(0, -90, 0)
+position = Vector3(27.83, 3.2, -23)
+
+[node name="Box" type="MeshInstance3D" parent="Dressing/Signs/ExitSignOverDoor"]
+position = Vector3(0, 0, -0.025)
+mesh = SubResource("Box_exit_sign")
+
+[node name="Text" type="Label3D" parent="Dressing/Signs/ExitSignOverDoor"]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(0, 0, 0.01)
+text = "EXIT"
+font_size = 40
+outline_size = 8
+modulate = Color(1, 1, 1, 1)
+
+[node name="Clock" type="Node3D" parent="Dressing/Landmarks"]
+position = Vector3(0.5, 2.55, -5.82)
+
+[node name="Rim" type="MeshInstance3D" parent="Dressing/Landmarks/Clock"]
+rotation_degrees = Vector3(90, 0, 0)
+position = Vector3(0, 0, 0.0)
+mesh = SubResource("Cyl_clock_rim")
+
+[node name="Face" type="MeshInstance3D" parent="Dressing/Landmarks/Clock"]
+rotation_degrees = Vector3(90, 0, 0)
+position = Vector3(0, 0, 0.03)
+mesh = SubResource("Cyl_clock")
+
+[node name="HandLong" type="MeshInstance3D" parent="Dressing/Landmarks/Clock"]
+rotation_degrees = Vector3(0, 0, -30)
+position = Vector3(0.08, 0.16, 0.07)
+mesh = SubResource("Box_clock_hand_long")
+
+[node name="HandShort" type="MeshInstance3D" parent="Dressing/Landmarks/Clock"]
+rotation_degrees = Vector3(0, 0, 60)
+position = Vector3(-0.1, 0.06, 0.07)
+mesh = SubResource("Box_clock_hand_short")
+
+[node name="Globe" type="Node3D" parent="Dressing/Landmarks"]
+position = Vector3(8.2, 1.1, 12.2)
+
+[node name="Stand" type="MeshInstance3D" parent="Dressing/Landmarks/Globe"]
+position = Vector3(0, 0.15, 0)
+mesh = SubResource("Cyl_globe_stand")
+
+[node name="Sphere" type="MeshInstance3D" parent="Dressing/Landmarks/Globe"]
+rotation_degrees = Vector3(0, 0, 23)
+position = Vector3(0, 0.62, 0)
+mesh = SubResource("Sphere_globe")
+
+[node name="Ring" type="MeshInstance3D" parent="Dressing/Landmarks/Globe"]
+rotation_degrees = Vector3(90, 0, 23)
+position = Vector3(0, 0.62, 0)
+mesh = SubResource("Torus_globe_ring")
+
+[node name="TableLamp1" type="Node3D" parent="Dressing/Landmarks"]
+position = Vector3(6, 0.75, 2)
+
+[node name="Base" type="MeshInstance3D" parent="Dressing/Landmarks/TableLamp1"]
+position = Vector3(0, 0.15, 0)
+mesh = SubResource("Cyl_lamp_base")
+
+[node name="Shade" type="MeshInstance3D" parent="Dressing/Landmarks/TableLamp1"]
+position = Vector3(0, 0.33, 0)
+mesh = SubResource("Box_lamp_shade")
+
+[node name="TableLamp2" type="Node3D" parent="Dressing/Landmarks"]
+position = Vector3(10, 0.75, 2)
+
+[node name="Base" type="MeshInstance3D" parent="Dressing/Landmarks/TableLamp2"]
+position = Vector3(0, 0.15, 0)
+mesh = SubResource("Cyl_lamp_base")
+
+[node name="Shade" type="MeshInstance3D" parent="Dressing/Landmarks/TableLamp2"]
+position = Vector3(0, 0.33, 0)
+mesh = SubResource("Box_lamp_shade")
+
+[node name="TableLamp3" type="Node3D" parent="Dressing/Landmarks"]
+position = Vector3(6, 0.75, 8)
+
+[node name="Base" type="MeshInstance3D" parent="Dressing/Landmarks/TableLamp3"]
+position = Vector3(0, 0.15, 0)
+mesh = SubResource("Cyl_lamp_base")
+
+[node name="Shade" type="MeshInstance3D" parent="Dressing/Landmarks/TableLamp3"]
+position = Vector3(0, 0.33, 0)
+mesh = SubResource("Box_lamp_shade")
+
+[node name="TableLamp4" type="Node3D" parent="Dressing/Landmarks"]
+position = Vector3(10, 0.75, 8)
+
+[node name="Base" type="MeshInstance3D" parent="Dressing/Landmarks/TableLamp4"]
+position = Vector3(0, 0.15, 0)
+mesh = SubResource("Cyl_lamp_base")
+
+[node name="Shade" type="MeshInstance3D" parent="Dressing/Landmarks/TableLamp4"]
+position = Vector3(0, 0.33, 0)
+mesh = SubResource("Box_lamp_shade")
+
+[node name="ArchivePlaque" type="MeshInstance3D" parent="Dressing/Landmarks"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-15.04, 0.6, -24.9)
+mesh = SubResource("Box_desk_plaque")
+
+[node name="CardSpotlight" type="SpotLight3D" parent="Dressing/Landmarks"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -15.3, 3.2, -24.9)
+light_color = Color(1, 0.85, 0.5, 1)
+light_energy = 6.0
+spot_range = 4.5
+spot_angle = 22.0
+
+[node name="ExitGlow" type="OmniLight3D" parent="Dressing/Landmarks"]
+position = Vector3(26.6, 2.6, -23)
+light_color = Color(0.35, 1, 0.5, 1)
+light_energy = 1.6
+omni_range = 5.0
+
+[node name="RestrictedGlow" type="OmniLight3D" parent="Dressing/Landmarks"]
+position = Vector3(-9, 3.0, -20)
+light_color = Color(1, 0.45, 0.4, 1)
+light_energy = 0.8
+omni_range = 9.0
+
+[node name="Ceilings" type="Node3D" parent="Dressing"]
+
+[node name="Lights" type="Node3D" parent="Dressing"]
+
+[node name="Props" type="Node3D" parent="Dressing"]
+
+[node name="Entrance" type="MeshInstance3D" parent="Dressing/Ceilings"]
+layers = 2
+cast_shadow = 0
+position = Vector3(0, 3.55, 18)
+mesh = SubResource("Box_ceiling_Entrance")
+
+[node name="MainRoom" type="MeshInstance3D" parent="Dressing/Ceilings"]
+layers = 2
+cast_shadow = 0
+position = Vector3(0, 3.55, 4)
+mesh = SubResource("Box_ceiling_MainRoom")
+
+[node name="HallwayWest" type="MeshInstance3D" parent="Dressing/Ceilings"]
+layers = 2
+cast_shadow = 0
+position = Vector3(-10.5, 3.55, -10)
+mesh = SubResource("Box_ceiling_HallwayWest")
+
+[node name="RestrictedStacks" type="MeshInstance3D" parent="Dressing/Ceilings"]
+layers = 2
+cast_shadow = 0
+position = Vector3(-9, 3.55, -20)
+mesh = SubResource("Box_ceiling_RestrictedStacks")
+
+[node name="BackCorridor" type="MeshInstance3D" parent="Dressing/Ceilings"]
+layers = 2
+cast_shadow = 0
+position = Vector3(8, 3.55, -22.5)
+mesh = SubResource("Box_ceiling_BackCorridor")
+
+[node name="StaffNook" type="MeshInstance3D" parent="Dressing/Ceilings"]
+layers = 2
+cast_shadow = 0
+position = Vector3(8, 3.55, -25.5)
+mesh = SubResource("Box_ceiling_StaffNook")
+
+[node name="HallwayEastLink" type="MeshInstance3D" parent="Dressing/Ceilings"]
+layers = 2
+cast_shadow = 0
+position = Vector3(19, 3.55, 3.5)
+mesh = SubResource("Box_ceiling_HallwayEastLink")
+
+[node name="HallwayEast" type="MeshInstance3D" parent="Dressing/Ceilings"]
+layers = 2
+cast_shadow = 0
+position = Vector3(22.5, 3.55, -8)
+mesh = SubResource("Box_ceiling_HallwayEast")
+
+[node name="StudyAlcove" type="MeshInstance3D" parent="Dressing/Ceilings"]
+layers = 2
+cast_shadow = 0
+position = Vector3(25.8, 3.55, -10)
+mesh = SubResource("Box_ceiling_StudyAlcove")
+
+[node name="ExitArea" type="MeshInstance3D" parent="Dressing/Ceilings"]
+layers = 2
+cast_shadow = 0
+position = Vector3(23, 3.55, -23)
+mesh = SubResource("Box_ceiling_ExitArea")
+
+[node name="Entrance" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(0, 0, 18)
+
+[node name="MainNW" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(-8, 0, -1)
+
+[node name="MainSW" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(-8, 0, 9)
+
+[node name="MainNE" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(7, 0, -1)
+
+[node name="MainSE" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(7, 0, 9)
+
+[node name="HallwayWest" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(-10.5, 0, -10)
+
+[node name="Restricted" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(-12, 0, -16.5)
+
+[node name="BackCorridorW" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(2, 0, -22.5)
+
+[node name="BackCorridorE" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(13, 0, -22.5)
+
+[node name="StaffNook" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(8, 0, -25.8)
+
+[node name="HallwayEastLink" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(17.5, 0, 3.5)
+
+[node name="HallwayEastN" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(22.5, 0, -1)
+
+[node name="HallwayEastS" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(22.5, 0, -13)
+
+[node name="StudyAlcove" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(25.6, 0, -10)
+
+[node name="ExitArea" parent="Dressing/Lights" instance=ExtResource("31_ceiling_light")]
+position = Vector3(21, 0, -21.5)
+
+[node name="Books" type="Node3D" parent="NavigationRegion3D/Areas/MainStacks/Shelf1"]
+script = ExtResource("30_books")
+size = Vector3(0.6, 2.2, 10)
+rows = 4
+book_seed = 1
+
+[node name="Books" type="Node3D" parent="NavigationRegion3D/Areas/MainStacks/Shelf2"]
+script = ExtResource("30_books")
+size = Vector3(0.6, 2.2, 10)
+rows = 4
+book_seed = 2
+
+[node name="Books" type="Node3D" parent="NavigationRegion3D/Areas/MainStacks/Shelf3"]
+script = ExtResource("30_books")
+size = Vector3(0.6, 2.2, 10)
+rows = 4
+book_seed = 3
+
+[node name="Books" type="Node3D" parent="NavigationRegion3D/Areas/MainStacks/Shelf4"]
+script = ExtResource("30_books")
+size = Vector3(0.6, 2.2, 10)
+rows = 4
+book_seed = 4
+
+[node name="Books" type="Node3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Shelf1"]
+script = ExtResource("30_books")
+size = Vector3(9, 2.2, 0.6)
+rows = 4
+book_seed = 11
+
+[node name="Books" type="Node3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Shelf2"]
+script = ExtResource("30_books")
+size = Vector3(9, 2.2, 0.6)
+rows = 4
+book_seed = 12
+
+[node name="Books" type="Node3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Shelf3"]
+script = ExtResource("30_books")
+size = Vector3(9, 2.2, 0.6)
+rows = 4
+book_seed = 13
+
+[node name="Books" type="Node3D" parent="NavigationRegion3D/Areas/ReadingArea/LowShelf1"]
+script = ExtResource("30_books")
+size = Vector3(2.4, 1.2, 0.5)
+rows = 2
+book_seed = 21
+
+[node name="Books" type="Node3D" parent="NavigationRegion3D/Areas/ReadingArea/LowShelf2"]
+script = ExtResource("30_books")
+size = Vector3(2.4, 1.2, 0.5)
+rows = 2
+book_seed = 22
+
+[node name="Books" type="Node3D" parent="NavigationRegion3D/Areas/ReadingArea/LowShelf3"]
+script = ExtResource("30_books")
+size = Vector3(3, 1.2, 0.5)
+rows = 2
+book_seed = 23
+
+[node name="Chair1" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(5.4, 0, 1.45)
+
+[node name="Chair2" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(5.4, 0, 2.55)
+
+[node name="Chair3" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(6.6, 0, 1.45)
+
+[node name="Chair4" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(6.6, 0, 2.55)
+
+[node name="Chair5" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(9.4, 0, 1.45)
+
+[node name="Chair6" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(9.4, 0, 2.55)
+
+[node name="Chair7" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(10.6, 0, 1.45)
+
+[node name="Chair8" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(10.6, 0, 2.55)
+
+[node name="Chair9" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(5.4, 0, 7.45)
+
+[node name="Chair10" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(5.4, 0, 8.55)
+
+[node name="Chair11" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(6.6, 0, 7.45)
+
+[node name="Chair12" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(6.6, 0, 8.55)
+
+[node name="Chair13" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(9.4, 0, 7.45)
+
+[node name="Chair14" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(9.4, 0, 8.55)
+
+[node name="Chair15" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(10.6, 0, 7.45)
+
+[node name="Chair16" parent="Dressing/Props" instance=ExtResource("32_chair")]
+rotation_degrees = Vector3(0, 0, 0)
+position = Vector3(10.6, 0, 8.55)
+
+[node name="Plant1" parent="NavigationRegion3D/Props" instance=ExtResource("33_plant")]
+position = Vector3(-4.4, 0, 14.6)
+
+[node name="Plant2" parent="NavigationRegion3D/Props" instance=ExtResource("33_plant")]
+position = Vector3(4.4, 0, 14.6)
+
+[node name="Plant3" parent="NavigationRegion3D/Props" instance=ExtResource("33_plant")]
+position = Vector3(13.35, 0, -5.35)
+
+[node name="Plant4" parent="NavigationRegion3D/Props" instance=ExtResource("33_plant")]
+position = Vector3(-13.35, 0, 13.35)
+
+[node name="Plant5" parent="NavigationRegion3D/Props" instance=ExtResource("33_plant")]
+position = Vector3(13.35, 0, 13.35)
+
+[node name="Plant6" parent="NavigationRegion3D/Props" instance=ExtResource("33_plant")]
+position = Vector3(23.4, 0, 4.4)
+
+[node name="Plant7" parent="NavigationRegion3D/Props" instance=ExtResource("33_plant")]
+position = Vector3(27.35, 0, -27.35)
+
+[node name="Window1" type="Node3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-13.83, 2.0, -4.5)
+
+[node name="Frame" type="MeshInstance3D" parent="Dressing/Props/Window1"]
+position = Vector3(0, 0, -0.01)
+mesh = SubResource("Box_window_frame")
+
+[node name="Glass" type="MeshInstance3D" parent="Dressing/Props/Window1"]
+mesh = SubResource("Box_window")
+
+[node name="Window2" type="Node3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-13.83, 2.0, 9.5)
+
+[node name="Frame" type="MeshInstance3D" parent="Dressing/Props/Window2"]
+position = Vector3(0, 0, -0.01)
+mesh = SubResource("Box_window_frame")
+
+[node name="Glass" type="MeshInstance3D" parent="Dressing/Props/Window2"]
+mesh = SubResource("Box_window")
+
+[node name="Window3" type="Node3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, -90, 0)
+position = Vector3(13.83, 2.0, -1.5)
+
+[node name="Frame" type="MeshInstance3D" parent="Dressing/Props/Window3"]
+position = Vector3(0, 0, -0.01)
+mesh = SubResource("Box_window_frame")
+
+[node name="Glass" type="MeshInstance3D" parent="Dressing/Props/Window3"]
+mesh = SubResource("Box_window")
+
+[node name="Window4" type="Node3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, -90, 0)
+position = Vector3(13.83, 2.0, 9)
+
+[node name="Frame" type="MeshInstance3D" parent="Dressing/Props/Window4"]
+position = Vector3(0, 0, -0.01)
+mesh = SubResource("Box_window_frame")
+
+[node name="Glass" type="MeshInstance3D" parent="Dressing/Props/Window4"]
+mesh = SubResource("Box_window")
+
+[node name="Window5" type="Node3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-4.83, 2.0, 17.5)
+
+[node name="Frame" type="MeshInstance3D" parent="Dressing/Props/Window5"]
+position = Vector3(0, 0, -0.01)
+mesh = SubResource("Box_window_frame")
+
+[node name="Glass" type="MeshInstance3D" parent="Dressing/Props/Window5"]
+mesh = SubResource("Box_window")
+
+[node name="Window6" type="Node3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, -90, 0)
+position = Vector3(4.83, 2.0, 17.5)
+
+[node name="Frame" type="MeshInstance3D" parent="Dressing/Props/Window6"]
+position = Vector3(0, 0, -0.01)
+mesh = SubResource("Box_window_frame")
+
+[node name="Glass" type="MeshInstance3D" parent="Dressing/Props/Window6"]
+mesh = SubResource("Box_window")
+
+[node name="Window7" type="Node3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-15.83, 2.0, -18.9)
+
+[node name="Frame" type="MeshInstance3D" parent="Dressing/Props/Window7"]
+position = Vector3(0, 0, -0.01)
+mesh = SubResource("Box_window_frame")
+
+[node name="Glass" type="MeshInstance3D" parent="Dressing/Props/Window7"]
+mesh = SubResource("Box_window")
+
+[node name="Window8" type="Node3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-15.83, 2.0, -21.9)
+
+[node name="Frame" type="MeshInstance3D" parent="Dressing/Props/Window8"]
+position = Vector3(0, 0, -0.01)
+mesh = SubResource("Box_window_frame")
+
+[node name="Glass" type="MeshInstance3D" parent="Dressing/Props/Window8"]
+mesh = SubResource("Box_window")
+
+[node name="Window9" type="Node3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, -90, 0)
+position = Vector3(27.83, 2.0, -26)
+
+[node name="Frame" type="MeshInstance3D" parent="Dressing/Props/Window9"]
+position = Vector3(0, 0, -0.01)
+mesh = SubResource("Box_window_frame")
+
+[node name="Glass" type="MeshInstance3D" parent="Dressing/Props/Window9"]
+mesh = SubResource("Box_window")
+
+[node name="Poster1" type="MeshInstance3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(-11.83, 1.7, -9)
+mesh = SubResource("Box_Poster_a")
+
+[node name="Poster2" type="MeshInstance3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, -90, 0)
+position = Vector3(-9.17, 1.7, -11.5)
+mesh = SubResource("Box_Poster_b")
+
+[node name="Poster3" type="MeshInstance3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(5, 1.7, -21.17)
+mesh = SubResource("Box_Poster_c")
+
+[node name="Poster4" type="MeshInstance3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(15.5, 1.7, -21.17)
+mesh = SubResource("Box_Poster_d")
+
+[node name="Poster5" type="MeshInstance3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(21.17, 1.7, -7)
+mesh = SubResource("Box_Poster_b")
+
+[node name="Poster6" type="MeshInstance3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, 90, 0)
+position = Vector3(21.17, 1.7, 0.5)
+mesh = SubResource("Box_Poster_a")
+
+[node name="Poster7" type="MeshInstance3D" parent="Dressing/Props"]
+rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(19, 1.7, 4.83)
+mesh = SubResource("Box_Poster_c")
+
+[node name="ReadingRug" type="MeshInstance3D" parent="Dressing/Props"]
+position = Vector3(8, 0.006, 5)
+mesh = SubResource("Box_rug_reading")
+
+[node name="AisleRunner" type="MeshInstance3D" parent="Dressing/Props"]
+position = Vector3(0.5, 0.005, 4.25)
+mesh = SubResource("Box_runner")
+
+[node name="Hazard1" type="MeshInstance3D" parent="Dressing/Props"]
+position = Vector3(25.1, 0.008, -23)
+mesh = SubResource("Box_hazard")
+
+[node name="Hazard2" type="MeshInstance3D" parent="Dressing/Props"]
+position = Vector3(25.4, 0.008, -23)
+mesh = SubResource("Box_hazard_dark")
+
+[node name="Hazard3" type="MeshInstance3D" parent="Dressing/Props"]
+position = Vector3(25.7, 0.008, -23)
+mesh = SubResource("Box_hazard")
+
+[node name="Hazard4" type="MeshInstance3D" parent="Dressing/Props"]
+position = Vector3(26, 0.008, -23)
+mesh = SubResource("Box_hazard_dark")
+
+[node name="Hazard5" type="MeshInstance3D" parent="Dressing/Props"]
+position = Vector3(26.3, 0.008, -23)
+mesh = SubResource("Box_hazard")
+
+[node name="Hazard6" type="MeshInstance3D" parent="Dressing/Props"]
+position = Vector3(26.6, 0.008, -23)
+mesh = SubResource("Box_hazard_dark")
