@@ -1,6 +1,7 @@
 extends Node
 
-## Phase 1 smoke test. Run this scene directly in Godot (F6), or headless:
+## Project test runner: Phase 1 setup checks plus the Phase 2 player tests
+## in tests/player_tests.gd. Run this scene directly in Godot (F6), or headless:
 ##   godot --headless --path . res://tests/test_scene.tscn
 ## Exits with code 0 when every check passes and 1 otherwise, so it can be
 ## used by an automated build. Checks use explicit failures instead of
@@ -9,6 +10,7 @@ extends Node
 
 const EXPECTED_VERSION := "4.7.2"
 const EXPECTED_HASH_PREFIX := "ed1daf0bf"
+const PlayerTests := preload("res://tests/player_tests.gd")
 const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
 const REQUIRED_DIRS := [
 	"res://scenes/player", "res://scenes/npc", "res://scenes/level",
@@ -29,14 +31,15 @@ func _ready() -> void:
 	_check_windows_export_preset()
 	_check_folder_structure()
 	_check_library_graybox()
+	_failures.append_array(await PlayerTests.new().run(self))
 
 	if _failures.is_empty():
-		print("Phase 1 smoke test passed.")
+		print("All tests passed (Phase 1 setup, Phase 2 player).")
 		get_tree().quit(0)
 	else:
 		for failure in _failures:
 			push_error("FAIL: " + failure)
-		print("Phase 1 smoke test FAILED (%d issue(s))." % _failures.size())
+		print("Tests FAILED (%d issue(s))." % _failures.size())
 		get_tree().quit(1)
 
 
@@ -86,6 +89,7 @@ func _check_library_graybox() -> void:
 	for node_name in ["Floor", "BackWall", "FrontWall", "LeftWall", "RightWall",
 			"ShelfRowA", "ShelfRowB", "ShelfRowC", "ReadingTable", "KeyLight"]:
 		_expect(library.get_node_or_null(node_name) != null, "The graybox must include %s." % node_name)
+	# The overview camera is kept for inspecting the level; the player camera is the active one.
 	var camera := library.get_node_or_null("PreviewCamera") as Camera3D
-	_expect(camera != null and camera.current, "The graybox must have a current preview camera.")
+	_expect(camera != null and not camera.current, "The graybox must keep a non-current PreviewCamera.")
 	library.free()
