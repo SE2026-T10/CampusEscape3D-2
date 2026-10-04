@@ -7,6 +7,9 @@
 [ext_resource type="Script" path="res://scripts/npc/patrol_point.gd" id="7_point"]
 [ext_resource type="Script" path="res://scripts/systems/detection_debug_hud.gd" id="8_hud"]
 [ext_resource type="Script" path="res://scripts/systems/noise/noise_system.gd" id="9_noise"]
+[ext_resource type="Script" path="res://scripts/systems/hiding_spot.gd" id="10_hide"]
+[ext_resource type="Script" path="res://scripts/systems/stealth_director.gd" id="11_director"]
+[ext_resource type="Script" path="res://scripts/ui/stealth_hud.gd" id="12_hud"]
 [ext_resource type="Script" path="res://scripts/systems/navigation_debug.gd" id="4_navdebug"]
 
 [sub_resource type="Environment" id="ENV"]
@@ -308,6 +311,34 @@ size = Vector3(1.2, 0.01, 6)
 [sub_resource type="BoxMesh" id="BoxMesh_81"]
 material = SubResource("StandardMaterial3D_5")
 size = Vector3(1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_carrel"]
+albedo_color = Color(0.42, 0.3, 0.2, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Material_hide_floor"]
+albedo_color = Color(0.08, 0.1, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="Box_carrel_back"]
+material = SubResource("Material_carrel")
+size = Vector3(1.6, 1.4, 0.1)
+
+[sub_resource type="BoxShape3D" id="Shape_carrel_back"]
+size = Vector3(1.6, 1.4, 0.1)
+
+[sub_resource type="BoxMesh" id="Box_carrel_side"]
+material = SubResource("Material_carrel")
+size = Vector3(0.1, 1.4, 1.1)
+
+[sub_resource type="BoxShape3D" id="Shape_carrel_side"]
+size = Vector3(0.1, 1.4, 1.1)
+
+[sub_resource type="BoxShape3D" id="Shape_hiding_area"]
+size = Vector3(1.4, 1.2, 1.0)
+
+[sub_resource type="BoxMesh" id="Box_hide_floor"]
+material = SubResource("Material_hide_floor")
+size = Vector3(1.4, 0.01, 1.0)
 
 [node name="LibraryGraybox" type="Node3D"]
 
@@ -922,6 +953,174 @@ mesh = SubResource("BoxMesh_78")
 position = Vector3(26.5, 0.006, -23)
 mesh = SubResource("BoxMesh_79")
 
+[node name="CarrelWest" type="Node3D" parent="NavigationRegion3D/Areas/MainRoom"]
+position = Vector3(-12.6, 0, 11.6)
+rotation_degrees = Vector3(0, 90, 0)
+
+[node name="Back" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainRoom/CarrelWest"]
+position = Vector3(0, 0.7, -0.55)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/CarrelWest/Back"]
+mesh = SubResource("Box_carrel_back")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/CarrelWest/Back"]
+shape = SubResource("Shape_carrel_back")
+
+[node name="SideLeft" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainRoom/CarrelWest"]
+position = Vector3(-0.75, 0.7, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/CarrelWest/SideLeft"]
+mesh = SubResource("Box_carrel_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/CarrelWest/SideLeft"]
+shape = SubResource("Shape_carrel_side")
+
+[node name="SideRight" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainRoom/CarrelWest"]
+position = Vector3(0.75, 0.7, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/CarrelWest/SideRight"]
+mesh = SubResource("Box_carrel_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/CarrelWest/SideRight"]
+shape = SubResource("Shape_carrel_side")
+
+[node name="HidingSpot" type="Area3D" parent="NavigationRegion3D/Areas/MainRoom/CarrelWest"]
+position = Vector3(0, 0.6, 0)
+script = ExtResource("10_hide")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/CarrelWest/HidingSpot"]
+shape = SubResource("Shape_hiding_area")
+
+[node name="FloorMark" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/CarrelWest"]
+position = Vector3(0, 0.006, 0)
+mesh = SubResource("Box_hide_floor")
+
+[node name="CarrelEast" type="Node3D" parent="NavigationRegion3D/Areas/ReadingArea"]
+position = Vector3(12.6, 0, 11.6)
+rotation_degrees = Vector3(0, -90, 0)
+
+[node name="Back" type="StaticBody3D" parent="NavigationRegion3D/Areas/ReadingArea/CarrelEast"]
+position = Vector3(0, 0.7, -0.55)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ReadingArea/CarrelEast/Back"]
+mesh = SubResource("Box_carrel_back")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/CarrelEast/Back"]
+shape = SubResource("Shape_carrel_back")
+
+[node name="SideLeft" type="StaticBody3D" parent="NavigationRegion3D/Areas/ReadingArea/CarrelEast"]
+position = Vector3(-0.75, 0.7, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ReadingArea/CarrelEast/SideLeft"]
+mesh = SubResource("Box_carrel_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/CarrelEast/SideLeft"]
+shape = SubResource("Shape_carrel_side")
+
+[node name="SideRight" type="StaticBody3D" parent="NavigationRegion3D/Areas/ReadingArea/CarrelEast"]
+position = Vector3(0.75, 0.7, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ReadingArea/CarrelEast/SideRight"]
+mesh = SubResource("Box_carrel_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/CarrelEast/SideRight"]
+shape = SubResource("Shape_carrel_side")
+
+[node name="HidingSpot" type="Area3D" parent="NavigationRegion3D/Areas/ReadingArea/CarrelEast"]
+position = Vector3(0, 0.6, 0)
+script = ExtResource("10_hide")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/CarrelEast/HidingSpot"]
+shape = SubResource("Shape_hiding_area")
+
+[node name="FloorMark" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ReadingArea/CarrelEast"]
+position = Vector3(0, 0.006, 0)
+mesh = SubResource("Box_hide_floor")
+
+[node name="CarrelRestricted" type="Node3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-14.8, 0, -15.3)
+rotation_degrees = Vector3(0, 90, 0)
+
+[node name="Back" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks/CarrelRestricted"]
+position = Vector3(0, 0.7, -0.55)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/CarrelRestricted/Back"]
+mesh = SubResource("Box_carrel_back")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/CarrelRestricted/Back"]
+shape = SubResource("Shape_carrel_back")
+
+[node name="SideLeft" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks/CarrelRestricted"]
+position = Vector3(-0.75, 0.7, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/CarrelRestricted/SideLeft"]
+mesh = SubResource("Box_carrel_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/CarrelRestricted/SideLeft"]
+shape = SubResource("Shape_carrel_side")
+
+[node name="SideRight" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks/CarrelRestricted"]
+position = Vector3(0.75, 0.7, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/CarrelRestricted/SideRight"]
+mesh = SubResource("Box_carrel_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/CarrelRestricted/SideRight"]
+shape = SubResource("Shape_carrel_side")
+
+[node name="HidingSpot" type="Area3D" parent="NavigationRegion3D/Areas/RestrictedStacks/CarrelRestricted"]
+position = Vector3(0, 0.6, 0)
+script = ExtResource("10_hide")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/CarrelRestricted/HidingSpot"]
+shape = SubResource("Shape_hiding_area")
+
+[node name="FloorMark" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/CarrelRestricted"]
+position = Vector3(0, 0.006, 0)
+mesh = SubResource("Box_hide_floor")
+
+[node name="CarrelExit" type="Node3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(26.8, 0, -19.4)
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="Back" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea/CarrelExit"]
+position = Vector3(0, 0.7, -0.55)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/CarrelExit/Back"]
+mesh = SubResource("Box_carrel_back")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/CarrelExit/Back"]
+shape = SubResource("Shape_carrel_back")
+
+[node name="SideLeft" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea/CarrelExit"]
+position = Vector3(-0.75, 0.7, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/CarrelExit/SideLeft"]
+mesh = SubResource("Box_carrel_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/CarrelExit/SideLeft"]
+shape = SubResource("Shape_carrel_side")
+
+[node name="SideRight" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea/CarrelExit"]
+position = Vector3(0.75, 0.7, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/CarrelExit/SideRight"]
+mesh = SubResource("Box_carrel_side")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/CarrelExit/SideRight"]
+shape = SubResource("Shape_carrel_side")
+
+[node name="HidingSpot" type="Area3D" parent="NavigationRegion3D/Areas/ExitArea/CarrelExit"]
+position = Vector3(0, 0.6, 0)
+script = ExtResource("10_hide")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/CarrelExit/HidingSpot"]
+shape = SubResource("Shape_hiding_area")
+
+[node name="FloorMark" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/CarrelExit"]
+position = Vector3(0, 0.006, 0)
+mesh = SubResource("Box_hide_floor")
+
 [node name="PlayerTestArea" type="Node3D" parent="NavigationRegion3D"]
 
 [node name="SprintLane" type="MeshInstance3D" parent="NavigationRegion3D/PlayerTestArea"]
@@ -949,8 +1148,8 @@ metadata/distance_to_obstacle = 3.35
 position = Vector3(-4.83, 2.2, 19.5)
 rotation_degrees = Vector3(0, 90, 0)
 text = "PLAYER TEST AREA
-WASD walk  ·  Shift sprint  ·  Esc release mouse
-F3 navigation debug"
+WASD walk  ·  Shift sprint  ·  C / Ctrl crouch
+Esc release mouse  ·  F3 debug view"
 font_size = 40
 outline_size = 8
 
@@ -959,6 +1158,12 @@ script = ExtResource("4_navdebug")
 region = NodePath("../NavigationRegion3D")
 visible_on_start = false
 
+
+[node name="StealthDirector" type="Node" parent="."]
+script = ExtResource("11_director")
+
+[node name="StealthHud" type="CanvasLayer" parent="."]
+script = ExtResource("12_hud")
 
 [node name="NoiseSystem" type="Node3D" parent="."]
 script = ExtResource("9_noise")

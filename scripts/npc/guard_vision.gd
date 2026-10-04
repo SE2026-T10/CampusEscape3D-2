@@ -27,6 +27,8 @@ const DETECTION_MAX := 100.0
 ## Full width of the vision cone, in degrees.
 @export_range(1.0, 180.0) var fov_degrees := 90.0
 ## Heights on the target (above its origin) that rays are cast to; seeing any one counts.
+## Used only if the target has no get_visibility_points() (the player provides its own,
+## which follow crouching).
 @export var target_sample_heights := PackedFloat32Array([1.5, 0.9, 0.3])
 ## Physics layers that block sight or are the target (world + player). NPCs are not included.
 @export_flags_3d_physics var sight_mask := 3
@@ -91,14 +93,15 @@ func _physics_process(delta: float) -> void:
 	var distance := 0.0
 	can_see_target = false
 	if _target:
-		distance = global_position.distance_to(_target.global_position + Vector3(0, target_sample_heights[0], 0))
+		distance = global_position.distance_to(_target_points()[0])
 		can_see_target = _check_sight()
 
 	if can_see_target:
 		time_since_seen = 0.0
 		last_known_position = _target.global_position
 		has_last_known_position = true
-		detection += rise_rate_at(distance) * delta
+		var factor: float = _target.get_visibility_factor() if _target.has_method("get_visibility_factor") else 1.0
+		detection += rise_rate_at(distance) * factor * delta
 	else:
 		time_since_seen += delta
 		if time_since_seen >= decay_delay:
@@ -144,8 +147,7 @@ func forget_last_known_position() -> void:
 func _check_sight() -> bool:
 	var space := get_world_3d().direct_space_state
 	var exclude := [get_parent().get_rid()] if get_parent() is CollisionObject3D else []
-	for height in target_sample_heights:
-		var point := _target.global_position + Vector3(0, height, 0)
+	for point in _target_points():
 		if not is_in_view(point):
 			continue
 		var query := PhysicsRayQueryParameters3D.create(global_position, point, sight_mask, exclude)
@@ -153,6 +155,25 @@ func _check_sight() -> bool:
 		if not hit.is_empty() and hit.collider == _target:
 			return true
 	return false
+
+
+## Points on the target to aim at: its own visibility points if it has them.
+func _target_points() -> PackedVector3Array:
+	if _target.has_method("get_visibility_points"):
+		return _target.get_visibility_points()
+	var points := PackedVector3Array()
+	for height in target_sample_heights:
+		points.append(_target.global_position + Vector3(0, height, 0))
+	return points
+
+
+## Resets the meter and memory (used when the level resets after the player is caught).
+func reset() -> void:
+	detection = 0.0
+	awareness = Awareness.UNAWARE
+	can_see_target = false
+	has_last_known_position = false
+	time_since_seen = INF
 
 
 func _update_awareness() -> void:
@@ -187,7 +208,7 @@ func _draw_debug() -> void:
 	lines.surface_begin(Mesh.PRIMITIVE_LINES)
 	if can_see_target:
 		lines.surface_add_vertex(global_position)
-		lines.surface_add_vertex(_target.global_position + Vector3(0, target_sample_heights[1], 0))
+		lines.surface_add_vertex(_target_points()[1])
 	if has_last_known_position:
 		# A small cross with a post marks the last known position.
 		var p := last_known_position + Vector3(0, 0.05, 0)

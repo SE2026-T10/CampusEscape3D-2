@@ -7,7 +7,7 @@ Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university
 - Engine: Godot 4.7.2 Stable (`ed1daf0bf`)
 - Language: GDScript
 - Target: Windows desktop
-- Current phase: Phase 7 — Hearing and Noise
+- Current phase: Phase 8 — Stealth Loop
 
 ## Run the project
 
@@ -21,6 +21,7 @@ Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university
 |---|---|
 | Move | **W A S D** |
 | Sprint | hold **Shift** |
+| Crouch (quieter, harder to see, slower) | hold **C** or **Ctrl** |
 | Look | mouse |
 | Release the mouse cursor | **Escape** (click the game window to capture it again) |
 | Debug view: navigation, guard paths, routes, vision cones, detection, AI state, noise rings and hearing estimates (debug builds) | **F3** |
@@ -46,7 +47,11 @@ Guards also **hear**:
 
 Seeing you always outranks hearing you, and a chasing guard ignores noise.
 
-Being caught has no consequence yet; that comes in a later phase.
+Crouching halves how fast a guard's meter fills, makes you a smaller target and makes your footsteps very quiet (about 2 m), at the cost of speed. Four **study carrels** (desk booths with 1.4 m panels) are hiding spots: crouch inside one and the panels block sight from the sides and back. Standing, your head shows over them.
+
+**Detection UI.** A banner at the top tells you the most urgent situation: **CHASED — break line of sight!** (red), **YOU ARE BEING SEEN** (orange), **A guard is investigating** (yellow) or **HIDDEN** (blue). Triangles around the crosshair point to each guard that is noticing, investigating or chasing you, including guards behind you. Guards show a `?` or `!` above their heads. The bottom-left line shows your stance and noise level.
+
+**Caught.** A chasing guard that reaches you catches you. After 2.5 s you're back at the entrance and every guard is back on patrol with no memory of you. This is a temporary fail state until objectives and checkpoints exist.
 
 Press **F3** to show the navigation mesh (cyan), each guard's current path (yellow), its route (coloured lines), its vision cone (green/yellow/red by awareness), a line to you while you're seen, the last-known-position marker, and a label with state and meter. A panel at the top left lists every guard's meter.
 
@@ -69,7 +74,7 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 
 ## Run the tests
 
-In the editor: open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing).` to the Output panel and exits.
+In the editor: open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop).` to the Output panel and exits.
 
 From a terminal (no window), with the Godot 4.7.2 executable on your `PATH`:
 
@@ -93,6 +98,13 @@ The run exits with code `0` when every check passes and `1` otherwise, listing e
   - player footsteps: walking gives WALK, sprinting gives RUN, standing still and teleporting give nothing
   - `NoiseMaker` makes interaction noise
   - in the library: walking behind a guard isn't heard, sprinting is (INVESTIGATE near an estimate, never the exact spot), and a chase ignores noise
+- `tests/loop_tests.gd` — Phase 8 stealth loop checks:
+  - status priority; crouch, including not standing up under a low beam
+  - a carrel hides a crouched player from the side but not a standing one, and halves detection from the opening
+  - a guard that loses a hidden player investigates and returns to patrol (`SPOTTED → INVESTIGATING → HIDDEN`)
+  - crouch-walking is quiet
+  - HUD direction indicators and stance text
+  - a sprinting player can escape a chase; being caught freezes, then resets the level
 - `tests/vision_tests.gd` — Phase 5 checks in a purpose-built arena: FOV and range maths, a player straight ahead is seen and the meter fills in the expected time, the meter holds then drains after losing sight, the last known position never updates while hidden, walls and tall shelves block sight but a low table doesn't, players outside the cone or out of range are not seen, far players fill the meter slowly, thresholds are configurable, and the debug cone stops at walls. In the library: every guard has vision, and no guard sees the spawn during a full patrol loop.
 - `tests/navigation_tests.gd` — Phase 3 checks: every room exists, navigation covers open floor and none of the walls or furniture, nothing is baked outside the rooms or on furniture, every floor edge is walled, paths reach every room without crossing walls, a `NavigationAgent3D` probe walks from the entrance to the exit, the debug overlay draws the navmesh, and the saved navmesh matches a fresh bake.
 
@@ -105,3 +117,4 @@ The run exits with code `0` when every check passes and `1` otherwise, listing e
 - `docs/phase-5-npc-vision.md`
 - `docs/phase-6-npc-ai-state-machine.md`
 - `docs/phase-7-hearing-and-noise.md`
+- `docs/phase-8-stealth-loop.md`

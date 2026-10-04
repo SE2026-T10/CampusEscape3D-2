@@ -2,12 +2,17 @@ class_name PlayerNoise
 extends Node
 
 ## Footstep noise for the player. Every stride on the floor emits a noise
-## through the level's NoiseSystem: a quiet WALK when walking, a loud RUN when
-## sprinting, nothing while standing still or in the air.
+## through the level's NoiseSystem: a loud RUN when sprinting, a WALK when
+## walking, a very quiet WALK (small radius) when crouch-walking, and nothing
+## while standing still or in the air.
 
 ## Metres between footsteps when walking and when running.
 @export var walk_stride := 0.8
 @export var run_stride := 1.2
+## Crouch-walking footsteps: stride, radius and intensity (a muffled WALK).
+@export var crouch_stride := 0.9
+@export var crouch_radius := 2.0
+@export var crouch_intensity := 0.2
 ## Horizontal speed above which steps count as running (between walk 3.5 and sprint 5.5).
 @export var run_speed_threshold := 4.5
 ## Below this speed no footsteps are made.
@@ -36,11 +41,17 @@ func _physics_process(_delta: float) -> void:
 	# Teleports (big jumps with no velocity) and standing still make no noise.
 	if not _player.is_on_floor() or speed < min_speed or moved > 2.0:
 		return
-	var running := speed > run_speed_threshold
+	var crouching: bool = _player.get("is_crouching") == true
+	var running := speed > run_speed_threshold and not crouching
+	var stride := crouch_stride if crouching else (run_stride if running else walk_stride)
 	_distance += moved
-	if _distance >= (run_stride if running else walk_stride):
+	if _distance >= stride:
 		_distance = 0.0
 		var system := NoiseSystem.find(_player)
-		if system:
+		if system == null:
+			return
+		if crouching:
+			system.emit_noise(position, NoiseEvent.Type.WALK, "player", crouch_intensity, crouch_radius)
+		else:
 			system.emit_noise(position, NoiseEvent.Type.RUN if running else NoiseEvent.Type.WALK, "player")
-			steps_emitted += 1
+		steps_emitted += 1

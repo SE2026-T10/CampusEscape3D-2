@@ -310,9 +310,10 @@ func _check_noise_maker() -> void:
 
 func _check_with_ai_in_library() -> void:
 	var level: Node3D = (load(LIBRARY_SCENE) as PackedScene).instantiate()
-	var guards := level.get_node("Guards")
-	level.remove_child(guards)
-	guards.free()
+	for node_name in ["Guards", "StealthDirector"]:  # Being caught is tested in loop_tests.gd.
+		var node := level.get_node(node_name)
+		level.remove_child(node)
+		node.free()
 	_expect(await TestUtils.add_level_and_wait_for_navigation(_host, level, Vector3(2, 0, -3)), "Navigation never became ready.")
 	var player: FirstPersonPlayer = level.get_node("Player")
 	player.global_position = Vector3(0, 0.05, 20)

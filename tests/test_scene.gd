@@ -4,7 +4,7 @@ extends Node
 ## (tests/player_tests.gd), Phase 3 navigation tests (tests/navigation_tests.gd)
 ## Phase 4 guard tests (tests/guard_tests.gd), Phase 5 vision tests (tests/vision_tests.gd)
 ## Phase 6 AI tests (tests/ai_state_tests.gd unit tests, tests/ai_behavior_tests.gd in the level)
-## and Phase 7 hearing tests (tests/hearing_tests.gd). Run this scene directly in Godot (F6), or headless:
+## Phase 7 hearing tests (tests/hearing_tests.gd) and Phase 8 stealth-loop tests (tests/loop_tests.gd). Run this scene directly in Godot (F6), or headless:
 ##   godot --headless --path . res://tests/test_scene.tscn
 ## Exits with code 0 when every check passes and 1 otherwise, so it can be
 ## used by an automated build. Checks use explicit failures instead of
@@ -20,6 +20,7 @@ const VisionTests := preload("res://tests/vision_tests.gd")
 const AIStateTests := preload("res://tests/ai_state_tests.gd")
 const AIBehaviorTests := preload("res://tests/ai_behavior_tests.gd")
 const HearingTests := preload("res://tests/hearing_tests.gd")
+const LoopTests := preload("res://tests/loop_tests.gd")
 const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
 const REQUIRED_DIRS := [
 	"res://scenes/player", "res://scenes/npc", "res://scenes/level",
@@ -49,9 +50,10 @@ func _ready() -> void:
 	_failures.append_array(await VisionTests.new().run(self))
 	_failures.append_array(await AIBehaviorTests.new().run(self))
 	_failures.append_array(await HearingTests.new().run(self))
+	_failures.append_array(await LoopTests.new().run(self))
 
 	if _failures.is_empty():
-		print("All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing).")
+		print("All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop).")
 		get_tree().quit(0)
 	else:
 		for failure in _failures:

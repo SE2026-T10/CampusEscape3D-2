@@ -178,6 +178,13 @@ func _mark_processed(id: int) -> void:
 		_processed_ids.erase(_processed_order.pop_front())
 
 
+## Clears pending noises and the last report (used when the level resets).
+func reset() -> void:
+	_queue.clear()
+	has_report = false
+	_last_report_time = -INF
+
+
 ## Short text for the guard label, e.g. "heard RUN → (3.1, 8.0)".
 func get_debug_text() -> String:
 	if not has_report:

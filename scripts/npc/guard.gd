@@ -61,6 +61,7 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 ## The guard's brain. Created in _ready.
 var machine: GuardStateMachine
 
+var _start_transform: Transform3D
 var _move_speed := 0.0
 var _navigating := false
 var _arrived := false
@@ -76,6 +77,8 @@ var _pending_noise := {}
 @onready var vision: GuardVision = get_node_or_null("Vision")
 ## Hearing; reports estimated noise positions through hear_noise() (may be absent).
 @onready var hearing: GuardHearing = get_node_or_null("Hearing")
+## "?" / "!" above the head for the player (not a debug visual; hidden by walls like the guard).
+@onready var alert_icon: Label3D = get_node_or_null("AlertIcon")
 
 
 ## Patrol point the guard is walking to or waiting at.
@@ -96,8 +99,8 @@ func _ready() -> void:
 	agent.velocity_computed.connect(_on_velocity_computed)
 	agent.max_speed = chase_speed  # Avoidance must never push the guard faster than it runs.
 
-	machine = GuardStateMachine.new(self)
-	machine.transitioned.connect(func(from, to, reason): ai_state_changed.emit(from, to, reason))
+	_start_transform = global_transform
+	_create_machine()
 	if patrol_route == null or patrol_route.get_point_count() == 0:
 		push_warning("%s has no patrol route with points, so it will stand still while patrolling." % name)
 	if await NavigationUtils.wait_for_navigation(self):
@@ -119,6 +122,27 @@ func _physics_process(delta: float) -> void:
 	else:
 		_move(desired, delta)
 	_update_debug_label()
+	_update_alert_icon()
+
+
+func _create_machine() -> void:
+	machine = GuardStateMachine.new(self)
+	machine.transitioned.connect(func(from, to, reason): ai_state_changed.emit(from, to, reason))
+
+
+## Back to where the guard started, patrolling with no memory of the player.
+## Used when the level resets after the player is caught.
+func reset_to_start() -> void:
+	global_transform = _start_transform
+	velocity = Vector3.ZERO
+	stop_moving()
+	_pending_noise = {}
+	if vision:
+		vision.reset()
+	if hearing:
+		hearing.reset()
+	_create_machine()
+	machine.start()
 
 
 # --- Perception -----------------------------------------------------------------
@@ -271,6 +295,26 @@ func get_debug_text() -> String:
 	if hearing and hearing.has_report:
 		text += "\n" + hearing.get_debug_text()
 	return text
+
+
+func _update_alert_icon() -> void:
+	if alert_icon == null or machine == null:
+		return
+	var state := machine.current
+	if state == GuardStateMachine.CHASE:
+		alert_icon.text = "!"
+		alert_icon.modulate = Color(1.0, 0.25, 0.2)
+		alert_icon.visible = true
+	elif state == GuardStateMachine.INVESTIGATE:
+		alert_icon.text = "?"
+		alert_icon.modulate = Color(1.0, 0.85, 0.2)
+		alert_icon.visible = true
+	elif vision and vision.detection > 1.0:
+		alert_icon.text = "?"
+		alert_icon.modulate = Color(1, 1, 1, clampf(vision.detection / 30.0, 0.3, 1.0))
+		alert_icon.visible = true
+	else:
+		alert_icon.visible = false
 
 
 func _update_debug_label() -> void:

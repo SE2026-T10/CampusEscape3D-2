@@ -27,10 +27,12 @@ var _time := 0.0
 func run(host: Node) -> Array[String]:
 	_host = host
 	_level = (load(LIBRARY_SCENE) as PackedScene).instantiate()
-	# Only the test guard: remove the level's own guards.
-	var guards := _level.get_node("Guards")
-	_level.remove_child(guards)
-	guards.free()
+	# Only the test guard: remove the level's own guards. The StealthDirector
+	# is removed too: these tests check the AI, not being caught (loop_tests.gd).
+	for node_name in ["Guards", "StealthDirector"]:
+		var node := _level.get_node(node_name)
+		_level.remove_child(node)
+		node.free()
 	_expect(await TestUtils.add_level_and_wait_for_navigation(_host, _level, POST), "Navigation never became ready.")
 	_player = _level.get_node("Player")
 	_player.global_position = Vector3(0, 0.05, 20)  # entrance, unseen
