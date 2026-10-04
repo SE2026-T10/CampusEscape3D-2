@@ -243,10 +243,10 @@ func _watch(guard: Guard) -> Dictionary:
 		w.reached.append(index)
 		# A lap = returning to the first point observed, after visiting all the others.
 		w.laps = (w.reached.size() - 1) / count)
-	guard.state_changed.connect(func(_previous, current):
-		if current == Guard.State.WAIT:
+	guard.patrol_wait_changed.connect(func(waiting: bool, index: int):
+		if waiting:
 			w.wait_start = w.time
-			w.wait_point = guard.current_point
+			w.wait_point = index
 		elif w.wait_start >= 0.0:
 			w.waits.append({"point": w.wait_point, "duration": w.time - w.wait_start})
 			w.wait_start = -1.0)
