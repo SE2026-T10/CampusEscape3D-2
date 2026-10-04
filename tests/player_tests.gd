@@ -7,9 +7,7 @@ extends RefCounted
 const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
 const PLAYER_SCENE := "res://scenes/player/player.tscn"
 const SPEED_TOLERANCE := 0.1
-# Inner faces of the library walls (wall centre ± half thickness).
-const ROOM_HALF_X := 11.75
-const ROOM_HALF_Z := 8.75
+const TEST_AREA := "NavigationRegion3D/PlayerTestArea"
 const PLAYER_RADIUS := 0.35
 
 var failures: Array[String] = []
@@ -98,13 +96,19 @@ func _check_movement_math() -> void:
 
 func _check_movement_in_level() -> void:
 	var level: Node3D = (load(LIBRARY_SCENE) as PackedScene).instantiate()
+	# The debug navigation probe walks around on its own; remove it so it cannot bump the player.
+	var probe := level.get_node_or_null("NavigationProbe")
+	if probe:
+		level.remove_child(probe)
+		probe.free()
 	_host.add_child(level)
 	var player := level.get_node_or_null("Player") as FirstPersonPlayer
+	var test_area := level.get_node_or_null(TEST_AREA)
 	_expect(player != null, "The library must contain the Player.")
-	if player == null:
+	_expect(test_area != null, "The library must contain the PlayerTestArea.")
+	if player == null or test_area == null:
 		level.queue_free()
 		return
-	_expect(level.get_node_or_null("PlayerTestArea") != null, "The library must contain the PlayerTestArea.")
 	_expect(player.camera.is_current(), "The player camera must be the active camera in the level.")
 	var spawn := player.global_position
 
@@ -133,41 +137,38 @@ func _check_movement_in_level() -> void:
 	await _physics_frames(20)
 	_expect(_horizontal_speed(player) < 0.05, "Player should stop within 20 frames of releasing input.")
 
-	# Collision with the test crate: face -X from the lane and walk into it.
-	var crate := level.get_node("PlayerTestArea/TestCrate") as Node3D
-	_teleport(player, Vector3(-9, 0.05, crate.global_position.z), PI / 2.0)
-	Input.action_press("move_forward")
-	await _physics_frames(60)
-	_release_all_actions()
-	var crate_stop_x := player.global_position.x
-	var crate_face_x := crate.global_position.x + 0.5 + PLAYER_RADIUS
-	_expect(player.global_position.x > crate_face_x - 0.05,
-		"Player passed into the test crate (x=%.3f, crate face at %.3f)." % [player.global_position.x, crate_face_x])
-	_expect(player.global_position.x < crate_face_x + 0.1, "Player should reach the crate while walking toward it.")
-
-	# Playable area: sprint into the left wall, then into the back-left corner.
-	_teleport(player, Vector3(-9, 0.05, -6), PI / 2.0)
-	Input.action_press("move_forward")
-	Input.action_press("sprint")
-	await _physics_frames(90)
-	_expect(player.global_position.x > -ROOM_HALF_X + PLAYER_RADIUS - 0.05,
-		"Player went through the left wall (x=%.3f)." % player.global_position.x)
-	Input.action_press("move_right")  # Facing -X, right is -Z: push into the back-left corner.
-	await _physics_frames(90)
-	_release_all_actions()
-	_expect(player.global_position.z > -ROOM_HALF_Z + PLAYER_RADIUS - 0.05,
-		"Player went through the back wall (z=%.3f)." % player.global_position.z)
-	_expect(player.global_position.y > -0.1, "Player should stay on the floor while pushing into walls.")
-	print("  [player] measured: walk %.2f m/s, sprint %.2f m/s, stopped at crate x=%.3f, corner (%.3f, %.3f)" % [
-		walk_speed, sprint_speed, crate_stop_x, player.global_position.x, player.global_position.z])
+	# Collision: walk into the crate, then sprint into a wall. Each probe marker faces its
+	# obstacle and stores the distance to it, so the player should stop one radius short.
+	var crate_travel := await _walk_from_probe(player, test_area.get_node("CrateProbe"), false, 60)
+	var wall_travel := await _walk_from_probe(player, test_area.get_node("WallProbe"), true, 90)
+	print("  [player] measured: walk %.2f m/s, sprint %.2f m/s, travel to crate %.3f m, to wall %.3f m" % [
+		walk_speed, sprint_speed, crate_travel, wall_travel])
 
 	# Fall safety: dropping below the level returns the player to the spawn point.
-	_teleport(player, Vector3(-9, -20, 0), 0.0)
+	_teleport(player, spawn + Vector3(0, -30, 0), 0.0)
 	await _physics_frames(2)
 	_expect(player.global_position.distance_to(spawn) < 0.1, "Falling out of the level should respawn the player.")
 
 	level.queue_free()
 	await _physics_frames(1)
+
+
+## Places the player on a probe marker, holds W (and Shift) and returns the distance travelled.
+func _walk_from_probe(player: FirstPersonPlayer, probe: Marker3D, sprint: bool, frames: int) -> float:
+	var start := probe.global_position
+	_teleport(player, start, probe.global_rotation.y)
+	Input.action_press("move_forward")
+	if sprint:
+		Input.action_press("sprint")
+	await _physics_frames(frames)
+	_release_all_actions()
+	var travel := Vector2(player.global_position.x - start.x, player.global_position.z - start.z).length()
+	var expected: float = probe.get_meta("distance_to_obstacle") - PLAYER_RADIUS
+	_expect(travel < expected + 0.05,
+		"%s: player passed into the obstacle (travelled %.3f m, obstacle surface at %.3f m)." % [probe.name, travel, expected])
+	_expect(travel > expected - 0.1, "%s: player should reach the obstacle (travelled %.3f m of %.3f m)." % [probe.name, travel, expected])
+	_expect(player.global_position.y > -0.1, "%s: player should stay on the floor." % probe.name)
+	return travel
 
 
 func _teleport(player: FirstPersonPlayer, position: Vector3, yaw: float) -> void:

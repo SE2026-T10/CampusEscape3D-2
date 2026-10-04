@@ -1,8 +1,11 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
+[ext_resource type="NavigationMesh" path="res://scenes/level/library_navmesh.tres" id="2_navmesh"]
+[ext_resource type="PackedScene" path="res://scenes/npc/navigation_probe.tscn" id="3_probe"]
+[ext_resource type="Script" path="res://scripts/systems/navigation_debug.gd" id="4_navdebug"]
 
-[sub_resource type="Environment" id="Environment_library"]
+[sub_resource type="Environment" id="ENV"]
 background_mode = 1
 background_color = Color(0.055, 0.07, 0.09, 1)
 ambient_light_source = 3
@@ -10,65 +13,302 @@ ambient_light_color = Color(0.55, 0.6, 0.66, 1)
 ambient_light_energy = 0.65
 tonemap_mode = 2
 
-[sub_resource type="StandardMaterial3D" id="Material_floor"]
-albedo_color = Color(0.19, 0.22, 0.25, 1)
-roughness = 0.9
-
-[sub_resource type="StandardMaterial3D" id="Material_wall"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
 albedo_color = Color(0.45, 0.47, 0.48, 1)
 roughness = 1.0
 
-[sub_resource type="StandardMaterial3D" id="Material_shelf"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2"]
 albedo_color = Color(0.19, 0.12, 0.075, 1)
 roughness = 0.82
 
-[sub_resource type="StandardMaterial3D" id="Material_test_marker"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3"]
+albedo_color = Color(0.36, 0.25, 0.15, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4"]
+albedo_color = Color(0.4, 0.33, 0.22, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5"]
 albedo_color = Color(0.85, 0.62, 0.18, 1)
 roughness = 1.0
 
-[sub_resource type="BoxMesh" id="Box_floor"]
-material = SubResource("Material_floor")
-size = Vector3(24, 0.2, 18)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6"]
+albedo_color = Color(0.15, 0.75, 0.35, 1)
+roughness = 0.6
 
-[sub_resource type="BoxMesh" id="Box_wall"]
-material = SubResource("Material_wall")
-size = Vector3(24, 4, 0.25)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7"]
+albedo_color = Color(0.3, 0.2, 0.12, 1)
+roughness = 0.7
 
-[sub_resource type="BoxMesh" id="Box_shelf"]
-material = SubResource("Material_shelf")
-size = Vector3(4.32, 2.8, 0.195)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8"]
+albedo_color = Color(0.3, 0.34, 0.4, 1)
+roughness = 0.9
 
-[sub_resource type="BoxMesh" id="Box_table"]
-material = SubResource("Material_shelf")
-size = Vector3(6.72, 1.12, 0.1)
+[sub_resource type="BoxMesh" id="BoxMesh_9"]
+material = SubResource("StandardMaterial3D_8")
+size = Vector3(10, 0.2, 8)
 
-[sub_resource type="BoxMesh" id="Box_sprint_lane"]
-material = SubResource("Material_test_marker")
-size = Vector3(1.2, 0.01, 12)
+[sub_resource type="BoxShape3D" id="BoxShape3D_10"]
+size = Vector3(10, 0.2, 8)
 
-[sub_resource type="BoxMesh" id="Box_crate"]
-material = SubResource("Material_test_marker")
+[sub_resource type="BoxMesh" id="BoxMesh_11"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(10.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_12"]
+size = Vector3(10.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_13"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 8.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_14"]
+size = Vector3(0.3, 3.5, 8.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_15"]
+albedo_color = Color(0.22, 0.25, 0.28, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_16"]
+material = SubResource("StandardMaterial3D_15")
+size = Vector3(28, 0.2, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_17"]
+size = Vector3(28, 0.2, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_18"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(12.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_19"]
+size = Vector3(12.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_20"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 20.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_21"]
+size = Vector3(0.3, 3.5, 20.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_22"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 9.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_23"]
+size = Vector3(0.3, 3.5, 9.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_24"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(2.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_25"]
+size = Vector3(2.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_26"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(23.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_27"]
+size = Vector3(23.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_28"]
+material = SubResource("StandardMaterial3D_3")
+size = Vector3(2.4, 0.75, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_29"]
+size = Vector3(2.4, 0.75, 1.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_30"]
+material = SubResource("StandardMaterial3D_3")
+size = Vector3(4, 1.1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_31"]
+size = Vector3(4, 1.1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_32"]
+material = SubResource("StandardMaterial3D_2")
+size = Vector3(0.6, 2.2, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_33"]
+size = Vector3(0.6, 2.2, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_34"]
+albedo_color = Color(0.17, 0.18, 0.2, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_35"]
+material = SubResource("StandardMaterial3D_34")
+size = Vector3(3, 0.2, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_36"]
+size = Vector3(3, 0.2, 8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_37"]
+albedo_color = Color(0.3, 0.18, 0.17, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_38"]
+material = SubResource("StandardMaterial3D_37")
+size = Vector3(14, 0.2, 12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_39"]
+size = Vector3(14, 0.2, 12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_40"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(4.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_41"]
+size = Vector3(4.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_42"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(7.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_43"]
+size = Vector3(7.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_44"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 12.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_45"]
+size = Vector3(0.3, 3.5, 12.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_46"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(14.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_47"]
+size = Vector3(14.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_48"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 2.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_49"]
+size = Vector3(0.3, 3.5, 2.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_50"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 7.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_51"]
+size = Vector3(0.3, 3.5, 7.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_52"]
+material = SubResource("StandardMaterial3D_2")
+size = Vector3(9, 2.2, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_53"]
+size = Vector3(9, 2.2, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_54"]
+material = SubResource("StandardMaterial3D_34")
+size = Vector3(20, 0.2, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_55"]
+size = Vector3(20, 0.2, 3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_56"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(20.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_57"]
+size = Vector3(20.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_58"]
+material = SubResource("StandardMaterial3D_34")
+size = Vector3(10, 0.2, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_59"]
+size = Vector3(10, 0.2, 3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_60"]
+material = SubResource("StandardMaterial3D_34")
+size = Vector3(3, 0.2, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_61"]
+size = Vector3(3, 0.2, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_62"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 23.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_63"]
+size = Vector3(0.3, 3.5, 23.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_64"]
+albedo_color = Color(0.16, 0.28, 0.2, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_65"]
+material = SubResource("StandardMaterial3D_64")
+size = Vector3(10, 0.2, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_66"]
+size = Vector3(10, 0.2, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_67"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(3.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_68"]
+size = Vector3(3.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_69"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 10.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_70"]
+size = Vector3(0.3, 3.5, 10.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_71"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 4.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_72"]
+size = Vector3(0.3, 3.5, 4.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_73"]
+material = SubResource("StandardMaterial3D_1")
+size = Vector3(0.3, 3.5, 3.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_74"]
+size = Vector3(0.3, 3.5, 3.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_75"]
+material = SubResource("StandardMaterial3D_4")
 size = Vector3(1, 1, 1)
 
-[sub_resource type="BoxShape3D" id="Shape_floor"]
-size = Vector3(24, 0.2, 18)
+[sub_resource type="BoxShape3D" id="BoxShape3D_76"]
+size = Vector3(1, 1, 1)
 
-[sub_resource type="BoxShape3D" id="Shape_wall"]
-size = Vector3(24, 4, 0.25)
+[sub_resource type="BoxMesh" id="BoxMesh_77"]
+material = SubResource("StandardMaterial3D_7")
+size = Vector3(3, 2.4, 0.1)
 
-[sub_resource type="BoxShape3D" id="Shape_shelf"]
-size = Vector3(4.32, 2.8, 0.195)
+[sub_resource type="BoxMesh" id="BoxMesh_78"]
+material = SubResource("StandardMaterial3D_6")
+size = Vector3(0.1, 2.4, 2.4)
 
-[sub_resource type="BoxShape3D" id="Shape_table"]
-size = Vector3(6.72, 1.12, 0.1)
+[sub_resource type="BoxMesh" id="BoxMesh_79"]
+material = SubResource("StandardMaterial3D_6")
+size = Vector3(2, 0.01, 3)
 
-[sub_resource type="BoxShape3D" id="Shape_crate"]
+[sub_resource type="BoxMesh" id="BoxMesh_80"]
+material = SubResource("StandardMaterial3D_5")
+size = Vector3(1.2, 0.01, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_81"]
+material = SubResource("StandardMaterial3D_5")
 size = Vector3(1, 1, 1)
 
 [node name="LibraryGraybox" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_library")
+environment = SubResource("ENV")
 
 [node name="KeyLight" type="DirectionalLight3D" parent="."]
 rotation_degrees = Vector3(-52, -28, 0)
@@ -76,114 +316,653 @@ light_color = Color(0.82, 0.88, 1, 1)
 light_energy = 1.2
 shadow_enabled = true
 
-[node name="Floor" type="MeshInstance3D" parent="."]
-mesh = SubResource("Box_floor")
-position = Vector3(0, -0.1, 0)
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = ExtResource("2_navmesh")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+[node name="Areas" type="Node3D" parent="NavigationRegion3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
-shape = SubResource("Shape_floor")
+[node name="Entrance" type="Node3D" parent="NavigationRegion3D/Areas"]
 
-[node name="BackWall" type="MeshInstance3D" parent="."]
-mesh = SubResource("Box_wall")
-position = Vector3(0, 2, -8.875)
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D/Areas/Entrance"]
+position = Vector3(0, -0.1, 18)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="BackWall"]
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/Entrance/Floor"]
+mesh = SubResource("BoxMesh_9")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BackWall/StaticBody3D"]
-shape = SubResource("Shape_wall")
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/Entrance/Floor"]
+shape = SubResource("BoxShape3D_10")
 
-[node name="FrontWall" type="MeshInstance3D" parent="."]
-mesh = SubResource("Box_wall")
-position = Vector3(0, 2, 8.875)
+[node name="Wall1" type="StaticBody3D" parent="NavigationRegion3D/Areas/Entrance"]
+position = Vector3(0, 1.75, 22)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="FrontWall"]
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/Entrance/Wall1"]
+mesh = SubResource("BoxMesh_11")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="FrontWall/StaticBody3D"]
-shape = SubResource("Shape_wall")
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/Entrance/Wall1"]
+shape = SubResource("BoxShape3D_12")
 
-[node name="LeftWall" type="MeshInstance3D" parent="."]
-mesh = SubResource("Box_wall")
-position = Vector3(-11.875, 2, 0)
-rotation_degrees = Vector3(0, 90, 0)
+[node name="Wall2" type="StaticBody3D" parent="NavigationRegion3D/Areas/Entrance"]
+position = Vector3(-5, 1.75, 18)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="LeftWall"]
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/Entrance/Wall2"]
+mesh = SubResource("BoxMesh_13")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftWall/StaticBody3D"]
-shape = SubResource("Shape_wall")
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/Entrance/Wall2"]
+shape = SubResource("BoxShape3D_14")
 
-[node name="RightWall" type="MeshInstance3D" parent="."]
-mesh = SubResource("Box_wall")
-position = Vector3(11.875, 2, 0)
-rotation_degrees = Vector3(0, 90, 0)
+[node name="Wall3" type="StaticBody3D" parent="NavigationRegion3D/Areas/Entrance"]
+position = Vector3(5, 1.75, 18)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="RightWall"]
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/Entrance/Wall3"]
+mesh = SubResource("BoxMesh_13")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightWall/StaticBody3D"]
-shape = SubResource("Shape_wall")
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/Entrance/Wall3"]
+shape = SubResource("BoxShape3D_14")
 
-[node name="ShelfRowA" type="MeshInstance3D" parent="."]
-mesh = SubResource("Box_shelf")
-position = Vector3(-4, 1.4, -2)
+[node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/Entrance"]
+position = Vector3(0, 0, 18)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ShelfRowA"]
+[node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/Entrance"]
+position = Vector3(0, 3.2, 18)
+billboard = 1
+text = "ENTRANCE"
+font_size = 96
+outline_size = 16
+modulate = Color(1, 1, 1, 0.85)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ShelfRowA/StaticBody3D"]
-shape = SubResource("Shape_shelf")
+[node name="MainRoom" type="Node3D" parent="NavigationRegion3D/Areas"]
 
-[node name="ShelfRowB" type="MeshInstance3D" parent="."]
-mesh = SubResource("Box_shelf")
-position = Vector3(0, 1.4, -2)
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainRoom"]
+position = Vector3(0, -0.1, 4)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ShelfRowB"]
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/Floor"]
+mesh = SubResource("BoxMesh_16")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ShelfRowB/StaticBody3D"]
-shape = SubResource("Shape_shelf")
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/Floor"]
+shape = SubResource("BoxShape3D_17")
 
-[node name="ShelfRowC" type="MeshInstance3D" parent="."]
-mesh = SubResource("Box_shelf")
-position = Vector3(4, 1.4, -2)
+[node name="Wall1" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainRoom"]
+position = Vector3(-8, 1.75, 14)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ShelfRowC"]
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/Wall1"]
+mesh = SubResource("BoxMesh_18")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ShelfRowC/StaticBody3D"]
-shape = SubResource("Shape_shelf")
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/Wall1"]
+shape = SubResource("BoxShape3D_19")
 
-[node name="ReadingTable" type="MeshInstance3D" parent="."]
-mesh = SubResource("Box_table")
-position = Vector3(0, 0.85, 4)
+[node name="Wall2" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainRoom"]
+position = Vector3(8, 1.75, 14)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ReadingTable"]
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/Wall2"]
+mesh = SubResource("BoxMesh_18")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ReadingTable/StaticBody3D"]
-shape = SubResource("Shape_table")
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/Wall2"]
+shape = SubResource("BoxShape3D_19")
 
-[node name="PlayerTestArea" type="Node3D" parent="."]
+[node name="Wall3" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainRoom"]
+position = Vector3(-14, 1.75, 4)
 
-[node name="SprintLane" type="MeshInstance3D" parent="PlayerTestArea"]
-mesh = SubResource("Box_sprint_lane")
-position = Vector3(-9, 0.005, 0.5)
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/Wall3"]
+mesh = SubResource("BoxMesh_20")
 
-[node name="TestCrate" type="StaticBody3D" parent="PlayerTestArea"]
-position = Vector3(-10.9, 0.5, 2)
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/Wall3"]
+shape = SubResource("BoxShape3D_21")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerTestArea/TestCrate"]
-mesh = SubResource("Box_crate")
+[node name="Wall4" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainRoom"]
+position = Vector3(14, 1.75, -2)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerTestArea/TestCrate"]
-shape = SubResource("Shape_crate")
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/Wall4"]
+mesh = SubResource("BoxMesh_13")
 
-[node name="Sign" type="Label3D" parent="PlayerTestArea"]
-position = Vector3(-11.72, 2.4, 6)
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/Wall4"]
+shape = SubResource("BoxShape3D_14")
+
+[node name="Wall5" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainRoom"]
+position = Vector3(14, 1.75, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/Wall5"]
+mesh = SubResource("BoxMesh_22")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/Wall5"]
+shape = SubResource("BoxShape3D_23")
+
+[node name="Wall6" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainRoom"]
+position = Vector3(-13, 1.75, -6)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/Wall6"]
+mesh = SubResource("BoxMesh_24")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/Wall6"]
+shape = SubResource("BoxShape3D_25")
+
+[node name="Wall7" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainRoom"]
+position = Vector3(2.5, 1.75, -6)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainRoom/Wall7"]
+mesh = SubResource("BoxMesh_26")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainRoom/Wall7"]
+shape = SubResource("BoxShape3D_27")
+
+[node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/MainRoom"]
+position = Vector3(0, 0, 4)
+
+[node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/MainRoom"]
+position = Vector3(0, 3.2, 10)
+billboard = 1
+text = "MAIN LIBRARY ROOM"
+font_size = 96
+outline_size = 16
+modulate = Color(1, 1, 1, 0.85)
+
+[node name="ReadingArea" type="Node3D" parent="NavigationRegion3D/Areas"]
+
+[node name="Table1" type="StaticBody3D" parent="NavigationRegion3D/Areas/ReadingArea"]
+position = Vector3(6, 0.375, 2)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ReadingArea/Table1"]
+mesh = SubResource("BoxMesh_28")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/Table1"]
+shape = SubResource("BoxShape3D_29")
+
+[node name="Table2" type="StaticBody3D" parent="NavigationRegion3D/Areas/ReadingArea"]
+position = Vector3(10, 0.375, 2)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ReadingArea/Table2"]
+mesh = SubResource("BoxMesh_28")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/Table2"]
+shape = SubResource("BoxShape3D_29")
+
+[node name="Table3" type="StaticBody3D" parent="NavigationRegion3D/Areas/ReadingArea"]
+position = Vector3(6, 0.375, 8)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ReadingArea/Table3"]
+mesh = SubResource("BoxMesh_28")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/Table3"]
+shape = SubResource("BoxShape3D_29")
+
+[node name="Table4" type="StaticBody3D" parent="NavigationRegion3D/Areas/ReadingArea"]
+position = Vector3(10, 0.375, 8)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ReadingArea/Table4"]
+mesh = SubResource("BoxMesh_28")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/Table4"]
+shape = SubResource("BoxShape3D_29")
+
+[node name="CirculationDesk" type="StaticBody3D" parent="NavigationRegion3D/Areas/ReadingArea"]
+position = Vector3(7, 0.55, 12.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ReadingArea/CirculationDesk"]
+mesh = SubResource("BoxMesh_30")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ReadingArea/CirculationDesk"]
+shape = SubResource("BoxShape3D_31")
+
+[node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/ReadingArea"]
+position = Vector3(8, 0, 5)
+
+[node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/ReadingArea"]
+position = Vector3(8, 3.2, 5)
+billboard = 1
+text = "READING AREA"
+font_size = 96
+outline_size = 16
+modulate = Color(1, 1, 1, 0.85)
+
+[node name="MainStacks" type="Node3D" parent="NavigationRegion3D/Areas"]
+
+[node name="Shelf1" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainStacks"]
+position = Vector3(-12, 1.1, 3)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainStacks/Shelf1"]
+mesh = SubResource("BoxMesh_32")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainStacks/Shelf1"]
+shape = SubResource("BoxShape3D_33")
+
+[node name="Shelf2" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainStacks"]
+position = Vector3(-9.5, 1.1, 3)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainStacks/Shelf2"]
+mesh = SubResource("BoxMesh_32")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainStacks/Shelf2"]
+shape = SubResource("BoxShape3D_33")
+
+[node name="Shelf3" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainStacks"]
+position = Vector3(-7, 1.1, 3)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainStacks/Shelf3"]
+mesh = SubResource("BoxMesh_32")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainStacks/Shelf3"]
+shape = SubResource("BoxShape3D_33")
+
+[node name="Shelf4" type="StaticBody3D" parent="NavigationRegion3D/Areas/MainStacks"]
+position = Vector3(-4.5, 1.1, 3)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/MainStacks/Shelf4"]
+mesh = SubResource("BoxMesh_32")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/MainStacks/Shelf4"]
+shape = SubResource("BoxShape3D_33")
+
+[node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/MainStacks"]
+position = Vector3(-8.25, 0, 3)
+
+[node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/MainStacks"]
+position = Vector3(-8.25, 3.2, 3)
+billboard = 1
+text = "STACKS"
+font_size = 96
+outline_size = 16
+modulate = Color(1, 1, 1, 0.85)
+
+[node name="HallwayWest" type="Node3D" parent="NavigationRegion3D/Areas"]
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayWest"]
+position = Vector3(-10.5, -0.1, -10)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayWest/Floor"]
+mesh = SubResource("BoxMesh_35")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayWest/Floor"]
+shape = SubResource("BoxShape3D_36")
+
+[node name="Wall1" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayWest"]
+position = Vector3(-12, 1.75, -10)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayWest/Wall1"]
+mesh = SubResource("BoxMesh_13")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayWest/Wall1"]
+shape = SubResource("BoxShape3D_14")
+
+[node name="Wall2" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayWest"]
+position = Vector3(-9, 1.75, -10)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayWest/Wall2"]
+mesh = SubResource("BoxMesh_13")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayWest/Wall2"]
+shape = SubResource("BoxShape3D_14")
+
+[node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/HallwayWest"]
+position = Vector3(-10.5, 0, -10)
+
+[node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/HallwayWest"]
+position = Vector3(-10.5, 3.2, -10)
+billboard = 1
+text = "HALLWAY WEST"
+font_size = 96
+outline_size = 16
+modulate = Color(1, 1, 1, 0.85)
+
+[node name="RestrictedStacks" type="Node3D" parent="NavigationRegion3D/Areas"]
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-9, -0.1, -20)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Floor"]
+mesh = SubResource("BoxMesh_38")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Floor"]
+shape = SubResource("BoxShape3D_39")
+
+[node name="Wall1" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-14, 1.75, -14)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Wall1"]
+mesh = SubResource("BoxMesh_40")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Wall1"]
+shape = SubResource("BoxShape3D_41")
+
+[node name="Wall2" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-5.5, 1.75, -14)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Wall2"]
+mesh = SubResource("BoxMesh_42")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Wall2"]
+shape = SubResource("BoxShape3D_43")
+
+[node name="Wall3" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-16, 1.75, -20)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Wall3"]
+mesh = SubResource("BoxMesh_44")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Wall3"]
+shape = SubResource("BoxShape3D_45")
+
+[node name="Wall4" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-9, 1.75, -26)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Wall4"]
+mesh = SubResource("BoxMesh_46")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Wall4"]
+shape = SubResource("BoxShape3D_47")
+
+[node name="Wall5" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-2, 1.75, -25)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Wall5"]
+mesh = SubResource("BoxMesh_48")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Wall5"]
+shape = SubResource("BoxShape3D_49")
+
+[node name="Wall6" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-2, 1.75, -17.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Wall6"]
+mesh = SubResource("BoxMesh_50")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Wall6"]
+shape = SubResource("BoxShape3D_51")
+
+[node name="Shelf1" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-9.5, 1.1, -23.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Shelf1"]
+mesh = SubResource("BoxMesh_52")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Shelf1"]
+shape = SubResource("BoxShape3D_53")
+
+[node name="Shelf2" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-9.5, 1.1, -20.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Shelf2"]
+mesh = SubResource("BoxMesh_52")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Shelf2"]
+shape = SubResource("BoxShape3D_53")
+
+[node name="Shelf3" type="StaticBody3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-9.5, 1.1, -17.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Shelf3"]
+mesh = SubResource("BoxMesh_52")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/RestrictedStacks/Shelf3"]
+shape = SubResource("BoxShape3D_53")
+
+[node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-9, 0, -19)
+
+[node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/RestrictedStacks"]
+position = Vector3(-9, 3.2, -20)
+billboard = 1
+text = "RESTRICTED STACKS"
+font_size = 96
+outline_size = 16
+modulate = Color(1, 1, 1, 0.85)
+
+[node name="BackCorridor" type="Node3D" parent="NavigationRegion3D/Areas"]
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(8, -0.1, -22.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/BackCorridor/Floor"]
+mesh = SubResource("BoxMesh_54")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/BackCorridor/Floor"]
+shape = SubResource("BoxShape3D_55")
+
+[node name="Wall1" type="StaticBody3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(8, 1.75, -24)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/BackCorridor/Wall1"]
+mesh = SubResource("BoxMesh_56")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/BackCorridor/Wall1"]
+shape = SubResource("BoxShape3D_57")
+
+[node name="Wall2" type="StaticBody3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(8, 1.75, -21)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/BackCorridor/Wall2"]
+mesh = SubResource("BoxMesh_56")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/BackCorridor/Wall2"]
+shape = SubResource("BoxShape3D_57")
+
+[node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(8, 0, -22.5)
+
+[node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/BackCorridor"]
+position = Vector3(8, 3.2, -22.5)
+billboard = 1
+text = "BACK CORRIDOR"
+font_size = 96
+outline_size = 16
+modulate = Color(1, 1, 1, 0.85)
+
+[node name="HallwayEast" type="Node3D" parent="NavigationRegion3D/Areas"]
+
+[node name="Floor1" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(19, -0.1, 3.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/Floor1"]
+mesh = SubResource("BoxMesh_58")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/Floor1"]
+shape = SubResource("BoxShape3D_59")
+
+[node name="Floor2" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(22.5, -0.1, -8)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/Floor2"]
+mesh = SubResource("BoxMesh_60")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/Floor2"]
+shape = SubResource("BoxShape3D_61")
+
+[node name="Wall1" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(17.5, 1.75, 2)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/Wall1"]
+mesh = SubResource("BoxMesh_42")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/Wall1"]
+shape = SubResource("BoxShape3D_43")
+
+[node name="Wall2" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(19, 1.75, 5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/Wall2"]
+mesh = SubResource("BoxMesh_11")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/Wall2"]
+shape = SubResource("BoxShape3D_12")
+
+[node name="Wall3" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(21, 1.75, -8)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/Wall3"]
+mesh = SubResource("BoxMesh_20")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/Wall3"]
+shape = SubResource("BoxShape3D_21")
+
+[node name="Wall4" type="StaticBody3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(24, 1.75, -6.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/HallwayEast/Wall4"]
+mesh = SubResource("BoxMesh_62")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/HallwayEast/Wall4"]
+shape = SubResource("BoxShape3D_63")
+
+[node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(22.5, 0, -8)
+
+[node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/HallwayEast"]
+position = Vector3(22.5, 3.2, -6)
+billboard = 1
+text = "HALLWAY EAST"
+font_size = 96
+outline_size = 16
+modulate = Color(1, 1, 1, 0.85)
+
+[node name="ExitArea" type="Node3D" parent="NavigationRegion3D/Areas"]
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(23, -0.1, -23)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/Floor"]
+mesh = SubResource("BoxMesh_65")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/Floor"]
+shape = SubResource("BoxShape3D_66")
+
+[node name="Wall1" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(19.5, 1.75, -18)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/Wall1"]
+mesh = SubResource("BoxMesh_67")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/Wall1"]
+shape = SubResource("BoxShape3D_68")
+
+[node name="Wall2" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(26, 1.75, -18)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/Wall2"]
+mesh = SubResource("BoxMesh_40")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/Wall2"]
+shape = SubResource("BoxShape3D_41")
+
+[node name="Wall3" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(28, 1.75, -23)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/Wall3"]
+mesh = SubResource("BoxMesh_69")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/Wall3"]
+shape = SubResource("BoxShape3D_70")
+
+[node name="Wall4" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(23, 1.75, -28)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/Wall4"]
+mesh = SubResource("BoxMesh_11")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/Wall4"]
+shape = SubResource("BoxShape3D_12")
+
+[node name="Wall5" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(18, 1.75, -26)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/Wall5"]
+mesh = SubResource("BoxMesh_71")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/Wall5"]
+shape = SubResource("BoxShape3D_72")
+
+[node name="Wall6" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(18, 1.75, -19.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/Wall6"]
+mesh = SubResource("BoxMesh_73")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/Wall6"]
+shape = SubResource("BoxShape3D_74")
+
+[node name="Crate1" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(20, 0.5, -27)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/Crate1"]
+mesh = SubResource("BoxMesh_75")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/Crate1"]
+shape = SubResource("BoxShape3D_76")
+
+[node name="Crate2" type="StaticBody3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(21.1, 0.5, -27)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea/Crate2"]
+mesh = SubResource("BoxMesh_75")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/Areas/ExitArea/Crate2"]
+shape = SubResource("BoxShape3D_76")
+
+[node name="NavPoint" type="Marker3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(25, 0, -23)
+
+[node name="Label" type="Label3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(23, 3.2, -23)
+billboard = 1
+text = "EXIT"
+font_size = 96
+outline_size = 16
+modulate = Color(1, 1, 1, 0.85)
+
+[node name="FrontDoors" type="MeshInstance3D" parent="NavigationRegion3D/Areas/Entrance"]
+position = Vector3(0, 1.2, 21.8)
+mesh = SubResource("BoxMesh_77")
+
+[node name="ExitDoor" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(27.8, 1.2, -23)
+mesh = SubResource("BoxMesh_78")
+
+[node name="ExitZoneMarker" type="MeshInstance3D" parent="NavigationRegion3D/Areas/ExitArea"]
+position = Vector3(26.5, 0.006, -23)
+mesh = SubResource("BoxMesh_79")
+
+[node name="PlayerTestArea" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="SprintLane" type="MeshInstance3D" parent="NavigationRegion3D/PlayerTestArea"]
+position = Vector3(0, 0.005, 18)
+mesh = SubResource("BoxMesh_80")
+
+[node name="TestCrate" type="StaticBody3D" parent="NavigationRegion3D/PlayerTestArea"]
+position = Vector3(-3.5, 0.5, 17)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/PlayerTestArea/TestCrate"]
+mesh = SubResource("BoxMesh_81")
+
+[node name="Collision" type="CollisionShape3D" parent="NavigationRegion3D/PlayerTestArea/TestCrate"]
+shape = SubResource("BoxShape3D_76")
+
+[node name="CrateProbe" type="Marker3D" parent="NavigationRegion3D/PlayerTestArea"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1, 0.05, 17)
+metadata/distance_to_obstacle = 2.0
+
+[node name="WallProbe" type="Marker3D" parent="NavigationRegion3D/PlayerTestArea"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.5, 0.05, 19)
+metadata/distance_to_obstacle = 3.35
+
+[node name="Sign" type="Label3D" parent="NavigationRegion3D/PlayerTestArea"]
+position = Vector3(-4.83, 2.2, 19.5)
 rotation_degrees = Vector3(0, 90, 0)
 text = "PLAYER TEST AREA
-WASD walk  ·  Shift sprint  ·  Esc release mouse"
-font_size = 48
+WASD walk  ·  Shift sprint  ·  Esc release mouse
+F3 navigation debug"
+font_size = 40
 outline_size = 8
 
+[node name="NavigationDebug" type="Node3D" parent="." node_paths=PackedStringArray("region")]
+script = ExtResource("4_navdebug")
+region = NodePath("../NavigationRegion3D")
+visible_on_start = false
+
+[node name="NavigationProbe" parent="." instance=ExtResource("3_probe")]
+position = Vector3(0, 0.05, 4)
+route = Array[NodePath]([NodePath("../NavigationRegion3D/Areas/MainRoom/NavPoint"), NodePath("../NavigationRegion3D/Areas/MainStacks/NavPoint"), NodePath("../NavigationRegion3D/Areas/HallwayWest/NavPoint"), NodePath("../NavigationRegion3D/Areas/RestrictedStacks/NavPoint"), NodePath("../NavigationRegion3D/Areas/BackCorridor/NavPoint"), NodePath("../NavigationRegion3D/Areas/ExitArea/NavPoint"), NodePath("../NavigationRegion3D/Areas/HallwayEast/NavPoint"), NodePath("../NavigationRegion3D/Areas/ReadingArea/NavPoint")])
+
 [node name="Player" parent="." instance=ExtResource("1_player")]
-position = Vector3(-9, 0.05, 7)
+position = Vector3(0, 0.05, 21)
 
 [node name="PreviewCamera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.94, 0.342, 0, -0.342, 0.94, 0, 5.5, 11)
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 6, 40, -3)
+projection = 1
+size = 54.0
