@@ -19,4 +19,13 @@ The Phase 1 graybox is deliberately static: no player controller, NPCs, stealth 
 
 ## Run the smoke test
 
-Open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `Phase 1 smoke test passed.` to the Output panel and exits.
+In the editor: open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `Phase 1 smoke test passed.` to the Output panel and exits.
+
+From a terminal (no window), with the Godot 4.7.2 executable on your `PATH`:
+
+```
+godot --headless --path . --editor --quit          # first run only: imports the project
+godot --headless --path . res://tests/test_scene.tscn
+```
+
+The test exits with code `0` when every check passes and `1` otherwise, listing each failure as an error. It checks the engine version and commit, key project settings, the Windows Desktop export preset, the folder layout, and the library graybox contents.

@@ -1,12 +1,91 @@
 extends Node
 
-## Lightweight Phase 1 smoke test. Run this scene directly in Godot. a
+## Phase 1 smoke test. Run this scene directly in Godot (F6), or headless:
+##   godot --headless --path . res://tests/test_scene.tscn
+## Exits with code 0 when every check passes and 1 otherwise, so it can be
+## used by an automated build. Checks use explicit failures instead of
+## assert(), because assert() is stripped from release builds and pauses a
+## headless run in the debugger instead of failing it.
+
+const EXPECTED_VERSION := "4.7.2"
+const EXPECTED_HASH_PREFIX := "ed1daf0bf"
+const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
+const REQUIRED_DIRS := [
+	"res://scenes/player", "res://scenes/npc", "res://scenes/level",
+	"res://scenes/ui", "res://scenes/systems",
+	"res://scripts/player", "res://scripts/npc", "res://scripts/systems",
+	"res://scripts/utilities",
+	"res://assets/models", "res://assets/materials", "res://assets/audio",
+	"res://assets/textures",
+	"res://tests", "res://docs",
+]
+
+var _failures: Array[String] = []
+
+
 func _ready() -> void:
-	var library_scene := load("res://scenes/level/library_graybox.tscn") as PackedScene
-	assert(library_scene != null, "The library graybox scene must load.")
+	_check_engine_version()
+	_check_project_settings()
+	_check_windows_export_preset()
+	_check_folder_structure()
+	_check_library_graybox()
+
+	if _failures.is_empty():
+		print("Phase 1 smoke test passed.")
+		get_tree().quit(0)
+	else:
+		for failure in _failures:
+			push_error("FAIL: " + failure)
+		print("Phase 1 smoke test FAILED (%d issue(s))." % _failures.size())
+		get_tree().quit(1)
+
+
+func _expect(condition: bool, message: String) -> void:
+	if not condition:
+		_failures.append(message)
+
+
+func _check_engine_version() -> void:
+	var info := Engine.get_version_info()
+	var version := "%d.%d.%d" % [info.major, info.minor, info.patch]
+	_expect(version == EXPECTED_VERSION, "Engine version is %s, expected %s." % [version, EXPECTED_VERSION])
+	_expect(info.status == "stable", "Engine build status is '%s', expected 'stable'." % info.status)
+	_expect(String(info.hash).begins_with(EXPECTED_HASH_PREFIX),
+		"Engine commit is '%s', expected %s." % [info.hash, EXPECTED_HASH_PREFIX])
+
+
+func _check_project_settings() -> void:
+	_expect(ProjectSettings.get_setting("application/config/name") == "Campus Escape 3D",
+		"Project name is not 'Campus Escape 3D'.")
+	_expect(ProjectSettings.get_setting("application/run/main_scene") == LIBRARY_SCENE,
+		"Main scene is not the library graybox.")
+	var features: PackedStringArray = ProjectSettings.get_setting("application/config/features")
+	_expect(features.has("4.7"), "Project features do not declare Godot 4.7.")
+
+
+func _check_windows_export_preset() -> void:
+	var presets := ConfigFile.new()
+	_expect(presets.load("res://export_presets.cfg") == OK, "export_presets.cfg could not be read.")
+	_expect(presets.get_value("preset.0", "platform", "") == "Windows Desktop",
+		"The first export preset is not 'Windows Desktop'.")
+
+
+func _check_folder_structure() -> void:
+	for path in REQUIRED_DIRS:
+		_expect(DirAccess.dir_exists_absolute(path), "Missing folder %s." % path)
+
+
+func _check_library_graybox() -> void:
+	var library_scene := load(LIBRARY_SCENE) as PackedScene
+	_expect(library_scene != null, "The library graybox scene must load.")
+	if library_scene == null:
+		return
 	var library := library_scene.instantiate()
-	assert(library.name == "LibraryGraybox", "The graybox root must be named LibraryGraybox.")
-	assert(library.get_node_or_null("Floor") != null, "The graybox must include a floor.")
-	library.queue_free()
-	print("Phase 1 smoke test passed.")
-	get_tree().quit()
+	_expect(library is Node3D, "The graybox root must be a Node3D.")
+	_expect(library.name == "LibraryGraybox", "The graybox root must be named LibraryGraybox.")
+	for node_name in ["Floor", "BackWall", "FrontWall", "LeftWall", "RightWall",
+			"ShelfRowA", "ShelfRowB", "ShelfRowC", "ReadingTable", "KeyLight"]:
+		_expect(library.get_node_or_null(node_name) != null, "The graybox must include %s." % node_name)
+	var camera := library.get_node_or_null("PreviewCamera") as Camera3D
+	_expect(camera != null and camera.current, "The graybox must have a current preview camera.")
+	library.free()
