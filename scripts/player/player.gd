@@ -36,6 +36,7 @@ var _spawn_transform: Transform3D
 
 
 func _ready() -> void:
+	add_to_group("player")  # NPC perception looks for this group.
 	_spawn_transform = global_transform
 	capture_mouse()
 

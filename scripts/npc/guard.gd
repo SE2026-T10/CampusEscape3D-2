@@ -5,7 +5,8 @@ extends CharacterBody3D
 ## NavigationAgent3D, waits at each point, and loops.
 ##
 ## Only patrolling exists so far. INVESTIGATE and CHASE will be added as new
-## states in later phases; WAIT is the pause at a patrol point.
+## states in later phases; WAIT is the pause at a patrol point. The Vision
+## child (GuardVision) already tracks detection, but nothing reacts to it yet.
 
 signal state_changed(previous: State, current: State)
 signal patrol_point_reached(index: int)
@@ -38,6 +39,8 @@ var _route_finished := false
 
 @onready var agent: NavigationAgent3D = $NavigationAgent3D
 @onready var debug_label: Label3D = $DebugLabel
+## Line-of-sight perception and detection meter (may be absent on custom guards).
+@onready var vision: GuardVision = get_node_or_null("Vision")
 
 
 func _ready() -> void:
@@ -164,6 +167,8 @@ func get_debug_text() -> String:
 		line = "PATROL → point %d/%d" % [current_point + 1, total]
 	else:
 		line = "WAIT %.1fs at point %d/%d" % [maxf(wait_time_left, 0.0), current_point + 1, total]
+	if vision:
+		line += "\n" + vision.get_debug_text()
 	return "%s\n%s" % [name, line]
 
 

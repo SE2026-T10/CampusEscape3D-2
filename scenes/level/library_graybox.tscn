@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" path="res://scenes/npc/guard.tscn" id="5_guard"]
 [ext_resource type="Script" path="res://scripts/npc/patrol_route.gd" id="6_route"]
 [ext_resource type="Script" path="res://scripts/npc/patrol_point.gd" id="7_point"]
+[ext_resource type="Script" path="res://scripts/systems/detection_debug_hud.gd" id="8_hud"]
 [ext_resource type="Script" path="res://scripts/systems/navigation_debug.gd" id="4_navdebug"]
 
 [sub_resource type="Environment" id="ENV"]
@@ -958,6 +959,9 @@ region = NodePath("../NavigationRegion3D")
 visible_on_start = false
 
 
+[node name="DetectionDebugHud" type="CanvasLayer" parent="."]
+script = ExtResource("8_hud")
+
 [node name="Guards" type="Node3D" parent="."]
 
 [node name="MainRoomRoute" type="Node3D" parent="Guards"]
@@ -970,7 +974,7 @@ script = ExtResource("7_point")
 wait_time = 3.0
 
 [node name="P2" type="Marker3D" parent="Guards/MainRoomRoute"]
-position = Vector3(-2.5, 0, 10)
+position = Vector3(-6, 0, 10)
 script = ExtResource("7_point")
 
 [node name="P3" type="Marker3D" parent="Guards/MainRoomRoute"]

@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/npc/guard.gd" id="1_guard"]
+[ext_resource type="Script" path="res://scripts/npc/guard_vision.gd" id="2_vision"]
 
 [sub_resource type="CapsuleShape3D" id="Capsule_guard"]
 radius = 0.35
@@ -37,6 +38,10 @@ mesh = SubResource("Mesh_body")
 [node name="Cap" type="MeshInstance3D" parent="."]
 position = Vector3(0, 1.78, -0.1)
 mesh = SubResource("Mesh_cap")
+
+[node name="Vision" type="Node3D" parent="."]
+position = Vector3(0, 1.6, 0)
+script = ExtResource("2_vision")
 
 [node name="DebugLabel" type="Label3D" parent="."]
 position = Vector3(0, 2.3, 0)
