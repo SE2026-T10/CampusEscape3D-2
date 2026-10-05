@@ -1,21 +1,36 @@
 # Campus Escape 3D
 
-Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university library. The MVP is one polished playable level, built in Godot with GDScript.
+[![Build](https://github.com/phatelab/CampusEscape3D-2/actions/workflows/build.yml/badge.svg?branch=Development)](https://github.com/phatelab/CampusEscape3D-2/actions/workflows/build.yml)
 
-## Project details
+## Project description
 
-- Engine: Godot 4.7.2 Stable (`ed1daf0bf`)
-- Language: GDScript
-- Target: Windows desktop
-- Current phase: Phase 14 — Final QA
+Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university library at night. You sneak into the library, take an access card from the Restricted Stacks and get out through the exit. Three guards stand in your way, and they patrol, see, hear, investigate and chase.
 
-## Run the project
+The MVP is one polished level, built in Godot with GDScript, for Windows desktop. The current version is **1.0.0** (`application/config/version` in `project.godot`).
 
-1. Install Godot 4.7.2 Stable.
-2. Import `project.godot` in the Godot Project Manager.
-3. Open the project and press **F5**. The game opens on the main menu: **Start game** loads the library. To jump straight into the level while developing, open `scenes/level/library_graybox.tscn` and press **F6**.
+## Godot version
 
-### Controls
+- **Engine:** Godot **4.7.2 Stable**, official build (`4.7.2.stable.official.ed1daf0bf`). Other versions are not supported. The test suite and the build pipeline both check the exact version.
+- **Language:** GDScript.
+- **Renderer:** Compatibility (OpenGL).
+- **Target:** Windows desktop (x86_64).
+
+## Installation
+
+**To play:** download `CampusEscape3D-<version>-windows-x64.zip`, either from the repository's GitHub Releases or from a workflow run's artifacts (see Automated build). Unzip it anywhere and run `CampusEscape3D.exe`; keep `CampusEscape3D.pck` in the same folder. Nothing else needs installing. The executable is not code-signed, so Windows SmartScreen may ask for confirmation the first time.
+
+**To develop:**
+1. Install [Godot 4.7.2 Stable](https://godotengine.org/download/archive/4.7.2-stable/).
+2. Clone the repository.
+3. Import `project.godot` in the Godot Project Manager.
+
+## How to run
+
+- **From the editor:** open the project and press **F5**. The game starts on the main menu; **Start game** loads the library.
+- **Straight into the level** while developing: open `scenes/level/library_graybox.tscn` and press **F6**.
+- **Exported build:** run `CampusEscape3D.exe`.
+
+## Controls
 
 | Action | Key |
 |---|---|
@@ -29,7 +44,111 @@ Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university
 
 There is no jump: the library has no vertical routes, and jumping onto shelves would let the player skip sections or climb out. All keys are defined in **Project Settings → Input Map**.
 
-### The level
+## How to build
+
+The full build and release guide is **[`docs/BUILD.md`](docs/BUILD.md)**.
+
+**From the editor (Windows):**
+1. Install the 4.7.2 export templates: Editor → Manage Export Templates.
+2. Project → Export → **Windows Desktop** → Export Project → `build/CampusEscape3D.exe`, with debug unticked.
+3. Ship `CampusEscape3D.exe` and `CampusEscape3D.pck` together.
+
+**From a terminal (Linux or WSL), the same scripts the CI runs:**
+
+```
+export GODOT="$(bash tools/ci/setup_godot.sh | tail -n 1)"   # downloads Godot 4.7.2 + Windows templates, checksums verified
+bash tools/ci/validate.sh        # exact Godot version, clean import, every script compiles, version numbers
+bash tools/ci/run_tests.sh       # full test suite + game-flow run (about 4 minutes)
+bash tools/ci/export_windows.sh  # → dist/CampusEscape3D-<version>-windows-x64.zip
+```
+
+## Automated build
+
+GitHub Actions (`.github/workflows/build.yml`) runs on:
+- every push to `Development` or `main`;
+- every pull request into them;
+- version tags `vX.Y.Z`;
+- a manual **Run workflow**.
+
+| Job | Steps | Result |
+|---|---|---|
+| Validate and test | set up Godot 4.7.2 (SHA-512 verified) → `validate.sh` → `run_tests.sh` | fails the workflow on any validation error, compile error, failing test or failed flow run |
+| Export Windows x64 | only if the first job passed: set up → validate → `export_windows.sh` | uploads `CampusEscape3D-<version>-windows-x64` as a workflow artifact (30 days) |
+| GitHub Release | tags only, only if the export passed | creates the release with the zipped build and `docs/release-notes/<tag>.md` |
+
+**No secrets:** none are used or stored; the release uses the workflow's own `GITHUB_TOKEN`.
+
+**Release process:** bump the version → write release notes → push to `Development` → green run → tag `vX.Y.Z` → push the tag. Details are in `docs/BUILD.md`. The MVP release is tag **`v1.0.0`**.
+
+## Architecture
+
+The game is one level scene with gameplay systems as nodes in it. Systems find each other through groups (`StealthDirector.find(node)` and similar), and talk through signals. Presentation code (sound, animation, UI) only listens to the gameplay code and never changes it.
+
+```
+scenes/ui/main_menu.tscn                 main scene: Start / Quit
+scenes/level/library_graybox.tscn        the level
+├── NavigationRegion3D (+ library_navmesh.tres)   rooms, walls, shelves, furniture, carrels (HidingSpot)
+├── Player (scenes/player/player.tscn)   FirstPersonPlayer + PlayerNoise + PlayerInteractor + PlayerFeedback
+├── Guards                               PatrolRoute/PatrolPoint markers + Guard instances (scenes/npc/guard.tscn)
+├── Gameplay                             ObjectiveManager, triggers, AccessCard, ExitDoor, CheckpointManager, Checkpoints
+├── StealthDirector                      overall stealth status, catching, level reset
+├── NoiseSystem                          noise events → guards' hearing
+├── GameFlow                             game state PLAYING / CAUGHT / PAUSED / WIN, pause, restart, scene changes
+├── StealthHud, ObjectiveHud, GameMenus  player-facing UI
+├── AudioDirector, Ambience              music, stings, UI sounds, room tone, positional ambience
+├── Dressing                             decoration only (no collision): signs, books, lights, props
+└── NavigationDebug, DetectionDebugHud   F3 debug overlays (removed from release builds)
+```
+
+| Folder | Contents |
+|---|---|
+| `scripts/player/` | `FirstPersonPlayer` (movement, crouch, look, respawn), `PlayerNoise` (footstep noise), `PlayerInteractor` (E-key ray) |
+| `scripts/npc/` | `Guard` (navigation, movement, perception snapshot), `GuardVision`, `GuardHearing`, `PatrolRoute`, `PatrolPoint` |
+| `scripts/npc/ai/` | `GuardStateMachine` with `PatrolState`, `InvestigateState`, `ChaseState`; `GuardPerception` |
+| `scripts/systems/` | `StealthDirector`, `HidingSpot`, objectives, checkpoints, interaction, noise, debug overlays |
+| `scripts/game/` | `GameFlow`, `GameStateMachine` |
+| `scripts/ui/` | `MainMenu`, `StealthHud`, `ObjectiveHud`, `GameMenus`, `MenuStyle` |
+| `scripts/presentation/` | `AudioDirector`, `SoundBank`, `PlayerFeedback`, `GuardPresentation` (model animation), `AmbientEmitter` |
+| `scripts/level/` | `ShelfBooks` (generated book MultiMeshes) |
+| `tests/` | the automated test suite |
+| `tools/` | level, benchmark, capture, QA and CI tools (excluded from the export) |
+
+**Physics layers:**
+1. world
+2. player
+3. npc
+4. interactable
+
+## AI states
+
+Each guard runs an explicit state machine (`scripts/npc/ai/guard_state_machine.gd`) with three states.
+
+| State | Behaviour |
+|---|---|
+| **PATROL** | walks its looping route with `NavigationAgent3D`, waiting at each point |
+| **INVESTIGATE** | walks to where it saw something suspicious or *thinks* it heard a noise, searches there (looking around) for 6 s, then returns to patrol |
+| **CHASE** | runs after the player while it can see them; on losing sight it investigates the last known position |
+
+**Transitions.** They are checked every physics tick in this priority order; the first that applies wins:
+
+| # | Trigger | Transition |
+|---|---|---|
+| 1 | confirmed sighting (meter at 100 and the player visible) | PATROL / INVESTIGATE → CHASE |
+| 2 | suspicious sighting (meter ≥ 30) | PATROL → INVESTIGATE, at the sighting |
+| 3 | noise heard | PATROL → INVESTIGATE, at the estimated position |
+| 4 | search timed out | INVESTIGATE → PATROL |
+| 4 | lost sight | CHASE → INVESTIGATE |
+
+Any other transition (for example CHASE → PATROL) is rejected.
+
+**Perception:**
+- **Vision:** a 90° cone reaching 14 m, blocked by walls and tall shelves.
+- **Detection meter:** 0–100. It fills faster up close and drains when the player is out of sight; SUSPICIOUS at 30, ALERTED at 100.
+- **Hearing:** walking is heard within about 5 m and sprinting within about 12 m; walls halve those distances. The guard's position estimate is always off, more so with distance.
+- **Crouching:** halves how fast the meter fills and makes footsteps very quiet.
+- **Carrels:** crouching inside one blocks sight from the sides and back.
+
+## The game
 
 The library level (`scenes/level/library_graybox.tscn`; the file name is kept from the graybox so references stay stable) is one small low-poly university library:
 
@@ -109,81 +228,19 @@ Press **F3** to show the navigation mesh (cyan), each guard's current path (yell
 - All sounds are generated by `tools/generate_audio.gd` (no external assets). Regenerate them with `godot --headless --path . --script res://tools/generate_audio.gd`; the four loops are set to loop in their `.import` files.
 - `tools/capture_presentation.gd` renders the guard poses and HUD screenshots in `docs/presentation/`.
 
-### Performance benchmark
+## Testing
 
-`tools/benchmark.gd` runs the real level in a fixed, repeatable scenario and records frame time, script, guard-AI, animation and render time, draw calls, memory and NPC counts:
-
-```
-godot --path . --resolution 1280x720 --script res://tools/benchmark.gd -- --scenario=normal --out=docs/performance/my_run
-godot --headless --fixed-fps 60 --path . --script res://tools/benchmark.gd -- --scenario=stress --out=docs/performance/my_run
-```
-
-- Scenarios: `normal` (3 guards), `several` (8), `stress` (24), or `--npcs=N`.
-- The headless form measures CPU only (one physics tick per frame, no rendering).
-- `python3 docs/performance/analyse.py` rebuilds the tables and charts (needs matplotlib).
-- Results and method: `docs/phase-13-performance.md`.
-
-### QA tools
-
-- `tools/qa_flow.gd` plays the real game flow with real scene changes and checks 15 steps:
-  - main menu → start, pause, resume, restart;
-  - caught → respawn, back to the menu and start again;
-  - win, play again, quit.
-
-  Run it with `godot --path . --script res://tools/qa_flow.gd -- --out=docs/qa/flow_check`; it prints `QA FLOW PASSED` and exits 0.
-- `docs/qa/REGRESSION_CHECKLIST.md` lists what to run and what to check by hand before a release.
-
-### Adding or changing a guard patrol
-
-1. Add a `PatrolRoute` node (script `scripts/npc/patrol_route.gd`) under `Guards`. Untick **Loop** if the guard should stop at the last point.
-2. Add `Marker3D` children with `scripts/npc/patrol_point.gd` attached, in the order to visit them, on walkable floor. Set **Wait Time** per point (-1 uses the guard's default).
-3. Instance `scenes/npc/guard.tscn` under `Guards` and set its **Patrol Route** to the new route. Several guards can share one route.
-
-The tests check that every patrol point in the library is on the navigation mesh and reachable.
-
-### Level-design tools
-
-Measure the level and record a version (run on the commit you want to record):
-
-```
-godot --path . --script res://tools/level_report.gd -- --out=docs/level/v5 --version=v5
-godot --path . --resolution 1280x720 --script res://tools/capture_views.gd -- --out=docs/level/v5/views
-godot --headless --path . --script res://tools/level_compare.gd -- --before=docs/level/v4 --after=docs/level/v5
-```
-
-What each one produces:
-
-- `level_report.gd` writes `report.md`, `metrics.json` and, when run with a display, `map.png`. It measures:
-  - exposure: how much of each guard's patrol loop a spot is inside its view cone;
-  - cover;
-  - patrol loops;
-  - shortest and safest player routes;
-  - hiding-spot and respawn-point exposure.
-- `--scene=res://other.tscn` measures an experimental copy of the level instead.
-- `capture_views.gd` renders the 8 fixed viewpoints and a top-down view, so versions can be compared shot for shot.
-- `level_compare.gd` writes a before/after table, `compare.md`.
-
-### Rebaking navigation after changing the level
-
-Navigation is baked from the level's static collision into `scenes/level/library_navmesh.tres`. After moving walls, shelves or furniture, rebake using either of these:
-
-- **Editor:** select `NavigationRegion3D` in the library scene, click **Bake NavigationMesh** in the toolbar, then save (Ctrl+S).
-- **Command line:** `godot --headless --path . --script res://tools/bake_navigation.gd`
-
-If you forget to rebake, the tests fail with "The saved navigation mesh is out of date".
-
-## Run the tests
-
-In the editor: open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design, Phase 12 presentation, Phase 13 performance, Phase 14 QA).` to the Output panel and exits.
-
-From a terminal (no window), with the Godot 4.7.2 executable on your `PATH`:
+**Run the tests.** In the editor, open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, … Phase 13 performance, Phase 14 QA).`. From a terminal:
 
 ```
 godot --headless --path . --editor --quit          # first run only: imports the project
 godot --headless --path . res://tests/test_scene.tscn
+godot --headless --path . --script res://tools/qa_flow.gd   # real game flow with scene changes
 ```
 
-The run exits with code `0` when every check passes and `1` otherwise, listing each failure as an error. It takes about two and a half to three minutes because the movement, navigation, guard and vision tests step real physics frames, mostly with time sped up 4–6×.
+- **Exit code:** the suite exits `0` when every check passes and `1` otherwise, listing each failure. It takes about 3.5 minutes, because the movement, navigation, guard and vision tests step real physics frames.
+- **Expected warnings:** 8, from tests that build broken setups on purpose.
+- **In CI:** `tools/ci/run_tests.sh` runs both the suite and the flow run.
 
 - `tests/test_scene.gd` — checks that every script compiles, Phase 1 setup checks (engine version, project settings, Windows export preset, folders, graybox) and the test runner.
 - `tests/player_tests.gd` — Phase 2 player checks: InputMap bindings, movement maths, mouse-look clamping, and in-level movement (landing, walk and sprint speed, stopping, crate and wall collision, fall respawn).
@@ -242,6 +299,149 @@ The run exits with code `0` when every check passes and `1` otherwise, listing e
 - `tests/vision_tests.gd` — Phase 5 checks in a purpose-built arena: FOV and range maths, a player straight ahead is seen and the meter fills in the expected time, the meter holds then drains after losing sight, the last known position never updates while hidden, walls and tall shelves block sight but a low table doesn't, players outside the cone or out of range are not seen, far players fill the meter slowly, thresholds are configurable, and the debug cone stops at walls. In the library: every guard has vision, and no guard sees the spawn during a full patrol loop.
 - `tests/navigation_tests.gd` — Phase 3 checks: every room exists, navigation covers open floor and none of the walls or furniture, nothing is baked outside the rooms or on furniture, every floor edge is walled, paths reach every room without crossing walls, a `NavigationAgent3D` probe walks from the entrance to the exit, the debug overlay draws the navmesh, and the saved navmesh matches a fresh bake.
 
+**Before a release:** work through `docs/qa/REGRESSION_CHECKLIST.md`: the automated part, plus the manual checks on Windows.
+
+### QA tools
+
+- `tools/qa_flow.gd` plays the real game flow with real scene changes and checks 15 steps:
+  - main menu → start, pause, resume, restart;
+  - caught → respawn, back to the menu and start again;
+  - win, play again, quit.
+
+  Run it with `godot --path . --script res://tools/qa_flow.gd -- --out=docs/qa/flow_check`; it prints `QA FLOW PASSED` and exits 0.
+- `docs/qa/REGRESSION_CHECKLIST.md` lists what to run and what to check by hand before a release.
+
+## Performance evidence
+
+Full method and data: **[`docs/phase-13-performance.md`](docs/phase-13-performance.md)**. Evidence is in `docs/performance/`: per-frame CSVs, summaries, charts and before/after renders.
+
+**Benchmark:**
+- `tools/benchmark.gd` replays a fixed scenario in the real level: the camera flies a fixed path and noise events happen on a fixed schedule.
+- Scenarios: normal (3 guards), several (8) and stress (24).
+- It records frame time, script, AI, animation and render time, draw calls, memory and stuck guards.
+
+**Measured on a GPU-less Linux VM** (2 vCPUs, Mesa llvmpipe software rendering, 1280×720, debug build). Windows numbers are not measured yet.
+
+| | Normal (3 guards) | Stress (24 guards) |
+|---|---|---|
+| Avg FPS before → after the shadow optimisation | 8.37 → 11.61 | 7.85 → 10.57 |
+| Mean frame time before → after | 119.6 → 86.2 ms | 127.3 → 94.6 ms |
+| CPU per frame, headless (all game logic, physics, navigation) | 0.7 ms | 2.1 ms |
+
+**Findings:**
+- Rendering was about 90% of the frame, and the sun's 4-cascade shadow map was the biggest single cost.
+- **The fix:** 2 cascades and a 2048 shadow atlas, with no visible change (pixel-compared).
+- The game logic is cheap: 48 guards cost 3.8 ms of CPU per frame.
+- **Memory:** flat over a 5-minute run.
+- The Phase 14 QA pass corrected the stress figures after fixing a benchmark bug.
+
+### Performance benchmark
+
+`tools/benchmark.gd` runs the real level in a fixed, repeatable scenario and records frame time, script, guard-AI, animation and render time, draw calls, memory and NPC counts:
+
+```
+godot --path . --resolution 1280x720 --script res://tools/benchmark.gd -- --scenario=normal --out=docs/performance/my_run
+godot --headless --fixed-fps 60 --path . --script res://tools/benchmark.gd -- --scenario=stress --out=docs/performance/my_run
+```
+
+- Scenarios: `normal` (3 guards), `several` (8), `stress` (24), or `--npcs=N`.
+- The headless form measures CPU only (one physics tick per frame, no rendering).
+- `python3 docs/performance/analyse.py` rebuilds the tables and charts (needs matplotlib).
+- Results and method: `docs/phase-13-performance.md`.
+
+## Level-design version history
+
+The level went through five measured versions, one commit each. The full log, with what changed, why, the metrics and before/after pictures, is in **[`docs/level/LEVEL_LOG.md`](docs/level/LEVEL_LOG.md)**.
+
+| Version | What changed | Evidence |
+|---|---|---|
+| v0 | baseline: the Phase 10 graybox measured with the new level tools | `docs/level/v0/` |
+| v1 | cover and sightline pass: low bookcases, catalogue cabinet, Hallway East study alcove and carrel, book carts, exit-area crates and rack | `docs/level/v1/` (+ `compare.md`) |
+| v2 | GuardEast's patrol becomes an exit-area warden (6 candidate routes measured, B2 chosen) | `docs/level/v2/` (+ `experiments/`) |
+| v3 | readability: doors, room / RESTRICTED / EXIT signs, landmarks, card spotlight (visual only; metrics identical) | `docs/level/v3/` |
+| v4 | low-poly art: palette, lighting, books, ceilings, chairs, plants, windows, posters, rugs | `docs/level/v4/`, `docs/level/before_after/` |
+
+**Measured from v0 to v4:**
+- Floor within 1.5 m of cover rose from 33% to 42%.
+- The safest east route to the card got shorter (115–117 m → 103 m) and less exposed (38% → 31% peak).
+- Spawn and both checkpoints stay at 0% exposure.
+
+## Known limitations
+
+**Scope:**
+- One level.
+- No save game.
+- No settings menu (mouse sensitivity, volume, resolution).
+- Quit only from the main menu.
+
+**Testing:**
+- Everything automated ran on Linux (headless and with software rendering).
+- No measurements or manual playtest on Windows hardware or a real GPU yet.
+- The audio has never been heard: the test machines have no sound device.
+- The scripted playthroughs don't judge stealth difficulty; that needs human play.
+
+**Level:**
+- The scene file is still named `library_graybox.tscn` (kept so references stay stable).
+- Only the exit door is interactive.
+- Decoration (chairs, signs, books) has no collision; plants do.
+- Windows are emissive panels.
+- Only two checkpoints; none on the east route after the card.
+
+**AI:**
+- Guards sharing one patrol route can block each other at a narrow spot for about 5 s before skipping ahead. The level has one guard per route.
+- Ambient sounds are decoration: guards don't hear them, and walls don't block them.
+
+**Presentation:**
+- The guard model is rigid box parts with code-built animations, about 20 draw calls per guard.
+- The sounds are simple synthesised effects.
+
+**Build:**
+- Windows x64 only.
+- The executable is not code-signed.
+- Builds aren't byte-for-byte identical, because the pack records file times.
+- **The CI workflow has not yet run on GitHub:** the pipeline scripts were run locally, but the workflow file needs its first run after being pushed.
+
+## Development notes
+
+### Adding or changing a guard patrol
+
+1. Add a `PatrolRoute` node (script `scripts/npc/patrol_route.gd`) under `Guards`. Untick **Loop** if the guard should stop at the last point.
+2. Add `Marker3D` children with `scripts/npc/patrol_point.gd` attached, in the order to visit them, on walkable floor. Set **Wait Time** per point (-1 uses the guard's default).
+3. Instance `scenes/npc/guard.tscn` under `Guards` and set its **Patrol Route** to the new route. Several guards can share one route.
+
+The tests check that every patrol point in the library is on the navigation mesh and reachable.
+
+### Level-design tools
+
+Measure the level and record a version (run on the commit you want to record):
+
+```
+godot --path . --script res://tools/level_report.gd -- --out=docs/level/v5 --version=v5
+godot --path . --resolution 1280x720 --script res://tools/capture_views.gd -- --out=docs/level/v5/views
+godot --headless --path . --script res://tools/level_compare.gd -- --before=docs/level/v4 --after=docs/level/v5
+```
+
+What each one produces:
+
+- `level_report.gd` writes `report.md`, `metrics.json` and, when run with a display, `map.png`. It measures:
+  - exposure: how much of each guard's patrol loop a spot is inside its view cone;
+  - cover;
+  - patrol loops;
+  - shortest and safest player routes;
+  - hiding-spot and respawn-point exposure.
+- `--scene=res://other.tscn` measures an experimental copy of the level instead.
+- `capture_views.gd` renders the 8 fixed viewpoints and a top-down view, so versions can be compared shot for shot.
+- `level_compare.gd` writes a before/after table, `compare.md`.
+
+### Rebaking navigation after changing the level
+
+Navigation is baked from the level's static collision into `scenes/level/library_navmesh.tres`. After moving walls, shelves or furniture, rebake using either of these:
+
+- **Editor:** select `NavigationRegion3D` in the library scene, click **Bake NavigationMesh** in the toolbar, then save (Ctrl+S).
+- **Command line:** `godot --headless --path . --script res://tools/bake_navigation.gd`
+
+If you forget to rebake, the tests fail with "The saved navigation mesh is out of date".
+
 ## Documentation
 
 - `docs/phase-1-setup.md`
@@ -259,3 +459,6 @@ The run exits with code `0` when every check passes and `1` otherwise, listing e
 - `docs/phase-12-presentation.md`
 - `docs/phase-13-performance.md` (benchmark, measurements, optimisation; evidence in `docs/performance/`)
 - `docs/phase-14-qa.md` (final QA pass; checklist and evidence in `docs/qa/`)
+- `docs/BUILD.md` (build, CI and release process)
+- `docs/phase-15-build-pipeline.md`
+- `docs/release-notes/v1.0.0.md`

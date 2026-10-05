@@ -4,3 +4,5 @@
 # Exported builds and local editor settings
 build/
 *.tmp
+ci-logs/
+dist/
