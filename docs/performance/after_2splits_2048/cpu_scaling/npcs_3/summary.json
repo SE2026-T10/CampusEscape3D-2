@@ -1,0 +1,200 @@
+{
+  "caught": 0,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "cpu_threads": 2,
+  "debug_build": true,
+  "disabled": "",
+  "fps_1pct_low": 495.294700346706,
+  "fps_avg": 1360.26969613842,
+  "frames": 1800,
+  "godot": "4.7.2-stable (official)",
+  "gpu": " / ",
+  "guard_ai_ms_per_tick": 0.0642605555555555,
+  "guard_ai_ms_per_tick_per_guard": 0.0214201851851852,
+  "guards": 3,
+  "label": "npcs_3",
+  "metrics": {
+    "collision_pairs": {
+      "max": 9.0,
+      "mean": 5.98555555555556,
+      "p50": 6.0,
+      "p95": 7.0,
+      "p99": 8.0
+    },
+    "draw_calls": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "frame_ms": {
+      "max": 4.603,
+      "mean": 0.735148333333334,
+      "p50": 0.667,
+      "p95": 1.109,
+      "p99": 2.019
+    },
+    "guard_ai_ms": {
+      "max": 0.383,
+      "mean": 0.0642605555555555,
+      "p50": 0.058,
+      "p95": 0.104,
+      "p99": 0.145
+    },
+    "guard_presentation_ms": {
+      "max": 0.393,
+      "mean": 0.0342505555555556,
+      "p50": 0.025,
+      "p95": 0.065,
+      "p99": 0.284
+    },
+    "guards_moving": {
+      "max": 3.0,
+      "mean": 1.79555555555556,
+      "p50": 2.0,
+      "p95": 3.0,
+      "p99": 3.0
+    },
+    "nav_agents": {
+      "max": 3.0,
+      "mean": 3.0,
+      "p50": 3.0,
+      "p95": 3.0,
+      "p99": 3.0
+    },
+    "navigation_max1s_ms": {
+      "max": 3.952,
+      "mean": 2.55562666666675,
+      "p50": 3.952,
+      "p95": 3.952,
+      "p99": 3.952
+    },
+    "node_count": {
+      "max": 936.0,
+      "mean": 936.0,
+      "p50": 936.0,
+      "p95": 936.0,
+      "p99": 936.0
+    },
+    "object_count": {
+      "max": 3090.0,
+      "mean": 3070.84333333333,
+      "p50": 3071.0,
+      "p95": 3085.0,
+      "p99": 3088.0
+    },
+    "objects": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "orphan_nodes": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "other_ms": {
+      "max": 4.289,
+      "mean": 0.414312222222223,
+      "p50": 0.363,
+      "p95": 0.644,
+      "p99": 1.64
+    },
+    "physics_active": {
+      "max": 4.0,
+      "mean": 4.0,
+      "p50": 4.0,
+      "p95": 4.0,
+      "p99": 4.0
+    },
+    "physics_max1s_ms": {
+      "max": 194.561,
+      "mean": 125.81611333333,
+      "p50": 194.561,
+      "p95": 194.561,
+      "p99": 194.561
+    },
+    "physics_ticks": {
+      "max": 1.0,
+      "mean": 1.0,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0
+    },
+    "primitives": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "process_max1s_ms": {
+      "max": 3.775,
+      "mean": 2.44116666666669,
+      "p50": 3.775,
+      "p95": 3.775,
+      "p99": 3.775
+    },
+    "render_cpu_ms": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "render_gpu_ms": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "scripts_physics_ms": {
+      "max": 0.584,
+      "mean": 0.164288333333333,
+      "p50": 0.15,
+      "p95": 0.267,
+      "p99": 0.335
+    },
+    "scripts_process_ms": {
+      "max": 0.588,
+      "mean": 0.156571111111111,
+      "p50": 0.14,
+      "p95": 0.257,
+      "p99": 0.429
+    },
+    "static_mem_mb": {
+      "max": 66.0280017852783,
+      "mean": 65.8173174423642,
+      "p50": 65.835018157959,
+      "p95": 65.9639091491699,
+      "p99": 66.0074863433838
+    },
+    "video_mem_mb": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    }
+  },
+  "mode": "headless",
+  "object_count_growth": 22,
+  "os": "Linux 24.04",
+  "physics_ticks_per_frame": 1.0,
+  "renderer": "gl_compatibility",
+  "resolution": "none (headless)",
+  "scenario": "custom",
+  "seconds": 30.0,
+  "static_mem_growth_mb": 0.919073104858398,
+  "status_changes": {
+    "INVESTIGATING": 2,
+    "NONE": 1
+  },
+  "warmup": 5.0
+}

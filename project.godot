@@ -85,3 +85,4 @@ interact={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+lights_and_shadows/directional_shadow/size=2048

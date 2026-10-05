@@ -877,6 +877,7 @@ rotation_degrees = Vector3(-52, -28, 0)
 light_color = Color(1, 0.95, 0.88, 1)
 light_energy = 0.4
 shadow_enabled = true
+directional_shadow_mode = 1
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = ExtResource("2_navmesh")
