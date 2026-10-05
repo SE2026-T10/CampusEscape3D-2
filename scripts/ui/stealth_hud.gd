@@ -7,7 +7,11 @@ extends CanvasLayer
 ##     pointing toward that guard, filling with its detection meter, coloured
 ##     white → yellow "?" (suspicious / investigating) → red "!" (alerted / chasing)
 ##   - Stance and noise (bottom left): e.g. "CROUCHED · noise: QUIET"
-##   - Caught overlay, naming the checkpoint the player goes back to
+##   - Detection meter (under the banner): the most aware guard's meter, with
+##     marks where guards become suspicious (30) and alerted (100); it fades out
+##     when no guard is noticing you
+##   - Caught overlay, naming the checkpoint the player goes back to, with a
+##     red vignette and a bar counting down to the respawn
 ## All information comes from the guards' own perception and the StealthDirector.
 
 const COLOUR_NOTICE := Color(1, 1, 1)
@@ -25,12 +29,18 @@ const BANNERS := {
 }
 ## Distance of the indicators from the screen centre, in pixels.
 const RING_RADIUS := 90.0
+## Detection meter size, in pixels.
+const METER_SIZE := Vector2(260, 10)
 
 var _banner: Label
 var _stance: Label
 var _caught: ColorRect
 var _caught_label: Label
 var _indicators: Control
+var _meter: Control
+var _meter_alpha := 0.0
+var _caught_bar: ProgressBar
+var _caught_time := 0.0
 
 
 func _ready() -> void:
@@ -47,6 +57,14 @@ func _ready() -> void:
 	_banner.size = Vector2(800, 44)
 	add_child(_banner)
 
+	_meter = Control.new()
+	_meter.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	_meter.position = Vector2(-METER_SIZE.x / 2.0, 76)
+	_meter.size = Vector2(METER_SIZE.x, 30)
+	_meter.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_meter.draw.connect(_draw_meter)
+	add_child(_meter)
+
 	_stance = _make_label(18, HORIZONTAL_ALIGNMENT_LEFT)
 	_stance.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	_stance.position = Vector2(20, -44)
@@ -58,24 +76,67 @@ func _ready() -> void:
 	_caught.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_caught.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_caught.visible = false
+	_caught.color = Color(0.25, 0.0, 0.0, 0.35)
+	var vignette := TextureRect.new()
+	vignette.texture = _vignette_texture()
+	vignette.set_anchors_preset(Control.PRESET_FULL_RECT)
+	vignette.stretch_mode = TextureRect.STRETCH_SCALE
+	vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_caught.add_child(vignette)
 	_caught_label = _make_label(44, HORIZONTAL_ALIGNMENT_CENTER)
 	_caught_label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_caught_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_caught.add_child(_caught_label)
+	_caught_bar = ProgressBar.new()
+	_caught_bar.show_percentage = false
+	_caught_bar.set_anchors_preset(Control.PRESET_CENTER)
+	_caught_bar.position = Vector2(-150, 80)
+	_caught_bar.size = Vector2(300, 8)
+	_caught_bar.max_value = 1.0
+	_caught_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_caught_bar.add_theme_stylebox_override("background", _flat(Color(0, 0, 0, 0.5)))
+	_caught_bar.add_theme_stylebox_override("fill", _flat(Color(1.0, 0.35, 0.3)))
+	_caught.add_child(_caught_bar)
 	add_child(_caught)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	var director := StealthDirector.find(self)
 	var status: StealthDirector.Status = director.status if director else StealthDirector.Status.NONE
 	var banner: Array = BANNERS[status]
 	_banner.text = banner[0]
 	_banner.add_theme_color_override("font_color", banner[1])
+	# The chase banner pulses.
+	_banner.modulate.a = 0.75 + 0.25 * sin(Time.get_ticks_msec() / 110.0) if status == StealthDirector.Status.CHASE else 1.0
+	var was_caught := _caught.visible
 	_caught.visible = status == StealthDirector.Status.CAUGHT
 	if _caught.visible:
+		if not was_caught:
+			_caught_time = 0.0
+			_caught.modulate.a = 0.0
+		_caught_time += delta
+		_caught.modulate.a = minf(_caught.modulate.a + delta * 4.0, 1.0)
 		_caught_label.text = get_caught_text()
+		_caught_bar.value = 1.0 - clampf(_caught_time / director.reset_delay, 0.0, 1.0)
 	_stance.text = get_stance_text()
+	var level := get_detection_level()
+	_meter_alpha = move_toward(_meter_alpha, 1.0 if level > 0.0 and status < StealthDirector.Status.CAUGHT else 0.0, delta * 3.0)
+	_meter.modulate.a = _meter_alpha
+	_meter.queue_redraw()
 	_indicators.queue_redraw()
+
+
+## How close the most aware guard is to catching on (0–1): its detection meter
+## divided by 100, or 1 while any guard is chasing. 0 when no guard notices you.
+func get_detection_level() -> float:
+	var level := 0.0
+	for guard in get_tree().get_nodes_in_group("guards"):
+		if guard.machine == null or guard.vision == null:
+			continue
+		if guard.machine.current == GuardStateMachine.CHASE:
+			return 1.0
+		level = maxf(level, clampf(guard.vision.detection / GuardVision.DETECTION_MAX, 0.0, 1.0))
+	return level
 
 
 ## Caught overlay text, naming where the player will respawn.
@@ -147,6 +208,48 @@ func _draw_indicators() -> void:
 			var at := tip + direction * 14.0 - Vector2(7, -9)
 			_indicators.draw_string_outline(font, at, entry.icon, HORIZONTAL_ALIGNMENT_LEFT, -1, 26, 6, Color.BLACK)
 			_indicators.draw_string(font, at, entry.icon, HORIZONTAL_ALIGNMENT_LEFT, -1, 26, entry.colour)
+
+
+func _draw_meter() -> void:
+	var level := get_detection_level()
+	var bar := Rect2(Vector2(0, 16), METER_SIZE)
+	var colour := COLOUR_NOTICE.lerp(COLOUR_SUSPICIOUS, clampf(level / 0.3, 0.0, 1.0))
+	if level >= 0.3:
+		colour = COLOUR_SUSPICIOUS.lerp(COLOUR_ALERT, clampf((level - 0.3) / 0.7, 0.0, 1.0))
+	_meter.draw_rect(bar.grow(2.0), Color(0, 0, 0, 0.55))
+	_meter.draw_rect(Rect2(bar.position, Vector2(bar.size.x * level, bar.size.y)), colour)
+	# Marks: suspicious (30) and alerted (100).
+	var mark := bar.position.x + bar.size.x * 0.3
+	_meter.draw_line(Vector2(mark, bar.position.y - 3), Vector2(mark, bar.end.y + 3), Color(1, 1, 1, 0.8), 2.0)
+	var font := ThemeDB.fallback_font
+	_meter.draw_string_outline(font, Vector2(0, 12), "DETECTION", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color.BLACK)
+	_meter.draw_string(font, Vector2(0, 12), "DETECTION", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1, 1, 1, 0.85))
+	_meter.draw_string_outline(font, Vector2(mark - 4, 12), "?", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color.BLACK)
+	_meter.draw_string(font, Vector2(mark - 4, 12), "?", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, COLOUR_SUSPICIOUS)
+	_meter.draw_string_outline(font, Vector2(bar.end.x - 4, 12), "!", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color.BLACK)
+	_meter.draw_string(font, Vector2(bar.end.x - 4, 12), "!", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, COLOUR_ALERT)
+
+
+static func _vignette_texture() -> GradientTexture2D:
+	var gradient := Gradient.new()
+	gradient.set_color(0, Color(0.3, 0, 0, 0.0))
+	gradient.set_color(1, Color(0.3, 0, 0, 0.85))
+	gradient.add_point(0.55, Color(0.3, 0, 0, 0.1))
+	var texture := GradientTexture2D.new()
+	texture.gradient = gradient
+	texture.fill = GradientTexture2D.FILL_RADIAL
+	texture.fill_from = Vector2(0.5, 0.5)
+	texture.fill_to = Vector2(1.0, 1.0)
+	texture.width = 256
+	texture.height = 256
+	return texture
+
+
+static func _flat(colour: Color) -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = colour
+	box.set_corner_radius_all(3)
+	return box
 
 
 func _make_label(font_size: int, align: HorizontalAlignment) -> Label:

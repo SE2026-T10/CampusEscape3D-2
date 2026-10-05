@@ -6,6 +6,8 @@ extends CanvasLayer
 ##   - WIN: "ESCAPED" with the time and catches, Play again / Main menu
 ## Runs while the tree is paused (PROCESS_MODE_ALWAYS). Keyboard works too:
 ## the first button has focus, and Enter or Space presses it.
+## Panels fade in; the win title pops in. Buttons click and tick on hover
+## (MenuStyle); pause, resume and victory sounds come from AudioDirector.
 
 var pause_panel: Control
 var win_panel: Control
@@ -17,6 +19,8 @@ var win_menu_button: Button
 
 var _pause_time: Label
 var _win_stats: Label
+var _win_title: Label
+var _win_objectives: Label
 
 
 func _ready() -> void:
@@ -36,10 +40,14 @@ func _ready() -> void:
 
 	win_panel = _overlay(Color(0.02, 0.16, 0.09, 0.82))
 	var win_box := MenuStyle.centred_panel(win_panel)
-	win_box.add_child(MenuStyle.title("ESCAPED", 56, Color(0.5, 1.0, 0.6)))
+	_win_title = MenuStyle.title("ESCAPED", 56, Color(0.5, 1.0, 0.6))
+	win_box.add_child(_win_title)
 	win_box.add_child(MenuStyle.label("You got out of the library with the access card.", 18))
 	_win_stats = MenuStyle.label("", 22)
 	win_box.add_child(_win_stats)
+	_win_objectives = MenuStyle.label("", 16)
+	_win_objectives.add_theme_color_override("font_color", Color(0.7, 0.9, 0.75))
+	win_box.add_child(_win_objectives)
 	play_again_button = _add_button(win_box, "Play again", func(): _flow().restart())
 	win_menu_button = _add_button(win_box, "Main menu", func(): _flow().go_to_main_menu())
 	_connect_flow.call_deferred()
@@ -64,10 +72,28 @@ func refresh() -> void:
 		_pause_time.text = "Time played %s" % format_time(flow.play_time)
 		if not was_paused:
 			resume_button.grab_focus()
+			_fade_in(pause_panel, 0.15)
 	if win_panel.visible:
 		_win_stats.text = get_win_text()
+		_win_objectives.text = get_objectives_text()
 		if not was_won:
 			play_again_button.grab_focus()
+			_fade_in(win_panel, 0.6)
+			_win_title.pivot_offset = _win_title.size / 2.0
+			_win_title.scale = Vector2.ONE * 1.4
+			create_tween().tween_property(_win_title, "scale", Vector2.ONE, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+## "Objectives 5/5 complete" for the win screen.
+func get_objectives_text() -> String:
+	var objectives := ObjectiveManager.find(self)
+	if objectives == null:
+		return ""
+	var done := 0
+	for id in objectives.get_ids():
+		if objectives.get_state(id) == ObjectiveManager.State.COMPLETED:
+			done += 1
+	return "Objectives %d/%d complete" % [done, objectives.get_ids().size()]
 
 
 func get_win_text() -> String:
@@ -80,6 +106,11 @@ func get_win_text() -> String:
 static func format_time(seconds: float) -> String:
 	var s := int(seconds)
 	return "%d:%02d" % [s / 60, s % 60]
+
+
+func _fade_in(panel: Control, seconds: float) -> void:
+	panel.modulate.a = 0.0
+	create_tween().tween_property(panel, "modulate:a", 1.0, seconds)
 
 
 func _flow() -> GameFlow:

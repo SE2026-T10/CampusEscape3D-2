@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/player/player_noise.gd" id="2_noise"]
 [ext_resource type="Script" path="res://scripts/player/player_interactor.gd" id="3_interactor"]
+[ext_resource type="Script" path="res://scripts/presentation/player_feedback.gd" id="4_feedback"]
 
 [sub_resource type="CapsuleShape3D" id="Capsule_player"]
 radius = 0.35
@@ -31,3 +32,6 @@ script = ExtResource("2_noise")
 
 [node name="Interactor" type="Node" parent="."]
 script = ExtResource("3_interactor")
+
+[node name="Feedback" type="Node" parent="."]
+script = ExtResource("4_feedback")

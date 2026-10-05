@@ -44,7 +44,31 @@ static func button(text: String) -> Button:
 				box.border_color = ACCENT
 				box.set_border_width_all(2)
 		b.add_theme_stylebox_override(state, box)
+	b.mouse_entered.connect(func(): play_ui_sound(b, "ui_hover", -8.0))
+	b.pressed.connect(func(): play_ui_sound(b, "ui_click"))
 	return b
+
+
+## Plays a UI sound for `node`: through the level's AudioDirector when there is
+## one, otherwise (main menu) on a short-lived player that works while paused.
+static func play_ui_sound(node: Node, sound: String, volume_db := 0.0) -> void:
+	if not node.is_inside_tree():
+		return
+	var audio := AudioDirector.find(node)
+	if audio:
+		audio.play_ui(sound, volume_db)
+		return
+	var stream := SoundBank.pick(sound)
+	if stream == null:
+		return
+	var player := AudioStreamPlayer.new()
+	player.stream = stream
+	player.bus = &"UI"
+	player.volume_db = volume_db - 4.0
+	player.process_mode = Node.PROCESS_MODE_ALWAYS
+	player.finished.connect(player.queue_free)
+	node.get_tree().root.add_child(player)
+	player.play()
 
 
 ## A centred panel with a vertical list, filling `parent`. Returns the list.

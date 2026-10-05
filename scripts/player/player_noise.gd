@@ -18,6 +18,9 @@ extends Node
 ## Below this speed no footsteps are made.
 @export var min_speed := 0.5
 
+## Emitted for every footstep, for sound and camera feedback: &"crouch", &"walk" or &"run".
+signal footstep(kind: StringName)
+
 var steps_emitted := 0
 var _distance := 0.0
 var _last_position := Vector3.INF
@@ -47,6 +50,7 @@ func _physics_process(_delta: float) -> void:
 	_distance += moved
 	if _distance >= stride:
 		_distance = 0.0
+		footstep.emit(&"crouch" if crouching else (&"run" if running else &"walk"))
 		var system := NoiseSystem.find(_player)
 		if system == null:
 			return

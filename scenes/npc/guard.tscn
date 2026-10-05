@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/npc/guard.gd" id="1_guard"]
 [ext_resource type="Script" path="res://scripts/npc/guard_vision.gd" id="2_vision"]
 [ext_resource type="Script" path="res://scripts/npc/guard_hearing.gd" id="3_hearing"]
+[ext_resource type="Script" path="res://scripts/presentation/guard_presentation.gd" id="4_presentation"]
 
 [sub_resource type="CapsuleShape3D" id="Capsule_guard"]
 radius = 0.35
@@ -14,14 +15,74 @@ albedo_color = Color(0.12, 0.18, 0.38, 1)
 [sub_resource type="StandardMaterial3D" id="Material_cap"]
 albedo_color = Color(0.05, 0.06, 0.1, 1)
 
-[sub_resource type="CapsuleMesh" id="Mesh_body"]
+[sub_resource type="StandardMaterial3D" id="Material_trousers"]
+albedo_color = Color(0.08, 0.1, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_skin"]
+albedo_color = Color(0.86, 0.68, 0.54, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_badge"]
+albedo_color = Color(0.95, 0.78, 0.25, 1)
+metallic = 0.6
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Material_hair"]
+albedo_color = Color(0.22, 0.14, 0.08, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_shoe"]
+albedo_color = Color(0.04, 0.04, 0.05, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_pelvis"]
+material = SubResource("Material_trousers")
+size = Vector3(0.36, 0.2, 0.22)
+
+[sub_resource type="BoxMesh" id="Mesh_torso"]
 material = SubResource("Material_uniform")
-radius = 0.35
-height = 1.8
+size = Vector3(0.44, 0.5, 0.26)
+
+[sub_resource type="BoxMesh" id="Mesh_belt"]
+material = SubResource("Material_cap")
+size = Vector3(0.46, 0.07, 0.28)
+
+[sub_resource type="BoxMesh" id="Mesh_badge"]
+material = SubResource("Material_badge")
+size = Vector3(0.07, 0.08, 0.02)
+
+[sub_resource type="BoxMesh" id="Mesh_head"]
+material = SubResource("Material_skin")
+size = Vector3(0.24, 0.26, 0.24)
+
+[sub_resource type="BoxMesh" id="Mesh_eye"]
+material = SubResource("Material_shoe")
+size = Vector3(0.04, 0.035, 0.01)
+
+[sub_resource type="BoxMesh" id="Mesh_hair"]
+material = SubResource("Material_hair")
+size = Vector3(0.25, 0.12, 0.06)
 
 [sub_resource type="BoxMesh" id="Mesh_cap"]
 material = SubResource("Material_cap")
-size = Vector3(0.5, 0.12, 0.6)
+size = Vector3(0.27, 0.09, 0.27)
+
+[sub_resource type="BoxMesh" id="Mesh_brim"]
+material = SubResource("Material_cap")
+size = Vector3(0.25, 0.03, 0.12)
+
+[sub_resource type="BoxMesh" id="Mesh_arm"]
+material = SubResource("Material_uniform")
+size = Vector3(0.12, 0.52, 0.14)
+
+[sub_resource type="BoxMesh" id="Mesh_hand"]
+material = SubResource("Material_skin")
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="BoxMesh" id="Mesh_leg"]
+material = SubResource("Material_trousers")
+size = Vector3(0.15, 0.8, 0.17)
+
+[sub_resource type="BoxMesh" id="Mesh_shoe"]
+material = SubResource("Material_shoe")
+size = Vector3(0.16, 0.08, 0.26)
 
 [node name="Guard" type="CharacterBody3D"]
 collision_layer = 4
@@ -33,13 +94,101 @@ script = ExtResource("1_guard")
 position = Vector3(0, 0.9, 0)
 shape = SubResource("Capsule_guard")
 
-[node name="Body" type="MeshInstance3D" parent="."]
-position = Vector3(0, 0.9, 0)
-mesh = SubResource("Mesh_body")
+[node name="Model" type="Node3D" parent="."]
+position = Vector3(0, 0, 0)
 
-[node name="Cap" type="MeshInstance3D" parent="."]
-position = Vector3(0, 1.78, -0.1)
+[node name="Hips" type="Node3D" parent="Model"]
+position = Vector3(0, 0.9, 0)
+
+[node name="Pelvis" type="MeshInstance3D" parent="Model/Hips"]
+position = Vector3(0, 0, 0)
+mesh = SubResource("Mesh_pelvis")
+
+[node name="Torso" type="Node3D" parent="Model/Hips"]
+position = Vector3(0, 0.1, 0)
+
+[node name="Chest" type="MeshInstance3D" parent="Model/Hips/Torso"]
+position = Vector3(0, 0.25, 0)
+mesh = SubResource("Mesh_torso")
+
+[node name="Belt" type="MeshInstance3D" parent="Model/Hips/Torso"]
+position = Vector3(0, 0.0, 0)
+mesh = SubResource("Mesh_belt")
+
+[node name="Badge" type="MeshInstance3D" parent="Model/Hips/Torso"]
+position = Vector3(0.11, 0.38, -0.135)
+mesh = SubResource("Mesh_badge")
+
+[node name="Head" type="Node3D" parent="Model/Hips/Torso"]
+position = Vector3(0, 0.52, 0)
+
+[node name="Face" type="MeshInstance3D" parent="Model/Hips/Torso/Head"]
+position = Vector3(0, 0.13, 0)
+mesh = SubResource("Mesh_head")
+
+[node name="EyeL" type="MeshInstance3D" parent="Model/Hips/Torso/Head"]
+position = Vector3(-0.055, 0.15, -0.123)
+mesh = SubResource("Mesh_eye")
+
+[node name="EyeR" type="MeshInstance3D" parent="Model/Hips/Torso/Head"]
+position = Vector3(0.055, 0.15, -0.123)
+mesh = SubResource("Mesh_eye")
+
+[node name="Hair" type="MeshInstance3D" parent="Model/Hips/Torso/Head"]
+position = Vector3(0, 0.2, 0.1)
+mesh = SubResource("Mesh_hair")
+
+[node name="Cap" type="MeshInstance3D" parent="Model/Hips/Torso/Head"]
+position = Vector3(0, 0.28, 0)
 mesh = SubResource("Mesh_cap")
+
+[node name="Brim" type="MeshInstance3D" parent="Model/Hips/Torso/Head"]
+position = Vector3(0, 0.25, -0.18)
+mesh = SubResource("Mesh_brim")
+
+[node name="ArmL" type="Node3D" parent="Model/Hips/Torso"]
+position = Vector3(-0.29, 0.46, 0)
+
+[node name="Sleeve" type="MeshInstance3D" parent="Model/Hips/Torso/ArmL"]
+position = Vector3(0, -0.25, 0)
+mesh = SubResource("Mesh_arm")
+
+[node name="Hand" type="MeshInstance3D" parent="Model/Hips/Torso/ArmL"]
+position = Vector3(0, -0.55, 0)
+mesh = SubResource("Mesh_hand")
+
+[node name="ArmR" type="Node3D" parent="Model/Hips/Torso"]
+position = Vector3(0.29, 0.46, 0)
+
+[node name="Sleeve" type="MeshInstance3D" parent="Model/Hips/Torso/ArmR"]
+position = Vector3(0, -0.25, 0)
+mesh = SubResource("Mesh_arm")
+
+[node name="Hand" type="MeshInstance3D" parent="Model/Hips/Torso/ArmR"]
+position = Vector3(0, -0.55, 0)
+mesh = SubResource("Mesh_hand")
+
+[node name="LegL" type="Node3D" parent="Model/Hips"]
+position = Vector3(-0.1, -0.05, 0)
+
+[node name="Trouser" type="MeshInstance3D" parent="Model/Hips/LegL"]
+position = Vector3(0, -0.4, 0)
+mesh = SubResource("Mesh_leg")
+
+[node name="Shoe" type="MeshInstance3D" parent="Model/Hips/LegL"]
+position = Vector3(0, -0.81, -0.04)
+mesh = SubResource("Mesh_shoe")
+
+[node name="LegR" type="Node3D" parent="Model/Hips"]
+position = Vector3(0.1, -0.05, 0)
+
+[node name="Trouser" type="MeshInstance3D" parent="Model/Hips/LegR"]
+position = Vector3(0, -0.4, 0)
+mesh = SubResource("Mesh_leg")
+
+[node name="Shoe" type="MeshInstance3D" parent="Model/Hips/LegR"]
+position = Vector3(0, -0.81, -0.04)
+mesh = SubResource("Mesh_shoe")
 
 [node name="Vision" type="Node3D" parent="."]
 position = Vector3(0, 1.6, 0)
@@ -72,3 +221,6 @@ height = 1.8
 radius = 0.4
 neighbor_distance = 6.0
 avoidance_enabled = true
+
+[node name="Presentation" type="Node" parent="."]
+script = ExtResource("4_presentation")

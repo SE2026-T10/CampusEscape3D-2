@@ -25,6 +25,8 @@
 [ext_resource type="PackedScene" path="res://scenes/props/ceiling_light.tscn" id="31_ceiling_light"]
 [ext_resource type="PackedScene" path="res://scenes/props/chair.tscn" id="32_chair"]
 [ext_resource type="PackedScene" path="res://scenes/props/potted_plant.tscn" id="33_plant"]
+[ext_resource type="Script" path="res://scripts/presentation/audio_director.gd" id="40_audio"]
+[ext_resource type="Script" path="res://scripts/presentation/ambient_emitter.gd" id="41_ambient"]
 
 [sub_resource type="Environment" id="ENV"]
 background_mode = 1
@@ -3181,3 +3183,56 @@ mesh = SubResource("Box_hazard")
 [node name="Hazard6" type="MeshInstance3D" parent="Dressing/Props"]
 position = Vector3(26.6, 0.008, -23)
 mesh = SubResource("Box_hazard_dark")
+
+[node name="AudioDirector" type="Node" parent="."]
+script = ExtResource("40_audio")
+
+[node name="Ambience" type="Node3D" parent="."]
+
+[node name="ClockTick" type="AudioStreamPlayer3D" parent="Ambience"]
+position = Vector3(0.5, 2.55, -5.7)
+volume_db = -14.0
+unit_size = 3.0
+max_distance = 18.0
+script = ExtResource("41_ambient")
+loop_sound = "amb_clock_tick"
+
+[node name="ReadingPages" type="AudioStreamPlayer3D" parent="Ambience"]
+position = Vector3(6, 1.0, 2)
+volume_db = -12.0
+unit_size = 3.0
+max_distance = 20.0
+script = ExtResource("41_ambient")
+sounds = PackedStringArray("amb_page_turn", "amb_page_turn", "amb_chair_creak")
+interval_min = 6.0
+interval_max = 16.0
+
+[node name="StacksBooks" type="AudioStreamPlayer3D" parent="Ambience"]
+position = Vector3(-12, 1.2, 3)
+volume_db = -12.0
+unit_size = 3.0
+max_distance = 20.0
+script = ExtResource("41_ambient")
+sounds = PackedStringArray("amb_book_thud", "amb_page_turn")
+interval_min = 10.0
+interval_max = 24.0
+
+[node name="ArchivePages" type="AudioStreamPlayer3D" parent="Ambience"]
+position = Vector3(-9, 1.2, -20)
+volume_db = -16.0
+unit_size = 2.5
+max_distance = 14.0
+script = ExtResource("41_ambient")
+sounds = PackedStringArray("amb_page_turn", "amb_book_thud")
+interval_min = 14.0
+interval_max = 30.0
+
+[node name="EntranceChair" type="AudioStreamPlayer3D" parent="Ambience"]
+position = Vector3(3, 0.6, 16)
+volume_db = -14.0
+unit_size = 3.0
+max_distance = 16.0
+script = ExtResource("41_ambient")
+sounds = PackedStringArray("amb_chair_creak")
+interval_min = 18.0
+interval_max = 36.0
