@@ -43,7 +43,9 @@ extends SceneTree
 ## and the time spent in guard scripts (AI + vision + hearing) and in guard
 ## presentation (animation), using timing probes around them.
 ## Vsync is turned off and the frame rate uncapped. Headless runs measure the
-## CPU side only (no rendering). Nothing here changes the game itself.
+## CPU side only (no rendering). Every time a guard gives up on a patrol point
+## because it is stuck, it is recorded in summary.json (stuck_events).
+## Nothing here changes the game itself.
 
 const LEVEL := "res://scenes/level/library_graybox.tscn"
 const GUARD := "res://scenes/npc/guard.tscn"
@@ -125,6 +127,8 @@ var _next_noise := 0.0
 var _noise_index := 0
 var _status_changes := {}
 var _caught := 0
+## Every time a guard gave up on a patrol point because it was stuck.
+var _stuck_events: Array = []
 var _rendering := false
 var _screenshot_taken := false
 var _start_objects := 0
@@ -168,6 +172,10 @@ func _run() -> void:
 		var key: String = StealthDirector.Status.keys()[b]
 		_status_changes[key] = _status_changes.get(key, 0) + 1)
 	director.player_caught.connect(func(_g): _caught += 1)
+	for g in _guards():
+		g.got_stuck.connect(func(point: int): _stuck_events.append({"t": snappedf(_sim_time, 0.01), "guard": String(g.name),
+			"point": point, "at": [snappedf(g.global_position.x, 0.01), snappedf(g.global_position.z, 0.01)],
+			"state": g.machine.get_state_name() if g.machine else "-"}))
 	physics_frame.connect(_on_physics_tick)
 	process_frame.connect(_on_frame)
 
@@ -229,12 +237,20 @@ func _add_extra_guards() -> void:
 		guard.name = "BenchGuard%02d" % (i + 1)
 		guard.patrol_route = route
 		var count := route.get_point_count()
+		# Start slots along the route at quarter steps: ¼ of the way from point 0
+		# to 1, ½, ¾, point 1, … — never point 0, where the level's own guard
+		# starts. Each extra guard on a route takes the next free slot (4 × points
+		# − 1 slots per route), so no two guards start in the same place.
 		var lap := i / routes.size()
-		var a := (lap + 1) % count
-		var t := 0.5 * float((lap / count) % 2)  # later laps start halfway between points
+		var slots := count * 4 - 1
+		if lap >= slots:
+			push_warning("benchmark: more guards than start slots on %s; some start together." % route.name)
+		var slot := lap % slots + 1
+		var a := (slot / 4) % count
+		var t := 0.25 * float(slot % 4)
 		var start := route.get_point_position(a).lerp(route.get_point_position((a + 1) % count), t)
 		guard.position = start + Vector3(0, 0.05, 0)  # the Guards node sits at the origin
-		guard.set_meta("bench_start_point", (a + 1) % count if t > 0.0 else a)
+		guard.set_meta("bench_start_point", (a + 1) % count if t > 0.0 else a)  # walk on to the next point
 		guards_node.add_child(guard)
 
 
@@ -456,7 +472,7 @@ func _summarise() -> Dictionary:
 		"physics_ticks_per_frame": _sum(_column(COLUMNS.find("physics_ticks"))) / maxf(_row_count, 1),
 		"fps_avg": _row_count / (_sum(frame) / 1000.0) if not frame.is_empty() else 0.0,
 		"fps_1pct_low": 1000.0 / _percentile(frame, 99.0) if not frame.is_empty() else 0.0,
-		"caught": _caught, "status_changes": _status_changes,
+		"caught": _caught, "status_changes": _status_changes, "stuck_events": _stuck_events,
 		"object_count_growth": int(Performance.get_monitor(Performance.OBJECT_COUNT)) - _start_objects,
 		"static_mem_growth_mb": (Performance.get_monitor(Performance.MEMORY_STATIC) - _start_static) / 1048576.0,
 		"metrics": {},

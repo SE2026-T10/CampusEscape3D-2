@@ -4,7 +4,7 @@ extends Node
 ## (tests/player_tests.gd), Phase 3 navigation tests (tests/navigation_tests.gd)
 ## Phase 4 guard tests (tests/guard_tests.gd), Phase 5 vision tests (tests/vision_tests.gd)
 ## Phase 6 AI tests (tests/ai_state_tests.gd unit tests, tests/ai_behavior_tests.gd in the level)
-## Phase 7 hearing tests (tests/hearing_tests.gd), Phase 8 stealth-loop tests (tests/loop_tests.gd), Phase 9 objective and checkpoint tests (tests/objective_tests.gd) Phase 10 game-flow tests (tests/game_flow_tests.gd), Phase 11 level-design tests (tests/level_design_tests.gd), Phase 12 presentation tests (tests/presentation_tests.gd) and Phase 13 performance checks (tests/performance_tests.gd). Run this scene directly in Godot (F6), or headless:
+## Phase 7 hearing tests (tests/hearing_tests.gd), Phase 8 stealth-loop tests (tests/loop_tests.gd), Phase 9 objective and checkpoint tests (tests/objective_tests.gd), Phase 10 game-flow tests (tests/game_flow_tests.gd), Phase 11 level-design tests (tests/level_design_tests.gd), Phase 12 presentation tests (tests/presentation_tests.gd), Phase 13 performance checks (tests/performance_tests.gd) and Phase 14 QA playthroughs and regression tests (tests/qa_playthrough_tests.gd, tests/qa_regression_tests.gd). Run this scene directly in Godot (F6), or headless:
 ##   godot --headless --path . res://tests/test_scene.tscn
 ## Exits with code 0 when every check passes and 1 otherwise, so it can be
 ## used by an automated build. Checks use explicit failures instead of
@@ -26,6 +26,8 @@ const GameFlowTests := preload("res://tests/game_flow_tests.gd")
 const LevelDesignTests := preload("res://tests/level_design_tests.gd")
 const PresentationTests := preload("res://tests/presentation_tests.gd")
 const PerformanceTests := preload("res://tests/performance_tests.gd")
+const QAPlaythroughTests := preload("res://tests/qa_playthrough_tests.gd")
+const QARegressionTests := preload("res://tests/qa_regression_tests.gd")
 const MAIN_MENU_SCENE := "res://scenes/ui/main_menu.tscn"
 const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
 const REQUIRED_DIRS := [
@@ -62,9 +64,11 @@ func _ready() -> void:
 	_failures.append_array(await LevelDesignTests.new().run(self))
 	_failures.append_array(await PresentationTests.new().run(self))
 	_failures.append_array(PerformanceTests.new().run(self))
+	_failures.append_array(await QAPlaythroughTests.new().run(self))
+	_failures.append_array(await QARegressionTests.new().run(self))
 
 	if _failures.is_empty():
-		print("All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design, Phase 12 presentation, Phase 13 performance).")
+		print("All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design, Phase 12 presentation, Phase 13 performance, Phase 14 QA).")
 		get_tree().quit(0)
 	else:
 		for failure in _failures:

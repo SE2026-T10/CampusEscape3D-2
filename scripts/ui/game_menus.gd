@@ -17,9 +17,11 @@ var pause_menu_button: Button
 var play_again_button: Button
 var win_menu_button: Button
 
+## The win screen's "ESCAPED" title (it pops in when the screen opens).
+var win_title: Label
+
 var _pause_time: Label
 var _win_stats: Label
-var _win_title: Label
 var _win_objectives: Label
 
 
@@ -40,8 +42,17 @@ func _ready() -> void:
 
 	win_panel = _overlay(Color(0.02, 0.16, 0.09, 0.82))
 	var win_box := MenuStyle.centred_panel(win_panel)
-	_win_title = MenuStyle.title("ESCAPED", 56, Color(0.5, 1.0, 0.6))
-	win_box.add_child(_win_title)
+	# The title sits in a plain Control, not directly in the VBoxContainer:
+	# containers reset their children's scale, which would cancel the pop.
+	win_title = MenuStyle.title("ESCAPED", 56, Color(0.5, 1.0, 0.6))
+	var title_holder := Control.new()
+	win_title.set_anchors_preset(Control.PRESET_FULL_RECT)
+	title_holder.add_child(win_title)
+	win_box.add_child(title_holder)
+	# The holder takes the title's size (known once the theme applies, in the tree).
+	var fit := func(): title_holder.custom_minimum_size = win_title.get_combined_minimum_size()
+	win_title.minimum_size_changed.connect(fit)
+	fit.call()
 	win_box.add_child(MenuStyle.label("You got out of the library with the access card.", 18))
 	_win_stats = MenuStyle.label("", 22)
 	win_box.add_child(_win_stats)
@@ -79,9 +90,17 @@ func refresh() -> void:
 		if not was_won:
 			play_again_button.grab_focus()
 			_fade_in(win_panel, 0.6)
-			_win_title.pivot_offset = _win_title.size / 2.0
-			_win_title.scale = Vector2.ONE * 1.4
-			create_tween().tween_property(_win_title, "scale", Vector2.ONE, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			_pop_title()
+
+
+## Scales the win title from 140% to 100% around its centre. Waits one frame
+## first, so the panel that just appeared has been laid out and the title's
+## size (and so its centre) is the real one.
+func _pop_title() -> void:
+	win_title.scale = Vector2.ONE * 1.4
+	await get_tree().process_frame
+	win_title.pivot_offset = win_title.size / 2.0
+	create_tween().tween_property(win_title, "scale", Vector2.ONE, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 ## "Objectives 5/5 complete" for the win screen.

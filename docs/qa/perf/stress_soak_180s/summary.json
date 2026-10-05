@@ -1,0 +1,401 @@
+{
+  "caught": 0,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "cpu_threads": 2,
+  "debug_build": true,
+  "disabled": "",
+  "fps_1pct_low": 240.211386019697,
+  "fps_avg": 451.531368636734,
+  "frames": 10800,
+  "godot": "4.7.2-stable (official)",
+  "gpu": " / ",
+  "guard_ai_ms_per_tick": 0.368739444444445,
+  "guard_ai_ms_per_tick_per_guard": 0.0153641435185186,
+  "guards": 24,
+  "label": "qa_stress_soak",
+  "metrics": {
+    "collision_pairs": {
+      "max": 65.0,
+      "mean": 46.5646296296296,
+      "p50": 46.0,
+      "p95": 57.0,
+      "p99": 61.0
+    },
+    "draw_calls": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "frame_ms": {
+      "max": 34.138,
+      "mean": 2.21468555555554,
+      "p50": 2.125,
+      "p95": 3.057,
+      "p99": 4.163
+    },
+    "guard_ai_ms": {
+      "max": 6.16,
+      "mean": 0.368739444444445,
+      "p50": 0.348,
+      "p95": 0.518,
+      "p99": 0.744
+    },
+    "guard_presentation_ms": {
+      "max": 3.437,
+      "mean": 0.188935833333332,
+      "p50": 0.178,
+      "p95": 0.275,
+      "p99": 0.402
+    },
+    "guards_moving": {
+      "max": 23.0,
+      "mean": 13.6803703703704,
+      "p50": 14.0,
+      "p95": 19.0,
+      "p99": 21.0
+    },
+    "nav_agents": {
+      "max": 24.0,
+      "mean": 24.0,
+      "p50": 24.0,
+      "p95": 24.0,
+      "p99": 24.0
+    },
+    "navigation_max1s_ms": {
+      "max": 32.453,
+      "mean": 5.03244666666661,
+      "p50": 2.795,
+      "p95": 26.977,
+      "p99": 32.453
+    },
+    "node_count": {
+      "max": 1755.0,
+      "mean": 1755.0,
+      "p50": 1755.0,
+      "p95": 1755.0,
+      "p99": 1755.0
+    },
+    "object_count": {
+      "max": 4465.0,
+      "mean": 4394.97777777778,
+      "p50": 4394.0,
+      "p95": 4421.0,
+      "p99": 4434.0
+    },
+    "objects": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "orphan_nodes": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "other_ms": {
+      "max": 32.745,
+      "mean": 1.20347064814815,
+      "p50": 1.13,
+      "p95": 1.751,
+      "p99": 2.814
+    },
+    "physics_active": {
+      "max": 25.0,
+      "mean": 25.0,
+      "p50": 25.0,
+      "p95": 25.0,
+      "p99": 25.0
+    },
+    "physics_max1s_ms": {
+      "max": 158.933,
+      "mean": 13.7681868518522,
+      "p50": 4.712,
+      "p95": 33.314,
+      "p99": 158.933
+    },
+    "physics_ticks": {
+      "max": 1.0,
+      "mean": 1.0,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0
+    },
+    "primitives": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "process_max1s_ms": {
+      "max": 5.963,
+      "mean": 2.74145222222219,
+      "p50": 2.251,
+      "p95": 4.777,
+      "p99": 5.963
+    },
+    "render_cpu_ms": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "render_gpu_ms": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "scripts_physics_ms": {
+      "max": 6.401,
+      "mean": 0.613178981481483,
+      "p50": 0.589,
+      "p95": 0.843,
+      "p99": 1.179
+    },
+    "scripts_process_ms": {
+      "max": 3.653,
+      "mean": 0.399331203703703,
+      "p50": 0.381,
+      "p95": 0.545,
+      "p99": 0.732
+    },
+    "static_mem_mb": {
+      "max": 70.7377061843872,
+      "mean": 70.1146241735529,
+      "p50": 70.1010847091675,
+      "p95": 70.3870649337769,
+      "p99": 70.5147104263306
+    },
+    "video_mem_mb": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    }
+  },
+  "mode": "headless",
+  "object_count_growth": 2,
+  "os": "Linux 24.04",
+  "physics_ticks_per_frame": 1.0,
+  "renderer": "gl_compatibility",
+  "resolution": "none (headless)",
+  "scenario": "stress",
+  "seconds": 180.0,
+  "static_mem_growth_mb": 0.251239776611328,
+  "status_changes": {
+    "INVESTIGATING": 1
+  },
+  "stuck_events": [
+    {
+      "at": [
+        -4.79,
+        -21.18
+      ],
+      "guard": "BenchGuard20",
+      "point": 3,
+      "state": "PATROL",
+      "t": 9.83
+    },
+    {
+      "at": [
+        -15.45,
+        -20.52
+      ],
+      "guard": "BenchGuard14",
+      "point": 1,
+      "state": "PATROL",
+      "t": 48.67
+    },
+    {
+      "at": [
+        -9.63,
+        -21.15
+      ],
+      "guard": "BenchGuard02",
+      "point": 0,
+      "state": "PATROL",
+      "t": 53.9
+    },
+    {
+      "at": [
+        24.98,
+        -20.29
+      ],
+      "guard": "BenchGuard09",
+      "point": 1,
+      "state": "PATROL",
+      "t": 59.9
+    },
+    {
+      "at": [
+        -6.81,
+        -2.88
+      ],
+      "guard": "BenchGuard07",
+      "point": 0,
+      "state": "PATROL",
+      "t": 68.7
+    },
+    {
+      "at": [
+        -7.26,
+        -19.84
+      ],
+      "guard": "BenchGuard17",
+      "point": 3,
+      "state": "PATROL",
+      "t": 71.82
+    },
+    {
+      "at": [
+        -10.34,
+        -19.85
+      ],
+      "guard": "BenchGuard02",
+      "point": 1,
+      "state": "PATROL",
+      "t": 74.48
+    },
+    {
+      "at": [
+        -13.02,
+        -19.84
+      ],
+      "guard": "BenchGuard02",
+      "point": 2,
+      "state": "PATROL",
+      "t": 79.52
+    },
+    {
+      "at": [
+        26.28,
+        -24.83
+      ],
+      "guard": "BenchGuard09",
+      "point": 2,
+      "state": "PATROL",
+      "t": 86.73
+    },
+    {
+      "at": [
+        26.55,
+        -25.08
+      ],
+      "guard": "BenchGuard15",
+      "point": 2,
+      "state": "PATROL",
+      "t": 91.6
+    },
+    {
+      "at": [
+        23.63,
+        -22.15
+      ],
+      "guard": "BenchGuard03",
+      "point": 3,
+      "state": "PATROL",
+      "t": 106.45
+    },
+    {
+      "at": [
+        -5.26,
+        -1.12
+      ],
+      "guard": "BenchGuard10",
+      "point": 0,
+      "state": "PATROL",
+      "t": 116.75
+    },
+    {
+      "at": [
+        22.45,
+        -20.62
+      ],
+      "guard": "BenchGuard06",
+      "point": 3,
+      "state": "PATROL",
+      "t": 130.68
+    },
+    {
+      "at": [
+        22.01,
+        -16.47
+      ],
+      "guard": "GuardEast",
+      "point": 1,
+      "state": "PATROL",
+      "t": 135.83
+    },
+    {
+      "at": [
+        23.5,
+        -16.07
+      ],
+      "guard": "BenchGuard12",
+      "point": 3,
+      "state": "PATROL",
+      "t": 136.6
+    },
+    {
+      "at": [
+        -8.63,
+        -19.85
+      ],
+      "guard": "GuardRestricted",
+      "point": 1,
+      "state": "PATROL",
+      "t": 141.95
+    },
+    {
+      "at": [
+        22.9,
+        -19.76
+      ],
+      "guard": "GuardEast",
+      "point": 0,
+      "state": "PATROL",
+      "t": 154.42
+    },
+    {
+      "at": [
+        -2.71,
+        -2.98
+      ],
+      "guard": "BenchGuard07",
+      "point": 1,
+      "state": "PATROL",
+      "t": 165.4
+    },
+    {
+      "at": [
+        -9.38,
+        -21.15
+      ],
+      "guard": "BenchGuard17",
+      "point": 1,
+      "state": "PATROL",
+      "t": 168.23
+    },
+    {
+      "at": [
+        -14.38,
+        -21.08
+      ],
+      "guard": "BenchGuard17",
+      "point": 2,
+      "state": "PATROL",
+      "t": 173.27
+    }
+  ],
+  "warmup": 5.0
+}

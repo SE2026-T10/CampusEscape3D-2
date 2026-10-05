@@ -7,7 +7,7 @@ Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university
 - Engine: Godot 4.7.2 Stable (`ed1daf0bf`)
 - Language: GDScript
 - Target: Windows desktop
-- Current phase: Phase 13 — Performance profiling
+- Current phase: Phase 14 — Final QA
 
 ## Run the project
 
@@ -123,6 +123,16 @@ godot --headless --fixed-fps 60 --path . --script res://tools/benchmark.gd -- --
 - `python3 docs/performance/analyse.py` rebuilds the tables and charts (needs matplotlib).
 - Results and method: `docs/phase-13-performance.md`.
 
+### QA tools
+
+- `tools/qa_flow.gd` plays the real game flow with real scene changes and checks 15 steps:
+  - main menu → start, pause, resume, restart;
+  - caught → respawn, back to the menu and start again;
+  - win, play again, quit.
+
+  Run it with `godot --path . --script res://tools/qa_flow.gd -- --out=docs/qa/flow_check`; it prints `QA FLOW PASSED` and exits 0.
+- `docs/qa/REGRESSION_CHECKLIST.md` lists what to run and what to check by hand before a release.
+
 ### Adding or changing a guard patrol
 
 1. Add a `PatrolRoute` node (script `scripts/npc/patrol_route.gd`) under `Guards`. Untick **Loop** if the guard should stop at the last point.
@@ -164,7 +174,7 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 
 ## Run the tests
 
-In the editor: open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design, Phase 12 presentation, Phase 13 performance).` to the Output panel and exits.
+In the editor: open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design, Phase 12 presentation, Phase 13 performance, Phase 14 QA).` to the Output panel and exits.
 
 From a terminal (no window), with the Godot 4.7.2 executable on your `PATH`:
 
@@ -224,6 +234,10 @@ The run exits with code `0` when every check passes and `1` otherwise, listing e
   - guards walk on patrol and search when investigating, with footsteps and radio
   - the AudioDirector reacts to stealth, objective, pause and door events, without repeating stings
   - UI sounds work while paused; the detection meter follows the most aware guard
+- `tests/qa_playthrough_tests.gd` — Phase 14 playthroughs:
+  - the whole route walked with real input (all objectives, checkpoints, E on the card and door, victory, sounds);
+  - a real chase and catch (run animation, chase music, caught screen, respawn at the checkpoint).
+- `tests/qa_regression_tests.gd` — one check per bug fixed in the QA pass (win title pop, benchmark guard placement)
 - `tests/performance_tests.gd` — Phase 13 checks: the measured shadow settings stay (sun shadows on, 2 cascades, 2048 atlas); the benchmark's scenarios and statistics
 - `tests/vision_tests.gd` — Phase 5 checks in a purpose-built arena: FOV and range maths, a player straight ahead is seen and the meter fills in the expected time, the meter holds then drains after losing sight, the last known position never updates while hidden, walls and tall shelves block sight but a low table doesn't, players outside the cone or out of range are not seen, far players fill the meter slowly, thresholds are configurable, and the debug cone stops at walls. In the library: every guard has vision, and no guard sees the spawn during a full patrol loop.
 - `tests/navigation_tests.gd` — Phase 3 checks: every room exists, navigation covers open floor and none of the walls or furniture, nothing is baked outside the rooms or on furniture, every floor edge is walled, paths reach every room without crossing walls, a `NavigationAgent3D` probe walks from the entrance to the exit, the debug overlay draws the navmesh, and the saved navmesh matches a fresh bake.
@@ -244,3 +258,4 @@ The run exits with code `0` when every check passes and `1` otherwise, listing e
 - `docs/level/LEVEL_LOG.md` (level-design versions v0–v4 with evidence)
 - `docs/phase-12-presentation.md`
 - `docs/phase-13-performance.md` (benchmark, measurements, optimisation; evidence in `docs/performance/`)
+- `docs/phase-14-qa.md` (final QA pass; checklist and evidence in `docs/qa/`)

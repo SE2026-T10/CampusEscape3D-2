@@ -4,6 +4,18 @@ This phase added a reproducible benchmark, measured the game in three scenarios,
 
 **Read this first: every number here comes from one Linux cloud VM with no GPU.** The game was rendered by Mesa llvmpipe, a software OpenGL rasteriser. That makes rendering far slower, and fill-rate bound in a way a real GPU isn't, so the absolute frame rates say nothing about the Windows target. The CPU-side figures (game logic, physics, navigation) and the draw-call and object counts transfer much better. **No Windows measurement was made.** How to make one is under "Manual verification still required".
 
+## Correction (Phase 14 QA pass)
+
+The QA pass found a bug in the first version of the benchmark: with 13 or more guards, some extra guards started at exactly the same spot as one of the level's own guards. Each such pair blocked each other, and the "stuck" fallback fired again and again.
+
+This affected:
+- the stress runs (24 guards);
+- the CPU scaling runs for 16–48 guards.
+
+The tool now gives every extra guard its own start slot. Those runs were re-measured with the fixed tool: "before" on the pre-optimisation commit, in a separate worktree, and "after" on the current code. They are in `docs/performance/stress_rerun/` and `after_2splits_2048/cpu_scaling/`, and the stress and scaling figures on this page are the corrected ones.
+
+The conclusions are unchanged: rendering dominates, and the optimisation gives about +35% FPS in the stress scenario. The normal and several scenarios were not affected. The old stress runs are kept in `baseline/`, `after_2splits/` and `after_2splits_2048/`, but are superseded; the intermediate "2 cascades" stage was not re-measured for stress.
+
 ## Test setup
 
 | Item | Value |
@@ -85,9 +97,9 @@ The shares add up to slightly more than 100% because "other" is clamped at zero 
 |---|---|---|---|---|---|
 | normal | 3 | 0.72 / 1.07 | 0.067 | 0.034 | 0.40 |
 | several | 8 | 1.19 / 1.74 | 0.150 | 0.075 | 0.64 |
-| stress | 24 | 2.19 / 3.09 | 0.384 | 0.195 | 1.16 |
+| stress | 24 | 2.33 / 3.31 | 0.381 | 0.204 | 1.26 |
 
-The game logic is cheap. Even 48 guards cost 3.1 ms of CPU per frame (`chart_cpu_scaling.png`): roughly linear, about 0.015–0.02 ms per guard for AI plus perception. The largest CPU part is "other" (physics engine and navigation). **Nothing on the CPU side justified optimising.**
+The game logic is cheap. Even 48 guards cost 3.8 ms of CPU per frame (`chart_cpu_scaling.png`): roughly linear, about 0.014–0.02 ms per guard for AI plus perception. The largest CPU part is "other" (physics engine and navigation). **Nothing on the CPU side justified optimising.**
 
 **Rendering diagnostics** (`chart_diagnostics.png`; normal scenario, 20 s; one thing changed at a time; baseline about 123–126 ms):
 
@@ -127,7 +139,7 @@ The game logic is cheap. Even 48 guards cost 3.1 ms of CPU per frame (`chart_cpu
 |---|---|---|---|---|---|---|
 | normal (3) | 8.37 → **11.61** (+39%) | 5.59 → 7.85 | 119.6 → 86.2 (−28%) | 158.0 → 115.6 | 109.1 → 77.4 | 359 → 302 |
 | several (8) | 8.18 → **11.41** (+39%) | 5.94 → 7.69 | 122.2 → 87.6 (−28%) | 155.7 → 114.9 | 109.3 → 77.5 | 441 → 371 |
-| stress (24) | 7.72 → **10.54** (+37%) | 5.39 → 6.92 | 129.5 → 95.0 (−27%) | 169.9 → 125.8 | 111.8 → 79.9 | 621 → 521 |
+| stress (24) | 7.85 → **10.57** (+35%) | 5.55 → 7.08 | 127.3 → 94.6 (−26%) | 160.6 → 127.7 | 109.4 → 79.1 | 730 → 607 |
 
 **What each step contributed (normal):**
 - 2 cascades: 8.37 → 10.61 FPS.
@@ -140,7 +152,7 @@ The game logic is cheap. Even 48 guards cost 3.1 ms of CPU per frame (`chart_cpu
 **Headless CPU** was unchanged within noise, as expected for a rendering-only change:
 - normal 0.72 → 0.77 ms;
 - several 1.19 → 1.14 ms;
-- stress 2.19 → 2.10 ms.
+- stress 2.33 → 2.14 ms.
 
 **Video memory** was reported as 32 MB both before and after. Godot's monitor does not appear to include the directional shadow atlas on this renderer, so the memory saved by the smaller atlas is not measured.
 
@@ -151,7 +163,7 @@ GDScript frees objects by reference counting; it has no tracing garbage collecto
 - **Objects:** varied between 3,054 and 3,089 (short-lived noise events and tweens) with no upward trend.
 - **Nodes and orphan nodes:** nodes constant at 936; orphan nodes 0.
 
-There is no sign of a leak. Memory grows with guard count: 65.8 MB (3 guards) to 74.1 MB (48), about 0.18 MB per guard.
+There is no sign of a leak. Memory grows with guard count: 65.8 MB (3 guards) to 74.5 MB (48), about 0.19 MB per guard.
 
 ## Frame-time spikes
 
@@ -209,6 +221,6 @@ On a shared 2-vCPU VM this is consistent with scheduling. They can't be attribut
 
 - **Hardware:** the only measurements are on a GPU-less VM, so the size of the rendering gain on Windows is unknown. Cascade count and atlas size are cheaper on any GPU, but by how much has to be measured there.
 - **Optimisation not taken:** omni lights and decoration have a measurable cost but were left alone, because reducing them would change the look.
-- **Guard draw calls:** the guard model is about 20 separate meshes, roughly 12 extra draw calls per visible guard (stress: 621 vs 359 draw calls). That's fine at the game's 3 guards. Merging the meshes would need a skinned model, which wasn't justified by these measurements.
+- **Guard draw calls:** the guard model is about 20 separate meshes, about 18 extra draw calls per guard in the stress run (stress: 730 vs 359 draw calls before the optimisation). That's fine at the game's 3 guards. Merging the meshes would need a skinned model, which wasn't justified by these measurements.
 - **Benchmark coverage:** chase and catch aren't exercised, since a catch would freeze the scene. Investigation is.
 - **Navigation time:** reported only inside "other" and as Godot's once-per-second monitor; there is no separate per-frame figure.
