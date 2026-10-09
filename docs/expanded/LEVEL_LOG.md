@@ -61,3 +61,44 @@ The full design is in [`LAYOUT.md`](LAYOUT.md).
 - locks on the gates and the shortcut;
 - cross-floor sight and hearing tuning;
 - pacing toward the 20–30 minute target.
+
+---
+
+## v1 — Guards and patrols (Expanded Library Phase 3, 2026-10-09)
+
+Commit: `level(expanded-v1): guards, patrols and stair fixes` (one commit with the tests and the guard steering fix).
+
+**What:**
+- **Six guards on six loops,** using the existing guard scene and AI unchanged (PATROL / INVESTIGATE / CHASE):
+  - lobby (P1);
+  - two in the main stacks (P2 outer, P2b inner with the browsing hall);
+  - upper stacks (P5, watching both stair tops);
+  - archive (P7);
+  - a connector (P8) that goes up S1 and down S3 through both staff doors.
+- **Planned only:** P3, P4 and P6 have no guard yet.
+- **Stair balustrades are now vertical panels.** The v0 panel was turned with the slope, leaned past the foot of the ramp and caught guards.
+- **Navmesh rebaked:** 891 polygons; 2,805 m² on the ground floor and 1,663 m² upstairs.
+
+**Why:**
+- the suggested distribution: one lobby guard, two in the main stacks, one upstairs, one in the archive, and one connecting the floors;
+- the spawn stays unseen;
+- every route still has gaps between watches.
+
+**Metrics:**
+
+| Metric | v0 | v1 |
+|---|---|---|
+| Guards | 0 | 6 |
+| Loop lengths | — | 51, 99, 76, 101, 59, 180 m |
+| Main route along the navmesh | 273 m | 272 m |
+| Main route ever seen by a guard (standing) | — | 81% of its metres |
+| Main route watched < 5% of the time ("safe") | — | 40% |
+| Mean / peak exposure along the main route | — | 8.5% / 27% (crouched 7.9%) |
+| 900 s soak: stuck events / state changes | — | 0 / 0 |
+
+**Evidence:** [`v1/`](v1/)
+- plans with the guard loops: `layout_*.png`;
+- top views: `top_*.png`; navmesh: `navmesh_*.png`;
+- `views/`;
+- `soak/report.md` and `soak/summary.json`;
+- `test_run.txt`, `mutation_checks.txt`.

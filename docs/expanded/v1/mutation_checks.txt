@@ -1,0 +1,24 @@
+# Phase 3 mutation check (2026-10-09). The guard steering fix in scripts/npc/guard.gd
+# (_horizontal_to_next_corner, remembered passed corners) was reverted to the Phase 2
+# version; everything else was left the same. tests/expanded_ai_tests.gd was then run
+# on that copy. Linux VM, headless, Godot 4.7.2.stable.official.ed1daf0bf.
+#
+# Expected: guards stall under path corners on the ramps, so every test that needs a
+# guard to change floors fails.
+
+FAIL: [expanded-ai] GuardConnector did not complete its loop in order within 240 s (reached [1, 7, 0, 1, 7, 0, 1, 7]).
+FAIL: [expanded-ai] GuardConnector got stuck 15 time(s).
+FAIL: [expanded-ai] GuardConnector should patrol both floors (y 0.00…3.95).
+FAIL: [expanded-ai] Stair pursuit: the guard should follow up S1 to the upper floor (highest y 3.95).
+FAIL: [expanded-ai] Stair pursuit: after searching upstairs the guard should walk back down to its post (now at (-10.35098, 0.000458, 20.92093), PATROL).
+FAIL: [expanded-ai] Stair pursuit: the guard should end on the ground floor again.
+FAIL: [expanded-ai] Narrow passage, S2 staff stair (3 m): two guards crossing head-on should both get through (ok false, stuck 2).
+FAIL: [expanded-ai] Tour: the guard should reach all 16 points without getting stuck (reached 2, stuck 14).
+FAIL: [expanded-ai] Tour: the guard never went through Archive Back Gate G3.
+FAIL: [expanded-ai] Tour: the guard never went through Archive Front Gate G2.
+FAIL: [expanded-ai] Tour: the guard never went through Staff Wing Door G1a.
+FAIL: [expanded-ai] Tour: the guard never went through Staff Door (Stacks) G1b.
+FAIL: [expanded-ai] Tour: the guard never went through Service Shortcut SC1.
+RESULT 13 failures in 333.0 s
+
+With the fix in place, the same tests pass: RESULT 0 failures (see test_run.txt).

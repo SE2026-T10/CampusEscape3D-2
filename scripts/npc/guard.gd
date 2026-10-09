@@ -56,6 +56,8 @@ const KEEP_RIGHT_AFTER := 0.6
 const KEEP_RIGHT_ANGLE := 0.6
 ## The remaining path must shrink by this much (metres) to count as progress.
 const PROGRESS_STEP := 0.5
+## A path corner closer than this horizontally counts as straight above or below the guard.
+const UNDER_CORNER := 0.15
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 ## The guard's brain. Created in _ready.
@@ -70,6 +72,8 @@ var _blocked_time := 0.0
 var _best_remaining := INF
 var _face_yaw := NAN
 var _pending_noise := {}
+## Path corners the guard stood straight under (see _horizontal_to_next_corner).
+var _passed_corners := PackedVector3Array()
 
 @onready var agent: NavigationAgent3D = $NavigationAgent3D
 @onready var debug_label: Label3D = $DebugLabel
@@ -183,9 +187,11 @@ func navigate_to(point: Vector3, speed: float) -> void:
 	_blocked_time = 0.0
 	_best_remaining = INF
 	_face_yaw = NAN
+	_passed_corners.clear()
 
 
 func stop_moving() -> void:
+	_passed_corners.clear()
 	_navigating = false
 	_move_speed = 0.0
 	_stuck_time = 0.0
@@ -236,8 +242,7 @@ func _navigation_velocity(delta: float) -> Vector3:
 	if agent.is_navigation_finished():
 		_arrived = true
 		return Vector3.ZERO
-	var to_next := agent.get_next_path_position() - global_position
-	to_next.y = 0.0
+	var to_next := _horizontal_to_next_corner()
 	var desired := to_next.normalized() * _move_speed if to_next.length_squared() > 0.0001 else Vector3.ZERO
 	# Stuck detection: the remaining path has not shrunk by PROGRESS_STEP for stuck_timeout seconds.
 	var remaining := _remaining_path_length()
@@ -256,6 +261,38 @@ func _navigation_velocity(delta: float) -> Vector3:
 	if _blocked_time > KEEP_RIGHT_AFTER:
 		desired = desired.rotated(Vector3.UP, -KEEP_RIGHT_ANGLE)
 	return desired
+
+
+## Horizontal offset to the next corner of the navigation path. The agent
+## counts a corner as reached within path_desired_distance in 3D, so a corner
+## straight above or below the guard is never reached: on a ramp the navmesh
+## surface can sit up to ~0.6 m above the slope, and a guard at the foot of a
+## stair stood still right under such a corner (Expanded Library, found in its
+## Phase 3). A corner the guard stands under is remembered as passed and the
+## guard steers to the next one. On a flat floor the agent reaches a corner
+## long before the guard could stand under it, so this changes nothing there.
+func _horizontal_to_next_corner() -> Vector3:
+	var next := agent.get_next_path_position() - global_position
+	next.y = 0.0
+	var path := agent.get_current_navigation_path()
+	for i in range(agent.get_current_navigation_path_index(), path.size()):
+		var corner := path[i]
+		if _is_passed_corner(corner):
+			continue
+		var offset := corner - global_position
+		offset.y = 0.0
+		if offset.length() < UNDER_CORNER:
+			_passed_corners.append(corner)
+			continue
+		return offset
+	return next
+
+
+func _is_passed_corner(corner: Vector3) -> bool:
+	for p in _passed_corners:
+		if p.distance_to(corner) < 0.05:
+			return true
+	return false
 
 
 func _remaining_path_length() -> float:

@@ -7,7 +7,7 @@ Run this before every release or after any change to gameplay, the level, AI or 
 | # | Command | Pass condition | Time |
 |---|---|---|---|
 | A0 | GitHub Actions **Build** workflow on the commit (`.github/workflows/build.yml`; locally: `tools/ci/validate.sh`, `run_tests.sh`, `export_windows.sh`) | all jobs green; the `CampusEscape3D-<version>-windows-x64` artifact is uploaded | ~10 min |
-| A1 | `godot --headless --path . res://tests/test_scene.tscn` (or open `tests/test_scene.tscn`, F6) | prints `All tests passed (… Phase 14 QA, Expanded Library graybox, map selection).`, exit 0, only the 8 expected warnings listed below | ~5.5 min |
+| A1 | `godot --headless --path . res://tests/test_scene.tscn` (or open `tests/test_scene.tscn`, F6) | prints `All tests passed (… Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards).`, exit 0, only the 8 expected warnings listed below | ~9 min |
 | A2 | `godot --path . --script res://tools/qa_flow.gd -- --out=docs/qa/flow_check` (`--headless` also works, without screenshots) | prints `QA FLOW PASSED (15 checks, 4 levels loaded)`, exit 0 | ~1 min |
 | A2b | `godot --headless --path . --script res://tools/map_flow.gd` | prints `MAP FLOW PASSED (34 checks, 12 levels loaded, 3 cycles)`, exit 0, no ERROR or WARNING lines | ~1 min |
 | A3 | `godot --path . --resolution 1280x720 --script res://tools/benchmark.gd -- --scenario=normal --out=…`, then the same with `--scenario=stress` | no script errors; `caught` 0; compare FPS with the last recorded run on the same machine (`docs/phase-13-performance.md`) | ~1 min each |
@@ -77,6 +77,7 @@ Legend: **Auto** = which automated check covers it (file → check). **Manual** 
 | ☐ | Caught | `loop_tests` → `_check_caught_and_reset`; `game_flow_tests` → pause refused on the caught screen; `qa_flow` | Red vignette, "Back to …", countdown bar, caught sound; Esc does nothing |
 | ☐ | Restart | `game_flow_tests` → `_check_restart_and_menu_from_pause`; `qa_flow` → real reload | Pause → Restart → fresh level, objectives reset, music off |
 | ☐ | Win | `game_flow_tests`; `qa_flow` → Play again / Main menu | Play again → fresh level; Main menu → title screen; Quit → closes |
+| ☐ | Expanded Library guards | `expanded_ai_tests` (six loops, vision, hearing, chase and loss, stair chase, crossings, tour); `tools/expanded/patrol_soak.gd` (no stuck events over 900 s) | F6 `expanded_library.tscn`, F3: six guards walk their loops (GuardConnector up S1, down S3); none stands still on a stair or in a door; sprint near one → it investigates; get seen → chase; break line of sight → it searches, then returns |
 | ☐ | Map selection | `map_selection_tests` (buttons, focus, one request each, per-map restart / menu / clean-up); `map_flow` (3 real cycles through both maps) | Menu shows Library Tutorial (focused) and Expanded Library; Up/Down/Enter work; each loads its map; Pause → Restart reloads the same map; Pause → Main menu from both maps; repeat a few times, no errors in the console |
 
 ## Presentation

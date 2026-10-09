@@ -1,4 +1,4 @@
-# Expanded Library — Layout Design (v0)
+# Expanded Library — Layout Design (v1)
 
 The design of the second, larger map: a two-floor university library with six major zones. It is a separate scene (`scenes/level/expanded_library.tscn`) next to the tutorial, which is unchanged.
 
@@ -48,7 +48,7 @@ x is east and z is south, so north (−z) is up on the plans. The ground floor s
 | Shelf aisles | 2.4 m (upper stacks 3.4 m) | |
 | Stairs | 3 m wide ramps, rise 4.5 m over 10 m (24°) | the player has no step-up; the navmesh accepts up to 45° |
 | Space under a ramp | filled with ten stepped blocks | no crawl space and no unreachable navmesh island; it reads as steps from the side |
-| Open side of a ramp | 1.0 m handrail panel | |
+| Open side of a ramp | balustrade of five vertical panels, 1.0 m above the ramp, on the ramp's edge | vertical faces: the v0 panel, turned with the slope, leaned past the foot of the ramp and caught guards (v1) |
 
 The player is a 0.35 m × 1.8 m capsule and walks at 3.5 m/s. Guards are 0.4 m × 1.8 m. The navmesh agent is 0.5 m in radius and 1.75 m tall. The navmesh uses the same settings as the tutorial's: static colliders on layer 1, cell 0.25 m, region minimum size 8.
 
@@ -132,19 +132,20 @@ The **archive's progression gate** is the pair G2 / G3: both need the keycard fr
 
 The spawn is (0, 0.05, 32) on the porch, facing north.
 
-## Planned patrol loops (no guards yet)
+## Guards and patrol loops (v1)
 
-| Loop | Zone | Points | Covers |
-|---|---|---|---|
-| P1 Lobby | A | 4 | entrance, S1 foot, staff door G4 |
-| P2 Main Stacks | B | 4 | outer aisles and cross aisle |
-| P3 Reading Hall | C | 4 | study doors, arches, SC1 |
-| P4 Service Corridor | D | 4 | corridor, dock, storage |
-| P5 Upper Stacks | E | 4 | S1 and S3 landings, G1b |
-| P6 Staff Corridor | E | 3 | G1a, G1b, G2, office doors |
-| P7 Archive | F | 4 | G2, G3, vault approach |
+Six guards, using the existing guard scene and AI (PATROL / INVESTIGATE / CHASE), each walking a loop from the layout data. The tests and a 900 s soak (`v1/soak/report.md`) show every loop completes with no stuck events.
 
-They are PatrolRoute nodes under `Layout/PlannedPatrols`. F3 shows them in a debug run.
+| Loop | Guard | Zone | Points | Length | Watches |
+|---|---|---|---|---|---|
+| P1 Lobby | GuardLobby | A | 4 | 51 m | the lobby, the S1 foot and the staff door G4. The spawn and porch stay unseen |
+| P2 Main Stacks | GuardStacksOuter | B | 4 | 99 m | the outer aisles of the main stacks |
+| P2b Stacks Inner | GuardStacksInner | B | 5 | 76 m | the cross aisle, an inner aisle and the browsing hall (S3 foot) |
+| P5 Upper Stacks | GuardUpper | E | 4 | 101 m | both stair tops (S1, S3) and the stacks door G1b |
+| P7 Archive | GuardArchive | F | 4 | 59 m | the archive hall between the front gate G2 and the back gate G3, and the stacks |
+| P8 Connector | GuardConnector | A → E → B → C | 8 | 180 m | reading hall → lobby → **up S1** → balcony → staff corridor (G1a) → upper stacks (G1b) → **down S3** → browsing hall → main stacks → reading hall |
+
+Planned loops without a guard yet: P3 Reading Hall, P4 Service Corridor (the restricted zone, for the mission phase) and P6 Staff Corridor. They stay as PatrolRoute nodes under `Layout/PlannedPatrols`. The guarded loops are under `Guards/` next to their guards, as in the tutorial. F3 shows all of them in a debug run.
 
 ## Cover and hiding
 

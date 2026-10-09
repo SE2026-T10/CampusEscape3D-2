@@ -13,7 +13,7 @@ const LEVELS := [
 	{"id": TUTORIAL, "title": "Library Tutorial", "scene": "res://scenes/level/library_graybox.tscn",
 		"description": "The original library: one floor, one access card. Learn the ropes."},
 	{"id": EXPANDED, "title": "Expanded Library", "scene": "res://scenes/level/expanded_library.tscn",
-		"description": "Two floors, six zones. Graybox preview: walk the layout, no mission yet."},
+		"description": "Two floors, six zones, six guards. Graybox preview: no mission yet."},
 ]
 
 

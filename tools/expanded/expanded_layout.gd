@@ -19,7 +19,7 @@ extends RefCounted
 ##   - stairs are 3 m wide ramps rising 4.5 m over 10 m (24°): the player has
 ##     no step-up, and the navmesh accepts slopes up to 45°
 
-const VERSION := "v0"
+const VERSION := "v1"
 
 const UPPER_Y := 4.5
 const SLAB_THICKNESS := 0.3
@@ -32,6 +32,8 @@ const DOOR_HEIGHT := 2.6
 const RAMP_THICKNESS := 0.3
 const RAMP_FILLER_STEPS := 10     # stepped blocks that seal the space under a ramp
 const HANDRAIL_HEIGHT := 1.0
+const HANDRAIL_PANELS := 5        # the balustrade on a ramp's open side, in vertical steps (see the builder)
+
 
 ## Where the player starts (the porch outside the main entrance), facing north.
 const SPAWN := Vector3(0, 0.05, 32)
@@ -247,16 +249,40 @@ const GATES := [
 	{"opening": "Service Shortcut SC1", "needs": "one-way: opened from the corridor side", "guards": "shortcut corridor → reading hall"},
 ]
 
-## Planned guard patrol loops (no guards yet). Points stand on the navmesh.
+## Guard patrol loops. A loop with a "guard" gets a guard (scenes/npc/guard.tscn)
+## under the scene's "Guards" node, starting at its first point and facing the
+## second; a loop without one stays a planned PatrolRoute under
+## "Layout/PlannedPatrols". Points are [x, z] on the loop's floor "y", or
+## [x, y, z] for a loop that changes floors. "wait" (optional) is the seconds
+## to wait at every point (the guard's default is 2 s). Guards use the existing
+## AI unchanged: PATROL / INVESTIGATE / CHASE.
 const PATROLS := [
-	{"id": "P1", "name": "Lobby", "zone": "A", "y": 0.0, "points": [[-6, 14], [8, 13], [9, 25], [-6, 25]]},
-	{"id": "P2", "name": "Main Stacks", "zone": "B", "y": 0.0, "points": [[-14, -24], [-14, 4], [-33.5, 4], [-33.5, -24]]},
+	{"id": "P1", "name": "Lobby", "zone": "A", "y": 0.0, "guard": "GuardLobby",
+		"points": [[-6, 15.5], [8, 13], [9, 25], [-6, 25]]},
+	{"id": "P2", "name": "Main Stacks", "zone": "B", "y": 0.0, "guard": "GuardStacksOuter",
+		"points": [[-14, -24], [-14, 4], [-33.5, 4], [-33.5, -24]]},
+	{"id": "P2b", "name": "Stacks Inner", "zone": "B", "y": 0.0, "guard": "GuardStacksInner",
+		"points": [[-17.5, -9], [-29.5, -9], [-29.5, 8], [-20, 19], [-14.5, 8]]},
 	{"id": "P3", "name": "Reading Hall", "zone": "C", "y": 0.0, "points": [[-9.5, -11.5], [9.5, -11.5], [9.5, 7], [-9.5, 7]]},
 	{"id": "P4", "name": "Service Corridor", "zone": "D", "y": 0.0, "points": [[14.5, -25], [14.5, 24], [26, 20], [25, 3]]},
-	{"id": "P5", "name": "Upper Stacks", "zone": "E", "y": UPPER_Y, "points": [[-13, -25], [-13, 6], [-33.5, 2], [-33.5, -25]]},
-	{"id": "P6", "name": "Staff Corridor", "zone": "E", "y": UPPER_Y, "points": [[-4.5, -11], [10.5, -11], [3, -18.5]]},
-	{"id": "P7", "name": "Archive", "zone": "F", "y": UPPER_Y, "points": [[14, -9], [26.5, -9], [26.5, -26], [14, -26]]},
+	{"id": "P5", "name": "Upper Stacks", "zone": "E", "y": UPPER_Y, "guard": "GuardUpper",
+		"points": [[-13, -25], [-13, 6], [-33.5, 2], [-33.5, -25]]},
+	{"id": "P6", "name": "Staff Corridor", "zone": "E", "y": UPPER_Y, "points": [[-3, -11], [9, -11], [3, -18.5]]},
+	{"id": "P7", "name": "Archive", "zone": "F", "y": UPPER_Y, "guard": "GuardArchive",
+		"points": [[14, -9], [26.5, -9], [26.5, -26], [14, -26]]},
+	# Connecting patrol: reading hall → lobby → up S1 → balcony → staff corridor (G1a)
+	# → upper stacks (G1b) → down S3 → browsing hall → main stacks → reading hall.
+	{"id": "P8", "name": "Connector", "zone": "A", "y": 0.0, "guard": "GuardConnector", "wait": 1.5,
+		"points": [[0, 0, -5], [-3, 0, 15], [-10.35, UPPER_Y, 6.5], [4, UPPER_Y, 1], [3, UPPER_Y, -11],
+			[-9, UPPER_Y, -11], [-30, UPPER_Y, 6], [-28, 0, 19]]},
 ]
+
+
+## World position of point `k` of a patrol loop.
+static func patrol_point(patrol: Dictionary, k: int) -> Vector3:
+	var p: Array = patrol.points[k]
+	return Vector3(p[0], p[1], p[2]) if p.size() == 3 else Vector3(p[0], patrol.y, p[1])
+
 
 ## Planned hiding opportunities (crouched behind or inside cover).
 const HIDING := [

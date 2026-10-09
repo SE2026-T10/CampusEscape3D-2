@@ -28,7 +28,7 @@ The MVP is one polished level, built in Godot with GDScript, for Windows desktop
 
 - **From the editor:** open the project and press **F5**. The game starts on the main menu. Choose a map:
   - **Library Tutorial**: the original level, with its full mission.
-  - **Expanded Library**: the two-floor map. Graybox only so far: walk the layout; there is no mission yet.
+  - **Expanded Library**: the two-floor map. Graybox with six patrolling guards; there is no mission yet.
 - **Straight into a level** while developing: open `scenes/level/library_graybox.tscn` or `scenes/level/expanded_library.tscn` and press **F6**.
 - **Exported build:** run `CampusEscape3D.exe`.
 
@@ -124,7 +124,7 @@ scenes/level/library_graybox.tscn        the Library Tutorial
 
 ## AI states
 
-Each guard runs an explicit state machine (`scripts/npc/ai/guard_state_machine.gd`) with three states.
+Each guard runs an explicit state machine (`scripts/npc/ai/guard_state_machine.gd`) with three states. The tutorial has three guards; the Expanded Library has six, with the same scene and AI.
 
 | State | Behaviour |
 |---|---|
@@ -233,7 +233,7 @@ Press **F3** to show the navigation mesh (cyan), each guard's current path (yell
 
 ## Testing
 
-**Run the tests.** In the editor, open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, … Phase 14 QA, Expanded Library graybox, map selection).`. From a terminal:
+**Run the tests.** In the editor, open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, … Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards).`. From a terminal:
 
 ```
 godot --headless --path . --editor --quit          # first run only: imports the project
@@ -242,7 +242,7 @@ godot --headless --path . --script res://tools/qa_flow.gd   # real game flow wit
 godot --headless --path . --script res://tools/map_flow.gd  # both maps selected, restarted and left, 3 times
 ```
 
-- **Exit code:** the suite exits `0` when every check passes and `1` otherwise, listing each failure. It takes about 3.5 minutes, because the movement, navigation, guard and vision tests step real physics frames.
+- **Exit code:** the suite exits `0` when every check passes and `1` otherwise, listing each failure. It takes about 9 minutes, because the movement, navigation, guard and vision tests step real physics frames.
 - **Expected warnings:** 8, from tests that build broken setups on purpose.
 - **In CI:** `tools/ci/run_tests.sh` runs the suite, the flow run and the map-selection run.
 
@@ -304,6 +304,7 @@ godot --headless --path . --script res://tools/map_flow.gd  # both maps selected
 - `tests/navigation_tests.gd` — Phase 3 checks: every room exists, navigation covers open floor and none of the walls or furniture, nothing is baked outside the rooms or on furniture, every floor edge is walled, paths reach every room without crossing walls, a `NavigationAgent3D` probe walks from the entrance to the exit, the debug overlay draws the navmesh, and the saved navmesh matches a fresh bake.
 
 - `tests/expanded_graybox_tests.gd` — Expanded Library graybox: scene structure, doorway and stair dimensions, navmesh on both floors, every planned location reachable, each stair on its own, planned gates and two approaches (rebaked with blockers), and a real-input walk of the main and alternative routes.
+- `tests/expanded_ai_tests.gd` — Expanded Library navigation and guards: both floors baked and sealed, every patrol point clear of doorways and stairs, all six guards completing their loops together with nothing stuck, vision (walls, shelves, the slab, the balcony railing), hearing (open, through a wall, through the slab), chase and loss of contact, a chase up a stair and back, head-on crossings in a door and on a stair, and one guard touring every gate and stair.
 - `tests/map_selection_tests.gd` — map selection: the catalog, one menu button per map with keyboard navigation, each button loading its map once, and for each map (loaded twice) one of each system, Restart → same map, Main menu → menu, signal connections made once, everything freed on leaving.
 
 **Before a release:** work through `docs/qa/REGRESSION_CHECKLIST.md`: the automated part, plus the manual checks on Windows.
@@ -483,4 +484,4 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 - `docs/phase-15-build-pipeline.md`
 - `docs/release-notes/v1.0.0.md`
 - **[`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md)** (final MVP report and release validation)
-- Expanded Library: `docs/expanded/phase-0-audit.md`, `docs/expanded/LAYOUT.md`, `docs/expanded/phase-1-graybox.md`, `docs/expanded/phase-2-map-selection.md`, `docs/expanded/LEVEL_LOG.md`
+- Expanded Library: `docs/expanded/phase-0-audit.md`, `docs/expanded/LAYOUT.md`, `docs/expanded/phase-1-graybox.md`, `docs/expanded/phase-2-map-selection.md`, `docs/expanded/phase-3-navigation-and-guards.md`, `docs/expanded/LEVEL_LOG.md`

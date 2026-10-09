@@ -1,0 +1,50 @@
+# Expanded Library Phase 3 — test run (2026-10-09, final tree)
+# Linux cloud VM, headless, Godot 4.7.2.stable.official.ed1daf0bf
+
+## validate.sh
+CHECK SCRIPTS PASSED (81 scripts)
+VALIDATION PASSED
+
+## run_tests.sh — suite: Expanded Library lines, warnings, result
+  [expanded] scene: 6 zones (4 ground, 2 upper), 3 stairs, 5 objective locations, shared runtime systems; tutorial is still its own scene and the default map
+  [expanded] dimensions: narrowest opening 2.0 m, doors 2.6 m high, steepest stair 24.2°
+  [expanded] navmesh: 891 polygons; walkable ground 2805 m², upper 1663 m²; saved 4523.7 m² = fresh 4523.7 m²
+  [expanded] reachability: 154 planned locations reachable from the spawn; main route 272 m along the navmesh
+  [expanded] stairs: S1, S2, S3 each connect the floors directly (up and down)
+  [expanded] gates and approaches: 19/19 checks as designed over 12 rebakes (progression stages start → O1 → O2; two approaches each to the upper floor, the staff wing and the archive; return route)
+  [expanded] walk: main route + 2 alternatives walked with real input, 494 m in 122 s, y 0.00…4.51, gates passed ["Staff Wing Door G1a", "Archive Front Gate G2", "Archive Back Gate G3", "Staff Door (Stacks) G1b", "Lobby Staff Door G4"]
+  [maps] catalog: [&"library_tutorial", &"expanded_library"], tutorial first
+  [maps] menu: 2 map buttons in catalog order, Library Tutorial focused, Up/Down reach every button, each button loads its map once, Quit quits
+  [maps] Library Tutorial: one of each system, Restart → library_graybox.tscn, Main menu → menu, connections { "player_caught": 1, "level_reset": 2, "state_changed": 2 }, all freed on leaving (loaded twice)
+  [maps] Expanded Library: one of each system, Restart → expanded_library.tscn, Main menu → menu, connections { "player_caught": 1, "level_reset": 1, "state_changed": 2 }, all freed on leaving (loaded twice)
+  [expanded-ai] navigation: both floors baked, sealed, nothing above the upper floor; loops: P1 GuardLobby 51 m, P2 GuardStacksOuter 99 m, P2b GuardStacksInner 76 m, P5 GuardUpper 101 m, P7 GuardArchive 59 m, P8 GuardConnector 180 m
+  [expanded-ai] patrols: 6 guards completed their loops in order in 203 s game time, 0 stuck, all stayed in PATROL, spawn never seen; GuardLobby 4 pts y 0.0–0.0, GuardStacksOuter 4 pts y 0.0–0.0, GuardStacksInner 5 pts y 0.0–0.0, GuardUpper 4 pts y 4.5–4.5, GuardArchive 4 pts y 4.5–4.5, GuardConnector 8 pts y -0.0–4.5
+  [expanded-ai] vision: open aisle seen; behind a shelf, through the slab and behind the balcony railing not seen; at the railing seen
+  [expanded-ai] hearing: open sprint investigated at an estimate (not the spot); through a wall not heard; through the slab a walk is not heard, a sprint overhead is
+  [expanded-ai] pursuit: PATROL → CHASE → INVESTIGATE at the last seen spot (not the player's hiding place) → PATROL
+  [expanded-ai] stair pursuit: chased up S1, searched the upper floor, walked back down to its post
+  [expanded-ai] narrow passages: head-on crossings in a 2 m door and on S2; tour through G1a, G1b, G2, G3, G4, SC1, up S2, down S3, up and down S1, with 0 stuck
+
+WARNING: StuckGuard is stuck on the way to its target (patrol point 1); moving on.
+WARNING: NoRouteGuard has no patrol route with points, so it will stand still while patrolling.
+WARNING: VisionTestGuard has no patrol route with points, so it will stand still while patrolling.
+WARNING: VisionTestGuard: no navigation mesh found nearby after 120 frames.
+WARNING: GuardA has no patrol route with points, so it will stand still while patrolling.
+WARNING: GuardB has no patrol route with points, so it will stand still while patrolling.
+WARNING: GuardA: no navigation mesh found nearby after 120 frames.
+WARNING: GuardB: no navigation mesh found nearby after 120 frames.
+
+All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design, Phase 12 presentation, Phase 13 performance, Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards).
+
+## qa_flow / map_flow
+QA FLOW PASSED (15 checks, 4 levels loaded)
+MAP FLOW PASSED (34 checks, 12 levels loaded, 3 cycles)
+ERROR/WARNING lines in map_flow.log: 0
+
+run_tests.sh: TESTS PASSED, exit 0, 548 s (Phase 2: 372 s)
+
+## export_windows.sh
+EXPORT PASSED: dist/CampusEscape3D-1.0.0-windows-x64.zip
+
+## Patrol soak: godot --headless --path . --script res://tools/expanded/patrol_soak.gd -- --seconds=900 --scale=4 --out=docs/expanded/v1/soak
+see soak/report.md: 6 guards, 0 stuck, 0 state changes, 8–27 full loops each

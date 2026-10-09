@@ -57,7 +57,8 @@ class MapCanvas extends Node2D:
 		"stair": Color(0.45, 0.7, 1.0),
 	}
 	const PATROL_COLOURS := [Color(1.0, 0.45, 0.1), Color(0.95, 0.25, 0.7), Color(1.0, 0.85, 0.15),
-		Color(0.4, 0.9, 0.9), Color(0.6, 1.0, 0.4), Color(0.7, 0.6, 1.0), Color(1.0, 0.5, 0.5)]
+		Color(0.4, 0.9, 0.9), Color(0.6, 1.0, 0.4), Color(0.7, 0.6, 1.0), Color(1.0, 0.5, 0.5),
+		Color(0.95, 0.95, 0.95), Color(0.3, 0.6, 1.0)]
 
 	var floor_name := "ground"
 	var _scale := 17.0
@@ -126,19 +127,32 @@ class MapCanvas extends Node2D:
 				continue
 			var railing: bool = wall.get("kind", "wall") == "railing"
 			_wall(wall, railing)
-		# Patrol loops.
+		# Patrol loops (a loop that changes floors is drawn where it is on this floor).
 		for i in Layout.PATROLS.size():
 			var p: Dictionary = Layout.PATROLS[i]
-			if not _on_floor(p.y):
-				continue
 			var colour: Color = PATROL_COLOURS[i % PATROL_COLOURS.size()]
-			var pts: Array = p.points
-			for k in pts.size():
-				var a: Vector2 = _p(pts[k][0], pts[k][1])
-				var b: Vector2 = _p(pts[(k + 1) % pts.size()][0], pts[(k + 1) % pts.size()][1])
-				_dashed_line(a, b, colour, 2.5)
-				draw_circle(a, 4.5, colour)
-			_text(_p(pts[0][0], pts[0][1]) + Vector2(6, -6), p.id, 15, colour)
+			var guarded: bool = p.has("guard")
+			var count: int = p.points.size()
+			var labelled := false
+			for k in count:
+				var a3 := Layout.patrol_point(p, k)
+				var b3 := Layout.patrol_point(p, (k + 1) % count)
+				var on_a := _on_floor(a3.y)
+				var on_b := _on_floor(b3.y)
+				if on_a and on_b:
+					if guarded:
+						draw_line(_p(a3.x, a3.z), _p(b3.x, b3.z), colour, 2.5)
+					else:
+						_dashed_line(_p(a3.x, a3.z), _p(b3.x, b3.z), colour, 2.0)
+				elif on_a or on_b:
+					_dashed_line(_p(a3.x, a3.z), _p(b3.x, b3.z), Color(colour, 0.6), 1.5)
+				if on_a:
+					draw_circle(_p(a3.x, a3.z), 4.5, colour)
+					if not labelled:
+						_text(_p(a3.x, a3.z) + Vector2(6, -6), "%s %s" % [p.id, p.get("guard", "(planned)")], 14, colour)
+						labelled = true
+				if guarded and k == 0 and on_a:
+					draw_circle(_p(a3.x, a3.z), 9.0, colour, false, 2.5)
 		# Player routes: segments on this floor solid, floor changes dotted.
 		for route in Layout.ROUTES:
 			var pts: Array = route.points
@@ -225,7 +239,7 @@ class MapCanvas extends Node2D:
 			["thick", OPENING_COLOURS.exit, "Exit door"], ["thick", OPENING_COLOURS.entrance, "Main entrance"],
 			["box", Color(0.3, 0.5, 0.85), "Stair ramp (arrow = up, 24°)"], ["box", Color(0.62, 0.42, 0.26), "Full cover (shelf / rack ≥ 2 m)"],
 			["box", Color(0.85, 0.72, 0.45), "Low cover (table / desk / crate)"], ["dot", Color(1.0, 0.85, 0.15), "Mandatory objective O1–O5"],
-			["dot", Color(0.3, 0.55, 1.0), "Hiding opportunity (H)"], ["dash", PATROL_COLOURS[0], "Planned patrol loop P1–P7"],
+			["dot", Color(0.3, 0.55, 1.0), "Hiding opportunity (H)"], ["line", PATROL_COLOURS[0], "Guard patrol (ring = guard start)"], ["dash", PATROL_COLOURS[3], "Planned loop, no guard yet"],
 		]
 		for item in items:
 			var at := Vector2(x, y)

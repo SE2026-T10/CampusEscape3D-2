@@ -59,6 +59,12 @@ func run(host: Node) -> Array[String]:
 	_check_scene_structure()
 	_check_dimensions()
 	_level = (load(SCENE) as PackedScene).instantiate()
+	# These tests check the layout; the guards (tests/expanded_ai_tests.gd) would
+	# catch the walking player, so they are taken out, as in qa_playthrough_tests.
+	for g in _level.get_node("Guards").get_children():
+		if g is Guard:
+			g.get_parent().remove_child(g)
+			g.free()
 	var ready: bool = await TestUtils.add_level_and_wait_for_navigation(_host, _level, Layout.SPAWN)
 	_expect(ready, "The Expanded Library's navigation never became ready.")
 	_region = _level.get_node("NavigationRegion3D")
@@ -95,7 +101,7 @@ func _check_scene_structure() -> void:
 	_expect(level.name == "ExpandedLibrary", "The root must be named ExpandedLibrary.")
 	_expect(level.get_meta("layout_version", "") == Layout.VERSION, "The scene must be built from layout %s." % Layout.VERSION)
 	for path in ["WorldEnvironment", "KeyLight", "NavigationRegion3D", "Player", "PreviewCamera", "NavigationDebug",
-			"GameFlow", "GameMenus", "StealthDirector", "StealthHud", "NoiseSystem", "DetectionDebugHud", "AudioDirector", "Layout/Objectives", "Layout/Gates", "Layout/PlannedPatrols", "Layout/HidingSpots", "Layout/Exit"]:
+			"GameFlow", "GameMenus", "StealthDirector", "StealthHud", "NoiseSystem", "DetectionDebugHud", "AudioDirector", "Layout/Objectives", "Layout/Gates", "Layout/PlannedPatrols", "Guards", "Layout/HidingSpots", "Layout/Exit"]:
 		_expect(level.get_node_or_null(path) != null, "The scene must contain %s." % path)
 	var camera := level.get_node_or_null("PreviewCamera") as Camera3D
 	_expect(camera != null and not camera.current, "PreviewCamera must not be the current camera.")
@@ -230,10 +236,9 @@ func _check_reachability() -> void:
 		targets.append([o.title, o.pos, REACH])
 	for h in Layout.HIDING:
 		targets.append(["hiding spot %s" % h.name, h.pos, REACH_HIDING])
-	for route in _level.get_node("Layout/PlannedPatrols").get_children():
-		for point in route.get_children():
-			if point is Marker3D:
-				targets.append(["patrol %s/%s" % [route.name, point.name], (point as Marker3D).global_position, REACH])
+	for patrol in Layout.PATROLS:
+		for k in patrol.points.size():
+			targets.append(["patrol %s point %d" % [patrol.id, k], Layout.patrol_point(patrol, k), REACH])
 	for wall in Layout.WALLS:
 		for o in wall.get("openings", []):
 			if o.type == "exit":

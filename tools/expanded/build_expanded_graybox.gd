@@ -23,6 +23,7 @@ const Layout := preload("res://tools/expanded/expanded_layout.gd")
 const SCENE_PATH := "res://scenes/level/expanded_library.tscn"
 const NAVMESH_PATH := "res://scenes/level/expanded_library_navmesh.tres"
 const PLAYER_SCENE := "res://scenes/player/player.tscn"
+const GUARD_SCENE := "res://scenes/npc/guard.tscn"
 
 const ZONE_NODE_NAMES := {
 	"A": "A_EntranceLobby", "B": "B_MainStacks", "C": "C_ReadingStudy",
@@ -37,7 +38,8 @@ const COVER_COLOURS := {
 	"carrel_desk": Color(0.72, 0.6, 0.42), "carrel_panel": Color(0.35, 0.45, 0.4),
 }
 const PATROL_COLOURS := [Color(1.0, 0.45, 0.1), Color(0.95, 0.25, 0.7), Color(1.0, 0.85, 0.15),
-	Color(0.4, 0.9, 0.9), Color(0.6, 1.0, 0.4), Color(0.7, 0.6, 1.0), Color(1.0, 0.5, 0.5)]
+	Color(0.4, 0.9, 0.9), Color(0.6, 1.0, 0.4), Color(0.7, 0.6, 1.0), Color(1.0, 0.5, 0.5),
+	Color(0.95, 0.95, 0.95), Color(0.3, 0.6, 1.0)]
 
 var _level: Node3D
 var _materials := {}
@@ -96,6 +98,7 @@ func _build() -> void:
 	# The runtime systems are added outside the tree, so they don't start (music,
 	# HUDs) while the tool runs; they only need to be in the saved scene.
 	root.remove_child(_level)
+	_add_guards()
 	_add_runtime_systems()
 	var packed := PackedScene.new()
 	var error := packed.pack(_level)
@@ -296,10 +299,21 @@ func _add_stair(parent: Node3D, s: Dictionary) -> void:
 	var top_mid := Vector3(xc, rise / 2.0, (s.z_low + s.z_high) / 2.0)
 	var ramp_colour := Color(0.3, 0.5, 0.75)
 	_add_box(node, "Ramp", top_mid - normal * (t / 2.0), Vector3(width, t, length), ramp_colour, basis)
-	# Handrail panel on the open side (collides, so nobody falls off the side).
-	var rail_x: float = s.x1 - 0.05 if s.open_side == "east" else s.x0 + 0.05
-	_add_box(node, "Handrail", Vector3(rail_x, top_mid.y, top_mid.z) + normal * (Layout.HANDRAIL_HEIGHT / 2.0),
-		Vector3(0.1, Layout.HANDRAIL_HEIGHT, length), ramp_colour.darkened(0.3), basis)
+	# Balustrade on the open side (collides, so nobody falls off the side): short
+	# axis-aligned panels stepping up with the ramp, standing on the ramp's edge.
+	# Vertical faces on purpose: a single panel turned with the slope leans
+	# downhill, and its lower end caught guards' shoulders at the foot of S2
+	# (Phase 3).
+	var rail_x: float = s.x1 if s.open_side == "east" else s.x0
+	var panels := Layout.HANDRAIL_PANELS
+	for i in panels:
+		var s_a := run * i / panels
+		var s_b := run * (i + 1) / panels
+		var bottom := maxf(rise * s_a / run - 0.35, 0.0)
+		var top := rise * s_b / run + Layout.HANDRAIL_HEIGHT
+		var z_mid: float = s.z_low + dir * (s_a + s_b) / 2.0
+		_add_box(node, "Handrail%d" % i, Vector3(rail_x, (bottom + top) / 2.0, z_mid), Vector3(0.1, top - bottom, run / panels),
+			ramp_colour.darkened(0.3))
 	# Stepped blocks under the ramp: they seal the space beneath it (no hidden
 	# crawl space, no unreachable navmesh island) and read as steps from the side.
 	var steps := Layout.RAMP_FILLER_STEPS
@@ -380,24 +394,56 @@ func _add_layout_markers() -> void:
 		_label(marker, "Label", "%s\n(%s)" % [g.opening, g.needs], Vector3(0, 3.0, 0), colour.lightened(0.3), 0.009)
 	var patrols := _group(layout, "PlannedPatrols")
 	for i in Layout.PATROLS.size():
-		var p: Dictionary = Layout.PATROLS[i]
-		var route := Node3D.new()
-		route.name = "%s_%s" % [p.id, String(p.name).replace(" ", "")]
-		route.set_script(load("res://scripts/npc/patrol_route.gd"))
-		route.set("debug_color", PATROL_COLOURS[i % PATROL_COLOURS.size()])
-		route.set_meta("zone_id", p.zone)
-		_add(patrols, route)
-		for k in p.points.size():
-			var point := Marker3D.new()
-			point.name = "Point%d" % k
-			point.set_script(load("res://scripts/npc/patrol_point.gd"))
-			point.position = Vector3(p.points[k][0], p.y, p.points[k][1])
-			_add(route, point)
+		if not Layout.PATROLS[i].has("guard"):
+			_add_route(patrols, i)
 	var hiding := _group(layout, "HidingSpots")
 	for h in Layout.HIDING:
 		var marker := _marker(hiding, String(h.name).replace(" ", ""), h.pos)
 		marker.set_meta("zone_id", h.zone)
 		_label(marker, "Label", "hide", Vector3(0, 1.4, 0), Color(0.5, 0.75, 1.0), 0.008)
+
+
+## The guards: for each patrol loop with a "guard", its PatrolRoute and a guard
+## instance under "Guards" (the tutorial's layout: Guards/<Route> + Guards/<Guard>).
+## Added after the bake and outside the tree, so the guards don't start while
+## the tool runs (CharacterBody3D is not baked into the navmesh anyway).
+func _add_guards() -> void:
+	var guards := _group(_level, "Guards")
+	for i in Layout.PATROLS.size():
+		var p: Dictionary = Layout.PATROLS[i]
+		if not p.has("guard"):
+			continue
+		var route := _add_route(guards, i)
+		var first := Layout.patrol_point(p, 0)
+		var second := Layout.patrol_point(p, 1)
+		var guard := (load(GUARD_SCENE) as PackedScene).instantiate(PackedScene.GEN_EDIT_STATE_INSTANCE) as Node3D
+		guard.name = p.guard
+		guard.position = first + Vector3(0, 0.05, 0)
+		guard.rotation.y = atan2(-(second.x - first.x), -(second.z - first.z))
+		guard.set("patrol_route", route)
+		guard.set_meta("patrol_id", p.id)
+		guards.add_child(guard)
+		guard.owner = _level   # an instance: only its root is owned by the level
+
+
+func _add_route(parent: Node, index: int) -> Node3D:
+	var p: Dictionary = Layout.PATROLS[index]
+	var route := Node3D.new()
+	route.name = "%s_%s" % [p.id, String(p.name).replace(" ", "")]
+	route.set_script(load("res://scripts/npc/patrol_route.gd"))
+	route.set("debug_color", PATROL_COLOURS[index % PATROL_COLOURS.size()])
+	route.set_meta("zone_id", p.zone)
+	route.set_meta("patrol_id", p.id)
+	_add(parent, route)
+	for k in p.points.size():
+		var point := Marker3D.new()
+		point.name = "Point%d" % k
+		point.set_script(load("res://scripts/npc/patrol_point.gd"))
+		point.position = Layout.patrol_point(p, k)
+		if p.has("wait"):
+			point.set("wait_time", p.wait)
+		_add(route, point)
+	return route
 
 
 func _marker(parent: Node, node_name: String, pos: Vector3) -> Marker3D:
