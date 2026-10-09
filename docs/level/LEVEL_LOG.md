@@ -26,6 +26,8 @@ godot --headless --path . --script res://tools/level_compare.gd -- --before=docs
 
 Screenshots are rendered under a virtual display (Xvfb, Mesa llvmpipe software OpenGL), not on Windows hardware, with the HUD and guards hidden.
 
+> **Note on commits (release validation, 2026-10-09).** The `Commit: level(vN): …` lines below name the commits each version was made in during development. Those commits are **not in this repository's history**: all five versions arrived in one commit, `3320e45` ("Phase 11 Library Level Design + Low-poly Art"). The record of each version is therefore its evidence folder (`vN/report.md`, `metrics.json`, `map.png`, `views/`, `compare.md`), produced by the level tools, not a separate git commit per version.
+
 ---
 
 ## v0 — Baseline (graybox after Phase 10)

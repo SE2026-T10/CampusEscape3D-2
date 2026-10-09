@@ -98,3 +98,4 @@ Legend: **Auto** = which automated check covers it (file → check). **Manual** 
 | Date | Build | Part 1 (automated) | Part 2 (manual, Windows) | By |
 |---|---|---|---|---|
 | 2026-10-05 | commit "Phase 14: final QA pass" | A1 pass (exit 0, 211 s); A2 pass (headless and at 3 resolutions); A3 pass (normal 12.0 FPS, stress 10.4 FPS, llvmpipe); A4 identical to Phase 13 | not run (no Windows machine in the QA environment) | Claude (automated) |
+| 2026-10-09 | `15b3ebf` (v1.0.0 candidate); CI artifact `CampusEscape3D-1.0.0-windows-x64` | A0 pass (Build #1 green); A1 pass on Windows 10 (exit 0, 8 expected warnings); A2 pass headless on Windows; A3 on Windows, NVIDIA MX130 (`docs/performance/windows/`); A4 not run | partial: exported exe launched, main menu → Start → level renders; the rest of Part 2 not yet ticked | Claude (release validation) |

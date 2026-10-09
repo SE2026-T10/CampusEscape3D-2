@@ -1,0 +1,479 @@
+extends SceneTree
+
+## Development tool: builds the Expanded Library graybox from the layout data
+## in tools/expanded/expanded_layout.gd, bakes its navigation mesh and saves
+##   res://scenes/level/expanded_library.tscn
+##   res://scenes/level/expanded_library_navmesh.tres
+## Run from the project folder:
+##   godot --headless --path . --script res://tools/expanded/build_expanded_graybox.gd
+## Exits with code 0 on success and 1 on failure.
+##
+## The scene follows the tutorial's conventions: every solid piece is a
+## StaticBody3D on physics layer 1 ("world") with a "Mesh" and a "Shape"
+## child, all level geometry sits under NavigationRegion3D (the navmesh is
+## baked from static colliders on layer 1), and the player is an instance of
+## scenes/player/player.tscn. Planned (not yet built) gameplay — objectives,
+## gates, patrol loops, hiding spots, the exit — is marked under "Layout" with
+## markers and labels only.
+##
+## While the level is a graybox, this tool and the layout data are the source
+## of truth: change the data and rebuild instead of editing the scene by hand.
+
+const Layout := preload("res://tools/expanded/expanded_layout.gd")
+const SCENE_PATH := "res://scenes/level/expanded_library.tscn"
+const NAVMESH_PATH := "res://scenes/level/expanded_library_navmesh.tres"
+const PLAYER_SCENE := "res://scenes/player/player.tscn"
+
+const ZONE_NODE_NAMES := {
+	"A": "A_EntranceLobby", "B": "B_MainStacks", "C": "C_ReadingStudy",
+	"D": "D_ServiceCorridor", "E": "E_StaffUpperStacks", "F": "F_RestrictedArchive",
+}
+const HEADER_COLOURS := {
+	"door": Color(0.42, 0.44, 0.48), "arch": Color(0.42, 0.44, 0.48), "entrance": Color(0.3, 0.55, 0.85),
+	"gate": Color(0.85, 0.2, 0.18), "shortcut": Color(0.95, 0.7, 0.15), "exit": Color(0.25, 0.85, 0.4),
+}
+const COVER_COLOURS := {
+	"shelf": Color(0.45, 0.32, 0.22), "rack": Color(0.4, 0.38, 0.34), "low": Color(0.72, 0.6, 0.42),
+	"carrel_desk": Color(0.72, 0.6, 0.42), "carrel_panel": Color(0.35, 0.45, 0.4),
+}
+const PATROL_COLOURS := [Color(1.0, 0.45, 0.1), Color(0.95, 0.25, 0.7), Color(1.0, 0.85, 0.15),
+	Color(0.4, 0.9, 0.9), Color(0.6, 1.0, 0.4), Color(0.7, 0.6, 1.0), Color(1.0, 0.5, 0.5)]
+
+var _level: Node3D
+var _materials := {}
+var _meshes := {}
+var _shapes := {}
+var _counter := 0
+var _bodies := 0
+
+
+func _init() -> void:
+	_build.call_deferred()
+
+
+func _build() -> void:
+	_level = Node3D.new()
+	_level.name = "ExpandedLibrary"
+	_level.set_meta("layout_version", Layout.VERSION)
+	_add_environment()
+	var region := NavigationRegion3D.new()
+	region.name = "NavigationRegion3D"
+	region.navigation_mesh = _new_navmesh()
+	_add(_level, region)
+	var ground := _group(region, "Ground")
+	var upper := _group(region, "Upper")
+	var zones := {}
+	for z in Layout.ZONES:
+		var node := _group(ground if z.floor == "ground" else upper, ZONE_NODE_NAMES[z.id])
+		node.set_meta("zone_id", z.id)
+		node.set_meta("zone_name", z.name)
+		node.set_meta("floor", z.floor)
+		zones[z.id] = node
+	for f in Layout.FLOORS:
+		_add_floor(zones[f.zone], f)
+	for i in Layout.WALLS.size():
+		_add_wall(zones[Layout.WALLS[i].zone], Layout.WALLS[i], i)
+	var stairs := _group(region, "Stairs")
+	for s in Layout.STAIRS:
+		_add_stair(stairs, s)
+	for c in Layout.COVER:
+		_add_cover(zones[c.zone], c)
+	_add_debug_and_player(region)
+	_add_layout_markers()
+	var flow := Node.new()
+	flow.name = "GameFlow"
+	flow.set_script(load("res://scripts/game/game_flow.gd"))
+	_add(_level, flow)
+	var menus := CanvasLayer.new()
+	menus.name = "GameMenus"
+	menus.set_script(load("res://scripts/ui/game_menus.gd"))
+	_add(_level, menus)
+
+	# Bake the navigation mesh from the static colliders (needs the level in the tree).
+	root.add_child(_level)
+	region.bake_navigation_mesh(false)
+	var nav_mesh := region.navigation_mesh
+	if nav_mesh.get_polygon_count() == 0:
+		push_error("Bake produced an empty navigation mesh.")
+		quit(1)
+		return
+	if not _save(nav_mesh, NAVMESH_PATH):
+		quit(1)
+		return
+	nav_mesh.take_over_path(NAVMESH_PATH)   # referenced from the scene as an external resource
+	var packed := PackedScene.new()
+	var error := packed.pack(_level)
+	if error != OK:
+		push_error("Could not pack the scene (error %d)." % error)
+		quit(1)
+		return
+	if not _save(packed, SCENE_PATH):
+		quit(1)
+		return
+	print("Built %s (layout %s): %d solid pieces; navmesh %d polygons, %d vertices -> %s" % [
+		SCENE_PATH, Layout.VERSION, _bodies, nav_mesh.get_polygon_count(), nav_mesh.get_vertices().size(), NAVMESH_PATH])
+	quit(0)
+
+
+## Saves `resource` at `path`, keeping the file's existing UID so a rebuild does not churn references.
+func _save(resource: Resource, path: String) -> bool:
+	var uid := ResourceLoader.get_resource_uid(path) if FileAccess.file_exists(path) else ResourceUID.INVALID_ID
+	var error := ResourceSaver.save(resource, path, ResourceSaver.FLAG_CHANGE_PATH)
+	if error != OK:
+		push_error("Could not save %s (error %d)." % [path, error])
+		return false
+	if uid != ResourceUID.INVALID_ID:
+		ResourceSaver.set_uid(path, uid)
+	return true
+
+
+func _new_navmesh() -> NavigationMesh:
+	# Same settings as the tutorial's navmesh (scenes/level/library_navmesh.tres).
+	var nav_mesh := NavigationMesh.new()
+	nav_mesh.geometry_parsed_geometry_type = NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS
+	nav_mesh.geometry_collision_mask = 1
+	nav_mesh.agent_height = 1.75
+	nav_mesh.region_min_size = 8.0
+	return nav_mesh
+
+
+# --- Environment, player, debug ------------------------------------------------------------
+
+func _add_environment() -> void:
+	var env := Environment.new()
+	env.resource_scene_unique_id = "Environment_graybox"
+	env.background_mode = Environment.BG_COLOR
+	env.background_color = Color(0.055, 0.07, 0.09)
+	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	env.ambient_light_color = Color(0.72, 0.66, 0.58)
+	env.ambient_light_energy = 0.55
+	env.tonemap_mode = Environment.TONE_MAPPER_ACES
+	var world := WorldEnvironment.new()
+	world.name = "WorldEnvironment"
+	world.environment = env
+	_add(_level, world)
+	var light := DirectionalLight3D.new()
+	light.name = "KeyLight"
+	light.rotation_degrees = Vector3(-52, -28, 0)
+	light.light_color = Color(1, 0.95, 0.88)
+	light.light_energy = 0.55
+	light.shadow_enabled = true
+	light.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
+	_add(_level, light)
+
+
+func _add_debug_and_player(region: NavigationRegion3D) -> void:
+	var debug := Node3D.new()
+	debug.name = "NavigationDebug"
+	debug.set_script(load("res://scripts/systems/navigation_debug.gd"))
+	debug.set("region", region)
+	debug.set("visible_on_start", false)
+	_add(_level, debug)
+	# Edit-state instance, so the scene stores it like the editor does (an instance plus overrides).
+	var player := (load(PLAYER_SCENE) as PackedScene).instantiate(PackedScene.GEN_EDIT_STATE_INSTANCE) as Node3D
+	player.name = "Player"
+	player.position = Layout.SPAWN
+	_level.add_child(player)
+	player.owner = _level   # an instance: only its root is owned by the level
+	var camera := Camera3D.new()
+	camera.name = "PreviewCamera"
+	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	camera.size = 80.0
+	camera.position = Vector3(0, 60, 2)
+	camera.rotation_degrees = Vector3(-90, 0, 0)
+	camera.far = 200.0
+	camera.current = false
+	_add(_level, camera)
+
+
+# --- Geometry ---------------------------------------------------------------------------------
+
+func _add_floor(parent: Node3D, f: Dictionary) -> void:
+	var r: Array = f.rect
+	var upper: bool = f.floor == "upper"
+	var thickness: float = Layout.SLAB_THICKNESS if upper else Layout.GROUND_FLOOR_THICKNESS
+	var top: float = Layout.UPPER_Y if upper else 0.0
+	var size := Vector3(r[2] - r[0], thickness, r[3] - r[1])
+	var centre := Vector3((r[0] + r[2]) / 2.0, top - thickness / 2.0, (r[1] + r[3]) / 2.0)
+	var colour: Color = Layout.zone(f.zone).colour.darkened(0.45 if not upper else 0.3)
+	_add_box(parent, "Floor" if not upper else "UpperSlab", centre, size, colour)
+
+
+func _add_wall(parent: Node3D, wall: Dictionary, index: int) -> void:
+	var y0 := Layout.floor_y(wall.floor)
+	var railing: bool = wall.get("kind", "wall") == "railing"
+	var height: float = Layout.RAILING_HEIGHT if railing else (Layout.UPPER_WALL_HEIGHT if wall.floor == "upper" else Layout.GROUND_WALL_HEIGHT)
+	var along_x: bool = wall.a[1] == wall.b[1]
+	var fixed: float = wall.a[1] if along_x else wall.a[0]
+	var lo: float = minf(wall.a[0], wall.b[0]) if along_x else minf(wall.a[1], wall.b[1])
+	var hi: float = maxf(wall.a[0], wall.b[0]) if along_x else maxf(wall.a[1], wall.b[1])
+	var t := Layout.WALL_THICKNESS
+	# Solid intervals: the segment (extended by half a thickness to close corners) minus the openings.
+	var intervals := [[lo - t / 2.0, hi + t / 2.0]]
+	var openings: Array = wall.get("openings", [])
+	for o in openings:
+		var cut := [o.at - o.width / 2.0, o.at + o.width / 2.0]
+		var next := []
+		for iv in intervals:
+			if cut[1] <= iv[0] or cut[0] >= iv[1]:
+				next.append(iv)
+				continue
+			if cut[0] > iv[0]:
+				next.append([iv[0], cut[0]])
+			if cut[1] < iv[1]:
+				next.append([cut[1], iv[1]])
+		intervals = next
+	var colour: Color = Layout.zone(wall.zone).colour.darkened(0.15 if railing else 0.05)
+	var base_name := "%s%02d" % ["Railing" if railing else "Wall", index]
+	for k in intervals.size():
+		var iv: Array = intervals[k]
+		var length: float = iv[1] - iv[0]
+		if length < 0.01:
+			continue
+		var mid: float = (iv[0] + iv[1]) / 2.0
+		_add_box(parent, "%s_%d" % [base_name, k], _wall_point(along_x, mid, fixed, y0 + height / 2.0),
+			_wall_size(along_x, length, height, t), colour)
+	# Headers over doorways, a closed panel in the exit.
+	for o in openings:
+		if railing or o.type == "stair":
+			continue
+		var header_h := height - Layout.DOOR_HEIGHT
+		var tag := String(o.name).validate_node_name().replace(" ", "").replace("–", "-")
+		_add_box(parent, "Header_" + tag, _wall_point(along_x, o.at, fixed, y0 + Layout.DOOR_HEIGHT + header_h / 2.0),
+			_wall_size(along_x, o.width, header_h, t), HEADER_COLOURS.get(o.type, Color.GRAY))
+		if o.type == "exit":
+			_add_box(parent, "ExitDoorPanel", _wall_point(along_x, o.at, fixed, y0 + Layout.DOOR_HEIGHT / 2.0),
+				_wall_size(along_x, o.width, Layout.DOOR_HEIGHT, t * 0.6), HEADER_COLOURS.exit)
+
+
+func _wall_point(along_x: bool, along: float, fixed: float, y: float) -> Vector3:
+	return Vector3(along, y, fixed) if along_x else Vector3(fixed, y, along)
+
+
+func _wall_size(along_x: bool, length: float, height: float, thickness: float) -> Vector3:
+	return Vector3(length, height, thickness) if along_x else Vector3(thickness, height, length)
+
+
+func _add_stair(parent: Node3D, s: Dictionary) -> void:
+	var node := _group(parent, "%s_%s" % [s.id, String(s.name).replace(" ", "")])
+	node.set_meta("stair_id", s.id)
+	node.set_meta("zone_id", s.zone)
+	var width: float = s.x1 - s.x0
+	var xc: float = (s.x0 + s.x1) / 2.0
+	var run: float = absf(s.z_high - s.z_low)
+	var rise := Layout.UPPER_Y
+	var dir := signf(s.z_high - s.z_low)
+	var length := sqrt(run * run + rise * rise)
+	var t := Layout.RAMP_THICKNESS
+	var normal := Vector3(0, run, -dir * rise) / length
+	var x_axis := Vector3.RIGHT
+	var basis := Basis(x_axis, normal, x_axis.cross(normal))
+	var top_mid := Vector3(xc, rise / 2.0, (s.z_low + s.z_high) / 2.0)
+	var ramp_colour := Color(0.3, 0.5, 0.75)
+	_add_box(node, "Ramp", top_mid - normal * (t / 2.0), Vector3(width, t, length), ramp_colour, basis)
+	# Handrail panel on the open side (collides, so nobody falls off the side).
+	var rail_x: float = s.x1 - 0.05 if s.open_side == "east" else s.x0 + 0.05
+	_add_box(node, "Handrail", Vector3(rail_x, top_mid.y, top_mid.z) + normal * (Layout.HANDRAIL_HEIGHT / 2.0),
+		Vector3(0.1, Layout.HANDRAIL_HEIGHT, length), ramp_colour.darkened(0.3), basis)
+	# Stepped blocks under the ramp: they seal the space beneath it (no hidden
+	# crawl space, no unreachable navmesh island) and read as steps from the side.
+	var steps := Layout.RAMP_FILLER_STEPS
+	var vertical_thickness := t * length / run
+	for i in range(1, steps):
+		var s0 := run * i / steps
+		var h := rise * s0 / run - vertical_thickness - 0.02
+		if h < 0.05:
+			continue
+		var seg := run / steps
+		var zc: float = s.z_low + dir * (s0 + seg / 2.0)
+		_add_box(node, "Step%02d" % i, Vector3(xc, h / 2.0, zc), Vector3(width, h, seg), ramp_colour.darkened(0.45))
+
+
+func _add_cover(parent: Node3D, c: Dictionary) -> void:
+	var y0 := Layout.floor_y(c.floor)
+	var colour: Color = COVER_COLOURS.get(c.kind, Color.GRAY)
+	var prefix: String = {"shelf": "Shelf", "rack": "Rack", "low": "Low", "carrel_desk": "CarrelDesk", "carrel_panel": "CarrelPanel"}[c.kind]
+	for r in c.rects:
+		var size := Vector3(r[2] - r[0], c.h, r[3] - r[1])
+		var centre := Vector3((r[0] + r[2]) / 2.0, y0 + c.h / 2.0, (r[1] + r[3]) / 2.0)
+		var body := _add_box(parent, "%s%02d" % [prefix, _next()], centre, size, colour)
+		body.set_meta("cover", "full" if c.h >= 1.8 else "low")
+
+
+## Adds a StaticBody3D (layer 1) with a "Mesh" and a "Shape" child.
+func _add_box(parent: Node, node_name: String, centre: Vector3, size: Vector3, colour: Color, basis := Basis()) -> StaticBody3D:
+	var body := StaticBody3D.new()
+	body.name = node_name
+	body.transform = Transform3D(basis, centre)
+	body.collision_layer = 1
+	body.collision_mask = 0
+	_add(parent, body)
+	var mesh := MeshInstance3D.new()
+	mesh.name = "Mesh"
+	mesh.mesh = _box_mesh(size)
+	mesh.material_override = _material(colour)
+	_add(body, mesh)
+	var shape := CollisionShape3D.new()
+	shape.name = "Shape"
+	shape.shape = _box_shape(size)
+	_add(body, shape)
+	_bodies += 1
+	return body
+
+
+# --- Planned gameplay markers -----------------------------------------------------------------
+
+func _add_layout_markers() -> void:
+	var layout := _group(_level, "Layout")
+	var labels := _group(layout, "ZoneLabels")
+	for z in Layout.ZONES:
+		var y := Layout.floor_y(z.floor) + 3.0
+		for a in z.areas:
+			var r: Array = a.rect
+			var label := _label(labels, "%s_%s" % [z.id, String(a.name).replace(" ", "")],
+				"%s · %s" % [z.id, a.name], Vector3((r[0] + r[2]) / 2.0, y, (r[1] + r[3]) / 2.0), z.colour.lightened(0.4), 0.02)
+			label.set_meta("zone_id", z.id)
+	var objectives := _group(layout, "Objectives")
+	for i in Layout.OBJECTIVES.size():
+		var o: Dictionary = Layout.OBJECTIVES[i]
+		var marker := _marker(objectives, "O%d" % (i + 1), o.pos)
+		for key in ["id", "title", "zone", "note"]:
+			marker.set_meta(key, o[key])
+		_label(marker, "Label", "O%d · %s" % [i + 1, o.title], Vector3(0, 2.3, 0), Color(1.0, 0.95, 0.4), 0.012)
+		_beacon(marker, Color(1.0, 0.85, 0.2))
+	var exit := _marker(layout, "Exit", Layout.OBJECTIVES[4].pos)
+	exit.set_meta("opening", "Loading Dock Exit")
+	var gates := _group(layout, "Gates")
+	for g in Layout.GATES:
+		var found := Layout.find_opening(g.opening)
+		var marker := _marker(gates, String(g.opening).validate_node_name().replace(" ", "").replace("–", "-"), found.centre)
+		marker.set_meta("opening", g.opening)
+		marker.set_meta("needs", g.needs)
+		marker.set_meta("guards", g.guards)
+		marker.set_meta("type", found.opening.type)
+		var colour: Color = HEADER_COLOURS[found.opening.type]
+		_label(marker, "Label", "%s\n(%s)" % [g.opening, g.needs], Vector3(0, 3.0, 0), colour.lightened(0.3), 0.009)
+	var patrols := _group(layout, "PlannedPatrols")
+	for i in Layout.PATROLS.size():
+		var p: Dictionary = Layout.PATROLS[i]
+		var route := Node3D.new()
+		route.name = "%s_%s" % [p.id, String(p.name).replace(" ", "")]
+		route.set_script(load("res://scripts/npc/patrol_route.gd"))
+		route.set("debug_color", PATROL_COLOURS[i % PATROL_COLOURS.size()])
+		route.set_meta("zone_id", p.zone)
+		_add(patrols, route)
+		for k in p.points.size():
+			var point := Marker3D.new()
+			point.name = "Point%d" % k
+			point.set_script(load("res://scripts/npc/patrol_point.gd"))
+			point.position = Vector3(p.points[k][0], p.y, p.points[k][1])
+			_add(route, point)
+	var hiding := _group(layout, "HidingSpots")
+	for h in Layout.HIDING:
+		var marker := _marker(hiding, String(h.name).replace(" ", ""), h.pos)
+		marker.set_meta("zone_id", h.zone)
+		_label(marker, "Label", "hide", Vector3(0, 1.4, 0), Color(0.5, 0.75, 1.0), 0.008)
+
+
+func _marker(parent: Node, node_name: String, pos: Vector3) -> Marker3D:
+	var m := Marker3D.new()
+	m.name = node_name
+	m.position = pos
+	_add(parent, m)
+	return m
+
+
+func _label(parent: Node, node_name: String, text: String, pos: Vector3, colour: Color, pixel: float) -> Label3D:
+	var label := Label3D.new()
+	label.name = node_name
+	label.text = text
+	label.position = pos
+	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	label.pixel_size = pixel
+	label.font_size = 48
+	label.outline_size = 10
+	label.modulate = colour
+	label.no_depth_test = false
+	_add(parent, label)
+	return label
+
+
+## A thin glowing post (visual only, no collision) so planned locations stand out in the graybox.
+func _beacon(parent: Node, colour: Color) -> void:
+	var post := MeshInstance3D.new()
+	post.name = "Beacon"
+	var mesh := CylinderMesh.new()
+	mesh.resource_scene_unique_id = "CylinderMesh_beacon"
+	mesh.top_radius = 0.06
+	mesh.bottom_radius = 0.06
+	mesh.height = 2.0
+	if not _meshes.has("beacon"):
+		_meshes["beacon"] = mesh
+	post.mesh = _meshes["beacon"]
+	post.position = Vector3(0, 1.0, 0)
+	post.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	var key := "beacon_material"
+	if not _materials.has(key):
+		var m := StandardMaterial3D.new()
+		m.resource_scene_unique_id = "Material_beacon"
+		m.albedo_color = colour
+		m.emission_enabled = true
+		m.emission = colour
+		m.emission_energy_multiplier = 1.5
+		_materials[key] = m
+	post.material_override = _materials[key]
+	_add(parent, post)
+
+
+# --- Helpers -----------------------------------------------------------------------------------
+
+func _group(parent: Node, node_name: String) -> Node3D:
+	var n := Node3D.new()
+	n.name = node_name
+	_add(parent, n)
+	return n
+
+
+func _add(parent: Node, child: Node) -> void:
+	parent.add_child(child)
+	child.owner = _level
+
+
+func _next() -> int:
+	_counter += 1
+	return _counter
+
+
+func _material(colour: Color) -> StandardMaterial3D:
+	var key := colour.to_html()
+	if not _materials.has(key):
+		var m := StandardMaterial3D.new()
+		m.resource_scene_unique_id = "Material_%s" % key
+		m.albedo_color = colour
+		m.roughness = 1.0
+		_materials[key] = m
+	return _materials[key]
+
+
+func _box_mesh(size: Vector3) -> BoxMesh:
+	var key := _size_key(size)
+	if not _meshes.has(key):
+		var m := BoxMesh.new()
+		m.resource_scene_unique_id = "BoxMesh_%s" % key
+		m.size = size
+		_meshes[key] = m
+	return _meshes[key]
+
+
+func _box_shape(size: Vector3) -> BoxShape3D:
+	var key := _size_key(size)
+	if not _shapes.has(key):
+		var s := BoxShape3D.new()
+		s.resource_scene_unique_id = "BoxShape_%s" % key
+		s.size = size
+		_shapes[key] = s
+	return _shapes[key]
+
+
+func _size_key(size: Vector3) -> String:
+	return ("%.3f_%.3f_%.3f" % [size.x, size.y, size.z]).replace(".", "p").replace("-", "m")

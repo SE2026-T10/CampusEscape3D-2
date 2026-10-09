@@ -1,2 +1,7 @@
+# Check text files out with LF everywhere, as Godot writes them. Without this,
+# Windows clones (core.autocrlf=true) get CRLF, and the first editor import
+# rewrites every .import file with LF so they all show as modified.
+* text=auto eol=lf
+
 # CI scripts must keep Unix line endings, even when committed from Windows.
 *.sh text eol=lf

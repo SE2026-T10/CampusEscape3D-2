@@ -4,6 +4,17 @@ This phase added a reproducible benchmark, measured the game in three scenarios,
 
 **Read this first: every number here comes from one Linux cloud VM with no GPU.** The game was rendered by Mesa llvmpipe, a software OpenGL rasteriser. That makes rendering far slower, and fill-rate bound in a way a real GPU isn't, so the absolute frame rates say nothing about the Windows target. The CPU-side figures (game logic, physics, navigation) and the draw-call and object counts transfer much better. **No Windows measurement was made.** How to make one is under "Manual verification still required".
 
+## Addendum (release validation, 2026-10-09): Windows measurement
+
+The same benchmark was run on Windows hardware with the current code: Windows 10 Pro 19042, Intel Core i5-8265U (4 cores / 8 threads), NVIDIA GeForce MX130 (OpenGL 3.3, driver 466.11), 7.9 GB RAM, Godot 4.7.2 win64 editor binary (debug build), 1280×720, vsync off. Runs are in `docs/performance/windows/` (`render/normal_r1–3`, `render/stress_r1–2`, `headless/normal_r1`, `headless/stress_r1`).
+
+| Scenario | Avg FPS (range) | 1% low | Frame ms mean / p95 | Draw calls | Headless CPU ms |
+|---|---|---|---|---|---|
+| normal (3) | 202.8 (197.0–212.7) | 62.1 | 4.94 / 6.81 | 311 | 0.85 |
+| stress (24) | 153.2 (147.3–159.0) | 57.5 | 6.54 / 10.7 | 602 | 2.93 |
+
+No catches, no orphan nodes, memory flat. The summary in `docs/FINAL_REPORT.md` §6 has the full breakdown.
+
 ## Correction (Phase 14 QA pass)
 
 The QA pass found a bug in the first version of the benchmark: with 13 or more guards, some extra guards started at exactly the same spot as one of the level's own guards. Each such pair blocked each other, and the "stuck" fallback fired again and again.
@@ -119,7 +130,9 @@ The game logic is cheap. Even 48 guards cost 3.8 ms of CPU per frame (`chart_cpu
 
 **The bottleneck is rendering, and within it the sun's 4-cascade shadow map.** Turning shadows off, removing lights or hiding decoration would change how the level looks, so those were not done. Cascade count and atlas size can be changed without a visible difference, which was checked as described below.
 
-## Optimisations (both measured; one commit each)
+## Optimisations (both measured)
+
+> **Note (release validation, 2026-10-09):** the two `perf:` commits named below were made during development but are **not in this repository's history**; both changes arrived in the single commit `ff8352f` ("Phase 13 …"). The before/after evidence is the run folders in `docs/performance/`.
 
 1. **The sun's shadow uses 2 cascades instead of 4.**
    - Change: `KeyLight.directional_shadow_mode = PSSM 2 splits` in the library scene.

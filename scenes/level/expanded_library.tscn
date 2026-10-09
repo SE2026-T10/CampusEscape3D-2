@@ -1,0 +1,3904 @@
+[gd_scene format=3]
+
+[ext_resource type="NavigationMesh" path="res://scenes/level/expanded_library_navmesh.tres" id="1_i1vlv"]
+[ext_resource type="Script" path="res://scripts/systems/navigation_debug.gd" id="2_vpaym"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="3_g31rm"]
+[ext_resource type="Script" path="res://scripts/npc/patrol_route.gd" id="4_osu2v"]
+[ext_resource type="Script" path="res://scripts/npc/patrol_point.gd" id="5_h2ems"]
+[ext_resource type="Script" path="res://scripts/game/game_flow.gd" id="6_38ait"]
+[ext_resource type="Script" path="res://scripts/ui/game_menus.gd" id="7_2jgju"]
+
+[sub_resource type="Environment" id="Environment_graybox"]
+background_mode = 1
+background_color = Color(0.055, 0.07, 0.09, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.72, 0.66, 0.58, 1)
+ambient_light_energy = 0.55
+tonemap_mode = 3
+
+[sub_resource type="StandardMaterial3D" id="Material_4d5762ff"]
+albedo_color = Color(0.3025, 0.34100002, 0.385, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_24p000_0p200_18p000"]
+size = Vector3(24, 0.2, 18)
+
+[sub_resource type="BoxShape3D" id="BoxShape_24p000_0p200_18p000"]
+size = Vector3(24, 0.2, 18)
+
+[sub_resource type="BoxMesh" id="BoxMesh_10p000_0p200_6p000"]
+size = Vector3(10, 0.2, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape_10p000_0p200_6p000"]
+size = Vector3(10, 0.2, 6)
+
+[sub_resource type="StandardMaterial3D" id="Material_8596aaff"]
+albedo_color = Color(0.5225, 0.589, 0.66499996, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_34p150_4p200_0p300"]
+size = Vector3(34.15, 4.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_34p150_4p200_0p300"]
+size = Vector3(34.15, 4.2, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="Material_4d8cd9ff"]
+albedo_color = Color(0.3, 0.55, 0.85, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4p000_1p600_0p300"]
+size = Vector3(4, 1.6, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_4p000_1p600_0p300"]
+size = Vector3(4, 1.6, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_6p300"]
+size = Vector3(0.3, 4.2, 6.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_6p300"]
+size = Vector3(0.3, 4.2, 6.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_10p300_4p200_0p300"]
+size = Vector3(10.3, 4.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_10p300_4p200_0p300"]
+size = Vector3(10.3, 4.2, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="Material_b8996bff"]
+albedo_color = Color(0.72, 0.6, 0.42, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6p000_1p100_1p200"]
+size = Vector3(6, 1.1, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape_6p000_1p100_1p200"]
+size = Vector3(6, 1.1, 1.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2p000_1p000_1p000"]
+size = Vector3(2, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_2p000_1p000_1p000"]
+size = Vector3(2, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_574938ff"]
+albedo_color = Color(0.34100002, 0.28599998, 0.22000001, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_24p000_0p200_56p000"]
+size = Vector3(24, 0.2, 56)
+
+[sub_resource type="BoxShape3D" id="BoxShape_24p000_0p200_56p000"]
+size = Vector3(24, 0.2, 56)
+
+[sub_resource type="StandardMaterial3D" id="Material_967e61ff"]
+albedo_color = Color(0.589, 0.494, 0.38, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_72p300_4p200_0p300"]
+size = Vector3(72.3, 4.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_72p300_4p200_0p300"]
+size = Vector3(72.3, 4.2, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_56p300"]
+size = Vector3(0.3, 4.2, 56.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_56p300"]
+size = Vector3(0.3, 4.2, 56.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_24p650"]
+size = Vector3(0.3, 4.2, 24.65)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_24p650"]
+size = Vector3(0.3, 4.2, 24.65)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_23p000"]
+size = Vector3(0.3, 4.2, 23)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_23p000"]
+size = Vector3(0.3, 4.2, 23)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_2p650"]
+size = Vector3(0.3, 4.2, 2.65)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_2p650"]
+size = Vector3(0.3, 4.2, 2.65)
+
+[sub_resource type="StandardMaterial3D" id="Material_6b707aff"]
+albedo_color = Color(0.42, 0.44, 0.48, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_1p600_3p000"]
+size = Vector3(0.3, 1.6, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_1p600_3p000"]
+size = Vector3(0.3, 1.6, 3)
+
+[sub_resource type="StandardMaterial3D" id="Material_735238ff"]
+albedo_color = Color(0.45, 0.32, 0.22, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p600_2p200_14p000"]
+size = Vector3(0.6, 2.2, 14)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p600_2p200_14p000"]
+size = Vector3(0.6, 2.2, 14)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p600_2p200_13p000"]
+size = Vector3(0.6, 2.2, 13)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p600_2p200_13p000"]
+size = Vector3(0.6, 2.2, 13)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_0p800_1p400"]
+size = Vector3(3, 0.8, 1.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_0p800_1p400"]
+size = Vector3(3, 0.8, 1.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p600_2p200_6p000"]
+size = Vector3(0.6, 2.2, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p600_2p200_6p000"]
+size = Vector3(0.6, 2.2, 6)
+
+[sub_resource type="StandardMaterial3D" id="Material_465a46ff"]
+albedo_color = Color(0.275, 0.352, 0.275, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_24p000_0p200_38p000"]
+size = Vector3(24, 0.2, 38)
+
+[sub_resource type="BoxShape3D" id="BoxShape_24p000_0p200_38p000"]
+size = Vector3(24, 0.2, 38)
+
+[sub_resource type="StandardMaterial3D" id="Material_799b79ff"]
+albedo_color = Color(0.475, 0.608, 0.475, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_10p150_4p200_0p300"]
+size = Vector3(10.15, 4.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_10p150_4p200_0p300"]
+size = Vector3(10.15, 4.2, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2p150_4p200_0p300"]
+size = Vector3(2.15, 4.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_2p150_4p200_0p300"]
+size = Vector3(2.15, 4.2, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4p000_4p200_0p300"]
+size = Vector3(4, 4.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_4p000_4p200_0p300"]
+size = Vector3(4, 4.2, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2p000_1p600_0p300"]
+size = Vector3(2, 1.6, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_2p000_1p600_0p300"]
+size = Vector3(2, 1.6, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_14p300"]
+size = Vector3(0.3, 4.2, 14.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_14p300"]
+size = Vector3(0.3, 4.2, 14.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_3p150"]
+size = Vector3(0.3, 4.2, 3.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_3p150"]
+size = Vector3(0.3, 4.2, 3.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_9p150"]
+size = Vector3(0.3, 4.2, 9.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_9p150"]
+size = Vector3(0.3, 4.2, 9.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_1p600_2p000"]
+size = Vector3(0.3, 1.6, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_1p600_2p000"]
+size = Vector3(0.3, 1.6, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5p000_1p300_0p600"]
+size = Vector3(5, 1.3, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape_5p000_1p300_0p600"]
+size = Vector3(5, 1.3, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1p200_0p750_0p700"]
+size = Vector3(1.2, 0.75, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape_1p200_0p750_0p700"]
+size = Vector3(1.2, 0.75, 0.7)
+
+[sub_resource type="StandardMaterial3D" id="Material_597366ff"]
+albedo_color = Color(0.35, 0.45, 0.4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p100_1p500_1p200"]
+size = Vector3(0.1, 1.5, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p100_1p500_1p200"]
+size = Vector3(0.1, 1.5, 1.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1p600_0p750_0p800"]
+size = Vector3(1.6, 0.75, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape_1p600_0p750_0p800"]
+size = Vector3(1.6, 0.75, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="Material_5d4646ff"]
+albedo_color = Color(0.36300004, 0.275, 0.275, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_a07979ff"]
+albedo_color = Color(0.62700003, 0.475, 0.475, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_50p650"]
+size = Vector3(0.3, 4.2, 50.65)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_50p650"]
+size = Vector3(0.3, 4.2, 50.65)
+
+[sub_resource type="StandardMaterial3D" id="Material_40d966ff"]
+albedo_color = Color(0.25, 0.85, 0.4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p180_2p600_3p000"]
+size = Vector3(0.18, 2.6, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p180_2p600_3p000"]
+size = Vector3(0.18, 2.6, 3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_31p150"]
+size = Vector3(0.3, 4.2, 31.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_31p150"]
+size = Vector3(0.3, 4.2, 31.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_15p000"]
+size = Vector3(0.3, 4.2, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_15p000"]
+size = Vector3(0.3, 4.2, 15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_6p150"]
+size = Vector3(0.3, 4.2, 6.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_6p150"]
+size = Vector3(0.3, 4.2, 6.15)
+
+[sub_resource type="StandardMaterial3D" id="Material_f2b326ff"]
+albedo_color = Color(0.95, 0.7, 0.15, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_d9332eff"]
+albedo_color = Color(0.85, 0.2, 0.18, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_10p150"]
+size = Vector3(0.3, 4.2, 10.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_10p150"]
+size = Vector3(0.3, 4.2, 10.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_17p000"]
+size = Vector3(0.3, 4.2, 17)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_17p000"]
+size = Vector3(0.3, 4.2, 17)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_15p500"]
+size = Vector3(0.3, 4.2, 15.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_15p500"]
+size = Vector3(0.3, 4.2, 15.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_4p200_6p650"]
+size = Vector3(0.3, 4.2, 6.65)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_6p650"]
+size = Vector3(0.3, 4.2, 6.65)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8p150_4p200_0p300"]
+size = Vector3(8.15, 4.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_8p150_4p200_0p300"]
+size = Vector3(8.15, 4.2, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_9p150_4p200_0p300"]
+size = Vector3(9.15, 4.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_9p150_4p200_0p300"]
+size = Vector3(9.15, 4.2, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p650_4p200_0p300"]
+size = Vector3(3.65, 4.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p650_4p200_0p300"]
+size = Vector3(3.65, 4.2, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_12p650_4p200_0p300"]
+size = Vector3(12.65, 4.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_12p650_4p200_0p300"]
+size = Vector3(12.65, 4.2, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_1p600_0p300"]
+size = Vector3(3, 1.6, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_1p600_0p300"]
+size = Vector3(3, 1.6, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_0p900_1p200"]
+size = Vector3(3, 0.9, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_0p900_1p200"]
+size = Vector3(3, 0.9, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="Material_666157ff"]
+albedo_color = Color(0.4, 0.38, 0.34, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2p000_2p000_2p000"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape_2p000_2p000_2p000"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1p600_1p200_1p600"]
+size = Vector3(1.6, 1.2, 1.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape_1p600_1p200_1p600"]
+size = Vector3(1.6, 1.2, 1.6)
+
+[sub_resource type="StandardMaterial3D" id="Material_686481ff"]
+albedo_color = Color(0.406, 0.392, 0.504, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_48p000_0p300_38p000"]
+size = Vector3(48, 0.3, 38)
+
+[sub_resource type="BoxShape3D" id="BoxShape_48p000_0p300_38p000"]
+size = Vector3(48, 0.3, 38)
+
+[sub_resource type="StandardMaterial3D" id="Material_8d88aeff"]
+albedo_color = Color(0.551, 0.532, 0.684, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_72p300_3p500_0p300"]
+size = Vector3(72.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_72p300_3p500_0p300"]
+size = Vector3(72.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_3p500_38p300"]
+size = Vector3(0.3, 3.5, 38.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_3p500_38p300"]
+size = Vector3(0.3, 3.5, 38.3)
+
+[sub_resource type="StandardMaterial3D" id="Material_7e799cff"]
+albedo_color = Color(0.493, 0.476, 0.61200005, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_1p100_0p300"]
+size = Vector3(0.3, 1.1, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_1p100_0p300"]
+size = Vector3(0.3, 1.1, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_21p000_1p100_0p300"]
+size = Vector3(21, 1.1, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_21p000_1p100_0p300"]
+size = Vector3(21, 1.1, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_3p500_16p300"]
+size = Vector3(0.3, 3.5, 16.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_3p500_16p300"]
+size = Vector3(0.3, 3.5, 16.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_3p500_16p150"]
+size = Vector3(0.3, 3.5, 16.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_3p500_16p150"]
+size = Vector3(0.3, 3.5, 16.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_3p500_2p150"]
+size = Vector3(0.3, 3.5, 2.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_3p500_2p150"]
+size = Vector3(0.3, 3.5, 2.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_0p900_2p000"]
+size = Vector3(0.3, 0.9, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_0p900_2p000"]
+size = Vector3(0.3, 0.9, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8p150_3p500_0p300"]
+size = Vector3(8.15, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_8p150_3p500_0p300"]
+size = Vector3(8.15, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2p000_0p900_0p300"]
+size = Vector3(2, 0.9, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_2p000_0p900_0p300"]
+size = Vector3(2, 0.9, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2p150_3p500_0p300"]
+size = Vector3(2.15, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_2p150_3p500_0p300"]
+size = Vector3(2.15, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4p000_3p500_0p300"]
+size = Vector3(4, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_4p000_3p500_0p300"]
+size = Vector3(4, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_3p500_14p300"]
+size = Vector3(0.3, 3.5, 14.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_3p500_14p300"]
+size = Vector3(0.3, 3.5, 14.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p600_2p200_12p000"]
+size = Vector3(0.6, 2.2, 12)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p600_2p200_12p000"]
+size = Vector3(0.6, 2.2, 12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_0p800_1p000"]
+size = Vector3(3, 0.8, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_0p800_1p000"]
+size = Vector3(3, 0.8, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_846847ff"]
+albedo_color = Color(0.518, 0.406, 0.28, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_24p000_0p300_22p000"]
+size = Vector3(24, 0.3, 22)
+
+[sub_resource type="BoxShape3D" id="BoxShape_24p000_0p300_22p000"]
+size = Vector3(24, 0.3, 22)
+
+[sub_resource type="StandardMaterial3D" id="Material_b38d61ff"]
+albedo_color = Color(0.703, 0.551, 0.38, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_3p500_4p150"]
+size = Vector3(0.3, 3.5, 4.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_3p500_4p150"]
+size = Vector3(0.3, 3.5, 4.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_21p000_3p500_0p300"]
+size = Vector3(21, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_21p000_3p500_0p300"]
+size = Vector3(21, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_3p500_0p300"]
+size = Vector3(0.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_3p500_0p300"]
+size = Vector3(0.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_3p500_22p300"]
+size = Vector3(0.3, 3.5, 22.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_3p500_22p300"]
+size = Vector3(0.3, 3.5, 22.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6p300_3p500_0p300"]
+size = Vector3(6.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_6p300_3p500_0p300"]
+size = Vector3(6.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p300_3p500_6p150"]
+size = Vector3(0.3, 3.5, 6.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_3p500_6p150"]
+size = Vector3(0.3, 3.5, 6.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8p300_3p500_0p300"]
+size = Vector3(8.3, 3.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_8p300_3p500_0p300"]
+size = Vector3(8.3, 3.5, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4p500_2p400_0p600"]
+size = Vector3(4.5, 2.4, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape_4p500_2p400_0p600"]
+size = Vector3(4.5, 2.4, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4p000_0p800_1p200"]
+size = Vector3(4, 0.8, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape_4p000_0p800_1p200"]
+size = Vector3(4, 0.8, 1.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2p000_1p200_2p000"]
+size = Vector3(2, 1.2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape_2p000_1p200_2p000"]
+size = Vector3(2, 1.2, 2)
+
+[sub_resource type="StandardMaterial3D" id="Material_4d80bfff"]
+albedo_color = Color(0.3, 0.5, 0.75, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_0p300_10p966"]
+size = Vector3(3, 0.3, 10.965857)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_0p300_10p966"]
+size = Vector3(3, 0.3, 10.965857)
+
+[sub_resource type="StandardMaterial3D" id="Material_365986ff"]
+albedo_color = Color(0.21000001, 0.35, 0.525, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p100_1p000_10p966"]
+size = Vector3(0.1, 1, 10.965857)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p100_1p000_10p966"]
+size = Vector3(0.1, 1, 10.965857)
+
+[sub_resource type="StandardMaterial3D" id="Material_2a4669ff"]
+albedo_color = Color(0.165, 0.275, 0.41250002, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_0p101_1p000"]
+size = Vector3(3, 0.101024315, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_0p101_1p000"]
+size = Vector3(3, 0.101024315, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_0p551_1p000"]
+size = Vector3(3, 0.5510243, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_0p551_1p000"]
+size = Vector3(3, 0.5510243, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_1p001_1p000"]
+size = Vector3(3, 1.0010244, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_1p001_1p000"]
+size = Vector3(3, 1.0010244, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_1p451_1p000"]
+size = Vector3(3, 1.4510243, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_1p451_1p000"]
+size = Vector3(3, 1.4510243, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_1p901_1p000"]
+size = Vector3(3, 1.9010243, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_1p901_1p000"]
+size = Vector3(3, 1.9010243, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_2p351_1p000"]
+size = Vector3(3, 2.3510244, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_2p351_1p000"]
+size = Vector3(3, 2.3510244, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_2p801_1p000"]
+size = Vector3(3, 2.8010242, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_2p801_1p000"]
+size = Vector3(3, 2.8010242, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_3p251_1p000"]
+size = Vector3(3, 3.2510242, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_3p251_1p000"]
+size = Vector3(3, 3.2510242, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3p000_3p701_1p000"]
+size = Vector3(3, 3.7010243, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p000_3p701_1p000"]
+size = Vector3(3, 3.7010243, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_beacon"]
+albedo_color = Color(1, 0.85, 0.2, 1)
+emission_enabled = true
+emission = Color(1, 0.85, 0.2, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_beacon"]
+top_radius = 0.06
+bottom_radius = 0.06
+
+[node name="ExpandedLibrary" type="Node3D" unique_id=351029505]
+metadata/layout_version = "v0"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1646176133]
+environment = SubResource("Environment_graybox")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="." unique_id=178318756]
+transform = Transform3D(0.88294756, 0.36994863, -0.2890356, 0, 0.6156615, 0.7880107, 0.46947157, -0.6957722, 0.5435968, 0, 0, 0)
+light_color = Color(1, 0.95, 0.88, 1)
+light_energy = 0.55
+shadow_enabled = true
+directional_shadow_mode = 1
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=310576772]
+navigation_mesh = ExtResource("1_i1vlv")
+
+[node name="Ground" type="Node3D" parent="NavigationRegion3D" unique_id=1759794515]
+
+[node name="A_EntranceLobby" type="Node3D" parent="NavigationRegion3D/Ground" unique_id=1400601214]
+metadata/zone_id = "A"
+metadata/zone_name = "Entrance & Lobby"
+metadata/floor = "ground"
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D/Ground/A_EntranceLobby" unique_id=1831324146]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 19)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Floor" unique_id=2059282667]
+material_override = SubResource("Material_4d5762ff")
+mesh = SubResource("BoxMesh_24p000_0p200_18p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Floor" unique_id=167369908]
+shape = SubResource("BoxShape_24p000_0p200_18p000")
+
+[node name="@StaticBody3D@2" type="StaticBody3D" parent="NavigationRegion3D/Ground/A_EntranceLobby" unique_id=1657454177]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 31)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/@StaticBody3D@2" unique_id=230967311]
+material_override = SubResource("Material_4d5762ff")
+mesh = SubResource("BoxMesh_10p000_0p200_6p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/@StaticBody3D@2" unique_id=415180133]
+shape = SubResource("BoxShape_10p000_0p200_6p000")
+
+[node name="Wall00_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/A_EntranceLobby" unique_id=1075260135]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.075, 2.1, 28)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Wall00_0" unique_id=744525345]
+material_override = SubResource("Material_8596aaff")
+mesh = SubResource("BoxMesh_34p150_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Wall00_0" unique_id=1254651540]
+shape = SubResource("BoxShape_34p150_4p200_0p300")
+
+[node name="Wall00_1" type="StaticBody3D" parent="NavigationRegion3D/Ground/A_EntranceLobby" unique_id=2103286623]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.075, 2.1, 28)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Wall00_1" unique_id=18092704]
+material_override = SubResource("Material_8596aaff")
+mesh = SubResource("BoxMesh_34p150_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Wall00_1" unique_id=1141582625]
+shape = SubResource("BoxShape_34p150_4p200_0p300")
+
+[node name="Header_MainEntrance" type="StaticBody3D" parent="NavigationRegion3D/Ground/A_EntranceLobby" unique_id=1620771439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, 28)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Header_MainEntrance" unique_id=1773959187]
+material_override = SubResource("Material_4d8cd9ff")
+mesh = SubResource("BoxMesh_4p000_1p600_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Header_MainEntrance" unique_id=852682494]
+shape = SubResource("BoxShape_4p000_1p600_0p300")
+
+[node name="Wall01_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/A_EntranceLobby" unique_id=150796208]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2.1, 31)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Wall01_0" unique_id=801253883]
+material_override = SubResource("Material_8596aaff")
+mesh = SubResource("BoxMesh_0p300_4p200_6p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Wall01_0" unique_id=2095750118]
+shape = SubResource("BoxShape_0p300_4p200_6p300")
+
+[node name="Wall02_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/A_EntranceLobby" unique_id=1927115396]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.1, 31)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Wall02_0" unique_id=757823376]
+material_override = SubResource("Material_8596aaff")
+mesh = SubResource("BoxMesh_0p300_4p200_6p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Wall02_0" unique_id=547891230]
+shape = SubResource("BoxShape_0p300_4p200_6p300")
+
+[node name="Wall03_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/A_EntranceLobby" unique_id=136723324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 34)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Wall03_0" unique_id=558184512]
+material_override = SubResource("Material_8596aaff")
+mesh = SubResource("BoxMesh_10p300_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Wall03_0" unique_id=877979836]
+shape = SubResource("BoxShape_10p300_4p200_0p300")
+
+[node name="Low18" type="StaticBody3D" parent="NavigationRegion3D/Ground/A_EntranceLobby" unique_id=1366463307]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.55, 16)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Low18" unique_id=1221560226]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_6p000_1p100_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Low18" unique_id=312284575]
+shape = SubResource("BoxShape_6p000_1p100_1p200")
+
+[node name="Low19" type="StaticBody3D" parent="NavigationRegion3D/Ground/A_EntranceLobby" unique_id=2140645985]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.5, 13.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Low19" unique_id=1969649327]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_2p000_1p000_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Low19" unique_id=181748172]
+shape = SubResource("BoxShape_2p000_1p000_1p000")
+
+[node name="Low20" type="StaticBody3D" parent="NavigationRegion3D/Ground/A_EntranceLobby" unique_id=2100922879]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.5, 25.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Low20" unique_id=1631510044]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_2p000_1p000_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/A_EntranceLobby/Low20" unique_id=722207455]
+shape = SubResource("BoxShape_2p000_1p000_1p000")
+
+[node name="B_MainStacks" type="Node3D" parent="NavigationRegion3D/Ground" unique_id=1456734806]
+metadata/zone_id = "B"
+metadata/zone_name = "Main Book Stacks"
+metadata/floor = "ground"
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1962478473]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, -0.1, 0)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Floor" unique_id=1852061915]
+material_override = SubResource("Material_574938ff")
+mesh = SubResource("BoxMesh_24p000_0p200_56p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Floor" unique_id=2086010765]
+shape = SubResource("BoxShape_24p000_0p200_56p000")
+
+[node name="Wall04_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=232490261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -28)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall04_0" unique_id=73996278]
+material_override = SubResource("Material_967e61ff")
+mesh = SubResource("BoxMesh_72p300_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall04_0" unique_id=1606621338]
+shape = SubResource("BoxShape_72p300_4p200_0p300")
+
+[node name="Wall05_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1529996677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.1, 0)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall05_0" unique_id=1054719389]
+material_override = SubResource("Material_967e61ff")
+mesh = SubResource("BoxMesh_0p300_4p200_56p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall05_0" unique_id=40669284]
+shape = SubResource("BoxShape_0p300_4p200_56p300")
+
+[node name="Wall07_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1503311702]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.1, -15.825)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall07_0" unique_id=151200615]
+material_override = SubResource("Material_967e61ff")
+mesh = SubResource("BoxMesh_0p300_4p200_24p650")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall07_0" unique_id=2076619127]
+shape = SubResource("BoxShape_0p300_4p200_24p650")
+
+[node name="Wall07_1" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1854403190]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.1, 11)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall07_1" unique_id=1959929535]
+material_override = SubResource("Material_967e61ff")
+mesh = SubResource("BoxMesh_0p300_4p200_23p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall07_1" unique_id=970645203]
+shape = SubResource("BoxShape_0p300_4p200_23p000")
+
+[node name="Wall07_2" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=778850195]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.1, 26.825)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall07_2" unique_id=946634521]
+material_override = SubResource("Material_967e61ff")
+mesh = SubResource("BoxMesh_0p300_4p200_2p650")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall07_2" unique_id=2066868653]
+shape = SubResource("BoxShape_0p300_4p200_2p650")
+
+[node name="Header_StacksArch(ReadingHall)" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=610509099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 3.4, -2)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Header_StacksArch(ReadingHall)" unique_id=483079497]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_0p300_1p600_3p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Header_StacksArch(ReadingHall)" unique_id=120362887]
+shape = SubResource("BoxShape_0p300_1p600_3p000")
+
+[node name="Header_StacksArch(Lobby)" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1224076090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 3.4, 24)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Header_StacksArch(Lobby)" unique_id=1169583089]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_0p300_1p600_3p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Header_StacksArch(Lobby)" unique_id=657392697]
+shape = SubResource("BoxShape_0p300_1p600_3p000")
+
+[node name="Shelf01" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=2025299632]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 1.1, -18)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf01" unique_id=36669966]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_14p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf01" unique_id=1430477649]
+shape = SubResource("BoxShape_0p600_2p200_14p000")
+
+[node name="Shelf02" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1184011969]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 1.1, -18)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf02" unique_id=748558004]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_14p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf02" unique_id=1887098576]
+shape = SubResource("BoxShape_0p600_2p200_14p000")
+
+[node name="Shelf03" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=192571111]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 1.1, -18)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf03" unique_id=1964697511]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_14p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf03" unique_id=1488345508]
+shape = SubResource("BoxShape_0p600_2p200_14p000")
+
+[node name="Shelf04" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=749152997]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 1.1, -18)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf04" unique_id=859394854]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_14p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf04" unique_id=304258571]
+shape = SubResource("BoxShape_0p600_2p200_14p000")
+
+[node name="Shelf05" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1570454385]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 1.1, -18)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf05" unique_id=1917398580]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_14p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf05" unique_id=1489616611]
+shape = SubResource("BoxShape_0p600_2p200_14p000")
+
+[node name="Shelf06" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1338692347]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 1.1, -18)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf06" unique_id=653635695]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_14p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf06" unique_id=318600162]
+shape = SubResource("BoxShape_0p600_2p200_14p000")
+
+[node name="Shelf07" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1774709973]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 1.1, -0.5)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf07" unique_id=1748334787]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_13p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf07" unique_id=731648922]
+shape = SubResource("BoxShape_0p600_2p200_13p000")
+
+[node name="Shelf08" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1610092832]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 1.1, -0.5)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf08" unique_id=533727263]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_13p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf08" unique_id=153437751]
+shape = SubResource("BoxShape_0p600_2p200_13p000")
+
+[node name="Shelf09" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=591523198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 1.1, -0.5)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf09" unique_id=683249093]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_13p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf09" unique_id=1607090101]
+shape = SubResource("BoxShape_0p600_2p200_13p000")
+
+[node name="Shelf10" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1701313338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 1.1, -0.5)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf10" unique_id=313528472]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_13p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf10" unique_id=592882223]
+shape = SubResource("BoxShape_0p600_2p200_13p000")
+
+[node name="Shelf11" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1357943927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 1.1, -0.5)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf11" unique_id=1322231829]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_13p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf11" unique_id=167494841]
+shape = SubResource("BoxShape_0p600_2p200_13p000")
+
+[node name="Shelf12" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1729118105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 1.1, -0.5)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf12" unique_id=30642886]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_13p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf12" unique_id=1127829233]
+shape = SubResource("BoxShape_0p600_2p200_13p000")
+
+[node name="Low13" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=703666826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.4, 15.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Low13" unique_id=655577174]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p400")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Low13" unique_id=124002649]
+shape = SubResource("BoxShape_3p000_0p800_1p400")
+
+[node name="Low14" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1720468604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.4, 23)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Low14" unique_id=1746659623]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p400")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Low14" unique_id=1662769079]
+shape = SubResource("BoxShape_3p000_0p800_1p400")
+
+[node name="Low15" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1553306582]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.4, 15.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Low15" unique_id=1971446841]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p400")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Low15" unique_id=722917603]
+shape = SubResource("BoxShape_3p000_0p800_1p400")
+
+[node name="Low16" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1897276447]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.4, 23)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Low16" unique_id=1726419735]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p400")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Low16" unique_id=1051511395]
+shape = SubResource("BoxShape_3p000_0p800_1p400")
+
+[node name="Shelf17" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=311960777]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.7, 1.1, 15)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf17" unique_id=2031583551]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_6p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Shelf17" unique_id=1171382490]
+shape = SubResource("BoxShape_0p600_2p200_6p000")
+
+[node name="C_ReadingStudy" type="Node3D" parent="NavigationRegion3D/Ground" unique_id=766120765]
+metadata/zone_id = "C"
+metadata/zone_name = "Reading Rooms & Study Wing"
+metadata/floor = "ground"
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=75652881]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, -9)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Floor" unique_id=628911372]
+material_override = SubResource("Material_465a46ff")
+mesh = SubResource("BoxMesh_24p000_0p200_38p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Floor" unique_id=548930650]
+shape = SubResource("BoxShape_24p000_0p200_38p000")
+
+[node name="Wall08_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1107985263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.075, 2.1, 10)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall08_0" unique_id=1888974973]
+material_override = SubResource("Material_799b79ff")
+mesh = SubResource("BoxMesh_10p150_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall08_0" unique_id=1188463498]
+shape = SubResource("BoxShape_10p150_4p200_0p300")
+
+[node name="Wall08_1" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=347138052]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.075, 2.1, 10)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall08_1" unique_id=2137186216]
+material_override = SubResource("Material_799b79ff")
+mesh = SubResource("BoxMesh_10p150_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall08_1" unique_id=682131104]
+shape = SubResource("BoxShape_10p150_4p200_0p300")
+
+[node name="Header_ReadingHallDoors" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1695563202]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, 10)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Header_ReadingHallDoors" unique_id=2031920695]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_4p000_1p600_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Header_ReadingHallDoors" unique_id=791858137]
+shape = SubResource("BoxShape_4p000_1p600_0p300")
+
+[node name="Wall09_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=990457880]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.075, 2.1, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall09_0" unique_id=1721822826]
+material_override = SubResource("Material_799b79ff")
+mesh = SubResource("BoxMesh_2p150_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall09_0" unique_id=1343630163]
+shape = SubResource("BoxShape_2p150_4p200_0p300")
+
+[node name="Wall09_1" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1063688349]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2.1, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall09_1" unique_id=1829390144]
+material_override = SubResource("Material_799b79ff")
+mesh = SubResource("BoxMesh_4p000_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall09_1" unique_id=1811535166]
+shape = SubResource("BoxShape_4p000_4p200_0p300")
+
+[node name="Wall09_2" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1608086985]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall09_2" unique_id=1274060645]
+material_override = SubResource("Material_799b79ff")
+mesh = SubResource("BoxMesh_4p000_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall09_2" unique_id=1255475244]
+shape = SubResource("BoxShape_4p000_4p200_0p300")
+
+[node name="Wall09_3" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1694382258]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2.1, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall09_3" unique_id=600927948]
+material_override = SubResource("Material_799b79ff")
+mesh = SubResource("BoxMesh_4p000_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall09_3" unique_id=1837947252]
+shape = SubResource("BoxShape_4p000_4p200_0p300")
+
+[node name="Wall09_4" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1852990261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.075, 2.1, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall09_4" unique_id=494370683]
+material_override = SubResource("Material_799b79ff")
+mesh = SubResource("BoxMesh_2p150_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall09_4" unique_id=1467723266]
+shape = SubResource("BoxShape_2p150_4p200_0p300")
+
+[node name="Header_Study1Door" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=280191566]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 3.4, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Header_Study1Door" unique_id=1736405805]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_2p000_1p600_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Header_Study1Door" unique_id=1357477570]
+shape = SubResource("BoxShape_2p000_1p600_0p300")
+
+[node name="Header_Study2Door" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1789918368]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 3.4, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Header_Study2Door" unique_id=2049572261]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_2p000_1p600_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Header_Study2Door" unique_id=284890529]
+shape = SubResource("BoxShape_2p000_1p600_0p300")
+
+[node name="Header_Study3Door" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1615661582]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 3.4, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Header_Study3Door" unique_id=938302459]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_2p000_1p600_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Header_Study3Door" unique_id=201576581]
+shape = SubResource("BoxShape_2p000_1p600_0p300")
+
+[node name="Header_Study4Door" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=457889922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3.4, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Header_Study4Door" unique_id=335386876]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_2p000_1p600_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Header_Study4Door" unique_id=325717923]
+shape = SubResource("BoxShape_2p000_1p600_0p300")
+
+[node name="Wall10_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=949419621]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2.1, -21)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall10_0" unique_id=585563706]
+material_override = SubResource("Material_799b79ff")
+mesh = SubResource("BoxMesh_0p300_4p200_14p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall10_0" unique_id=411004217]
+shape = SubResource("BoxShape_0p300_4p200_14p300")
+
+[node name="Wall11_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1968295911]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -26.575)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall11_0" unique_id=474308371]
+material_override = SubResource("Material_799b79ff")
+mesh = SubResource("BoxMesh_0p300_4p200_3p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall11_0" unique_id=1443078951]
+shape = SubResource("BoxShape_0p300_4p200_3p150")
+
+[node name="Wall11_1" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=204134145]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -18.425)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall11_1" unique_id=1171014151]
+material_override = SubResource("Material_799b79ff")
+mesh = SubResource("BoxMesh_0p300_4p200_9p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall11_1" unique_id=118002083]
+shape = SubResource("BoxShape_0p300_4p200_9p150")
+
+[node name="Header_Study2-3Door" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1658804102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, -24)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Header_Study2-3Door" unique_id=1153557587]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_0p300_1p600_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Header_Study2-3Door" unique_id=1509295533]
+shape = SubResource("BoxShape_0p300_1p600_2p000")
+
+[node name="Wall12_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=93613034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2.1, -21)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall12_0" unique_id=1532105734]
+material_override = SubResource("Material_799b79ff")
+mesh = SubResource("BoxMesh_0p300_4p200_14p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Wall12_0" unique_id=1800097638]
+shape = SubResource("BoxShape_0p300_4p200_14p300")
+
+[node name="Low21" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=277998220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.4, -9)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low21" unique_id=1758659809]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p400")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low21" unique_id=1824338197]
+shape = SubResource("BoxShape_3p000_0p800_1p400")
+
+[node name="Low22" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1146172675]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.4, -3)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low22" unique_id=1483699806]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p400")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low22" unique_id=2043679563]
+shape = SubResource("BoxShape_3p000_0p800_1p400")
+
+[node name="Low23" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=348157416]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.4, 3)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low23" unique_id=1054044234]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p400")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low23" unique_id=825875913]
+shape = SubResource("BoxShape_3p000_0p800_1p400")
+
+[node name="Low24" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=317670017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.4, -9)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low24" unique_id=1609690747]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p400")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low24" unique_id=1202695367]
+shape = SubResource("BoxShape_3p000_0p800_1p400")
+
+[node name="Low25" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=648299967]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.4, -3)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low25" unique_id=1742291422]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p400")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low25" unique_id=889938533]
+shape = SubResource("BoxShape_3p000_0p800_1p400")
+
+[node name="Low26" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1381465112]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.4, 3)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low26" unique_id=1321569930]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p400")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low26" unique_id=1632213215]
+shape = SubResource("BoxShape_3p000_0p800_1p400")
+
+[node name="Low27" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=117377045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low27" unique_id=1732028004]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_5p000_1p300_0p600")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low27" unique_id=1341260880]
+shape = SubResource("BoxShape_5p000_1p300_0p600")
+
+[node name="CarrelDesk28" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1562081161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 0.375, -27.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk28" unique_id=1381073858]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p200_0p750_0p700")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk28" unique_id=498810332]
+shape = SubResource("BoxShape_1p200_0p750_0p700")
+
+[node name="CarrelDesk29" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1463381158]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.375, -27.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk29" unique_id=2028673080]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p200_0p750_0p700")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk29" unique_id=1140859124]
+shape = SubResource("BoxShape_1p200_0p750_0p700")
+
+[node name="CarrelDesk30" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1955261425]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0.375, -27.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk30" unique_id=1095340678]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p200_0p750_0p700")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk30" unique_id=259824861]
+shape = SubResource("BoxShape_1p200_0p750_0p700")
+
+[node name="CarrelDesk31" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=589617596]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.375, -27.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk31" unique_id=626101467]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p200_0p750_0p700")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk31" unique_id=457161573]
+shape = SubResource("BoxShape_1p200_0p750_0p700")
+
+[node name="CarrelDesk32" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1003465701]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.375, -27.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk32" unique_id=586113143]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p200_0p750_0p700")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk32" unique_id=114195210]
+shape = SubResource("BoxShape_1p200_0p750_0p700")
+
+[node name="CarrelDesk33" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=944919315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.375, -27.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk33" unique_id=70483590]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p200_0p750_0p700")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk33" unique_id=1761157268]
+shape = SubResource("BoxShape_1p200_0p750_0p700")
+
+[node name="CarrelDesk34" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1847960210]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.375, -27.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk34" unique_id=1989782331]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p200_0p750_0p700")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk34" unique_id=1924161617]
+shape = SubResource("BoxShape_1p200_0p750_0p700")
+
+[node name="CarrelDesk35" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1602728089]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0.375, -27.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk35" unique_id=627263353]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p200_0p750_0p700")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelDesk35" unique_id=37958236]
+shape = SubResource("BoxShape_1p200_0p750_0p700")
+
+[node name="CarrelPanel36" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=719568985]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.15, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel36" unique_id=970310531]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel36" unique_id=1423650468]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel37" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=777756383]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.85, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel37" unique_id=1100931561]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel37" unique_id=1391544639]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel38" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=296190888]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.15, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel38" unique_id=1042781704]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel38" unique_id=609417956]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel39" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=407870743]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.85, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel39" unique_id=461096765]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel39" unique_id=869267887]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel40" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=416142500]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.15, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel40" unique_id=1301099398]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel40" unique_id=672522194]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel41" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=2095911722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.85, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel41" unique_id=1636552093]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel41" unique_id=1889297610]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel42" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1897019748]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel42" unique_id=1420608544]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel42" unique_id=285367030]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel43" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1136330208]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.85, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel43" unique_id=1595877424]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel43" unique_id=1602935416]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel44" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1222727773]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel44" unique_id=866627685]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel44" unique_id=1344451491]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel45" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=829647935]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel45" unique_id=522518853]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel45" unique_id=1022914582]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel46" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=583717714]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.85, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel46" unique_id=1959043522]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel46" unique_id=1019895007]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel47" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=877224933]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.15, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel47" unique_id=787245845]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel47" unique_id=390623977]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel48" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1270146392]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.85, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel48" unique_id=128061462]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel48" unique_id=1811615987]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel49" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1762420405]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.15, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel49" unique_id=1690194844]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel49" unique_id=1090185825]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel50" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1762143930]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.85, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel50" unique_id=496061766]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel50" unique_id=1800642565]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="CarrelPanel51" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1981470372]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.15, 0.75, -27.25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel51" unique_id=1727314805]
+material_override = SubResource("Material_597366ff")
+mesh = SubResource("BoxMesh_0p100_1p500_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/CarrelPanel51" unique_id=633329485]
+shape = SubResource("BoxShape_0p100_1p500_1p200")
+
+[node name="Low52" type="StaticBody3D" parent="NavigationRegion3D/Ground/C_ReadingStudy" unique_id=1098012179]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.375, -20)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low52" unique_id=587390728]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p600_0p750_0p800")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/C_ReadingStudy/Low52" unique_id=1249035943]
+shape = SubResource("BoxShape_1p600_0p750_0p800")
+
+[node name="D_ServiceCorridor" type="Node3D" parent="NavigationRegion3D/Ground" unique_id=25994376]
+metadata/zone_id = "D"
+metadata/zone_name = "Restricted Service Corridor"
+metadata/floor = "ground"
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=27428618]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -0.1, 0)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Floor" unique_id=1993266402]
+material_override = SubResource("Material_5d4646ff")
+mesh = SubResource("BoxMesh_24p000_0p200_56p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Floor" unique_id=396960340]
+shape = SubResource("BoxShape_24p000_0p200_56p000")
+
+[node name="Wall06_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=501203556]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 2.1, -2.825)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall06_0" unique_id=660023697]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_0p300_4p200_50p650")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall06_0" unique_id=151936196]
+shape = SubResource("BoxShape_0p300_4p200_50p650")
+
+[node name="Wall06_1" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=212256244]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 2.1, 26.825)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall06_1" unique_id=735219311]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_0p300_4p200_2p650")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall06_1" unique_id=1493713115]
+shape = SubResource("BoxShape_0p300_4p200_2p650")
+
+[node name="Header_LoadingDockExit" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=262647673]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 3.4, 24)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_LoadingDockExit" unique_id=1346910201]
+material_override = SubResource("Material_40d966ff")
+mesh = SubResource("BoxMesh_0p300_1p600_3p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_LoadingDockExit" unique_id=472017813]
+shape = SubResource("BoxShape_0p300_1p600_3p000")
+
+[node name="ExitDoorPanel" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1228939659]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 1.3, 24)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/ExitDoorPanel" unique_id=1259298405]
+material_override = SubResource("Material_40d966ff")
+mesh = SubResource("BoxMesh_0p180_2p600_3p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/ExitDoorPanel" unique_id=1869675229]
+shape = SubResource("BoxShape_0p180_2p600_3p000")
+
+[node name="Wall13_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1573515503]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 2.1, -12.575)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall13_0" unique_id=1808676606]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_0p300_4p200_31p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall13_0" unique_id=69941470]
+shape = SubResource("BoxShape_0p300_4p200_31p150")
+
+[node name="Wall13_1" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1292942103]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 2.1, 12.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall13_1" unique_id=1514888692]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_0p300_4p200_15p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall13_1" unique_id=936185891]
+shape = SubResource("BoxShape_0p300_4p200_15p000")
+
+[node name="Wall13_2" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=254981014]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 2.1, 25.075)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall13_2" unique_id=1635725180]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_0p300_4p200_6p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall13_2" unique_id=607900706]
+shape = SubResource("BoxShape_0p300_4p200_6p150")
+
+[node name="Header_ServiceShortcutSC1" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=216525419]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 3.4, 4)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_ServiceShortcutSC1" unique_id=1203568248]
+material_override = SubResource("Material_f2b326ff")
+mesh = SubResource("BoxMesh_0p300_1p600_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_ServiceShortcutSC1" unique_id=473330044]
+shape = SubResource("BoxShape_0p300_1p600_2p000")
+
+[node name="Header_LobbyStaffDoorG4" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=2024130116]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 3.4, 21)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_LobbyStaffDoorG4" unique_id=238754105]
+material_override = SubResource("Material_d9332eff")
+mesh = SubResource("BoxMesh_0p300_1p600_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_LobbyStaffDoorG4" unique_id=332174623]
+shape = SubResource("BoxShape_0p300_1p600_2p000")
+
+[node name="Wall14_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=310733805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 2.1, -23.075)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall14_0" unique_id=763430877]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_0p300_4p200_10p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall14_0" unique_id=59985273]
+shape = SubResource("BoxShape_0p300_4p200_10p150")
+
+[node name="Wall14_1" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=977666018]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 2.1, -7.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall14_1" unique_id=121840160]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_0p300_4p200_17p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall14_1" unique_id=1886920847]
+shape = SubResource("BoxShape_0p300_4p200_17p000")
+
+[node name="Wall14_2" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=74988765]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 2.1, 10.75)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall14_2" unique_id=342377941]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_0p300_4p200_15p500")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall14_2" unique_id=1893389096]
+shape = SubResource("BoxShape_0p300_4p200_15p500")
+
+[node name="Wall14_3" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=2095550551]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 2.1, 24.825)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall14_3" unique_id=937244643]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_0p300_4p200_6p650")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall14_3" unique_id=1900718059]
+shape = SubResource("BoxShape_0p300_4p200_6p650")
+
+[node name="Header_ProcessingDoor" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1041666856]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 3.4, -17)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_ProcessingDoor" unique_id=1257776364]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_0p300_1p600_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_ProcessingDoor" unique_id=145361984]
+shape = SubResource("BoxShape_0p300_1p600_2p000")
+
+[node name="Header_StorageDoor" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1686323449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 3.4, 2)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_StorageDoor" unique_id=555397820]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_0p300_1p600_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_StorageDoor" unique_id=1441789094]
+shape = SubResource("BoxShape_0p300_1p600_2p000")
+
+[node name="Header_DockDoor" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1158699351]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 3.4, 20)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_DockDoor" unique_id=646693072]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_0p300_1p600_3p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_DockDoor" unique_id=836607859]
+shape = SubResource("BoxShape_0p300_1p600_3p000")
+
+[node name="Wall15_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1968503748]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.925, 2.1, -6)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall15_0" unique_id=2104697278]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_8p150_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall15_0" unique_id=352702281]
+shape = SubResource("BoxShape_8p150_4p200_0p300")
+
+[node name="Wall15_1" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1616795068]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.575, 2.1, -6)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall15_1" unique_id=243157648]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_9p150_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall15_1" unique_id=793665880]
+shape = SubResource("BoxShape_9p150_4p200_0p300")
+
+[node name="Header_Processing-StorageDoor" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=746310100]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 3.4, -6)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_Processing-StorageDoor" unique_id=405995255]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_2p000_1p600_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_Processing-StorageDoor" unique_id=1313601429]
+shape = SubResource("BoxShape_2p000_1p600_0p300")
+
+[node name="Wall16_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1667769881]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.675, 2.1, 12)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall16_0" unique_id=1152223795]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_3p650_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall16_0" unique_id=1476957147]
+shape = SubResource("BoxShape_3p650_4p200_0p300")
+
+[node name="Wall16_1" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=132755983]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.825, 2.1, 12)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall16_1" unique_id=1878215317]
+material_override = SubResource("Material_a07979ff")
+mesh = SubResource("BoxMesh_12p650_4p200_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall16_1" unique_id=317372211]
+shape = SubResource("BoxShape_12p650_4p200_0p300")
+
+[node name="Header_Storage-DockDoor" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=781244599]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 3.4, 12)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_Storage-DockDoor" unique_id=2121307838]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_3p000_1p600_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_Storage-DockDoor" unique_id=1802066445]
+shape = SubResource("BoxShape_3p000_1p600_0p300")
+
+[node name="Low53" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1752386239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0.45, -22)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low53" unique_id=1562266123]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p900_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low53" unique_id=60758857]
+shape = SubResource("BoxShape_3p000_0p900_1p200")
+
+[node name="Low54" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=241004719]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0.45, -12)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low54" unique_id=1650991731]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p900_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low54" unique_id=596752786]
+shape = SubResource("BoxShape_3p000_0p900_1p200")
+
+[node name="Low55" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1419031730]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0.45, -22)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low55" unique_id=819769085]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p900_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low55" unique_id=910969099]
+shape = SubResource("BoxShape_3p000_0p900_1p200")
+
+[node name="Low56" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1135859205]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0.45, -12)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low56" unique_id=1894356689]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p900_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low56" unique_id=1744766262]
+shape = SubResource("BoxShape_3p000_0p900_1p200")
+
+[node name="Rack57" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1295671153]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1, -1)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Rack57" unique_id=331918226]
+material_override = SubResource("Material_666157ff")
+mesh = SubResource("BoxMesh_2p000_2p000_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Rack57" unique_id=1726604120]
+shape = SubResource("BoxShape_2p000_2p000_2p000")
+
+[node name="Rack58" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1197749765]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1, 7)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Rack58" unique_id=1657588144]
+material_override = SubResource("Material_666157ff")
+mesh = SubResource("BoxMesh_2p000_2p000_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Rack58" unique_id=1982575732]
+shape = SubResource("BoxShape_2p000_2p000_2p000")
+
+[node name="Rack59" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1574203618]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 1, -1)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Rack59" unique_id=458900931]
+material_override = SubResource("Material_666157ff")
+mesh = SubResource("BoxMesh_2p000_2p000_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Rack59" unique_id=1564467576]
+shape = SubResource("BoxShape_2p000_2p000_2p000")
+
+[node name="Rack60" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1829271030]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 1, 7)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Rack60" unique_id=1591893472]
+material_override = SubResource("Material_666157ff")
+mesh = SubResource("BoxMesh_2p000_2p000_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Rack60" unique_id=1926642797]
+shape = SubResource("BoxShape_2p000_2p000_2p000")
+
+[node name="Low61" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=851281989]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0.6, 16)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low61" unique_id=754527869]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p600_1p200_1p600")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low61" unique_id=713741277]
+shape = SubResource("BoxShape_1p600_1p200_1p600")
+
+[node name="Low62" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1931379595]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.6, 16)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low62" unique_id=1155281885]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p600_1p200_1p600")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low62" unique_id=912428017]
+shape = SubResource("BoxShape_1p600_1p200_1p600")
+
+[node name="Low63" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1452058815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0.6, 25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low63" unique_id=1861040007]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p600_1p200_1p600")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low63" unique_id=567611303]
+shape = SubResource("BoxShape_1p600_1p200_1p600")
+
+[node name="Low64" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=214995068]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.6, 25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low64" unique_id=780023816]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_1p600_1p200_1p600")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Low64" unique_id=548068880]
+shape = SubResource("BoxShape_1p600_1p200_1p600")
+
+[node name="Upper" type="Node3D" parent="NavigationRegion3D" unique_id=503137678]
+
+[node name="E_StaffUpperStacks" type="Node3D" parent="NavigationRegion3D/Upper" unique_id=922661021]
+metadata/zone_id = "E"
+metadata/zone_name = "Staff Offices & Upper Stacks"
+metadata/floor = "upper"
+
+[node name="UpperSlab" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1281133379]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4.35, -9)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/UpperSlab" unique_id=1923247569]
+material_override = SubResource("Material_686481ff")
+mesh = SubResource("BoxMesh_48p000_0p300_38p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/UpperSlab" unique_id=1707548184]
+shape = SubResource("BoxShape_48p000_0p300_38p000")
+
+[node name="Wall17_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=889591492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.25, -28)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall17_0" unique_id=688991164]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_72p300_3p500_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall17_0" unique_id=11556568]
+shape = SubResource("BoxShape_72p300_3p500_0p300")
+
+[node name="Wall18_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=360839535]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 6.25, -9)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall18_0" unique_id=618317689]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_0p300_3p500_38p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall18_0" unique_id=582068933]
+shape = SubResource("BoxShape_0p300_3p500_38p300")
+
+[node name="Railing19_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=972012733]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 5.05, 10)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Railing19_0" unique_id=1741580876]
+material_override = SubResource("Material_7e799cff")
+mesh = SubResource("BoxMesh_0p300_1p100_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Railing19_0" unique_id=1967760830]
+shape = SubResource("BoxShape_0p300_1p100_0p300")
+
+[node name="Railing19_1" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1746273097]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.35, 5.05, 10)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Railing19_1" unique_id=645900792]
+material_override = SubResource("Material_7e799cff")
+mesh = SubResource("BoxMesh_21p000_1p100_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Railing19_1" unique_id=231218140]
+shape = SubResource("BoxShape_21p000_1p100_0p300")
+
+[node name="Railing19_2" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=2000347561]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.65, 5.05, 10)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Railing19_2" unique_id=1348444804]
+material_override = SubResource("Material_7e799cff")
+mesh = SubResource("BoxMesh_21p000_1p100_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Railing19_2" unique_id=1398476945]
+shape = SubResource("BoxShape_21p000_1p100_0p300")
+
+[node name="Wall20_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1624984947]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 6.25, 2)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall20_0" unique_id=832490665]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_0p300_3p500_16p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall20_0" unique_id=1314020336]
+shape = SubResource("BoxShape_0p300_3p500_16p300")
+
+[node name="Wall28_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1391391537]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 6.25, -20.075)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall28_0" unique_id=440602707]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_0p300_3p500_16p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall28_0" unique_id=1037055884]
+shape = SubResource("BoxShape_0p300_3p500_16p150")
+
+[node name="Wall28_1" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=205976891]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 6.25, -8.925)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall28_1" unique_id=1804064391]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_0p300_3p500_2p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall28_1" unique_id=1661523918]
+shape = SubResource("BoxShape_0p300_3p500_2p150")
+
+[node name="Header_StaffDoor(Stacks)G1b" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1500464062]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 7.55, -11)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Header_StaffDoor(Stacks)G1b" unique_id=1106739851]
+material_override = SubResource("Material_d9332eff")
+mesh = SubResource("BoxMesh_0p300_0p900_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Header_StaffDoor(Stacks)G1b" unique_id=1482833232]
+shape = SubResource("BoxShape_0p300_0p900_2p000")
+
+[node name="Wall29_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=557317774]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.075, 6.25, -8)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall29_0" unique_id=1484630354]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_8p150_3p500_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall29_0" unique_id=1315822515]
+shape = SubResource("BoxShape_8p150_3p500_0p300")
+
+[node name="Wall29_1" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=120502256]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.075, 6.25, -8)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall29_1" unique_id=2001239441]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_8p150_3p500_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall29_1" unique_id=1425151640]
+shape = SubResource("BoxShape_8p150_3p500_0p300")
+
+[node name="Header_StaffWingDoorG1a" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=147178644]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 7.55, -8)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Header_StaffWingDoorG1a" unique_id=2460825]
+material_override = SubResource("Material_d9332eff")
+mesh = SubResource("BoxMesh_2p000_0p900_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Header_StaffWingDoorG1a" unique_id=1480622932]
+shape = SubResource("BoxShape_2p000_0p900_0p300")
+
+[node name="Wall30_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1238659252]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.075, 6.25, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall30_0" unique_id=982252467]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_2p150_3p500_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall30_0" unique_id=1237600927]
+shape = SubResource("BoxShape_2p150_3p500_0p300")
+
+[node name="Wall30_1" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1906280311]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.25, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall30_1" unique_id=989287022]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_4p000_3p500_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall30_1" unique_id=1923123644]
+shape = SubResource("BoxShape_4p000_3p500_0p300")
+
+[node name="Wall30_2" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=599628578]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6.25, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall30_2" unique_id=292635594]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_4p000_3p500_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall30_2" unique_id=760412099]
+shape = SubResource("BoxShape_4p000_3p500_0p300")
+
+[node name="Wall30_3" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1205884255]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.075, 6.25, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall30_3" unique_id=871433327]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_2p150_3p500_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall30_3" unique_id=1290607648]
+shape = SubResource("BoxShape_2p150_3p500_0p300")
+
+[node name="Header_Office1Door" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=828765214]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 7.55, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Header_Office1Door" unique_id=746228315]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_2p000_0p900_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Header_Office1Door" unique_id=1771415307]
+shape = SubResource("BoxShape_2p000_0p900_0p300")
+
+[node name="Header_Office2Door" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1949299056]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 7.55, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Header_Office2Door" unique_id=1893164520]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_2p000_0p900_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Header_Office2Door" unique_id=2012100854]
+shape = SubResource("BoxShape_2p000_0p900_0p300")
+
+[node name="Header_Office3Door" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=624263012]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 7.55, -14)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Header_Office3Door" unique_id=1045697549]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_2p000_0p900_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Header_Office3Door" unique_id=642359284]
+shape = SubResource("BoxShape_2p000_0p900_0p300")
+
+[node name="Wall31_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=261497729]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.25, -21)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall31_0" unique_id=1715155353]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_0p300_3p500_14p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall31_0" unique_id=2101147148]
+shape = SubResource("BoxShape_0p300_3p500_14p300")
+
+[node name="Wall32_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1140518456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6.25, -21)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall32_0" unique_id=1555622207]
+material_override = SubResource("Material_8d88aeff")
+mesh = SubResource("BoxMesh_0p300_3p500_14p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Wall32_0" unique_id=902010384]
+shape = SubResource("BoxShape_0p300_3p500_14p300")
+
+[node name="Shelf65" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1878328216]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 5.6, -18.5)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf65" unique_id=652377130]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_13p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf65" unique_id=129545369]
+shape = SubResource("BoxShape_0p600_2p200_13p000")
+
+[node name="Shelf66" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=837494528]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 5.6, -18.5)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf66" unique_id=927575201]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_13p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf66" unique_id=597399622]
+shape = SubResource("BoxShape_0p600_2p200_13p000")
+
+[node name="Shelf67" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=808724200]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 5.6, -18.5)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf67" unique_id=84834889]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_13p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf67" unique_id=398024740]
+shape = SubResource("BoxShape_0p600_2p200_13p000")
+
+[node name="Shelf68" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=562591911]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 5.6, -18.5)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf68" unique_id=1849321045]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_13p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf68" unique_id=1279973541]
+shape = SubResource("BoxShape_0p600_2p200_13p000")
+
+[node name="Shelf69" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1955391857]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 5.6, -18.5)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf69" unique_id=1514592935]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_13p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf69" unique_id=2106520314]
+shape = SubResource("BoxShape_0p600_2p200_13p000")
+
+[node name="Shelf70" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1828697963]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 5.6, -2)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf70" unique_id=412814143]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_12p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf70" unique_id=1750414039]
+shape = SubResource("BoxShape_0p600_2p200_12p000")
+
+[node name="Shelf71" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1418020955]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 5.6, -2)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf71" unique_id=1512014672]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_12p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf71" unique_id=1694056642]
+shape = SubResource("BoxShape_0p600_2p200_12p000")
+
+[node name="Shelf72" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1055555358]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 5.6, -2)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf72" unique_id=1460894688]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_12p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf72" unique_id=1234264410]
+shape = SubResource("BoxShape_0p600_2p200_12p000")
+
+[node name="Shelf73" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=1372490514]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 5.6, -2)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf73" unique_id=607672790]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_12p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf73" unique_id=1084172077]
+shape = SubResource("BoxShape_0p600_2p200_12p000")
+
+[node name="Shelf74" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=747704598]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 5.6, -2)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf74" unique_id=390897443]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_0p600_2p200_12p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Shelf74" unique_id=460250557]
+shape = SubResource("BoxShape_0p600_2p200_12p000")
+
+[node name="Low75" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=304646017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.9, -3)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Low75" unique_id=1423565246]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p400")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Low75" unique_id=1538086985]
+shape = SubResource("BoxShape_3p000_0p800_1p400")
+
+[node name="Low76" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=292961683]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4.9, 3)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Low76" unique_id=246908271]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p400")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Low76" unique_id=349423410]
+shape = SubResource("BoxShape_3p000_0p800_1p400")
+
+[node name="Low77" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=272825922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 4.9, -23.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Low77" unique_id=1179944865]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Low77" unique_id=1784538351]
+shape = SubResource("BoxShape_3p000_0p800_1p000")
+
+[node name="Low78" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=926787911]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4.9, -23.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Low78" unique_id=648904913]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Low78" unique_id=1640511715]
+shape = SubResource("BoxShape_3p000_0p800_1p000")
+
+[node name="Low79" type="StaticBody3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks" unique_id=15590572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 4.9, -23.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Low79" unique_id=1926434487]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_3p000_0p800_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/E_StaffUpperStacks/Low79" unique_id=1370392147]
+shape = SubResource("BoxShape_3p000_0p800_1p000")
+
+[node name="F_RestrictedArchive" type="Node3D" parent="NavigationRegion3D/Upper" unique_id=936090473]
+metadata/zone_id = "F"
+metadata/zone_name = "Restricted Archive"
+metadata/floor = "upper"
+
+[node name="UpperSlab" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=2055791718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 4.35, -17)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/UpperSlab" unique_id=463464333]
+material_override = SubResource("Material_846847ff")
+mesh = SubResource("BoxMesh_24p000_0p300_22p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/UpperSlab" unique_id=444326422]
+shape = SubResource("BoxShape_24p000_0p300_22p000")
+
+[node name="Wall21_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=1882686852]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 6.25, -20.075)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall21_0" unique_id=299750444]
+material_override = SubResource("Material_b38d61ff")
+mesh = SubResource("BoxMesh_0p300_3p500_16p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall21_0" unique_id=1696461592]
+shape = SubResource("BoxShape_0p300_3p500_16p150")
+
+[node name="Wall21_1" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=416835858]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 6.25, -7.925)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall21_1" unique_id=1093230988]
+material_override = SubResource("Material_b38d61ff")
+mesh = SubResource("BoxMesh_0p300_3p500_4p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall21_1" unique_id=736486838]
+shape = SubResource("BoxShape_0p300_3p500_4p150")
+
+[node name="Header_ArchiveFrontGateG2" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=605457592]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 7.55, -11)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Header_ArchiveFrontGateG2" unique_id=238844421]
+material_override = SubResource("Material_d9332eff")
+mesh = SubResource("BoxMesh_0p300_0p900_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Header_ArchiveFrontGateG2" unique_id=1337810951]
+shape = SubResource("BoxShape_0p300_0p900_2p000")
+
+[node name="Wall22_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=633110681]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.35, 6.25, -6)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall22_0" unique_id=1535560082]
+material_override = SubResource("Material_b38d61ff")
+mesh = SubResource("BoxMesh_21p000_3p500_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall22_0" unique_id=547882587]
+shape = SubResource("BoxShape_21p000_3p500_0p300")
+
+[node name="Wall22_1" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=753206945]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 6.25, -6)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall22_1" unique_id=1141810756]
+material_override = SubResource("Material_b38d61ff")
+mesh = SubResource("BoxMesh_0p300_3p500_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall22_1" unique_id=2080291839]
+shape = SubResource("BoxShape_0p300_3p500_0p300")
+
+[node name="Wall23_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=1117843406]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 6.25, -17)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall23_0" unique_id=936508160]
+material_override = SubResource("Material_b38d61ff")
+mesh = SubResource("BoxMesh_0p300_3p500_22p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall23_0" unique_id=93590381]
+shape = SubResource("BoxShape_0p300_3p500_22p300")
+
+[node name="Wall24_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=537320649]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 6.25, -11.075)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall24_0" unique_id=830327583]
+material_override = SubResource("Material_b38d61ff")
+mesh = SubResource("BoxMesh_0p300_3p500_2p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall24_0" unique_id=365209657]
+shape = SubResource("BoxShape_0p300_3p500_2p150")
+
+[node name="Wall24_1" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=109386353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 6.25, -6.925)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall24_1" unique_id=1858114925]
+material_override = SubResource("Material_b38d61ff")
+mesh = SubResource("BoxMesh_0p300_3p500_2p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall24_1" unique_id=1106482019]
+shape = SubResource("BoxShape_0p300_3p500_2p150")
+
+[node name="Header_ArchiveBackGateG3" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=889807588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 7.55, -9)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Header_ArchiveBackGateG3" unique_id=1137718348]
+material_override = SubResource("Material_d9332eff")
+mesh = SubResource("BoxMesh_0p300_0p900_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Header_ArchiveBackGateG3" unique_id=2034915520]
+shape = SubResource("BoxShape_0p300_0p900_2p000")
+
+[node name="Wall25_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=1088489045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 6.25, -12)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall25_0" unique_id=673599104]
+material_override = SubResource("Material_b38d61ff")
+mesh = SubResource("BoxMesh_6p300_3p500_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall25_0" unique_id=1215861905]
+shape = SubResource("BoxShape_6p300_3p500_0p300")
+
+[node name="Wall26_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=1192113641]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 6.25, -25.075)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall26_0" unique_id=475815887]
+material_override = SubResource("Material_b38d61ff")
+mesh = SubResource("BoxMesh_0p300_3p500_6p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall26_0" unique_id=1618087976]
+shape = SubResource("BoxShape_0p300_3p500_6p150")
+
+[node name="Wall26_1" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=1284119034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 6.25, -18.925)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall26_1" unique_id=264745501]
+material_override = SubResource("Material_b38d61ff")
+mesh = SubResource("BoxMesh_0p300_3p500_2p150")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall26_1" unique_id=497202247]
+shape = SubResource("BoxShape_0p300_3p500_2p150")
+
+[node name="Header_VaultDoor" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=1473557881]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 7.55, -21)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Header_VaultDoor" unique_id=661396819]
+material_override = SubResource("Material_6b707aff")
+mesh = SubResource("BoxMesh_0p300_0p900_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Header_VaultDoor" unique_id=1361083039]
+shape = SubResource("BoxShape_0p300_0p900_2p000")
+
+[node name="Wall27_0" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=1148549294]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 6.25, -18)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall27_0" unique_id=2079638756]
+material_override = SubResource("Material_b38d61ff")
+mesh = SubResource("BoxMesh_8p300_3p500_0p300")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Wall27_0" unique_id=845101319]
+shape = SubResource("BoxShape_8p300_3p500_0p300")
+
+[node name="Shelf80" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=1269260427]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.25, 5.7, -24)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Shelf80" unique_id=594049996]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_4p500_2p400_0p600")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Shelf80" unique_id=223506723]
+shape = SubResource("BoxShape_4p500_2p400_0p600")
+
+[node name="Shelf81" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=1508067470]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.75, 5.7, -24)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Shelf81" unique_id=2138863916]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_4p500_2p400_0p600")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Shelf81" unique_id=707970637]
+shape = SubResource("BoxShape_4p500_2p400_0p600")
+
+[node name="Shelf82" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=1417164995]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.25, 5.7, -20)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Shelf82" unique_id=1866845495]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_4p500_2p400_0p600")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Shelf82" unique_id=950169307]
+shape = SubResource("BoxShape_4p500_2p400_0p600")
+
+[node name="Shelf83" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=1615113844]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.75, 5.7, -20)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Shelf83" unique_id=1817267668]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_4p500_2p400_0p600")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Shelf83" unique_id=1439143044]
+shape = SubResource("BoxShape_4p500_2p400_0p600")
+
+[node name="Shelf84" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=26443307]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.25, 5.7, -16)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Shelf84" unique_id=645943150]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_4p500_2p400_0p600")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Shelf84" unique_id=893258278]
+shape = SubResource("BoxShape_4p500_2p400_0p600")
+
+[node name="Shelf85" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=671520241]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.75, 5.7, -16)
+collision_mask = 0
+metadata/cover = "full"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Shelf85" unique_id=202574331]
+material_override = SubResource("Material_735238ff")
+mesh = SubResource("BoxMesh_4p500_2p400_0p600")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Shelf85" unique_id=2034421960]
+shape = SubResource("BoxShape_4p500_2p400_0p600")
+
+[node name="Low86" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=559694732]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 4.9, -9.4)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Low86" unique_id=1813105924]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_4p000_0p800_1p200")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Low86" unique_id=1038868671]
+shape = SubResource("BoxShape_4p000_0p800_1p200")
+
+[node name="Low87" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=96023705]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 5, -25)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Low87" unique_id=299153479]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_2p000_1p000_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Low87" unique_id=1500393882]
+shape = SubResource("BoxShape_2p000_1p000_1p000")
+
+[node name="Low88" type="StaticBody3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive" unique_id=1357098481]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.5, 5.1, -15.5)
+collision_mask = 0
+metadata/cover = "low"
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Low88" unique_id=1729943961]
+material_override = SubResource("Material_b8996bff")
+mesh = SubResource("BoxMesh_2p000_1p200_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Upper/F_RestrictedArchive/Low88" unique_id=300940054]
+shape = SubResource("BoxShape_2p000_1p200_2p000")
+
+[node name="Stairs" type="Node3D" parent="NavigationRegion3D" unique_id=1274825021]
+
+[node name="S1_S1MainStair" type="Node3D" parent="NavigationRegion3D/Stairs" unique_id=281749415]
+metadata/stair_id = "S1"
+metadata/zone_id = "A"
+
+[node name="Ramp" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair" unique_id=1662127607]
+transform = Transform3D(1, 0, 0, 0, 0.91192144, -0.41036466, 0, 0.41036466, 0.91192144, -10.35, 2.1132119, 14.938445)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Ramp" unique_id=152678577]
+material_override = SubResource("Material_4d80bfff")
+mesh = SubResource("BoxMesh_3p000_0p300_10p966")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Ramp" unique_id=1281730618]
+shape = SubResource("BoxShape_3p000_0p300_10p966")
+
+[node name="Handrail" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair" unique_id=2089821738]
+transform = Transform3D(1, 0, 0, 0, 0.91192144, -0.41036466, 0, 0.41036466, 0.91192144, -8.9, 2.7059608, 15.205182)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Handrail" unique_id=1628387549]
+material_override = SubResource("Material_365986ff")
+mesh = SubResource("BoxMesh_0p100_1p000_10p966")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Handrail" unique_id=1583176540]
+shape = SubResource("BoxShape_0p100_1p000_10p966")
+
+[node name="Step01" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair" unique_id=1183503460]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.35, 0.050512157, 18.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step01" unique_id=822787487]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_0p101_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step01" unique_id=279427403]
+shape = SubResource("BoxShape_3p000_0p101_1p000")
+
+[node name="Step02" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair" unique_id=1031448548]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.35, 0.27551216, 17.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step02" unique_id=1544194836]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_0p551_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step02" unique_id=59948861]
+shape = SubResource("BoxShape_3p000_0p551_1p000")
+
+[node name="Step03" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair" unique_id=2124097705]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.35, 0.5005122, 16.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step03" unique_id=76924969]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_1p001_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step03" unique_id=1580988765]
+shape = SubResource("BoxShape_3p000_1p001_1p000")
+
+[node name="Step04" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair" unique_id=540378521]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.35, 0.72551215, 15.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step04" unique_id=265241655]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_1p451_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step04" unique_id=1148194220]
+shape = SubResource("BoxShape_3p000_1p451_1p000")
+
+[node name="Step05" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair" unique_id=985385267]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.35, 0.9505122, 14.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step05" unique_id=957357473]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_1p901_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step05" unique_id=1473637550]
+shape = SubResource("BoxShape_3p000_1p901_1p000")
+
+[node name="Step06" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair" unique_id=393299229]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.35, 1.1755122, 13.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step06" unique_id=1185811986]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_2p351_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step06" unique_id=700450611]
+shape = SubResource("BoxShape_3p000_2p351_1p000")
+
+[node name="Step07" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair" unique_id=1125701134]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.35, 1.4005121, 12.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step07" unique_id=1791470669]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_2p801_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step07" unique_id=240138979]
+shape = SubResource("BoxShape_3p000_2p801_1p000")
+
+[node name="Step08" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair" unique_id=502840491]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.35, 1.6255121, 11.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step08" unique_id=304489866]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_3p251_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step08" unique_id=1056712827]
+shape = SubResource("BoxShape_3p000_3p251_1p000")
+
+[node name="Step09" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair" unique_id=1802951928]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.35, 1.8505121, 10.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step09" unique_id=2098318352]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_3p701_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S1_S1MainStair/Step09" unique_id=611127803]
+shape = SubResource("BoxShape_3p000_3p701_1p000")
+
+[node name="S2_S2StaffStair" type="Node3D" parent="NavigationRegion3D/Stairs" unique_id=406222415]
+metadata/stair_id = "S2"
+metadata/zone_id = "D"
+
+[node name="Ramp" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair" unique_id=1515536323]
+transform = Transform3D(1, 0, 0, 0, 0.91192144, -0.41036466, 0, 0.41036466, 0.91192144, 34.35, 2.1132119, -1.0615547)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Ramp" unique_id=1149307070]
+material_override = SubResource("Material_4d80bfff")
+mesh = SubResource("BoxMesh_3p000_0p300_10p966")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Ramp" unique_id=2062402540]
+shape = SubResource("BoxShape_3p000_0p300_10p966")
+
+[node name="Handrail" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair" unique_id=82057924]
+transform = Transform3D(1, 0, 0, 0, 0.91192144, -0.41036466, 0, 0.41036466, 0.91192144, 32.9, 2.7059608, -0.7948177)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Handrail" unique_id=1081121611]
+material_override = SubResource("Material_365986ff")
+mesh = SubResource("BoxMesh_0p100_1p000_10p966")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Handrail" unique_id=597557564]
+shape = SubResource("BoxShape_0p100_1p000_10p966")
+
+[node name="Step01" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair" unique_id=569497238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.35, 0.050512157, 2.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step01" unique_id=1220750042]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_0p101_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step01" unique_id=1733738211]
+shape = SubResource("BoxShape_3p000_0p101_1p000")
+
+[node name="Step02" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair" unique_id=575461908]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.35, 0.27551216, 1.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step02" unique_id=418372668]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_0p551_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step02" unique_id=494266693]
+shape = SubResource("BoxShape_3p000_0p551_1p000")
+
+[node name="Step03" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair" unique_id=1181110766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.35, 0.5005122, 0.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step03" unique_id=2082179888]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_1p001_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step03" unique_id=1894472659]
+shape = SubResource("BoxShape_3p000_1p001_1p000")
+
+[node name="Step04" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair" unique_id=2060168892]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.35, 0.72551215, -0.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step04" unique_id=2021898372]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_1p451_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step04" unique_id=475775446]
+shape = SubResource("BoxShape_3p000_1p451_1p000")
+
+[node name="Step05" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair" unique_id=382019036]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.35, 0.9505122, -1.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step05" unique_id=861248892]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_1p901_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step05" unique_id=2122348815]
+shape = SubResource("BoxShape_3p000_1p901_1p000")
+
+[node name="Step06" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair" unique_id=809993043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.35, 1.1755122, -2.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step06" unique_id=1687162485]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_2p351_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step06" unique_id=1971420493]
+shape = SubResource("BoxShape_3p000_2p351_1p000")
+
+[node name="Step07" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair" unique_id=2138181774]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.35, 1.4005121, -3.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step07" unique_id=290588606]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_2p801_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step07" unique_id=803006736]
+shape = SubResource("BoxShape_3p000_2p801_1p000")
+
+[node name="Step08" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair" unique_id=1415302527]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.35, 1.6255121, -4.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step08" unique_id=1122564824]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_3p251_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step08" unique_id=47106409]
+shape = SubResource("BoxShape_3p000_3p251_1p000")
+
+[node name="Step09" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair" unique_id=1242791509]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.35, 1.8505121, -5.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step09" unique_id=286462028]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_3p701_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S2_S2StaffStair/Step09" unique_id=100783039]
+shape = SubResource("BoxShape_3p000_3p701_1p000")
+
+[node name="S3_S3StacksStair" type="Node3D" parent="NavigationRegion3D/Stairs" unique_id=354427929]
+metadata/stair_id = "S3"
+metadata/zone_id = "B"
+
+[node name="Ramp" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair" unique_id=79147124]
+transform = Transform3D(1, 0, 0, 0, 0.91192144, -0.41036466, 0, 0.41036466, 0.91192144, -34.35, 2.1132119, 14.938445)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Ramp" unique_id=1340247690]
+material_override = SubResource("Material_4d80bfff")
+mesh = SubResource("BoxMesh_3p000_0p300_10p966")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Ramp" unique_id=1050204612]
+shape = SubResource("BoxShape_3p000_0p300_10p966")
+
+[node name="Handrail" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair" unique_id=543738408]
+transform = Transform3D(1, 0, 0, 0, 0.91192144, -0.41036466, 0, 0.41036466, 0.91192144, -32.9, 2.7059608, 15.205182)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Handrail" unique_id=1835301358]
+material_override = SubResource("Material_365986ff")
+mesh = SubResource("BoxMesh_0p100_1p000_10p966")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Handrail" unique_id=1996063587]
+shape = SubResource("BoxShape_0p100_1p000_10p966")
+
+[node name="Step01" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair" unique_id=2112679208]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.35, 0.050512157, 18.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step01" unique_id=1725935354]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_0p101_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step01" unique_id=1539245188]
+shape = SubResource("BoxShape_3p000_0p101_1p000")
+
+[node name="Step02" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair" unique_id=1686088350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.35, 0.27551216, 17.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step02" unique_id=1673921197]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_0p551_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step02" unique_id=1118687296]
+shape = SubResource("BoxShape_3p000_0p551_1p000")
+
+[node name="Step03" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair" unique_id=1364345619]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.35, 0.5005122, 16.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step03" unique_id=355852228]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_1p001_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step03" unique_id=87468780]
+shape = SubResource("BoxShape_3p000_1p001_1p000")
+
+[node name="Step04" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair" unique_id=364349444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.35, 0.72551215, 15.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step04" unique_id=1800773200]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_1p451_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step04" unique_id=1442940555]
+shape = SubResource("BoxShape_3p000_1p451_1p000")
+
+[node name="Step05" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair" unique_id=668684915]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.35, 0.9505122, 14.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step05" unique_id=1622708133]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_1p901_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step05" unique_id=633110029]
+shape = SubResource("BoxShape_3p000_1p901_1p000")
+
+[node name="Step06" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair" unique_id=2131856022]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.35, 1.1755122, 13.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step06" unique_id=1015456787]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_2p351_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step06" unique_id=1469109816]
+shape = SubResource("BoxShape_3p000_2p351_1p000")
+
+[node name="Step07" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair" unique_id=287800522]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.35, 1.4005121, 12.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step07" unique_id=244273504]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_2p801_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step07" unique_id=302812522]
+shape = SubResource("BoxShape_3p000_2p801_1p000")
+
+[node name="Step08" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair" unique_id=1433533938]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.35, 1.6255121, 11.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step08" unique_id=1804094943]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_3p251_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step08" unique_id=288967971]
+shape = SubResource("BoxShape_3p000_3p251_1p000")
+
+[node name="Step09" type="StaticBody3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair" unique_id=401268028]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.35, 1.8505121, 10.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step09" unique_id=1395769322]
+material_override = SubResource("Material_2a4669ff")
+mesh = SubResource("BoxMesh_3p000_3p701_1p000")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Stairs/S3_S3StacksStair/Step09" unique_id=1501993604]
+shape = SubResource("BoxShape_3p000_3p701_1p000")
+
+[node name="NavigationDebug" type="Node3D" parent="." unique_id=1152788940 node_paths=PackedStringArray("region")]
+script = ExtResource("2_vpaym")
+region = NodePath("../NavigationRegion3D")
+visible_on_start = false
+
+[node name="Player" parent="." unique_id=423028376 instance=ExtResource("3_g31rm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 32)
+
+[node name="PreviewCamera" type="Camera3D" parent="." unique_id=941552795]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 60, 2)
+projection = 1
+size = 80.0
+far = 200.0
+
+[node name="Layout" type="Node3D" parent="." unique_id=1232959326]
+
+[node name="ZoneLabels" type="Node3D" parent="Layout" unique_id=1356525752]
+
+[node name="A_Lobby" type="Label3D" parent="Layout/ZoneLabels" unique_id=755481544]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 19)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.73, 0.772, 0.82, 1)
+text = "A · Lobby"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "A"
+
+[node name="A_Porch" type="Label3D" parent="Layout/ZoneLabels" unique_id=404230542]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 31)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.73, 0.772, 0.82, 1)
+text = "A · Porch"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "A"
+
+[node name="B_MainStacks" type="Label3D" parent="Layout/ZoneLabels" unique_id=63253634]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3, -9)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.772, 0.712, 0.64, 1)
+text = "B · Main Stacks"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "B"
+
+[node name="B_BrowsingHall" type="Label3D" parent="Layout/ZoneLabels" unique_id=1027873423]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3, 19)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.772, 0.712, 0.64, 1)
+text = "B · Browsing Hall"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "B"
+
+[node name="C_ReadingHall" type="Label3D" parent="Layout/ZoneLabels" unique_id=1383746416]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -2)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.7, 0.784, 0.7, 1)
+text = "C · Reading Hall"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "C"
+
+[node name="C_Study1" type="Label3D" parent="Layout/ZoneLabels" unique_id=1202667244]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 3, -21)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.7, 0.784, 0.7, 1)
+text = "C · Study 1"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "C"
+
+[node name="C_Study2" type="Label3D" parent="Layout/ZoneLabels" unique_id=973640092]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 3, -21)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.7, 0.784, 0.7, 1)
+text = "C · Study 2"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "C"
+
+[node name="C_Study3" type="Label3D" parent="Layout/ZoneLabels" unique_id=2111292462]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 3, -21)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.7, 0.784, 0.7, 1)
+text = "C · Study 3"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "C"
+
+[node name="C_Study4" type="Label3D" parent="Layout/ZoneLabels" unique_id=61850943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3, -21)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.7, 0.784, 0.7, 1)
+text = "C · Study 4"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "C"
+
+[node name="D_ServiceCorridor" type="Label3D" parent="Layout/ZoneLabels" unique_id=1731756387]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 3, 0)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.796, 0.7, 0.7, 1)
+text = "D · Service Corridor"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "D"
+
+[node name="D_BookProcessing" type="Label3D" parent="Layout/ZoneLabels" unique_id=312865808]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 3, -17)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.796, 0.7, 0.7, 1)
+text = "D · Book Processing"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "D"
+
+[node name="D_Storage" type="Label3D" parent="Layout/ZoneLabels" unique_id=255029919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 3, 3)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.796, 0.7, 0.7, 1)
+text = "D · Storage"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "D"
+
+[node name="D_LoadingDock" type="Label3D" parent="Layout/ZoneLabels" unique_id=177826343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 3, 20)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.796, 0.7, 0.7, 1)
+text = "D · Loading Dock"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "D"
+
+[node name="E_UpperStacks" type="Label3D" parent="Layout/ZoneLabels" unique_id=273916405]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 7.5, -9)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.748, 0.736, 0.832, 1)
+text = "E · Upper Stacks"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "E"
+
+[node name="E_StaffBalcony" type="Label3D" parent="Layout/ZoneLabels" unique_id=36984806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 7.5, 1)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.748, 0.736, 0.832, 1)
+text = "E · Staff Balcony"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "E"
+
+[node name="E_StaffCorridor" type="Label3D" parent="Layout/ZoneLabels" unique_id=382631755]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 7.5, -11)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.748, 0.736, 0.832, 1)
+text = "E · Staff Corridor"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "E"
+
+[node name="E_Office1" type="Label3D" parent="Layout/ZoneLabels" unique_id=37461355]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 7.5, -21)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.748, 0.736, 0.832, 1)
+text = "E · Office 1"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "E"
+
+[node name="E_Office2" type="Label3D" parent="Layout/ZoneLabels" unique_id=1237927545]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 7.5, -21)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.748, 0.736, 0.832, 1)
+text = "E · Office 2"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "E"
+
+[node name="E_Office3" type="Label3D" parent="Layout/ZoneLabels" unique_id=965001613]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 7.5, -21)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.748, 0.736, 0.832, 1)
+text = "E · Office 3"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "E"
+
+[node name="F_ArchiveHall" type="Label3D" parent="Layout/ZoneLabels" unique_id=2008395764]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 7.5, -12)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.844, 0.748, 0.64, 1)
+text = "F · Archive Hall"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "F"
+
+[node name="F_ArchiveStacks" type="Label3D" parent="Layout/ZoneLabels" unique_id=1092363731]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 7.5, -23)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.844, 0.748, 0.64, 1)
+text = "F · Archive Stacks"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "F"
+
+[node name="F_Vault" type="Label3D" parent="Layout/ZoneLabels" unique_id=1853484449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 7.5, -23)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.844, 0.748, 0.64, 1)
+text = "F · Vault"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "F"
+
+[node name="F_Alcove" type="Label3D" parent="Layout/ZoneLabels" unique_id=509653505]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 7.5, -15)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.844, 0.748, 0.64, 1)
+text = "F · Alcove"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "F"
+
+[node name="F_StaffStairLanding" type="Label3D" parent="Layout/ZoneLabels" unique_id=2040541984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 7.5, -9)
+pixel_size = 0.02
+billboard = 1
+modulate = Color(0.844, 0.748, 0.64, 1)
+text = "F · Staff Stair Landing"
+font_size = 48
+outline_size = 10
+metadata/zone_id = "F"
+
+[node name="Objectives" type="Node3D" parent="Layout" unique_id=841331837]
+
+[node name="O1" type="Marker3D" parent="Layout/Objectives" unique_id=12290281]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -18.8)
+metadata/id = "o1_key_code"
+metadata/title = "Find the staff key code"
+metadata/zone = "C"
+metadata/note = "Study 3, on the desk. Opens the staff doors (G1a, G1b, G4)."
+
+[node name="Label" type="Label3D" parent="Layout/Objectives/O1" unique_id=649226878]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+pixel_size = 0.012
+billboard = 1
+modulate = Color(1, 0.95, 0.4, 1)
+text = "O1 · Find the staff key code"
+font_size = 48
+outline_size = 10
+
+[node name="Beacon" type="MeshInstance3D" parent="Layout/Objectives/O1" unique_id=889873467]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = SubResource("Material_beacon")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_beacon")
+
+[node name="O2" type="Marker3D" parent="Layout/Objectives" unique_id=1970078228]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4.5, -22.2)
+metadata/id = "o2_keycard"
+metadata/title = "Take the archive keycard"
+metadata/zone = "E"
+metadata/note = "Office 2, behind the staff-wing doors."
+
+[node name="Label" type="Label3D" parent="Layout/Objectives/O2" unique_id=1356574261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+pixel_size = 0.012
+billboard = 1
+modulate = Color(1, 0.95, 0.4, 1)
+text = "O2 · Take the archive keycard"
+font_size = 48
+outline_size = 10
+
+[node name="Beacon" type="MeshInstance3D" parent="Layout/Objectives/O2" unique_id=1962824705]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = SubResource("Material_beacon")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_beacon")
+
+[node name="O3" type="Marker3D" parent="Layout/Objectives" unique_id=1060214387]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 4.5, -23.6)
+metadata/id = "o3_manuscript"
+metadata/title = "Retrieve the rare manuscript"
+metadata/zone = "F"
+metadata/note = "Archive vault. The archive gates G2 / G3 need the keycard."
+
+[node name="Label" type="Label3D" parent="Layout/Objectives/O3" unique_id=1301701068]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+pixel_size = 0.012
+billboard = 1
+modulate = Color(1, 0.95, 0.4, 1)
+text = "O3 · Retrieve the rare manuscript"
+font_size = 48
+outline_size = 10
+
+[node name="Beacon" type="MeshInstance3D" parent="Layout/Objectives/O3" unique_id=932865107]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = SubResource("Material_beacon")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_beacon")
+
+[node name="O4" type="Marker3D" parent="Layout/Objectives" unique_id=256557548]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, 20)
+metadata/id = "o4_loading_dock"
+metadata/title = "Reach the loading dock"
+metadata/zone = "D"
+metadata/note = "Return route: back gate → S2 staff stair → storage → dock."
+
+[node name="Label" type="Label3D" parent="Layout/Objectives/O4" unique_id=612866887]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+pixel_size = 0.012
+billboard = 1
+modulate = Color(1, 0.95, 0.4, 1)
+text = "O4 · Reach the loading dock"
+font_size = 48
+outline_size = 10
+
+[node name="Beacon" type="MeshInstance3D" parent="Layout/Objectives/O4" unique_id=413934609]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = SubResource("Material_beacon")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_beacon")
+
+[node name="O5" type="Marker3D" parent="Layout/Objectives" unique_id=837702525]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.6, 0, 24)
+metadata/id = "o5_escape"
+metadata/title = "Escape through the loading-dock exit"
+metadata/zone = "D"
+metadata/note = "The exit door in the east wall."
+
+[node name="Label" type="Label3D" parent="Layout/Objectives/O5" unique_id=1134939709]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+pixel_size = 0.012
+billboard = 1
+modulate = Color(1, 0.95, 0.4, 1)
+text = "O5 · Escape through the loading-dock exit"
+font_size = 48
+outline_size = 10
+
+[node name="Beacon" type="MeshInstance3D" parent="Layout/Objectives/O5" unique_id=1909725728]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = SubResource("Material_beacon")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_beacon")
+
+[node name="Exit" type="Marker3D" parent="Layout" unique_id=1882337512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.6, 0, 24)
+metadata/opening = "Loading Dock Exit"
+
+[node name="Gates" type="Node3D" parent="Layout" unique_id=189609473]
+
+[node name="StaffWingDoorG1a" type="Marker3D" parent="Layout/Gates" unique_id=485923335]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4.5, -8)
+metadata/opening = "Staff Wing Door G1a"
+metadata/needs = "staff key code (O1)"
+metadata/guards = "staff wing (O2)"
+metadata/type = "gate"
+
+[node name="Label" type="Label3D" parent="Layout/Gates/StaffWingDoorG1a" unique_id=846202079]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+pixel_size = 0.009
+billboard = 1
+modulate = Color(0.89500004, 0.44, 0.426, 1)
+text = "Staff Wing Door G1a
+(staff key code (O1))"
+font_size = 48
+outline_size = 10
+
+[node name="StaffDoor(Stacks)G1b" type="Marker3D" parent="Layout/Gates" unique_id=82040516]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 4.5, -11)
+metadata/opening = "Staff Door (Stacks) G1b"
+metadata/needs = "staff key code (O1)"
+metadata/guards = "staff wing (O2)"
+metadata/type = "gate"
+
+[node name="Label" type="Label3D" parent="Layout/Gates/StaffDoor(Stacks)G1b" unique_id=148265318]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+pixel_size = 0.009
+billboard = 1
+modulate = Color(0.89500004, 0.44, 0.426, 1)
+text = "Staff Door (Stacks) G1b
+(staff key code (O1))"
+font_size = 48
+outline_size = 10
+
+[node name="LobbyStaffDoorG4" type="Marker3D" parent="Layout/Gates" unique_id=1020901465]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 21)
+metadata/opening = "Lobby Staff Door G4"
+metadata/needs = "staff key code (O1)"
+metadata/guards = "service corridor from the lobby"
+metadata/type = "gate"
+
+[node name="Label" type="Label3D" parent="Layout/Gates/LobbyStaffDoorG4" unique_id=1282699921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+pixel_size = 0.009
+billboard = 1
+modulate = Color(0.89500004, 0.44, 0.426, 1)
+text = "Lobby Staff Door G4
+(staff key code (O1))"
+font_size = 48
+outline_size = 10
+
+[node name="ArchiveFrontGateG2" type="Marker3D" parent="Layout/Gates" unique_id=627032676]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 4.5, -11)
+metadata/opening = "Archive Front Gate G2"
+metadata/needs = "archive keycard (O2)"
+metadata/guards = "restricted archive (O3)"
+metadata/type = "gate"
+
+[node name="Label" type="Label3D" parent="Layout/Gates/ArchiveFrontGateG2" unique_id=1784441398]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+pixel_size = 0.009
+billboard = 1
+modulate = Color(0.89500004, 0.44, 0.426, 1)
+text = "Archive Front Gate G2
+(archive keycard (O2))"
+font_size = 48
+outline_size = 10
+
+[node name="ArchiveBackGateG3" type="Marker3D" parent="Layout/Gates" unique_id=1977516776]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 4.5, -9)
+metadata/opening = "Archive Back Gate G3"
+metadata/needs = "archive keycard (O2)"
+metadata/guards = "restricted archive (O3)"
+metadata/type = "gate"
+
+[node name="Label" type="Label3D" parent="Layout/Gates/ArchiveBackGateG3" unique_id=509322721]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+pixel_size = 0.009
+billboard = 1
+modulate = Color(0.89500004, 0.44, 0.426, 1)
+text = "Archive Back Gate G3
+(archive keycard (O2))"
+font_size = 48
+outline_size = 10
+
+[node name="ServiceShortcutSC1" type="Marker3D" parent="Layout/Gates" unique_id=1538004178]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 4)
+metadata/opening = "Service Shortcut SC1"
+metadata/needs = "one-way: opened from the corridor side"
+metadata/guards = "shortcut corridor → reading hall"
+metadata/type = "shortcut"
+
+[node name="Label" type="Label3D" parent="Layout/Gates/ServiceShortcutSC1" unique_id=848054948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+pixel_size = 0.009
+billboard = 1
+modulate = Color(0.965, 0.78999996, 0.40500003, 1)
+text = "Service Shortcut SC1
+(one-way: opened from the corridor side)"
+font_size = 48
+outline_size = 10
+
+[node name="PlannedPatrols" type="Node3D" parent="Layout" unique_id=2114227576]
+
+[node name="P1_Lobby" type="Node3D" parent="Layout/PlannedPatrols" unique_id=2043526047]
+script = ExtResource("4_osu2v")
+metadata/zone_id = "A"
+
+[node name="Point0" type="Marker3D" parent="Layout/PlannedPatrols/P1_Lobby" unique_id=1317499804]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 14)
+script = ExtResource("5_h2ems")
+
+[node name="Point1" type="Marker3D" parent="Layout/PlannedPatrols/P1_Lobby" unique_id=1997909273]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 13)
+script = ExtResource("5_h2ems")
+
+[node name="Point2" type="Marker3D" parent="Layout/PlannedPatrols/P1_Lobby" unique_id=1892625187]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 25)
+script = ExtResource("5_h2ems")
+
+[node name="Point3" type="Marker3D" parent="Layout/PlannedPatrols/P1_Lobby" unique_id=752954386]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 25)
+script = ExtResource("5_h2ems")
+
+[node name="P2_MainStacks" type="Node3D" parent="Layout/PlannedPatrols" unique_id=392245397]
+script = ExtResource("4_osu2v")
+debug_color = Color(0.95, 0.25, 0.7, 1)
+metadata/zone_id = "B"
+
+[node name="Point0" type="Marker3D" parent="Layout/PlannedPatrols/P2_MainStacks" unique_id=605210517]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -24)
+script = ExtResource("5_h2ems")
+
+[node name="Point1" type="Marker3D" parent="Layout/PlannedPatrols/P2_MainStacks" unique_id=2060288575]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 4)
+script = ExtResource("5_h2ems")
+
+[node name="Point2" type="Marker3D" parent="Layout/PlannedPatrols/P2_MainStacks" unique_id=1917443258]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, 0, 4)
+script = ExtResource("5_h2ems")
+
+[node name="Point3" type="Marker3D" parent="Layout/PlannedPatrols/P2_MainStacks" unique_id=782307889]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, 0, -24)
+script = ExtResource("5_h2ems")
+
+[node name="P3_ReadingHall" type="Node3D" parent="Layout/PlannedPatrols" unique_id=1378693262]
+script = ExtResource("4_osu2v")
+debug_color = Color(1, 0.85, 0.15, 1)
+metadata/zone_id = "C"
+
+[node name="Point0" type="Marker3D" parent="Layout/PlannedPatrols/P3_ReadingHall" unique_id=1980801040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0, -11.5)
+script = ExtResource("5_h2ems")
+
+[node name="Point1" type="Marker3D" parent="Layout/PlannedPatrols/P3_ReadingHall" unique_id=1797926330]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 0, -11.5)
+script = ExtResource("5_h2ems")
+
+[node name="Point2" type="Marker3D" parent="Layout/PlannedPatrols/P3_ReadingHall" unique_id=1562510566]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 0, 7)
+script = ExtResource("5_h2ems")
+
+[node name="Point3" type="Marker3D" parent="Layout/PlannedPatrols/P3_ReadingHall" unique_id=1271951601]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0, 7)
+script = ExtResource("5_h2ems")
+
+[node name="P4_ServiceCorridor" type="Node3D" parent="Layout/PlannedPatrols" unique_id=1907588304]
+script = ExtResource("4_osu2v")
+debug_color = Color(0.4, 0.9, 0.9, 1)
+metadata/zone_id = "D"
+
+[node name="Point0" type="Marker3D" parent="Layout/PlannedPatrols/P4_ServiceCorridor" unique_id=1083685184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 0, -25)
+script = ExtResource("5_h2ems")
+
+[node name="Point1" type="Marker3D" parent="Layout/PlannedPatrols/P4_ServiceCorridor" unique_id=1113480602]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 0, 24)
+script = ExtResource("5_h2ems")
+
+[node name="Point2" type="Marker3D" parent="Layout/PlannedPatrols/P4_ServiceCorridor" unique_id=678571478]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, 20)
+script = ExtResource("5_h2ems")
+
+[node name="Point3" type="Marker3D" parent="Layout/PlannedPatrols/P4_ServiceCorridor" unique_id=629827131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 3)
+script = ExtResource("5_h2ems")
+
+[node name="P5_UpperStacks" type="Node3D" parent="Layout/PlannedPatrols" unique_id=274081437]
+script = ExtResource("4_osu2v")
+debug_color = Color(0.6, 1, 0.4, 1)
+metadata/zone_id = "E"
+
+[node name="Point0" type="Marker3D" parent="Layout/PlannedPatrols/P5_UpperStacks" unique_id=1672417785]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.5, -25)
+script = ExtResource("5_h2ems")
+
+[node name="Point1" type="Marker3D" parent="Layout/PlannedPatrols/P5_UpperStacks" unique_id=245602563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.5, 6)
+script = ExtResource("5_h2ems")
+
+[node name="Point2" type="Marker3D" parent="Layout/PlannedPatrols/P5_UpperStacks" unique_id=286111579]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, 4.5, 2)
+script = ExtResource("5_h2ems")
+
+[node name="Point3" type="Marker3D" parent="Layout/PlannedPatrols/P5_UpperStacks" unique_id=121913560]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, 4.5, -25)
+script = ExtResource("5_h2ems")
+
+[node name="P6_StaffCorridor" type="Node3D" parent="Layout/PlannedPatrols" unique_id=952172483]
+script = ExtResource("4_osu2v")
+debug_color = Color(0.7, 0.6, 1, 1)
+metadata/zone_id = "E"
+
+[node name="Point0" type="Marker3D" parent="Layout/PlannedPatrols/P6_StaffCorridor" unique_id=1613438035]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 4.5, -11)
+script = ExtResource("5_h2ems")
+
+[node name="Point1" type="Marker3D" parent="Layout/PlannedPatrols/P6_StaffCorridor" unique_id=1674742234]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 4.5, -11)
+script = ExtResource("5_h2ems")
+
+[node name="Point2" type="Marker3D" parent="Layout/PlannedPatrols/P6_StaffCorridor" unique_id=255757569]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4.5, -18.5)
+script = ExtResource("5_h2ems")
+
+[node name="P7_Archive" type="Node3D" parent="Layout/PlannedPatrols" unique_id=551755530]
+script = ExtResource("4_osu2v")
+debug_color = Color(1, 0.5, 0.5, 1)
+metadata/zone_id = "F"
+
+[node name="Point0" type="Marker3D" parent="Layout/PlannedPatrols/P7_Archive" unique_id=1208737673]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 4.5, -9)
+script = ExtResource("5_h2ems")
+
+[node name="Point1" type="Marker3D" parent="Layout/PlannedPatrols/P7_Archive" unique_id=2130203347]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 4.5, -9)
+script = ExtResource("5_h2ems")
+
+[node name="Point2" type="Marker3D" parent="Layout/PlannedPatrols/P7_Archive" unique_id=1175085760]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 4.5, -26)
+script = ExtResource("5_h2ems")
+
+[node name="Point3" type="Marker3D" parent="Layout/PlannedPatrols/P7_Archive" unique_id=1095394590]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 4.5, -26)
+script = ExtResource("5_h2ems")
+
+[node name="HidingSpots" type="Node3D" parent="Layout" unique_id=403572338]
+
+[node name="Study1carrel" type="Marker3D" parent="Layout/HidingSpots" unique_id=489959436]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 0, -26.8)
+metadata/zone_id = "C"
+
+[node name="Label" type="Label3D" parent="Layout/HidingSpots/Study1carrel" unique_id=850310724]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+pixel_size = 0.008
+billboard = 1
+modulate = Color(0.5, 0.75, 1, 1)
+text = "hide"
+font_size = 48
+outline_size = 10
+
+[node name="Study3carrel" type="Marker3D" parent="Layout/HidingSpots" unique_id=459753271]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, -26.8)
+metadata/zone_id = "C"
+
+[node name="Label" type="Label3D" parent="Layout/HidingSpots/Study3carrel" unique_id=637199009]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+pixel_size = 0.008
+billboard = 1
+modulate = Color(0.5, 0.75, 1, 1)
+text = "hide"
+font_size = 48
+outline_size = 10
+
+[node name="Readingtable" type="Marker3D" parent="Layout/HidingSpots" unique_id=525747331]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -4.4)
+metadata/zone_id = "C"
+
+[node name="Label" type="Label3D" parent="Layout/HidingSpots/Readingtable" unique_id=764648738]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+pixel_size = 0.008
+billboard = 1
+modulate = Color(0.5, 0.75, 1, 1)
+text = "hide"
+font_size = 48
+outline_size = 10
+
+[node name="Browsingshelf" type="Marker3D" parent="Layout/HidingSpots" unique_id=1385510203]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.8, 0, 15)
+metadata/zone_id = "B"
+
+[node name="Label" type="Label3D" parent="Layout/HidingSpots/Browsingshelf" unique_id=1678158625]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+pixel_size = 0.008
+billboard = 1
+modulate = Color(0.5, 0.75, 1, 1)
+text = "hide"
+font_size = 48
+outline_size = 10
+
+[node name="Circulationdesk" type="Marker3D" parent="Layout/HidingSpots" unique_id=1151255837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 17.3)
+metadata/zone_id = "A"
+
+[node name="Label" type="Label3D" parent="Layout/HidingSpots/Circulationdesk" unique_id=1196857760]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+pixel_size = 0.008
+billboard = 1
+modulate = Color(0.5, 0.75, 1, 1)
+text = "hide"
+font_size = 48
+outline_size = 10
+
+[node name="Storagerack" type="Marker3D" parent="Layout/HidingSpots" unique_id=913854744]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 7)
+metadata/zone_id = "D"
+
+[node name="Label" type="Label3D" parent="Layout/HidingSpots/Storagerack" unique_id=2001207362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+pixel_size = 0.008
+billboard = 1
+modulate = Color(0.5, 0.75, 1, 1)
+text = "hide"
+font_size = 48
+outline_size = 10
+
+[node name="Dockcrate" type="Marker3D" parent="Layout/HidingSpots" unique_id=1074284239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0, 17.6)
+metadata/zone_id = "D"
+
+[node name="Label" type="Label3D" parent="Layout/HidingSpots/Dockcrate" unique_id=1624883890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+pixel_size = 0.008
+billboard = 1
+modulate = Color(0.5, 0.75, 1, 1)
+text = "hide"
+font_size = 48
+outline_size = 10
+
+[node name="Upperstacksaisle" type="Marker3D" parent="Layout/HidingSpots" unique_id=1933794844]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29, 4.5, -18)
+metadata/zone_id = "E"
+
+[node name="Label" type="Label3D" parent="Layout/HidingSpots/Upperstacksaisle" unique_id=23676937]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+pixel_size = 0.008
+billboard = 1
+modulate = Color(0.5, 0.75, 1, 1)
+text = "hide"
+font_size = 48
+outline_size = 10
+
+[node name="Office3desk" type="Marker3D" parent="Layout/HidingSpots" unique_id=103120802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 4.5, -24.8)
+metadata/zone_id = "E"
+
+[node name="Label" type="Label3D" parent="Layout/HidingSpots/Office3desk" unique_id=10397050]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+pixel_size = 0.008
+billboard = 1
+modulate = Color(0.5, 0.75, 1, 1)
+text = "hide"
+font_size = 48
+outline_size = 10
+
+[node name="Archivealcove" type="Marker3D" parent="Layout/HidingSpots" unique_id=1342477733]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.5, 4.5, -13.6)
+metadata/zone_id = "F"
+
+[node name="Label" type="Label3D" parent="Layout/HidingSpots/Archivealcove" unique_id=379448648]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+pixel_size = 0.008
+billboard = 1
+modulate = Color(0.5, 0.75, 1, 1)
+text = "hide"
+font_size = 48
+outline_size = 10
+
+[node name="GameFlow" type="Node" parent="." unique_id=769680777]
+process_mode = 3
+script = ExtResource("6_38ait")
+
+[node name="GameMenus" type="CanvasLayer" parent="." unique_id=146961137]
+process_mode = 3
+layer = 20
+script = ExtResource("7_2jgju")

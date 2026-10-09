@@ -1,6 +1,6 @@
 # Campus Escape 3D
 
-[![Build](https://github.com/phatelab/CampusEscape3D-2/actions/workflows/build.yml/badge.svg?branch=Development)](https://github.com/phatelab/CampusEscape3D-2/actions/workflows/build.yml)
+[![Build](https://github.com/SE2026-T10/CampusEscape3D-2/actions/workflows/build.yml/badge.svg?branch=Development)](https://github.com/SE2026-T10/CampusEscape3D-2/actions/workflows/build.yml)
 
 ## Project description
 
@@ -320,13 +320,21 @@ Full method and data: **[`docs/phase-13-performance.md`](docs/phase-13-performan
 - Scenarios: normal (3 guards), several (8) and stress (24).
 - It records frame time, script, AI, animation and render time, draw calls, memory and stuck guards.
 
-**Measured on a GPU-less Linux VM** (2 vCPUs, Mesa llvmpipe software rendering, 1280×720, debug build). Windows numbers are not measured yet.
+**Measured on a GPU-less Linux VM** (2 vCPUs, Mesa llvmpipe software rendering, 1280×720, debug build), where the optimisation was found and measured:
 
 | | Normal (3 guards) | Stress (24 guards) |
 |---|---|---|
 | Avg FPS before → after the shadow optimisation | 8.37 → 11.61 | 7.85 → 10.57 |
 | Mean frame time before → after | 119.6 → 86.2 ms | 127.3 → 94.6 ms |
 | CPU per frame, headless (all game logic, physics, navigation) | 0.7 ms | 2.1 ms |
+
+**Measured on Windows hardware** (release validation, 2026-10-09; Windows 10, Intel i5-8265U, NVIDIA GeForce MX130, 1280×720, debug build; evidence in `docs/performance/windows/`, details in `docs/FINAL_REPORT.md`):
+
+| | Normal (3 guards) | Stress (24 guards) |
+|---|---|---|
+| Avg FPS (1% low) | 202.8 (62.1) | 153.2 (57.5) |
+| Mean / p95 frame time | 4.94 / 6.81 ms | 6.54 / 10.7 ms |
+| CPU per frame, headless | 0.85 ms | 2.93 ms |
 
 **Findings:**
 - Rendering was about 90% of the frame, and the sun's 4-cascade shadow map was the biggest single cost.
@@ -351,7 +359,7 @@ godot --headless --fixed-fps 60 --path . --script res://tools/benchmark.gd -- --
 
 ## Level-design version history
 
-The level went through five measured versions, one commit each. The full log, with what changed, why, the metrics and before/after pictures, is in **[`docs/level/LEVEL_LOG.md`](docs/level/LEVEL_LOG.md)**.
+The level went through five measured versions, each recorded as an evidence folder (all five landed in git as one commit, `3320e45`). The full log, with what changed, why, the metrics and before/after pictures, is in **[`docs/level/LEVEL_LOG.md`](docs/level/LEVEL_LOG.md)**.
 
 | Version | What changed | Evidence |
 |---|---|---|
@@ -375,9 +383,9 @@ The level went through five measured versions, one commit each. The full log, wi
 - Quit only from the main menu.
 
 **Testing:**
-- Everything automated ran on Linux (headless and with software rendering).
-- No measurements or manual playtest on Windows hardware or a real GPU yet.
-- The audio has never been heard: the test machines have no sound device.
+- The automated suite and the game-flow run pass on Linux (CI and the development VM) and on Windows 10 (release validation, 2026-10-09).
+- The CI-built Windows executable was launched on Windows and played from the main menu into the level; a full manual playthrough of the checklist's Part 2 has not been recorded yet.
+- The audio has not been judged by ear.
 - The scripted playthroughs don't judge stealth difficulty; that needs human play.
 
 **Level:**
@@ -399,7 +407,9 @@ The level went through five measured versions, one commit each. The full log, wi
 - Windows x64 only.
 - The executable is not code-signed.
 - Builds aren't byte-for-byte identical, because the pack records file times.
-- **The CI workflow has not yet run on GitHub:** the pipeline scripts were run locally, but the workflow file needs its first run after being pushed.
+- The workflow's actions (`checkout`, `cache`, `upload-artifact` @v4) target Node.js 20, which GitHub has deprecated; runs pass, with a warning.
+
+**CI status:** the first GitHub run, [Build #1](https://github.com/SE2026-T10/CampusEscape3D-2/actions/runs/37272574230) on commit `15b3ebf`, passed both jobs (validate and test 4 m 16 s, Windows export 39 s) and uploaded `CampusEscape3D-1.0.0-windows-x64` (37.5 MB).
 
 ## Development notes
 
@@ -462,3 +472,4 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 - `docs/BUILD.md` (build, CI and release process)
 - `docs/phase-15-build-pipeline.md`
 - `docs/release-notes/v1.0.0.md`
+- **[`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md)** (final MVP report and release validation)

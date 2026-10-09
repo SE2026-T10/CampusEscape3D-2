@@ -4,7 +4,9 @@ This phase adds a GitHub Actions workflow that validates the project, runs the a
 
 It also sets the version to 1.0.0, documents the release process (`docs/BUILD.md`) and rewrites the README.
 
-**Status:** the workflow has **not run on GitHub yet**. This session had no write access to the repository, so it couldn't push. Every pipeline script was run locally instead (results below), and the workflow file passed `actionlint`. CI success can only be claimed after the first run on GitHub passes.
+**Status (when this phase was written):** the workflow had **not run on GitHub yet**. That session had no write access to the repository, so it couldn't push. Every pipeline script was run locally instead (results below), and the workflow file passed `actionlint`.
+
+**Status update (2026-10-09, release validation):** the branch was pushed and the first run, [Build #1](https://github.com/SE2026-T10/CampusEscape3D-2/actions/runs/37272574230) on `15b3ebf`, **passed**: Validate and test 4 m 16 s, Export Windows x64 39 s, total 5 m 03 s. It uploaded `CampusEscape3D-1.0.0-windows-x64` (37.5 MB, sha256 `06a855cc…2d4aa7`), `test-logs` and `export-logs`. That artifact was downloaded, its SHA-256 matched GitHub's digest, and it was run on Windows 10 (see `docs/FINAL_REPORT.md`). Steps 1 and 2 of the to-do list below are done; step 3 (tag `v1.0.0`) is not. The only annotations are GitHub's Node.js 20 deprecation warnings for the `@v4` actions.
 
 ## What was added
 
