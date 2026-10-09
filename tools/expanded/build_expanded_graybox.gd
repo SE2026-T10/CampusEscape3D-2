@@ -80,14 +80,6 @@ func _build() -> void:
 		_add_cover(zones[c.zone], c)
 	_add_debug_and_player(region)
 	_add_layout_markers()
-	var flow := Node.new()
-	flow.name = "GameFlow"
-	flow.set_script(load("res://scripts/game/game_flow.gd"))
-	_add(_level, flow)
-	var menus := CanvasLayer.new()
-	menus.name = "GameMenus"
-	menus.set_script(load("res://scripts/ui/game_menus.gd"))
-	_add(_level, menus)
 
 	# Bake the navigation mesh from the static colliders (needs the level in the tree).
 	root.add_child(_level)
@@ -101,6 +93,10 @@ func _build() -> void:
 		quit(1)
 		return
 	nav_mesh.take_over_path(NAVMESH_PATH)   # referenced from the scene as an external resource
+	# The runtime systems are added outside the tree, so they don't start (music,
+	# HUDs) while the tool runs; they only need to be in the saved scene.
+	root.remove_child(_level)
+	_add_runtime_systems()
 	var packed := PackedScene.new()
 	var error := packed.pack(_level)
 	if error != OK:
@@ -112,6 +108,7 @@ func _build() -> void:
 		return
 	print("Built %s (layout %s): %d solid pieces; navmesh %d polygons, %d vertices -> %s" % [
 		SCENE_PATH, Layout.VERSION, _bodies, nav_mesh.get_polygon_count(), nav_mesh.get_vertices().size(), NAVMESH_PATH])
+	_level.free()
 	quit(0)
 
 
@@ -135,6 +132,34 @@ func _new_navmesh() -> NavigationMesh:
 	nav_mesh.agent_height = 1.75
 	nav_mesh.region_min_size = 8.0
 	return nav_mesh
+
+
+# --- Shared runtime systems ----------------------------------------------------------------
+
+## The level-wide systems every map has, with the same node names and scripts
+## as in the tutorial (scenes/level/library_graybox.tscn): game flow and its
+## menus, the stealth director, the noise hub, the stealth HUD, the detection
+## debug panel and the audio director. Each finds the others through its group
+## when the level loads and is freed with the level, so a map never shares or
+## duplicates them. Mission systems (ObjectiveManager, CheckpointManager,
+## ObjectiveHud) are added with the mission.
+const RUNTIME_SYSTEMS := [
+	["StealthDirector", "Node", "res://scripts/systems/stealth_director.gd"],
+	["StealthHud", "CanvasLayer", "res://scripts/ui/stealth_hud.gd"],
+	["NoiseSystem", "Node3D", "res://scripts/systems/noise/noise_system.gd"],
+	["DetectionDebugHud", "CanvasLayer", "res://scripts/systems/detection_debug_hud.gd"],
+	["GameFlow", "Node", "res://scripts/game/game_flow.gd"],
+	["GameMenus", "CanvasLayer", "res://scripts/ui/game_menus.gd"],
+	["AudioDirector", "Node", "res://scripts/presentation/audio_director.gd"],
+]
+
+
+func _add_runtime_systems() -> void:
+	for entry in RUNTIME_SYSTEMS:
+		var node: Node = ClassDB.instantiate(entry[1])
+		node.name = entry[0]
+		node.set_script(load(entry[2]))
+		_add(_level, node)
 
 
 # --- Environment, player, debug ------------------------------------------------------------

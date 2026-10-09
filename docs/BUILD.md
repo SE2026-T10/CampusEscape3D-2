@@ -21,7 +21,7 @@ No secrets are needed or stored. The release step uses the workflow's own short-
 |---|---|---|
 | `tools/ci/setup_godot.sh` | downloads Godot and the export templates, verifies their SHA-512 checksums, installs the templates; prints the Godot path | a download fails or a checksum doesn't match |
 | `tools/ci/validate.sh` | checks the exact Godot version, imports the project, compiles every script (`tools/ci/check_scripts.gd`), checks the version numbers (and the tag, on a tag build) | wrong Godot; import errors; a script doesn't compile; versions don't match |
-| `tools/ci/run_tests.sh` | runs the full test suite (`tests/test_scene.tscn`) and the game-flow run with real scene changes (`tools/qa_flow.gd`), headless | the suite doesn't exit 0 or print "All tests passed"; any script error; the flow run doesn't pass |
+| `tools/ci/run_tests.sh` | runs the full test suite (`tests/test_scene.tscn`), the game-flow run (`tools/qa_flow.gd`) and the map-selection run (`tools/map_flow.gd`), both with real scene changes, headless | the suite doesn't exit 0 or print "All tests passed"; any script error; a flow run doesn't pass; any error or warning in the map-selection run |
 | `tools/ci/export_windows.sh` | exports the Windows x64 release build and zips it as `dist/CampusEscape3D-<version>-windows-x64.zip` | export fails or logs an error; no `.exe` or `.pck`; the `.exe` isn't a Windows program; the main scenes are missing from the pack; tests or tools ended up in it |
 
 Logs go to `ci-logs/`, and the build goes to `build/` and `dist/`. Git ignores all three folders.

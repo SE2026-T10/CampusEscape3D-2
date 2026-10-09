@@ -25,6 +25,7 @@ if grep -E "^ERROR|SCRIPT ERROR" ci-logs/export.log; then echo "::error::Errors 
 head -c 2 build/CampusEscape3D.exe | grep -q "MZ" || { echo "::error::The executable is not a Windows program"; exit 1; }
 # (The pack's file index stores paths without "res://"; exported scenes appear as <path>.remap.)
 for needed in project.binary scenes/ui/main_menu.tscn.remap scenes/level/library_graybox.tscn.remap \
+              scenes/level/expanded_library.tscn.remap \
               scenes/npc/guard.tscn.remap scenes/player/player.tscn.remap; do
   grep -aq "$needed" build/CampusEscape3D.pck || { echo "::error::$needed is missing from the pack"; exit 1; }
 done

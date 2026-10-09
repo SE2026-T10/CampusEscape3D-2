@@ -26,8 +26,10 @@ The MVP is one polished level, built in Godot with GDScript, for Windows desktop
 
 ## How to run
 
-- **From the editor:** open the project and press **F5**. The game starts on the main menu; **Start game** loads the library.
-- **Straight into the level** while developing: open `scenes/level/library_graybox.tscn` and press **F6**.
+- **From the editor:** open the project and press **F5**. The game starts on the main menu. Choose a map:
+  - **Library Tutorial**: the original level, with its full mission.
+  - **Expanded Library**: the two-floor map. Graybox only so far: walk the layout; there is no mission yet.
+- **Straight into a level** while developing: open `scenes/level/library_graybox.tscn` or `scenes/level/expanded_library.tscn` and press **F6**.
 - **Exported build:** run `CampusEscape3D.exe`.
 
 ## Controls
@@ -82,11 +84,12 @@ GitHub Actions (`.github/workflows/build.yml`) runs on:
 
 ## Architecture
 
-The game is one level scene with gameplay systems as nodes in it. Systems find each other through groups (`StealthDirector.find(node)` and similar), and talk through signals. Presentation code (sound, animation, UI) only listens to the gameplay code and never changes it.
+Each map is one level scene with its gameplay systems as nodes in it; the main menu picks the map from `LevelCatalog`, and leaving a map frees it with all its systems (there are no autoloads). Systems find each other through groups (`StealthDirector.find(node)` and similar), and talk through signals. Presentation code (sound, animation, UI) only listens to the gameplay code and never changes it.
 
 ```
-scenes/ui/main_menu.tscn                 main scene: Start / Quit
-scenes/level/library_graybox.tscn        the level
+scenes/ui/main_menu.tscn                 main scene: one button per map (LevelCatalog) / Quit
+scenes/level/expanded_library.tscn       the Expanded Library (graybox; same runtime systems, no mission yet)
+scenes/level/library_graybox.tscn        the Library Tutorial
 ├── NavigationRegion3D (+ library_navmesh.tres)   rooms, walls, shelves, furniture, carrels (HidingSpot)
 ├── Player (scenes/player/player.tscn)   FirstPersonPlayer + PlayerNoise + PlayerInteractor + PlayerFeedback
 ├── Guards                               PatrolRoute/PatrolPoint markers + Guard instances (scenes/npc/guard.tscn)
@@ -106,7 +109,7 @@ scenes/level/library_graybox.tscn        the level
 | `scripts/npc/` | `Guard` (navigation, movement, perception snapshot), `GuardVision`, `GuardHearing`, `PatrolRoute`, `PatrolPoint` |
 | `scripts/npc/ai/` | `GuardStateMachine` with `PatrolState`, `InvestigateState`, `ChaseState`; `GuardPerception` |
 | `scripts/systems/` | `StealthDirector`, `HidingSpot`, objectives, checkpoints, interaction, noise, debug overlays |
-| `scripts/game/` | `GameFlow`, `GameStateMachine` |
+| `scripts/game/` | `GameFlow`, `GameStateMachine`, `LevelCatalog` (the maps the menu offers) |
 | `scripts/ui/` | `MainMenu`, `StealthHud`, `ObjectiveHud`, `GameMenus`, `MenuStyle` |
 | `scripts/presentation/` | `AudioDirector`, `SoundBank`, `PlayerFeedback`, `GuardPresentation` (model animation), `AmbientEmitter` |
 | `scripts/level/` | `ShelfBooks` (generated book MultiMeshes) |
@@ -230,17 +233,18 @@ Press **F3** to show the navigation mesh (cyan), each guard's current path (yell
 
 ## Testing
 
-**Run the tests.** In the editor, open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, … Phase 13 performance, Phase 14 QA).`. From a terminal:
+**Run the tests.** In the editor, open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, … Phase 14 QA, Expanded Library graybox, map selection).`. From a terminal:
 
 ```
 godot --headless --path . --editor --quit          # first run only: imports the project
 godot --headless --path . res://tests/test_scene.tscn
 godot --headless --path . --script res://tools/qa_flow.gd   # real game flow with scene changes
+godot --headless --path . --script res://tools/map_flow.gd  # both maps selected, restarted and left, 3 times
 ```
 
 - **Exit code:** the suite exits `0` when every check passes and `1` otherwise, listing each failure. It takes about 3.5 minutes, because the movement, navigation, guard and vision tests step real physics frames.
 - **Expected warnings:** 8, from tests that build broken setups on purpose.
-- **In CI:** `tools/ci/run_tests.sh` runs both the suite and the flow run.
+- **In CI:** `tools/ci/run_tests.sh` runs the suite, the flow run and the map-selection run.
 
 - `tests/test_scene.gd` — checks that every script compiles, Phase 1 setup checks (engine version, project settings, Windows export preset, folders, graybox) and the test runner.
 - `tests/player_tests.gd` — Phase 2 player checks: InputMap bindings, movement maths, mouse-look clamping, and in-level movement (landing, walk and sprint speed, stopping, crate and wall collision, fall respawn).
@@ -299,6 +303,9 @@ godot --headless --path . --script res://tools/qa_flow.gd   # real game flow wit
 - `tests/vision_tests.gd` — Phase 5 checks in a purpose-built arena: FOV and range maths, a player straight ahead is seen and the meter fills in the expected time, the meter holds then drains after losing sight, the last known position never updates while hidden, walls and tall shelves block sight but a low table doesn't, players outside the cone or out of range are not seen, far players fill the meter slowly, thresholds are configurable, and the debug cone stops at walls. In the library: every guard has vision, and no guard sees the spawn during a full patrol loop.
 - `tests/navigation_tests.gd` — Phase 3 checks: every room exists, navigation covers open floor and none of the walls or furniture, nothing is baked outside the rooms or on furniture, every floor edge is walled, paths reach every room without crossing walls, a `NavigationAgent3D` probe walks from the entrance to the exit, the debug overlay draws the navmesh, and the saved navmesh matches a fresh bake.
 
+- `tests/expanded_graybox_tests.gd` — Expanded Library graybox: scene structure, doorway and stair dimensions, navmesh on both floors, every planned location reachable, each stair on its own, planned gates and two approaches (rebaked with blockers), and a real-input walk of the main and alternative routes.
+- `tests/map_selection_tests.gd` — map selection: the catalog, one menu button per map with keyboard navigation, each button loading its map once, and for each map (loaded twice) one of each system, Restart → same map, Main menu → menu, signal connections made once, everything freed on leaving.
+
 **Before a release:** work through `docs/qa/REGRESSION_CHECKLIST.md`: the automated part, plus the manual checks on Windows.
 
 ### QA tools
@@ -309,6 +316,7 @@ godot --headless --path . --script res://tools/qa_flow.gd   # real game flow wit
   - win, play again, quit.
 
   Run it with `godot --path . --script res://tools/qa_flow.gd -- --out=docs/qa/flow_check`; it prints `QA FLOW PASSED` and exits 0.
+- `tools/map_flow.gd` selects each map from the real menu, restarts it and returns to the menu, three times over, with real scene changes. After every change it checks the right scene, the old one freed, one of each system, unchanged signal-connection counts, and no node growth. It prints `MAP FLOW PASSED` and exits 0.
 - `docs/qa/REGRESSION_CHECKLIST.md` lists what to run and what to check by hand before a release.
 
 ## Performance evidence
@@ -358,6 +366,8 @@ godot --headless --fixed-fps 60 --path . --script res://tools/benchmark.gd -- --
 - Results and method: `docs/phase-13-performance.md`.
 
 ## Level-design version history
+
+The Expanded Library has its own log, one commit per version: **[`docs/expanded/LEVEL_LOG.md`](docs/expanded/LEVEL_LOG.md)** (design in [`docs/expanded/LAYOUT.md`](docs/expanded/LAYOUT.md)). The tutorial's history:
 
 The level went through five measured versions, each recorded as an evidence folder (all five landed in git as one commit, `3320e45`). The full log, with what changed, why, the metrics and before/after pictures, is in **[`docs/level/LEVEL_LOG.md`](docs/level/LEVEL_LOG.md)**.
 
@@ -473,3 +483,4 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 - `docs/phase-15-build-pipeline.md`
 - `docs/release-notes/v1.0.0.md`
 - **[`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md)** (final MVP report and release validation)
+- Expanded Library: `docs/expanded/phase-0-audit.md`, `docs/expanded/LAYOUT.md`, `docs/expanded/phase-1-graybox.md`, `docs/expanded/phase-2-map-selection.md`, `docs/expanded/LEVEL_LOG.md`

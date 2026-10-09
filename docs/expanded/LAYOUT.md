@@ -2,7 +2,7 @@
 
 The design of the second, larger map: a two-floor university library with six major zones. It is a separate scene (`scenes/level/expanded_library.tscn`) next to the tutorial, which is unchanged.
 
-**Status:** graybox, with simple boxes and placeholder colours. Objectives, gates, patrols and hiding spots are **planned locations** (markers), not working gameplay yet. Map selection and the mission come in later phases.
+**Status:** graybox, with simple boxes and placeholder colours. Objectives, gates, patrols and hiding spots are **planned locations** (markers), not working gameplay yet. It can be chosen from the main menu (Phase 2). The mission comes in a later phase.
 
 **Plans:** [`v0/layout_ground.png`](v0/layout_ground.png) and [`v0/layout_upper.png`](v0/layout_upper.png), drawn from the layout data before the scene was built. Screenshots of the built graybox are in [`v0/`](v0/).
 

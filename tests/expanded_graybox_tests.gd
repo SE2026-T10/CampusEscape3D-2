@@ -8,8 +8,9 @@ extends RefCounted
 ## checks themselves use the built scene: its colliders, its baked navmesh,
 ## and the real player walking with real input.
 ##
-##   A. Scene: a separate scene with the expected structure; six zones on two
-##      floors; the tutorial and the main menu are not changed.
+##   A. Scene: a separate scene with the expected structure (six zones on two
+##      floors, the shared runtime systems); the tutorial stays its own scene
+##      and the menu's default map.
 ##   B. Dimensions: doorways, headroom, ramp slope, clearance above every ramp.
 ##   C. Navmesh: saved bake matches a fresh bake; both floors and the ramps
 ##      are walkable; nothing is baked on top of furniture.
@@ -94,7 +95,7 @@ func _check_scene_structure() -> void:
 	_expect(level.name == "ExpandedLibrary", "The root must be named ExpandedLibrary.")
 	_expect(level.get_meta("layout_version", "") == Layout.VERSION, "The scene must be built from layout %s." % Layout.VERSION)
 	for path in ["WorldEnvironment", "KeyLight", "NavigationRegion3D", "Player", "PreviewCamera", "NavigationDebug",
-			"GameFlow", "GameMenus", "Layout/Objectives", "Layout/Gates", "Layout/PlannedPatrols", "Layout/HidingSpots", "Layout/Exit"]:
+			"GameFlow", "GameMenus", "StealthDirector", "StealthHud", "NoiseSystem", "DetectionDebugHud", "AudioDirector", "Layout/Objectives", "Layout/Gates", "Layout/PlannedPatrols", "Layout/HidingSpots", "Layout/Exit"]:
 		_expect(level.get_node_or_null(path) != null, "The scene must contain %s." % path)
 	var camera := level.get_node_or_null("PreviewCamera") as Camera3D
 	_expect(camera != null and not camera.current, "PreviewCamera must not be the current camera.")
@@ -124,11 +125,12 @@ func _check_scene_structure() -> void:
 			wrong_layer += 1
 	_expect(wrong_layer == 0, "%d static bodies are not on the world layer only." % wrong_layer)
 	level.free()
-	# The tutorial and the menu are untouched by this phase.
+	# The game still starts at the menu; the tutorial stays its own scene and the menu's first map.
 	_expect(ProjectSettings.get_setting("application/run/main_scene") == "res://scenes/ui/main_menu.tscn", "The main scene must still be the main menu.")
-	_expect(MainMenu.LEVEL_SCENE == TUTORIAL, "The main menu must still start the tutorial (map selection is a later phase).")
+	_expect(MainMenu.LEVEL_SCENE == TUTORIAL and LevelCatalog.LEVELS[0].scene == TUTORIAL, "The tutorial must stay the default (first) map.")
+	_expect(LevelCatalog.scene_of(LevelCatalog.EXPANDED) == SCENE, "The menu's Expanded Library entry must load this scene.")
 	_expect(SCENE != TUTORIAL and ResourceLoader.exists(TUTORIAL), "The tutorial scene must still exist as its own scene.")
-	print("  [expanded] scene: 6 zones (4 ground, 2 upper), 3 stairs, 5 objective locations, tutorial and menu unchanged")
+	print("  [expanded] scene: 6 zones (4 ground, 2 upper), 3 stairs, 5 objective locations, shared runtime systems; tutorial is still its own scene and the default map")
 
 
 # --- B. Dimensions (from the layout the scene is built from) -------------------------------
