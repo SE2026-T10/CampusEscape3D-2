@@ -18,14 +18,16 @@ extends RefCounted
 ##      point and hiding spot can be reached from the spawn.
 ##   E. Stairs: each stair connects the floors on its own.
 ##   F. Gates and approaches (the level rebaked with blockers in doorways and
-##      stairs): with the gates the mission will lock, closed stage by stage,
-##      only the intended areas are reachable (start → after O1 → after O2:
-##      the archive is gated); each of the upper floor, the staff wing and the
-##      archive has two approaches (closing one still leaves the other); and
-##      the archive has a return route to the exit without the front gate or
-##      the public stairs.
-##   G. Walk: the player walks the main route and both alternative routes
-##      with real input, up and down all three stairs, through every gate.
+##      stairs): with the mission's doors closed stage by stage, only the
+##      intended areas are reachable (start: the card doors, the one-way back
+##      gate (closed from outside) and the shortcut closed → with the card →
+##      with the back gate open); the archive has no way in but the front gate;
+##      the upper floor and the staff wing have two approaches each; and the
+##      back gate shortcut makes the way out of the archive much shorter.
+##   G. Walk: with the mission's doors opened, the player walks the main route
+##      and both alternative routes with real input, up and down all three
+##      stairs, through every gate. (Closed doors and the mission itself:
+##      tests/expanded_mission_tests.gd.)
 
 const SCENE := "res://scenes/level/expanded_library.tscn"
 const NAVMESH := "res://scenes/level/expanded_library_navmesh.tres"
@@ -101,7 +103,8 @@ func _check_scene_structure() -> void:
 	_expect(level.name == "ExpandedLibrary", "The root must be named ExpandedLibrary.")
 	_expect(level.get_meta("layout_version", "") == Layout.VERSION, "The scene must be built from layout %s." % Layout.VERSION)
 	for path in ["WorldEnvironment", "KeyLight", "NavigationRegion3D", "Player", "PreviewCamera", "NavigationDebug",
-			"GameFlow", "GameMenus", "StealthDirector", "StealthHud", "NoiseSystem", "DetectionDebugHud", "AudioDirector", "Layout/Objectives", "Layout/Gates", "Layout/PlannedPatrols", "Guards", "Layout/HidingSpots", "Layout/Exit"]:
+			"GameFlow", "GameMenus", "StealthDirector", "StealthHud", "NoiseSystem", "DetectionDebugHud", "AudioDirector", "Layout/Objectives", "Layout/Gates", "Layout/PlannedPatrols", "Guards", "Layout/HidingSpots", "Layout/Exit",
+			"Gameplay/ObjectiveManager", "Gameplay/CheckpointManager", "Gameplay/ExitDoor", "ObjectiveHud"]:
 		_expect(level.get_node_or_null(path) != null, "The scene must contain %s." % path)
 	var camera := level.get_node_or_null("PreviewCamera") as Camera3D
 	_expect(camera != null and not camera.current, "PreviewCamera must not be the current camera.")
@@ -136,7 +139,7 @@ func _check_scene_structure() -> void:
 	_expect(MainMenu.LEVEL_SCENE == TUTORIAL and LevelCatalog.LEVELS[0].scene == TUTORIAL, "The tutorial must stay the default (first) map.")
 	_expect(LevelCatalog.scene_of(LevelCatalog.EXPANDED) == SCENE, "The menu's Expanded Library entry must load this scene.")
 	_expect(SCENE != TUTORIAL and ResourceLoader.exists(TUTORIAL), "The tutorial scene must still exist as its own scene.")
-	print("  [expanded] scene: 6 zones (4 ground, 2 upper), 3 stairs, 5 objective locations, shared runtime systems; tutorial is still its own scene and the default map")
+	print("  [expanded] scene: 6 zones (4 ground, 2 upper), 3 stairs, 5 objective locations, shared runtime and mission systems; tutorial is still its own scene and the default map")
 
 
 # --- B. Dimensions (from the layout the scene is built from) -------------------------------
@@ -290,29 +293,39 @@ func _check_approaches_and_gates() -> void:
 	var o3: Vector3 = Layout.OBJECTIVES[2].pos
 	var o4: Vector3 = Layout.OBJECTIVES[3].pos
 	var exit: Vector3 = Layout.OBJECTIVES[4].pos
+	var dock := Vector3(27, 0, 20)
+	var landing := Vector3(33, Layout.UPPER_Y, -9)
 	var upper_stacks := Vector3(-24, Layout.UPPER_Y, -10)
-	var staff := ["Staff Wing Door G1a", "Staff Door (Stacks) G1b"]
-	var archive := ["Archive Front Gate G2", "Archive Back Gate G3"]
+	var card_doors := ["Archive Front Gate G2", "Lobby Staff Door G4"]
+	var g3 := "Archive Back Gate G3"
+	var sc1 := "Service Shortcut SC1"
 	var spawn := Layout.SPAWN
 	var cases := [
-		# [description, closed openings / stairs, from, [[what, target, reachable?], ...]]
-		# Planned progression: the gates the mission will lock, stage by stage.
-		["start (all gates and the shortcut closed)", staff + archive + ["Lobby Staff Door G4", "Service Shortcut SC1"], spawn,
-			[["O1", o1, true], ["upper stacks", upper_stacks, true], ["O2 keycard", o2, false], ["loading dock", o4, false], ["O3 manuscript", o3, false]]],
-		["after O1 (staff doors open; archive gates and shortcut closed)", archive + ["Service Shortcut SC1"], spawn,
-			[["O2 keycard", o2, true], ["loading dock", o4, true], ["O3 manuscript", o3, false]]],
-		["after O2 (archive gates open)", ["Service Shortcut SC1"], spawn, [["O3 manuscript", o3, true], ["exit", exit, true]]],
-		# Two approaches to each step.
+		# [description, closed openings / stairs, from, [[what, target, reachable?(, length key)], ...]]
+		# The mission's doors, stage by stage. The one-way doors count as closed
+		# from the side they don't open from.
+		["start (card doors, back gate and shortcut closed)", card_doors + [g3, sc1], spawn,
+			[["O1 lobby", o1, true], ["upper stacks", upper_stacks, true], ["O2 staff card", o2, true],
+			["service corridor / loading dock", dock, false], ["O3 manuscript", o3, false], ["O4 back gate (archive side)", o4, false],
+			["staff stair landing", landing, false], ["exit", exit, false]]],
+		["with the card (back gate and shortcut still closed)", [g3, sc1], spawn,
+			[["O3 manuscript", o3, true], ["O4 back gate (archive side)", o4, true], ["loading dock", dock, true], ["exit", exit, true]]],
+		["with the card, from the staff stair landing (back gate locked from there)", [g3, sc1], landing,
+			[["O3 manuscript the long way round", o3, true, "landing_long"]]],
+		["the way out without the shortcut", [g3, sc1], o3, [["exit the long way", exit, true, "out_long"]]],
+		["the way out through the back gate", [sc1], o3, [["exit via G3 and S2", exit, true, "out_short"]]],
+		# No way into the archive but the front gate.
+		["front gate closed (back gate locked from outside)", ["Archive Front Gate G2", g3], spawn, [["O3 manuscript", o3, false]]],
+		# Two approaches to the upper floor and to the staff wing.
 		["no stairs", ["S1", "S2", "S3"], spawn, [["upper floor", upper_stacks, false]]],
 		["S1 closed", ["S1"], spawn, [["upper floor via S3", upper_stacks, true]]],
 		["S3 closed", ["S3"], spawn, [["upper floor via S1", upper_stacks, true]]],
-		["S1 and S3 closed", ["S1", "S3"], spawn, [["upper floor via the service corridor and S2", upper_stacks, true]]],
-		["G1a closed (archive locked)", ["Staff Wing Door G1a"] + archive, spawn, [["O2 via the stacks door G1b", o2, true]]],
-		["G1b closed (archive locked)", ["Staff Door (Stacks) G1b"] + archive, spawn, [["O2 via the balcony door G1a", o2, true]]],
-		["front gate G2 closed", ["Archive Front Gate G2"], spawn, [["O3 via the service corridor, S2 and the back gate", o3, true]]],
-		["back gate G3 closed", ["Archive Back Gate G3"], spawn, [["O3 via the staff wing and the front gate", o3, true]]],
+		["S1 and S3 closed", ["S1", "S3"], spawn, [["upper floor via G4, the service corridor and S2", upper_stacks, true]]],
+		["G1a closed", ["Staff Wing Door G1a"] + card_doors + [g3], spawn, [["O2 via the stacks door G1b", o2, true]]],
+		["G1b closed", ["Staff Door (Stacks) G1b"] + card_doors + [g3], spawn, [["O2 via the balcony door G1a", o2, true]]],
 		["front gate and public stairs closed", ["Archive Front Gate G2", "S1", "S3"], o3, [["return route archive → exit", exit, true]]],
 	]
+	var lengths := {}
 	var passed := 0
 	var total := 0
 	for c in cases:
@@ -340,9 +353,16 @@ func _check_approaches_and_gates() -> void:
 				"reaches it" if reached else "stops %.1f m short" % (check[1].distance_to(path[path.size() - 1]) if not path.is_empty() else INF)])
 			if reached == check[2]:
 				passed += 1
+			if check.size() > 3:
+				lengths[check[3]] = _length(path)
 		NavigationServer3D.free_rid(region)
 		NavigationServer3D.free_rid(map)
-	print("  [expanded] gates and approaches: %d/%d checks as designed over %d rebakes (progression stages start → O1 → O2; two approaches each to the upper floor, the staff wing and the archive; return route)" % [passed, total, cases.size()])
+	# The shortcut is worth unlocking: the way out of the archive through it is far shorter.
+	var short: float = lengths.get("out_short", INF)
+	var long: float = lengths.get("out_long", 0.0)
+	_expect(short < long * 0.7, "The back gate shortcut should make the way out at least 30%% shorter (%.0f m vs %.0f m without it)." % [short, long])
+	print("  [expanded] gates and approaches: %d/%d checks as designed over %d rebakes (stages start → card → back gate; archive only through G2; two approaches to the upper floor and the staff wing); way out of the archive %.0f m with the shortcut vs %.0f m without (%.0f%% shorter)" % [
+		passed, total, cases.size(), short, long, 100.0 * (1.0 - short / maxf(long, 0.001))])
 
 
 ## Rebakes the level's navmesh in memory with blockers in the named openings / stairs.
@@ -399,6 +419,11 @@ func _check_walks() -> void:
 	var walked := 0.0
 	var seconds := 0.0
 	var gates_passed := {}
+	# The layout walk goes through every gate: open the mission's doors first
+	# (closed doors and the mission itself are tested in expanded_mission_tests).
+	for door in _level.get_tree().get_nodes_in_group("access_doors"):
+		door.open()
+	await _frames(3)
 	for r in Layout.ROUTES.size() - 1:   # the last "route" is the one-way shortcut, a short hop
 		var route: Dictionary = Layout.ROUTES[r]
 		var points: Array = route.points

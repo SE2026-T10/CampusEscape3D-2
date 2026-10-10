@@ -102,3 +102,52 @@ Commit: `level(expanded-v1): guards, patrols and stair fixes` (one commit with t
 - `views/`;
 - `soak/report.md` and `soak/summary.json`;
 - `test_run.txt`, `mutation_checks.txt`.
+
+---
+
+## v2 — The mission (Expanded Library Phase 4, 2026-10-09)
+
+Commit: `level(expanded-v2): mission, access doors and checkpoints` (one commit with the mission systems and tests).
+
+**What:**
+- **Five objectives** in the existing ObjectiveManager: enter the library → take a staff access card (Office 2) → retrieve the rare manuscript (vault) → unlock the archive back gate → escape through the loading dock.
+- **Access doors** (new `AccessDoor`, an `Interactable`):
+  - card doors G2 (Archive Front Gate) and G4 (Lobby Staff Door);
+  - one-way doors G3 (Archive Back Gate, the return shortcut; completes O4) and SC1 (Service Shortcut, optional).
+  - A closed door is a solid world-layer panel that is not baked into the navmesh; guards pass it, the player and sight don't.
+- **G1a and G1b are plain doors now.** The v0/v1 plan locked the staff wing behind a key code (O1); the mission's O1 is "enter the library" and the card in the staff wing is what unlocks the restricted areas.
+- **The exit** is the existing ExitDoor, sealed until O4.
+- **Three checkpoints:** Study Rooms, Staff Offices (back of Office 2), Storage. Being caught restores the mission state saved at the last checkpoint, doors included.
+- **Connector patrol point** in the staff corridor moved from x 3 to x 6, off the line through G1a and the Office 2 door.
+- **Layout markers** (`Layout/…`) are hidden in play and shown with the debug overlay (F3); the mission has its own pickups, doors and HUD.
+
+**Why:**
+- The card has to matter: it opens both restricted areas (the service corridor and the archive), and the archive has no other way in.
+- The shortcut has to pay off: vault → exit is 66 m through G3 against 111 m the long way (41% shorter), past fewer guards; and the exit only opens once G3 is open.
+- The Staff Offices checkpoint started at the office door, where the connector guard looked straight in through G1a (the AI test caught it: in view 7 s of the run). It moved to the back of the office, more than 14 m from the corridor.
+
+**Metrics:**
+
+| Metric | v1 | v2 |
+|---|---|---|
+| Mission | — | 5 objectives, 4 access doors, exit, 3 checkpoints |
+| Main route along the navmesh | 272 m (via the old O1 in Study 3) | 197 m |
+| Way out of the archive: shortcut / long way | — | 66 m / 111 m |
+| Main route ever seen by a guard (standing) | 81% | 79% |
+| Main route watched < 5% of the time ("safe") | 40% | 41% |
+| Mean / peak exposure along the main route | 8.5% / 27% | 8.5% / 28% (crouched 7.9%) |
+| Checkpoint respawn points ever watched (900 s soak) | — | 0% / 0% / 0% |
+| 900 s soak: stuck events / state changes | 0 / 0 | 0 / 0 |
+| Full mission with real input, no guards | — | 190 m walked, 5 interactions, WIN |
+
+**Evidence:** [`v2/`](v2/)
+- plans with doors and checkpoints: `layout_*.png`;
+- top views: `top_*.png`; navmesh: `navmesh_*.png`; `views/` (18 eye-height views);
+- the mission step by step with the HUD: `mission/01_start.png` … `mission/08_win.png`;
+- `soak/report.md` and `soak/summary.json` (with checkpoint exposure);
+- `test_run.txt`, `mutation_checks.txt`.
+
+**Open for the balancing phase:**
+- the service corridor (zone D) has no guard (P4 planned);
+- the 20–30 minute target needs timed playtests;
+- hiding spots are still markers.

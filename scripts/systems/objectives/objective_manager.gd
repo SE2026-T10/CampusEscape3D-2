@@ -35,6 +35,11 @@ const MVP_OBJECTIVES := [
 		"hint": "Use the door with the access card.", "done": "Escaped"},
 ]
 
+## This level's objectives, in order: dictionaries with id, title, hint and
+## done (see MVP_OBJECTIVES). Empty (the default) means the MVP flow, so the
+## tutorial needs no setting; the Expanded Library sets its own five.
+@export var objectives: Array[Dictionary] = []
+
 var _order: Array[StringName] = []
 var _info := {}    # id -> {title, hint, done}
 var _states := {}  # id -> State
@@ -43,7 +48,7 @@ var _states := {}  # id -> State
 func _ready() -> void:
 	add_to_group("objective_manager")
 	if _order.is_empty():
-		setup(MVP_OBJECTIVES)
+		setup(objectives if not objectives.is_empty() else MVP_OBJECTIVES)
 
 
 static func find(node: Node) -> ObjectiveManager:

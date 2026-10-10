@@ -28,7 +28,7 @@ The MVP is one polished level, built in Godot with GDScript, for Windows desktop
 
 - **From the editor:** open the project and press **F5**. The game starts on the main menu. Choose a map:
   - **Library Tutorial**: the original level, with its full mission.
-  - **Expanded Library**: the two-floor map. Graybox with six patrolling guards; there is no mission yet.
+  - **Expanded Library**: the two-floor map (graybox), six patrolling guards and a five-objective mission: get in, take a staff access card from the offices upstairs, steal the rare manuscript from the archive vault, unlock the archive's back gate and escape through the loading dock.
 - **Straight into a level** while developing: open `scenes/level/library_graybox.tscn` or `scenes/level/expanded_library.tscn` and press **F6**.
 - **Exported build:** run `CampusEscape3D.exe`.
 
@@ -88,12 +88,13 @@ Each map is one level scene with its gameplay systems as nodes in it; the main m
 
 ```
 scenes/ui/main_menu.tscn                 main scene: one button per map (LevelCatalog) / Quit
-scenes/level/expanded_library.tscn       the Expanded Library (graybox; same runtime systems, no mission yet)
+scenes/level/expanded_library.tscn       the Expanded Library (graybox; same runtime and mission systems; built by tools/expanded/)
 scenes/level/library_graybox.tscn        the Library Tutorial
 ├── NavigationRegion3D (+ library_navmesh.tres)   rooms, walls, shelves, furniture, carrels (HidingSpot)
 ├── Player (scenes/player/player.tscn)   FirstPersonPlayer + PlayerNoise + PlayerInteractor + PlayerFeedback
 ├── Guards                               PatrolRoute/PatrolPoint markers + Guard instances (scenes/npc/guard.tscn)
 ├── Gameplay                             ObjectiveManager, triggers, AccessCard, ExitDoor, CheckpointManager, Checkpoints
+│                                        (Expanded Library: also AccessDoor card / one-way doors)
 ├── StealthDirector                      overall stealth status, catching, level reset
 ├── NoiseSystem                          noise events → guards' hearing
 ├── GameFlow                             game state PLAYING / CAUGHT / PAUSED / WIN, pause, restart, scene changes
@@ -193,6 +194,16 @@ Crouching halves how fast a guard's meter fills, makes you a smaller target and 
 
 Objectives complete in order. The exit door stays locked (red) until you have the card. Trying it anyway rattles the door, which nearby guards can hear.
 
+**Expanded Library goal** (the same panel, five objectives):
+
+1. Enter the library.
+2. Take a staff access card (Office 2, upstairs in the staff wing).
+3. Retrieve the rare manuscript from the archive vault. The Archive Front Gate opens with the card (**E**); so does the Lobby Staff Door to the service corridor.
+4. Unlock the archive back gate. It opens only from inside the archive, and leads straight to the staff stair and the loading dock. You may open it before taking the manuscript.
+5. Escape through the loading dock exit (**E**). It stays sealed until the back gate is open.
+
+Checkpoints: Study Rooms, Staff Offices (back of Office 2) and Storage. Being caught undoes everything since the last checkpoint, doors included.
+
 **Checkpoints.** Step onto a checkpoint pad (Hallway West, and the Staff Nook off the back corridor) to make it your respawn point. It turns green.
 
 **Caught.** A chasing guard that reaches you catches you. After 2.5 s:
@@ -233,7 +244,7 @@ Press **F3** to show the navigation mesh (cyan), each guard's current path (yell
 
 ## Testing
 
-**Run the tests.** In the editor, open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, … Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards).`. From a terminal:
+**Run the tests.** In the editor, open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, … Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards, Expanded Library mission).`. From a terminal:
 
 ```
 godot --headless --path . --editor --quit          # first run only: imports the project
@@ -305,6 +316,7 @@ godot --headless --path . --script res://tools/map_flow.gd  # both maps selected
 
 - `tests/expanded_graybox_tests.gd` — Expanded Library graybox: scene structure, doorway and stair dimensions, navmesh on both floors, every planned location reachable, each stair on its own, planned gates and two approaches (rebaked with blockers), and a real-input walk of the main and alternative routes.
 - `tests/expanded_ai_tests.gd` — Expanded Library navigation and guards: both floors baked and sealed, every patrol point clear of doorways and stairs, all six guards completing their loops together with nothing stuck, vision (walls, shelves, the slab, the balcony railing), hearing (open, through a wall, through the slab), chase and loss of contact, a chase up a stair and back, head-on crossings in a door and on a stair, and one guard touring every gate and stair.
+- `tests/expanded_mission_tests.gd` — Expanded Library mission: the five objectives played with real input (walking, looking, E) from a fresh start to the win screen; every bypass refused (card doors without the card, one-way doors from the wrong side, the manuscript before the card, the exit before the shortcut) and closed doors blocking the walking player and a guard's sight; the back gate opened before the manuscript; captures before and right after the card, after the manuscript and after the shortcut, five repeated captures, level guards reset, no checkpoint during a chase; after every respawn the mission state equals the checkpoint's snapshot and items, doors, objectives, exit and HUD agree.
 - `tests/map_selection_tests.gd` — map selection: the catalog, one menu button per map with keyboard navigation, each button loading its map once, and for each map (loaded twice) one of each system, Restart → same map, Main menu → menu, signal connections made once, everything freed on leaving.
 
 **Before a release:** work through `docs/qa/REGRESSION_CHECKLIST.md`: the automated part, plus the manual checks on Windows.
@@ -484,4 +496,4 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 - `docs/phase-15-build-pipeline.md`
 - `docs/release-notes/v1.0.0.md`
 - **[`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md)** (final MVP report and release validation)
-- Expanded Library: `docs/expanded/phase-0-audit.md`, `docs/expanded/LAYOUT.md`, `docs/expanded/phase-1-graybox.md`, `docs/expanded/phase-2-map-selection.md`, `docs/expanded/phase-3-navigation-and-guards.md`, `docs/expanded/LEVEL_LOG.md`
+- Expanded Library: `docs/expanded/phase-0-audit.md`, `docs/expanded/LAYOUT.md`, `docs/expanded/phase-1-graybox.md`, `docs/expanded/phase-2-map-selection.md`, `docs/expanded/phase-3-navigation-and-guards.md`, `docs/expanded/phase-4-mission.md`, `docs/expanded/LEVEL_LOG.md`

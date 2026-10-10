@@ -15,6 +15,9 @@ extends SceneTree
 ## if a guard has it inside its 90° / 14 m view cone with a clear line of sight
 ## (the same geometry GuardVision uses) to a standing (1.5 m) or crouched
 ## (0.85 m) head. Exposure of a sample is the share of time it is watched.
+## The mission's access doors are opened first (the route goes through them;
+## open doors are the worst case for sight). The checkpoints' respawn points
+## are sampled the same way (standing head).
 
 const Layout := preload("res://tools/expanded/expanded_layout.gd")
 const SCENE := "res://scenes/level/expanded_library.tscn"
@@ -52,6 +55,11 @@ func _run() -> void:
 	for i in 30:
 		await physics_frame
 	_space = _level.get_world_3d().direct_space_state
+	for door in _level.get_tree().get_nodes_in_group("access_doors"):
+		door.open()
+	var respawns := {}
+	for cp in _level.get_tree().get_nodes_in_group("checkpoints"):
+		respawns[cp.checkpoint_name] = {"at": (cp as Checkpoint).get_spawn_transform().origin, "watched": 0}
 	var map := _level.get_world_3d().navigation_map
 	var samples := _route_samples(map)
 	var standing := PackedFloat32Array()
@@ -88,6 +96,9 @@ func _run() -> void:
 					standing[i] += 1.0
 				if _watched(guards, p + Vector3(0, HEAD_CROUCHED, 0)):
 					crouched[i] += 1.0
+			for name in respawns:
+				if _watched(guards, respawns[name].at + Vector3(0, HEAD_STANDING, 0)):
+					respawns[name].watched += 1
 	Engine.time_scale = 1.0
 	var real := (Time.get_ticks_msec() - started) / 1000.0
 	# Results.
@@ -99,6 +110,10 @@ func _run() -> void:
 		e["loops"] = floori(e.reached / float(e.points))
 		guard_rows[name] = e
 		ok = ok and e.stuck == 0 and e.state_changes == 0
+	var checkpoint_rows := {}
+	for name in respawns:
+		checkpoint_rows[name] = {"respawn": [snappedf(respawns[name].at.x, 0.01), snappedf(respawns[name].at.y, 0.01), snappedf(respawns[name].at.z, 0.01)],
+			"watched_pct": 100.0 * respawns[name].watched / maxf(ticks, 1)}
 	var exposure := []
 	for i in samples.size():
 		exposure.append({"at": [snappedf(samples[i].x, 0.01), snappedf(samples[i].y, 0.01), snappedf(samples[i].z, 0.01)],
@@ -106,12 +121,13 @@ func _run() -> void:
 	var summary := {
 		"date": Time.get_datetime_string_from_system(), "layout": Layout.VERSION, "engine": Engine.get_version_info().string,
 		"game_seconds": seconds, "time_scale": scale, "real_seconds": real, "guards": guard_rows,
-		"route": _route_stats(exposure), "samples": exposure,
+		"route": _route_stats(exposure), "checkpoints": checkpoint_rows, "samples": exposure,
 	}
 	print("Patrol soak %.0f s (×%.0f, %.0f s real): %s; route %d samples, ever seen standing %.0f%%, mean exposure %.1f%% (crouched %.1f%%), max %.0f%%, safe (<5%%) %.0f%%" % [
 		seconds, scale, real, ", ".join(guard_rows.keys().map(func(k): return "%s %d loops %d stuck" % [k, guard_rows[k].loops, guard_rows[k].stuck])),
 		samples.size(), summary.route.ever_seen_pct, summary.route.mean_standing_pct, summary.route.mean_crouched_pct,
 		summary.route.max_standing_pct, summary.route.safe_pct])
+	print("Checkpoint respawn points watched: %s" % ", ".join(checkpoint_rows.keys().map(func(k): return "%s %.1f%%" % [k, checkpoint_rows[k].watched_pct])))
 	if out != "":
 		var dir := ProjectSettings.globalize_path("res://" + out)
 		DirAccess.make_dir_recursive_absolute(dir)
@@ -193,6 +209,12 @@ func _write_report(path: String, s: Dictionary) -> void:
 		"| safe (watched < 5%% of the time) | %.0f%% of the route |" % r.safe_pct,
 		"| mean exposure standing / crouched | %.1f%% / %.1f%% |" % [r.mean_standing_pct, r.mean_crouched_pct],
 		"| most exposed metre (standing) | %.0f%% of the time |" % r.max_standing_pct, ""])
+	if s.has("checkpoints"):
+		lines.append_array(["**Checkpoint respawn points** (standing head):", "", "| Checkpoint | Respawn point | Watched |", "|---|---|---|"])
+		for name in s.checkpoints:
+			var c: Dictionary = s.checkpoints[name]
+			lines.append("| %s | %s | %.1f%% of the time |" % [name, c.respawn, c.watched_pct])
+		lines.append("")
 	var f := FileAccess.open(path, FileAccess.WRITE)
 	f.store_string("\n".join(lines))
 	f.close()

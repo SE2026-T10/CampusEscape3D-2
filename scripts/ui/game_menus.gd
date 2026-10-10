@@ -10,6 +10,9 @@ extends CanvasLayer
 ## (MenuStyle); pause, resume and victory sounds come from AudioDirector.
 
 var pause_panel: Control
+## The line under "ESCAPED" on the win screen (the Expanded Library sets its own).
+@export var win_message := "You got out of the library with the access card."
+
 var win_panel: Control
 var resume_button: Button
 var restart_button: Button
@@ -53,7 +56,7 @@ func _ready() -> void:
 	var fit := func(): title_holder.custom_minimum_size = win_title.get_combined_minimum_size()
 	win_title.minimum_size_changed.connect(fit)
 	fit.call()
-	win_box.add_child(MenuStyle.label("You got out of the library with the access card.", 18))
+	win_box.add_child(MenuStyle.label(win_message, 18))
 	_win_stats = MenuStyle.label("", 22)
 	win_box.add_child(_win_stats)
 	_win_objectives = MenuStyle.label("", 16)

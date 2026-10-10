@@ -178,6 +178,12 @@ class MapCanvas extends Node2D:
 				draw_circle(c, 12, Color(1.0, 0.85, 0.15))
 				_text(c + Vector2(-10, 5), "O%d" % (i + 1), 14, Color.BLACK)
 				_text(c + Vector2(15, 5), o.title, 14, Color(1.0, 0.92, 0.5))
+		for cp in Layout.CHECKPOINTS:
+			if _on_floor(cp.pos.y):
+				var c := _p(cp.pos.x, cp.pos.z)
+				draw_rect(Rect2(c - Vector2(9, 9), Vector2(18, 18)), Color(0.25, 0.95, 0.5))
+				_text(c + Vector2(-9, 5), "CP", 11, Color.BLACK)
+				_text(c + Vector2(13, 18), cp.name, 13, Color(0.6, 1.0, 0.75))
 		if not upper:
 			var s := _p(Layout.SPAWN.x, Layout.SPAWN.z)
 			draw_colored_polygon(PackedVector2Array([s + Vector2(0, -12), s + Vector2(10, 8), s + Vector2(-10, 8)]), Color(0.3, 1.0, 0.45))
@@ -235,10 +241,11 @@ class MapCanvas extends Node2D:
 		y += 30
 		var items := [
 			["line", WALL, "Wall (ground 4.2 m / upper 3.5 m)"], ["dash", Color(0.75, 0.85, 1.0), "Railing 1.1 m (balcony edge)"],
-			["thick", OPENING_COLOURS.gate, "Progression gate (planned lock)"], ["thick", OPENING_COLOURS.shortcut, "Shortcut (one-way, planned)"],
+			["thick", OPENING_COLOURS.gate, "Card door (staff access card)"], ["thick", OPENING_COLOURS.shortcut, "One-way door"],
 			["thick", OPENING_COLOURS.exit, "Exit door"], ["thick", OPENING_COLOURS.entrance, "Main entrance"],
 			["box", Color(0.3, 0.5, 0.85), "Stair ramp (arrow = up, 24°)"], ["box", Color(0.62, 0.42, 0.26), "Full cover (shelf / rack ≥ 2 m)"],
 			["box", Color(0.85, 0.72, 0.45), "Low cover (table / desk / crate)"], ["dot", Color(1.0, 0.85, 0.15), "Mandatory objective O1–O5"],
+			["box", Color(0.25, 0.95, 0.5), "Checkpoint (CP)"],
 			["dot", Color(0.3, 0.55, 1.0), "Hiding opportunity (H)"], ["line", PATROL_COLOURS[0], "Guard patrol (ring = guard start)"], ["dash", PATROL_COLOURS[3], "Planned loop, no guard yet"],
 		]
 		for item in items:

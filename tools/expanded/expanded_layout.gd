@@ -1,6 +1,6 @@
 extends RefCounted
 
-## Expanded Library — graybox layout data (version v0).
+## Expanded Library — graybox layout data (see VERSION; LEVEL_LOG.md has the history).
 ##
 ## The single source of truth for the graybox: the builder
 ## (tools/expanded/build_expanded_graybox.gd) turns it into
@@ -19,7 +19,7 @@ extends RefCounted
 ##   - stairs are 3 m wide ramps rising 4.5 m over 10 m (24°): the player has
 ##     no step-up, and the navmesh accepts slopes up to 45°
 
-const VERSION := "v1"
+const VERSION := "v2"
 
 const UPPER_Y := 4.5
 const SLAB_THICKNESS := 0.3
@@ -84,8 +84,8 @@ const FLOORS := [
 ## Opening types:
 ##   door / arch   open, with a header above DOOR_HEIGHT
 ##   entrance      the main entrance (open, header)
-##   gate          a planned progression gate (open in the graybox, red header)
-##   shortcut      a planned one-way shortcut (open in the graybox, amber header)
+##   gate          an access-controlled door (red header): a closed AccessDoor (see DOORS)
+##   shortcut      a one-way shortcut door (amber header): a closed AccessDoor (see DOORS)
 ##   stair         the gap in an upper-floor edge where a stair arrives (no header)
 ##   exit          the escape door: closed by a door panel (the level stays sealed)
 ## kind "railing" walls are RAILING_HEIGHT tall (balcony edges).
@@ -146,9 +146,9 @@ const WALLS := [
 		"openings": [{"at": -21, "width": 2, "type": "door", "name": "Vault Door"}]},
 	{"floor": "upper", "zone": "F", "a": [28, -18], "b": [36, -18]},
 	{"floor": "upper", "zone": "E", "a": [-6, -28], "b": [-6, -8],
-		"openings": [{"at": -11, "width": 2, "type": "gate", "name": "Staff Door (Stacks) G1b"}]},
+		"openings": [{"at": -11, "width": 2, "type": "door", "name": "Staff Door (Stacks) G1b"}]},
 	{"floor": "upper", "zone": "E", "a": [-6, -8], "b": [12, -8],
-		"openings": [{"at": 3, "width": 2, "type": "gate", "name": "Staff Wing Door G1a"}]},
+		"openings": [{"at": 3, "width": 2, "type": "door", "name": "Staff Wing Door G1a"}]},
 	{"floor": "upper", "zone": "E", "a": [-6, -14], "b": [12, -14],
 		"openings": [{"at": -3, "width": 2, "type": "door", "name": "Office 1 Door"},
 			{"at": 3, "width": 2, "type": "door", "name": "Office 2 Door"},
@@ -223,29 +223,67 @@ const COVER := [
 	{"zone": "F", "floor": "upper", "kind": "low", "rects": [[31.5, -16.5, 33.5, -14.5]], "h": 1.2},
 ]
 
-## The five mandatory objectives (planned; the mission is built in a later
-## phase). "pos" is where the player stands to complete it.
+## The mission: five objectives, in order (ObjectiveManager ids). "pos" is
+## where the player stands to complete it; "item" (optional) is where its
+## pickup sits; "trigger" (optional) is a box [x0, z0, x1, z1] on "y" that
+## completes it when the player is inside.
 const OBJECTIVES := [
-	{"id": "o1_key_code", "title": "Find the staff key code", "zone": "C", "pos": Vector3(3, 0, -18.8),
-		"note": "Study 3, on the desk. Opens the staff doors (G1a, G1b, G4)."},
-	{"id": "o2_keycard", "title": "Take the archive keycard", "zone": "E", "pos": Vector3(3, UPPER_Y, -22.2),
-		"note": "Office 2, behind the staff-wing doors."},
-	{"id": "o3_manuscript", "title": "Retrieve the rare manuscript", "zone": "F", "pos": Vector3(32, UPPER_Y, -23.6),
-		"note": "Archive vault. The archive gates G2 / G3 need the keycard."},
-	{"id": "o4_loading_dock", "title": "Reach the loading dock", "zone": "D", "pos": Vector3(27, 0, 20),
-		"note": "Return route: back gate → S2 staff stair → storage → dock."},
-	{"id": "o5_escape", "title": "Escape through the loading-dock exit", "zone": "D", "pos": Vector3(34.6, 0, 24),
-		"note": "The exit door in the east wall."},
+	{"id": "enter_library", "title": "Enter the library", "zone": "A", "pos": Vector3(0, 0, 20),
+		"trigger": [-11, 11, 11, 26.5], "trigger_y": 0.0,
+		"hint": "Go in through the main entrance.", "done": "You're inside. Find a way into the staff offices upstairs",
+		"note": "The lobby (trigger box over the whole room)."},
+	{"id": "take_card", "title": "Take a staff access card", "zone": "E", "pos": Vector3(3, UPPER_Y, -22.2),
+		"item": Vector3(3, UPPER_Y + 1.0, -23.5),
+		"hint": "Staff offices, upper floor: up the main stair (or the stacks stair), through the staff wing.",
+		"done": "Staff access card taken: staff-only doors now open for you",
+		"note": "Office 2, on the desk. Opens the card doors G2 and G4."},
+	{"id": "take_manuscript", "title": "Retrieve the rare manuscript", "zone": "F", "pos": Vector3(32, UPPER_Y, -23.6),
+		"item": Vector3(32, UPPER_Y + 1.15, -25),
+		"hint": "In the archive vault. The Archive Front Gate is at the east end of the staff corridor.",
+		"done": "Manuscript retrieved. Now find a faster way out",
+		"note": "Archive vault, on the pedestal. The archive is only reachable through G2 (card)."},
+	{"id": "unlock_shortcut", "title": "Unlock the archive back gate", "zone": "F", "pos": Vector3(28.8, UPPER_Y, -9),
+		"hint": "East side of the archive hall. It only opens from inside the archive.",
+		"done": "Back gate open: the staff stair leads down to the loading dock",
+		"note": "G3, one-way: opened from the archive side. Can be opened before the manuscript."},
+	{"id": "escape", "title": "Escape through the loading dock", "zone": "D", "pos": Vector3(34.6, 0, 24),
+		"hint": "Down the staff stair, through storage to the dock exit.", "done": "Escaped",
+		"note": "The exit door in the dock's east wall; sealed until the back gate is open."},
 ]
 
-## Planned gates and shortcut (the doorways named in WALLS). They are open in
-## the graybox; locking them is part of the mission phase.
+## Access-controlled doors (AccessDoor). "opening" names the doorway in WALLS.
+##   key       the objective that must be completed (KEY mode)
+##   open_from one-way door: the side it opens from, as a world direction [x, z]
+##   completes the objective opening it completes
+const DOORS := [
+	{"opening": "Archive Front Gate G2", "name": "Archive Front Gate", "key": "take_card", "key_name": "staff access card"},
+	{"opening": "Lobby Staff Door G4", "name": "Lobby Staff Door", "key": "take_card", "key_name": "staff access card"},
+	{"opening": "Archive Back Gate G3", "name": "Archive Back Gate", "open_from": [-1, 0], "completes": "unlock_shortcut"},
+	{"opening": "Service Shortcut SC1", "name": "Service Shortcut", "open_from": [1, 0]},
+]
+
+## The loading-dock exit (ExitDoor). It opens once the shortcut objective is done
+## (then the escape objective is ACTIVE).
+const EXIT_DOOR := {"opening": "Loading Dock Exit", "key": "unlock_shortcut",
+	"sign": "SEALED · STAFF EXIT", "prompt": "Exit locked (manuscript and back gate first)",
+	"reason": "The loading dock exit is sealed. First: %s."}
+
+## Checkpoints: a pad at "pos" (floor level); the player respawns there facing "facing" (degrees about y).
+const CHECKPOINTS := [
+	{"name": "Study Rooms", "node": "CheckpointStudyRooms", "zone": "C", "pos": Vector3(-3, 0, -18.5), "facing": 180.0},
+	# At the back of Office 2: more than 14 m (guard sight range) from the staff
+	# corridor, so no patrol sees it through the office door.
+	{"name": "Staff Offices", "node": "CheckpointStaffOffices", "zone": "E", "pos": Vector3(4.8, UPPER_Y, -26.3), "facing": 180.0},
+	{"name": "Storage", "node": "CheckpointStorage", "zone": "D", "pos": Vector3(31, 0, 8.5), "facing": 180.0},
+]
+
+const WIN_MESSAGE := "You got out with the rare manuscript."
+
+## Doors and gates by what opens them (the doorways named in WALLS; drawn on the maps).
 const GATES := [
-	{"opening": "Staff Wing Door G1a", "needs": "staff key code (O1)", "guards": "staff wing (O2)"},
-	{"opening": "Staff Door (Stacks) G1b", "needs": "staff key code (O1)", "guards": "staff wing (O2)"},
-	{"opening": "Lobby Staff Door G4", "needs": "staff key code (O1)", "guards": "service corridor from the lobby"},
-	{"opening": "Archive Front Gate G2", "needs": "archive keycard (O2)", "guards": "restricted archive (O3)"},
-	{"opening": "Archive Back Gate G3", "needs": "archive keycard (O2)", "guards": "restricted archive (O3)"},
+	{"opening": "Archive Front Gate G2", "needs": "staff access card (O2)", "guards": "restricted archive (O3, O4)"},
+	{"opening": "Lobby Staff Door G4", "needs": "staff access card (O2)", "guards": "service corridor from the lobby"},
+	{"opening": "Archive Back Gate G3", "needs": "one-way: opened from the archive (O4)", "guards": "return shortcut archive → staff stair"},
 	{"opening": "Service Shortcut SC1", "needs": "one-way: opened from the corridor side", "guards": "shortcut corridor → reading hall"},
 ]
 
@@ -273,7 +311,7 @@ const PATROLS := [
 	# Connecting patrol: reading hall → lobby → up S1 → balcony → staff corridor (G1a)
 	# → upper stacks (G1b) → down S3 → browsing hall → main stacks → reading hall.
 	{"id": "P8", "name": "Connector", "zone": "A", "y": 0.0, "guard": "GuardConnector", "wait": 1.5,
-		"points": [[0, 0, -5], [-3, 0, 15], [-10.35, UPPER_Y, 6.5], [4, UPPER_Y, 1], [3, UPPER_Y, -11],
+		"points": [[0, 0, -5], [-3, 0, 15], [-10.35, UPPER_Y, 6.5], [4, UPPER_Y, 1], [6, UPPER_Y, -11],
 			[-9, UPPER_Y, -11], [-30, UPPER_Y, 6], [-28, 0, 19]]},
 ]
 
@@ -301,8 +339,7 @@ const HIDING := [
 ## Intended player routes (design intent, drawn on the maps and walked by the tests).
 const ROUTES := [
 	{"name": "Main route", "colour": Color(0.25, 0.95, 0.95), "points": [
-		Vector3(0, 0, 32), Vector3(0, 0, 20), Vector3(0, 0, 10), Vector3(3, 0, -14), Vector3(3, 0, -18.8),
-		Vector3(3, 0, -14), Vector3(0, 0, 10), Vector3(-10.35, 0, 21.5), Vector3(-10.35, UPPER_Y, 8),
+		Vector3(0, 0, 32), Vector3(0, 0, 20), Vector3(-10.35, 0, 21.5), Vector3(-10.35, UPPER_Y, 8),
 		Vector3(2, UPPER_Y, -2), Vector3(3, UPPER_Y, -8), Vector3(3, UPPER_Y, -11), Vector3(3, UPPER_Y, -22.2),
 		Vector3(3, UPPER_Y, -11), Vector3(12, UPPER_Y, -11), Vector3(26.5, UPPER_Y, -11), Vector3(26.5, UPPER_Y, -21),
 		Vector3(32, UPPER_Y, -23.6), Vector3(26.5, UPPER_Y, -21), Vector3(26.5, UPPER_Y, -9), Vector3(30, UPPER_Y, -9),
@@ -312,10 +349,10 @@ const ROUTES := [
 		Vector3(0, 0, 20), Vector3(-12, 0, 24), Vector3(-20, 0, 19), Vector3(-34.35, 0, 21.5),
 		Vector3(-34.35, UPPER_Y, 8), Vector3(-33.5, UPPER_Y, 5), Vector3(-13, UPPER_Y, 5),
 		Vector3(-13, UPPER_Y, -10), Vector3(-6, UPPER_Y, -11), Vector3(3, UPPER_Y, -11)]},
-	{"name": "Alternative: service corridor to the archive back gate", "colour": Color(1.0, 0.6, 0.85), "points": [
-		Vector3(3, UPPER_Y, -11), Vector3(2, UPPER_Y, -2), Vector3(-10.35, UPPER_Y, 8), Vector3(-10.35, 0, 21.5),
-		Vector3(12, 0, 21), Vector3(14.5, 0, 10), Vector3(17, 0, 2), Vector3(29, 0, 9),
-		Vector3(34.35, 0, 5.5), Vector3(34.35, UPPER_Y, -8.5), Vector3(30, UPPER_Y, -9), Vector3(26.5, UPPER_Y, -11)]},
+	{"name": "Long way out without the shortcut (G2 → S1 → lobby → G4)", "colour": Color(1.0, 0.6, 0.85), "points": [
+		Vector3(26.5, UPPER_Y, -21), Vector3(26.5, UPPER_Y, -11), Vector3(12, UPPER_Y, -11), Vector3(3, UPPER_Y, -11),
+		Vector3(2, UPPER_Y, -2), Vector3(-10.35, UPPER_Y, 8), Vector3(-10.35, 0, 21.5), Vector3(12, 0, 21),
+		Vector3(14.5, 0, 21), Vector3(27, 0, 20), Vector3(34.6, 0, 24)]},
 	{"name": "Shortcut SC1 (one-way, corridor → reading hall)", "colour": Color(1.0, 0.8, 0.2), "points": [
 		Vector3(14.5, 0, 4), Vector3(12, 0, 4), Vector3(8, 0, 4)]},
 ]

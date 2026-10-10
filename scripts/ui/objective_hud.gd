@@ -57,9 +57,12 @@ func _connect_signals() -> void:
 	var checkpoints := CheckpointManager.find(self)
 	if checkpoints:
 		checkpoints.checkpoint_activated.connect(func(cp: Checkpoint): show_message("Checkpoint reached: %s" % cp.checkpoint_name, COLOUR_GOOD))
+	# Doors that refuse the player (the exit, and any access door) explain why.
 	for node in get_tree().get_nodes_in_group("interactables"):
-		if node is ExitDoor:
+		if node.has_signal("rejected"):
 			node.rejected.connect(func(reason: String): show_message(reason, COLOUR_WARNING))
+		if node.has_signal("opened"):
+			node.opened.connect(func(): show_message("%s opened" % node.get("door_name"), COLOUR_GOOD))
 
 
 func _process(delta: float) -> void:

@@ -7,6 +7,9 @@ extends Interactable
 ## the card was taken, the card is back on the desk.
 
 @export var objective_id: StringName = ObjectiveManager.TAKE_CARD
+## Prompt while the objective is not ACTIVE yet. (The pickup prompt is the
+## Interactable's `prompt`; left at its default it reads "Take the access card".)
+@export var waiting_prompt := "Access card (not yet)"
 ## Degrees per second the card model spins, so it catches the eye.
 @export var spin_speed := 60.0
 
@@ -15,7 +18,8 @@ extends Interactable
 
 func _ready() -> void:
 	super()
-	prompt = "Take the access card"
+	if prompt == "Interact":
+		prompt = "Take the access card"
 	_connect_manager.call_deferred()
 
 
@@ -37,7 +41,7 @@ func can_interact(by: Node) -> bool:
 
 
 func get_prompt(by: Node) -> String:
-	return prompt if can_interact(by) else "Access card (not yet)"
+	return prompt if can_interact(by) else waiting_prompt
 
 
 func is_taken() -> bool:

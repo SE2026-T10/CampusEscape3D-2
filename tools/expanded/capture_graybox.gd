@@ -23,17 +23,19 @@ const VIEWS := [
 	["03_main_stacks_aisle", Vector3(-26.5, EYE, 8.5), Vector3(-26.5, 1.4, -20)],
 	["04_browsing_hall_s3", Vector3(-16, EYE, 26), Vector3(-34, 2.4, 13)],
 	["05_reading_hall", Vector3(9, EYE, 8.5), Vector3(-6, 1.0, -12)],
-	["06_study_room_3_o1", Vector3(3, EYE, -15), Vector3(3, 0.8, -27)],
+	["06_study_room_3", Vector3(3, EYE, -15), Vector3(3, 0.8, -27)],
 	["07_service_corridor", Vector3(14.5, EYE, 26.5), Vector3(14.5, 1.5, -20)],
 	["08_storage_s2_staff_stair", Vector3(22, EYE, 10.5), Vector3(34.3, 2.6, -3)],
 	["09_loading_dock_exit", Vector3(19, EYE, 19), Vector3(36, 1.4, 24)],
 	["10_upper_stacks_from_s1", Vector3(-10.35, U + EYE, 8.5), Vector3(-22, U + 1.0, -12)],
 	["11_balcony_over_lobby", Vector3(2, U + EYE, 8.6), Vector3(0, 0.0, 22)],
 	["12_staff_corridor_gates", Vector3(-4.5, U + EYE, -11), Vector3(12, U + 1.2, -11)],
-	["13_office_2_o2", Vector3(3, U + EYE, -15), Vector3(3, U + 0.6, -24)],
+	["13_office_2_o2_card", Vector3(3, U + EYE, -15), Vector3(3, U + 0.6, -24)],
 	["14_archive_hall", Vector3(16.5, U + EYE, -7), Vector3(27, U + 0.8, -24)],
-	["15_vault_o3", Vector3(29, U + EYE, -19.5), Vector3(33, U + 0.6, -26)],
+	["15_vault_o3_manuscript", Vector3(29, U + EYE, -19.5), Vector3(33, U + 0.6, -26)],
 	["16_s2_landing_down", Vector3(34.35, U + EYE, -7.0), Vector3(34.35, 0.5, 8)],
+	["17_archive_back_gate_g3", Vector3(24, U + EYE, -9), Vector3(31, U + 1.2, -9)],
+	["18_loading_dock_exit_door", Vector3(31, EYE, 24), Vector3(36, 1.3, 24)],
 ]
 
 var _level: Node3D
@@ -58,7 +60,7 @@ func _run() -> void:
 	DirAccess.make_dir_recursive_absolute(dir.path_join("views"))
 	_level = (load(SCENE) as PackedScene).instantiate()
 	# Only the geometry and markers: no game flow, menus or player input.
-	for n in ["GameFlow", "GameMenus"]:
+	for n in ["GameFlow", "GameMenus", "ObjectiveHud"]:
 		_level.get_node(n).free()
 	(_level.get_node("Player") as Node).process_mode = Node.PROCESS_MODE_DISABLED
 	root.add_child(_level)
@@ -67,10 +69,11 @@ func _run() -> void:
 	_level.add_child(_camera)
 	_camera.make_current()
 	await _wait(10)
+	(_level.get_node("Layout") as Node3D).visible = true   # design markers (hidden in play, F3)
 
 	var upper := _level.get_node("NavigationRegion3D/Upper") as Node3D
 	var upper_labels: Array[Node3D] = []
-	for n in _all_nodes(_level.get_node("Layout")):
+	for n in _all_nodes(_level.get_node("Layout")) + _all_nodes(_level.get_node("Gameplay")):
 		if n is Node3D and n.global_position.y > U - 0.5 and (n is Label3D or n is MeshInstance3D):
 			upper_labels.append(n)
 	# Top views.

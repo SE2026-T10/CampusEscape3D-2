@@ -11,7 +11,7 @@ set -euo pipefail
 : "${GODOT:?Set GODOT to the Godot executable}"
 mkdir -p ci-logs
 
-echo "Running the test suite (about 4 minutes)"
+echo "Running the test suite (about 10 minutes)"
 set +e
 timeout 1200 "$GODOT" --headless --path . res://tests/test_scene.tscn > ci-logs/tests.log 2>&1
 status=$?

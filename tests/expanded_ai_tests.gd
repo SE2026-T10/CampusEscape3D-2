@@ -23,7 +23,11 @@ extends RefCounted
 ##      top, chases up the stair, loses them, searches upstairs and walks back
 ##      down to its patrol.
 ##   G. Narrow passages: two guards cross head-on in a 2 m doorway and on a
-##      stair; one guard tours every gate and all three stairs.
+##      stair; one guard tours every gate and all three stairs, through the
+##      mission's closed access doors (guards have keys: the door panels are
+##      not baked and guards pass them), which stay closed for the player.
+##   H. Checkpoints: no guard ever has a checkpoint's respawn point in view
+##      during the patrol run (B).
 
 const SCENE := "res://scenes/level/expanded_library.tscn"
 const GUARD_SCENE := "res://scenes/npc/guard.tscn"
@@ -33,6 +37,8 @@ const PATROL := GuardStateMachine.PATROL
 const INVESTIGATE := GuardStateMachine.INVESTIGATE
 const CHASE := GuardStateMachine.CHASE
 const U := Layout.UPPER_Y
+const GATES_TOURED := ["Lobby Staff Door G4", "Archive Back Gate G3", "Archive Front Gate G2", "Staff Wing Door G1a",
+	"Staff Door (Stacks) G1b", "Service Shortcut SC1"]
 
 var failures: Array[String] = []
 var _host: Node
@@ -119,6 +125,11 @@ func _check_patrols() -> void:
 		g.ai_state_changed.connect(func(_a, _b, _r): entry.changes += 1)
 	# The player stands at the spawn the whole time.
 	_player.global_position = Layout.SPAWN
+	# Checkpoint respawn points (standing head height), checked geometrically every 0.25 s.
+	var respawns := {}
+	for cp in _level.get_tree().get_nodes_in_group("checkpoints"):
+		respawns[cp.checkpoint_name] = 0
+	var next_sample := 0.0
 	var scale := 3.0
 	Engine.time_scale = scale
 	var game_time := 0.0
@@ -132,6 +143,11 @@ func _check_patrols() -> void:
 			e.ymax = maxf(e.ymax, g.global_position.y)
 			e.saw = e.saw or g.vision.can_see_target
 			all_done = all_done and _full_loop(e.reached, e.points)
+		if game_time >= next_sample:
+			next_sample += 0.25
+			for cp in _level.get_tree().get_nodes_in_group("checkpoints"):
+				if _watched(guards, (cp as Checkpoint).get_spawn_transform().origin + Vector3(0, 1.5, 0)):
+					respawns[cp.checkpoint_name] += 1
 		if all_done:
 			break
 	Engine.time_scale = 1.0
@@ -146,6 +162,10 @@ func _check_patrols() -> void:
 	var connector: Node3D = _level.get_node("Guards/GuardConnector")
 	var c: Dictionary = log[connector]
 	_expect(c.ymax > U - 0.2 and c.ymin < 0.2, "GuardConnector should patrol both floors (y %.2f…%.2f)." % [c.ymin, c.ymax])
+	_expect(respawns.size() == Layout.CHECKPOINTS.size(), "Expected %d checkpoints." % Layout.CHECKPOINTS.size())
+	for name in respawns:
+		_expect(respawns[name] == 0, "The %s checkpoint's respawn point was in a guard's view %d time(s) during the patrols." % [name, respawns[name]])
+	print("  [expanded-ai] checkpoints: respawn points %s never in a guard's view during the run" % ", ".join(respawns.keys()))
 	print("  [expanded-ai] patrols: 6 guards completed their loops in order in %.0f s game time, 0 stuck, all stayed in PATROL, spawn never seen; %s" % [
 		game_time, ", ".join(summary)])
 
@@ -313,21 +333,31 @@ func _check_narrow_passages() -> void:
 	guard.patrol_point_reached.connect(func(i): reached.append(i))
 	guard.got_stuck.connect(func(_i): stuck[0] += 1)
 	var passed := {}
+	var sides := {}
 	Engine.time_scale = 2.0
 	for i in 60 * 120:
 		await _host.get_tree().physics_frame
-		for g in Layout.GATES:
-			if guard.global_position.distance_to(Layout.find_opening(g.opening).centre) < 1.2:
-				passed[g.opening] = true
+		# Through = within 2.5 m of the doorway on one side, later on the other.
+		for name in GATES_TOURED:
+			var found := Layout.find_opening(name)
+			var offset: Vector3 = guard.global_position - found.centre
+			if offset.length() > 2.5:
+				continue
+			var side := signf(offset.z if found.along_x else offset.x)
+			if sides.has(name) and sides[name] != side and side != 0.0:
+				passed[name] = true
+			sides[name] = side
 		if reached.size() == tour.size():
 			break
 	Engine.time_scale = 1.0
 	_expect(reached.size() == tour.size() and stuck[0] == 0, "Tour: the guard should reach all %d points without getting stuck (reached %d, stuck %d)." % [
 		tour.size(), reached.size(), stuck[0]])
-	for name in ["Lobby Staff Door G4", "Archive Back Gate G3", "Archive Front Gate G2", "Staff Wing Door G1a", "Staff Door (Stacks) G1b", "Service Shortcut SC1"]:
+	for name in GATES_TOURED:
 		_expect(passed.has(name), "Tour: the guard never went through %s." % name)
+	var doors := _level.get_tree().get_nodes_in_group("access_doors")
+	_expect(doors.size() == 4 and doors.all(func(d): return not d.is_open), "Tour: the access doors should still be closed (the guard passes them, it doesn't open them).")
 	await _free_guard(guard)
-	print("  [expanded-ai] narrow passages: head-on crossings in a 2 m door and on S2; tour through G1a, G1b, G2, G3, G4, SC1, up S2, down S3, up and down S1, with 0 stuck")
+	print("  [expanded-ai] narrow passages: head-on crossings in a 2 m door and on S2; tour through G1a, G1b and the closed G2, G3, G4, SC1, up S2, down S3, up and down S1, with 0 stuck")
 
 
 # --- Helpers ------------------------------------------------------------------------------------
@@ -401,6 +431,17 @@ func _wait_state(guard: Guard, state: int, seconds: float) -> bool:
 			return true
 		await _host.get_tree().physics_frame
 	return guard.machine.current == state
+
+
+## Is `head` inside some guard's view cone and range with a clear line of sight (world layer)?
+func _watched(guards: Array[Guard], head: Vector3) -> bool:
+	for g in guards:
+		var eye: Vector3 = g.vision.global_position
+		if not g.vision.is_in_view(head):
+			continue
+		if _level.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(eye, head, 1)).is_empty():
+			return true
+	return false
 
 
 func _length(path: PackedVector3Array) -> float:

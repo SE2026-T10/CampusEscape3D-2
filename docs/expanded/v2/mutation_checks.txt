@@ -1,0 +1,123 @@
+# Phase 4 mutation checks (2026-10-09). Each mutation below was applied to a copy of the
+# Phase 4 working tree (one change, everything else the same), the project re-imported and
+# the named test file run on it. Linux VM, headless, Godot 4.7.2.stable.official.ed1daf0bf.
+# With the code as delivered, the same files pass: RESULT 0 failures (see test_run.txt).
+
+## M1: scripts/systems/checkpoints/checkpoint_manager.gd: restore_checkpoint() no longer restores the "checkpoint_state" snapshot (door states).
+## run: tests/expanded_mission_tests.gd
+FAIL: [expanded-mission] The front gate opened with that card is closed again.
+FAIL: [expanded-mission] caught right after the card: Archive Front Gate is open without the card.
+FAIL: [expanded-mission] Card kept after the checkpoint saved it; the gate is still to open.
+FAIL: [expanded-mission] The kept card still opens the gate.
+FAIL: [expanded-mission] The gate opened after the checkpoint is closed again.
+FAIL: [expanded-mission] Back gate, front gate and manuscript all reset to the Staff Offices snapshot.
+FAIL: [expanded-mission] Capture 1: the mission state should equal the checkpoint's snapshot.
+FAIL: [expanded-mission] Capture 2: the mission state should equal the checkpoint's snapshot.
+FAIL: [expanded-mission] Capture 3: the mission state should equal the checkpoint's snapshot.
+FAIL: [expanded-mission] Capture 4: the mission state should equal the checkpoint's snapshot.
+FAIL: [expanded-mission] Capture 5: the mission state should equal the checkpoint's snapshot.
+FAIL: [expanded-mission] Captures counted, no extra checkpoint activations.
+RESULT 12 failures in 134.1 s
+
+## M2: scripts/systems/objectives/access_door.gd: KEY doors no longer check the key objective (open without the card).
+## run: tests/expanded_mission_tests.gd
+FAIL: [expanded-mission] Locked prompt, got '[E] Open the archive front gate'.
+FAIL: [expanded-mission] Archive Front Gate must not open without the card.
+FAIL: [expanded-mission] Rejection message, got 'Archive Front Gate opened'.
+FAIL: [expanded-mission] Rattling Archive Front Gate should make a noise.
+FAIL: [expanded-mission] Archive Front Gate should be focused from (13.4, 4.5, -11.0).
+FAIL: [expanded-mission] Locked prompt, got ''.
+FAIL: [expanded-mission] Archive Front Gate must not open without the card.
+FAIL: [expanded-mission] Rejection message, got 'Archive Front Gate opened'.
+FAIL: [expanded-mission] Rattling Archive Front Gate should make a noise.
+FAIL: [expanded-mission] Locked prompt, got '[E] Open the lobby staff door'.
+FAIL: [expanded-mission] Lobby Staff Door must not open without the card.
+FAIL: [expanded-mission] Rejection message, got 'Lobby Staff Door opened'.
+FAIL: [expanded-mission] Rattling Lobby Staff Door should make a noise.
+FAIL: [expanded-mission] Lobby Staff Door should be focused from (13.4, 0.0, 21.0).
+FAIL: [expanded-mission] Locked prompt, got ''.
+FAIL: [expanded-mission] Lobby Staff Door must not open without the card.
+FAIL: [expanded-mission] Rejection message, got 'Lobby Staff Door opened'.
+FAIL: [expanded-mission] Rattling Lobby Staff Door should make a noise.
+RESULT 18 failures in 134.2 s
+
+## M3: scripts/systems/objectives/access_door.gd: ONE_WAY doors no longer check the side (open from either side).
+## run: tests/expanded_mission_tests.gd
+FAIL: [expanded-mission] One-way prompt, got '[E] Open the archive back gate'.
+FAIL: [expanded-mission] Archive Back Gate must not open from the wrong side.
+FAIL: [expanded-mission] One-way message, got 'Archive Back Gate opened'.
+FAIL: [expanded-mission] One-way prompt, got '[E] Open the service shortcut'.
+FAIL: [expanded-mission] Service Shortcut must not open from the wrong side.
+FAIL: [expanded-mission] One-way message, got 'Service Shortcut opened'.
+FAIL: [expanded-mission] The exit must stay sealed until the back gate is open.
+FAIL: [expanded-mission] Got 'Back gate open: the staff stair leads down to the loading dock'.
+FAIL: [expanded-mission] The card does not open the one-way back gate from outside.
+RESULT 9 failures in 134.3 s
+
+## M4: scripts/systems/objectives/access_door.gd: a door opened early no longer completes its objective when that objective becomes ACTIVE.
+## run: tests/expanded_mission_tests.gd
+FAIL: [expanded-mission] With the gate already open, taking the manuscript completes the shortcut objective too (current unlock_shortcut).
+FAIL: [expanded-mission] manuscript after gate: the back gate is open but its objective is still ACTIVE.
+FAIL: [expanded-mission] The exit opens once both are done.
+RESULT 3 failures in 134.3 s
+
+## M6: scripts/systems/objectives/exit_door.gd: the exit opens as soon as the card is taken (not only when "escape" is ACTIVE).
+## run: tests/expanded_mission_tests.gd
+FAIL: [expanded-mission] full mission, StaffAccessCard: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] full mission, ArchiveFrontGateG2: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] full mission, RareManuscript: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] full mission, ExitDoor: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] The exit must stay sealed until the back gate is open.
+FAIL: [expanded-mission] Got 'Manuscript retrieved. Now find a faster way out'.
+FAIL: [expanded-mission] no bypass: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] card doors: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] gate before manuscript: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] caught after the card was saved: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] caught after the manuscript: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] caught after the shortcut, before Storage: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] capture 1: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] capture 2: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] capture 3: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] capture 4: the exit must be unlocked exactly when escape is current.
+FAIL: [expanded-mission] capture 5: the exit must be unlocked exactly when escape is current.
+RESULT 17 failures in 134.1 s
+
+## M7: scripts/systems/objectives/access_card.gd: a taken item stays visible.
+## run: tests/expanded_mission_tests.gd
+FAIL: [expanded-mission] full mission, StaffAccessCard: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] full mission, ArchiveFrontGateG2: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] full mission, RareManuscript: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] full mission, RareManuscript: RareManuscript must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] full mission, ArchiveBackGateG3: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] full mission, ArchiveBackGateG3: RareManuscript must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] full mission, ExitDoor: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] full mission, ExitDoor: RareManuscript must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] no bypass: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] no bypass: RareManuscript must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] Taking the card completes O2.
+FAIL: [expanded-mission] card doors: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] gate before manuscript: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] manuscript after gate: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] manuscript after gate: RareManuscript must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] caught after the card was saved: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] Manuscript taken.
+FAIL: [expanded-mission] caught after the manuscript: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] caught after the shortcut, before Storage: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] Everything saved at Storage is kept: gates open, manuscript held, exit unlocked.
+FAIL: [expanded-mission] caught after Storage: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] caught after Storage: RareManuscript must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] capture 1: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] capture 2: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] capture 3: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] capture 4: StaffAccessCard must be on display exactly while its objective is not done.
+FAIL: [expanded-mission] capture 5: StaffAccessCard must be on display exactly while its objective is not done.
+RESULT 27 failures in 134.3 s
+
+## M5: scripts/systems/objectives/access_door.gd: guards no longer get a collision exception with door panels.
+## run: tests/expanded_ai_tests.gd
+FAIL: [expanded-ai] Tour: the guard should reach all 16 points without getting stuck (reached 11, stuck 5).
+FAIL: [expanded-ai] Tour: the guard never went through Lobby Staff Door G4.
+FAIL: [expanded-ai] Tour: the guard never went through Archive Back Gate G3.
+FAIL: [expanded-ai] Tour: the guard never went through Archive Front Gate G2.
+FAIL: [expanded-ai] Tour: the guard never went through Service Shortcut SC1.
+RESULT 5 failures in 234.6 s

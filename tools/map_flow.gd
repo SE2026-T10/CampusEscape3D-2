@@ -12,6 +12,8 @@ extends SceneTree
 ##   - each level's signal connections are made once (counts do not grow)
 ##   - the game is playing and unpaused in a level, the cursor free on the menu
 ##   - node and orphan counts on the menu do not grow from cycle to cycle
+##   - the mission starts clean on every load: progress made before Restart
+##     (first objectives completed, access doors opened) is gone afterwards
 ##
 ##   godot --headless --path . --script res://tools/map_flow.gd
 ##   godot --path . --resolution 1280x720 --script res://tools/map_flow.gd -- --out=docs/expanded/phase2
@@ -23,7 +25,7 @@ const CYCLES := 3
 const G := GameStateMachine.State
 ## Groups of the level-wide systems: exactly one in every level, none on the menu.
 const LEVEL_SYSTEMS := ["game_flow", "stealth_director", "noise_system", "audio_director", "player"]
-## Mission systems: one in the tutorial, none in the Expanded Library yet.
+## Mission systems: one in each map.
 const MISSION_SYSTEMS := ["objective_manager", "checkpoint_manager"]
 
 var _out := ""
@@ -63,8 +65,12 @@ func _run() -> void:
 			button.pressed.emit()
 			var level: Node = await _wait_for_scene(before_id, true)
 			_check_level(level, path, before, "Cycle %d: %s selected from the menu" % [cycle + 1, title])
+			_check(_mission_is_clean(level), "Cycle %d: %s starts with a clean mission." % [cycle + 1, title])
 			if cycle == 0:
 				await _shot("level_" + String(LevelCatalog.id_of_scene(path)))
+			# Make some progress, to check that Restart throws it away.
+			var made := _make_progress(level)
+			_check(made, "Cycle %d: %s — progress made before restarting." % [cycle + 1, title])
 			# Restart it from the pause menu.
 			before = weakref(level)
 			before_id = level.get_instance_id()
@@ -74,6 +80,7 @@ func _run() -> void:
 			(level.get_node("GameMenus") as GameMenus).restart_button.pressed.emit()
 			level = await _wait_for_scene(before_id, true)
 			_check_level(level, path, before, "Cycle %d: %s restarted (Pause → Restart level)" % [cycle + 1, title])
+			_check(_mission_is_clean(level), "Cycle %d: %s restarted with a clean mission (no progress, every access door closed, no checkpoint)." % [cycle + 1, title])
 			# Back to the menu.
 			before = weakref(level)
 			before_id = level.get_instance_id()
@@ -131,6 +138,29 @@ func _check_level(level: Node, path: String, previous: WeakRef, what: String) ->
 	ok = ok and same and connections.get("player_caught", 0) == 1
 	_check(ok, "%s: loads %s, previous scene freed, playing and unpaused, one of each system %s, connections %s%s." % [
 		what, path.get_file(), counts, connections, "" if same else " (first load: %s)" % [_connection_counts[path]]])
+
+
+## Completes the first two objectives and opens every access door. True if anything changed.
+func _make_progress(level: Node) -> bool:
+	var objectives := level.get_node_or_null("Gameplay/ObjectiveManager") as ObjectiveManager
+	if objectives == null:
+		return false
+	var ids := objectives.get_ids()
+	objectives.complete(ids[0])
+	objectives.complete(ids[1])
+	for door in get_nodes_in_group("access_doors"):
+		door.open()
+	return objectives.completed_count() == 2
+
+
+func _mission_is_clean(level: Node) -> bool:
+	var objectives := level.get_node_or_null("Gameplay/ObjectiveManager") as ObjectiveManager
+	var checkpoints := level.get_node_or_null("Gameplay/CheckpointManager") as CheckpointManager
+	if objectives == null or checkpoints == null:
+		return false
+	var doors_closed := get_nodes_in_group("access_doors").all(func(d): return not d.is_open)
+	return objectives.completed_count() == 0 and objectives.current() == objectives.get_ids()[0] \
+		and doors_closed and checkpoints.active == null
 
 
 func _check_menu(menu: Node, _index: int) -> void:

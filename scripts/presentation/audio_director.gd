@@ -72,9 +72,12 @@ func _connect() -> void:
 	if checkpoints:
 		checkpoints.checkpoint_activated.connect(func(_cp): play_sfx("checkpoint", -6.0))
 	for node in get_tree().get_nodes_in_group("interactables"):
-		if node is ExitDoor:
+		if node.has_signal("rejected"):
 			node.rejected.connect(func(_reason): play_sfx("door_locked", -2.0))
+		if node is ExitDoor:
 			node.escaped.connect(func(): play_sfx("door_open", -3.0))
+		if node.has_signal("opened"):
+			node.opened.connect(func(): play_sfx("door_open", -3.0))
 	var flow := GameFlow.find(self)
 	if flow:
 		flow.state_changed.connect(_on_game_state_changed)
