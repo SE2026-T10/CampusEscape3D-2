@@ -28,6 +28,10 @@ extends RefCounted
 ##      and both alternative routes with real input, up and down all three
 ##      stairs, through every gate. (Closed doors and the mission itself:
 ##      tests/expanded_mission_tests.gd.)
+##   H. Dressing (v4): the decoration has no collision, every solid piece is
+##      still one box collider, and no decorative mesh reaches into the space
+##      agents walk in (it stays inside, on or right next to the colliders), so
+##      collision, the navmesh and the guards' sight are those of the graybox.
 
 const SCENE := "res://scenes/level/expanded_library.tscn"
 const NAVMESH := "res://scenes/level/expanded_library_navmesh.tres"
@@ -77,6 +81,7 @@ func run(host: Node) -> Array[String]:
 		flow.change_scene = func(_path: String): pass
 	_check_ramp_headroom()
 	_check_navmesh()
+	_check_dressing()
 	_check_reachability()
 	_check_stairs()
 	await _check_approaches_and_gates()
@@ -133,13 +138,33 @@ func _check_scene_structure() -> void:
 		if (body as StaticBody3D).collision_layer != 1:
 			wrong_layer += 1
 	_expect(wrong_layer == 0, "%d static bodies are not on the world layer only." % wrong_layer)
+	# v3 balance: real hiding spots, signs, and this level's detection tuning (the tutorial keeps its defaults).
+	var spots := level.get_node("Gameplay/HidingSpots").get_children()
+	_expect(spots.size() == Layout.HIDING.size() and spots.all(func(n): return n is HidingSpot),
+		"Every hiding spot in the layout should be a HidingSpot (%d of %d)." % [spots.size(), Layout.HIDING.size()])
+	_expect(level.get_node("Dressing/Signs").get_child_count() == Layout.SIGNS.size(), "Every sign in the layout should be built.")
+	var tuned := 0
+	for g in level.get_node("Guards").get_children():
+		if g is Guard:
+			var v: GuardVision = g.get_node("Vision")
+			if is_equal_approx(v.min_rise_rate, Layout.GUARD_VISION.min_rise_rate) and is_equal_approx(v.max_rise_rate, Layout.GUARD_VISION.max_rise_rate) \
+					and is_equal_approx(g.chase_speed, Layout.GUARD_TUNING.chase_speed):
+				tuned += 1
+	_expect(tuned == 6, "All six guards should carry the level's detection tuning (%d do)." % tuned)
 	level.free()
+	var tutorial := (load(TUTORIAL) as PackedScene).instantiate()
+	for g in tutorial.get_node("Guards").get_children():
+		if g is Guard:
+			var v: GuardVision = g.get_node("Vision")
+			_expect(is_equal_approx(v.min_rise_rate, 12.0) and is_equal_approx(v.max_rise_rate, 60.0) and is_equal_approx(g.chase_speed, 4.2),
+				"The tutorial's %s must keep the default detection rates and chase speed." % g.name)
+	tutorial.free()
 	# The game still starts at the menu; the tutorial stays its own scene and the menu's first map.
 	_expect(ProjectSettings.get_setting("application/run/main_scene") == "res://scenes/ui/main_menu.tscn", "The main scene must still be the main menu.")
 	_expect(MainMenu.LEVEL_SCENE == TUTORIAL and LevelCatalog.LEVELS[0].scene == TUTORIAL, "The tutorial must stay the default (first) map.")
 	_expect(LevelCatalog.scene_of(LevelCatalog.EXPANDED) == SCENE, "The menu's Expanded Library entry must load this scene.")
 	_expect(SCENE != TUTORIAL and ResourceLoader.exists(TUTORIAL), "The tutorial scene must still exist as its own scene.")
-	print("  [expanded] scene: 6 zones (4 ground, 2 upper), 3 stairs, 5 objective locations, shared runtime and mission systems; tutorial is still its own scene and the default map")
+	print("  [expanded] scene: 6 zones (4 ground, 2 upper), 3 stairs, 5 objective locations, shared runtime and mission systems, %d hiding spots, %d signs, tuned guards; tutorial is still its own scene, the default map, with default guards" % [Layout.HIDING.size(), Layout.SIGNS.size()])
 
 
 # --- B. Dimensions (from the layout the scene is built from) -------------------------------
@@ -227,6 +252,85 @@ func _on_a_stair(p: Vector3) -> bool:
 		if p.x >= s.x0 - 0.5 and p.x <= s.x1 + 0.5 and p.z >= minf(s.z_low, s.z_high) - 0.5 and p.z <= maxf(s.z_low, s.z_high) + 0.5:
 			return true
 	return false
+
+
+# --- H. Dressing ----------------------------------------------------------------------------
+
+## How close (metres, horizontally) decoration may come to the navmesh at body
+## height. The navmesh keeps 0.5 m from every collider, so decoration up to
+## 0.35 m out from a collider passes; the player's capsule (radius 0.35 m) can't
+## get inside anything that stays within that.
+const DRESSING_CLEARANCE := 0.15
+
+
+func _check_dressing() -> void:
+	# No collision anywhere in the decoration.
+	var dressing := _level.get_node_or_null("Dressing")
+	_expect(dressing != null, "The scene must have its Dressing.")
+	if dressing:
+		var solid := _all(dressing, func(n): return n is CollisionObject3D or n is CollisionShape3D)
+		_expect(solid.is_empty(), "%d collision nodes in the decoration (e.g. %s)." % [solid.size(), solid[0].get_path() if solid.size() > 0 else ""])
+	# Every solid piece is exactly one box collider; what is on it is mesh only.
+	var odd: Array[String] = []
+	for body in _all(_region, func(n): return n is StaticBody3D):
+		var parts := _all(body, func(n): return n != body and (n is CollisionShape3D or n is CollisionObject3D))
+		if parts.size() != 1 or not (parts[0] is CollisionShape3D and (parts[0] as CollisionShape3D).shape is BoxShape3D):
+			odd.append(String(body.name))
+	_expect(odd.is_empty(), "Solid pieces with other than one box collider: %s." % ", ".join(odd.slice(0, 5)))
+	# Nothing decorative in the space agents walk in, from 0.1 to 1.9 m above the navmesh.
+	var mesh := _region.navigation_mesh
+	var vertices := mesh.get_vertices()
+	var polys := []
+	for i in mesh.get_polygon_count():
+		var outline := PackedVector2Array()
+		var lo := INF
+		var hi := -INF
+		for k in mesh.get_polygon(i):
+			var v: Vector3 = _region.global_transform * vertices[k]
+			outline.append(Vector2(v.x, v.z))
+			lo = minf(lo, v.y)
+			hi = maxf(hi, v.y)
+		var bounds := Rect2(outline[0], Vector2.ZERO)
+		for p in outline:
+			bounds = bounds.expand(p)
+		polys.append([outline, bounds, lo + 0.1, hi + 1.9])
+	var skip := ["Player", "Guards", "Gameplay", "Layout", "NavigationDebug"].map(func(n): return _level.get_node(n))
+	# Every collider's box: decoration entirely inside one is harmless (a piece's own tiles).
+	var solids: Array[AABB] = []
+	for shape in _all(_level, func(n): return n is CollisionShape3D and n.get_parent() is StaticBody3D):
+		var size := ((shape as CollisionShape3D).shape as BoxShape3D).size
+		solids.append((shape as Node3D).global_transform * AABB(-size / 2.0, size))
+	# What to check: each decorative mesh, and each box of the BatchedBoxes (the
+	# builder merges the static boxes into these MultiMeshes of unit boxes).
+	var items := []   # [name, AABB]
+	for gi in _all(_level, func(n): return n is GeometryInstance3D):
+		if skip.any(func(s): return s.is_ancestor_of(gi)) or gi.name == "Nosing":
+			continue   # gameplay, characters; the stair stripes lie flush on the ramps (built so)
+		if gi is BatchedBoxes:
+			for i in (gi as BatchedBoxes).box_count():
+				items.append(["%s #%d" % [_level.get_path_to(gi), i], (gi as Node3D).global_transform * (gi as BatchedBoxes).box_aabb(i)])
+		else:
+			items.append([String(_level.get_path_to(gi)), (gi as Node3D).global_transform * (gi as GeometryInstance3D).get_aabb()])
+	var checked := 0
+	var intruding: Array[String] = []
+	for item in items:
+		var box: AABB = item[1]
+		if solids.any(func(solid: AABB): return solid.grow(0.01).encloses(box)):
+			continue   # inside a collider
+		if box.size.y <= 0.02 and (absf(box.position.y) < 0.02 or absf(box.position.y - Layout.UPPER_Y) < 0.02):
+			continue   # flat on a floor (a rug, a stair landing strip): walked over
+		var rect := Rect2(box.position.x, box.position.z, box.size.x, box.size.z).grow(DRESSING_CLEARANCE)
+		var square := PackedVector2Array([rect.position, Vector2(rect.end.x, rect.position.y), rect.end, Vector2(rect.position.x, rect.end.y)])
+		checked += 1
+		for p in polys:
+			if box.end.y <= p[2] or box.position.y >= p[3] or not (p[1] as Rect2).intersects(rect):
+				continue
+			if not Geometry2D.intersect_polygons(square, p[0]).is_empty():
+				intruding.append(String(item[0]))
+				break
+	_expect(intruding.is_empty(), "%d decorative meshes reach into the walkable space: %s." % [intruding.size(), ", ".join(intruding.slice(0, 6))])
+	print("  [expanded] dressing: no collision in the decoration, %d solid pieces with one box collider each; of %d decorative meshes and batched boxes, %d outside the colliders, %d reaching into the walkable space (%.2f m clearance)" % [
+		_all(_region, func(n): return n is StaticBody3D).size(), items.size(), checked, intruding.size(), DRESSING_CLEARANCE])
 
 
 # --- D. Reachability ------------------------------------------------------------------------

@@ -1,14 +1,14 @@
-# Expanded Library — Layout Design (v2)
+# Expanded Library — Layout Design (v4)
 
 The design of the second, larger map: a two-floor university library with six major zones. It is a separate scene (`scenes/level/expanded_library.tscn`) next to the tutorial, which is unchanged.
 
-**Status:** graybox, with simple boxes and placeholder colours, chosen from the main menu (Phase 2), with six guards (Phase 3) and the full five-objective mission (Phase 4): access doors, a one-way return shortcut, the exit, three checkpoints. Difficulty balancing and the 20–30 minute target are the next phase. Hiding spots and the unguarded patrol loops are still **planned locations** (markers).
+**Status:** chosen from the main menu (Phase 2), with six guards (Phase 3) and the full five-objective mission (Phase 4): access doors, a one-way return shortcut, the exit, three checkpoints. Balanced in Phase 5 (v3: patrols, detection tuning, hiding spots, signs, an entrance screen; [`phase-5-balance.md`](phase-5-balance.md)). **Dressed in Phase 6 (v4):** the tutorial's low-poly library look on both floors (bookcases with books, desks and chairs, trims, wainscots, rugs, windows, ceilings and lights), with the same colliders, navmesh and stealth balance as v3 ([`phase-6-visual-polish.md`](phase-6-visual-polish.md), [Look and lighting](#look-and-lighting-v4) below). The unguarded loops (P2b, P3, P6) are still **planned** markers.
 
-**Plans:** [`v2/layout_ground.png`](v2/layout_ground.png) and [`v2/layout_upper.png`](v2/layout_upper.png), drawn from the layout data. Screenshots of the built level are in [`v2/`](v2/), and of the mission with its HUD in [`v2/mission/`](v2/mission/). Earlier versions: [`v0/`](v0/), [`v1/`](v1/).
+**Plans:** [`v3/layout_ground.png`](v3/layout_ground.png) and [`v3/layout_upper.png`](v3/layout_upper.png), drawn from the layout data (v4 changed no geometry, so they still apply). Screenshots of the dressed level are in [`v4/views/`](v4/views/) (before/after pairs in [`v4/compare/`](v4/compare/)), the mission with its HUD in [`v4/mission/`](v4/mission/), and coverage heat maps in [`v3/coverage/`](v3/coverage/). Earlier versions: [`v0/`](v0/), [`v1/`](v1/), [`v2/`](v2/), [`v3/`](v3/).
 
 | | |
 |---|---|
-| ![Ground floor plan](v2/layout_ground.png) | ![Upper floor plan](v2/layout_upper.png) |
+| ![Ground floor plan](v3/layout_ground.png) | ![Upper floor plan](v3/layout_upper.png) |
 
 ## Where the layout lives
 
@@ -19,10 +19,12 @@ The design of the second, larger map: a two-floor university library with six ma
 | `tools/expanded/build_expanded_graybox.gd` | builds the scene and bakes its navmesh from the data |
 | `tools/expanded/capture_graybox.gd` | screenshots of the built scene (top views, navmesh, eye-height views) |
 | `tools/expanded/capture_mission.gd` | screenshots of the mission with the HUD, one per step |
+| `tools/expanded/capture_views.gd` | v4: the same 20 player views + 2 overviews on any build, for before/after comparisons |
+| `tools/expanded/light_report.gd`, `profile_expanded.gd`, `collision_fingerprint.gd` | v4: lights against the renderer's limits and on the guards' routes; a rendering profile; a fingerprint of every collider, guard and patrol point (two builds compare with `diff`) |
 | `scenes/level/expanded_library.tscn`, `expanded_library_navmesh.tres` | the built level (layout, guards, mission) |
 | `tests/expanded_graybox_tests.gd`, `expanded_ai_tests.gd`, `expanded_mission_tests.gd` | the layout, guard and mission tests (part of the suite) |
 
-While the map is a graybox, **change the data and rebuild; don't hand-edit the scene**:
+**Change the data and rebuild; don't hand-edit the scene** (this still holds with the v4 dressing, which the builder makes from the same data):
 
 ```
 godot --headless --path . --script res://tools/expanded/build_expanded_graybox.gd
@@ -150,37 +152,67 @@ The spawn is (0, 0.05, 32) on the porch, facing north.
 | Checkpoint | Where | Why there |
 |---|---|---|
 | Study Rooms | C, Study 2 (−3, 0, −18.5) | a quiet pocket off the reading hall |
-| Staff Offices | E, back of Office 2 (4.8, 4.5, −26.3) | after the climb; more than 14 m (guard sight range) from the staff corridor |
+| Staff Offices | E, Office 2: pad in front of the card desk (3, 4.5, −21.6), respawn at the back (4.8, 4.5, −26.3) | taking the card always saves (v3); the respawn point is more than 14 m (guard sight range) from the staff corridor |
 | Storage | D, storage near the S2 foot (31, 0, 8.5) | on the way out, after the shortcut |
 
 No guard has a respawn point in view during the patrols (`expanded_ai_tests`, and the soak in `v2/soak/`).
 
-## Guards and patrol loops (v1, v2)
+## Guards and patrol loops (v3)
 
-Six guards, using the existing guard scene and AI (PATROL / INVESTIGATE / CHASE), each walking a loop from the layout data. The tests and a 900 s soak (`v1/soak/report.md`) show every loop completes with no stuck events.
+Six guards, using the existing guard scene and AI (PATROL / INVESTIGATE / CHASE), each walking a loop from the layout data. The tests and the soaks show every loop completes with no stuck events.
+
+**This level's tuning (v3)** is stored as overrides on the guard instances; the tutorial keeps its defaults:
+- detection meter rise of 20–80 per second (default 12–60; crouching still halves it);
+- chase speed 5.6 m/s (default 4.2; the player sprints at 5.5).
+
+The playtests showed a player sprinting through, ignoring the guards, finishing faster than careful play (`phase-5-balance.md`).
 
 | Loop | Guard | Zone | Points | Length | Watches |
 |---|---|---|---|---|---|
-| P1 Lobby | GuardLobby | A | 4 | 51 m | the lobby, the S1 foot and the staff door G4. The spawn and porch stay unseen |
+| P1 Lobby | GuardLobby | A | 4 | 43 m | the lobby, the S1 foot and the staff door G4. v3: the north leg moved off the main doors (z 25 → 21.5–22) |
 | P2 Main Stacks | GuardStacksOuter | B | 4 | 99 m | the outer aisles of the main stacks |
-| P2b Stacks Inner | GuardStacksInner | B | 5 | 76 m | the cross aisle, an inner aisle and the browsing hall (S3 foot) |
-| P5 Upper Stacks | GuardUpper | E | 4 | 101 m | both stair tops (S1, S3) and the stacks door G1b |
-| P7 Archive | GuardArchive | F | 4 | 59 m | the archive hall between the front gate G2 and the back gate G3, and the stacks |
+| P4 Service Corridor | GuardService (v3) | D | 4 | 92 m | the service corridor, the dock and storage: the way out after the shortcut and the G4 route. v3: moved here from P2b (zone D was never watched; two guards in the optional stacks made the "quiet" route the noisier one) |
+| P5 Upper Stacks | GuardUpper | E | 4 | 98 m | both stair tops (S1, S3) and the stacks door G1b. v3: the S1-top point moved from 3 m to 9 m from the stair, so it no longer waits facing the player coming up |
+| P7 Archive | GuardArchive | F | 5 | 57 m | the archive hall, the stacks and the vault door. v3: the hall leg stops at x 23.2 and turns south-east, so it no longer walks straight at the open back gate |
 | P8 Connector | GuardConnector | A → E → B → C | 8 | 180 m (v2: 184 m) | reading hall → lobby → **up S1** → balcony → staff corridor (G1a) → upper stacks (G1b) → **down S3** → browsing hall → main stacks → reading hall. v2: its staff-corridor point moved from x 3 to x 6, off the line through the Office 2 door |
 
-Planned loops without a guard yet: P3 Reading Hall, P4 Service Corridor (the restricted zone, for the mission phase) and P6 Staff Corridor. They stay as PatrolRoute nodes under `Layout/PlannedPatrols`. The guarded loops are under `Guards/` next to their guards, as in the tutorial. F3 shows all of them in a debug run.
+Planned loops without a guard: P2b Stacks Inner (its guard moved to P4 in v3), P3 Reading Hall and P6 Staff Corridor. They stay as PatrolRoute nodes under `Layout/PlannedPatrols`. The guarded loops are under `Guards/` next to their guards, as in the tutorial. F3 shows all of them in a debug run.
 
 ## Cover and hiding
 
-- **Full cover** (≥ 2 m): 33 pieces — B 13 shelves, D 4 storage racks, E 10 shelves, F 6 archive shelves.
+- **Full cover** (≥ 2 m): 34 pieces — B 13 shelves, D 4 storage racks, E 10 shelves, F 6 archive shelves, and (v3) the entrance screen, 2.4 m inside the main doors.
 - **Low cover** (0.75–1.3 m): 31 pieces — tables, desks, crates, the circulation desk, planters.
 - **Carrels:** 8 study carrels (desk and 1.5 m side panels) in Study 1–4.
-- **Planned hiding spots** (`Layout/HidingSpots`): two study carrels, a reading table, the browsing-hall shelf, the circulation desk, a storage rack, a dock crate, an upper-stacks aisle, the Office 3 desk, the archive alcove.
+- **Hiding spots** (v3: real `HidingSpot` areas under `Gameplay/HidingSpots`, with dark floor marks; the HUD shows HIDDEN when crouched there and unseen):
+  - two study carrels, a reading table, the browsing-hall shelf, the circulation desk;
+  - a storage rack, a dock crate;
+  - an upper-stacks aisle, the Office 3 desk, the archive alcove;
+  - (v3) the entrance screen, the archive stacks aisle, the balcony table.
+- **Signs** (v3, `Dressing/Signs`, as the tutorial's): staff offices upstairs, the stacks back stair, red RESTRICTED · STAFF CARD at G2 and G4, STAFF ONLY at SC1, the vault, both sides of the back gate, staff stair → loading dock, loading dock.
 
 ## Design notes and open points for later phases
 
 - **Cross-floor sight lines:** the balcony railing (1.1 m) lets upper-floor guards see into the lobby and browsing hall. That is intended (Phase 3 tests).
 - **Hearing through the slab:** walls and floors halve hearing range (the existing rule); a sprint directly overhead is heard, a walk is not (Phase 3 tests).
 - **Access doors** need no new physics layer: the panel is world geometry outside the navmesh region, and guards get collision exceptions with it (audit R8 resolved this way in Phase 4).
-- **Service corridor (zone D) is unguarded** in v2: P4 is still planned. Balancing decides whether it gets a guard.
-- **Target time:** the main route is 197 m along the navmesh (the tutorial's shortest route: 102 m) with five objectives instead of one card. The 20–30 minute target is set in the balancing phase and confirmed by timed playtests.
+- **Target time:** the main route is 200 m along the navmesh (the tutorial's shortest route: 102 m). Automated playtests finish in 1:13–3:45 of active time. The 20–30 minute first completion is probably not reached; the reason and adjustment plan are in `phase-5-balance.md`, and human playtests are pending (`PLAYTEST_PROTOCOL.md`).
+
+## Look and lighting (v4)
+
+Phase 6 dressed the level in the tutorial's palette and props. Every piece is decoration only (meshes, MultiMeshes, lights; no collision) on the v3 colliders, which are unchanged: the navmesh file is byte-identical and `collision_fingerprint.gd` gives the same 263 collision objects, 6 guards and 41 patrol points. The builder merges the level's static boxes (about 1,700: tiles of floors, walls and ceilings, the furniture's boxes, box-shaped decoration) into about 220 `BatchedBoxes` (`scripts/level/batched_boxes.gd`: MultiMeshes of coloured unit boxes, built when the level loads, as `ShelfBooks` builds books), grouped by floor, 12 m cell, render layer, shadow setting and glowing material; a solid piece keeps its collider, only its visible box is batched.
+
+| What | Where it comes from | Reads as |
+|---|---|---|
+| Plaster walls, wood wainscot; dark-red wainscot and red rail in D and F | tutorial wall, trim and restricted-trim colours | public vs restricted at a glance |
+| Floors by room: stone (lobby, porch), wood (stacks, reading hall, balcony), carpet (studies, staff wing), blue-grey and concrete (service), dark red (archive) | tutorial floor colours | which kind of room you are in |
+| Bookcases with books, low bookcase, display case | `ShelfBooks` (the tutorial's) on the shelf colliders | full cover |
+| Tables with tops and chairs, desks with monitors and lamps, circulation desk with the globe, planters, crates, storage racks with boxes, the vault pedestal | `chair.tscn`, tutorial lamp, globe, crate colours | low cover stays visibly low (nothing tall on it) |
+| Door posts and lintels; cream headers, red on card gates, amber on the shortcut, green on the exit | tutorial `Dressing/Doorways` | doors, locked gates, the shortcut, the exit |
+| Stairs: wood ramp with light stripes, brass-capped balustrade, a light strip at both ends | — | floor transitions |
+| Rugs (teal, public), red runner (archive hall), hazard stripes at the exit | tutorial rugs, runner, hazard colours | routes and the exit |
+| Windows on the outer walls, clocks, posters, signs (tutorial sign boards) | tutorial dressing | orientation |
+| Ceilings under the upper floor, a roof over everything, the outer walls above the double-height halls | tutorial ceiling colour | a closed building; all above or outside walkable space |
+| 84 ceiling lights / pendants (the tutorial's `ceiling_light.tscn`), warm glows on the card and the manuscript, a green glow at the exit, red at the card gates | — | lit rooms; the mission's objects |
+
+**Lighting rules** (the Compatibility renderer draws at most 32 lights in view and 8 per mesh, dropping the rest in no particular order): lights fade out by distance (16 + 5 m), each floor's lights reach only that floor's surfaces (render layers 4 and 8; characters, props and gameplay objects on layer 1 are lit by both), and batches cover at most a 12 m cell. Only walls, the upper slab, furniture, headers and stairs cast sun shadows (as in v3), within 40 m; books are drawn within 20 m of the camera (the bookcase box beyond). `light_report.gd` checks all of it: at most 25 lights in any of 43,104 player views, at most 8 on any mesh, and the light at a guard's chest between the ambient 0.50 and about 1.1 on every route. Report: [`v4/lighting.md`](v4/lighting.md).
+

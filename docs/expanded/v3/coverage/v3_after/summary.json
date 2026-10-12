@@ -1,0 +1,554 @@
+{
+  "areas": [
+    {
+      "area": "A · Lobby",
+      "ever_seen_pct": 98.1707317073171,
+      "floor": "ground",
+      "longest_watch_s": 15.75,
+      "mean_crouched_pct": 18.5377535782855,
+      "mean_standing_pct": 19.5579077823265,
+      "never_heard_pct": 0.0,
+      "peak_standing_pct": 32.7363598500625,
+      "safe_pct": 2.4390243902439,
+      "samples": 164,
+      "sprint_heard_pct": 60.5971754393084,
+      "worst_spot_longest_gap_s": 12.0
+    },
+    {
+      "area": "A · Porch",
+      "ever_seen_pct": 12.5,
+      "floor": "ground",
+      "longest_watch_s": 0.75,
+      "mean_crouched_pct": 0.255102040816327,
+      "mean_standing_pct": 0.255102040816327,
+      "never_heard_pct": 87.5,
+      "peak_standing_pct": 2.62390670553936,
+      "safe_pct": 100.0,
+      "samples": 24,
+      "sprint_heard_pct": 0.748752079866888,
+      "worst_spot_longest_gap_s": 28.25
+    },
+    {
+      "area": "B · Main Stacks",
+      "ever_seen_pct": 75.3424657534247,
+      "floor": "ground",
+      "longest_watch_s": 14.5,
+      "mean_crouched_pct": 6.57203334227178,
+      "mean_standing_pct": 6.80110456259664,
+      "never_heard_pct": 0.0,
+      "peak_standing_pct": 21.5326947105373,
+      "safe_pct": 44.1780821917808,
+      "samples": 292,
+      "sprint_heard_pct": 19.399744717708,
+      "worst_spot_longest_gap_s": 48.75
+    },
+    {
+      "area": "B · Browsing Hall",
+      "ever_seen_pct": 95.8333333333333,
+      "floor": "ground",
+      "longest_watch_s": 10.25,
+      "mean_crouched_pct": 5.71785565538169,
+      "mean_standing_pct": 5.8966006227564,
+      "never_heard_pct": 1.78571428571429,
+      "peak_standing_pct": 21.4910453977509,
+      "safe_pct": 57.7380952380952,
+      "samples": 168,
+      "sprint_heard_pct": 14.419420014262,
+      "worst_spot_longest_gap_s": 24.0
+    },
+    {
+      "area": "C · Reading Hall",
+      "ever_seen_pct": 97.5,
+      "floor": "ground",
+      "longest_watch_s": 8.5,
+      "mean_crouched_pct": 3.44474524503679,
+      "mean_standing_pct": 3.63216715257532,
+      "never_heard_pct": 0.0,
+      "peak_standing_pct": 15.7017909204498,
+      "safe_pct": 80.4166666666667,
+      "samples": 240,
+      "sprint_heard_pct": 17.716306156406,
+      "worst_spot_longest_gap_s": 21.75
+    },
+    {
+      "area": "C · Study 1",
+      "ever_seen_pct": 6.25,
+      "floor": "ground",
+      "longest_watch_s": 1.0,
+      "mean_crouched_pct": 0.0286339025406081,
+      "mean_standing_pct": 0.0299354435651812,
+      "never_heard_pct": 28.125,
+      "peak_standing_pct": 0.791336942940441,
+      "safe_pct": 100.0,
+      "samples": 32,
+      "sprint_heard_pct": 6.84276206322795,
+      "worst_spot_longest_gap_s": 102.75
+    },
+    {
+      "area": "C · Study 2",
+      "ever_seen_pct": 6.25,
+      "floor": "ground",
+      "longest_watch_s": 1.0,
+      "mean_crouched_pct": 0.0312369845897543,
+      "mean_standing_pct": 0.0312369845897543,
+      "never_heard_pct": 90.625,
+      "peak_standing_pct": 0.832986255726781,
+      "safe_pct": 100.0,
+      "samples": 32,
+      "sprint_heard_pct": 0.332778702163062,
+      "worst_spot_longest_gap_s": 102.75
+    },
+    {
+      "area": "C · Study 3",
+      "ever_seen_pct": 0.0,
+      "floor": "ground",
+      "longest_watch_s": 0.0,
+      "mean_crouched_pct": 0.0,
+      "mean_standing_pct": 0.0,
+      "never_heard_pct": 96.6666666666667,
+      "peak_standing_pct": 0.0,
+      "safe_pct": 100.0,
+      "samples": 30,
+      "sprint_heard_pct": 0.0831946755407654,
+      "worst_spot_longest_gap_s": 600.0
+    },
+    {
+      "area": "C · Study 4",
+      "ever_seen_pct": 0.0,
+      "floor": "ground",
+      "longest_watch_s": 0.0,
+      "mean_crouched_pct": 0.0,
+      "mean_standing_pct": 0.0,
+      "never_heard_pct": 50.0,
+      "peak_standing_pct": 0.0,
+      "safe_pct": 100.0,
+      "samples": 32,
+      "sprint_heard_pct": 6.27599833610649,
+      "worst_spot_longest_gap_s": 600.0
+    },
+    {
+      "area": "D · Service Corridor",
+      "ever_seen_pct": 100.0,
+      "floor": "ground",
+      "longest_watch_s": 9.5,
+      "mean_crouched_pct": 13.0681285200236,
+      "mean_standing_pct": 13.4013230223143,
+      "never_heard_pct": 0.0,
+      "peak_standing_pct": 20.9079550187422,
+      "safe_pct": 0.0,
+      "samples": 111,
+      "sprint_heard_pct": 34.0438608325464,
+      "worst_spot_longest_gap_s": 21.0
+    },
+    {
+      "area": "D · Book Processing",
+      "ever_seen_pct": 10.7594936708861,
+      "floor": "ground",
+      "longest_watch_s": 5.0,
+      "mean_crouched_pct": 0.372998592358669,
+      "mean_standing_pct": 0.374580211831568,
+      "never_heard_pct": 29.746835443038,
+      "peak_standing_pct": 8.99625156184923,
+      "safe_pct": 96.2025316455696,
+      "samples": 158,
+      "sprint_heard_pct": 10.1139451125761,
+      "worst_spot_longest_gap_s": 50.5
+    },
+    {
+      "area": "D · Storage",
+      "ever_seen_pct": 64.2857142857143,
+      "floor": "ground",
+      "longest_watch_s": 8.75,
+      "mean_crouched_pct": 4.59960466207863,
+      "mean_standing_pct": 4.72951085195983,
+      "never_heard_pct": 3.17460317460317,
+      "peak_standing_pct": 15.7017909204498,
+      "safe_pct": 53.968253968254,
+      "samples": 126,
+      "sprint_heard_pct": 17.9027018461295,
+      "worst_spot_longest_gap_s": 21.25
+    },
+    {
+      "area": "D · Loading Dock",
+      "ever_seen_pct": 95.6896551724138,
+      "floor": "ground",
+      "longest_watch_s": 7.75,
+      "mean_crouched_pct": 6.28473768113861,
+      "mean_standing_pct": 7.25380229502075,
+      "never_heard_pct": 2.58620689655172,
+      "peak_standing_pct": 13.9941690962099,
+      "safe_pct": 30.1724137931034,
+      "samples": 116,
+      "sprint_heard_pct": 18.3931952492972,
+      "worst_spot_longest_gap_s": 47.0
+    },
+    {
+      "area": "E · Upper Stacks",
+      "ever_seen_pct": 83.3333333333333,
+      "floor": "upper",
+      "longest_watch_s": 14.75,
+      "mean_crouched_pct": 7.68115137211347,
+      "mean_standing_pct": 7.88375214031191,
+      "never_heard_pct": 0.0,
+      "peak_standing_pct": 21.9491878384007,
+      "safe_pct": 36.2222222222222,
+      "samples": 450,
+      "sprint_heard_pct": 23.9467554076539,
+      "worst_spot_longest_gap_s": 48.0
+    },
+    {
+      "area": "E · Staff Balcony",
+      "ever_seen_pct": 98.5611510791367,
+      "floor": "upper",
+      "longest_watch_s": 8.0,
+      "mean_crouched_pct": 4.50651557055064,
+      "mean_standing_pct": 4.78697425233491,
+      "never_heard_pct": 0.0,
+      "peak_standing_pct": 11.7034568929613,
+      "safe_pct": 51.7985611510791,
+      "samples": 139,
+      "sprint_heard_pct": 18.27529656807,
+      "worst_spot_longest_gap_s": 27.5
+    },
+    {
+      "area": "E · Staff Corridor",
+      "ever_seen_pct": 95.8333333333333,
+      "floor": "upper",
+      "longest_watch_s": 5.25,
+      "mean_crouched_pct": 3.31459114257948,
+      "mean_standing_pct": 3.41264056643065,
+      "never_heard_pct": 0.0,
+      "peak_standing_pct": 8.07996668054977,
+      "safe_pct": 83.3333333333333,
+      "samples": 48,
+      "sprint_heard_pct": 20.0117859123683,
+      "worst_spot_longest_gap_s": 37.25
+    },
+    {
+      "area": "E · Office 1",
+      "ever_seen_pct": 8.33333333333333,
+      "floor": "upper",
+      "longest_watch_s": 3.0,
+      "mean_crouched_pct": 0.149243370817715,
+      "mean_standing_pct": 0.150400296172891,
+      "never_heard_pct": 38.8888888888889,
+      "peak_standing_pct": 2.79050395668471,
+      "safe_pct": 100.0,
+      "samples": 36,
+      "sprint_heard_pct": 1.58069883527454,
+      "worst_spot_longest_gap_s": 97.0
+    },
+    {
+      "area": "E · Office 2",
+      "ever_seen_pct": 41.6666666666667,
+      "floor": "upper",
+      "longest_watch_s": 4.0,
+      "mean_crouched_pct": 0.706881392012587,
+      "mean_standing_pct": 0.711509093433292,
+      "never_heard_pct": 44.4444444444444,
+      "peak_standing_pct": 3.91503540191587,
+      "safe_pct": 100.0,
+      "samples": 36,
+      "sprint_heard_pct": 2.1630615640599,
+      "worst_spot_longest_gap_s": 99.75
+    },
+    {
+      "area": "E · Office 3",
+      "ever_seen_pct": 11.1111111111111,
+      "floor": "upper",
+      "longest_watch_s": 3.75,
+      "mean_crouched_pct": 0.33088065158036,
+      "mean_standing_pct": 0.33088065158036,
+      "never_heard_pct": 19.4444444444444,
+      "peak_standing_pct": 3.66513952519783,
+      "safe_pct": 100.0,
+      "samples": 36,
+      "sprint_heard_pct": 10.7274912183398,
+      "worst_spot_longest_gap_s": 100.0
+    },
+    {
+      "area": "F · Archive Hall",
+      "ever_seen_pct": 87.3417721518987,
+      "floor": "upper",
+      "longest_watch_s": 10.5,
+      "mean_crouched_pct": 10.8388382477765,
+      "mean_standing_pct": 11.2996167208811,
+      "never_heard_pct": 0.0,
+      "peak_standing_pct": 24.9895876718034,
+      "safe_pct": 27.8481012658228,
+      "samples": 79,
+      "sprint_heard_pct": 48.6046462646644,
+      "worst_spot_longest_gap_s": 28.25
+    },
+    {
+      "area": "F · Archive Stacks",
+      "ever_seen_pct": 74.5762711864407,
+      "floor": "upper",
+      "longest_watch_s": 10.75,
+      "mean_crouched_pct": 8.13432256333872,
+      "mean_standing_pct": 8.45692825729392,
+      "never_heard_pct": 0.0,
+      "peak_standing_pct": 28.1965847563515,
+      "safe_pct": 44.0677966101695,
+      "samples": 59,
+      "sprint_heard_pct": 33.3201725936998,
+      "worst_spot_longest_gap_s": 28.0
+    },
+    {
+      "area": "F · Vault",
+      "ever_seen_pct": 41.3793103448276,
+      "floor": "upper",
+      "longest_watch_s": 2.5,
+      "mean_crouched_pct": 1.29830961237415,
+      "mean_standing_pct": 1.3600654899539,
+      "never_heard_pct": 0.0,
+      "peak_standing_pct": 12.1199500208247,
+      "safe_pct": 93.1034482758621,
+      "samples": 29,
+      "sprint_heard_pct": 11.0448103735154,
+      "worst_spot_longest_gap_s": 31.25
+    },
+    {
+      "area": "F · Alcove",
+      "ever_seen_pct": 87.5,
+      "floor": "upper",
+      "longest_watch_s": 10.0,
+      "mean_crouched_pct": 13.4449187838401,
+      "mean_standing_pct": 15.2280299875052,
+      "never_heard_pct": 6.25,
+      "peak_standing_pct": 27.2802998750521,
+      "safe_pct": 25.0,
+      "samples": 16,
+      "sprint_heard_pct": 24.6672212978369,
+      "worst_spot_longest_gap_s": 28.25
+    },
+    {
+      "area": "F · Staff Stair Landing",
+      "ever_seen_pct": 50.0,
+      "floor": "upper",
+      "longest_watch_s": 5.5,
+      "mean_crouched_pct": 5.54977092877968,
+      "mean_standing_pct": 5.59402332361516,
+      "never_heard_pct": 18.75,
+      "peak_standing_pct": 14.2857142857143,
+      "safe_pct": 50.0,
+      "samples": 16,
+      "sprint_heard_pct": 8.28826955074875,
+      "worst_spot_longest_gap_s": 33.25
+    }
+  ],
+  "date": "2026-10-10T19:20:51",
+  "doorways": [
+    {
+      "doorway": "Main Entrance",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "entrance"
+    },
+    {
+      "doorway": "Stacks Arch (Reading Hall)",
+      "longest_occupied_s": 1.0,
+      "occupied_pct": 0.749687630154102,
+      "type": "arch"
+    },
+    {
+      "doorway": "Stacks Arch (Lobby)",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "arch"
+    },
+    {
+      "doorway": "Reading Hall Doors",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "arch"
+    },
+    {
+      "doorway": "Study 1 Door",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "door"
+    },
+    {
+      "doorway": "Study 2 Door",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "door"
+    },
+    {
+      "doorway": "Study 3 Door",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "door"
+    },
+    {
+      "doorway": "Study 4 Door",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "door"
+    },
+    {
+      "doorway": "Study 2–3 Door",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "door"
+    },
+    {
+      "doorway": "Service Shortcut SC1",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "shortcut"
+    },
+    {
+      "doorway": "Lobby Staff Door G4",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "gate"
+    },
+    {
+      "doorway": "Processing Door",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "door"
+    },
+    {
+      "doorway": "Storage Door",
+      "longest_occupied_s": 1.0,
+      "occupied_pct": 1.58267388588088,
+      "type": "door"
+    },
+    {
+      "doorway": "Dock Door",
+      "longest_occupied_s": 0.25,
+      "occupied_pct": 0.458142440649729,
+      "type": "door"
+    },
+    {
+      "doorway": "Processing–Storage Door",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "door"
+    },
+    {
+      "doorway": "Storage–Dock Door",
+      "longest_occupied_s": 0.5,
+      "occupied_pct": 0.583090379008746,
+      "type": "door"
+    },
+    {
+      "doorway": "S3 Top",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "stair"
+    },
+    {
+      "doorway": "S1 Top",
+      "longest_occupied_s": 1.0,
+      "occupied_pct": 0.999583506872137,
+      "type": "stair"
+    },
+    {
+      "doorway": "Archive Front Gate G2",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "gate"
+    },
+    {
+      "doorway": "S2 Top",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "stair"
+    },
+    {
+      "doorway": "Archive Back Gate G3",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "gate"
+    },
+    {
+      "doorway": "Vault Door",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "door"
+    },
+    {
+      "doorway": "Staff Door (Stacks) G1b",
+      "longest_occupied_s": 1.0,
+      "occupied_pct": 0.999583506872137,
+      "type": "door"
+    },
+    {
+      "doorway": "Staff Wing Door G1a",
+      "longest_occupied_s": 1.0,
+      "occupied_pct": 0.87463556851312,
+      "type": "door"
+    },
+    {
+      "doorway": "Office 1 Door",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "door"
+    },
+    {
+      "doorway": "Office 2 Door",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "door"
+    },
+    {
+      "doorway": "Office 3 Door",
+      "longest_occupied_s": 0.0,
+      "occupied_pct": 0.0,
+      "type": "door"
+    }
+  ],
+  "engine": "4.7.2-stable (official)",
+  "game_seconds": 600.0,
+  "guards": 6,
+  "layout": "v3",
+  "real_seconds": 149.917,
+  "routes": [
+    {
+      "ever_seen_pct": 87.9668049792531,
+      "exposed_metres": 27.0420658059142,
+      "length_m": 199.931148094125,
+      "mean_exposure_pct": 11.2207741933254,
+      "peak_pct": 34.9021241149521,
+      "route": "Main route"
+    },
+    {
+      "ever_seen_pct": 100.0,
+      "exposed_metres": 13.3398583923365,
+      "length_m": 105.750045835972,
+      "mean_exposure_pct": 12.4671573760154,
+      "peak_pct": 34.6105789254477,
+      "route": "Alternative: stacks stair to the staff wing"
+    },
+    {
+      "ever_seen_pct": 100.0,
+      "exposed_metres": 20.3590170762183,
+      "length_m": 118.975106854923,
+      "mean_exposure_pct": 14.1382063029293,
+      "peak_pct": 34.7771761765931,
+      "route": "Long way out without the shortcut (G2 → S1 → lobby → G4)"
+    },
+    {
+      "ever_seen_pct": 74.025974025974,
+      "exposed_metres": 7.89046230737193,
+      "length_m": 67.15791913867,
+      "mean_exposure_pct": 10.2473536459376,
+      "peak_pct": 28.1132861307788,
+      "route": "Way out through the back gate (the shortcut)"
+    },
+    {
+      "ever_seen_pct": 100.0,
+      "exposed_metres": 1.03748438150771,
+      "length_m": 6.50000143051147,
+      "mean_exposure_pct": 10.3748438150771,
+      "peak_pct": 13.9525197834236,
+      "route": "Shortcut SC1 (one-way, corridor → reading hall)"
+    }
+  ],
+  "samples": 2469,
+  "time_scale": 4.0
+}

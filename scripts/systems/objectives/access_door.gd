@@ -96,7 +96,10 @@ func _process(_delta: float) -> void:
 	if mesh:
 		mesh.visible = not _guard_in_doorway()
 	if _panel_material:
-		_panel_material.albedo_color = Color(0.3, 0.75, 0.4) if _allowed_by_key() else Color(0.7, 0.2, 0.17)
+		# Green only when the player could open it from where they are (a one-way
+		# door is red from its locked side).
+		var player := get_tree().get_first_node_in_group("player")
+		_panel_material.albedo_color = Color(0.3, 0.75, 0.4) if player and _refusal(player) == "" else Color(0.7, 0.2, 0.17)
 	if _sign:
 		_sign.modulate = _panel_material.albedo_color.lightened(0.3) if _panel_material else Color.WHITE
 

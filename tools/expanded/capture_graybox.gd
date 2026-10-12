@@ -73,10 +73,20 @@ func _run() -> void:
 
 	var upper := _level.get_node("NavigationRegion3D/Upper") as Node3D
 	var upper_labels: Array[Node3D] = []
-	for n in _all_nodes(_level.get_node("Layout")) + _all_nodes(_level.get_node("Gameplay")):
-		if n is Node3D and n.global_position.y > U - 0.5 and (n is Label3D or n is MeshInstance3D):
+	var marked: Array[Node] = []
+	marked.append_array(_all_nodes(_level.get_node("Layout")))
+	marked.append_array(_all_nodes(_level.get_node("Gameplay")))
+	if _level.has_node("Dressing"):
+		marked.append_array(_all_nodes(_level.get_node("Dressing")))
+	for n in marked:
+		if n is Node3D and n.global_position.y > U - 0.5 and n is GeometryInstance3D:
 			upper_labels.append(n)
-	# Top views.
+	# Top views: without the roof, ceilings and light fixtures (v4 dressing; render
+	# layer 2, as the tutorial's ceilings, and Dressing/Ceilings).
+	var ceilings := _level.get_node_or_null("Dressing/Ceilings") as Node3D
+	if ceilings:
+		ceilings.visible = false
+	_camera.cull_mask = _camera.cull_mask & ~2
 	_camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 	_camera.size = 74.0
 	_camera.global_transform = Transform3D(Basis.from_euler(Vector3(-PI / 2, 0, 0)), Vector3(0, 40, 3))
@@ -95,6 +105,9 @@ func _run() -> void:
 	await _shot(dir.path_join("navmesh_upper.png"))
 	overlay.queue_free()
 	# Eye-height views.
+	if ceilings:
+		ceilings.visible = true
+	_camera.cull_mask = _camera.cull_mask | 2
 	_camera.projection = Camera3D.PROJECTION_PERSPECTIVE
 	_camera.fov = 75.0
 	for v in VIEWS:

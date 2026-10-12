@@ -25,6 +25,21 @@ extends Node3D
 	set(value):
 		book_seed = value
 		_rebuild()
+## Render layers of the books (the default, 1, is what the tutorial uses; a level
+## can put them on its own layers, e.g. to choose which lights reach them).
+@export_flags_3d_render var layers := 1:
+	set(value):
+		layers = value
+		if _instance:
+			_instance.layers = value
+## Beyond this distance (metres) from the camera the books are not drawn and the
+## bookcase shows its own box; 0 (the default, what the tutorial uses) draws them
+## at any distance. For levels with many bookcases.
+@export var draw_distance := 0.0:
+	set(value):
+		draw_distance = value
+		if _instance:
+			_instance.visibility_range_end = value
 
 const PALETTE := [Color(0.55, 0.14, 0.12), Color(0.16, 0.32, 0.22), Color(0.17, 0.25, 0.42), Color(0.62, 0.47, 0.2),
 	Color(0.4, 0.25, 0.15), Color(0.7, 0.62, 0.48), Color(0.3, 0.14, 0.28), Color(0.12, 0.12, 0.14), Color(0.48, 0.18, 0.1)]
@@ -44,6 +59,9 @@ func _rebuild() -> void:
 		_instance.queue_free()
 	_instance = MultiMeshInstance3D.new()
 	_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_instance.layers = layers
+	_instance.visibility_range_end = draw_distance
+	_instance.visibility_range_end_margin = 1.0 if draw_distance > 0.0 else 0.0
 	add_child(_instance)  # no owner: never saved into the scene
 	_instance.multimesh = build_multimesh()
 

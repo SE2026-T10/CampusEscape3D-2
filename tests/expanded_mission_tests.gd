@@ -42,6 +42,8 @@ const ESCAPE := &"escape"
 const IN_LOBBY := Vector3(0, 0, 20)
 const AT_CARD := Vector3(3, U, -22.2)
 const AT_ITEM := Vector3(32, U, -23.6)
+## Beside the card desk, off the Staff Offices pad (which covers the front of the desk).
+const AT_CARD_SIDE := Vector3(4.9, U, -23.0)
 const G2_WEST := Vector3(10.6, U, -11)
 const G2_EAST := Vector3(13.4, U, -11)
 const G4_WEST := Vector3(10.6, 0, 21)
@@ -175,8 +177,9 @@ func _check_full_mission_real_input() -> void:
 	_expect(_objectives.is_finished() and _director.status == S.ESCAPED and _escapes == 1, "Full mission: the exit should finish the level.")
 	_expect(flow.state == GameStateMachine.State.WIN and menus.win_panel.visible, "Full mission: the game should switch to WIN and show the ESCAPED screen.")
 	_expect(menus.win_message == Layout.WIN_MESSAGE, "The win screen should say '%s'." % Layout.WIN_MESSAGE)
-	_expect(_checkpoints.activations == 2 and _checkpoints.get_respawn_name() == "Storage",
-		"The route's two checkpoints should have activated, ending at Storage (got %d, %s)." % [_checkpoints.activations, _checkpoints.get_respawn_name()])
+	# Staff Offices on arrival at the desk, again when the card is taken on its pad (new progress), then Storage.
+	_expect(_checkpoints.activations == 3 and _checkpoints.get_respawn_name() == "Storage",
+		"The route's checkpoints should have activated 3 times, ending at Storage (got %d, %s)." % [_checkpoints.activations, _checkpoints.get_respawn_name()])
 	_expect(_g2.is_open and _g3.is_open and not _g4.is_open and not _sc1.is_open, "Only the doors used should be open.")
 	print("  [expanded-mission] full mission with real input: %.0f m walked in %.0f s real time, E pressed 5 times; %s → WIN" % [
 		walked, (Time.get_ticks_msec() - started) / 1000.0, ", ".join(log)])
@@ -210,6 +213,12 @@ func _check_no_bypass() -> void:
 		_expect(_hud.get_prompt_text() == "[E] %s · locked from this side" % door.door_name, "One-way prompt, got '%s'." % _hud.get_prompt_text())
 		_expect(not _interactor.try_interact() and not door.is_open, "%s must not open from the wrong side." % door.door_name)
 		_expect(_hud.get_message_text() == "%s only opens from the other side." % door.door_name, "One-way message, got '%s'." % _hud.get_message_text())
+	# A one-way door reads red from its locked side and green from the side it opens from.
+	await _stand_and_look(G3_EAST, _aim(_g3))
+	var c_locked: Color = _g3._panel_material.albedo_color
+	await _stand_and_look(G3_WEST, _aim(_g3))
+	var c_open: Color = _g3._panel_material.albedo_color
+	_expect(c_locked.r > c_locked.g and c_open.g > c_open.r, "The back gate should be red from the landing and green from the archive (got %s / %s)." % [c_locked, c_open])
 	# The manuscript before the card (teleported into the vault).
 	await _stand_and_look(AT_ITEM, _aim(_item))
 	_expect(_hud.get_prompt_text() == "[E] Rare manuscript (not yet)" and not _interactor.try_interact() and _item.visible,
@@ -325,32 +334,40 @@ func _check_caught_before_card() -> void:
 
 
 func _check_caught_after_card() -> void:
+	var study := _checkpoint(0)
 	var cp := _checkpoint(1)
 	await _teleport(IN_LOBBY)
-	await _teleport(Layout.CHECKPOINTS[1].pos)
-	_expect(_checkpoints.active == cp, "Walking onto the Staff Offices pad activates it.")
-	await _stand_and_look(AT_CARD, _aim(_card))
-	_interactor.try_interact()
+	await _teleport(Layout.CHECKPOINTS[0].pos)
+	_expect(_checkpoints.active == study, "Walking onto the Study Rooms pad activates it.")
+	# Taken from beside the desk, off the Staff Offices pad: not saved.
+	await _stand_and_look(AT_CARD_SIDE, _aim(_card))
+	_expect(_checkpoints.active == study, "Standing beside the card desk is off the Staff Offices pad.")
+	_expect(_interactor.try_interact() and _card.is_taken(), "The card can be taken from beside the desk.")
 	await _stand_and_look(G2_WEST, _aim(_g2))
 	_interactor.try_interact()
-	_expect(_card.is_taken() and _g2.is_open, "Card taken and front gate opened after the checkpoint.")
-	await _catch_and_respawn(Vector3(3, U, -20.5), Vector3(3, U, -18.5))
-	_expect(_player.global_position.distance_to(cp.get_spawn_transform().origin) < 0.4, "Respawn at Staff Offices.")
+	_expect(_g2.is_open, "Card taken and front gate opened after the last checkpoint.")
+	await _catch_and_respawn(Vector3(3, U, -11), Vector3(0.5, U, -11))
+	_expect(_player.global_position.distance_to(study.get_spawn_transform().origin) < 0.4, "Respawn at Study Rooms.")
 	_expect(not _card.is_taken() and _card.visible and _objectives.current() == CARD, "The card goes back on the desk.")
 	_expect(not _g2.is_open and _g2.enabled, "The front gate opened with that card is closed again.")
 	await _check_restored("caught right after the card")
-	# Retake the card, step back on the pad: the checkpoint now keeps the card.
-	await _stand_and_look(AT_CARD, _aim(_card))
-	_expect(_interactor.try_interact(), "The card can be taken again.")
+	# Taken from the front of the desk, on the pad: the checkpoint saves the card at once.
 	var n := _checkpoints.activations
-	await _teleport(Layout.CHECKPOINTS[1].pos)
-	_expect(_checkpoints.activations == n + 1 and _checkpoints.saved_progress.get(CARD) == COMPLETED, "Re-entering the pad with new progress saves it.")
+	await _stand_and_look(AT_CARD, _aim(_card))
+	_expect(_checkpoints.active == cp and _checkpoints.activations == n + 1, "The card's stand point is on the Staff Offices pad.")
+	_expect(_interactor.try_interact(), "The card can be taken again.")
+	await _frames(3)
+	_expect(_checkpoints.activations == n + 2 and _checkpoints.saved_progress.get(CARD) == COMPLETED,
+		"Taking the card on the pad saves it (new progress on an active pad).")
+	await _stand_and_look(G2_WEST, _aim(_g2))
+	_interactor.try_interact()
 	await _catch_and_respawn(Vector3(3, U, -11), Vector3(0.5, U, -11))
-	_expect(_card.is_taken() and _objectives.current() == ITEM and not _g2.is_open, "Card kept after the checkpoint saved it; the gate is still to open.")
+	_expect(_player.global_position.distance_to(cp.get_spawn_transform().origin) < 0.4, "Respawn at Staff Offices (the back of the office).")
+	_expect(_card.is_taken() and _objectives.current() == ITEM and not _g2.is_open, "Card kept; the gate opened after the save is closed again.")
 	await _check_restored("caught after the card was saved")
 	await _stand_and_look(G2_WEST, _aim(_g2))
 	_expect(_interactor.try_interact() and _g2.is_open, "The kept card still opens the gate.")
-	print("  [expanded-mission] caught right after the card: card back on the desk and G2 closed; after saving it at the pad: card kept, G2 reopens")
+	print("  [expanded-mission] caught right after the card: taken off the pad → card back on the desk, G2 closed; taken on the pad → saved, card kept, G2 reopens")
 
 
 func _check_caught_after_item() -> void:

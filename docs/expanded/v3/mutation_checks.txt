@@ -1,0 +1,20 @@
+# Phase 5 mutation checks (2026-10-10). Each mutation was applied to a copy of the Phase 5
+# working tree alone, the project re-imported and the named test file run on it.
+# Linux VM, headless, Godot 4.7.2.stable.official.ed1daf0bf.
+# With the code as delivered, both files pass (see test_run.txt).
+#
+# The level changes themselves were checked the same way, by playtesting each round with
+# the automated playtester (playtests/, rounds 1-5): reverting a change brings back the
+# problem that round found (see phase-5-balance.md, "Rounds").
+
+## door_colour: scripts/systems/objectives/access_door.gd: the panel colour goes back to
+## "green when the key objective is done" (v2), so a one-way door reads green from its locked side.
+## run: tests/expanded_mission_tests.gd
+FAIL: [expanded-mission] The back gate should be red from the landing and green from the archive (got (0.3, 0.75, 0.4, 1.0) / (0.3, 0.75, 0.4, 1.0)).
+RESULT 1 failures in 133.2 s
+
+## no_tuning: scenes/level/expanded_library.tscn: the guards' detection and chase overrides
+## removed (the guards fall back to the tutorial's defaults).
+## run: tests/expanded_graybox_tests.gd
+FAIL: [expanded] All six guards should carry the level's detection tuning (0 do).
+RESULT 1 failures in 128.2 s

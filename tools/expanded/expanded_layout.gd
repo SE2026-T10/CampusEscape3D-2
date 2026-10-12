@@ -19,7 +19,7 @@ extends RefCounted
 ##   - stairs are 3 m wide ramps rising 4.5 m over 10 m (24°): the player has
 ##     no step-up, and the navmesh accepts slopes up to 45°
 
-const VERSION := "v2"
+const VERSION := "v4"
 
 const UPPER_Y := 4.5
 const SLAB_THICKNESS := 0.3
@@ -167,60 +167,67 @@ const STAIRS := [
 	{"id": "S3", "name": "S3 Stacks Stair", "zone": "B", "x0": -35.85, "x1": -32.85, "z_low": 20.0, "z_high": 10.0, "open_side": "east"},
 ]
 
-## Furniture placeholders. "full" cover is taller than a standing player's
-## head (1.8 m); "low" cover hides a crouched player (1.0 m) but not a
-## standing one. Rects are footprints; h is the height.
+## Furniture. "full" cover is taller than a standing player's head (1.8 m);
+## "low" cover hides a crouched player (1.0 m) but not a standing one. Rects
+## are footprints; h is the height (the collider). "look" (v4) picks the
+## visual dressing the builder adds to the collider (books, tabletops, chairs,
+## crates…); it never changes the collider, so cover stays what it was.
 const SHELF_H := 2.2
 const COVER := [
 	# B: main stacks — six north-south rows, cross aisle at z −11…−7.
-	{"zone": "B", "floor": "ground", "kind": "shelf", "rects": [
+	{"zone": "B", "floor": "ground", "kind": "shelf", "look": "bookcase", "rects": [
 		[-31.3, -25, -30.7, -11], [-28.3, -25, -27.7, -11], [-25.3, -25, -24.7, -11],
 		[-22.3, -25, -21.7, -11], [-19.3, -25, -18.7, -11], [-16.3, -25, -15.7, -11],
 		[-31.3, -7, -30.7, 6], [-28.3, -7, -27.7, 6], [-25.3, -7, -24.7, 6],
 		[-22.3, -7, -21.7, 6], [-19.3, -7, -18.7, 6], [-16.3, -7, -15.7, 6]], "h": SHELF_H},
 	# B: browsing hall — reading tables and one short shelf.
-	{"zone": "B", "floor": "ground", "kind": "low", "rects": [
+	{"zone": "B", "floor": "ground", "kind": "low", "look": "reading_table", "rects": [
 		[-25.5, 14.8, -22.5, 16.2], [-25.5, 22.3, -22.5, 23.7], [-19.5, 14.8, -16.5, 16.2], [-19.5, 22.3, -16.5, 23.7]], "h": 0.8},
-	{"zone": "B", "floor": "ground", "kind": "shelf", "rects": [[-30.0, 12, -29.4, 18]], "h": SHELF_H},
+	{"zone": "B", "floor": "ground", "kind": "shelf", "look": "bookcase", "rects": [[-30.0, 12, -29.4, 18]], "h": SHELF_H},
 	# A: lobby — circulation desk and two planters.
-	{"zone": "A", "floor": "ground", "kind": "low", "rects": [[1, 15.4, 7, 16.6]], "h": 1.1},
-	{"zone": "A", "floor": "ground", "kind": "low", "rects": [[-7, 13, -5, 14], [5, 25, 7, 26]], "h": 1.0},
+	{"zone": "A", "floor": "ground", "kind": "low", "look": "circulation_desk", "rects": [[1, 15.4, 7, 16.6]], "h": 1.1},
+	{"zone": "A", "floor": "ground", "kind": "low", "look": "planter", "rects": [[-7, 13, -5, 14], [5, 25, 7, 26]], "h": 1.0},
 	# C: reading hall — six tables and a low bookcase in the middle.
-	{"zone": "C", "floor": "ground", "kind": "low", "rects": [
+	{"zone": "C", "floor": "ground", "kind": "low", "look": "reading_table", "rects": [
 		[-7.5, -9.7, -4.5, -8.3], [-7.5, -3.7, -4.5, -2.3], [-7.5, 2.3, -4.5, 3.7],
 		[4.5, -9.7, 7.5, -8.3], [4.5, -3.7, 7.5, -2.3], [4.5, 2.3, 7.5, 3.7]], "h": 0.8},
-	{"zone": "C", "floor": "ground", "kind": "low", "rects": [[-2.5, -0.3, 2.5, 0.3]], "h": 1.3},
+	{"zone": "C", "floor": "ground", "kind": "low", "look": "low_bookcase", "rects": [[-2.5, -0.3, 2.5, 0.3]], "h": 1.3},
 	# C: study rooms — two carrels per room against the north wall (desk + side panels).
-	{"zone": "C", "floor": "ground", "kind": "carrel_desk", "rects": [
+	{"zone": "C", "floor": "ground", "kind": "carrel_desk", "look": "carrel_desk", "rects": [
 		[-11.1, -27.85, -9.9, -27.15], [-8.1, -27.85, -6.9, -27.15], [-5.1, -27.85, -3.9, -27.15], [-2.1, -27.85, -0.9, -27.15],
 		[0.9, -27.85, 2.1, -27.15], [3.9, -27.85, 5.1, -27.15], [6.9, -27.85, 8.1, -27.15], [9.9, -27.85, 11.1, -27.15]], "h": 0.75},
-	{"zone": "C", "floor": "ground", "kind": "carrel_panel", "rects": [
+	{"zone": "C", "floor": "ground", "kind": "carrel_panel", "look": "carrel_panel", "rects": [
 		[-11.2, -27.85, -11.1, -26.65], [-9.9, -27.85, -9.8, -26.65], [-8.2, -27.85, -8.1, -26.65], [-6.9, -27.85, -6.8, -26.65],
 		[-5.2, -27.85, -5.1, -26.65], [-3.9, -27.85, -3.8, -26.65], [-2.2, -27.85, -2.1, -26.65], [-0.9, -27.85, -0.8, -26.65],
 		[0.8, -27.85, 0.9, -26.65], [2.1, -27.85, 2.2, -26.65], [3.8, -27.85, 3.9, -26.65], [5.1, -27.85, 5.2, -26.65],
 		[6.8, -27.85, 6.9, -26.65], [8.1, -27.85, 8.2, -26.65], [9.8, -27.85, 9.9, -26.65], [11.1, -27.85, 11.2, -26.65]], "h": 1.5},
-	{"zone": "C", "floor": "ground", "kind": "low", "rects": [[2.2, -20.4, 3.8, -19.6]], "h": 0.75},  # O1 desk
+	{"zone": "C", "floor": "ground", "kind": "low", "look": "study_desk", "rects": [[2.2, -20.4, 3.8, -19.6]], "h": 0.75},  # O1 desk
 	# D: processing tables, storage racks, dock crates.
-	{"zone": "D", "floor": "ground", "kind": "low", "rects": [
+	{"zone": "D", "floor": "ground", "kind": "low", "look": "work_table", "rects": [
 		[20.5, -22.6, 23.5, -21.4], [20.5, -12.6, 23.5, -11.4], [27.5, -22.6, 30.5, -21.4], [27.5, -12.6, 30.5, -11.4]], "h": 0.9},
-	{"zone": "D", "floor": "ground", "kind": "rack", "rects": [[20, -2, 22, 0], [20, 6, 22, 8], [26, -2, 28, 0], [26, 6, 28, 8]], "h": 2.0},
-	{"zone": "D", "floor": "ground", "kind": "low", "rects": [
+	{"zone": "D", "floor": "ground", "kind": "rack", "look": "storage_rack", "rects": [[20, -2, 22, 0], [20, 6, 22, 8], [26, -2, 28, 0], [26, 6, 28, 8]], "h": 2.0},
+	{"zone": "D", "floor": "ground", "kind": "low", "look": "crate", "rects": [
 		[21.2, 15.2, 22.8, 16.8], [27.2, 15.2, 28.8, 16.8], [21.2, 24.2, 22.8, 25.8], [27.2, 24.2, 28.8, 25.8]], "h": 1.2},
 	# E: upper stacks — five rows (the area west of the staff wing stays open
 	# in front of the S1 landing), balcony tables, office desks.
-	{"zone": "E", "floor": "upper", "kind": "shelf", "rects": [
+	{"zone": "E", "floor": "upper", "kind": "shelf", "look": "bookcase", "rects": [
 		[-31.3, -25, -30.7, -12], [-27.3, -25, -26.7, -12], [-23.3, -25, -22.7, -12], [-19.3, -25, -18.7, -12], [-15.3, -25, -14.7, -12],
 		[-31.3, -8, -30.7, 4], [-27.3, -8, -26.7, 4], [-23.3, -8, -22.7, 4], [-19.3, -8, -18.7, 4], [-15.3, -8, -14.7, 4]], "h": SHELF_H},
-	{"zone": "E", "floor": "upper", "kind": "low", "rects": [[-1.5, -3.7, 1.5, -2.3], [5.5, 2.3, 8.5, 3.7]], "h": 0.8},
-	{"zone": "E", "floor": "upper", "kind": "low", "rects": [[-4.5, -24, -1.5, -23], [1.5, -24, 4.5, -23], [7.5, -24, 10.5, -23]], "h": 0.8},
+	{"zone": "E", "floor": "upper", "kind": "low", "look": "reading_table", "rects": [[-1.5, -3.7, 1.5, -2.3], [5.5, 2.3, 8.5, 3.7]], "h": 0.8},
+	{"zone": "E", "floor": "upper", "kind": "low", "look": "office_desk", "rects": [[-4.5, -24, -1.5, -23], [1.5, -24, 4.5, -23], [7.5, -24, 10.5, -23]], "h": 0.8},
 	# F: archive stacks (east-west rows, gap at x 18.5…20.5), hall desk,
 	# vault pedestal, alcove crates.
-	{"zone": "F", "floor": "upper", "kind": "shelf", "rects": [
+	{"zone": "F", "floor": "upper", "kind": "shelf", "look": "archive_shelf", "rects": [
 		[14, -24.3, 18.5, -23.7], [20.5, -24.3, 25, -23.7], [14, -20.3, 18.5, -19.7], [20.5, -20.3, 25, -19.7],
 		[14, -16.3, 18.5, -15.7], [20.5, -16.3, 25, -15.7]], "h": 2.4},
-	{"zone": "F", "floor": "upper", "kind": "low", "rects": [[18, -10, 22, -8.8]], "h": 0.8},
-	{"zone": "F", "floor": "upper", "kind": "low", "rects": [[31, -25.5, 33, -24.5]], "h": 1.0},
-	{"zone": "F", "floor": "upper", "kind": "low", "rects": [[31.5, -16.5, 33.5, -14.5]], "h": 1.2},
+	{"zone": "F", "floor": "upper", "kind": "low", "look": "reading_table", "rects": [[18, -10, 22, -8.8]], "h": 0.8},
+	{"zone": "F", "floor": "upper", "kind": "low", "look": "pedestal", "rects": [[31, -25.5, 33, -24.5]], "h": 1.0},
+	{"zone": "F", "floor": "upper", "kind": "low", "look": "archive_crate", "rects": [[31.5, -16.5, 33.5, -14.5]], "h": 1.2},
+	# v3: an entrance screen (full height) 2.4 m inside the main doors. In v2 the
+	# lobby guard could see the doorway from most of its loop: players caught
+	# before the first checkpoint respawned on the porch, went straight back in and
+	# were caught again. Behind the screen they can stop and watch the lobby first.
+	{"zone": "A", "floor": "ground", "kind": "rack", "look": "display_case", "rects": [[-3, 25.2, 3, 25.6]], "h": 2.2},
 ]
 
 ## The mission: five objectives, in order (ObjectiveManager ids). "pos" is
@@ -271,13 +278,49 @@ const EXIT_DOOR := {"opening": "Loading Dock Exit", "key": "unlock_shortcut",
 ## Checkpoints: a pad at "pos" (floor level); the player respawns there facing "facing" (degrees about y).
 const CHECKPOINTS := [
 	{"name": "Study Rooms", "node": "CheckpointStudyRooms", "zone": "C", "pos": Vector3(-3, 0, -18.5), "facing": 180.0},
-	# At the back of Office 2: more than 14 m (guard sight range) from the staff
-	# corridor, so no patrol sees it through the office door.
-	{"name": "Staff Offices", "node": "CheckpointStaffOffices", "zone": "E", "pos": Vector3(4.8, UPPER_Y, -26.3), "facing": 180.0},
+	# v3: the pad is in front of the card desk, so taking the card always saves (in
+	# v2 it was at the back of the office and players walked past it); the respawn
+	# point stays at the back, more than 14 m from the staff corridor.
+	{"name": "Staff Offices", "node": "CheckpointStaffOffices", "zone": "E", "pos": Vector3(3, UPPER_Y, -21.6),
+		"spawn": Vector3(4.8, UPPER_Y, -26.3), "facing": 180.0},
 	{"name": "Storage", "node": "CheckpointStorage", "zone": "D", "pos": Vector3(31, 0, 8.5), "facing": 180.0},
 ]
 
 const WIN_MESSAGE := "You got out with the rare manuscript."
+
+## Detection tuning for this level's guards (GuardVision exports; the tutorial keeps
+## the defaults: min 12, max 60 per second). v3: a player sprinting straight
+## through the level, ignoring the guards, finished in about 45 s with at most one
+## capture; a guard's meter now fills faster, so staying in a guard's view costs
+## more, while crouching (half the rate) and breaking line of sight still work.
+const GUARD_VISION := {"min_rise_rate": 20.0, "max_rise_rate": 80.0}
+
+## Guard tuning for this level (Guard exports; the tutorial keeps chase_speed 4.2).
+## v3: with chase 4.2 m/s a sprinting player (5.5 m/s) outran every chase; the
+## "reckless" playtester, ignoring the guards, still finished in 1:13–1:44 with one
+## capture, faster than careful play. At 5.6 m/s a chasing guard keeps up: the
+## player must break line of sight (corners, doors, cover) instead of outrunning it.
+const GUARD_TUNING := {"chase_speed": 5.6}
+
+## Signs (dressing, no collision): text on a board 3.05 m up, facing "facing"
+## degrees about y (0 = the text faces +z). "red" marks restricted areas.
+const SIGNS := [
+	{"text": "STAFF OFFICES · UPSTAIRS", "pos": Vector3(-11.83, 3.05, 21.0), "facing": 90.0},
+	{"text": "STACKS · BACK STAIR", "pos": Vector3(-11.83, 3.05, 24.0), "facing": 90.0},
+	{"text": "RESTRICTED · STAFF CARD", "pos": Vector3(11.83, 3.05, 21.0), "facing": -90.0, "red": true},
+	{"text": "LOBBY", "pos": Vector3(12.17, 3.05, 21.0), "facing": 90.0},
+	{"text": "STAFF ONLY", "pos": Vector3(11.83, 3.05, 4.0), "facing": -90.0, "red": true},
+	{"text": "READING HALL", "pos": Vector3(12.17, 3.05, 4.0), "facing": 90.0},
+	{"text": "LOADING DOCK", "pos": Vector3(22.0, 3.05, 11.83), "facing": 180.0},
+	{"text": "STAFF OFFICES", "pos": Vector3(3.0, U_SIGN, -7.83), "facing": 0.0},
+	{"text": "STAFF OFFICES", "pos": Vector3(-6.17, U_SIGN, -11.0), "facing": -90.0},
+	{"text": "RESTRICTED ARCHIVE · STAFF CARD", "pos": Vector3(11.83, U_SIGN, -11.0), "facing": -90.0, "red": true},
+	{"text": "VAULT", "pos": Vector3(27.83, U_SIGN, -21.0), "facing": -90.0},
+	{"text": "BACK GATE · STAFF STAIR", "pos": Vector3(29.83, U_SIGN, -9.0), "facing": -90.0},
+	{"text": "BACK GATE · OPENS FROM INSIDE", "pos": Vector3(30.17, U_SIGN, -9.0), "facing": 90.0, "red": true},
+	{"text": "STAFF STAIR ↓ LOADING DOCK", "pos": Vector3(35.83, UPPER_Y + 2.2, -9.0), "facing": -90.0},
+]
+const U_SIGN := UPPER_Y + 3.05
 
 ## Doors and gates by what opens them (the doorways named in WALLS; drawn on the maps).
 const GATES := [
@@ -295,19 +338,32 @@ const GATES := [
 ## to wait at every point (the guard's default is 2 s). Guards use the existing
 ## AI unchanged: PATROL / INVESTIGATE / CHASE.
 const PATROLS := [
+	# v3: the north leg moved from z 25 to z 21.5–22, off the entrance. Walking along
+	# z 25 the guard reached the doors about 20 s after every reset, so a player
+	# caught before the first checkpoint was caught again on re-entering (the
+	# playtests looped there up to 50 times). It still watches the S1 foot and G4.
 	{"id": "P1", "name": "Lobby", "zone": "A", "y": 0.0, "guard": "GuardLobby",
-		"points": [[-6, 15.5], [8, 13], [9, 25], [-6, 25]]},
+		"points": [[-6, 15.5], [8, 13], [8.5, 21.5], [-5, 22]]},
 	{"id": "P2", "name": "Main Stacks", "zone": "B", "y": 0.0, "guard": "GuardStacksOuter",
 		"points": [[-14, -24], [-14, 4], [-33.5, 4], [-33.5, -24]]},
-	{"id": "P2b", "name": "Stacks Inner", "zone": "B", "y": 0.0, "guard": "GuardStacksInner",
+	# v3: P2b lost its guard (to P4): two guards made the optional stacks the most
+	# watched part of the map and the "quiet" stacks route the noisier one.
+	{"id": "P2b", "name": "Stacks Inner", "zone": "B", "y": 0.0,
 		"points": [[-17.5, -9], [-29.5, -9], [-29.5, 8], [-20, 19], [-14.5, 8]]},
 	{"id": "P3", "name": "Reading Hall", "zone": "C", "y": 0.0, "points": [[-9.5, -11.5], [9.5, -11.5], [9.5, 7], [-9.5, 7]]},
-	{"id": "P4", "name": "Service Corridor", "zone": "D", "y": 0.0, "points": [[14.5, -25], [14.5, 24], [26, 20], [25, 3]]},
+	# v3: guarded. Zone D was never watched (0%): the service corridor, the escape
+	# through storage and the dock had no challenge at all.
+	{"id": "P4", "name": "Service Corridor", "zone": "D", "y": 0.0, "guard": "GuardService", "wait": 2.5,
+		"points": [[14.5, -18], [14.5, 17], [25, 20], [25, 3]]},
+	# v3: the S1-top point moved from (−13, 6) to (−13, −1). The guard waited 3 m from
+	# the top of the main stair, facing it: a player coming up met it face to face.
 	{"id": "P5", "name": "Upper Stacks", "zone": "E", "y": UPPER_Y, "guard": "GuardUpper",
-		"points": [[-13, -25], [-13, 6], [-33.5, 2], [-33.5, -25]]},
+		"points": [[-13, -25], [-13, -1], [-33.5, 2], [-33.5, -25]]},
 	{"id": "P6", "name": "Staff Corridor", "zone": "E", "y": UPPER_Y, "points": [[-3, -11], [9, -11], [3, -18.5]]},
+	# v3: the hall leg stops at x 23.2 and the loop turns south-east, so the guard no
+	# longer walks straight at the open back gate (it caught players on the landing).
 	{"id": "P7", "name": "Archive", "zone": "F", "y": UPPER_Y, "guard": "GuardArchive",
-		"points": [[14, -9], [26.5, -9], [26.5, -26], [14, -26]]},
+		"points": [[14, -9], [23.2, -9], [26.5, -15], [26.5, -26], [14, -26]]},
 	# Connecting patrol: reading hall → lobby → up S1 → balcony → staff corridor (G1a)
 	# → upper stacks (G1b) → down S3 → browsing hall → main stacks → reading hall.
 	{"id": "P8", "name": "Connector", "zone": "A", "y": 0.0, "guard": "GuardConnector", "wait": 1.5,
@@ -322,18 +378,24 @@ static func patrol_point(patrol: Dictionary, k: int) -> Vector3:
 	return Vector3(p[0], p[1], p[2]) if p.size() == 3 else Vector3(p[0], patrol.y, p[1])
 
 
-## Planned hiding opportunities (crouched behind or inside cover).
+## Hiding spots: crouched behind or inside cover. Since v3 each is a real
+## HidingSpot (the HUD shows HIDDEN there when crouched and unseen) with a dark
+## floor mark, as the tutorial's carrels.
 const HIDING := [
 	{"name": "Study 1 carrel", "zone": "C", "pos": Vector3(-10.5, 0, -26.8)},
 	{"name": "Study 3 carrel", "zone": "C", "pos": Vector3(4.5, 0, -26.8)},
 	{"name": "Reading table", "zone": "C", "pos": Vector3(-6, 0, -4.4)},
 	{"name": "Browsing shelf", "zone": "B", "pos": Vector3(-28.8, 0, 15)},
 	{"name": "Circulation desk", "zone": "A", "pos": Vector3(4, 0, 17.3)},
+	{"name": "Entrance screen", "zone": "A", "pos": Vector3(0, 0, 26.4)},
 	{"name": "Storage rack", "zone": "D", "pos": Vector3(24, 0, 7)},
 	{"name": "Dock crate", "zone": "D", "pos": Vector3(28, 0, 17.6)},
 	{"name": "Upper stacks aisle", "zone": "E", "pos": Vector3(-29, UPPER_Y, -18)},
 	{"name": "Office 3 desk", "zone": "E", "pos": Vector3(9, UPPER_Y, -24.8)},
 	{"name": "Archive alcove", "zone": "F", "pos": Vector3(32.5, UPPER_Y, -13.6)},
+	# v3: two more on the main route, where the playtests had to back off most.
+	{"name": "Archive stacks aisle", "zone": "F", "pos": Vector3(19.5, UPPER_Y, -22)},
+	{"name": "Balcony table", "zone": "E", "pos": Vector3(0, UPPER_Y, -1.6)},
 ]
 
 ## Intended player routes (design intent, drawn on the maps and walked by the tests).
@@ -353,6 +415,9 @@ const ROUTES := [
 		Vector3(26.5, UPPER_Y, -21), Vector3(26.5, UPPER_Y, -11), Vector3(12, UPPER_Y, -11), Vector3(3, UPPER_Y, -11),
 		Vector3(2, UPPER_Y, -2), Vector3(-10.35, UPPER_Y, 8), Vector3(-10.35, 0, 21.5), Vector3(12, 0, 21),
 		Vector3(14.5, 0, 21), Vector3(27, 0, 20), Vector3(34.6, 0, 24)]},
+	{"name": "Way out through the back gate (the shortcut)", "colour": Color(0.4, 1.0, 0.6), "points": [
+		Vector3(26.5, UPPER_Y, -21), Vector3(26.5, UPPER_Y, -9), Vector3(30, UPPER_Y, -9), Vector3(34.35, UPPER_Y, -8.5),
+		Vector3(34.35, 0, 5.5), Vector3(29, 0, 10), Vector3(22, 0, 12), Vector3(27, 0, 20), Vector3(34.6, 0, 24)]},
 	{"name": "Shortcut SC1 (one-way, corridor → reading hall)", "colour": Color(1.0, 0.8, 0.2), "points": [
 		Vector3(14.5, 0, 4), Vector3(12, 0, 4), Vector3(8, 0, 4)]},
 ]

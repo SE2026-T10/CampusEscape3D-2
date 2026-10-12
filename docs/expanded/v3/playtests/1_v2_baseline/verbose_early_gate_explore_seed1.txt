@@ -1,0 +1,80 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+    0:18 retreat at (0.0, 0.0, 24.1)
+  t=0:20 at (0.0, 0.0, 26.6) objective=take_card status=SPOTTED catches=0 crouch=true
+    0:37 retreat at (-0.2, 0.0, 20.4)
+  t=0:40 at (-0.4, 0.0, 20.8) objective=take_card status=NONE catches=0 crouch=true
+  t=1:00 at (3.0, 4.5, -16.9) objective=take_card status=NONE catches=0 crouch=false
+    1:08 retreat at (12.0, 4.5, -11.0)
+    1:10 retreat at (11.8, 4.5, -11.0)
+  t=1:20 at (16.6, 4.5, -11.0) objective=take_manuscript status=NONE catches=0 crouch=true
+    1:36 retreat at (16.3, 4.5, -21.4)
+  t=1:40 at (19.4, 4.5, -20.0) objective=take_manuscript status=NONE catches=0 crouch=false
+    1:52 retreat at (31.7, 4.5, -9.0)
+    1:59 flee at (28.4, 4.5, -13.2)
+  t=2:00 at (29.1, 4.5, -10.5) objective=escape status=CHASE catches=0 crouch=false
+    2:00 CAUGHT by GuardArchive
+    2:10 retreat at (0.0, 0.0, 23.8)
+  t=2:20 at (0.0, 0.0, 25.3) objective=take_card status=NONE catches=1 crouch=true
+    2:22 retreat at (0.0, 0.0, 21.4)
+    2:34 retreat at (-0.9, 0.0, 24.0)
+  t=2:40 at (-1.6, 0.0, 20.5) objective=take_card status=NONE catches=1 crouch=true
+    2:40 retreat at (-1.6, 0.0, 20.5)
+  t=3:00 at (3.0, 4.5, -8.3) objective=take_card status=NONE catches=1 crouch=false
+    3:10 retreat at (12.0, 4.5, -11.0)
+    3:13 retreat at (11.9, 4.5, -11.0)
+  t=3:20 at (10.8, 4.5, -11.0) objective=take_manuscript status=NONE catches=1 crouch=true
+  t=3:40 at (16.4, 4.5, -21.4) objective=take_manuscript status=NONE catches=1 crouch=false
+    3:40 retreat at (16.1, 4.5, -21.5)
+    3:56 retreat at (31.7, 4.5, -9.0)
+  t=4:00 at (28.5, 4.5, -12.6) objective=escape status=SPOTTED catches=1 crouch=true
+    4:03 flee at (28.5, 4.5, -13.0)
+    4:04 CAUGHT by GuardArchive
+    4:14 retreat at (0.0, 0.0, 23.8)
+  t=4:20 at (-0.0, 0.0, 30.2) objective=take_card status=NONE catches=2 crouch=true
+    4:26 retreat at (0.0, 0.0, 21.4)
+    4:38 retreat at (-0.9, 0.0, 24.0)
+  t=4:40 at (-0.4, 0.0, 24.4) objective=take_card status=NONE catches=2 crouch=true
+    4:43 retreat at (-1.6, 0.0, 20.5)
+  t=5:00 at (-2.9, 4.5, 2.2) objective=take_card status=NONE catches=2 crouch=false
+    5:19 retreat at (11.0, 4.5, -11.0)
+  t=5:20 at (11.2, 4.5, -11.0) objective=take_manuscript status=NONE catches=2 crouch=true
+  t=5:40 at (23.6, 4.5, -12.7) objective=take_manuscript status=NONE catches=2 crouch=false
+    5:44 retreat at (16.2, 4.5, -21.4)
+  t=6:00 at (30.9, 4.5, -9.2) objective=escape status=NONE catches=2 crouch=false
+    6:00 retreat at (32.0, 4.5, -8.9)
+    6:06 flee at (28.5, 4.5, -13.0)
+    6:08 CAUGHT by GuardArchive
+    6:17 retreat at (0.0, 0.0, 23.8)
+  t=6:20 at (0.0, 0.0, 27.7) objective=take_card status=NONE catches=3 crouch=true
+    6:29 retreat at (0.0, 0.0, 21.4)
+  t=6:40 at (-0.1, 0.0, 24.4) objective=take_card status=INVESTIGATING catches=3 crouch=true
+    6:41 retreat at (-0.9, 0.0, 24.0)
+    6:47 retreat at (-1.6, 0.0, 20.5)
+  t=7:00 at (-10.2, 4.0, 11.1) objective=take_card status=NONE catches=3 crouch=false
+    7:18 retreat at (12.0, 4.5, -11.0)
+  t=7:20 at (11.9, 4.5, -11.0) objective=take_manuscript status=NONE catches=3 crouch=true
+    7:21 retreat at (11.9, 4.5, -11.0)
+  t=7:40 at (26.3, 4.5, -10.9) objective=take_manuscript status=NONE catches=3 crouch=true
+    7:47 retreat at (16.1, 4.5, -21.5)
+  t=8:00 at (27.9, 4.5, -20.8) objective=escape status=NONE catches=3 crouch=false
+    8:04 retreat at (31.7, 4.5, -9.0)
+    8:10 flee at (28.5, 4.5, -13.0)
+    8:11 CAUGHT by GuardArchive
+  t=8:20 at (0.0, 0.0, 24.4) objective=take_card status=NONE catches=4 crouch=true
+    8:21 retreat at (0.0, 0.0, 23.8)
+    8:33 retreat at (0.0, 0.0, 21.4)
+  t=8:40 at (-0.2, 0.0, 25.5) objective=take_card status=INVESTIGATING catches=4 crouch=true
+    8:45 retreat at (-0.9, 0.0, 24.0)
+    8:51 retreat at (-1.5, 0.0, 20.5)
+  t=9:00 at (-10.0, 0.0, 20.0) objective=take_card status=NONE catches=4 crouch=true
+  t=9:20 at (6.3, 4.5, -11.1) objective=take_manuscript status=NONE catches=4 crouch=false
+    9:22 retreat at (12.0, 4.5, -11.0)
+    9:25 retreat at (11.9, 4.5, -11.0)
+  t=9:40 at (22.4, 4.5, -11.0) objective=take_manuscript status=NONE catches=4 crouch=true
+    9:51 retreat at (16.2, 4.5, -21.4)
+  t=10:00 at (26.7, 4.5, -21.0) objective=take_manuscript status=NONE catches=4 crouch=false
+    10:07 retreat at (31.8, 4.5, -8.9)
+    10:14 flee at (28.5, 4.5, -13.0)
+    10:15 CAUGHT by GuardArchive
+  t=10:20 at (0.0, 0.0, 32.0) objective=enter_library status=NONE catches=5 crouch=true

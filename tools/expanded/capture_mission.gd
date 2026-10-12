@@ -3,7 +3,10 @@ extends SceneTree
 ## Development tool: screenshots of the Expanded Library mission as the player
 ## sees it (HUD included), at each step of the five objectives:
 ##   01 start, 02 card door refused, 03 the staff card, 04 card door opened,
-##   05 the manuscript, 06 back gate unlocked, 07 the exit, 08 the win screen.
+##   05 the manuscript, 06 back gate unlocked, 07 the exit, 08 the win screen;
+##   and for readability: 01b hidden behind the entrance screen (HUD "HIDDEN"),
+##   01c the lobby signs, 05b the back gate from the landing (red: locked from
+##   that side).
 ## The level guards are removed; the player is placed and the interact action
 ## used through the real PlayerInteractor, so the HUD shows the real prompts
 ## and messages.
@@ -56,6 +59,13 @@ func _run() -> void:
 
 	await _stand(Vector3(0, 0, 30), Vector3(0, 1.6, 18))
 	await _shot(dir, "01_start")
+	Input.action_press("crouch")
+	await _stand(Vector3(0, 0, 26.4), Vector3(0, 1.0, 24))
+	await _wait(20)
+	await _shot(dir, "01b_hidden_behind_entrance_screen")
+	Input.action_release("crouch")
+	await _stand(Vector3(-4, 0, 22.5), Vector3(-12, 3.0, 22.5))
+	await _shot(dir, "01c_lobby_signs")
 	await _stand(Vector3(0, 0, 20), Vector3(0, 1.6, 10))   # enters the lobby: O1
 	await _stand(Vector3(10.0, U, -11), g2.global_position)
 	_interactor.try_interact()
@@ -70,6 +80,8 @@ func _run() -> void:
 	await _stand(Vector3(32, U, -23.6), item.global_position)
 	await _shot(dir, "05_manuscript")
 	_interactor.try_interact()
+	await _stand(Vector3(31.4, U, -9), g3.global_position)
+	await _shot(dir, "05b_back_gate_from_landing")
 	await _stand(Vector3(28.6, U, -9), g3.global_position)
 	_interactor.try_interact()
 	await _stand(Vector3(27.5, U, -9), Vector3(36, U + 1.0, -9))

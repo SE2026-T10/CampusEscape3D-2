@@ -28,7 +28,7 @@ The MVP is one polished level, built in Godot with GDScript, for Windows desktop
 
 - **From the editor:** open the project and press **F5**. The game starts on the main menu. Choose a map:
   - **Library Tutorial**: the original level, with its full mission.
-  - **Expanded Library**: the two-floor map (graybox), six patrolling guards and a five-objective mission: get in, take a staff access card from the offices upstairs, steal the rare manuscript from the archive vault, unlock the archive's back gate and escape through the loading dock.
+  - **Expanded Library**: the two-floor map, dressed in the tutorial's low-poly library look, six patrolling guards and a five-objective mission: get in, take a staff access card from the offices upstairs, steal the rare manuscript from the archive vault, unlock the archive's back gate and escape through the loading dock.
 - **Straight into a level** while developing: open `scenes/level/library_graybox.tscn` or `scenes/level/expanded_library.tscn` and press **F6**.
 - **Exported build:** run `CampusEscape3D.exe`.
 
@@ -88,7 +88,7 @@ Each map is one level scene with its gameplay systems as nodes in it; the main m
 
 ```
 scenes/ui/main_menu.tscn                 main scene: one button per map (LevelCatalog) / Quit
-scenes/level/expanded_library.tscn       the Expanded Library (graybox; same runtime and mission systems; built by tools/expanded/)
+scenes/level/expanded_library.tscn       the Expanded Library (same runtime and mission systems; built and dressed by tools/expanded/)
 scenes/level/library_graybox.tscn        the Library Tutorial
 ├── NavigationRegion3D (+ library_navmesh.tres)   rooms, walls, shelves, furniture, carrels (HidingSpot)
 ├── Player (scenes/player/player.tscn)   FirstPersonPlayer + PlayerNoise + PlayerInteractor + PlayerFeedback
@@ -202,7 +202,7 @@ Objectives complete in order. The exit door stays locked (red) until you have th
 4. Unlock the archive back gate. It opens only from inside the archive, and leads straight to the staff stair and the loading dock. You may open it before taking the manuscript.
 5. Escape through the loading dock exit (**E**). It stays sealed until the back gate is open.
 
-Checkpoints: Study Rooms, Staff Offices (back of Office 2) and Storage. Being caught undoes everything since the last checkpoint, doors included.
+Checkpoints: Study Rooms, Staff Offices (at the card desk) and Storage. Being caught undoes everything since the last checkpoint, doors included. Dark floor marks show hiding spots (crouch there: HIDDEN); red signs mark restricted doors. The guards here notice faster and chase faster than in the tutorial: break line of sight rather than trying to outrun them.
 
 **Checkpoints.** Step onto a checkpoint pad (Hallway West, and the Staff Nook off the back corridor) to make it your respawn point. It turns green.
 
@@ -314,9 +314,11 @@ godot --headless --path . --script res://tools/map_flow.gd  # both maps selected
 - `tests/vision_tests.gd` — Phase 5 checks in a purpose-built arena: FOV and range maths, a player straight ahead is seen and the meter fills in the expected time, the meter holds then drains after losing sight, the last known position never updates while hidden, walls and tall shelves block sight but a low table doesn't, players outside the cone or out of range are not seen, far players fill the meter slowly, thresholds are configurable, and the debug cone stops at walls. In the library: every guard has vision, and no guard sees the spawn during a full patrol loop.
 - `tests/navigation_tests.gd` — Phase 3 checks: every room exists, navigation covers open floor and none of the walls or furniture, nothing is baked outside the rooms or on furniture, every floor edge is walled, paths reach every room without crossing walls, a `NavigationAgent3D` probe walks from the entrance to the exit, the debug overlay draws the navmesh, and the saved navmesh matches a fresh bake.
 
-- `tests/expanded_graybox_tests.gd` — Expanded Library graybox: scene structure, doorway and stair dimensions, navmesh on both floors, every planned location reachable, each stair on its own, planned gates and two approaches (rebaked with blockers), and a real-input walk of the main and alternative routes.
+- `tests/expanded_graybox_tests.gd` — Expanded Library graybox: scene structure, doorway and stair dimensions, navmesh on both floors, the visual dressing (no collision in it, one box collider per solid piece, no decorative mesh within 0.15 m of the walkable space), every planned location reachable, each stair on its own, planned gates and two approaches (rebaked with blockers), and a real-input walk of the main and alternative routes.
 - `tests/expanded_ai_tests.gd` — Expanded Library navigation and guards: both floors baked and sealed, every patrol point clear of doorways and stairs, all six guards completing their loops together with nothing stuck, vision (walls, shelves, the slab, the balcony railing), hearing (open, through a wall, through the slab), chase and loss of contact, a chase up a stair and back, head-on crossings in a door and on a stair, and one guard touring every gate and stair.
 - `tests/expanded_mission_tests.gd` — Expanded Library mission: the five objectives played with real input (walking, looking, E) from a fresh start to the win screen; every bypass refused (card doors without the card, one-way doors from the wrong side, the manuscript before the card, the exit before the shortcut) and closed doors blocking the walking player and a guard's sight; the back gate opened before the manuscript; captures before and right after the card, after the manuscript and after the shortcut, five repeated captures, level guards reset, no checkpoint during a chase; after every respawn the mission state equals the checkpoint's snapshot and items, doors, objectives, exit and HUD agree.
+- Balance tools (development only): `tools/expanded/coverage_map.gd` (where guards can see, heat maps, route exposure), `tools/expanded/playtest_bot.gd` (an automated playtester that plays the mission through the real player), `tools/expanded/summarize_playtests.py`. See `docs/expanded/phase-5-balance.md`; human playtests: `docs/expanded/PLAYTEST_PROTOCOL.md`.
+- Visual-pass tools (development only): `tools/expanded/capture_views.gd` (the same player views on any build), `tools/expanded/light_report.gd` (lights against the Compatibility renderer's limits, light on the guards' routes), `tools/expanded/profile_expanded.gd` (rendering profile, with diagnostics), `tools/expanded/collision_fingerprint.gd` (every collider, guard and patrol point; diff two builds). See `docs/expanded/phase-6-visual-polish.md`.
 - `tests/map_selection_tests.gd` — map selection: the catalog, one menu button per map with keyboard navigation, each button loading its map once, and for each map (loaded twice) one of each system, Restart → same map, Main menu → menu, signal connections made once, everything freed on leaving.
 
 **Before a release:** work through `docs/qa/REGRESSION_CHECKLIST.md`: the automated part, plus the manual checks on Windows.
@@ -496,4 +498,4 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 - `docs/phase-15-build-pipeline.md`
 - `docs/release-notes/v1.0.0.md`
 - **[`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md)** (final MVP report and release validation)
-- Expanded Library: `docs/expanded/phase-0-audit.md`, `docs/expanded/LAYOUT.md`, `docs/expanded/phase-1-graybox.md`, `docs/expanded/phase-2-map-selection.md`, `docs/expanded/phase-3-navigation-and-guards.md`, `docs/expanded/phase-4-mission.md`, `docs/expanded/LEVEL_LOG.md`
+- Expanded Library: `docs/expanded/phase-0-audit.md`, `docs/expanded/LAYOUT.md`, `docs/expanded/phase-1-graybox.md`, `docs/expanded/phase-2-map-selection.md`, `docs/expanded/phase-3-navigation-and-guards.md`, `docs/expanded/phase-4-mission.md`, `docs/expanded/phase-5-balance.md`, `docs/expanded/phase-6-visual-polish.md`, `docs/expanded/PLAYTEST_PROTOCOL.md`, `docs/expanded/LEVEL_LOG.md`
