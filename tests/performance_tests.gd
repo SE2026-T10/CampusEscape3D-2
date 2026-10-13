@@ -35,7 +35,12 @@ func _check_shadow_settings() -> void:
 
 
 func _check_benchmark_tool() -> void:
-	_expect(Benchmark.SCENARIOS == {"normal": 3, "several": 8, "stress": 24}, "Benchmark scenarios should be 3, 8 and 24 guards.")
+	_expect(Benchmark.LEVELS.tutorial.scenarios == {"normal": 3, "several": 8, "stress": 24}, "Benchmark scenarios (tutorial) should be 3, 8 and 24 guards.")
+	_expect(Benchmark.LEVELS.expanded.scenarios == {"normal": 6, "several": 12, "stress": 24}, "Benchmark scenarios (Expanded Library) should be 6, 12 and 24 guards.")
+	for level_name in Benchmark.LEVELS:
+		var level: Dictionary = Benchmark.LEVELS[level_name]
+		_expect(ResourceLoader.exists(level.scene) and level.camera.size() >= 2 and not level.noise.is_empty(),
+			"Benchmark level '%s' needs a scene, a camera loop and noise points." % level_name)
 	_expect(Benchmark.COLUMNS.size() == 24 and Benchmark.COLUMNS[0] == "frame_ms", "Benchmark columns changed; update the docs and analyse.py.")
 	var values := PackedFloat64Array([5, 1, 4, 2, 3, 10, 6, 7, 9, 8])
 	_expect(Benchmark._percentile(values, 50.0) == 5.0 and Benchmark._percentile(values, 95.0) == 10.0

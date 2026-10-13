@@ -10,7 +10,7 @@ This page covers how Campus Escape 3D is validated, tested and built, both local
 | Godot download | `Godot_v4.7.2-stable_linux.x86_64.zip` from `github.com/godotengine/godot-builds` releases, checked against the release's `SHA512-SUMS.txt` | `tools/ci/setup_godot.sh` |
 | Export templates | `Godot_v4.7.2-stable_export_templates.tpz` from the same release, same checksum check; only the Windows x64 templates are kept | `tools/ci/setup_godot.sh` |
 | Export preset | "Windows Desktop": x86_64, release, `.pck` next to the `.exe`, `tests/*` and `tools/*` excluded | `export_presets.cfg` |
-| Game version | `application/config/version` (e.g. `1.0.0`), with the preset's file and product versions at `1.0.0.0` | `project.godot`, `export_presets.cfg`; checked by `tools/ci/validate.sh` |
+| Game version | `application/config/version` (now `1.1.0`), with the preset's file and product versions at `1.1.0.0` | `project.godot`, `export_presets.cfg`; checked by `tools/ci/validate.sh` |
 | CI runner | `ubuntu-24.04` | workflow |
 
 No secrets are needed or stored. The release step uses the workflow's own short-lived `GITHUB_TOKEN`.
@@ -22,7 +22,7 @@ No secrets are needed or stored. The release step uses the workflow's own short-
 | `tools/ci/setup_godot.sh` | downloads Godot and the export templates, verifies their SHA-512 checksums, installs the templates; prints the Godot path | a download fails or a checksum doesn't match |
 | `tools/ci/validate.sh` | checks the exact Godot version, imports the project, compiles every script (`tools/ci/check_scripts.gd`), checks the version numbers (and the tag, on a tag build) | wrong Godot; import errors; a script doesn't compile; versions don't match |
 | `tools/ci/run_tests.sh` | runs the full test suite (`tests/test_scene.tscn`), the game-flow run (`tools/qa_flow.gd`) and the map-selection run (`tools/map_flow.gd`), both with real scene changes, headless | the suite doesn't exit 0 or print "All tests passed"; any script error; a flow run doesn't pass; any error or warning in the map-selection run |
-| `tools/ci/export_windows.sh` | exports the Windows x64 release build and zips it as `dist/CampusEscape3D-<version>-windows-x64.zip` | export fails or logs an error; no `.exe` or `.pck`; the `.exe` isn't a Windows program; the main scenes are missing from the pack; tests or tools ended up in it |
+| `tools/ci/export_windows.sh` | exports the Windows x64 release build and zips it as `dist/CampusEscape3D-<version>-windows-x64.zip` | export fails or logs an error; no `.exe` or `.pck`; the `.exe` isn't a Windows program; something either map needs is missing from the pack (the menu and `LevelCatalog`, both level scenes and both navmeshes, the player and guard, the Expanded Library's props and its door, decoration and book scripts); tests or tools ended up in it |
 
 Logs go to `ci-logs/`, and the build goes to `build/` and `dist/`. Git ignores all three folders.
 
@@ -31,7 +31,7 @@ Logs go to `ci-logs/`, and the build goes to `build/` and `dist/`. Git ignores a
 ```
 export GODOT="$(bash tools/ci/setup_godot.sh | tail -n 1)"   # or point GODOT at your own Godot 4.7.2
 bash tools/ci/validate.sh
-bash tools/ci/run_tests.sh       # about 4 minutes
+bash tools/ci/run_tests.sh       # about 12 minutes (both maps)
 bash tools/ci/export_windows.sh
 ```
 
@@ -84,9 +84,24 @@ The `.exe` and `.pck` aren't byte-for-byte identical between builds, because the
 2. Delete the tag: `git push origin :refs/tags/vX.Y.Z` and `git tag -d vX.Y.Z`.
 3. Fix the problem and tag again.
 
+## Release 1.1.0: both maps
+
+The project is at version `1.1.0` (the Expanded Library added to the tutorial), and the release notes are in `docs/release-notes/v1.1.0.md`. The release check is in `docs/expanded/phase-7-release.md`.
+
+To publish (the maintainer; nothing here pushes on its own):
+1. Commit the release changes on `Development` and push.
+2. Wait for the **Build** workflow to pass on that commit, then download the artifact `CampusEscape3D-1.1.0-windows-x64` and run the Windows checks still open in `docs/expanded/phase-7-release.md` (launch, both maps, the benchmark).
+3. Tag the commit:
+   ```
+   git tag -a v1.1.0 -m "Campus Escape 3D 1.1.0 (Expanded Library)"
+   git push origin v1.1.0
+   ```
+
+`v1.0.0` was never pushed as a tag. To publish it as well, tag the MVP commit `15b3ebf` (`git tag -a v1.0.0 15b3ebf -m "Campus Escape 3D 1.0.0 (MVP)"`). Its tag build checks out that commit, so it builds the MVP as it was.
+
 ## MVP release: v1.0.0
 
-The project is at version `1.0.0`, and the release notes are in `docs/release-notes/v1.0.0.md`.
+The MVP was version `1.0.0`, with release notes in `docs/release-notes/v1.0.0.md`.
 
 To publish:
 1. Commit and push to `Development`.

@@ -1,8 +1,10 @@
 extends SceneTree
 
-## Reproducible performance benchmark for the library level.
+## Reproducible performance benchmark for either map: the Library Tutorial
+## (default) or the Expanded Library (--level=expanded).
 ##
 ##   godot --path . --script res://tools/benchmark.gd -- --scenario=normal --out=docs/performance/runs/my_run
+##   godot --path . --script res://tools/benchmark.gd -- --level=expanded --scenario=stress --out=...
 ##   godot --headless --fixed-fps 60 --path . --script res://tools/benchmark.gd -- --scenario=stress
 ##
 ## Two ways to run it:
@@ -13,8 +15,10 @@ extends SceneTree
 ##     CPU cost of one game frame (scripts, physics, navigation, animation)
 ##
 ## Options (all optional):
-##   --scenario=normal|several|stress   3, 8 or 24 guards (default normal)
-##   --npcs=N         any guard count instead (the level's 3 plus N-3 extra)
+##   --level=tutorial|expanded   which map (default tutorial)
+##   --scenario=normal|several|stress   tutorial: 3, 8 or 24 guards; expanded:
+##                    6, 12 or 24 guards (default normal: the map's own guards)
+##   --npcs=N         any guard count instead (the level's own plus extra ones)
 ##   --seconds=S      measured time in simulated seconds (default 30)
 ##   --warmup=S       simulated seconds before measuring (default 5)
 ##   --out=PATH       folder for frames.csv, summary.json, summary.md (+ screenshot)
@@ -27,10 +31,12 @@ extends SceneTree
 ##                    shadow_size (sun shadow atlas 2048 instead of 4096)
 ##
 ## What happens, the same way every run:
-##   - the real library scene loads; the player stands at the spawn (no input)
-##   - extra guards are added on the level's three patrol routes, spread along them
-##   - a benchmark camera flies a fixed loop through every room (driven by
-##     simulated time, so every run sees the same path)
+##   - the real level scene loads; the player stands at the spawn (no input)
+##   - extra guards are added on the level's own patrol routes, spread along them
+##   - a benchmark camera flies a fixed loop through the level (driven by
+##     simulated time, so every run sees the same path): in the tutorial through
+##     every room; in the Expanded Library along the mission's main route, up S1,
+##     through the staff wing and the archive, down S2 and back through the lobby
 ##   - every 4 s a RUN noise is emitted at the next point of a fixed list, so
 ##     guards investigate (navigation and AI work, not just patrolling)
 ## Measured every rendered frame: frame time; time in all physics-tick scripts
@@ -47,19 +53,36 @@ extends SceneTree
 ## because it is stuck, it is recorded in summary.json (stuck_events).
 ## Nothing here changes the game itself.
 
-const LEVEL := "res://scenes/level/library_graybox.tscn"
 const GUARD := "res://scenes/npc/guard.tscn"
-const SCENARIOS := {"normal": 3, "several": 8, "stress": 24}
 const PHYSICS_HZ := 60.0
-## Camera loop through the level (x, z at eye height 1.6).
-const CAMERA_PATH := [
-	Vector2(0, 19), Vector2(0, 8), Vector2(-6, 2), Vector2(-10.5, -6), Vector2(-10.5, -14),
-	Vector2(-6, -20), Vector2(4, -22.5), Vector2(14, -22.5), Vector2(22.5, -16),
-	Vector2(22.5, -2), Vector2(12, 4), Vector2(4, 10), Vector2(0, 19)]
-const CAMERA_SPEED := 3.0
-## Noise points (RUN), one every NOISE_EVERY seconds, cycling.
-const NOISE_POINTS := [Vector3(6, 0, 4), Vector3(-6, 0, -2), Vector3(-9, 0, -20),
-	Vector3(10, 0, -22.5), Vector3(22.5, 0, -10), Vector3(2, 0, -4)]
+const U := 4.5   # the Expanded Library's upper floor
+## Per map: the scene, guard counts per scenario, the camera loop (points on
+## the floor; the camera is 1.6 m above them, moving at "speed" m/s) and the
+## noise points (a RUN noise at the next one every NOISE_EVERY seconds).
+const LEVELS := {
+	"tutorial": {
+		"scene": "res://scenes/level/library_graybox.tscn",
+		"scenarios": {"normal": 3, "several": 8, "stress": 24},
+		"speed": 3.0,
+		"camera": [Vector3(0, 0, 19), Vector3(0, 0, 8), Vector3(-6, 0, 2), Vector3(-10.5, 0, -6), Vector3(-10.5, 0, -14),
+			Vector3(-6, 0, -20), Vector3(4, 0, -22.5), Vector3(14, 0, -22.5), Vector3(22.5, 0, -16),
+			Vector3(22.5, 0, -2), Vector3(12, 0, 4), Vector3(4, 0, 10), Vector3(0, 0, 19)],
+		"noise": [Vector3(6, 0, 4), Vector3(-6, 0, -2), Vector3(-9, 0, -20),
+			Vector3(10, 0, -22.5), Vector3(22.5, 0, -10), Vector3(2, 0, -4)]},
+	"expanded": {
+		"scene": "res://scenes/level/expanded_library.tscn",
+		"scenarios": {"normal": 6, "several": 12, "stress": 24},
+		"speed": 6.0,
+		# The main route (layout ROUTES), the shortcut out, and back through the lobby.
+		"camera": [Vector3(0, 0, 30), Vector3(0, 0, 20), Vector3(-10.35, 0, 21.5), Vector3(-10.35, U, 8),
+			Vector3(2, U, -2), Vector3(3, U, -8), Vector3(3, U, -11), Vector3(3, U, -20), Vector3(3, U, -11),
+			Vector3(12, U, -11), Vector3(26.5, U, -11), Vector3(26.5, U, -21), Vector3(31, U, -22.5),
+			Vector3(26.5, U, -21), Vector3(26.5, U, -9), Vector3(30, U, -9), Vector3(34.35, U, -8.5),
+			Vector3(34.35, 0, 5.5), Vector3(29, 0, 10), Vector3(22, 0, 12), Vector3(27, 0, 20),
+			Vector3(14.5, 0, 21), Vector3(10, 0, 21), Vector3(0, 0, 20), Vector3(0, 0, 30)],
+		"noise": [Vector3(0, 0, 18), Vector3(-20, 0, -9), Vector3(0, 0, -5), Vector3(14.5, 0, 0),
+			Vector3(-20, U, -10), Vector3(3, U, -11), Vector3(20, U, -12), Vector3(25, 0, 5)]},
+}
 const NOISE_EVERY := 4.0
 ## Physics / process priorities used to time guard scripts in isolation.
 const GUARD_BAND := 1000
@@ -93,7 +116,8 @@ class Probe extends Node:
 
 
 var _scenario := "normal"
-var _npcs := 3
+var _level_name := "tutorial"
+var _npcs := -1   # -1: the scenario's count
 var _seconds := 30.0
 var _warmup := 5.0
 var _out := ""
@@ -157,7 +181,7 @@ func _run() -> void:
 	_vp = root.get_viewport_rid()
 	RenderingServer.viewport_set_measure_render_time(_vp, true)
 
-	_level = (load(LEVEL) as PackedScene).instantiate()
+	_level = (load(LEVELS[_level_name].scene) as PackedScene).instantiate()
 	root.add_child(_level)
 	_add_extra_guards()
 	_apply_disable()
@@ -193,9 +217,12 @@ func _parse_args() -> void:
 		if kv.size() < 2:
 			continue
 		match kv[0]:
+			"level":
+				_level_name = kv[1] if LEVELS.has(kv[1]) else "tutorial"
+				if not LEVELS.has(kv[1]):
+					push_warning("benchmark: unknown --level '%s'; using the tutorial" % kv[1])
 			"scenario":
 				_scenario = kv[1]
-				_npcs = SCENARIOS.get(_scenario, 3)
 			"npcs":
 				_npcs = maxi(int(kv[1]), 0)
 				_scenario = "custom"
@@ -209,8 +236,10 @@ func _parse_args() -> void:
 				_label = kv[1]
 			"disable":
 				_disable = kv[1].split(",", false)
+	if _npcs < 0:
+		_npcs = LEVELS[_level_name].scenarios.get(_scenario, LEVELS[_level_name].scenarios.normal)
 	if _label == "":
-		_label = "%s_%d" % [_scenario, _npcs]
+		_label = ("%s_%d" if _level_name == "tutorial" else "expanded_%s_%d") % [_scenario, _npcs]
 
 
 func _add_extra_guards() -> void:
@@ -340,7 +369,8 @@ func _on_physics_tick() -> void:
 		_next_noise = _sim_time + NOISE_EVERY
 		var system := NoiseSystem.find(_level)
 		if system:
-			system.emit_noise(NOISE_POINTS[_noise_index % NOISE_POINTS.size()], NoiseEvent.Type.RUN, "benchmark")
+			var points: Array = LEVELS[_level_name].noise
+			system.emit_noise(points[_noise_index % points.size()], NoiseEvent.Type.RUN, "benchmark")
 		_noise_index += 1
 
 
@@ -405,19 +435,20 @@ func _on_frame() -> void:
 
 
 func _update_camera() -> void:
+	var path: Array = LEVELS[_level_name].camera
 	var total := 0.0
-	for i in CAMERA_PATH.size() - 1:
-		total += (CAMERA_PATH[i] as Vector2).distance_to(CAMERA_PATH[i + 1])
-	var d := fmod(_sim_time * CAMERA_SPEED, total)
-	for i in CAMERA_PATH.size() - 1:
-		var a: Vector2 = CAMERA_PATH[i]
-		var b: Vector2 = CAMERA_PATH[i + 1]
+	for i in path.size() - 1:
+		total += (path[i] as Vector3).distance_to(path[i + 1])
+	var d := fmod(_sim_time * float(LEVELS[_level_name].speed), total)
+	for i in path.size() - 1:
+		var a: Vector3 = path[i]
+		var b: Vector3 = path[i + 1]
 		var seg := a.distance_to(b)
 		if d <= seg:
 			var p := a.lerp(b, d / seg)
-			_camera.global_position = Vector3(p.x, 1.6, p.y)
+			_camera.global_position = p + Vector3(0, 1.6, 0)
 			var ahead := a.lerp(b, minf((d + 1.0) / seg, 1.0)) if seg - d > 0.5 else b + (b - a).normalized()
-			_camera.look_at(Vector3(ahead.x, 1.5, ahead.y), Vector3.UP)
+			_camera.look_at(ahead + Vector3(0, 1.5, 0), Vector3.UP)
 			return
 		d -= seg
 
@@ -460,7 +491,7 @@ func _finish() -> void:
 func _summarise() -> Dictionary:
 	var frame := _column(0)
 	var s := {
-		"label": _label, "scenario": _scenario, "guards": _guards().size(), "disabled": ",".join(_disable),
+		"label": _label, "level": _level_name, "scenario": _scenario, "guards": _guards().size(), "disabled": ",".join(_disable),
 		"mode": "rendering" if _rendering else "headless",
 		"godot": Engine.get_version_info().string, "debug_build": OS.is_debug_build(),
 		"os": "%s %s" % [OS.get_name(), OS.get_version()], "cpu": OS.get_processor_name(),

@@ -24,9 +24,15 @@ if grep -E "^ERROR|SCRIPT ERROR" ci-logs/export.log; then echo "::error::Errors 
 [ -s build/CampusEscape3D.pck ] || { echo "::error::No .pck exported"; exit 1; }
 head -c 2 build/CampusEscape3D.exe | grep -q "MZ" || { echo "::error::The executable is not a Windows program"; exit 1; }
 # (The pack's file index stores paths without "res://"; exported scenes appear as <path>.remap.)
-for needed in project.binary scenes/ui/main_menu.tscn.remap scenes/level/library_graybox.tscn.remap \
-              scenes/level/expanded_library.tscn.remap \
-              scenes/npc/guard.tscn.remap scenes/player/player.tscn.remap; do
+# Both maps and what they load: the menu and its map catalog, each level with
+# its navmesh, the shared characters and props, and the Expanded Library's own
+# scripts (card / one-way doors, batched decoration, books).
+for needed in project.binary scenes/ui/main_menu.tscn.remap scripts/game/level_catalog.gd \
+              scenes/level/library_graybox.tscn.remap scenes/level/library_navmesh.tres \
+              scenes/level/expanded_library.tscn.remap scenes/level/expanded_library_navmesh.tres \
+              scenes/npc/guard.tscn.remap scenes/player/player.tscn.remap \
+              scenes/props/ceiling_light.tscn scenes/props/chair.tscn \
+              scripts/systems/objectives/access_door.gd scripts/level/batched_boxes.gd scripts/level/shelf_books.gd; do
   grep -aq "$needed" build/CampusEscape3D.pck || { echo "::error::$needed is missing from the pack"; exit 1; }
 done
 if grep -aqE "(^|[^a-z_])(tests|tools)/[a-z_]+\.gd" build/CampusEscape3D.pck; then

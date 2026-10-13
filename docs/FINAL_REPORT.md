@@ -2,6 +2,8 @@
 
 Release validation date: **2026-10-09**. Commit validated: `15b3ebf` ("Phase 15: final report") on `Development`, plus the documentation-only corrections made during this validation.
 
+> **Later release:** version 1.1.0 adds the Expanded Library. Its release check (tests, performance, build, acceptance) is in [`docs/expanded/phase-7-release.md`](expanded/phase-7-release.md). This report stays the record of the v1.0.0 MVP.
+
 Every figure below comes from a file in this repository, a test log, or the GitHub Actions run named. Where something was **not** verified, this report says so.
 
 ---

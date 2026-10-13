@@ -2,9 +2,20 @@
 
 One entry per layout version, newest last. Each version is built from `tools/expanded/expanded_layout.gd` (its `VERSION`) and gets:
 - **its own evidence folder** `docs/expanded/vN/`;
-- **its own git commit(s)**, named `level(expanded-vN): …`.
+- **its own git commit(s)** on `Development`.
 
-That way the history is in git as well as in the folders. The tutorial's log records five versions that landed in one commit; this log is kept one commit per version from the start.
+That way the history is in git as well as in the folders. The commits were planned as `level(expanded-vN): …`; on `Development` they landed under the names below (squashed per phase when pushed). v3 and v4 share one commit: v3's scene was never committed on its own, but its evidence folder `v3/` is kept unchanged.
+
+| Version | Phase | Commit on `Development` |
+|---|---|---|
+| v0 | 1 (graybox) | `cce1e9a` Library expansion phase 1 |
+| — | 2 (map selection; no layout change) | `36e0b8f` Library expansion phase 2 Multi-Map Integration |
+| v1 | 3 (guards) | `3896e7c` Expanded library phase 3 navigation and guard |
+| v2 | 4 (mission) | `8dd2d63` Expanded library Phase 4 Missions system |
+| v3 | 5 (balance) | no commit of its own: pushed together with v4 |
+| v4 | 6 (visual pass, door-frame fix) | `484761d` Expanded library phase 5 + 6 |
+
+**Suggested tags** (not created; only the maintainer pushes): `expanded-v0` → `cce1e9a`, `expanded-v1` → `3896e7c`, `expanded-v2` → `8dd2d63`, `expanded-v4` → `484761d`, e.g. `git tag -a expanded-v1 3896e7c -m "Expanded Library v1"` then `git push origin --tags`. The tutorial's log records five versions that landed in one commit.
 
 | Evidence | Made by |
 |---|---|
@@ -20,9 +31,7 @@ Screenshots are rendered under a virtual display (Xvfb, Mesa llvmpipe software O
 
 ## v0 — First graybox (Expanded Library Phase 1, 2026-10-09)
 
-Commits:
-1. `level(expanded-v0): layout design and floor plans`
-2. `level(expanded-v0): graybox scene, navmesh and tests`
+Commit: `cce1e9a` (planned as `level(expanded-v0): layout design and floor plans` and `… graybox scene, navmesh and tests`).
 
 **What:**
 - Two floors and six zones:
@@ -68,7 +77,7 @@ The full design is in [`LAYOUT.md`](LAYOUT.md).
 
 ## v1 — Guards and patrols (Expanded Library Phase 3, 2026-10-09)
 
-Commit: `level(expanded-v1): guards, patrols and stair fixes` (one commit with the tests and the guard steering fix).
+Commit: `3896e7c` (planned as `level(expanded-v1): guards, patrols and stair fixes`; one commit with the tests and the guard steering fix).
 
 **What:**
 - **Six guards on six loops,** using the existing guard scene and AI unchanged (PATROL / INVESTIGATE / CHASE):
@@ -109,7 +118,7 @@ Commit: `level(expanded-v1): guards, patrols and stair fixes` (one commit with t
 
 ## v2 — The mission (Expanded Library Phase 4, 2026-10-09)
 
-Commit: `level(expanded-v2): mission, access doors and checkpoints` (one commit with the mission systems and tests).
+Commit: `8dd2d63` (planned as `level(expanded-v2): mission, access doors and checkpoints`; one commit with the mission systems and tests).
 
 **What:**
 - **Five objectives** in the existing ObjectiveManager: enter the library → take a staff access card (Office 2) → retrieve the rare manuscript (vault) → unlock the archive back gate → escape through the loading dock.
@@ -158,7 +167,7 @@ Commit: `level(expanded-v2): mission, access doors and checkpoints` (one commit 
 
 ## v3 — Stealth balance (Expanded Library Phase 5, 2026-10-10)
 
-Commit: `level(expanded-v3): stealth balance from playtests` (one commit with the balance tools and tests).
+Commit: none of its own on `Development`; pushed in `484761d` with v4 (planned as `level(expanded-v3): stealth balance from playtests`; one commit with the balance tools and tests).
 
 **What:**
 - **Patrols:**
@@ -209,7 +218,7 @@ Commit: `level(expanded-v3): stealth balance from playtests` (one commit with th
 
 ## v4 — Visual pass (Expanded Library Phase 6, 2026-10-11)
 
-Commit: `level(expanded-v4): visual pass in the tutorial's style` (one commit with the visual-pass tools and tests).
+Commit: `484761d` (planned as `level(expanded-v4): visual pass in the tutorial's style`; one commit with the visual-pass tools and tests).
 
 **What:** the level dressed in the tutorial's low-poly library look on both floors, all of it decoration with no collision, built by the builder from the layout data (the data only gains a `look` per furniture group; no geometry changed):
 - the tutorial's palette for walls, floors by room, wainscots (red in the restricted zones), door trims and headers;
@@ -236,13 +245,15 @@ Commit: `level(expanded-v4): visual pass in the tutorial's style` (one commit wi
 | Frame time, mean (software renderer) | 95 ms | 186 ms (no GPU measurement possible) |
 | Tutorial, 9 views | — | pixel-identical |
 
+**Door-frame fix (after the visual pass, same commit):** the door posts and lintels overlapped the wall faces and flickered (z-fighting). 76 boxes in `scenes/level/expanded_library.tscn` were adjusted (50 posts 2 cm wider and 1 cm into the opening, 25 lintels 2 cm lower and 4 cm longer and deeper, 1 pedestal top 1 cm higher); decoration only, no collision changed. The builder (`tools/expanded/build_expanded_graybox.gd`) still generates the old sizes, so rebuilding the scene would bring the flicker back until the builder gets the same change.
+
 **Evidence:** [`v4/`](v4/)
 - `views/` (20 player views and 2 overviews), `compare/` (21 before/after pairs), `mission/` (11 views);
 - `lighting.md`, `profile/` (v3, v4 and diagnostics), `playtests/`, `fingerprint/`;
 - `test_run.txt`.
 
 **Open:**
-- performance on the target Windows hardware (not measurable here);
+- performance on the target Windows hardware (not measurable here; the release 1.1.0 benchmark commands are in [`../performance/release_1_1/README.md`](../performance/release_1_1/README.md));
 - a human look at readability and lighting;
 - from v3: human playtests and the 20–30 minute target.
 

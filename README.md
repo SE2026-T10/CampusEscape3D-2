@@ -4,9 +4,13 @@
 
 ## Project description
 
-Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university library at night. You sneak into the library, take an access card from the Restricted Stacks and get out through the exit. Three guards stand in your way, and they patrol, see, hear, investigate and chase.
+Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university library at night. You sneak in, steal what you came for and get out, past guards who patrol, see, hear, investigate and chase.
 
-The MVP is one polished level, built in Godot with GDScript, for Windows desktop. The current version is **1.0.0** (`application/config/version` in `project.godot`).
+It has two maps, chosen from the main menu:
+- **Library Tutorial** (the MVP level): one floor, three guards; take an access card from the Restricted Stacks and escape.
+- **Expanded Library** (since 1.1.0): two floors, six zones, six guards and a five-objective mission, planned for a 20–30 minute first completion (not yet confirmed by human playtests).
+
+Built in Godot with GDScript, for Windows desktop. The current version is **1.1.0** (`application/config/version` in `project.godot`).
 
 ## Godot version
 
@@ -80,7 +84,7 @@ GitHub Actions (`.github/workflows/build.yml`) runs on:
 
 **No secrets:** none are used or stored; the release uses the workflow's own `GITHUB_TOKEN`.
 
-**Release process:** bump the version → write release notes → push to `Development` → green run → tag `vX.Y.Z` → push the tag. Details are in `docs/BUILD.md`. The MVP release is tag **`v1.0.0`**.
+**Release process:** bump the version → write release notes → push to `Development` → green run → tag `vX.Y.Z` → push the tag. Details are in `docs/BUILD.md`. Releases: **`v1.0.0`** (MVP, the tutorial) and **`v1.1.0`** (both maps); neither tag has been pushed yet.
 
 ## Architecture
 
@@ -336,7 +340,9 @@ godot --headless --path . --script res://tools/map_flow.gd  # both maps selected
 
 ## Performance evidence
 
-Full method and data: **[`docs/phase-13-performance.md`](docs/phase-13-performance.md)**. Evidence is in `docs/performance/`: per-frame CSVs, summaries, charts and before/after renders.
+**Release 1.1.0, both maps:** [`docs/performance/release_1_1/README.md`](docs/performance/release_1_1/README.md). On the development VM (software rendering, so absolute FPS mean nothing there) the Expanded Library runs at about 93% of the tutorial's frame rate with similar draw calls, and 24 guards cost about 2.5 ms of CPU per frame in either map. **The 60 / 45 FPS targets have not been measured on Windows for this release**; the commands to do it are in that file.
+
+**Phase 13 (tutorial):** full method and data: **[`docs/phase-13-performance.md`](docs/phase-13-performance.md)**. Evidence is in `docs/performance/`: per-frame CSVs, summaries, charts and before/after renders.
 
 **Benchmark:**
 - `tools/benchmark.gd` replays a fixed scenario in the real level: the camera flies a fixed path and noise events happen on a fixed schedule.
@@ -373,16 +379,18 @@ Full method and data: **[`docs/phase-13-performance.md`](docs/phase-13-performan
 ```
 godot --path . --resolution 1280x720 --script res://tools/benchmark.gd -- --scenario=normal --out=docs/performance/my_run
 godot --headless --fixed-fps 60 --path . --script res://tools/benchmark.gd -- --scenario=stress --out=docs/performance/my_run
+godot --path . --resolution 1280x720 --script res://tools/benchmark.gd -- --level=expanded --scenario=stress --out=docs/performance/my_run
 ```
 
-- Scenarios: `normal` (3 guards), `several` (8), `stress` (24), or `--npcs=N`.
+- `--level=tutorial` (default) or `--level=expanded`. Each level has its own camera loop and noise points.
+- Scenarios: tutorial `normal` (3 guards), `several` (8), `stress` (24); Expanded Library `normal` (6), `several` (12), `stress` (24); or `--npcs=N`.
 - The headless form measures CPU only (one physics tick per frame, no rendering).
 - `python3 docs/performance/analyse.py` rebuilds the tables and charts (needs matplotlib).
 - Results and method: `docs/phase-13-performance.md`.
 
 ## Level-design version history
 
-The Expanded Library has its own log, one commit per version: **[`docs/expanded/LEVEL_LOG.md`](docs/expanded/LEVEL_LOG.md)** (design in [`docs/expanded/LAYOUT.md`](docs/expanded/LAYOUT.md)). The tutorial's history:
+The Expanded Library has its own log, with the commit of each version on `Development` (v0 `cce1e9a`, v1 `3896e7c`, v2 `8dd2d63`, v3 and v4 together `484761d`): **[`docs/expanded/LEVEL_LOG.md`](docs/expanded/LEVEL_LOG.md)** (design in [`docs/expanded/LAYOUT.md`](docs/expanded/LAYOUT.md)). The tutorial's history:
 
 The level went through five measured versions, each recorded as an evidence folder (all five landed in git as one commit, `3320e45`). The full log, with what changed, why, the metrics and before/after pictures, is in **[`docs/level/LEVEL_LOG.md`](docs/level/LEVEL_LOG.md)**.
 
@@ -402,7 +410,7 @@ The level went through five measured versions, each recorded as an evidence fold
 ## Known limitations
 
 **Scope:**
-- One level.
+- Two maps (the tutorial and the Expanded Library).
 - No save game.
 - No settings menu (mouse sensitivity, volume, resolution).
 - Quit only from the main menu.
@@ -412,6 +420,7 @@ The level went through five measured versions, each recorded as an evidence fold
 - The CI-built Windows executable was launched on Windows and played from the main menu into the level; a full manual playthrough of the checklist's Part 2 has not been recorded yet.
 - The audio has not been judged by ear.
 - The scripted playthroughs don't judge stealth difficulty; that needs human play.
+- **Release 1.1.0:** the suite, the flow runs and the export pass on Linux (the development VM, and CI Build #5 on `484761d`). Not yet done on Windows for this release: launching the exported build, choosing both maps in it, playing the Expanded Library to the end, and the frame-rate benchmark. No human has played the Expanded Library yet, so its 20–30 minute target is unconfirmed (the automated playtester's runs are in `docs/expanded/v3/` and `v4/playtests/`).
 
 **Level:**
 - The scene file is still named `library_graybox.tscn` (kept so references stay stable).
@@ -419,9 +428,10 @@ The level went through five measured versions, each recorded as an evidence fold
 - Decoration (chairs, signs, books) has no collision; plants do.
 - Windows are emissive panels.
 - Only two checkpoints; none on the east route after the card.
+- Expanded Library: its door-frame fix (z-fighting) was made in the scene file only; rebuilding the scene with `tools/expanded/build_expanded_graybox.gd` would bring the old frames back.
 
 **AI:**
-- Guards sharing one patrol route can block each other at a narrow spot for about 5 s before skipping ahead. The level has one guard per route.
+- Guards sharing one patrol route can block each other at a narrow spot for about 5 s before skipping ahead. Both maps have one guard per route; the benchmark's stress scenario adds guards to shared routes and shows it (`docs/performance/release_1_1/`).
 - Ambient sounds are decoration: guards don't hear them, and walls don't block them.
 
 **Presentation:**
@@ -434,7 +444,7 @@ The level went through five measured versions, each recorded as an evidence fold
 - Builds aren't byte-for-byte identical, because the pack records file times.
 - The workflow's actions (`checkout`, `cache`, `upload-artifact` @v4) target Node.js 20, which GitHub has deprecated; runs pass, with a warning.
 
-**CI status:** the first GitHub run, [Build #1](https://github.com/SE2026-T10/CampusEscape3D-2/actions/runs/37272574230) on commit `15b3ebf`, passed both jobs (validate and test 4 m 16 s, Windows export 39 s) and uploaded `CampusEscape3D-1.0.0-windows-x64` (37.5 MB).
+**CI status:** [Build #5](https://github.com/SE2026-T10/CampusEscape3D-2/actions/runs/38188815204) on `484761d` (Expanded Library phases 5 and 6) passed both jobs (validate and test 11 m 59 s, Windows export 42 s) and uploaded `CampusEscape3D-1.0.0-windows-x64` (37.6 MB); builds #1–#5 all passed. The 1.1.0 changes of the release phase are not pushed yet. The first GitHub run, [Build #1](https://github.com/SE2026-T10/CampusEscape3D-2/actions/runs/37272574230) on commit `15b3ebf`, passed both jobs (validate and test 4 m 16 s, Windows export 39 s) and uploaded `CampusEscape3D-1.0.0-windows-x64` (37.5 MB).
 
 ## Development notes
 
@@ -497,5 +507,8 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 - `docs/BUILD.md` (build, CI and release process)
 - `docs/phase-15-build-pipeline.md`
 - `docs/release-notes/v1.0.0.md`
+- `docs/release-notes/v1.1.0.md`
+- `docs/expanded/phase-7-release.md` (release 1.1.0: final QA, performance, build; acceptance)
+- `docs/performance/release_1_1/README.md` (both maps benchmarked)
 - **[`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md)** (final MVP report and release validation)
 - Expanded Library: `docs/expanded/phase-0-audit.md`, `docs/expanded/LAYOUT.md`, `docs/expanded/phase-1-graybox.md`, `docs/expanded/phase-2-map-selection.md`, `docs/expanded/phase-3-navigation-and-guards.md`, `docs/expanded/phase-4-mission.md`, `docs/expanded/phase-5-balance.md`, `docs/expanded/phase-6-visual-polish.md`, `docs/expanded/PLAYTEST_PROTOCOL.md`, `docs/expanded/LEVEL_LOG.md`
