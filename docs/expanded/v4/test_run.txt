@@ -1,0 +1,44 @@
+# Test run, layout v4 (final build), 2026-10-11T13:24Z
+# Godot 4.7.2 headless: tools/ci/validate.sh, tools/ci/run_tests.sh, tools/ci/export_windows.sh
+
+CHECK SCRIPTS PASSED (91 scripts)
+VALIDATION PASSED
+  [expanded] scene: 6 zones (4 ground, 2 upper), 3 stairs, 5 objective locations, shared runtime and mission systems, 13 hiding spots, 14 signs, tuned guards; tutorial is still its own scene, the default map, with default guards
+  [expanded] dimensions: narrowest opening 2.0 m, doors 2.6 m high, steepest stair 24.2°
+  [expanded] navmesh: 898 polygons; walkable ground 2795 m², upper 1663 m²; saved 4512.0 m² = fresh 4512.0 m²
+  [expanded] dressing: no collision in the decoration, 228 solid pieces with one box collider each; of 1935 decorative meshes and batched boxes, 1245 outside the colliders, 0 reaching into the walkable space (0.15 m clearance)
+  [expanded] reachability: 158 planned locations reachable from the spawn; main route 200 m along the navmesh
+  [expanded] stairs: S1, S2, S3 each connect the floors directly (up and down)
+  [expanded] gates and approaches: 23/23 checks as designed over 13 rebakes (stages start → card → back gate; archive only through G2; two approaches to the upper floor and the staff wing); way out of the archive 66 m with the shortcut vs 111 m without (41% shorter)
+  [expanded] walk: main route + 2 alternatives walked with real input, 480 m in 125 s, y 0.00…4.51, gates passed ["Archive Front Gate G2", "Archive Back Gate G3", "Lobby Staff Door G4"]
+  [maps] catalog: [&"library_tutorial", &"expanded_library"], tutorial first
+  [maps] menu: 2 map buttons in catalog order, Library Tutorial focused, Up/Down reach every button, each button loads its map once, Quit quits
+  [maps] Library Tutorial: one of each system, Restart → library_graybox.tscn, Main menu → menu, connections { "player_caught": 1, "level_reset": 2, "state_changed": 2 }, all freed on leaving (loaded twice)
+  [maps] Expanded Library: one of each system, Restart → expanded_library.tscn, Main menu → menu, connections { "player_caught": 1, "level_reset": 2, "state_changed": 2 }, all freed on leaving (loaded twice)
+  [expanded-ai] navigation: both floors baked, sealed, nothing above the upper floor; loops: P1 GuardLobby 43 m, P2 GuardStacksOuter 99 m, P4 GuardService 92 m, P5 GuardUpper 98 m, P7 GuardArchive 57 m, P8 GuardConnector 184 m
+  [expanded-ai] checkpoints: respawn points Study Rooms, Staff Offices, Storage never in a guard's view during the run
+  [expanded-ai] patrols: 6 guards completed their loops in order in 208 s game time, 0 stuck, all stayed in PATROL, spawn never seen; GuardLobby 4 pts y 0.0–0.0, GuardStacksOuter 4 pts y 0.0–0.0, GuardService 4 pts y 0.0–0.0, GuardUpper 4 pts y 4.5–4.5, GuardArchive 5 pts y 4.5–4.5, GuardConnector 8 pts y -0.0–4.5
+  [expanded-ai] vision: open aisle seen; behind a shelf, through the slab and behind the balcony railing not seen; at the railing seen
+  [expanded-ai] hearing: open sprint investigated at an estimate (not the spot); through a wall not heard; through the slab a walk is not heard, a sprint overhead is
+  [expanded-ai] pursuit: PATROL → CHASE → INVESTIGATE at the last seen spot (not the player's hiding place) → PATROL
+  [expanded-ai] stair pursuit: chased up S1, searched the upper floor, walked back down to its post
+  [expanded-ai] narrow passages: head-on crossings in a 2 m door and on S2; tour through G1a, G1b and the closed G2, G3, G4, SC1, up S2, down S3, up and down S1, with 0 stuck
+  [expanded-mission] setup: enter_library → take_card → take_manuscript → unlock_shortcut → escape; 4 access doors closed, 2 items, exit locked, 3 checkpoints
+  [expanded-mission] full mission with real input: 192 m walked in 41 s real time, E pressed 5 times; take_card (HUD OBJECTIVE 2/5), take_manuscript (HUD OBJECTIVE 3/5), take_manuscript (HUD OBJECTIVE 3/5), unlock_shortcut (HUD OBJECTIVE 4/5), escape (HUD OBJECTIVE 5/5), done (HUD OBJECTIVE 5/5) → WIN
+  [expanded-mission] no bypass: card, manuscript, G2 / G4 (both sides), G3 / SC1 (wrong side) and the exit all refused; 8 rattles
+  [expanded-mission] doors: closed G2, G4, G3, SC1 stop the walking player and block a guard's sight; open, all 6 crossings pass (6/6); doorways stay on the navmesh
+  [expanded-mission] card: taken in Office 2; G2 and G4 open with it and stay open; G3 still one-way
+  [expanded-mission] order: back gate before the manuscript works (O4 completes when it comes up), then escape
+  [expanded-mission] caught before the card: respawn at the entrance, mission back to O1
+  [expanded-mission] caught right after the card: taken off the pad → card back on the desk, G2 closed; taken on the pad → saved, card kept, G2 reopens
+  [expanded-mission] caught after the manuscript: manuscript back on its pedestal, card kept, G2 closed
+  [expanded-mission] caught after the shortcut: before Storage → everything since Staff Offices undone; after Storage → kept, then escaped
+  [expanded-mission] repeated captures: 5 captures with different progress, state equals the snapshot every time; no checkpoint during a chase
+  [expanded-mission] level guards: 6 of 6 had moved; after the capture all 6 at their starts, PATROL, detection 0
+  [expanded-mission] fresh load after progress: O1, items in place, doors closed, no checkpoint
+All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design, Phase 12 presentation, Phase 13 performance, Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards, Expanded Library mission).
+Warnings in the suite log: 8 (the 8 expected ones, see docs/qa/REGRESSION_CHECKLIST.md)
+QA FLOW PASSED (15 checks, 4 levels loaded)
+MAP FLOW PASSED (52 checks, 12 levels loaded, 3 cycles)
+TESTS PASSED
+EXPORT PASSED: dist/CampusEscape3D-1.0.0-windows-x64.zip

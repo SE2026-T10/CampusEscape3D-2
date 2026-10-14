@@ -1,0 +1,52 @@
+  [ai] random storm: 2000 operations, 295 transitions, all legal, state valid
+  [ai] state machine unit tests: 0 failure(s)
+  [player] measured: walk 3.50 m/s, sprint 5.50 m/s, travel to crate 1.647 m, to wall 3.000 m
+  [navigation] saved navmesh: 224 polygons, 628.7 m²; fresh bake: 224 polygons, 628.7 m²
+  [navigation] coverage: 429 open floor samples (0 missing), 97 samples inside obstacles (0 walkable)
+  [navigation] paths from Entrance to all 9 areas found; MainRoom→HallwayEast 32.5 m (straight 25.5 m)
+  [navigation] sealed: 630 floor-edge points checked, 0 open
+  [navigation] probe walked Entrance→Exit: 54.9 m in 276 frames, 0.43 m from target
+  [guard] GuardMain: 1 loop(s), reached [0, 1, 2, 3, 0], 4 waits, max step 0.200 m, max navmesh offset 0.19 m
+  [guard] GuardRestricted: 2 loop(s), reached [0, 1, 2, 3, 0, 1, 2, 3, 0], 8 waits, max step 0.200 m, max navmesh offset 0.26 m
+  [guard] GuardEast: 1 loop(s), reached [0, 1, 2, 3, 0, 1, 2, 3], 7 waits, max step 0.200 m, max navmesh offset 0.08 m
+  [guard] two guards crossing head-on: reached [0, 1, 0, 1] and [0, 1, 0, 1] in 20.4s, closest approach 0.77 m
+WARNING: StuckGuard is stuck on the way to its target (patrol point 1); moving on.
+  [guard] blocked guard: got_stuck after 8.2s, then reached [0, 0]
+WARNING: NoRouteGuard has no patrol route with points, so it will stand still while patrolling.
+WARNING: VisionTestGuard has no patrol route with points, so it will stand still while patrolling.
+  [vision] player 6 m ahead: seen after 0.13s, SUSPICIOUS at 0.73s, ALERTED (100) at 2.20s (expected 2.13s)
+WARNING: VisionTestGuard: no navigation mesh found nearby after 120 frames.
+  [vision] after losing sight: held 100 for 1.0s, 70.0 after 2 s of decay, back to 0 and UNAWARE; last known position unchanged
+  [vision] far detection: 1 s at 13 m → meter 16.4 (no instant detection); nothing at 15.5 m
+  [ai-level] detection cycle: 0.8s PATROL→INVESTIGATE (suspicious sighting), 2.2s INVESTIGATE→CHASE (confirmed sighting), 3.5s CHASE→INVESTIGATE (lost sight of the player), 9.7s INVESTIGATE→PATROL (investigation timed out)
+  [ai-level] noise: investigated (0.4 m from the noise), searched 6.07s, back to PATROL
+WARNING: GuardA has no patrol route with points, so it will stand still while patrolling.
+WARNING: GuardB has no patrol route with points, so it will stand still while patrolling.
+WARNING: GuardA: no navigation mesh found nearby after 120 frames.
+WARNING: GuardB: no navigation mesh found nearby after 120 frames.
+  [hearing] estimate error: mean 0.52 m at 2 m, 1.25 m at 10 m; never exact; two guards differ by 2.05 m
+  [hearing] player footsteps: walking 2 s → 8 WALK, sprinting 2 s → { "WALK": 2, "RUN": 7 }, standing → none
+  [hearing] sprint behind guard → PATROL→INVESTIGATE (noise); target 0.66 m from nearest footstep
+  [loop] carrel: standing seen over panel=true, crouched hidden behind side=true, from opening seen=true at half rate (13.6 vs 26.4)
+  [loop] spotted → guard investigated → player hid in carrel → guard returned to patrol; statuses ["SPOTTED", "INVESTIGATING", "HIDDEN"]
+  [loop] escape: chase started 4.0 m behind, gap after 2 s of sprinting 5.9 m, not caught
+  [loop] caught by LoopTestGuard, frozen for 2.5s, reset: player at entrance, guard patrolling from its start
+  [objectives] route spawn → library → checkpoint → stacks → card → checkpoint → exit door: 116 m of navigable path
+  [objectives] flow: enter_library → reach_restricted → take_card → reach_exit → escape; exit rejected 1 time(s) before the card, escaped after
+  [objectives] card taken before the checkpoint: caught → respawned at Staff Nook with the card kept (reach_exit)
+  [objectives] card taken after the checkpoint: caught in the stacks → respawned at Hallway West, card back on the desk, then retaken
+  [objectives] respawn reset all 3 guards to their starts on patrol
+  [objectives] Hallway West checkpoint: unseen by every guard for 45 s of patrol
+  [objectives] Staff Nook checkpoint: unseen by every guard for 45 s of patrol
+  [game flow] 3000 random requests over 242 games: 1226 transitions, 1774 refused, 0 duplicate or illegal
+  [game flow] pause/resume by key, button and focus loss: PLAYING → PAUSED → PLAYING → PAUSED → PLAYING → PAUSED → PLAYING
+  [game flow] paused 120 frames: guards, navigation, noise clock, player and timers frozen; guards moved again after resume
+  [game flow] caught → respawn: PLAYING → CAUGHT → PLAYING, pause refused on the caught screen
+  [game flow] victory: WIN once, cursor visible, play again requested ["res://scenes/level/library_graybox.tscn"]
+  [level] routes to the card: west 62 m, east 91 m; card to exit: back corridor 41 m, long way 95 m
+  [presentation] player: 4 footsteps over 4 strides, largest head bob 0.019 m
+  [presentation] guard: animations seen while investigating ["walk", "search"], 17 footsteps, 1 radio, 4 keys
+  [qa] full route walked with real input in 33.4 s of play: checkpoints ["Hallway West", "Staff Nook"], 115 footsteps, sounds ["objective_complete", "checkpoint", "ui_hover", "card_pickup", "victory", "door_open"]
+  [qa] real chase: guard animations ["idle", "walk", "run"], music ["", "tension", "chase"], sounds ["notice", "lost_track", "alarm", "caught"], respawned at Hallway West
+All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design, Phase 12 presentation, Phase 13 performance, Phase 14 QA).
+exit code: 0, duration 211 s (2026-10-05)

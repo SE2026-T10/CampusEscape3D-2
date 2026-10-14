@@ -1,0 +1,211 @@
+{
+  "caught": 0,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "cpu_threads": 2,
+  "debug_build": true,
+  "disabled": "",
+  "fps_1pct_low": 293.944738389183,
+  "fps_avg": 609.435689637427,
+  "frames": 1800,
+  "godot": "4.7.2-stable (official)",
+  "gpu": " / ",
+  "guard_ai_ms_per_tick": 0.249093333333334,
+  "guard_ai_ms_per_tick_per_guard": 0.0155683333333334,
+  "guards": 16,
+  "label": "npcs_16",
+  "metrics": {
+    "collision_pairs": {
+      "max": 35.0,
+      "mean": 29.3338888888889,
+      "p50": 29.0,
+      "p95": 33.0,
+      "p99": 34.0
+    },
+    "draw_calls": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "frame_ms": {
+      "max": 8.714,
+      "mean": 1.64086222222222,
+      "p50": 1.607,
+      "p95": 2.16,
+      "p99": 3.402
+    },
+    "guard_ai_ms": {
+      "max": 0.728,
+      "mean": 0.249093333333334,
+      "p50": 0.236,
+      "p95": 0.333,
+      "p99": 0.461
+    },
+    "guard_presentation_ms": {
+      "max": 2.757,
+      "mean": 0.127264444444444,
+      "p50": 0.114,
+      "p95": 0.191,
+      "p99": 0.284
+    },
+    "guards_moving": {
+      "max": 15.0,
+      "mean": 9.88444444444444,
+      "p50": 10.0,
+      "p95": 13.0,
+      "p99": 15.0
+    },
+    "nav_agents": {
+      "max": 16.0,
+      "mean": 16.0,
+      "p50": 16.0,
+      "p95": 16.0,
+      "p99": 16.0
+    },
+    "navigation_max1s_ms": {
+      "max": 3.307,
+      "mean": 2.45246833333333,
+      "p50": 2.822,
+      "p95": 3.307,
+      "p99": 3.307
+    },
+    "node_count": {
+      "max": 1443.0,
+      "mean": 1443.0,
+      "p50": 1443.0,
+      "p95": 1443.0,
+      "p99": 1443.0
+    },
+    "object_count": {
+      "max": 3930.0,
+      "mean": 3894.55,
+      "p50": 3894.0,
+      "p95": 3917.0,
+      "p99": 3923.0
+    },
+    "objects": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "orphan_nodes": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "other_ms": {
+      "max": 5.123,
+      "mean": 0.88650888888889,
+      "p50": 0.84,
+      "p95": 1.256,
+      "p99": 2.449
+    },
+    "physics_active": {
+      "max": 17.0,
+      "mean": 17.0,
+      "p50": 17.0,
+      "p95": 17.0,
+      "p99": 17.0
+    },
+    "physics_max1s_ms": {
+      "max": 193.143,
+      "mean": 67.887783333331,
+      "p50": 4.549,
+      "p95": 193.143,
+      "p99": 193.143
+    },
+    "physics_ticks": {
+      "max": 1.0,
+      "mean": 1.0,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0
+    },
+    "primitives": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "process_max1s_ms": {
+      "max": 7.645,
+      "mean": 4.9698977777778,
+      "p50": 4.645,
+      "p95": 7.645,
+      "p99": 7.645
+    },
+    "render_cpu_ms": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "render_gpu_ms": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "scripts_physics_ms": {
+      "max": 0.969,
+      "mean": 0.441601666666667,
+      "p50": 0.428,
+      "p95": 0.59,
+      "p99": 0.74
+    },
+    "scripts_process_ms": {
+      "max": 4.575,
+      "mean": 0.312751666666667,
+      "p50": 0.296,
+      "p95": 0.42,
+      "p99": 0.587
+    },
+    "static_mem_mb": {
+      "max": 68.8314771652222,
+      "mean": 68.4636196009318,
+      "p50": 68.4516439437866,
+      "p95": 68.6810274124146,
+      "p99": 68.7643556594849
+    },
+    "video_mem_mb": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    }
+  },
+  "mode": "headless",
+  "object_count_growth": 0,
+  "os": "Linux 24.04",
+  "physics_ticks_per_frame": 1.0,
+  "renderer": "gl_compatibility",
+  "resolution": "none (headless)",
+  "scenario": "custom",
+  "seconds": 30.0,
+  "static_mem_growth_mb": -0.0112571716308594,
+  "status_changes": {
+    "INVESTIGATING": 1
+  },
+  "stuck_events": [
+    {
+      "at": [
+        -13.91,
+        -19.84
+      ],
+      "guard": "GuardRestricted",
+      "point": 3,
+      "state": "PATROL",
+      "t": 34.02
+    }
+  ],
+  "warmup": 5.0
+}

@@ -1,0 +1,311 @@
+{
+  "caught": 0,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "cpu_threads": 2,
+  "debug_build": true,
+  "disabled": "",
+  "fps_1pct_low": 154.249575813667,
+  "fps_avg": 259.866518119265,
+  "frames": 1800,
+  "godot": "4.7.2-stable (official)",
+  "gpu": " / ",
+  "guard_ai_ms_per_tick": 0.678484444444444,
+  "guard_ai_ms_per_tick_per_guard": 0.0141350925925926,
+  "guards": 48,
+  "label": "npcs_48",
+  "metrics": {
+    "collision_pairs": {
+      "max": 118.0,
+      "mean": 103.390555555556,
+      "p50": 103.0,
+      "p95": 113.0,
+      "p99": 116.0
+    },
+    "draw_calls": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "frame_ms": {
+      "max": 14.225,
+      "mean": 3.84812944444445,
+      "p50": 3.707,
+      "p95": 5.228,
+      "p99": 6.483
+    },
+    "guard_ai_ms": {
+      "max": 10.857,
+      "mean": 0.678484444444444,
+      "p50": 0.652,
+      "p95": 0.898,
+      "p99": 1.137
+    },
+    "guard_presentation_ms": {
+      "max": 1.868,
+      "mean": 0.384208888888889,
+      "p50": 0.369,
+      "p95": 0.519,
+      "p99": 0.674
+    },
+    "guards_moving": {
+      "max": 38.0,
+      "mean": 29.0911111111111,
+      "p50": 29.0,
+      "p95": 35.0,
+      "p99": 36.0
+    },
+    "nav_agents": {
+      "max": 48.0,
+      "mean": 48.0,
+      "p50": 48.0,
+      "p95": 48.0,
+      "p99": 48.0
+    },
+    "navigation_max1s_ms": {
+      "max": 6.634,
+      "mean": 3.90273777777779,
+      "p50": 3.133,
+      "p95": 6.634,
+      "p99": 6.634
+    },
+    "node_count": {
+      "max": 2691.0,
+      "mean": 2691.0,
+      "p50": 2691.0,
+      "p95": 2691.0,
+      "p99": 2691.0
+    },
+    "object_count": {
+      "max": 5932.0,
+      "mean": 5877.97388888889,
+      "p50": 5877.0,
+      "p95": 5904.0,
+      "p99": 5919.0
+    },
+    "objects": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "orphan_nodes": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "other_ms": {
+      "max": 12.575,
+      "mean": 2.14821722222223,
+      "p50": 2.036,
+      "p95": 3.049,
+      "p99": 4.623
+    },
+    "physics_active": {
+      "max": 49.0,
+      "mean": 49.0,
+      "p50": 49.0,
+      "p95": 49.0,
+      "p99": 49.0
+    },
+    "physics_max1s_ms": {
+      "max": 187.02,
+      "mean": 20.2308072222229,
+      "p50": 6.466,
+      "p95": 187.02,
+      "p99": 187.02
+    },
+    "physics_ticks": {
+      "max": 1.0,
+      "mean": 1.0,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0
+    },
+    "primitives": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "process_max1s_ms": {
+      "max": 5.096,
+      "mean": 3.57501833333334,
+      "p50": 3.693,
+      "p95": 5.096,
+      "p99": 5.096
+    },
+    "render_cpu_ms": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "render_gpu_ms": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "scripts_physics_ms": {
+      "max": 11.165,
+      "mean": 1.0561,
+      "p50": 1.016,
+      "p95": 1.396,
+      "p99": 1.825
+    },
+    "scripts_process_ms": {
+      "max": 2.262,
+      "mean": 0.646487777777777,
+      "p50": 0.633,
+      "p95": 0.857,
+      "p99": 1.055
+    },
+    "static_mem_mb": {
+      "max": 74.9281167984009,
+      "mean": 74.5427733728621,
+      "p50": 74.5368432998657,
+      "p95": 74.7796659469604,
+      "p99": 74.8634748458862
+    },
+    "video_mem_mb": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    }
+  },
+  "mode": "headless",
+  "object_count_growth": 5,
+  "os": "Linux 24.04",
+  "physics_ticks_per_frame": 1.0,
+  "renderer": "gl_compatibility",
+  "resolution": "none (headless)",
+  "scenario": "custom",
+  "seconds": 30.0,
+  "static_mem_growth_mb": 0.0710716247558594,
+  "status_changes": {
+    "INVESTIGATING": 1
+  },
+  "stuck_events": [
+    {
+      "at": [
+        -7.43,
+        -21.15
+      ],
+      "guard": "BenchGuard20",
+      "point": 2,
+      "state": "PATROL",
+      "t": 9.35
+    },
+    {
+      "at": [
+        21.9,
+        -21.02
+      ],
+      "guard": "BenchGuard21",
+      "point": 3,
+      "state": "PATROL",
+      "t": 11.13
+    },
+    {
+      "at": [
+        -3.33,
+        -22.59
+      ],
+      "guard": "BenchGuard08",
+      "point": 2,
+      "state": "PATROL",
+      "t": 12.62
+    },
+    {
+      "at": [
+        23.14,
+        -19.55
+      ],
+      "guard": "BenchGuard36",
+      "point": 1,
+      "state": "PATROL",
+      "t": 16.85
+    },
+    {
+      "at": [
+        -4.29,
+        -2.35
+      ],
+      "guard": "GuardMain",
+      "point": 1,
+      "state": "PATROL",
+      "t": 17.95
+    },
+    {
+      "at": [
+        -6.04,
+        -21.15
+      ],
+      "guard": "BenchGuard41",
+      "point": 1,
+      "state": "PATROL",
+      "t": 26.12
+    },
+    {
+      "at": [
+        -7.01,
+        -21.27
+      ],
+      "guard": "BenchGuard44",
+      "point": 1,
+      "state": "PATROL",
+      "t": 27.67
+    },
+    {
+      "at": [
+        24.19,
+        -19.89
+      ],
+      "guard": "BenchGuard39",
+      "point": 0,
+      "state": "PATROL",
+      "t": 28.13
+    },
+    {
+      "at": [
+        -7.38,
+        -18.15
+      ],
+      "guard": "BenchGuard32",
+      "point": 1,
+      "state": "PATROL",
+      "t": 28.35
+    },
+    {
+      "at": [
+        23.85,
+        -11.25
+      ],
+      "guard": "BenchGuard24",
+      "point": 0,
+      "state": "PATROL",
+      "t": 31.33
+    },
+    {
+      "at": [
+        23.67,
+        -19.16
+      ],
+      "guard": "BenchGuard03",
+      "point": 3,
+      "state": "PATROL",
+      "t": 31.38
+    }
+  ],
+  "warmup": 5.0
+}

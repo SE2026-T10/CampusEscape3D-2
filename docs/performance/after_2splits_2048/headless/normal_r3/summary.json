@@ -1,0 +1,200 @@
+{
+  "caught": 0,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "cpu_threads": 2,
+  "debug_build": true,
+  "disabled": "",
+  "fps_1pct_low": 571.102227298687,
+  "fps_avg": 1346.3550802091,
+  "frames": 1800,
+  "godot": "4.7.2-stable (official)",
+  "gpu": " / ",
+  "guard_ai_ms_per_tick": 0.0688361111111112,
+  "guard_ai_ms_per_tick_per_guard": 0.0229453703703704,
+  "guards": 3,
+  "label": "normal_headless_r3",
+  "metrics": {
+    "collision_pairs": {
+      "max": 9.0,
+      "mean": 5.98555555555556,
+      "p50": 6.0,
+      "p95": 7.0,
+      "p99": 8.0
+    },
+    "draw_calls": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "frame_ms": {
+      "max": 5.567,
+      "mean": 0.742746111111112,
+      "p50": 0.694,
+      "p95": 1.057,
+      "p99": 1.751
+    },
+    "guard_ai_ms": {
+      "max": 0.37,
+      "mean": 0.0688361111111112,
+      "p50": 0.062,
+      "p95": 0.11,
+      "p99": 0.155
+    },
+    "guard_presentation_ms": {
+      "max": 3.29,
+      "mean": 0.0368166666666668,
+      "p50": 0.025,
+      "p95": 0.068,
+      "p99": 0.279
+    },
+    "guards_moving": {
+      "max": 3.0,
+      "mean": 1.79555555555556,
+      "p50": 2.0,
+      "p95": 3.0,
+      "p99": 3.0
+    },
+    "nav_agents": {
+      "max": 3.0,
+      "mean": 3.0,
+      "p50": 3.0,
+      "p95": 3.0,
+      "p99": 3.0
+    },
+    "navigation_max1s_ms": {
+      "max": 0.898,
+      "mean": 0.645063333333337,
+      "p50": 0.898,
+      "p95": 0.898,
+      "p99": 0.898
+    },
+    "node_count": {
+      "max": 936.0,
+      "mean": 936.0,
+      "p50": 936.0,
+      "p95": 936.0,
+      "p99": 936.0
+    },
+    "object_count": {
+      "max": 3088.0,
+      "mean": 3071.305,
+      "p50": 3071.0,
+      "p95": 3083.0,
+      "p99": 3086.0
+    },
+    "objects": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "orphan_nodes": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "other_ms": {
+      "max": 4.844,
+      "mean": 0.400936666666666,
+      "p50": 0.366,
+      "p95": 0.608,
+      "p99": 1.197
+    },
+    "physics_active": {
+      "max": 4.0,
+      "mean": 4.0,
+      "p50": 4.0,
+      "p95": 4.0,
+      "p99": 4.0
+    },
+    "physics_max1s_ms": {
+      "max": 194.605,
+      "mean": 139.791258333336,
+      "p50": 194.605,
+      "p95": 194.605,
+      "p99": 194.605
+    },
+    "physics_ticks": {
+      "max": 1.0,
+      "mean": 1.0,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0
+    },
+    "primitives": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "process_max1s_ms": {
+      "max": 4.905,
+      "mean": 3.52342499999998,
+      "p50": 4.905,
+      "p95": 4.905,
+      "p99": 4.905
+    },
+    "render_cpu_ms": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "render_gpu_ms": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "scripts_physics_ms": {
+      "max": 0.766,
+      "mean": 0.17335,
+      "p50": 0.159,
+      "p95": 0.264,
+      "p99": 0.356
+    },
+    "scripts_process_ms": {
+      "max": 3.426,
+      "mean": 0.168459444444444,
+      "p50": 0.149,
+      "p95": 0.263,
+      "p99": 0.447
+    },
+    "static_mem_mb": {
+      "max": 66.0081024169922,
+      "mean": 65.8232588216994,
+      "p50": 65.8403263092041,
+      "p95": 65.9612236022949,
+      "p99": 65.9875183105469
+    },
+    "video_mem_mb": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    }
+  },
+  "mode": "headless",
+  "object_count_growth": 29,
+  "os": "Linux 24.04",
+  "physics_ticks_per_frame": 1.0,
+  "renderer": "gl_compatibility",
+  "resolution": "none (headless)",
+  "scenario": "normal",
+  "seconds": 30.0,
+  "static_mem_growth_mb": 0.981424331665039,
+  "status_changes": {
+    "INVESTIGATING": 2,
+    "NONE": 1
+  },
+  "warmup": 5.0
+}

@@ -1,0 +1,27 @@
+# Phase 1 mutation checks (2026-10-09): deliberate breakages of the graybox, each built
+# and run through tests/expanded_graybox_tests.gd on its own copy of the project.
+# Linux cloud VM, headless, Godot 4.7.2.stable.official.ed1daf0bf.
+
+1. Archive bypass: an extra 2 m door in the staff-wing/archive wall (x = 12, z = -24), next to the front gate.
+   Expected: the progression check fails (the archive is reachable while its gates are locked).
+   FAIL: [expanded] after O1 (staff doors open; archive gates and shortcut closed): O3 manuscript should be cut off, but the path reaches it.
+   RESULT 1 failures in 124.3 s
+
+2. O1 cut off: low desks across the Study 3 door and the Study 2-3 door.
+   Expected: reachability, the progression check and the walk fail.
+   FAIL: [expanded] Not reachable from the spawn: room probe (3.0, 0.0, -17.0) at (3.0, 0.0, -17.0), Find the staff key code at (3.0, 0.0, -18.8), hiding spot Study 3 carrel at (4.5, 0.0, -26.8), doorway 'Study 3 Door' at (3.0, 0.0, -15.2), doorway 'Study 2–3 Door' at (1.2, 0.0, -24.0)
+   FAIL: [expanded] start (all gates and the shortcut closed): O1 should be reachable, but the path stops 5.2 m short.
+   FAIL: [expanded] Main route: walking from (2.99702, 0.000391, -14.03748) to (3.0, 0.0, -18.8) got stuck at (2.997168, 0.000391, -14.01803).
+   FAIL: [expanded] The walk never went through Archive Front Gate G2.
+   RESULT 4 failures in 81.0 s
+
+3. Stale navmesh: one wall segment moved 3 m in the scene without rebaking.
+   Expected: the saved-vs-fresh navmesh check fails.
+   FAIL: [expanded] The saved navmesh is out of date (4518.1 m² vs 4519.0 m² fresh). Rebuild the graybox.
+   RESULT 1 failures in 124.3 s
+   (Before this check was tightened to 0.5 m², it used the tutorial's 1% margin, and this
+   mutation passed: 0.9 m² is under 1% of 4518 m². That is why the margin was changed.)
+
+4. Not a failure, kept for the record: blocking only the Study 3 door still leaves O1 reachable
+   through Study 2 and the Study 2-3 door (the intended loop). All checks passed:
+   RESULT 0 failures in 132.2 s

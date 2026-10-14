@@ -1,0 +1,16 @@
+title_pop_no_wait: exit=1 fails=1
+    FAIL [qa-regression] QA-1: the title should pop from its centre (pivot (120.5, 38.5), size (403.0, 77.0)).
+title_holder_unsized: exit=1 fails=1
+    FAIL [qa-regression] QA-1: the title's holder must be as tall as the title, or the title overlaps the line below (0 < 77).
+title_in_container_again: exit=1 fails=1
+    FAIL [qa-regression] QA-1: the ESCAPED title should be popping in shortly after the win (scale 1.00).
+old_benchmark_slots: exit=1 fails=1
+    FAIL [qa-regression] QA-2: tools/benchmark.gd should use the start-slot scheme this test checks.
+card_not_interactable: exit=1 fails=7
+    FAIL [qa] Pressing E on the card should take it.
+    FAIL [qa] Walking into the exit area with the card should complete 'Reach the exit'.
+checkpoint_never_activates: exit=1 fails=5
+    FAIL [qa] Walking onto the Hallway West pad should activate its checkpoint (got []).
+    FAIL [qa] Walking onto the Staff Nook pad should activate its checkpoint (got []).
+no_chase_music: exit=1 fails=1
+    FAIL [qa] The chase music should play during a chase (layers ["", "tension"]).

@@ -1,0 +1,45 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_pot"]
+albedo_color = Color(0.62, 0.34, 0.22, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_leaves"]
+albedo_color = Color(0.2, 0.45, 0.22, 1)
+roughness = 1.0
+
+[sub_resource type="CylinderMesh" id="Cyl_pot"]
+material = SubResource("Mat_pot")
+top_radius = 0.26
+bottom_radius = 0.2
+height = 0.5
+radial_segments = 8
+
+[sub_resource type="CylinderShape3D" id="Shape_pot"]
+height = 0.5
+radius = 0.26
+
+[sub_resource type="SphereMesh" id="Sphere_leaves"]
+material = SubResource("Mat_leaves")
+radius = 0.42
+height = 0.9
+radial_segments = 7
+rings = 4
+
+[node name="Plant" type="StaticBody3D"]
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.25, 0)
+mesh = SubResource("Cyl_pot")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.25, 0)
+shape = SubResource("Shape_pot")
+
+[node name="Leaves" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.95, 0)
+mesh = SubResource("Sphere_leaves")
+
+[node name="Leaves2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.7, 0, 0, 0, 0.8, 0, 0, 0, 0.7, 0.12, 1.45, -0.05)
+mesh = SubResource("Sphere_leaves")

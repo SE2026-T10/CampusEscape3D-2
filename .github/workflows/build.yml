@@ -1,0 +1,140 @@
+# Campus Escape 3D — automated build.
+#
+#   push to Development or main, pull request to them, manual run:
+#       validate → tests → Windows x64 export → build uploaded as an artifact
+#   push of a version tag (v1.0.0, …):
+#       the same, then a GitHub Release with the zipped build attached
+#
+# Any failed step fails the workflow and stops the steps after it: no export
+# without passing tests, no release without a passing export.
+# No secrets are used: the release step uses the job's own GITHUB_TOKEN.
+# The steps are shell scripts in tools/ci/, so they can be run locally too
+# (see docs/BUILD.md).
+
+name: Build
+
+on:
+  push:
+    branches: [Development, main]
+    tags: ["v*.*.*"]
+  pull_request:
+    branches: [Development, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+env:
+  GODOT_VERSION: "4.7.2"
+  GODOT_DIR: ${{ github.workspace }}/../godot
+
+jobs:
+  validate-and-test:
+    name: Validate and test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Cache Godot and export templates
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.GODOT_DIR }}
+          key: godot-${{ env.GODOT_VERSION }}-linux-win64templates-v1
+
+      - name: Set up Godot ${{ env.GODOT_VERSION }} (checksums verified)
+        run: bash tools/ci/setup_godot.sh
+
+      - name: Validate project
+        run: bash tools/ci/validate.sh
+
+      - name: Run automated tests
+        run: bash tools/ci/run_tests.sh
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: ci-logs/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  export-windows:
+    name: Export Windows x64
+    needs: validate-and-test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      name: ${{ steps.export.outputs.name }}
+      version: ${{ steps.export.outputs.version }}
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Cache Godot and export templates
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.GODOT_DIR }}
+          key: godot-${{ env.GODOT_VERSION }}-linux-win64templates-v1
+
+      - name: Set up Godot ${{ env.GODOT_VERSION }} (checksums verified)
+        run: bash tools/ci/setup_godot.sh
+
+      - name: Validate project (imports it for the export)
+        run: bash tools/ci/validate.sh
+
+      - name: Export Windows x64 release build
+        id: export
+        run: bash tools/ci/export_windows.sh
+
+      - name: Upload Windows build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.export.outputs.name }}
+          path: dist/${{ steps.export.outputs.name }}/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload export log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: export-logs
+          path: ci-logs/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  release:
+    name: GitHub Release
+    needs: export-windows
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Download Windows build
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.export-windows.outputs.name }}
+          path: dist/${{ needs.export-windows.outputs.name }}
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NAME: ${{ needs.export-windows.outputs.name }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          cd dist && zip -q -r "$NAME.zip" "$NAME" && cd ..
+          notes="docs/release-notes/$TAG.md"
+          if [ ! -f "$notes" ]; then echo "::error::Missing $notes"; exit 1; fi
+          gh release create "$TAG" "dist/$NAME.zip" --title "Campus Escape 3D $TAG" --notes-file "$notes" --verify-tag

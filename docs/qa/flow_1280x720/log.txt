@@ -1,0 +1,19 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 20.1.2, 256 bits)
+ERROR: Condition "status < 0" is true. Returning: ERR_CANT_OPEN
+  [ok] 1. The main menu opens with Start focused.
+  [ok] 2. Start loads the level, playing and unpaused.
+  [ok] 3. Esc pauses and shows the pause menu.
+  [ok] 4. Resume continues the game.
+  [ok] 5. Restart reloads the level and plays (unpaused).
+  [ok] 6. After a restart the objectives start over.
+  [ok] 7. Being caught shows the caught screen.
+  [ok] 8. After the caught screen, play resumes from the respawn point.
+  [ok] 9. Main menu from the pause menu returns to the title screen, unpaused.
+  [ok] 10. Start works again after returning to the menu.
+  [ok] 11. Using the unlocked door wins: the win screen shows with Play again focused.
+  [ok] 12. Esc on the win screen doesn't pause.
+  [ok] 13. Play again starts a fresh level.
+  [ok] 14. Back at the main menu.
+  [ok] 15. Quit quits.
+QA FLOW PASSED (15 checks, 4 levels loaded)
