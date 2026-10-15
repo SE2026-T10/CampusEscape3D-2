@@ -32,7 +32,7 @@ Built in Godot with GDScript, for Windows desktop. The current version is **1.1.
 
 - **From the editor:** open the project and press **F5**. The game starts on the main menu. Choose a map:
   - **Library Tutorial**: the original level, with its full mission.
-  - **Expanded Library**: the two-floor map, dressed in the tutorial's low-poly library look, six patrolling guards and a five-objective mission: get in, take a staff access card from the offices upstairs, steal the rare manuscript from the archive vault, unlock the archive's back gate and escape through the loading dock.
+  - **Expanded Library**: the two-floor map (since the 2026 expansion with a basement service network and seven zones), dressed in the tutorial's low-poly library look, six patrolling guards and a five-objective mission: get in, take a staff access card from the offices upstairs, steal the rare manuscript from the archive vault, unlock the archive's back gate and escape through the loading dock.
 - **Straight into a level** while developing: open `scenes/level/library_graybox.tscn` or `scenes/level/expanded_library.tscn` and press **F6**.
 - **Exported build:** run `CampusEscape3D.exe`.
 
@@ -93,6 +93,7 @@ Each map is one level scene with its gameplay systems as nodes in it; the main m
 ```
 scenes/ui/main_menu.tscn                 main scene: one button per map (LevelCatalog) / Quit
 scenes/level/expanded_library.tscn       the Expanded Library (same runtime and mission systems; built and dressed by tools/expanded/)
+└── Expansion (expanded_library_expansion.tscn)   the 2026 expansion: basement / service network (zone G), electrical room; built by tools/expanded/expansion/ (the v4 builder is frozen)
 scenes/level/library_graybox.tscn        the Library Tutorial
 ├── NavigationRegion3D (+ library_navmesh.tres)   rooms, walls, shelves, furniture, carrels (HidingSpot)
 ├── Player (scenes/player/player.tscn)   FirstPersonPlayer + PlayerNoise + PlayerInteractor + PlayerFeedback
@@ -248,7 +249,7 @@ Press **F3** to show the navigation mesh (cyan), each guard's current path (yell
 
 ## Testing
 
-**Run the tests.** In the editor, open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, … Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards, Expanded Library mission).`. From a terminal:
+**Run the tests.** In the editor, open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, … Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards, Expanded Library mission, Expanded Library expansion layout, Expanded Library expansion baseline).`. From a terminal:
 
 ```
 godot --headless --path . --editor --quit          # first run only: imports the project
@@ -320,6 +321,8 @@ godot --headless --path . --script res://tools/map_flow.gd  # both maps selected
 
 - `tests/expanded_graybox_tests.gd` — Expanded Library graybox: scene structure, doorway and stair dimensions, navmesh on both floors, the visual dressing (no collision in it, one box collider per solid piece, no decorative mesh within 0.15 m of the walkable space), every planned location reachable, each stair on its own, planned gates and two approaches (rebaked with blockers), and a real-input walk of the main and alternative routes.
 - `tests/expanded_ai_tests.gd` — Expanded Library navigation and guards: both floors baked and sealed, every patrol point clear of doorways and stairs, all six guards completing their loops together with nothing stuck, vision (walls, shelves, the slab, the balcony railing), hearing (open, through a wall, through the slab), chase and loss of contact, a chase up a stair and back, head-on crossings in a door and on a stair, and one guard touring every gate and stair.
+- `tests/expanded_layout_expansion_tests.gd` — Expanded Library expansion layout (Phase 2): the seven zones, every new area reachable and the outside, the drain beyond its grate and the space under the floors sealed; the stacks' five routes; the new doorways clear (2 m × 2.6 m) and both service stairs (width, slope, headroom); the real player walking down the west service stair, along the tunnel and up the east service stair; a guard touring every new area; zone D still behind the staff card through the basement.
+- `tests/expanded_baseline_tests.gd` — Expanded Library expansion baseline: the expansion sub-scene is instanced exactly once (after `Gameplay`, not moved) and only in the Expanded Library; outside it, the collision geometry, batched decoration (door frames included), guards, routes and mission nodes match the baseline digests of commit `7d73492`; the two maps loaded alternately each keep their own systems, guards and objectives and leave nothing behind.
 - `tests/expanded_mission_tests.gd` — Expanded Library mission: the five objectives played with real input (walking, looking, E) from a fresh start to the win screen; every bypass refused (card doors without the card, one-way doors from the wrong side, the manuscript before the card, the exit before the shortcut) and closed doors blocking the walking player and a guard's sight; the back gate opened before the manuscript; captures before and right after the card, after the manuscript and after the shortcut, five repeated captures, level guards reset, no checkpoint during a chase; after every respawn the mission state equals the checkpoint's snapshot and items, doors, objectives, exit and HUD agree.
 - Balance tools (development only): `tools/expanded/coverage_map.gd` (where guards can see, heat maps, route exposure), `tools/expanded/playtest_bot.gd` (an automated playtester that plays the mission through the real player), `tools/expanded/summarize_playtests.py`. See `docs/expanded/phase-5-balance.md`; human playtests: `docs/expanded/PLAYTEST_PROTOCOL.md`.
 - Visual-pass tools (development only): `tools/expanded/capture_views.gd` (the same player views on any build), `tools/expanded/light_report.gd` (lights against the Compatibility renderer's limits, light on the guards' routes), `tools/expanded/profile_expanded.gd` (rendering profile, with diagnostics), `tools/expanded/collision_fingerprint.gd` (every collider, guard and patrol point; diff two builds). See `docs/expanded/phase-6-visual-polish.md`.
@@ -508,6 +511,7 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 - `docs/phase-15-build-pipeline.md`
 - `docs/release-notes/v1.0.0.md`
 - `docs/release-notes/v1.1.0.md`
+- `docs/expanded/expansion/` (Expanded Library expansion: Phase 1 baseline and integration point)
 - `docs/expanded/phase-7-release.md` (release 1.1.0: final QA, performance, build; acceptance)
 - `docs/performance/release_1_1/README.md` (both maps benchmarked)
 - **[`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md)** (final MVP report and release validation)

@@ -1,0 +1,12 @@
+Expansion Phase 1: views before (7d73492) vs after (Phase 1), Linux VM, Xvfb + Mesa llvmpipe, Godot 4.7.2 stable official, 2026-10-15
+Tools: tools/expanded/capture_views.gd (1600x1000), tools/capture_views.gd (1280x720).
+
+Expanded Library (22 views, 1600x1000): 17/22 pixel-identical before (7d73492) vs after (Phase 1); files after: 22
+  different: 02_lobby.png, 15_office_card.png, 18_vault_manuscript.png, 21_overview_upper.png, 22_overview_ground_east.png
+Library Tutorial (9 views, 1280x720): 9/9 pixel-identical before (7d73492) vs after (Phase 1); files after: 9
+
+Run-to-run check on the UNCHANGED commit 7d73492: the 5 differing views captured twice more (--only):
+  02_lobby, 15_office_card, 18_vault_manuscript, 21_overview_upper, 22_overview_ground_east: the two captures differ from each other too
+  (the spinning staff card and manuscript, and other timing-dependent details), so these views vary between runs regardless of the change.
+  05_main_stacks (control): the two captures are pixel-identical.
+Conclusion: every view that is deterministic is pixel-identical before and after; the empty Expansion sub-scene changes nothing on screen.

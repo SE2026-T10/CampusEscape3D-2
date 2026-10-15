@@ -1,0 +1,3 @@
+Old navmesh old_nav_7d73492.tres: 898 polygons; new: 1020 polygons
+Inside the original building: 0 old places not in the new navmesh (> 0.3 m away)
+New places not in the old navmesh: 43, by doorway: { "Study1StacksDoor": 16, "ElectricalRoomDoor": 11, "WestServiceDoor": 16 }

@@ -1,0 +1,20 @@
+Expansion Phase 1: mutation checks of tests/expanded_baseline_tests.gd (2026-10-15, Linux VM, Godot 4.7.2 stable official)
+Each check ran the suite on a throwaway copy of the Phase 1 working tree with one deliberate break.
+
+M1: the Expansion instance (and its ext_resource) removed from expanded_library.tscn
+FAIL: [expansion] The Expanded Library must instance the expansion sub-scene exactly once (found 0).
+FAIL: [expansion] The Expanded Library needs the sub-scene as its child "Expansion".
+FAIL: [expansion] expanded_library.tscn: the Expansion node must exist only in the Expanded Library.
+FAIL: [expansion] expanded_library.tscn: the Expansion node must exist only in the Expanded Library.
+SUITE FAILED (4 failures)
+
+M2: the level rebuilt with tools/expanded/build_expanded_graybox.gd (the frozen builder)
+FAIL: [expansion] The Expanded Library must instance the expansion sub-scene exactly once (found 0).
+FAIL: [expansion] The Expanded Library needs the sub-scene as its child "Expansion".
+FAIL: [expansion] Batched decoration (door frames, trims, furniture dressing) outside Expansion differs from the baseline (digest d144ae9c1b339f6a0bd2ee937723aa3da0644184740e76cec208995c29b3b163).
+FAIL: [expansion] expanded_library.tscn: the Expansion node must exist only in the Expanded Library.
+FAIL: [expansion] expanded_library.tscn: the Expansion node must exist only in the Expanded Library.
+SUITE FAILED (5 failures)
+(The rebuild reproduces the collision geometry and the navmesh exactly; what it changes is the door-frame decoration, which the decoration digest catches.)
+
+Baseline digests computed on the untouched commit 7d73492 and on the Phase 1 tree: identical (geometry, decoration and actors listings byte-identical).

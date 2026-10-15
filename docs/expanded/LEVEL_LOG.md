@@ -257,3 +257,35 @@ Commit: `484761d` (planned as `level(expanded-v4): visual pass in the tutorial's
 - a human look at readability and lighting;
 - from v3: human playtests and the 20–30 minute target.
 
+
+---
+
+## Expansion (2026) — integration point (expansion Phase 1, 2026-10-15)
+
+No new layout version: the layout data and the scene's existing content are unchanged (baseline digests in [`expansion/phase-1-baseline.md`](expansion/phase-1-baseline.md), checked by `tests/expanded_baseline_tests.gd`).
+
+**What changed:**
+- The level gained one child, `Expansion`, an instance of the new, empty `scenes/level/expanded_library_expansion.tscn`, placed right after `Gameplay`. New puzzles, mechanics and areas go into that sub-scene.
+- **The builder is frozen** (owner decision, expansion Phase 1). `tools/expanded/build_expanded_graybox.gd` would revert the door-frame fix and drop `Expansion`, and the baseline tests fail if it is run. Changes to the existing level need approval and a new baseline.
+
+**Why:** the expansion's rules require the existing scene, its geometry and its fixes to stay as they are; a sub-scene keeps new work in its own small file.
+
+---
+
+## Expansion layout x1 — seven zones and the basement network (expansion Phase 2, 2026-10-15)
+
+**What:**
+- Zone G (basement / service network: west and east service stairs, the service tunnel, maintenance bay, pump room, storm drain, cable bay) and the electrical room (zone D), in the Expansion sub-scene.
+- Three doorways cut into existing walls: B west (z −9), D east (z −23, a staff-card door), B/C (z −21).
+- The navmesh rebaked from both parts (1,020 polygons).
+
+**Why:** the owner's seven-zone target with a compact service network and a stacks hub; reserved spaces for puzzles, security and the three escape routes.
+
+**Approved changes to the existing scene:**
+- the three cuts (3 wall bodies shortened, 3 pieces and 3 headers added, 12 decoration boxes split);
+- the `NavigationRegion3D` joined the navmesh's bake group;
+- the navmesh file was rebaked.
+
+Guards, routes, mission and every other node are unchanged (baseline digests in `tests/expanded_baseline_tests.gd`).
+
+**Evidence:** [`expansion/phase-2/`](expansion/phase-2/) (before/after views, plans, zone connections, navigation results); report [`expansion/phase-2-layout.md`](expansion/phase-2-layout.md).

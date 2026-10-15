@@ -1,0 +1,15 @@
+Expansion Phase 2: deliberate-break checks of tests/expanded_layout_expansion_tests.gd (2026-10-15, Linux VM, Godot 4.7.2 stable official).
+Each ran on a throwaway copy of the Phase 2 tree: one change, then build_expansion.gd, bake_navmesh.gd and the suite.
+
+Built res://scenes/level/expanded_library_expansion.tscn (expansion layout x1): 61 solid pieces, 173 mesh tiles, 17 lamps, 3 hiding spots, 1 access door(s)
+Baked res://scenes/level/expanded_library_navmesh.tres from expanded_navigation_source: 1023 polygons (was 1020), 881 vertices; saved: ok
+== M1: the S2 wall-top seal removed
+FAIL: [expansion-layout] 2 navmesh vertices above the ground within 0.15 m of the building's outer walls (on the wall top?).
+SUITE FAILED (1 failures)
+Built res://scenes/level/expanded_library_expansion.tscn (expansion layout x1): 62 solid pieces, 173 mesh tiles, 17 lamps, 3 hiding spots, 1 access door(s)
+Baked res://scenes/level/expanded_library_navmesh.tres from expanded_navigation_source: 1020 polygons (was 1020), 878 vertices; saved: ok
+== M2: the electrical room's staff-card door removed
+FAIL: [expansion-layout] The electrical room needs its staff-card door (Expansion/Gameplay/ElectricalRoomDoor, an AccessDoor keyed to take_card).
+SUITE FAILED (1 failures)
+
+Earlier in the phase the existing suites also caught real problems (see phase-2-layout.md, section 5): the dressing check found a navmesh patch on the pump unit's top under a lamp and the S2 stair-top navmesh on the east wall.

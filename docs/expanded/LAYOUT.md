@@ -2,7 +2,7 @@
 
 The design of the second, larger map: a two-floor university library with six major zones. It is a separate scene (`scenes/level/expanded_library.tscn`) next to the tutorial, which is unchanged.
 
-**Status:** chosen from the main menu (Phase 2), with six guards (Phase 3) and the full five-objective mission (Phase 4): access doors, a one-way return shortcut, the exit, three checkpoints. Balanced in Phase 5 (v3: patrols, detection tuning, hiding spots, signs, an entrance screen; [`phase-5-balance.md`](phase-5-balance.md)). **Dressed in Phase 6 (v4):** the tutorial's low-poly library look on both floors (bookcases with books, desks and chairs, trims, wainscots, rugs, windows, ceilings and lights), with the same colliders, navmesh and stealth balance as v3 ([`phase-6-visual-polish.md`](phase-6-visual-polish.md), [Look and lighting](#look-and-lighting-v4) below). The unguarded loops (P2b, P3, P6) are still **planned** markers.
+**Status:** chosen from the main menu (Phase 2), with six guards (Phase 3) and the full five-objective mission (Phase 4): access doors, a one-way return shortcut, the exit, three checkpoints. Balanced in Phase 5 (v3: patrols, detection tuning, hiding spots, signs, an entrance screen; [`phase-5-balance.md`](phase-5-balance.md)). **Dressed in Phase 6 (v4):** the tutorial's low-poly library look on both floors (bookcases with books, desks and chairs, trims, wainscots, rugs, windows, ceilings and lights), with the same colliders, navmesh and stealth balance as v3 ([`phase-6-visual-polish.md`](phase-6-visual-polish.md), [Look and lighting](#look-and-lighting-v4) below). The unguarded loops (P2b, P3, P6) are still **planned** markers. **Expansion (2026), layout x1:** seven zones (a basement / service network G and an electrical room for D, in the Expansion sub-scene) and three new doorways; see [Expansion (2026)](#expansion-2026-layout-x1-seven-zones-and-the-basement-network) at the end.
 
 **Plans:** [`v3/layout_ground.png`](v3/layout_ground.png) and [`v3/layout_upper.png`](v3/layout_upper.png), drawn from the layout data (v4 changed no geometry, so they still apply). Screenshots of the dressed level are in [`v4/views/`](v4/views/) (before/after pairs in [`v4/compare/`](v4/compare/)), the mission with its HUD in [`v4/mission/`](v4/mission/), and coverage heat maps in [`v3/coverage/`](v3/coverage/). Earlier versions: [`v0/`](v0/), [`v1/`](v1/), [`v2/`](v2/), [`v3/`](v3/).
 
@@ -216,3 +216,50 @@ Phase 6 dressed the level in the tutorial's palette and props. Every piece is de
 
 **Lighting rules** (the Compatibility renderer draws at most 32 lights in view and 8 per mesh, dropping the rest in no particular order): lights fade out by distance (16 + 5 m), each floor's lights reach only that floor's surfaces (render layers 4 and 8; characters, props and gameplay objects on layer 1 are lit by both), and batches cover at most a 12 m cell. Only walls, the upper slab, furniture, headers and stairs cast sun shadows (as in v3), within 40 m; books are drawn within 20 m of the camera (the bookcase box beyond). `light_report.gd` checks all of it: at most 25 lights in any of 43,104 player views, at most 8 on any mesh, and the light at a guard's chest between the ambient 0.50 and about 1.1 on every route. Report: [`v4/lighting.md`](v4/lighting.md).
 
+
+## Expansion (2026), layout x1: seven zones and the basement network
+
+Added in expansion Phase 2 (approved plan: [`expansion/phase-2-layout.md`](expansion/phase-2-layout.md)). Everything above this section is unchanged, except three doorways cut into existing walls. The new parts live in their own sub-scene, `scenes/level/expanded_library_expansion.tscn` (the level's child "Expansion"), built from `tools/expanded/expansion/expansion_layout.gd` by `tools/expanded/expansion/build_expansion.gd`. The v4 builder stays frozen.
+
+![As built: plan and zone connections](expansion/phase-2/zone_connections_asbuilt.png)
+
+**The seven zones:**
+
+| Zone | Where | Status |
+|---|---|---|
+| A Entrance & Lobby | ground | existing |
+| B Main Book Stacks | ground | existing, **now a hub with 5 routes**: Stacks Arch (Lobby), Stacks Arch (Reading Hall), S3, the west service door (new, cut 1), the Study 1 door (new, cut 3) |
+| C Reading Rooms & Study Wing | ground | existing; Study 1 gains a door to the stacks |
+| D Service and Electrical Rooms | ground | existing corridor, processing, storage, dock, **plus the new Electrical Room** (annex x 36…46, z −28…−18) behind a staff-card door from Book Processing (cut 2) |
+| E Staff Offices & Upper Stacks | upper | existing |
+| F Restricted Archive | upper | existing |
+| **G Basement / Service Network** | **y −4 m** | **new**: see below |
+
+**Zone G:**
+- **West Service Stair:** an annex outside the stacks' west wall, entered from the stacks' cross aisle (cut 1, z −9). A 3.35 m ramp descends 4 m north to the tunnel. Beside the ramp, at the bottom, is the **basement alcove** (hiding spot).
+- **Service Tunnel:** 4 m wide, x −44…46 along z −27…−23, under the north side of the building (stacks, study wing, service zone). Two crates break up the sightline.
+- **Maintenance Bay** (x −28…−20, door x −25…−23; hiding spot) and **Pump Room** (x −7…7, door x −1…1; a full-height pump unit in the middle as cover; **reserved: pump puzzle**).
+- **Storm Drain:** from the tunnel north to a sealed grate at z −37. **Reserved: escape 2.**
+- **East Service Stair:** a 3.35 m ramp from the Electrical Room down to an east corridor (x 36.5…42) back to the tunnel, and the **cable bay** under the electrical room (hiding spot).
+
+**Electrical Room (D):** reached from Book Processing only through the **staff-card door** (an `AccessDoor`, as G2 and G4), so zone D still needs the card even through the basement. Without the card, the basement and the electrical room itself can be reached (from the stacks), but not Book Processing. Cabinets along the north wall. **Reserved: the power / security puzzle.**
+
+**Escape routes (reserved spaces, Phase 2):**
+1. The loading dock, the mission's existing exit.
+2. The storm drain (G), behind its grate.
+3. The main entrance (A), for a later security lockdown.
+
+They are marked under `Expansion/Layout` (F3).
+
+**Connections and doorways:** the three cut doorways are 2.0 m wide and 2.6 m high, as the level's doors (tested). The cuts changed only those wall pieces and the decoration across them (`tools/expanded/expansion/cut_doorways.py`).
+
+**Navigation:**
+- The level's navmesh is baked from the group `expanded_navigation_source`, which holds the `NavigationRegion3D` and `Expansion/Geometry` (`tools/expanded/expansion/bake_navmesh.gd`). It has 1,020 polygons (898 before).
+- Every walkable place of the v4 navmesh is still in it; the new walkable area inside the original building is only at the three doorways (`tools/expanded/expansion/compare_navmesh.gd`).
+- One **seal**: an invisible collider on the east wall's top along S2. With geometry east of the building, the bake treated that wall top as walkable next to the stair top.
+
+**Rendering:**
+- Basement meshes use render layer 16 and its lamps the cull mask 1 | 16, so they light only the basement and the actors.
+- The ground-floor annexes use layer 4 and mask 5, as the existing ground floor.
+- The existing `ceiling_light.tscn` provides the lamps; the colours are the level's palette.
+- **No final polish yet** (Phase 2 is playable geometry).
