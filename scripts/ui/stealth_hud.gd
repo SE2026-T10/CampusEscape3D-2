@@ -7,6 +7,8 @@ extends CanvasLayer
 ##     pointing toward that guard, filling with its detection meter, coloured
 ##     white → yellow "?" (suspicious / investigating) → red "!" (alerted / chasing)
 ##   - Stance and noise (bottom left): e.g. "CROUCHED · noise: QUIET"
+##   - Stamina bar (bottom left, above the stance), only in levels that use
+##     stamina: orange below the amount needed to start a sprint, with a mark there
 ##   - Detection meter (under the banner): the most aware guard's meter, with
 ##     marks where guards become suspicious (30) and alerted (100); it fades out
 ##     when no guard is noticing you
@@ -31,6 +33,10 @@ const BANNERS := {
 const RING_RADIUS := 90.0
 ## Detection meter size, in pixels.
 const METER_SIZE := Vector2(260, 10)
+## Stamina bar size, in pixels.
+const STAMINA_SIZE := Vector2(220, 8)
+const COLOUR_STAMINA := Color(0.55, 0.9, 1.0)
+const COLOUR_STAMINA_LOW := Color(1.0, 0.6, 0.2)
 
 var _banner: Label
 var _stance: Label
@@ -41,6 +47,7 @@ var _meter: Control
 var _meter_alpha := 0.0
 var _caught_bar: ProgressBar
 var _caught_time := 0.0
+var _stamina_bar: Control
 
 
 func _ready() -> void:
@@ -64,6 +71,15 @@ func _ready() -> void:
 	_meter.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_meter.draw.connect(_draw_meter)
 	add_child(_meter)
+
+	_stamina_bar = Control.new()
+	_stamina_bar.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	_stamina_bar.position = Vector2(20, -76)
+	_stamina_bar.size = Vector2(STAMINA_SIZE.x, 30)
+	_stamina_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_stamina_bar.visible = false
+	_stamina_bar.draw.connect(_draw_stamina)
+	add_child(_stamina_bar)
 
 	_stance = _make_label(18, HORIZONTAL_ALIGNMENT_LEFT)
 	_stance.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
@@ -119,6 +135,11 @@ func _process(delta: float) -> void:
 		_caught_label.text = get_caught_text()
 		_caught_bar.value = 1.0 - clampf(_caught_time / director.reset_delay, 0.0, 1.0)
 	_stance.text = get_stance_text()
+	var stamina := get_stamina()
+	_stamina_bar.visible = stamina != null and status < StealthDirector.Status.CAUGHT
+	if _stamina_bar.visible:
+		_stamina_bar.modulate.a = move_toward(_stamina_bar.modulate.a, 0.45 if stamina.get_ratio() >= 1.0 else 1.0, delta * 3.0)
+		_stamina_bar.queue_redraw()
 	var level := get_detection_level()
 	_meter_alpha = move_toward(_meter_alpha, 1.0 if level > 0.0 and status < StealthDirector.Status.CAUGHT else 0.0, delta * 3.0)
 	_meter.modulate.a = _meter_alpha
@@ -153,6 +174,30 @@ func get_stance_text() -> String:
 		return ""
 	var stance := "CROUCHED" if player.is_crouching else "STANDING"
 	return "%s · noise: %s" % [stance, player.get_noise_level()]
+
+
+## The player's stamina if this level uses it, else null.
+func get_stamina() -> PlayerStamina:
+	var player := get_tree().get_first_node_in_group("player")
+	var stamina := player.get_node_or_null("Stamina") as PlayerStamina if player else null
+	return stamina if stamina and stamina.enabled else null
+
+
+func _draw_stamina() -> void:
+	var stamina := get_stamina()
+	if stamina == null:
+		return
+	var bar := Rect2(Vector2(0, 16), STAMINA_SIZE)
+	var low := not stamina.can_start_sprint()
+	var colour := COLOUR_STAMINA_LOW if low else COLOUR_STAMINA
+	_stamina_bar.draw_rect(bar.grow(2.0), Color(0, 0, 0, 0.55))
+	_stamina_bar.draw_rect(Rect2(bar.position, Vector2(bar.size.x * stamina.get_ratio(), bar.size.y)), colour)
+	var mark := bar.position.x + bar.size.x * stamina.min_to_start / stamina.max_stamina
+	_stamina_bar.draw_line(Vector2(mark, bar.position.y - 2), Vector2(mark, bar.end.y + 2), Color(1, 1, 1, 0.7), 1.5)
+	var font := ThemeDB.fallback_font
+	var text := "STAMINA" if not low else "STAMINA · catch your breath"
+	_stamina_bar.draw_string_outline(font, Vector2(0, 12), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color.BLACK)
+	_stamina_bar.draw_string(font, Vector2(0, 12), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(colour, 0.95))
 
 
 ## One entry per guard that is noticing the player: where it is relative to

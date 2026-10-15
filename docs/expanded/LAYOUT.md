@@ -2,7 +2,7 @@
 
 The design of the second, larger map: a two-floor university library with six major zones. It is a separate scene (`scenes/level/expanded_library.tscn`) next to the tutorial, which is unchanged.
 
-**Status:** chosen from the main menu (Phase 2), with six guards (Phase 3) and the full five-objective mission (Phase 4): access doors, a one-way return shortcut, the exit, three checkpoints. Balanced in Phase 5 (v3: patrols, detection tuning, hiding spots, signs, an entrance screen; [`phase-5-balance.md`](phase-5-balance.md)). **Dressed in Phase 6 (v4):** the tutorial's low-poly library look on both floors (bookcases with books, desks and chairs, trims, wainscots, rugs, windows, ceilings and lights), with the same colliders, navmesh and stealth balance as v3 ([`phase-6-visual-polish.md`](phase-6-visual-polish.md), [Look and lighting](#look-and-lighting-v4) below). The unguarded loops (P2b, P3, P6) are still **planned** markers. **Expansion (2026), layout x1:** seven zones (a basement / service network G and an electrical room for D, in the Expansion sub-scene) and three new doorways; see [Expansion (2026)](#expansion-2026-layout-x1-seven-zones-and-the-basement-network) at the end.
+**Status:** chosen from the main menu (Phase 2), with six guards (Phase 3) and the full five-objective mission (Phase 4): access doors, a one-way return shortcut, the exit, three checkpoints. Balanced in Phase 5 (v3: patrols, detection tuning, hiding spots, signs, an entrance screen; [`phase-5-balance.md`](phase-5-balance.md)). **Dressed in Phase 6 (v4):** the tutorial's low-poly library look on both floors (bookcases with books, desks and chairs, trims, wainscots, rugs, windows, ceilings and lights), with the same colliders, navmesh and stealth balance as v3 ([`phase-6-visual-polish.md`](phase-6-visual-polish.md), [Look and lighting](#look-and-lighting-v4) below). The unguarded loops (P2b, P3, P6) are still **planned** markers. **Expansion (2026), layout x1:** seven zones (a basement / service network G and an electrical room for D, in the Expansion sub-scene) and three new doorways; see [Expansion (2026)](#expansion-2026-layout-x1-seven-zones-and-the-basement-network) at the end. **Layout x2 (expansion Phase 3):** provisional carried items, two storage shelves and two clue documents in the new areas; see [Items, shelves and documents](#items-shelves-and-documents-layout-x2).
 
 **Plans:** [`v3/layout_ground.png`](v3/layout_ground.png) and [`v3/layout_upper.png`](v3/layout_upper.png), drawn from the layout data (v4 changed no geometry, so they still apply). Screenshots of the dressed level are in [`v4/views/`](v4/views/) (before/after pairs in [`v4/compare/`](v4/compare/)), the mission with its HUD in [`v4/mission/`](v4/mission/), and coverage heat maps in [`v3/coverage/`](v3/coverage/). Earlier versions: [`v0/`](v0/), [`v1/`](v1/), [`v2/`](v2/), [`v3/`](v3/).
 
@@ -263,3 +263,21 @@ They are marked under `Expansion/Layout` (F3).
 - The ground-floor annexes use layer 4 and mask 5, as the existing ground floor.
 - The existing `ceiling_light.tscn` provides the lamps; the colours are the level's palette.
 - **No final polish yet** (Phase 2 is playable geometry).
+
+### Items, shelves and documents (layout x2)
+
+Added in expansion Phase 3 (stamina and inventory; report [`expansion/phase-3-mechanics.md`](expansion/phase-3-mechanics.md)). **Provisional:** placed so the mechanics can be played; the Phase 4 puzzles may move them and give the documents their clues. No geometry, collision or navmesh changed: shelves are wall-mounted with no collision, items lie on existing crates.
+
+| Thing | Where | Kind |
+|---|---|---|
+| Tool kit | maintenance bay, on the crate (−26.8, BF+1.2, −20.2) | reusable tool (for tool-kit mechanisms, Phase 4) |
+| Glass bottle | service tunnel, west crate (−14, BF+1.2, −26.1) | single-use distraction (noise radius 14 m) |
+| Heavy hardback | service tunnel, east crate (19, BF+1.2, −23.9) | single-use distraction (noise radius 10 m) |
+| Glass bottle | cable bay crate (44, BF+1.2, −21) | single-use distraction |
+| Maintenance shelf | maintenance bay, east wall (−20.36, BF+1, −20) | storage: leave, take back, swap (4 places) |
+| Electrical room shelf | electrical room, south wall (39.5, 1, −18.36) | storage (4 places) |
+| Pump room log | pump room, east wall (6.83, BF+1.4, −17) | clue document (journal) |
+| Electrical room notice | electrical room, east wall (45.83, 1.4, −24) | clue document (journal) |
+
+The staff access card in the staff offices is now also a carried item (it still completes "Take a staff access card"); the Lobby Staff Door, the Archive Front Gate and the electrical room door open while it is carried. The tutorial is unchanged.
+

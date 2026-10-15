@@ -2,7 +2,10 @@ class_name AccessDoor
 extends Interactable
 
 ## A closed door the player opens with the interact key (E), once allowed:
-##   - KEY: needs `key_objective_id` COMPLETED (e.g. the staff access card).
+##   - KEY: needs `key_objective_id` COMPLETED (e.g. the staff access card),
+##     or, if `key_item` is set, the player to be carrying that item
+##     (PlayerInventory; the Expanded Library's staff card). The item is only
+##     checked, never used up.
 ##   - ONE_WAY: opens only from the side `open_from` points to (a shortcut
 ##     that is unlocked from inside, then stays open both ways).
 ## Opening completes `complete_objective_id` if one is set: at once if that
@@ -33,6 +36,8 @@ enum Mode { KEY, ONE_WAY }
 @export var door_name := "Door"
 ## KEY mode: the objective that must be completed before the door opens.
 @export var key_objective_id: StringName = ObjectiveManager.TAKE_CARD
+## KEY mode: ItemCatalog id the player must be carrying instead of the objective (empty: use the objective).
+@export var key_item: StringName = &""
 ## What the player is missing, for the prompt and the rejection message.
 @export var key_name := "staff access card"
 ## ONE_WAY mode: world direction (horizontal) from the door to the side it opens from.
@@ -148,7 +153,7 @@ func open() -> void:
 func _refusal(by: Node) -> String:
 	match mode:
 		Mode.KEY:
-			if not _allowed_by_key():
+			if not _allowed_by_key(by):
 				return "%s is locked. You need the %s." % [door_name, key_name]
 		Mode.ONE_WAY:
 			var node := by as Node3D
@@ -162,9 +167,14 @@ func _refusal(by: Node) -> String:
 	return ""
 
 
-func _allowed_by_key() -> bool:
+func _allowed_by_key(by: Node = null) -> bool:
 	if mode != Mode.KEY:
 		return true
+	if key_item != &"":
+		var inventory := by.get_node_or_null("Inventory") as PlayerInventory if by else null
+		if inventory == null:
+			inventory = PlayerInventory.find(self)
+		return inventory != null and inventory.enabled and inventory.has(key_item)
 	var manager := _manager()
 	return manager != null and manager.is_completed(key_objective_id)
 

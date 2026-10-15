@@ -1,0 +1,26 @@
+== M1 regeneration ignores the 1 s delay
+FAIL: [expansion-mechanics] 30 Hz: no regeneration during the 1 s delay (60.00 → 67.50).
+FAIL: [expansion-mechanics] 30 Hz: 1 s delay then 15/s: expected 90.00, got 100.00.
+FAIL: [expansion-mechanics] 30 Hz: empty to full should take 7.667 s (took 6.667 s).
+FAIL: [expansion-mechanics] 60 Hz: no regeneration during the 1 s delay (60.00 → 67.50).
+FAIL: [expansion-mechanics] 60 Hz: 1 s delay then 15/s: expected 90.00, got 100.00.
+FAIL: [expansion-mechanics] 60 Hz: empty to full should take 7.667 s (took 6.667 s).
+FAIL: [expansion-mechanics] 120 Hz: no regeneration during the 1 s delay (60.00 → 67.50).
+FAIL: [expansion-mechanics] 120 Hz: 1 s delay then 15/s: expected 90.00, got 100.00.
+== M2 add() ignores the three-slot limit
+FAIL: [expansion-mechanics] add() must never go past three slots.
+FAIL: [expansion-mechanics] A throw with nowhere to land must not use the item.
+TMP DONE 2 failures
+== M3 the use key uses up tools too
+FAIL: [expansion-mechanics] The tool kit should operate two mechanisms and still be carried (F three times uses nothing up).
+FAIL: [expansion-mechanics] The use key must not drop the tool kit.
+TMP DONE 2 failures
+== M4 carried slots not stored at checkpoints
+FAIL: [expansion-mechanics] The carried slots should be stored at checkpoints.
+FAIL: [expansion-mechanics] Round 0: caught → carried slots back to the checkpoint ([&"toolkit", &"", &"bottle"], expected [&"toolkit", &"bottle", &""]).
+FAIL: [expansion-mechanics] Round 0: a throw made after the checkpoint is undone.
+FAIL: [expansion-mechanics] Round 1: caught → carried slots back to the checkpoint ([&"toolkit", &"", &"bottle"], expected [&"toolkit", &"bottle", &""]).
+FAIL: [expansion-mechanics] Round 1: a throw made after the checkpoint is undone.
+FAIL: [expansion-mechanics] Round 2: caught → carried slots back to the checkpoint ([&"toolkit", &"", &"bottle"], expected [&"toolkit", &"bottle", &""]).
+FAIL: [expansion-mechanics] Round 2: a throw made after the checkpoint is undone.
+FAIL: [expansion-mechanics] Caught: the card is back on the desk and not carried (no duplicate).

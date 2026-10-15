@@ -2,6 +2,10 @@ class_name FirstPersonPlayer
 extends CharacterBody3D
 
 ## Grounded first-person controller: walk, sprint, crouch, mouse look and gravity.
+## Optional children extend it: "Stamina" (PlayerStamina, limits sprinting) and
+## "Inventory" (PlayerInventory, carried items and the journal). Both are part
+## of the player scene and off unless the level's Player sets use_stamina /
+## use_inventory (the Expanded Library does; the tutorial does not).
 ##
 ## There is deliberately no jump. The library has no vertical routes, and
 ## jumping onto shelves or tables would let the player skip stealth sections
@@ -37,6 +41,12 @@ extends CharacterBody3D
 ## Highest angle the camera can look up or down.
 @export_range(10.0, 89.0) var max_pitch_degrees := 85.0
 
+@export_group("Level mechanics")
+## Sprinting uses stamina (the "Stamina" child). Off: unlimited sprint, as in the tutorial.
+@export var use_stamina := false
+## The player can carry items and keep a journal (the "Inventory" child).
+@export var use_inventory := false
+
 @export_group("Safety")
 ## If the player ever drops below this height they are returned to their spawn point.
 @export var fall_limit_y := -10.0
@@ -52,11 +62,19 @@ var _capsule: CapsuleShape3D
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
 @onready var _collision: CollisionShape3D = $CollisionShape3D
+## Sprint stamina (null if the scene has no "Stamina" child).
+@onready var stamina: PlayerStamina = get_node_or_null("Stamina")
+## Carried items and journal (null if the scene has no "Inventory" child).
+@onready var inventory: PlayerInventory = get_node_or_null("Inventory")
 
 
 func _ready() -> void:
 	add_to_group("player")  # NPC perception looks for this group.
 	_spawn_transform = global_transform
+	if stamina:
+		stamina.enabled = use_stamina
+	if inventory:
+		inventory.set_enabled(use_inventory)
 	# Own copy of the capsule so crouching never changes a shared resource.
 	_capsule = (_collision.shape as CapsuleShape3D).duplicate()
 	_collision.shape = _capsule
@@ -84,7 +102,11 @@ func _physics_process(delta: float) -> void:
 
 	_update_crouch(delta)
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	var target := get_target_velocity(input_dir, Input.is_action_pressed("sprint"))
+	var sprinting := Input.is_action_pressed("sprint")
+	if stamina:
+		# Only sprinting with movement input, standing up, costs stamina (crouched, sprint does nothing).
+		sprinting = stamina.update(sprinting, input_dir.length_squared() > 0.01 and not is_crouching, delta)
+	var target := get_target_velocity(input_dir, sprinting)
 	var horizontal := calculate_horizontal_velocity(Vector3(velocity.x, 0.0, velocity.z), target, delta)
 	velocity.x = horizontal.x
 	velocity.z = horizontal.z
@@ -135,6 +157,8 @@ func respawn() -> void:
 	head.rotation = Vector3.ZERO
 	set_crouching(false)
 	head.position.y = stand_eye_height
+	if stamina:
+		stamina.refill()
 
 
 ## Crouches or stands up. Standing up is refused if something is overhead.

@@ -1,0 +1,154 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  [ai] random storm: 2000 operations, 295 transitions, all legal, state valid
+  [ai] state machine unit tests: 0 failure(s)
+  [player] measured: walk 3.50 m/s, sprint 5.50 m/s, travel to crate 1.647 m, to wall 3.000 m
+  [navigation] saved navmesh: 224 polygons, 628.7 m²; fresh bake: 224 polygons, 628.7 m²
+  [navigation] coverage: 429 open floor samples (0 missing), 97 samples inside obstacles (0 walkable)
+  [navigation] paths from Entrance to all 9 areas found; MainRoom→HallwayEast 32.5 m (straight 25.5 m)
+  [navigation] sealed: 630 floor-edge points checked, 0 open
+  [navigation] probe walked Entrance→Exit: 55.0 m in 278 frames, 0.42 m from target
+  [guard] GuardMain: 1 loop(s), reached [0, 1, 2, 3, 0], 4 waits, max step 0.200 m, max navmesh offset 0.19 m
+  [guard] GuardRestricted: 2 loop(s), reached [0, 1, 2, 3, 0, 1, 2, 3, 0], 8 waits, max step 0.200 m, max navmesh offset 0.26 m
+  [guard] GuardEast: 1 loop(s), reached [0, 1, 2, 3, 0, 1, 2, 3], 7 waits, max step 0.200 m, max navmesh offset 0.08 m
+  [guard] two guards crossing head-on: reached [0, 1, 0, 1] and [0, 1, 0, 1] in 20.4s, closest approach 0.77 m
+WARNING: StuckGuard is stuck on the way to its target (patrol point 1); moving on.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] notify_stuck (res://scripts/npc/guard.gd:232)
+         [1] update (res://scripts/npc/ai/patrol_state.gd:44)
+         [2] tick (res://scripts/npc/ai/guard_state_machine.gd:106)
+         [3] _physics_process (res://scripts/npc/guard.gd:118)
+  [guard] blocked guard: got_stuck after 8.2s, then reached [0, 0]
+WARNING: NoRouteGuard has no patrol route with points, so it will stand still while patrolling.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://scripts/npc/guard.gd:109)
+         [1] _spawn_guard (res://tests/guard_tests.gd:310)
+         [2] _check_guard_without_route (res://tests/guard_tests.gd:204)
+         [3] run (res://tests/guard_tests.gd:40)
+         [4] _check_stuck_guard_moves_on (res://tests/guard_tests.gd:200)
+         [5] _free_test_nodes (res://tests/guard_tests.gd:321)
+         [6] _physics_frames (res://tests/guard_tests.gd:338)
+WARNING: VisionTestGuard has no patrol route with points, so it will stand still while patrolling.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://scripts/npc/guard.gd:109)
+         [1] _build_arena (res://tests/vision_tests.gd:65)
+         [2] run (res://tests/vision_tests.gd:26)
+         [3] _ready (res://tests/test_scene.gd:65)
+         [4] run (res://tests/guard_tests.gd:46)
+         [5] _physics_frames (res://tests/guard_tests.gd:338)
+  [vision] player 6 m ahead: seen after 0.13s, SUSPICIOUS at 0.73s, ALERTED (100) at 2.20s (expected 2.13s)
+WARNING: VisionTestGuard: no navigation mesh found nearby after 120 frames.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] wait_for_navigation (res://scripts/utilities/navigation_utils.gd:22)
+  [vision] after losing sight: held 100 for 1.0s, 70.0 after 2 s of decay, back to 0 and UNAWARE; last known position unchanged
+  [vision] far detection: 1 s at 13 m → meter 16.4 (no instant detection); nothing at 15.5 m
+  [ai-level] detection cycle: 0.8s PATROL→INVESTIGATE (suspicious sighting), 2.2s INVESTIGATE→CHASE (confirmed sighting), 3.5s CHASE→INVESTIGATE (lost sight of the player), 9.7s INVESTIGATE→PATROL (investigation timed out)
+  [ai-level] noise: investigated (0.4 m from the noise), searched 6.07s, back to PATROL
+WARNING: GuardA has no patrol route with points, so it will stand still while patrolling.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://scripts/npc/guard.gd:109)
+         [1] _guard (res://tests/hearing_tests.gd:78)
+         [2] _build_arena (res://tests/hearing_tests.gd:57)
+         [3] run (res://tests/hearing_tests.gd:26)
+         [4] _ready (res://tests/test_scene.gd:67)
+         [5] run (res://tests/ai_behavior_tests.gd:63)
+         [6] _physics_frames (res://tests/ai_behavior_tests.gd:144)
+WARNING: GuardB has no patrol route with points, so it will stand still while patrolling.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://scripts/npc/guard.gd:109)
+         [1] _guard (res://tests/hearing_tests.gd:78)
+         [2] _build_arena (res://tests/hearing_tests.gd:58)
+         [3] run (res://tests/hearing_tests.gd:26)
+         [4] _ready (res://tests/test_scene.gd:67)
+         [5] run (res://tests/ai_behavior_tests.gd:63)
+         [6] _physics_frames (res://tests/ai_behavior_tests.gd:144)
+WARNING: GuardA: no navigation mesh found nearby after 120 frames.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] wait_for_navigation (res://scripts/utilities/navigation_utils.gd:22)
+WARNING: GuardB: no navigation mesh found nearby after 120 frames.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] wait_for_navigation (res://scripts/utilities/navigation_utils.gd:22)
+  [hearing] estimate error: mean 0.52 m at 2 m, 1.25 m at 10 m; never exact; two guards differ by 2.05 m
+  [hearing] player footsteps: walking 2 s → 8 WALK, sprinting 2 s → { "WALK": 2, "RUN": 7 }, standing → none
+  [hearing] sprint behind guard → PATROL→INVESTIGATE (noise); target 0.66 m from nearest footstep
+  [loop] carrel: standing seen over panel=true, crouched hidden behind side=true, from opening seen=true at half rate (13.6 vs 26.4)
+  [loop] spotted → guard investigated → player hid in carrel → guard returned to patrol; statuses ["SPOTTED", "INVESTIGATING", "HIDDEN"]
+  [loop] escape: chase started 4.0 m behind, gap after 2 s of sprinting 5.9 m, not caught
+  [loop] caught by LoopTestGuard, frozen for 2.5s, reset: player at entrance, guard patrolling from its start
+  [objectives] route spawn → library → checkpoint → stacks → card → checkpoint → exit door: 116 m of navigable path
+  [objectives] flow: enter_library → reach_restricted → take_card → reach_exit → escape; exit rejected 1 time(s) before the card, escaped after
+  [objectives] card taken before the checkpoint: caught → respawned at Staff Nook with the card kept (reach_exit)
+  [objectives] card taken after the checkpoint: caught in the stacks → respawned at Hallway West, card back on the desk, then retaken
+  [objectives] respawn reset all 3 guards to their starts on patrol
+  [objectives] Hallway West checkpoint: unseen by every guard for 45 s of patrol
+  [objectives] Staff Nook checkpoint: unseen by every guard for 45 s of patrol
+  [game flow] 3000 random requests over 242 games: 1226 transitions, 1774 refused, 0 duplicate or illegal
+  [game flow] pause/resume by key, button and focus loss: PLAYING → PAUSED → PLAYING → PAUSED → PLAYING → PAUSED → PLAYING
+  [game flow] paused 120 frames: guards, navigation, noise clock, player and timers frozen; guards moved again after resume
+  [game flow] caught → respawn: PLAYING → CAUGHT → PLAYING, pause refused on the caught screen
+  [game flow] victory: WIN once, cursor visible, play again requested ["res://scenes/level/library_graybox.tscn"]
+  [level] routes to the card: west 62 m, east 91 m; card to exit: back corridor 41 m, long way 95 m
+  [presentation] player: 4 footsteps over 4 strides, largest head bob 0.019 m
+  [presentation] guard: animations seen while investigating ["walk", "search"], 17 footsteps, 1 radio, 4 keys
+  [qa] full route walked with real input in 33.4 s of play: checkpoints ["Hallway West", "Staff Nook"], 115 footsteps, sounds ["objective_complete", "checkpoint", "ui_hover", "card_pickup", "victory", "door_open"]
+  [qa] real chase: guard animations ["idle", "walk", "run"], music ["", "tension", "chase"], sounds ["notice", "lost_track", "alarm", "caught"], respawned at Hallway West
+  [expanded] scene: 6 zones (4 ground, 2 upper), 3 stairs, 5 objective locations, shared runtime and mission systems, 13 hiding spots, 14 signs, tuned guards; tutorial is still its own scene, the default map, with default guards
+  [expanded] dimensions: narrowest opening 2.0 m, doors 2.6 m high, steepest stair 24.2°
+  [expanded] navmesh: 1020 polygons; walkable ground 3453 m², upper 1663 m²; saved 5170.6 m² = fresh 5170.6 m²
+  [expanded] dressing: no collision in the decoration, 234 solid pieces with one box collider each; of 2155 decorative meshes and batched boxes, 1321 outside the colliders, 0 reaching into the walkable space (0.15 m clearance)
+  [expanded] reachability: 158 planned locations reachable from the spawn; main route 200 m along the navmesh
+  [expanded] stairs: S1, S2, S3 each connect the floors directly (up and down)
+  [expanded] gates and approaches: 23/23 checks as designed over 13 rebakes (stages start → card → back gate; archive only through G2; two approaches to the upper floor and the staff wing); way out of the archive 66 m with the shortcut vs 111 m without (41% shorter)
+  [expanded] walk: main route + 2 alternatives walked with real input, 478 m in 135 s, y 0.00…4.50, gates passed ["Archive Front Gate G2", "Archive Back Gate G3", "Lobby Staff Door G4"]
+  [maps] catalog: [&"library_tutorial", &"expanded_library"], tutorial first
+  [maps] menu: 2 map buttons in catalog order, Library Tutorial focused, Up/Down reach every button, each button loads its map once, Quit quits
+  [maps] Library Tutorial: one of each system, Restart → library_graybox.tscn, Main menu → menu, connections { "player_caught": 1, "level_reset": 2, "state_changed": 2 }, all freed on leaving (loaded twice)
+  [maps] Expanded Library: one of each system, Restart → expanded_library.tscn, Main menu → menu, connections { "player_caught": 1, "level_reset": 2, "state_changed": 2 }, all freed on leaving (loaded twice)
+  [expanded-ai] navigation: both floors baked, sealed, nothing above the upper floor; loops: P1 GuardLobby 43 m, P2 GuardStacksOuter 99 m, P4 GuardService 92 m, P5 GuardUpper 98 m, P7 GuardArchive 57 m, P8 GuardConnector 184 m
+  [expanded-ai] checkpoints: respawn points Study Rooms, Staff Offices, Storage never in a guard's view during the run
+  [expanded-ai] patrols: 6 guards completed their loops in order in 207 s game time, 0 stuck, all stayed in PATROL, spawn never seen; GuardLobby 4 pts y 0.0–0.0, GuardStacksOuter 4 pts y 0.0–0.0, GuardService 4 pts y 0.0–0.0, GuardUpper 4 pts y 4.5–4.5, GuardArchive 5 pts y 4.5–4.5, GuardConnector 8 pts y 0.0–4.5
+  [expanded-ai] vision: open aisle seen; behind a shelf, through the slab and behind the balcony railing not seen; at the railing seen
+  [expanded-ai] hearing: open sprint investigated at an estimate (not the spot); through a wall not heard; through the slab a walk is not heard, a sprint overhead is
+  [expanded-ai] pursuit: PATROL → CHASE → INVESTIGATE at the last seen spot (not the player's hiding place) → PATROL
+  [expanded-ai] stair pursuit: chased up S1, searched the upper floor, walked back down to its post
+  [expanded-ai] narrow passages: head-on crossings in a 2 m door and on S2; tour through G1a, G1b and the closed G2, G3, G4, SC1, up S2, down S3, up and down S1, with 0 stuck
+  [expanded-mission] setup: enter_library → take_card → take_manuscript → unlock_shortcut → escape; 4 access doors closed, 2 items, exit locked, 3 checkpoints
+  [expanded-mission] full mission with real input: 193 m walked in 51 s real time, E pressed 5 times; take_card (HUD OBJECTIVE 2/5), take_manuscript (HUD OBJECTIVE 3/5), take_manuscript (HUD OBJECTIVE 3/5), unlock_shortcut (HUD OBJECTIVE 4/5), escape (HUD OBJECTIVE 5/5), done (HUD OBJECTIVE 5/5) → WIN
+  [expanded-mission] no bypass: card, manuscript, G2 / G4 (both sides), G3 / SC1 (wrong side) and the exit all refused; 8 rattles
+  [expanded-mission] doors: closed G2, G4, G3, SC1 stop the walking player and block a guard's sight; open, all 6 crossings pass (6/6); doorways stay on the navmesh
+  [expanded-mission] card: taken in Office 2; G2 and G4 open with it and stay open; G3 still one-way
+  [expanded-mission] order: back gate before the manuscript works (O4 completes when it comes up), then escape
+  [expanded-mission] caught before the card: respawn at the entrance, mission back to O1
+  [expanded-mission] caught right after the card: taken off the pad → card back on the desk, G2 closed; taken on the pad → saved, card kept, G2 reopens
+  [expanded-mission] caught after the manuscript: manuscript back on its pedestal, card kept, G2 closed
+  [expanded-mission] caught after the shortcut: before Storage → everything since Staff Offices undone; after Storage → kept, then escaped
+  [expanded-mission] repeated captures: 5 captures with different progress, state equals the snapshot every time; no checkpoint during a chase
+  [expanded-mission] level guards: 6 of 6 had moved; after the capture all 6 at their starts, PATROL, detection 0
+  [expanded-mission] fresh load after progress: O1, items in place, doors closed, no checkpoint
+  [expansion-layout] zones: A B C D E F G; G and the D extension in Expansion; navmesh baked from expanded_navigation_source; 5 reserved spaces (3 escapes)
+  [expansion-layout] navigation: 15 new areas reachable from the spawn (stacks_cross_aisle 59 m, west_landing 64 m, west_basement 80 m, basement_alcove 84 m, maintenance_bay 99 m, tunnel_middle 109 m, pump_room 127 m, storm_drain 123 m, east_tunnel_end 108 m, cable_bay 104 m, east_basement 95 m, electrical_room 74 m, book_processing 69 m, study_1 58 m, stacks_by_study 62 m); 5 sealed points unreachable; basement 469 m², nothing stray or on roofs
+  [expansion-layout] main stacks hub: 5 routes (Stacks Arch (Reading Hall), Stacks Arch (Lobby), S3 Stacks Stair, West service door, Study 1 door); cross aisle → service stair 6.6 m, stacks → Study 1 5.0 m
+  [expansion-layout] doorways and stairs: WestServiceDoor 2.0 × 2.60 m, ElectricalRoomDoor 2.0 × 2.60 m, Study1StacksDoor 2.0 × 2.60 m, WestServiceStair 3.35 m wide, 21.8°, EastServiceStair 3.35 m wide, 21.8°; headroom ≥ 2.2 m on both stairs
+  [expansion-layout] card rule (rebaked with doors closed): without the card: book processing cut off; without the card: the dock cut off; without the card: the east basement (via the west stair and the tunnel) reachable; without the card: the electrical room (from below) reachable; with the card: book processing reachable; with the card, G4 closed: book processing through the basement reachable
+  [expansion-layout] walk: 14/14 new places reached with real input, 204 m, down the west service stair, along the tunnel, up the east service stair; lowest y -4.00
+  [expansion-layout] guard tour: 13/13 points (both service stairs, tunnel, bay, pump room, drain, electrical room through the closed card door, Study 1 door), stuck 0
+  [expansion-mechanics] stamina rules: full sprint 30 Hz 5.000 s, 60 Hz 5.017 s, 120 Hz 5.000 s, 144 Hz 5.007 s, 7 Hz 5.000 s; 1 s delay then 15/s; empty→full 7.667 s; 15 to start; release after running dry
+  [expansion-mechanics] real-input sprint, 6 s: 60 Hz 5.017 s sprint, 30.41 m, 30 Hz 5.000 s sprint, 30.40 m, 120 Hz 5.000 s sprint, 30.36 m
+  [expansion-mechanics] no drain walking, standing, crouching, hiding, using things or being seen (seen 75 frames); respawn refills
+  [expansion-mechanics] inventory: 3 slots, 4th item and the card refused with full hands; tool kit operated 2 mechanisms and F ×3, still carried; 2 throws → 2 used, 2 noises, guard investigated; failed throw used nothing; journal 2 documents, read twice = once
+  [expansion-mechanics] storage: leave, take back and swap at the maintenance shelf with E; item totals unchanged { &"toolkit": 1, &"bottle": 2, &"hardback": 1, &"staff_card": 1 }
+  [expansion-mechanics] card doors: G4, electrical room and G2 opened with the carried card, card kept; card on a shelf → G4 refused
+  [expansion-mechanics] checkpoints: 3 catches restored slots [&"toolkit", &"bottle", &""] and shelf [&"hardback", &"", &"", &""] exactly, no duplicates, throws undone, stamina full; card before/after the checkpoint consistent
+  [expansion-mechanics] tutorial: no stamina, inventory, item HUD or new controls; card and doors objective-keyed; 8 s unlimited sprint
+  [expansion] integration point: Expansion (expanded_library_expansion.tscn) after Gameplay, 4 child node(s)
+  [expansion] existing level matches the baseline (7d73492 + the 3 approved Phase 2 doorways): 269 collision objects, 269 shapes, 295 batched decoration nodes, 90 lights, 6 guards, 41 patrol points, 13 hiding spots, 4 access doors, 3 checkpoints, 5 objectives, navmesh 1020 polygons
+  [expansion] maps loaded alternately: tutorial (3 guards) → expanded (6 guards) → tutorial (3 guards) → expanded (6 guards); each on its own, nothing left behind
+All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design, Phase 12 presentation, Phase 13 performance, Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards, Expanded Library mission, Expanded Library expansion layout, Expanded Library expansion stamina and inventory, Expanded Library expansion baseline).

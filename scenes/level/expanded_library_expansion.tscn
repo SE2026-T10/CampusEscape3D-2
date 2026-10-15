@@ -3,6 +3,9 @@
 [ext_resource type="Script" path="res://scripts/systems/objectives/access_door.gd" id="1_rbutt"]
 [ext_resource type="Script" path="res://scripts/systems/noise/noise_maker.gd" id="2_6vu6i"]
 [ext_resource type="Script" path="res://scripts/systems/hiding_spot.gd" id="3_e45nx"]
+[ext_resource type="Script" path="res://scripts/systems/inventory/item_pickup.gd" id="4_b71qq"]
+[ext_resource type="Script" path="res://scripts/systems/inventory/item_storage.gd" id="5_x7bv7"]
+[ext_resource type="Script" path="res://scripts/systems/inventory/document_pickup.gd" id="6_55c5i"]
 [ext_resource type="PackedScene" path="res://scenes/props/ceiling_light.tscn" id="4_35jku"]
 
 [sub_resource type="BoxShape3D" id="BoxShape_8p100_0p200_12p000"]
@@ -321,6 +324,12 @@ albedo_color = Color(0.08, 0.1, 0.2, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_1p400_0p010_1p000"]
 size = Vector3(1.4, 0.01, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape_0p500_0p350_0p500"]
+size = Vector3(0.5, 0.35, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p500_0p600_0p300"]
+size = Vector3(0.5, 0.6, 0.3)
+
 [sub_resource type="StandardMaterial3D" id="Material_ceiling"]
 albedo_color = Color(0.86, 0.83, 0.76, 1)
 disable_receive_shadows = true
@@ -399,8 +408,8 @@ size = Vector3(4.94, 0.34, 0.04)
 size = Vector3(4.18, 0.34, 0.04)
 
 [node name="Expansion" type="Node3D" unique_id=424622795]
-editor_description = "Expanded Library expansion content (2026 expansion). Built by tools/expanded/expansion/build_expansion.gd from expansion_layout.gd (x1): the basement / service network (zone G), the electrical room (zone D), the west and east service stairs. New puzzles, mechanics and areas go here, not into expanded_library.tscn, whose builder is frozen. Instanced once into expanded_library.tscn as \"Expansion\", right after \"Gameplay\"; content uses the level's existing systems through their groups."
-metadata/expansion_layout_version = "x1"
+editor_description = "Expanded Library expansion content (2026 expansion). Built by tools/expanded/expansion/build_expansion.gd from expansion_layout.gd (x2): the basement / service network (zone G), the electrical room (zone D), the west and east service stairs. New puzzles, mechanics and areas go here, not into expanded_library.tscn, whose builder is frozen. Instanced once into expanded_library.tscn as \"Expansion\", right after \"Gameplay\"; content uses the level's existing systems through their groups."
+metadata/expansion_layout_version = "x2"
 
 [node name="Geometry" type="Node3D" parent="." unique_id=1582251620 groups=["expanded_navigation_source"]]
 
@@ -1637,6 +1646,7 @@ shape = SubResource("BoxShape_0p300_0p300_10p300")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 1.2, -23)
 script = ExtResource("1_rbutt")
 door_name = "Electrical Room Door"
+key_item = &"staff_card"
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/ElectricalRoomDoor" unique_id=1862175545]
 shape = SubResource("BoxShape_1p000_2p400_2p000")
@@ -1703,6 +1713,91 @@ layers = 16
 material_override = SubResource("Material_141a33ff")
 cast_shadow = 0
 mesh = SubResource("BoxMesh_1p400_0p010_1p000")
+
+[node name="Items" type="Node3D" parent="Gameplay" unique_id=2020422709]
+
+[node name="ToolKit" type="Area3D" parent="Gameplay/Items" unique_id=855256459]
+transform = Transform3D(0.9396926, 0, 0.34202012, 0, 1, 0, -0.34202012, 0, 0.9396926, -26.8, -2.8, -20.2)
+script = ExtResource("4_b71qq")
+metadata/zone_id = "G"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Items/ToolKit" unique_id=2091853641]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
+shape = SubResource("BoxShape_0p500_0p350_0p500")
+
+[node name="BottleTunnel" type="Area3D" parent="Gameplay/Items" unique_id=1034117681]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, -2.8, -26.1)
+script = ExtResource("4_b71qq")
+item_id = &"bottle"
+metadata/zone_id = "G"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Items/BottleTunnel" unique_id=764845788]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
+shape = SubResource("BoxShape_0p500_0p350_0p500")
+
+[node name="HardbackTunnel" type="Area3D" parent="Gameplay/Items" unique_id=1260966071]
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, 19, -2.8, -23.9)
+script = ExtResource("4_b71qq")
+item_id = &"hardback"
+metadata/zone_id = "G"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Items/HardbackTunnel" unique_id=1080604197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
+shape = SubResource("BoxShape_0p500_0p350_0p500")
+
+[node name="BottleCableBay" type="Area3D" parent="Gameplay/Items" unique_id=1498393903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, -2.8, -21)
+script = ExtResource("4_b71qq")
+item_id = &"bottle"
+metadata/zone_id = "G"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Items/BottleCableBay" unique_id=418274452]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
+shape = SubResource("BoxShape_0p500_0p350_0p500")
+
+[node name="Storage" type="Node3D" parent="Gameplay" unique_id=1052852444]
+
+[node name="MaintenanceShelf" type="Area3D" parent="Gameplay/Storage" unique_id=90942316]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -20.36, -3, -20)
+script = ExtResource("5_x7bv7")
+storage_name = "Maintenance shelf"
+metadata/zone_id = "G"
+
+[node name="ElectricalShelf" type="Area3D" parent="Gameplay/Storage" unique_id=878012314]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 39.5, 1, -18.36)
+script = ExtResource("5_x7bv7")
+storage_name = "Electrical room shelf"
+metadata/zone_id = "D"
+
+[node name="Documents" type="Node3D" parent="Gameplay" unique_id=165434854]
+
+[node name="PumpRoomLog" type="Area3D" parent="Gameplay/Documents" unique_id=1777630516]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.83, -2.6, -17)
+script = ExtResource("6_55c5i")
+document_id = &"pump_room_log"
+title = "Pump room log"
+text = "Night log, pump room.
+The sump pump trips whenever the storm drain backs up. Reset it from the control panel, never by hand.
+The drain grate stays locked. Security holds the key.
+— Facilities, night shift"
+metadata/zone_id = "G"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Documents/PumpRoomLog" unique_id=1173135354]
+shape = SubResource("BoxShape_0p500_0p600_0p300")
+
+[node name="ElectricalNotice" type="Area3D" parent="Gameplay/Documents" unique_id=77546657]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 45.83, 1.4, -24)
+script = ExtResource("6_55c5i")
+document_id = &"electrical_notice"
+title = "Electrical room notice"
+text = "NOTICE TO STAFF
+Building power and the security system share this room. Do not open the cabinets without facilities staff present.
+The tool kit is kept in the maintenance bay downstairs.
+— Library facilities"
+metadata/zone_id = "D"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Documents/ElectricalNotice" unique_id=2115194197]
+shape = SubResource("BoxShape_0p500_0p600_0p300")
 
 [node name="Dressing" type="Node3D" parent="." unique_id=833799689]
 

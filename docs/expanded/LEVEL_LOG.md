@@ -289,3 +289,20 @@ No new layout version: the layout data and the scene's existing content are unch
 Guards, routes, mission and every other node are unchanged (baseline digests in `tests/expanded_baseline_tests.gd`).
 
 **Evidence:** [`expansion/phase-2/`](expansion/phase-2/) (before/after views, plans, zone connections, navigation results); report [`expansion/phase-2-layout.md`](expansion/phase-2-layout.md).
+
+---
+
+## Expansion layout x2 — stamina, inventory, provisional items (expansion Phase 3, 2026-10-15)
+
+**What:**
+- Stamina (Expanded Library only): 100, sprint −20/s, +15/s after 1 s, 15 to start a sprint; `PlayerStamina` on the player, switched on by the level's `Player.use_stamina`.
+- Inventory: three carried slots, a journal for clue documents, storage shelves as the only places to leave or swap items; `PlayerInventory` on the player (`Player.use_inventory`), with `ItemPickup`, `ItemStorage`, `DocumentPickup`, `ToolMechanism` and `ItemCatalog`.
+- The staff card is a carried item; the staff doors (G2, G4, the electrical room door) check the carried card (`AccessDoor.key_item`).
+- Provisional placements in the Expansion sub-scene: tool kit, three distractions, two shelves, two documents (see LAYOUT.md, layout x2).
+
+**Why:** the owner's Phase 3 rules (stamina values; three slots; reusable tools and cards, single-use distractions, journal, drop/swap only at appropriate places, checkpoint restore).
+
+**Approved changes to the existing scene (`tools/expanded/expansion/enable_items.py`):** five property lines: `use_stamina` and `use_inventory` on Player, `grants_item` on the staff card, `key_item` on G2 and G4. No geometry, navmesh, guard or route changed.
+
+**Evidence:** [`expansion/phase-3/`](expansion/phase-3/); report [`expansion/phase-3-mechanics.md`](expansion/phase-3-mechanics.md).
+

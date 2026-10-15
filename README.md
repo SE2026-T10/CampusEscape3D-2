@@ -32,7 +32,7 @@ Built in Godot with GDScript, for Windows desktop. The current version is **1.1.
 
 - **From the editor:** open the project and press **F5**. The game starts on the main menu. Choose a map:
   - **Library Tutorial**: the original level, with its full mission.
-  - **Expanded Library**: the two-floor map (since the 2026 expansion with a basement service network and seven zones), dressed in the tutorial's low-poly library look, six patrolling guards and a five-objective mission: get in, take a staff access card from the offices upstairs, steal the rare manuscript from the archive vault, unlock the archive's back gate and escape through the loading dock.
+  - **Expanded Library**: the two-floor map (since the 2026 expansion with a basement service network and seven zones), dressed in the tutorial's low-poly library look, six patrolling guards and a five-objective mission: get in, take a staff access card from the offices upstairs, steal the rare manuscript from the archive vault, unlock the archive's back gate and escape through the loading dock. Sprinting uses stamina here, and the player carries up to three items (tool kit, staff card, distractions) and keeps a journal of clue documents.
 - **Straight into a level** while developing: open `scenes/level/library_graybox.tscn` or `scenes/level/expanded_library.tscn` and press **F6**.
 - **Exported build:** run `CampusEscape3D.exe`.
 
@@ -41,9 +41,12 @@ Built in Godot with GDScript, for Windows desktop. The current version is **1.1.
 | Action | Key |
 |---|---|
 | Move | **W A S D** |
-| Sprint | hold **Shift** |
+| Sprint | hold **Shift** (Expanded Library: uses stamina, 5 s from full; it refills 1 s after you stop) |
 | Crouch (quieter, harder to see, slower) | hold **C** or **Ctrl** |
 | Use (take the access card, open the exit) | **E** |
+| Select a carried item (Expanded Library) | **1**, **2**, **3** |
+| Use the selected item: throw a distraction (Expanded Library) | **F** |
+| Journal of clue documents (Expanded Library) | **J** |
 | Look | mouse |
 | Pause / resume (shows the cursor and the pause menu) | **Escape** or **P** |
 | Debug view: navigation, guard paths, routes, vision cones, detection, AI state, noise rings and hearing estimates (debug builds) | **F3** |
@@ -96,7 +99,7 @@ scenes/level/expanded_library.tscn       the Expanded Library (same runtime and 
 └── Expansion (expanded_library_expansion.tscn)   the 2026 expansion: basement / service network (zone G), electrical room; built by tools/expanded/expansion/ (the v4 builder is frozen)
 scenes/level/library_graybox.tscn        the Library Tutorial
 ├── NavigationRegion3D (+ library_navmesh.tres)   rooms, walls, shelves, furniture, carrels (HidingSpot)
-├── Player (scenes/player/player.tscn)   FirstPersonPlayer + PlayerNoise + PlayerInteractor + PlayerFeedback
+├── Player (scenes/player/player.tscn)   FirstPersonPlayer + PlayerNoise + PlayerInteractor + PlayerFeedback + PlayerStamina + PlayerInventory (the last two off unless the level sets use_stamina / use_inventory: the Expanded Library does)
 ├── Guards                               PatrolRoute/PatrolPoint markers + Guard instances (scenes/npc/guard.tscn)
 ├── Gameplay                             ObjectiveManager, triggers, AccessCard, ExitDoor, CheckpointManager, Checkpoints
 │                                        (Expanded Library: also AccessDoor card / one-way doors)
@@ -249,7 +252,7 @@ Press **F3** to show the navigation mesh (cyan), each guard's current path (yell
 
 ## Testing
 
-**Run the tests.** In the editor, open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, … Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards, Expanded Library mission, Expanded Library expansion layout, Expanded Library expansion baseline).`. From a terminal:
+**Run the tests.** In the editor, open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, … Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards, Expanded Library mission, Expanded Library expansion layout, Expanded Library expansion stamina and inventory, Expanded Library expansion baseline).`. From a terminal:
 
 ```
 godot --headless --path . --editor --quit          # first run only: imports the project
@@ -322,6 +325,7 @@ godot --headless --path . --script res://tools/map_flow.gd  # both maps selected
 - `tests/expanded_graybox_tests.gd` — Expanded Library graybox: scene structure, doorway and stair dimensions, navmesh on both floors, the visual dressing (no collision in it, one box collider per solid piece, no decorative mesh within 0.15 m of the walkable space), every planned location reachable, each stair on its own, planned gates and two approaches (rebaked with blockers), and a real-input walk of the main and alternative routes.
 - `tests/expanded_ai_tests.gd` — Expanded Library navigation and guards: both floors baked and sealed, every patrol point clear of doorways and stairs, all six guards completing their loops together with nothing stuck, vision (walls, shelves, the slab, the balcony railing), hearing (open, through a wall, through the slab), chase and loss of contact, a chase up a stair and back, head-on crossings in a door and on a stair, and one guard touring every gate and stair.
 - `tests/expanded_layout_expansion_tests.gd` — Expanded Library expansion layout (Phase 2): the seven zones, every new area reachable and the outside, the drain beyond its grate and the space under the floors sealed; the stacks' five routes; the new doorways clear (2 m × 2.6 m) and both service stairs (width, slope, headroom); the real player walking down the west service stair, along the tunnel and up the east service stair; a guard touring every new area; zone D still behind the staff card through the basement.
+- `tests/expanded_mechanics_tests.gd` — Expanded Library expansion stamina and inventory (Phase 3): the stamina rules at 7–144 Hz and uneven frame times; a real-input sprint at 30, 60 and 120 physics ticks (5 s, same distance); no drain walking, standing, crouching, hiding, using things or being seen; respawn refills; three slots, the fourth item and the card refused with full hands; tools and cards never used up; one distraction per successful throw (one noise, a guard investigates), none for a failed throw; documents in the journal once each; leave, take back and swap at storage shelves only, with item totals unchanged; card doors check the carried card; three catches restore slots, shelves and pickups exactly with no duplicates; the tutorial without stamina, inventory or item HUD.
 - `tests/expanded_baseline_tests.gd` — Expanded Library expansion baseline: the expansion sub-scene is instanced exactly once (after `Gameplay`, not moved) and only in the Expanded Library; outside it, the collision geometry, batched decoration (door frames included), guards, routes and mission nodes match the baseline digests of commit `7d73492`; the two maps loaded alternately each keep their own systems, guards and objectives and leave nothing behind.
 - `tests/expanded_mission_tests.gd` — Expanded Library mission: the five objectives played with real input (walking, looking, E) from a fresh start to the win screen; every bypass refused (card doors without the card, one-way doors from the wrong side, the manuscript before the card, the exit before the shortcut) and closed doors blocking the walking player and a guard's sight; the back gate opened before the manuscript; captures before and right after the card, after the manuscript and after the shortcut, five repeated captures, level guards reset, no checkpoint during a chase; after every respawn the mission state equals the checkpoint's snapshot and items, doors, objectives, exit and HUD agree.
 - Balance tools (development only): `tools/expanded/coverage_map.gd` (where guards can see, heat maps, route exposure), `tools/expanded/playtest_bot.gd` (an automated playtester that plays the mission through the real player), `tools/expanded/summarize_playtests.py`. See `docs/expanded/phase-5-balance.md`; human playtests: `docs/expanded/PLAYTEST_PROTOCOL.md`.

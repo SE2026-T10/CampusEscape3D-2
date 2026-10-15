@@ -9,6 +9,9 @@ extends CanvasLayer
 ##   - Short messages: objective done, checkpoint reached, exit locked
 ##   - The panel header counts progress ("OBJECTIVE 2/5") and the panel flashes
 ##     when a new objective starts
+##   - In levels with an inventory (PlayerInventory enabled): the carried slots
+##     (bottom centre, the selected one highlighted), item messages, and the
+##     journal of clue documents (left), opened with J or by reading a document
 ## The end-of-level screen and restarting belong to GameMenus / GameFlow.
 ## Everything shown comes from ObjectiveManager, CheckpointManager, the exit
 ## door and the player's PlayerInteractor.
@@ -34,6 +37,14 @@ var _message: Label
 var _message_left := 0.0
 var _flash := 0.0
 var _last_objective := &""
+var _slots: Control
+var _journal: PanelContainer
+var _journal_text: RichTextLabel
+## Document shown first in the journal (the one just read).
+var _journal_focus := &""
+
+## Carried slot size, in pixels.
+const SLOT_SIZE := Vector2(184, 44)
 
 
 func _ready() -> void:
@@ -47,10 +58,16 @@ func _ready() -> void:
 	_message.size = Vector2(900, 40)
 	add_child(_message)
 
+	_build_slots()
+	_build_journal()
 	_connect_signals.call_deferred()
 
 
 func _connect_signals() -> void:
+	var inventory := get_inventory()
+	if inventory:
+		inventory.notice.connect(func(text: String, good: bool): show_message(text, COLOUR_GOOD if good else COLOUR_WARNING))
+		inventory.document_opened.connect(open_journal)
 	var objectives := ObjectiveManager.find(self)
 	if objectives:
 		objectives.objective_completed.connect(_on_objective_completed)
@@ -81,6 +98,131 @@ func _process(delta: float) -> void:
 	_panel.visible = not finished
 	_prompt_box.visible = not finished
 	_message.visible = not finished
+	var inventory := get_inventory()
+	_slots.visible = inventory != null and not finished
+	if _slots.visible:
+		_slots.queue_redraw()
+	if _journal.visible and (inventory == null or finished):
+		_journal.visible = false
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if InputMap.has_action("journal") and event.is_action_pressed("journal") and get_inventory() != null:
+		if _journal.visible:
+			close_journal()
+		else:
+			open_journal(&"")
+		get_viewport().set_input_as_handled()
+
+
+## The player's inventory if this level uses one, else null.
+func get_inventory() -> PlayerInventory:
+	var player := get_tree().get_first_node_in_group("player") if is_inside_tree() else null
+	var inventory := player.get_node_or_null("Inventory") as PlayerInventory if player else null
+	return inventory if inventory and inventory.enabled else null
+
+
+## Text per carried slot, e.g. ["1 Tool kit", "2 —", "3 —"].
+func get_slot_texts() -> Array[String]:
+	var texts: Array[String] = []
+	var inventory := get_inventory()
+	if inventory == null:
+		return texts
+	for i in inventory.slot_count:
+		var id := inventory.get_item(i)
+		texts.append("%d %s" % [i + 1, ItemCatalog.item_name(id) if id != &"" else "—"])
+	return texts
+
+
+func is_journal_open() -> bool:
+	return _journal.visible
+
+
+## Opens the journal; `focus` (a document id) is shown first.
+func open_journal(focus: StringName) -> void:
+	var inventory := get_inventory()
+	if inventory == null:
+		return
+	if focus != &"":
+		_journal_focus = focus
+	var docs := inventory.documents.duplicate()
+	docs.reverse()  # newest first
+	for i in docs.size():
+		if docs[i].id == _journal_focus:
+			docs.push_front(docs.pop_at(i))
+			break
+	var text := "[b]JOURNAL[/b]  [color=#9aa3ad](%d)  ·  J to close[/color]\n" % docs.size()
+	if docs.is_empty():
+		text += "\n[color=#9aa3ad]No documents yet. Read notes and notices to collect clues here.[/color]"
+	for d in docs:
+		text += "\n[color=#ffd36b]%s[/color]\n%s\n" % [d.title, d.text]
+	_journal_text.text = text.strip_edges()
+	_journal.visible = true
+
+
+func close_journal() -> void:
+	_journal.visible = false
+
+
+func _build_slots() -> void:
+	_slots = Control.new()
+	_slots.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	_slots.position = Vector2(-(SLOT_SIZE.x * 3 + 16) / 2.0, -96)
+	_slots.size = Vector2(SLOT_SIZE.x * 3 + 16, SLOT_SIZE.y + 26)
+	_slots.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_slots.visible = false
+	_slots.draw.connect(_draw_slots)
+	add_child(_slots)
+
+
+func _draw_slots() -> void:
+	var inventory := get_inventory()
+	if inventory == null:
+		return
+	var font := ThemeDB.fallback_font
+	var texts := get_slot_texts()
+	for i in texts.size():
+		var rect := Rect2(Vector2(i * (SLOT_SIZE.x + 8), 0), SLOT_SIZE)
+		var chosen := i == inventory.selected
+		_slots.draw_rect(rect, Color(0.03, 0.04, 0.06, 0.72 if chosen else 0.55))
+		_slots.draw_rect(rect, Color(1.0, 0.82, 0.3) if chosen else Color(1, 1, 1, 0.25), false, 2.0 if chosen else 1.0)
+		var id := inventory.get_item(i)
+		if id != &"":
+			var info: Dictionary = ItemCatalog.ITEMS[id]
+			_slots.draw_rect(Rect2(rect.position + Vector2(8, 14), Vector2(14, 14)), info.colour)
+		_slots.draw_string(font, rect.position + Vector2(30, 27), texts[i].substr(2), HORIZONTAL_ALIGNMENT_LEFT, SLOT_SIZE.x - 36, 15,
+			Color.WHITE if id != &"" else Color(1, 1, 1, 0.4))
+		_slots.draw_string(font, rect.position + Vector2(4, 12), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1, 1, 1, 0.6))
+	var hint := "1–3 select  ·  F use / throw  ·  J journal (%d)" % inventory.documents.size()
+	_slots.draw_string_outline(font, Vector2(0, SLOT_SIZE.y + 20), hint, HORIZONTAL_ALIGNMENT_CENTER, _slots.size.x, 13, 4, Color.BLACK)
+	_slots.draw_string(font, Vector2(0, SLOT_SIZE.y + 20), hint, HORIZONTAL_ALIGNMENT_CENTER, _slots.size.x, 13, Color(1, 1, 1, 0.75))
+
+
+func _build_journal() -> void:
+	_journal = PanelContainer.new()
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.06, 0.05, 0.04, 0.86)
+	style.border_color = Color(0.6, 0.5, 0.3, 0.8)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(6)
+	style.set_content_margin_all(16)
+	_journal.add_theme_stylebox_override("panel", style)
+	_journal.set_anchors_preset(Control.PRESET_CENTER_LEFT)
+	_journal.position = Vector2(20, -220)
+	_journal.custom_minimum_size = Vector2(420, 0)
+	_journal.size = Vector2(420, 0)
+	_journal.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_journal.visible = false
+	add_child(_journal)
+	_journal_text = RichTextLabel.new()
+	_journal_text.bbcode_enabled = true
+	_journal_text.fit_content = true
+	_journal_text.scroll_active = false
+	_journal_text.custom_minimum_size = Vector2(388, 0)
+	_journal_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_journal_text.add_theme_font_size_override("normal_font_size", 15)
+	_journal_text.add_theme_font_size_override("bold_font_size", 18)
+	_journal.add_child(_journal_text)
 
 
 ## Current objective title, or "" when finished.
@@ -217,7 +359,7 @@ func _update_prompt(delta: float) -> void:
 		_prompt_key.text = parts[0]
 		_prompt_key.get_parent().visible = parts[0] != ""
 		_prompt.text = parts[1]
-		_prompt.add_theme_color_override("font_color", COLOUR_WARNING if text.contains("locked") or text.contains("not yet") else Color.WHITE)
+		_prompt.add_theme_color_override("font_color", COLOUR_WARNING if text.contains("locked") or text.contains("not yet") or text.contains("hands full") else Color.WHITE)
 	_prompt_alpha = move_toward(_prompt_alpha, 1.0 if text != "" else 0.0, delta * 8.0)
 	_prompt_box.modulate.a = _prompt_alpha
 

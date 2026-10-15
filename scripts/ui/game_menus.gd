@@ -24,6 +24,7 @@ var win_menu_button: Button
 var win_title: Label
 
 var _pause_time: Label
+var _controls: Label
 var _win_stats: Label
 var _win_objectives: Label
 
@@ -39,9 +40,9 @@ func _ready() -> void:
 	resume_button = _add_button(box, "Resume", func(): _flow().resume())
 	restart_button = _add_button(box, "Restart level", func(): _flow().restart())
 	pause_menu_button = _add_button(box, "Main menu", func(): _flow().go_to_main_menu())
-	var controls := MenuStyle.label("WASD move · Shift sprint · C/Ctrl crouch · E use · Esc resume", 14)
-	controls.modulate = Color(1, 1, 1, 0.7)
-	box.add_child(controls)
+	_controls = MenuStyle.label(CONTROLS, 14)
+	_controls.modulate = Color(1, 1, 1, 0.7)
+	box.add_child(_controls)
 
 	win_panel = _overlay(Color(0.02, 0.16, 0.09, 0.82))
 	var win_box := MenuStyle.centred_panel(win_panel)
@@ -74,6 +75,17 @@ func _connect_flow() -> void:
 	refresh()
 
 
+const CONTROLS := "WASD move · Shift sprint · C/Ctrl crouch · E use · Esc resume"
+const ITEM_CONTROLS := "1–3 select item · F use / throw · J journal"
+
+
+## The pause menu's controls line; levels with an inventory add its keys.
+func get_controls_text() -> String:
+	var player := get_tree().get_first_node_in_group("player")
+	var inventory := player.get_node_or_null("Inventory") as PlayerInventory if player else null
+	return CONTROLS + ("\n" + ITEM_CONTROLS if inventory and inventory.enabled else "")
+
+
 ## Shows the panel for the current game state and focuses its first button.
 func refresh() -> void:
 	var flow := _flow()
@@ -84,6 +96,7 @@ func refresh() -> void:
 	win_panel.visible = game_state == GameStateMachine.State.WIN
 	if pause_panel.visible:
 		_pause_time.text = "Time played %s" % format_time(flow.play_time)
+		_controls.text = get_controls_text()
 		if not was_paused:
 			resume_button.grab_focus()
 			_fade_in(pause_panel, 0.15)

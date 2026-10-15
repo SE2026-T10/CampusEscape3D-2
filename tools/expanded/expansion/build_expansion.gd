@@ -14,8 +14,11 @@ extends SceneTree
 ##   ├─ Geometry (group expanded_navigation_source: baked into the level's navmesh)
 ##   │  ├─ G_ServiceNetwork, D_ElectricalAnnex: StaticBody3D pieces on layer 1,
 ##   │  │  each with a Shape and its Mesh tiles (the existing level's conventions)
-##   ├─ Gameplay: the electrical room's staff-card AccessDoor, HidingSpots
-##   │  (not baked: guards keep their routes through doors, as in the level)
+##   ├─ Gameplay: the electrical room's staff-card AccessDoor, HidingSpots,
+##   │  Items (ItemPickup), Storage (ItemStorage shelves), Documents
+##   │  (DocumentPickup); not baked: guards keep their routes through doors, as
+##   │  in the level, and shelves and items change no route. Item, shelf and
+##   │  clipboard models are made by their scripts at run time (ItemCatalog).
 ##   ├─ Dressing: ceilings and roofs (no collision), lamps, door headers, signs
 ##   └─ Layout (debug_visuals, F3): zone labels and reserved-space markers
 ## Colours: the existing level's palette (LOOKS of the frozen builder).
@@ -28,6 +31,9 @@ const SCRIPTS := {
 	"door": "res://scripts/systems/objectives/access_door.gd",
 	"noise": "res://scripts/systems/noise/noise_maker.gd",
 	"hiding": "res://scripts/systems/hiding_spot.gd",
+	"item": "res://scripts/systems/inventory/item_pickup.gd",
+	"storage": "res://scripts/systems/inventory/item_storage.gd",
+	"document": "res://scripts/systems/inventory/document_pickup.gd",
 }
 ## Mesh tiles are at most this long, so no mesh is reached by more than the
 ## renderer's 8 lights per mesh (lamps are 8-12 m apart, range 10 m).
@@ -102,6 +108,15 @@ func _build() -> void:
 	var hiding := _group(gameplay, "HidingSpots")
 	for h in Layout.HIDING:
 		_add_hiding_spot(hiding, h)
+	var items := _group(gameplay, "Items")
+	for it in Layout.ITEMS:
+		_add_item(items, it)
+	var storage := _group(gameplay, "Storage")
+	for st in Layout.STORAGE:
+		_add_storage(storage, st)
+	var documents := _group(gameplay, "Documents")
+	for doc in Layout.DOCUMENTS:
+		_add_document(documents, doc)
 
 	var dressing := _group(_root, "Dressing")
 	var ceilings := _group(dressing, "Ceilings")
@@ -162,8 +177,9 @@ func _build() -> void:
 		push_error("Saving failed: %s" % err)
 		quit(1)
 		return
-	print("Built %s (expansion layout %s): %d solid pieces, %d mesh tiles, %d lamps, %d hiding spots, %d access door(s)" % [
-		SCENE_PATH, Layout.VERSION, _bodies, _tiles, Layout.LIGHTS.size(), Layout.HIDING.size(), Layout.DOORS.size()])
+	print("Built %s (expansion layout %s): %d solid pieces, %d mesh tiles, %d lamps, %d hiding spots, %d access door(s), %d items, %d shelves, %d documents" % [
+		SCENE_PATH, Layout.VERSION, _bodies, _tiles, Layout.LIGHTS.size(), Layout.HIDING.size(), Layout.DOORS.size(),
+		Layout.ITEMS.size(), Layout.STORAGE.size(), Layout.DOCUMENTS.size()])
 	_root.free()
 	quit(0)
 
@@ -270,6 +286,8 @@ func _add_access_door(parent: Node, d: Dictionary) -> void:
 	door.set("door_name", d.door_name)
 	door.set("mode", 0)   # AccessDoor.Mode.KEY
 	door.set("key_objective_id", StringName(d.key))
+	if d.has("key_item"):
+		door.set("key_item", StringName(d.key_item))
 	door.set("key_name", d.key_name)
 	_add(parent, door)
 	var w: float = d.width
@@ -319,6 +337,53 @@ func _add_hiding_spot(parent: Node, h: Dictionary) -> void:
 	mark.material_override = _colour(Color(0.08, 0.1, 0.2))
 	mark.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_add(spot, mark)
+
+
+## A carried item (ItemPickup) with its interaction box; the model comes from ItemCatalog at run time.
+func _add_item(parent: Node, it: Dictionary) -> void:
+	var item := Area3D.new()
+	item.name = it.name
+	item.set_script(load(SCRIPTS.item))
+	item.position = it.pos
+	item.rotation_degrees = Vector3(0, it.yaw, 0)
+	item.set("item_id", StringName(it.item))
+	item.set_meta("zone_id", it.zone)
+	_add(parent, item)
+	var shape := CollisionShape3D.new()
+	shape.name = "Shape"
+	shape.shape = _box_shape(Vector3(0.5, 0.35, 0.5))
+	shape.position = Vector3(0, 0.175, 0)
+	_add(item, shape)
+
+
+## A storage shelf (ItemStorage); its model and interaction box come from the script.
+func _add_storage(parent: Node, st: Dictionary) -> void:
+	var shelf := Area3D.new()
+	shelf.name = st.name
+	shelf.set_script(load(SCRIPTS.storage))
+	shelf.position = st.pos
+	shelf.rotation_degrees = Vector3(0, st.facing, 0)
+	shelf.set("storage_name", st.title)
+	shelf.set_meta("zone_id", st.zone)
+	_add(parent, shelf)
+
+
+## A clue document on a wall (DocumentPickup); the clipboard model comes from the script.
+func _add_document(parent: Node, doc: Dictionary) -> void:
+	var node := Area3D.new()
+	node.name = doc.name
+	node.set_script(load(SCRIPTS.document))
+	node.position = doc.pos
+	node.rotation_degrees = Vector3(0, doc.facing, 0)
+	node.set("document_id", StringName(doc.id))
+	node.set("title", doc.title)
+	node.set("text", doc.text)
+	node.set_meta("zone_id", doc.zone)
+	_add(parent, node)
+	var shape := CollisionShape3D.new()
+	shape.name = "Shape"
+	shape.shape = _box_shape(Vector3(0.5, 0.6, 0.3))
+	_add(node, shape)
 
 
 # --- Dressing --------------------------------------------------------------------------------

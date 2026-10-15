@@ -24,8 +24,14 @@ extends RefCounted
 ## Reserved for later phases (markers only): the power / security puzzle in
 ## the electrical room, the pump puzzle, escape 2 (the storm drain, sealed by
 ## a grate) and escape 3 (the main entrance, under a security lockdown).
+##
+## Phase 3 (x2, stamina and inventory): a provisional set of carried items,
+## two storage shelves (the only places items can be left or swapped) and two
+## clue documents in the new areas, so the mechanics can be played; the
+## electrical room door now checks the carried staff card (key_item). Real
+## tool-kit mechanisms and the clue texts come with the Phase 4 puzzles.
 
-const VERSION := "x1"
+const VERSION := "x2"
 
 ## Basement floor (top surface), and the slab under the existing ground floor.
 const BF := -4.0
@@ -143,7 +149,7 @@ const HIDING := [
 ## Access doors (AccessDoor). Cut 2 keeps zone D behind the staff card.
 const DOORS := [
 	{"name": "ElectricalRoomDoor", "door_name": "Electrical Room Door", "centre": Vector3(36, 0, -23), "along_x": false,
-		"width": 2.0, "key": "take_card", "key_name": "staff access card"},
+		"width": 2.0, "key": "take_card", "key_item": "staff_card", "key_name": "staff access card"},
 ]
 
 ## Seals: invisible colliders (no mesh) that keep the navmesh as it was where
@@ -251,3 +257,30 @@ const SEALED := {
 	"outside_north": Vector3(0, 0, -44),
 	"under_the_lobby": Vector3(0, BF, 18),
 }
+
+
+## Phase 3 (x2): provisional carried items (ItemPickup, ids from ItemCatalog),
+## lying on top of the basement crates (crate top = BF + 1.2).
+const ITEMS := [
+	{"name": "ToolKit", "item": "toolkit", "zone": "G", "pos": Vector3(-26.8, BF + 1.2, -20.2), "yaw": 20.0},
+	{"name": "BottleTunnel", "item": "bottle", "zone": "G", "pos": Vector3(-14.0, BF + 1.2, -26.1), "yaw": 0.0},
+	{"name": "HardbackTunnel", "item": "hardback", "zone": "G", "pos": Vector3(19.0, BF + 1.2, -23.9), "yaw": 30.0},
+	{"name": "BottleCableBay", "item": "bottle", "zone": "G", "pos": Vector3(44.0, BF + 1.2, -21.0), "yaw": 0.0},
+]
+## Storage shelves (ItemStorage): wall-mounted, no collision (nothing baked, no
+## route changed). "pos" is the shelf surface, 1 m above the floor; "facing"
+## turns the shelf's front (local +Z) away from the wall (degrees about Y).
+const STORAGE := [
+	{"name": "MaintenanceShelf", "title": "Maintenance shelf", "zone": "G", "pos": Vector3(-20.36, BF + 1.0, -20.0), "facing": -90.0},
+	{"name": "ElectricalShelf", "title": "Electrical room shelf", "zone": "D", "pos": Vector3(39.5, 1.0, -18.36), "facing": 180.0},
+]
+## Clue documents (DocumentPickup): clipboards on walls at 1.4 m. Provisional
+## texts; Phase 4 gives them their puzzle clues.
+const DOCUMENTS := [
+	{"name": "PumpRoomLog", "id": "pump_room_log", "title": "Pump room log", "zone": "G",
+		"pos": Vector3(6.83, BF + 1.4, -17.0), "facing": -90.0,
+		"text": "Night log, pump room.\nThe sump pump trips whenever the storm drain backs up. Reset it from the control panel, never by hand.\nThe drain grate stays locked. Security holds the key.\n— Facilities, night shift"},
+	{"name": "ElectricalNotice", "id": "electrical_notice", "title": "Electrical room notice", "zone": "D",
+		"pos": Vector3(45.83, 1.4, -24.0), "facing": -90.0,
+		"text": "NOTICE TO STAFF\nBuilding power and the security system share this room. Do not open the cabinets without facilities staff present.\nThe tool kit is kept in the maintenance bay downstairs.\n— Library facilities"},
+]

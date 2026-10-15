@@ -183,8 +183,9 @@ func _check_hub() -> void:
 func _check_doorways_and_stairs() -> void:
 	var space := _level.get_world_3d().direct_space_state
 	var door := _level.get_node_or_null("Expansion/Gameplay/ElectricalRoomDoor")
-	_expect(door is AccessDoor and door.mode == AccessDoor.Mode.KEY and door.key_objective_id == &"take_card",
-		"The electrical room needs its staff-card door (Expansion/Gameplay/ElectricalRoomDoor, an AccessDoor keyed to take_card).")
+	# Keyed to the carried staff card since Phase 3 (key_item); take_card stays as its objective key.
+	_expect(door is AccessDoor and door.mode == AccessDoor.Mode.KEY and door.key_objective_id == &"take_card" and door.key_item == &"staff_card",
+		"The electrical room needs its staff-card door (Expansion/Gameplay/ElectricalRoomDoor, an AccessDoor keyed to the carried staff card).")
 	if not door is AccessDoor:
 		return
 	var was_open: bool = door.is_open
