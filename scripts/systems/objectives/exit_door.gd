@@ -22,6 +22,12 @@ signal escaped
 ## Prompt while the door would not open.
 @export var locked_prompt := "Exit locked (access card needed)"
 
+## A second objective that must be COMPLETED too (optional; e.g. the
+## Expanded Library's storm drain needs the culvert drained), and the reason
+## shown while it is not.
+@export var extra_key_objective_id: StringName = &""
+@export var extra_locked_reason := "This way out is still blocked."
+
 ## The visible door. It is tinted red while locked and green once the card is taken.
 @export var door_mesh: MeshInstance3D
 
@@ -44,7 +50,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	var has_key := _manager() != null and _manager().is_completed(key_objective_id)
+	var has_key := _manager() != null and _manager().is_completed(key_objective_id) and _extra_done()
 	var colour := Color(0.3, 0.9, 0.45) if has_key else Color(0.8, 0.18, 0.15)
 	if _door_material:
 		_door_material.albedo_color = colour
@@ -60,7 +66,11 @@ func get_prompt(_by: Node) -> String:
 ## True when using the door would escape.
 func is_unlocked() -> bool:
 	var manager := _manager()
-	return manager != null and manager.get_state(objective_id) == ObjectiveManager.State.ACTIVE
+	return manager != null and manager.get_state(objective_id) == ObjectiveManager.State.ACTIVE and _extra_done()
+
+
+func _extra_done() -> bool:
+	return extra_key_objective_id == &"" or (_manager() != null and _manager().is_completed(extra_key_objective_id))
 
 
 func _on_interact(_by: Node) -> bool:
@@ -83,6 +93,8 @@ func rejection_reason() -> String:
 	var manager := _manager()
 	if manager == null:
 		return "The exit is locked."
+	if not _extra_done():
+		return extra_locked_reason
 	if not manager.is_completed(key_objective_id):
 		return locked_reason % manager.get_title(manager.current()).to_lower() if locked_reason.contains("%s") else locked_reason
 	return "The exit won't open yet: %s first." % manager.get_title(manager.current()).to_lower()

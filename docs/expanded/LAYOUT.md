@@ -281,3 +281,18 @@ Added in expansion Phase 3 (stamina and inventory; report [`expansion/phase-3-me
 
 The staff access card in the staff offices is now also a carried item (it still completes "Take a staff access card"); the Lobby Staff Door, the Archive Front Gate and the electrical room door open while it is carried. The tutorial is unchanged.
 
+### Mission and puzzles (layout x3)
+
+Added in expansion Phase 4 (report [`expansion/phase-4-puzzles.md`](expansion/phase-4-puzzles.md), specifications [`expansion/phase-4/puzzle_specs.md`](expansion/phase-4/puzzle_specs.md)). Gameplay nodes only, under `Expansion/Gameplay` (`Mission`, `Documents`, `Items`, and the new `VaultDoor` in the existing vault doorway); no geometry, collision or navmesh change.
+
+![Objective dependency graph](expansion/phase-4/objective_graph.png)
+
+| Thing | Where |
+|---|---|
+| Electrical panel cover, breaker panel | electrical room, on the cabinets (41, 1.35, −27) |
+| Vault keypad, Vault Door | archive stacks beside the vault doorway (27.8, 5.85, −19.3); door at (28, 4.5, −21) |
+| Pump crank, valves, START | pump room, south wall (z −14.3) |
+| Storm drain exit | in front of the grate (0, BF, −35.8) |
+| Security locker (+ bottle, patrol notes) | Office 1, west wall (−5.8, 5.85, −21.4) |
+| Wiring chart · archivist's memo · night rota · lobby plaque | Book Processing north wall · Office 3 east wall · Office 2 east wall · lobby west wall |
+

@@ -49,7 +49,7 @@ var enabled := false
 ## Item id per slot, &"" for an empty slot.
 var slots: Array[StringName] = []
 var selected := 0
-## Journal: {id, title, text} in the order found.
+## Journal: {id, title, text, kind} in the order found (documents and clues).
 var documents: Array[Dictionary] = []
 ## Distractions used up by successful throws (for tests).
 var distractions_used := 0
@@ -240,10 +240,12 @@ func find_landing() -> Variant:
 # --- Journal -----------------------------------------------------------------------------------
 
 ## Adds a document to the journal once. Returns false if it was already there.
-func add_document(id: StringName, title: String, text: String) -> bool:
+## `kind`: "document" (a note or notice, shown in full) or "clue" (a short
+## environmental detail, e.g. a plaque).
+func add_document(id: StringName, title: String, text: String, kind := "document") -> bool:
 	if has_document(id):
 		return false
-	var document := {"id": id, "title": title, "text": text}
+	var document := {"id": id, "title": title, "text": text, "kind": kind}
 	documents.append(document)
 	document_added.emit(document)
 	return true

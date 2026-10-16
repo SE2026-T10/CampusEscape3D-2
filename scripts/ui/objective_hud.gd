@@ -9,6 +9,10 @@ extends CanvasLayer
 ##   - Short messages: objective done, checkpoint reached, exit locked
 ##   - The panel header counts progress ("OBJECTIVE 2/5") and the panel flashes
 ##     when a new objective starts
+##   - Levels whose objectives form a graph (prerequisites, optional ones; the
+##     Expanded Library): the header counts mandatory objectives done
+##     ("MISSION 3/8"), several may be current ([>]), and discovered optional
+##     objectives are listed apart, under OPTIONAL
 ##   - In levels with an inventory (PlayerInventory enabled): the carried slots
 ##     (bottom centre, the selected one highlighted), item messages, and the
 ##     journal of clue documents (left), opened with J or by reading a document
@@ -42,6 +46,9 @@ var _journal: PanelContainer
 var _journal_text: RichTextLabel
 ## Document shown first in the journal (the one just read).
 var _journal_focus := &""
+var _journal_page := 0
+## True when the journal was opened by reading a document: J then closes it.
+var _journal_from_read := false
 
 ## Carried slot size, in pixels.
 const SLOT_SIZE := Vector2(184, 44)
@@ -71,9 +78,14 @@ func _connect_signals() -> void:
 	var objectives := ObjectiveManager.find(self)
 	if objectives:
 		objectives.objective_completed.connect(_on_objective_completed)
+		objectives.objective_discovered.connect(func(id: StringName):
+			show_message("New optional objective: %s" % objectives.get_title(id), COLOUR_GOOD))
 	var checkpoints := CheckpointManager.find(self)
 	if checkpoints:
 		checkpoints.checkpoint_activated.connect(func(cp: Checkpoint): show_message("Checkpoint reached: %s" % cp.checkpoint_name, COLOUR_GOOD))
+	# Puzzles explain every attempt (Expanded Library).
+	for node in get_tree().get_nodes_in_group("puzzles"):
+		node.feedback.connect(func(text: String, good: bool): show_message(text, COLOUR_GOOD if good else COLOUR_WARNING))
 	# Doors that refuse the player (the exit, and any access door) explain why.
 	for node in get_tree().get_nodes_in_group("interactables"):
 		if node.has_signal("rejected"):
@@ -108,10 +120,13 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if InputMap.has_action("journal") and event.is_action_pressed("journal") and get_inventory() != null:
-		if _journal.visible:
-			close_journal()
-		else:
+		if not _journal.visible:
 			open_journal(&"")
+		elif not _journal_from_read and _journal_page < get_journal_documents().size() - 1:
+			_journal_page += 1
+			_show_journal_page()
+		else:
+			close_journal()
 		get_viewport().set_input_as_handled()
 
 
@@ -138,26 +153,68 @@ func is_journal_open() -> bool:
 	return _journal.visible
 
 
-## Opens the journal; `focus` (a document id) is shown first.
+## Opens the journal. It shows the mission (mandatory objectives, then the
+## discovered optional ones), every clue found, and one document in full:
+## `focus` (the one just read), else the newest. J shows the next document,
+## and closes the journal after the last one.
 func open_journal(focus: StringName) -> void:
 	var inventory := get_inventory()
 	if inventory == null:
 		return
+	_journal_from_read = focus != &""
 	if focus != &"":
 		_journal_focus = focus
-	var docs := inventory.documents.duplicate()
+	_journal_page = 0
+	_show_journal_page()
+	_journal.visible = true
+
+
+## The documents in journal page order: the focused one, then newest first.
+func get_journal_documents() -> Array:
+	var inventory := get_inventory()
+	if inventory == null:
+		return []
+	var docs := inventory.documents.filter(func(d): return d.get("kind", "document") == "document")
 	docs.reverse()  # newest first
 	for i in docs.size():
 		if docs[i].id == _journal_focus:
 			docs.push_front(docs.pop_at(i))
 			break
-	var text := "[b]JOURNAL[/b]  [color=#9aa3ad](%d)  ·  J to close[/color]\n" % docs.size()
+	return docs
+
+
+## The journal's text as shown (for tests and the screenshot tool).
+func get_journal_text() -> String:
+	return _journal_text.text if _journal.visible else ""
+
+
+func _show_journal_page() -> void:
+	var inventory := get_inventory()
+	var objectives := ObjectiveManager.find(self)
+	var docs := get_journal_documents()
+	var clues := inventory.documents.filter(func(d): return d.get("kind", "document") == "clue")
+	var more := "J: next document (%d/%d)" % [_journal_page + 1, docs.size()] if _journal_page < docs.size() - 1 and not _journal_from_read else "J: close"
+	var text := "[b]JOURNAL[/b]  [color=#9aa3ad]%s[/color]\n" % more
+	if objectives and objectives.is_graph():
+		text += "\n[color=#ffd36b]MISSION[/color]\n"
+		for id in objectives.get_mandatory_ids():
+			text += "%s %s\n" % [_mark(objectives, id), objectives.get_title(id)]
+		var optional := objectives.get_optional_ids().filter(func(id): return objectives.is_visible(id))
+		if not optional.is_empty():
+			text += "[color=#ffd36b]OPTIONAL[/color]\n"
+			for id in optional:
+				text += "%s %s\n" % [_mark(objectives, id), objectives.get_title(id)]
+	if not clues.is_empty():
+		text += "\n[color=#ffd36b]CLUES[/color]\n"
+		for c in clues:
+			text += "· %s: %s\n" % [c.title, c.text]
+	text += "\n[color=#ffd36b]DOCUMENTS (%d)[/color]\n" % docs.size()
 	if docs.is_empty():
-		text += "\n[color=#9aa3ad]No documents yet. Read notes and notices to collect clues here.[/color]"
-	for d in docs:
-		text += "\n[color=#ffd36b]%s[/color]\n%s\n" % [d.title, d.text]
+		text += "[color=#9aa3ad]None yet. Read notes and notices to collect them here.[/color]"
+	else:
+		var d: Dictionary = docs[clampi(_journal_page, 0, docs.size() - 1)]
+		text += "[b]%s[/b]\n%s" % [d.title, d.text]
 	_journal_text.text = text.strip_edges()
-	_journal.visible = true
 
 
 func close_journal() -> void:
@@ -207,8 +264,8 @@ func _build_journal() -> void:
 	style.set_corner_radius_all(6)
 	style.set_content_margin_all(16)
 	_journal.add_theme_stylebox_override("panel", style)
-	_journal.set_anchors_preset(Control.PRESET_CENTER_LEFT)
-	_journal.position = Vector2(20, -220)
+	_journal.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_journal.position = Vector2(20, 20)
 	_journal.custom_minimum_size = Vector2(420, 0)
 	_journal.size = Vector2(420, 0)
 	_journal.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -220,7 +277,7 @@ func _build_journal() -> void:
 	_journal_text.scroll_active = false
 	_journal_text.custom_minimum_size = Vector2(388, 0)
 	_journal_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_journal_text.add_theme_font_size_override("normal_font_size", 15)
+	_journal_text.add_theme_font_size_override("normal_font_size", 13)
 	_journal_text.add_theme_font_size_override("bold_font_size", 18)
 	_journal.add_child(_journal_text)
 
@@ -234,20 +291,40 @@ func get_current_text() -> String:
 
 
 ## The checklist, one line per objective: "[x] …" done, "[>] …" current, "[ ] …" locked.
+## Graph mode: the mandatory objectives in order, then the visible optional
+## ones as "[x] (optional) …" (hidden ones stay out until discovered).
 func get_lines() -> Array[String]:
 	var lines: Array[String] = []
 	var objectives := ObjectiveManager.find(self)
 	if objectives == null:
 		return lines
-	for id in objectives.get_ids():
-		var mark := "[ ]"
-		match objectives.get_state(id):
-			ObjectiveManager.State.COMPLETED:
-				mark = "[x]"
-			ObjectiveManager.State.ACTIVE:
-				mark = "[>]"
-		lines.append("%s %s" % [mark, objectives.get_title(id)])
+	for id in get_listed_ids():
+		lines.append("%s %s%s" % [_mark(objectives, id), "(optional) " if objectives.is_optional(id) else "", objectives.get_title(id)])
 	return lines
+
+
+## The objectives the checklist shows, in its order (see get_lines()).
+func get_listed_ids() -> Array[StringName]:
+	var objectives := ObjectiveManager.find(self)
+	var ids: Array[StringName] = []
+	if objectives == null:
+		return ids
+	if not objectives.is_graph():
+		return objectives.get_ids()
+	ids.append_array(objectives.get_mandatory_ids())
+	for id in objectives.get_optional_ids():
+		if objectives.is_visible(id):
+			ids.append(id)
+	return ids
+
+
+static func _mark(objectives: ObjectiveManager, id: StringName) -> String:
+	match objectives.get_state(id):
+		ObjectiveManager.State.COMPLETED:
+			return "[x]"
+		ObjectiveManager.State.ACTIVE:
+			return "[>]"
+	return "[ ]"
 
 
 ## "[E] …" for whatever the player is looking at, or "".
@@ -270,6 +347,10 @@ func get_header_text() -> String:
 	var objectives := ObjectiveManager.find(self)
 	if objectives == null or objectives.get_ids().is_empty():
 		return "OBJECTIVE"
+	if objectives.is_graph():
+		var mandatory := objectives.get_mandatory_ids()
+		var done := mandatory.filter(func(id): return objectives.is_completed(id)).size()
+		return "MISSION %d/%d" % [done, mandatory.size()]
 	var ids := objectives.get_ids()
 	var index := ids.find(objectives.current())
 	return "OBJECTIVE %d/%d" % [(index + 1) if index >= 0 else ids.size(), ids.size()]
@@ -307,9 +388,13 @@ func _update_panel(objectives: ObjectiveManager) -> void:
 	var colours := {ObjectiveManager.State.COMPLETED: COLOUR_DONE, ObjectiveManager.State.ACTIVE: COLOUR_CURRENT,
 		ObjectiveManager.State.LOCKED: COLOUR_LOCKED}
 	var lines := get_lines()
-	var ids := objectives.get_ids()
+	var ids := get_listed_ids()
 	var text := ""
+	var optional_header := false
 	for i in ids.size():
+		if objectives.is_optional(ids[i]) and not optional_header:
+			optional_header = true
+			text += "[color=#%s]OPTIONAL[/color]\n" % Color(1.0, 0.82, 0.3).to_html(false)
 		text += "[color=#%s]%s[/color]\n" % [colours[objectives.get_state(ids[i])].to_html(false), lines[i]]
 	_list.text = text.strip_edges()
 

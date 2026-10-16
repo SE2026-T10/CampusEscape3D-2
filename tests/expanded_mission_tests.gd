@@ -22,10 +22,20 @@ extends RefCounted
 ##      tools/map_flow.gd checks the real Restart button).
 ## Tests other than E's guard reset remove the level guards and use a test
 ## guard to catch the player, so they don't depend on patrol timing.
+##
+## Expansion Phase 4 (approved): the mission is now an objective graph
+## (tools/expanded/expansion/expansion_layout.gd MISSION_OBJECTIVES): the vault
+## needs the power and keypad puzzles, the back gate is an optional shortcut,
+## and the loading dock opens with the manuscript. These tests keep checking
+## the doors, items, exit and checkpoints of the original mission on that
+## graph; the puzzles themselves are tested in tests/expanded_puzzle_tests.gd.
+## Where a test needs the vault open, _prepare_vault() solves the puzzle chain
+## through the puzzles' own interactions (tool kit, cover, breakers, keypad).
 
 const SCENE := "res://scenes/level/expanded_library.tscn"
 const GUARD_SCENE := "res://scenes/npc/guard.tscn"
 const Layout := preload("res://tools/expanded/expanded_layout.gd")
+const X := preload("res://tools/expanded/expansion/expansion_layout.gd")
 const TestUtils := preload("res://tests/test_utils.gd")
 const S := StealthDirector.Status
 const ACTIVE := ObjectiveManager.State.ACTIVE
@@ -37,6 +47,8 @@ const CARD := &"take_card"
 const ITEM := &"take_manuscript"
 const SHORTCUT := &"unlock_shortcut"
 const ESCAPE := &"escape"
+const TOOLKIT := &"find_toolkit"
+const VAULT := &"open_vault"
 
 ## Standing spots (floor level) and what to look at from them.
 const IN_LOBBY := Vector3(0, 0, 20)
@@ -114,10 +126,12 @@ func _expect(condition: bool, message: String) -> void:
 # --- A. Setup ---------------------------------------------------------------------------------
 
 func _check_setup() -> void:
-	var ids: Array[StringName] = [ENTER, CARD, ITEM, SHORTCUT, ESCAPE]
-	_expect(_objectives.get_ids() == ids, "The five objectives should be %s in order, got %s." % [ids, _objectives.get_ids()])
+	var ids: Array[StringName] = []
+	for o in X.MISSION_OBJECTIVES:
+		ids.append(StringName(o.id))
+	_expect(_objectives.get_ids() == ids, "The objectives should be %s in order, got %s." % [ids, _objectives.get_ids()])
 	for i in ids.size():
-		_expect(_objectives.get_title(ids[i]) == Layout.OBJECTIVES[i].title, "Objective %d's title should come from the layout." % (i + 1))
+		_expect(_objectives.get_title(ids[i]) == X.MISSION_OBJECTIVES[i].title, "Objective %d's title should come from the layout." % (i + 1))
 	_expect(_objectives.current() == ENTER and _objectives.completed_count() == 0, "A fresh mission starts at 'Enter the library'.")
 	for n in [_card, _item, _exit, _g2, _g3, _g4, _sc1, _checkpoints, _hud]:
 		_expect(n != null, "A mission node is missing (%s)." % n)
@@ -131,8 +145,8 @@ func _check_setup() -> void:
 			"%s's panel must be world geometry outside the navmesh region (not baked)." % d.door_name)
 	_expect(_card.visible and _item.visible and not _exit.is_unlocked(), "Items on display and the exit locked at the start.")
 	_check_consistency("setup")
-	print("  [expanded-mission] setup: %s; 4 access doors closed, 2 items, exit locked, %d checkpoints" % [
-		" → ".join(ids), Layout.CHECKPOINTS.size()])
+	print("  [expanded-mission] setup: %d objectives (graph); 4 access doors closed, 2 items, exit locked, %d checkpoints" % [
+		ids.size(), Layout.CHECKPOINTS.size()])
 
 
 # --- B. Full mission with real input ----------------------------------------------------------
@@ -146,15 +160,17 @@ func _check_full_mission_real_input() -> void:
 		# [points to walk through, look at (or null), expected current objective after]
 		[[IN_LOBBY], null, CARD],
 		[[Vector3(-10.35, 0, 21.5), Vector3(-10.35, U, 8), Vector3(2, U, -2), Vector3(3, U, -8), Vector3(3, U, -11),
-			Layout.CHECKPOINTS[1].pos, AT_CARD], _card, ITEM],
-		[[Vector3(3, U, -11), G2_WEST], _g2, ITEM],
-		[[G2_EAST, Vector3(26.5, U, -11), Vector3(26.5, U, -21), AT_ITEM], _item, SHORTCUT],
+			Layout.CHECKPOINTS[1].pos, AT_CARD], _card, TOOLKIT],
+		[[Vector3(3, U, -11), G2_WEST], _g2, TOOLKIT],
+		[[G2_EAST, Vector3(26.5, U, -11), Vector3(26.5, U, -21), AT_ITEM], _item, ESCAPE],
 		[[Vector3(26.5, U, -21), Vector3(26.5, U, -9), G3_WEST], _g3, ESCAPE],
 		[[G3_EAST, Vector3(34.35, U, -8.5), Vector3(34.35, 0, 5.5), Layout.CHECKPOINTS[2].pos, Vector3(29, 0, 10),
 			Vector3(22, 0, 12), Vector3(27, 0, 20), AT_EXIT], _exit, &""],
 	]
 	var log := []
 	for step in steps:
+		if step[1] == _item:
+			await _prepare_vault()   # the Phase 4 puzzles (tested on their own in expanded_puzzle_tests)
 		for p in step[0]:
 			var r: Dictionary = await _walk_to(p)
 			walked += r.distance
@@ -181,6 +197,7 @@ func _check_full_mission_real_input() -> void:
 	_expect(_checkpoints.activations == 3 and _checkpoints.get_respawn_name() == "Storage",
 		"The route's checkpoints should have activated 3 times, ending at Storage (got %d, %s)." % [_checkpoints.activations, _checkpoints.get_respawn_name()])
 	_expect(_g2.is_open and _g3.is_open and not _g4.is_open and not _sc1.is_open, "Only the doors used should be open.")
+	_expect(_objectives.is_completed(SHORTCUT), "The optional back gate objective was done on the way.")
 	print("  [expanded-mission] full mission with real input: %.0f m walked in %.0f s real time, E pressed 5 times; %s → WIN" % [
 		walked, (Time.get_ticks_msec() - started) / 1000.0, ", ".join(log)])
 
@@ -226,19 +243,24 @@ func _check_no_bypass() -> void:
 	# The back gate opened from inside before the card does not complete anything yet.
 	# The exit before the shortcut: rejected, explained, no escape.
 	await _stand_and_look(AT_EXIT, _aim(_exit))
-	_expect(_hud.get_prompt_text() == "[E] " + Layout.EXIT_DOOR.prompt, "Exit prompt, got '%s'." % _hud.get_prompt_text())
+	_expect(_hud.get_prompt_text() == "[E] Exit locked (rare manuscript first)", "Exit prompt, got '%s'." % _hud.get_prompt_text())
 	_expect(not _interactor.try_interact() and _exit.rejections == 1 and _director.status != S.ESCAPED, "The exit must reject the player.")
-	_expect(_hud.get_message_text() == "The loading dock exit is sealed. First: take a staff access card.",
+	_expect(_hud.get_message_text() == "The loading dock exit is sealed until you have the rare manuscript.",
 		"The exit should say what is missing, got '%s'." % _hud.get_message_text())
 	_expect(_exit._sign.text == Layout.EXIT_DOOR.sign, "The exit sign should say %s." % Layout.EXIT_DOOR.sign)
-	# Card and manuscript taken but the shortcut not unlocked: the exit is still sealed.
-	_objectives.complete(CARD)
-	_objectives.complete(ITEM)
+	# The card taken and the vault solved, but not the manuscript: still sealed.
+	await _stand_and_look(AT_CARD, _aim(_card))
+	_interactor.try_interact()
+	await _prepare_vault()
 	await _stand_and_look(AT_EXIT, _aim(_exit))
-	_expect(not _interactor.try_interact() and _director.status != S.ESCAPED, "The exit must stay sealed until the back gate is open.")
-	_expect(_hud.get_message_text() == "The loading dock exit is sealed. First: unlock the archive back gate.", "Got '%s'." % _hud.get_message_text())
+	_expect(not _interactor.try_interact() and _director.status != S.ESCAPED, "The exit must stay sealed until the manuscript is taken.")
+	# With the manuscript it opens, the back gate (now optional) still closed.
+	await _stand_and_look(AT_ITEM, _aim(_item))
+	_interactor.try_interact()
+	await _stand_and_look(AT_EXIT, _aim(_exit))
+	_expect(not _g3.is_open and _exit.is_unlocked(), "The back gate is optional: the manuscript alone opens the dock.")
 	_check_consistency("no bypass")
-	print("  [expanded-mission] no bypass: card, manuscript, G2 / G4 (both sides), G3 / SC1 (wrong side) and the exit all refused; %d rattles" % (
+	print("  [expanded-mission] no bypass: card, manuscript, G2 / G4 (both sides), G3 / SC1 (wrong side) and the exit (until the manuscript) refused; %d rattles" % (
 		_g2.rejections + _g4.rejections + _g3.rejections + _sc1.rejections + _exit.rejections))
 
 
@@ -283,8 +305,9 @@ func _check_card_opens_card_doors() -> void:
 	await _teleport(IN_LOBBY)
 	await _stand_and_look(AT_CARD, _aim(_card))
 	_expect(_hud.get_prompt_text() == "[E] Take the staff access card", "Card prompt, got '%s'." % _hud.get_prompt_text())
-	_expect(_interactor.try_interact() and not _card.visible and _objectives.current() == ITEM, "Taking the card completes O2.")
-	_expect(_hud.get_message_text() == Layout.OBJECTIVES[1].done, "HUD confirms the card, got '%s'." % _hud.get_message_text())
+	_expect(_interactor.try_interact() and not _card.visible and _objectives.is_completed(CARD) and _objectives.get_state(VAULT) == LOCKED,
+		"Taking the card completes its objective (the vault still needs the power).")
+	_expect(_hud.get_message_text() == X.MISSION_OBJECTIVES[1].done, "HUD confirms the card, got '%s'." % _hud.get_message_text())
 	for check in [[_g2, G2_WEST], [_g4, G4_EAST]]:
 		var door: AccessDoor = check[0]
 		await _stand_and_look(check[1], _aim(door))
@@ -304,21 +327,23 @@ func _check_card_opens_card_doors() -> void:
 
 func _check_order_flexibility() -> void:
 	await _teleport(IN_LOBBY)
-	_objectives.complete(CARD)
+	await _stand_and_look(AT_CARD, _aim(_card))
+	_interactor.try_interact()
 	await _stand_and_look(G3_WEST, _aim(_g3))
 	_expect(_interactor.try_interact() and _g3.is_open, "The back gate opens from the archive side before the manuscript.")
 	await _frames(3)
-	_expect(_objectives.get_state(SHORTCUT) == LOCKED and _objectives.current() == ITEM, "Opening the gate early does not skip ahead.")
+	_expect(_objectives.is_completed(SHORTCUT) and not _objectives.is_finished() and _objectives.current() == TOOLKIT,
+		"Opening the gate early completes the optional shortcut; the mission goes on (current %s)." % _objectives.current())
 	_check_consistency("gate before manuscript")
+	await _prepare_vault()
 	await _stand_and_look(AT_ITEM, _aim(_item))
 	_expect(_interactor.try_interact(), "Take the manuscript.")
 	await _frames(3)
-	_expect(_objectives.is_completed(SHORTCUT) and _objectives.current() == ESCAPE and _exit.is_unlocked(),
-		"With the gate already open, taking the manuscript completes the shortcut objective too (current %s)." % _objectives.current())
+	_expect(_objectives.current() == ESCAPE and _exit.is_unlocked(), "Manuscript taken: escape (current %s)." % _objectives.current())
 	_check_consistency("manuscript after gate")
 	await _stand_and_look(AT_EXIT, _aim(_exit))
-	_expect(_hud.get_prompt_text() == "[E] Escape" and _interactor.try_interact() and _director.status == S.ESCAPED, "The exit opens once both are done.")
-	print("  [expanded-mission] order: back gate before the manuscript works (O4 completes when it comes up), then escape")
+	_expect(_hud.get_prompt_text() == "[E] Escape" and _interactor.try_interact() and _director.status == S.ESCAPED, "The exit opens.")
+	print("  [expanded-mission] order: back gate before the manuscript completes the optional shortcut, the mission goes on, then escape")
 
 
 # --- E. Captures and checkpoints ----------------------------------------------------------------
@@ -348,7 +373,7 @@ func _check_caught_after_card() -> void:
 	_expect(_g2.is_open, "Card taken and front gate opened after the last checkpoint.")
 	await _catch_and_respawn(Vector3(3, U, -11), Vector3(0.5, U, -11))
 	_expect(_player.global_position.distance_to(study.get_spawn_transform().origin) < 0.4, "Respawn at Study Rooms.")
-	_expect(not _card.is_taken() and _card.visible and _objectives.current() == CARD, "The card goes back on the desk.")
+	_expect(not _card.is_taken() and _card.visible and _objectives.get_state(CARD) == ACTIVE, "The card goes back on the desk.")
 	_expect(not _g2.is_open and _g2.enabled, "The front gate opened with that card is closed again.")
 	await _check_restored("caught right after the card")
 	# Taken from the front of the desk, on the pad: the checkpoint saves the card at once.
@@ -363,7 +388,7 @@ func _check_caught_after_card() -> void:
 	_interactor.try_interact()
 	await _catch_and_respawn(Vector3(3, U, -11), Vector3(0.5, U, -11))
 	_expect(_player.global_position.distance_to(cp.get_spawn_transform().origin) < 0.4, "Respawn at Staff Offices (the back of the office).")
-	_expect(_card.is_taken() and _objectives.current() == ITEM and not _g2.is_open, "Card kept; the gate opened after the save is closed again.")
+	_expect(_card.is_taken() and _objectives.is_completed(CARD) and not _g2.is_open, "Card kept; the gate opened after the save is closed again.")
 	await _check_restored("caught after the card was saved")
 	await _stand_and_look(G2_WEST, _aim(_g2))
 	_expect(_interactor.try_interact() and _g2.is_open, "The kept card still opens the gate.")
@@ -375,13 +400,14 @@ func _check_caught_after_item() -> void:
 	await _teleport(IN_LOBBY)
 	await _stand_and_look(AT_CARD, _aim(_card))
 	_interactor.try_interact()
+	await _prepare_vault()
 	await _teleport(Layout.CHECKPOINTS[1].pos)
 	_expect(_checkpoints.active == cp and _checkpoints.saved_progress.get(CARD) == COMPLETED, "Checkpoint saved with the card.")
 	await _stand_and_look(G2_WEST, _aim(_g2))
 	_interactor.try_interact()
 	await _stand_and_look(AT_ITEM, _aim(_item))
 	_interactor.try_interact()
-	_expect(_objectives.current() == SHORTCUT and not _item.visible, "Manuscript taken.")
+	_expect(_objectives.current() == ESCAPE and not _item.visible, "Manuscript taken.")
 	await _catch_and_respawn(Vector3(31, U, -22), Vector3(33.5, U, -22))
 	_expect(_item.visible and _objectives.current() == ITEM and _card.is_taken(), "The manuscript is back in the vault; the card is kept.")
 	_expect(not _g2.is_open, "The gate opened after the checkpoint is closed again.")
@@ -393,6 +419,7 @@ func _check_caught_after_shortcut() -> void:
 	await _teleport(IN_LOBBY)
 	await _stand_and_look(AT_CARD, _aim(_card))
 	_interactor.try_interact()
+	await _prepare_vault()
 	await _teleport(Layout.CHECKPOINTS[1].pos)
 	await _stand_and_look(G2_WEST, _aim(_g2))
 	_interactor.try_interact()
@@ -429,6 +456,7 @@ func _check_repeated_captures() -> void:
 	await _teleport(IN_LOBBY)
 	await _stand_and_look(AT_CARD, _aim(_card))
 	_interactor.try_interact()
+	await _prepare_vault()
 	await _teleport(Layout.CHECKPOINTS[1].pos)
 	var saved_progress := _checkpoints.saved_progress.duplicate()
 	var saved_state := _checkpoints.saved_state.duplicate(true)
@@ -449,7 +477,7 @@ func _check_repeated_captures() -> void:
 			"Capture %d: the mission state should equal the checkpoint's snapshot." % (i + 1))
 		await _check_restored("capture %d" % (i + 1))
 	_expect(_director.catches == rounds and _checkpoints.activations == activations, "Captures counted, no extra checkpoint activations.")
-	_expect(_hud.get_header_text() == "OBJECTIVE 3/5" and _hud.get_current_text() == Layout.OBJECTIVES[2].title, "HUD back at O3 after the captures.")
+	_expect(_hud.get_header_text() == "MISSION 6/8" and _hud.get_current_text() == _objectives.get_title(ITEM), "HUD back at the manuscript after the captures (%s)." % _hud.get_header_text())
 	# No checkpoint during a chase.
 	_spawn_guard(Vector3(-3, 0, -10), 0.0)
 	await _frames(3)
@@ -499,7 +527,7 @@ func _check_fresh_load_is_clean() -> void:
 		"A fresh load starts at O1 with both items in place.")
 	_expect(not (_g2.is_open or _g3.is_open or _g4.is_open or _sc1.is_open), "A fresh load has every access door closed.")
 	_expect(_checkpoints.active == null and _checkpoints.activations == 0 and _director.catches == 0, "A fresh load has no checkpoint and no captures.")
-	_expect(_hud.get_header_text() == "OBJECTIVE 1/5", "A fresh load's HUD starts at objective 1.")
+	_expect(_hud.get_header_text() == "MISSION 0/8", "A fresh load's HUD starts at 0 of 8.")
 	_check_consistency("fresh load")
 	print("  [expanded-mission] fresh load after progress: O1, items in place, doors closed, no checkpoint")
 
@@ -508,11 +536,11 @@ func _check_fresh_load_is_clean() -> void:
 
 ## The invariants that must always hold, whatever happened before.
 func _check_consistency(label: String) -> void:
-	var active := 0
+	# Graph mode: an objective is ACTIVE exactly when it is not done and all its prerequisites are.
 	for id in _objectives.get_ids():
-		if _objectives.get_state(id) == ACTIVE:
-			active += 1
-	_expect(active == (0 if _objectives.is_finished() else 1), "%s: exactly one objective should be ACTIVE." % label)
+		var ready := _objectives.get_requires(id).all(func(r): return _objectives.is_completed(r))
+		var state := _objectives.get_state(id)
+		_expect(state == COMPLETED or state == (ACTIVE if ready else LOCKED), "%s: %s is %s with prerequisites %s." % [label, id, state, "done" if ready else "open"])
 	for item in [_card, _item]:
 		var taken := _objectives.is_completed(item.objective_id)
 		_expect(item.visible == not taken and item.enabled == not taken, "%s: %s must be on display exactly while its objective is not done." % [label, item.name])
@@ -525,7 +553,7 @@ func _check_consistency(label: String) -> void:
 	_expect(_exit.is_unlocked() == (_objectives.current() == ESCAPE), "%s: the exit must be unlocked exactly when escape is current." % label)
 	_expect(_hud.get_current_text() == _objectives.get_title(_objectives.current()), "%s: HUD shows '%s'." % [label, _hud.get_current_text()])
 	var lines := _hud.get_lines()
-	var ids := _objectives.get_ids()
+	var ids := _hud.get_listed_ids()
 	for i in ids.size():
 		var mark: String = {COMPLETED: "[x]", ACTIVE: "[>]", LOCKED: "[ ]"}[_objectives.get_state(ids[i])]
 		_expect(i < lines.size() and lines[i].begins_with(mark), "%s: HUD checklist line %d out of sync." % [label, i + 1])
@@ -541,6 +569,25 @@ func _check_restored(label: String) -> void:
 
 
 # --- Helpers ---------------------------------------------------------------------------------
+
+## Solves the Phase 4 chain to the vault through the puzzles' own interactions
+## (no movement): takes the tool kit, removes the panel cover, sets the
+## breakers and engages MAIN, enters the vault code. Needs the card for the
+## vault objective to come up (the keypad works without it).
+func _prepare_vault() -> void:
+	var m := "Expansion/Gameplay/Mission/"
+	var kit: ItemPickup = _level.get_node("Expansion/Gameplay/Items/ToolKit")
+	if not kit.taken:
+		kit.interact(_player)
+	_level.get_node(m + "ElectricalPanelCover").interact(_player)
+	var breakers: BreakerPanel = _level.get_node(m + "BreakerPanel")
+	breakers.set_setting([true, false, true, true])
+	breakers.engage()
+	var keypad: CodeLock = _level.get_node(m + "VaultKeypad")
+	keypad.set_entry("2691")
+	keypad.submit()
+	await _frames(3)
+	_expect(keypad.is_solved and _level.get_node("Expansion/Gameplay/VaultDoor").is_open, "The vault puzzle chain should open the vault.")
 
 func _load(keep_guards: bool) -> void:
 	await _unload()

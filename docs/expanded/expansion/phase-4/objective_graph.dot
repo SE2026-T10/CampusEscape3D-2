@@ -1,0 +1,39 @@
+// Expanded Library objective dependency graph (expansion Phase 4, layout x3).
+// Source of truth: tools/expanded/expansion/expansion_layout.gd MISSION_OBJECTIVES.
+// Render: dot -Tpng objective_graph.dot -o objective_graph.png
+digraph mission {
+  rankdir=TB; bgcolor="white"; fontname="Helvetica"; nodesep=0.35; ranksep=0.45;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11, fillcolor="#e8f1fb", color="#2f6db5"];
+  edge [color="#555555", arrowsize=0.7, fontname="Helvetica", fontsize=9];
+  label="Expanded Library mission: objectives (boxes) and puzzle interactions (notes)\nSolid: mandatory prerequisite · dashed: optional · green: escape (either route ends the level)"; labelloc=t; fontsize=13;
+
+  enter [label="1  Enter the library\n(lobby trigger)"];
+  card [label="2  Take a staff access card\n(Office 2 desk; carried item)"];
+  kit [label="3  Find the tool kit\n(maintenance bay, basement)"];
+  panel [label="4  Open the archive power panel\nP1 MECHANISM: cover needs the tool kit"];
+  power [label="5  Restore power to the vault\nP2 POWER: breakers + MAIN"];
+  vault [label="6  Open the archive vault\nP3 CODE / SECURITY: keypad, needs power"];
+  ms [label="7  Retrieve the rare manuscript\n(vault pedestal, fixed)"];
+  escape [label="8  Escape with the manuscript", fillcolor="#e3f6e6", color="#2e8b45"];
+  dock [label="Loading dock exit", shape=ellipse, fillcolor="#e3f6e6", color="#2e8b45"];
+  drain [label="Storm drain exit\n(needs O-A too)", shape=ellipse, fillcolor="#e3f6e6", color="#2e8b45"];
+
+  g2 [label="Archive Front Gate G2\n(carried card)", shape=note, fillcolor="#fff7e0", color="#b5892f"];
+  chart [label="Clue: wiring chart\n(Book Processing)", shape=note, fillcolor="#f3f3f3", color="#888888"];
+  memo [label="Clues: archivist's memo (Office 3)\n+ lobby plaque (year)", shape=note, fillcolor="#f3f3f3", color="#888888"];
+
+  oa [label="O-A  Drain the storm culvert (optional, hidden)\nmechanism: crank (tool kit) + valves + START", fillcolor="#fff3e8", color="#c26a1f", style="rounded,filled,dashed"];
+  ob [label="O-B  Open the security locker (optional, hidden)\ncode: night rota → bottle + patrol notes", fillcolor="#fff3e8", color="#c26a1f", style="rounded,filled,dashed"];
+  oc [label="Unlock the archive back gate (optional shortcut)", fillcolor="#fff3e8", color="#c26a1f", style="rounded,filled,dashed"];
+  log [label="Clue: pump room log\n(reveals O-A)", shape=note, fillcolor="#f3f3f3", color="#888888"];
+  rota [label="Clue: night rota, Office 2\n(reveals O-B)", shape=note, fillcolor="#f3f3f3", color="#888888"];
+
+  enter -> card; enter -> kit; kit -> panel; panel -> power;
+  card -> vault; power -> vault; vault -> ms; ms -> escape;
+  escape -> dock; escape -> drain;
+  card -> g2 [style=dotted, arrowhead=none]; g2 -> vault [style=dotted, label=" reach the keypad"];
+  chart -> power [style=dotted]; memo -> vault [style=dotted];
+  card -> oc [style=dashed];
+  log -> oa [style=dotted]; oa -> drain [style=dashed, label=" opens"];
+  rota -> ob [style=dotted];
+}

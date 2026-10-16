@@ -16,7 +16,9 @@ extends SceneTree
 ##   │  │  each with a Shape and its Mesh tiles (the existing level's conventions)
 ##   ├─ Gameplay: the electrical room's staff-card AccessDoor, HidingSpots,
 ##   │  Items (ItemPickup), Storage (ItemStorage shelves), Documents
-##   │  (DocumentPickup); not baked: guards keep their routes through doors, as
+##   │  (DocumentPickup), Mission (Phase 4: PowerNetwork, SecurityAlarm, the
+##   │  panel cover, BreakerPanel, VaultKeypad, SecurityLocker, PumpCrank,
+##   │  PumpControl, StormDrainExit; the VaultDoor sits with the doors); not baked: guards keep their routes through doors, as
 ##   │  in the level, and shelves and items change no route. Item, shelf and
 ##   │  clipboard models are made by their scripts at run time (ItemCatalog).
 ##   ├─ Dressing: ceilings and roofs (no collision), lamps, door headers, signs
@@ -34,6 +36,13 @@ const SCRIPTS := {
 	"item": "res://scripts/systems/inventory/item_pickup.gd",
 	"storage": "res://scripts/systems/inventory/item_storage.gd",
 	"document": "res://scripts/systems/inventory/document_pickup.gd",
+	"tool": "res://scripts/systems/inventory/tool_mechanism.gd",
+	"power": "res://scripts/systems/puzzles/power_network.gd",
+	"alarm": "res://scripts/systems/puzzles/security_alarm.gd",
+	"code_lock": "res://scripts/systems/puzzles/code_lock.gd",
+	"breakers": "res://scripts/systems/puzzles/breaker_panel.gd",
+	"pump": "res://scripts/systems/puzzles/pump_control.gd",
+	"exit": "res://scripts/systems/objectives/exit_door.gd",
 }
 ## Mesh tiles are at most this long, so no mesh is reached by more than the
 ## renderer's 8 lights per mesh (lamps are 8-12 m apart, range 10 m).
@@ -44,6 +53,7 @@ var _materials := {}
 var _meshes := {}
 var _shapes := {}
 var _bodies := 0
+var _pump: Node3D
 var _tiles := 0
 
 
@@ -117,6 +127,7 @@ func _build() -> void:
 	var documents := _group(gameplay, "Documents")
 	for doc in Layout.DOCUMENTS:
 		_add_document(documents, doc)
+	_add_mission(_group(gameplay, "Mission"))
 
 	var dressing := _group(_root, "Dressing")
 	var ceilings := _group(dressing, "Ceilings")
@@ -152,6 +163,10 @@ func _build() -> void:
 	var signs := _group(dressing, "Signs")
 	for s in Layout.SIGNS:
 		_add_sign(signs, s)
+	var sealed_sign := signs.get_node_or_null("Sign_STORMDRAINSEALED")
+	if _pump and sealed_sign:
+		var hide: Array[NodePath] = [_pump.get_path_to(sealed_sign)]
+		_pump.set("hide_on_solve", hide)
 
 	var layout := _group(_root, "Layout")
 	layout.add_to_group(&"debug_visuals", true)
@@ -180,6 +195,7 @@ func _build() -> void:
 	print("Built %s (expansion layout %s): %d solid pieces, %d mesh tiles, %d lamps, %d hiding spots, %d access door(s), %d items, %d shelves, %d documents" % [
 		SCENE_PATH, Layout.VERSION, _bodies, _tiles, Layout.LIGHTS.size(), Layout.HIDING.size(), Layout.DOORS.size(),
 		Layout.ITEMS.size(), Layout.STORAGE.size(), Layout.DOCUMENTS.size()])
+	print("  mission (x3): %d puzzle nodes under Gameplay/Mission" % Layout.MISSION.size())
 	_root.free()
 	quit(0)
 
@@ -347,6 +363,10 @@ func _add_item(parent: Node, it: Dictionary) -> void:
 	item.position = it.pos
 	item.rotation_degrees = Vector3(0, it.yaw, 0)
 	item.set("item_id", StringName(it.item))
+	if it.has("objective"):
+		item.set("objective_id", StringName(it.objective))
+	if it.has("available"):
+		item.set("available", it.available)
 	item.set_meta("zone_id", it.zone)
 	_add(parent, item)
 	var shape := CollisionShape3D.new()
@@ -378,12 +398,133 @@ func _add_document(parent: Node, doc: Dictionary) -> void:
 	node.set("document_id", StringName(doc.id))
 	node.set("title", doc.title)
 	node.set("text", doc.text)
+	for key in [["kind", "kind"], ["model", "model"], ["display", "display_text"], ["available", "available"]]:
+		if doc.has(key[0]):
+			node.set(key[1], doc[key[0]])
+	if doc.has("discovers"):
+		node.set("discovers_objective", StringName(doc.discovers))
 	node.set_meta("zone_id", doc.zone)
 	_add(parent, node)
 	var shape := CollisionShape3D.new()
 	shape.name = "Shape"
 	shape.shape = _box_shape(Vector3(0.5, 0.6, 0.3))
 	_add(node, shape)
+
+
+## Phase 4: the puzzles and their supports (MISSION in the layout).
+func _add_mission(mission: Node3D) -> void:
+	var m: Dictionary = Layout.MISSION
+	var power := Node.new()
+	power.name = "PowerNetwork"
+	power.set_script(load(SCRIPTS.power))
+	_add(mission, power)
+	var alarm := Node3D.new()
+	alarm.name = "SecurityAlarm"
+	alarm.set_script(load(SCRIPTS.alarm))
+	_add(mission, alarm)
+	var cover := _add_tool_mechanism(mission, m.panel_cover, "dark_metal")
+	cover.set("hide_model_when_operated", true)
+	var breakers := _placed(mission, m.breakers, SCRIPTS.breakers)
+	breakers.set("puzzle_name", "Breaker panel")
+	breakers.set("circuit", StringName(m.breakers.circuit))
+	breakers.set("objective_id", StringName(m.breakers.objective))
+	var solution: Array[bool] = []
+	solution.assign(m.breakers.solution)
+	breakers.set("solution", solution)
+	breakers.set("cover_path", breakers.get_path_to(cover))
+	_add_visual_box(mission, "BreakerBackplate", m.breakers.pos + Vector3(0, -0.05, -0.03), Vector3(1.1, 0.75, 0.04), "dark_metal")
+	for key in ["vault_keypad", "locker"]:
+		var k: Dictionary = m[key]
+		var lock := _placed(mission, k, SCRIPTS.code_lock)
+		lock.set("puzzle_name", k.title)
+		lock.set("code", k.code)
+		lock.set("power_circuit", StringName(k.power))
+		lock.set("alarm_on_wrong", k.alarm)
+		lock.set("max_attempts", k.attempts)
+		lock.set("lockout_time", k.lockout)
+		lock.set("objective_id", StringName(k.objective))
+		if k.has("door"):
+			lock.set("door_path", lock.get_path_to(_root.get_node("Gameplay/" + k.door)))
+		var reveals: Array[NodePath] = []
+		for r in k.get("reveal", []):
+			reveals.append(lock.get_path_to(_root.get_node("Gameplay/" + r)))
+		lock.set("reveal_paths", reveals)
+		_add_visual_box(mission, k.name + "Backplate", k.pos + Basis.from_euler(Vector3(0, deg_to_rad(k.facing), 0)) * Vector3(0, 0.05, -0.04),
+			Vector3(0.75, 0.55, 0.04) if k.facing == 0.0 or k.facing == 180.0 else Vector3(0.04, 0.55, 0.75), "dark_metal")
+		if k.has("cabinet"):
+			_add_visual_box(mission, "LockerCabinet", k.cabinet.centre, k.cabinet.size, "dark_metal")
+	_add_tool_mechanism(mission, m.pump_crank, "steel")
+	var pump := _placed(mission, m.pump, SCRIPTS.pump)
+	pump.set("puzzle_name", "Pump")
+	pump.set("objective_id", StringName(m.pump.objective))
+	var valves: Array[bool] = []
+	valves.assign(m.pump.solution)
+	pump.set("solution", valves)
+	pump.set("crank_path", pump.get_path_to(mission.get_node(String(m.pump_crank.name))))
+	pump.set("grate_path", pump.get_path_to(_root.get_node("Geometry/G_ServiceNetwork/" + Layout.GRATE.name)))
+	_pump = pump   # its hide_on_solve (the sealed sign) is set once the signs exist
+	var e: Dictionary = m.drain_exit
+	var exit := Area3D.new()
+	exit.name = e.name
+	exit.set_script(load(SCRIPTS.exit))
+	exit.position = e.pos
+	exit.set("objective_id", &"escape")
+	exit.set("key_objective_id", &"take_manuscript")
+	exit.set("extra_key_objective_id", &"drain_culvert")
+	exit.set("locked_sign", "STORM DRAIN · GRATE JAMMED")
+	exit.set("locked_prompt", "Storm drain (blocked)")
+	exit.set("locked_reason", "You can't leave without the rare manuscript.")
+	exit.set("extra_locked_reason", "The grate is jammed shut while the culvert is flooded.")
+	exit.set_meta("zone_id", e.zone)
+	_add(mission, exit)
+	var shape := CollisionShape3D.new()
+	shape.name = "Shape"
+	shape.shape = _box_shape(e.size)
+	_add(exit, shape)
+	var sign_label := _add_label(exit, "Sign", Vector3(0, 1.5, 0.3), "STORM DRAIN · GRATE JAMMED", Color(1, 0.4, 0.3))
+	sign_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	var noise := Node3D.new()
+	noise.name = "Noise"
+	noise.set_script(load(SCRIPTS.noise))
+	noise.set("radius", 6.0)
+	_add(exit, noise)
+
+
+## A Node3D with `script` at d.pos facing d.facing (degrees about Y).
+func _placed(parent: Node, d: Dictionary, script_path: String) -> Node3D:
+	var node := Node3D.new()
+	node.name = d.name
+	node.set_script(load(script_path))
+	node.position = d.pos
+	node.rotation_degrees = Vector3(0, d.get("facing", 0.0), 0)
+	node.set_meta("zone_id", d.zone)
+	_add(parent, node)
+	return node
+
+
+## A ToolMechanism with a box model and its interaction box.
+func _add_tool_mechanism(parent: Node, d: Dictionary, look: String) -> Area3D:
+	var tool := Area3D.new()
+	tool.name = d.name
+	tool.set_script(load(SCRIPTS.tool))
+	tool.position = d.pos
+	tool.rotation_degrees = Vector3(0, d.facing, 0)
+	tool.set("mechanism_name", d.mechanism_name)
+	tool.set("action_text", d.action_text)
+	if d.has("objective"):
+		tool.set("objective_id", StringName(d.objective))
+	tool.set_meta("zone_id", d.zone)
+	_add(parent, tool)
+	var mesh := MeshInstance3D.new()
+	mesh.name = "Model"
+	mesh.mesh = _box_mesh(d.size)
+	mesh.material_override = _look(look)
+	_add(tool, mesh)
+	var shape := CollisionShape3D.new()
+	shape.name = "Shape"
+	shape.shape = _box_shape(d.size + Vector3(0.0, 0.0, 0.1))
+	_add(tool, shape)
+	return tool
 
 
 # --- Dressing --------------------------------------------------------------------------------

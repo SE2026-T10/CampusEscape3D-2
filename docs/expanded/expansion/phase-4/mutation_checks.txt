@@ -1,0 +1,25 @@
+== M1 the vault keypad works without power
+FAIL: [expansion-puzzles] The unpowered keypad says so ([E] Dial 1: 0 → 1).
+FAIL: [expansion-puzzles] No power: even the right code does nothing.
+FAIL: [expansion-puzzles] No-power feedback (Vault keypad: code accepted.).
+FAIL: [expansion-puzzles] Three wrong codes: three alarms.
+FAIL: [expansion-puzzles] Locked out after three (VAULT KEYPAD
+FAIL: [expansion-puzzles] Lockout feedback: Vault open.
+== M2 the keypad accepts any code
+FAIL: [expansion-puzzles] Three wrong codes: three alarms.
+FAIL: [expansion-puzzles] Locked out after three (VAULT KEYPAD
+FAIL: [expansion-puzzles] Lockout feedback: Vault keypad: code accepted..
+FAIL: [expansion-puzzles] Even the right code is refused during the lockout.
+FAIL: [expansion-puzzles] A wrong combination: refused, no alarm (a small noise).
+FAIL: [expansion-puzzles] Locked out, alarm sounding.
+== M3 optional objectives needed to finish
+FAIL: [expansion-puzzles] The last mandatory objective finishes the level, optional ones open.
+FAIL: [expansion-puzzles] Completing an optional objective afterwards doesn't finish it again.
+FAIL: [expansion-puzzles] Escaping through the dock wins (state 0).
+FAIL: [expansion-puzzles] Escaping through the storm drain wins.
+TMP DONE 4 failures
+== M4 a respawn keeps the keypad lockout
+FAIL: [expansion-puzzles] Respawn: fresh tries, no lockout, no alarm.
+FAIL: [expansion-puzzles] Manuscript taken.
+FAIL: [expansion-puzzles] Everything is still solvable after the captures.
+TMP DONE 3 failures

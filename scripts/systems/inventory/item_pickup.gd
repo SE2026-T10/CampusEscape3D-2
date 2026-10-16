@@ -13,6 +13,11 @@ extends Interactable
 ##     restored by their ItemStorage instead.
 
 @export var item_id: StringName = ItemCatalog.TOOLKIT
+## Objective completed when this item is taken, or as soon as it becomes
+## ACTIVE while the item is carried (optional; e.g. "Find the tool kit").
+@export var objective_id: StringName = &""
+## False while it is not there yet (e.g. inside a locked locker; CodeLock reveals it).
+@export var available := true
 
 ## True once taken (a level pickup stays hidden until a checkpoint restores it).
 var taken := false
@@ -36,6 +41,31 @@ func _ready() -> void:
 		shape.shape = box
 		shape.position.y = box.size.y / 2.0
 		add_child(shape)
+	_apply()
+	if objective_id != &"":
+		_connect_manager.call_deferred()
+
+
+func _connect_manager() -> void:
+	var manager := ObjectiveManager.find(self)
+	if manager and not manager.objective_changed.is_connected(_on_objective_changed):
+		manager.objective_changed.connect(_on_objective_changed)
+
+
+func _on_objective_changed(id: StringName, state: ObjectiveManager.State) -> void:
+	if id == objective_id and state == ObjectiveManager.State.ACTIVE:
+		_complete_if_carried.call_deferred()
+
+
+func _complete_if_carried() -> void:
+	var inventory := PlayerInventory.find(self)
+	var manager := ObjectiveManager.find(self)
+	if manager and inventory and inventory.has(item_id):
+		manager.try_complete(objective_id)
+
+
+func set_available(on: bool) -> void:
+	available = on
 	_apply()
 
 
@@ -67,6 +97,8 @@ func _on_interact(_by: Node) -> bool:
 		return false
 	taken = true
 	inventory.notify("%s taken" % get_item_name(), true)
+	if objective_id != &"":
+		_complete_if_carried()
 	if storage != null:
 		storage.on_taken(self)
 	else:
@@ -75,8 +107,8 @@ func _on_interact(_by: Node) -> bool:
 
 
 func _apply() -> void:
-	visible = not taken
-	enabled = not taken
+	visible = available and not taken
+	enabled = available and not taken
 
 
 func _find_shape() -> CollisionShape3D:

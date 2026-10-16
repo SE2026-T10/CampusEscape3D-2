@@ -6,6 +6,13 @@
 [ext_resource type="Script" path="res://scripts/systems/inventory/item_pickup.gd" id="4_b71qq"]
 [ext_resource type="Script" path="res://scripts/systems/inventory/item_storage.gd" id="5_x7bv7"]
 [ext_resource type="Script" path="res://scripts/systems/inventory/document_pickup.gd" id="6_55c5i"]
+[ext_resource type="Script" path="res://scripts/systems/puzzles/power_network.gd" id="7_n7c1i"]
+[ext_resource type="Script" path="res://scripts/systems/puzzles/security_alarm.gd" id="8_elrb7"]
+[ext_resource type="Script" path="res://scripts/systems/inventory/tool_mechanism.gd" id="9_x37ws"]
+[ext_resource type="Script" path="res://scripts/systems/puzzles/breaker_panel.gd" id="10_8rcy5"]
+[ext_resource type="Script" path="res://scripts/systems/puzzles/code_lock.gd" id="11_eqxy8"]
+[ext_resource type="Script" path="res://scripts/systems/puzzles/pump_control.gd" id="12_fcd73"]
+[ext_resource type="Script" path="res://scripts/systems/objectives/exit_door.gd" id="13_xwlce"]
 [ext_resource type="PackedScene" path="res://scenes/props/ceiling_light.tscn" id="4_35jku"]
 
 [sub_resource type="BoxShape3D" id="BoxShape_8p100_0p200_12p000"]
@@ -330,6 +337,30 @@ size = Vector3(0.5, 0.35, 0.5)
 [sub_resource type="BoxShape3D" id="BoxShape_0p500_0p600_0p300"]
 size = Vector3(0.5, 0.6, 0.3)
 
+[sub_resource type="BoxMesh" id="BoxMesh_1p050_0p700_0p050"]
+size = Vector3(1.05, 0.7, 0.05)
+
+[sub_resource type="BoxShape3D" id="BoxShape_1p050_0p700_0p150"]
+size = Vector3(1.05, 0.7, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1p100_0p750_0p040"]
+size = Vector3(1.1, 0.75, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p040_0p550_0p750"]
+size = Vector3(0.04, 0.55, 0.75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p450_1p800_0p900"]
+size = Vector3(0.45, 1.8, 0.9)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p400_0p400_0p120"]
+size = Vector3(0.4, 0.4, 0.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p400_0p400_0p220"]
+size = Vector3(0.4, 0.4, 0.22)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p600_2p400_1p000"]
+size = Vector3(3.6, 2.4, 1)
+
 [sub_resource type="StandardMaterial3D" id="Material_ceiling"]
 albedo_color = Color(0.86, 0.83, 0.76, 1)
 disable_receive_shadows = true
@@ -408,8 +439,8 @@ size = Vector3(4.94, 0.34, 0.04)
 size = Vector3(4.18, 0.34, 0.04)
 
 [node name="Expansion" type="Node3D" unique_id=424622795]
-editor_description = "Expanded Library expansion content (2026 expansion). Built by tools/expanded/expansion/build_expansion.gd from expansion_layout.gd (x2): the basement / service network (zone G), the electrical room (zone D), the west and east service stairs. New puzzles, mechanics and areas go here, not into expanded_library.tscn, whose builder is frozen. Instanced once into expanded_library.tscn as \"Expansion\", right after \"Gameplay\"; content uses the level's existing systems through their groups."
-metadata/expansion_layout_version = "x2"
+editor_description = "Expanded Library expansion content (2026 expansion). Built by tools/expanded/expansion/build_expansion.gd from expansion_layout.gd (x3): the basement / service network (zone G), the electrical room (zone D), the west and east service stairs. New puzzles, mechanics and areas go here, not into expanded_library.tscn, whose builder is frozen. Instanced once into expanded_library.tscn as \"Expansion\", right after \"Gameplay\"; content uses the level's existing systems through their groups."
+metadata/expansion_layout_version = "x3"
 
 [node name="Geometry" type="Node3D" parent="." unique_id=1582251620 groups=["expanded_navigation_source"]]
 
@@ -1667,6 +1698,32 @@ shape = SubResource("BoxShape_0p180_2p600_2p000")
 script = ExtResource("2_6vu6i")
 radius = 6.0
 
+[node name="VaultDoor" type="Area3D" parent="Gameplay" unique_id=1902101868]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 5.7, -21)
+script = ExtResource("1_rbutt")
+door_name = "Vault Door"
+key_objective_id = &"open_vault"
+key_name = "vault code"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/VaultDoor" unique_id=1032834783]
+shape = SubResource("BoxShape_1p000_2p400_2p000")
+
+[node name="Panel" type="StaticBody3D" parent="Gameplay/VaultDoor" unique_id=107546569]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="Gameplay/VaultDoor/Panel" unique_id=1751421780]
+layers = 4
+material_override = SubResource("Material_d9332eff")
+mesh = SubResource("BoxMesh_0p180_2p600_2p000")
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/VaultDoor/Panel" unique_id=791301854]
+shape = SubResource("BoxShape_0p180_2p600_2p000")
+
+[node name="Noise" type="Node3D" parent="Gameplay/VaultDoor" unique_id=1188298768]
+script = ExtResource("2_6vu6i")
+radius = 6.0
+
 [node name="HidingSpots" type="Node3D" parent="Gameplay" unique_id=1693772592]
 
 [node name="Basementalcove" type="Area3D" parent="Gameplay/HidingSpots" unique_id=1025332515]
@@ -1719,6 +1776,7 @@ mesh = SubResource("BoxMesh_1p400_0p010_1p000")
 [node name="ToolKit" type="Area3D" parent="Gameplay/Items" unique_id=855256459]
 transform = Transform3D(0.9396926, 0, 0.34202012, 0, 1, 0, -0.34202012, 0, 0.9396926, -26.8, -2.8, -20.2)
 script = ExtResource("4_b71qq")
+objective_id = &"find_toolkit"
 metadata/zone_id = "G"
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/Items/ToolKit" unique_id=2091853641]
@@ -1755,6 +1813,17 @@ metadata/zone_id = "G"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
 shape = SubResource("BoxShape_0p500_0p350_0p500")
 
+[node name="LockerBottle" type="Area3D" parent="Gameplay/Items" unique_id=761223388]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 4.5, -22.4)
+script = ExtResource("4_b71qq")
+item_id = &"bottle"
+available = false
+metadata/zone_id = "E"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Items/LockerBottle" unique_id=1837670025]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
+shape = SubResource("BoxShape_0p500_0p350_0p500")
+
 [node name="Storage" type="Node3D" parent="Gameplay" unique_id=1052852444]
 
 [node name="MaintenanceShelf" type="Area3D" parent="Gameplay/Storage" unique_id=90942316]
@@ -1777,9 +1846,10 @@ script = ExtResource("6_55c5i")
 document_id = &"pump_room_log"
 title = "Pump room log"
 text = "Night log, pump room.
-The sump pump trips whenever the storm drain backs up. Reset it from the control panel, never by hand.
-The drain grate stays locked. Security holds the key.
+The culvert floods every storm, and the storm drain grate jams shut until it is pumped dry.
+To drain it: free the crank first (it seizes; use the tool kit), open the two outer valves, keep the middle valve SHUT, then pull START. Any other setting stalls the pump with a bang you can hear upstairs.
 — Facilities, night shift"
+discovers_objective = &"drain_culvert"
 metadata/zone_id = "G"
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/Documents/PumpRoomLog" unique_id=1173135354]
@@ -1791,13 +1861,235 @@ script = ExtResource("6_55c5i")
 document_id = &"electrical_notice"
 title = "Electrical room notice"
 text = "NOTICE TO STAFF
-Building power and the security system share this room. Do not open the cabinets without facilities staff present.
-The tool kit is kept in the maintenance bay downstairs.
+The archive sub-panel is behind the screwed-on cover (the tool kit is in the maintenance bay downstairs).
+The wiring chart is pinned up in Book Processing. A wrong breaker setting trips the main, loudly.
 — Library facilities"
 metadata/zone_id = "D"
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/Documents/ElectricalNotice" unique_id=2115194197]
 shape = SubResource("BoxShape_0p500_0p600_0p300")
+
+[node name="WiringChart" type="Area3D" parent="Gameplay/Documents" unique_id=1839628235]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 1.4, -27.83)
+script = ExtResource("6_55c5i")
+document_id = &"wiring_chart"
+title = "Wiring chart"
+text = "WIRING CHART · ARCHIVE SUB-PANEL (electrical room)
+A3 VAULT LOCK feeds the vault keypad. It only holds while A4 SECURITY GRID is live (the lock reports to security).
+A1 ARCHIVE LIGHTS shares A3's feed: with A1 off, the vault lock browns out.
+A2 SUMP PUMP: never energise A2 from this panel while the basement is wet. It trips the main.
+Set the breakers first, then engage MAIN.
+— Facilities"
+metadata/zone_id = "D"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Documents/WiringChart" unique_id=9875280]
+shape = SubResource("BoxShape_0p500_0p600_0p300")
+
+[node name="ArchivistMemo" type="Area3D" parent="Gameplay/Documents" unique_id=242991022]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 11.83, 5.9, -20)
+script = ExtResource("6_55c5i")
+document_id = &"archivist_memo"
+title = "Archivist's memo"
+text = "MEMO · Head archivist
+After the audit, security reset the vault keypad. The new code is the year this library was founded, with its digits in reverse order.
+The year is on the plaque in the lobby if you forget it. Do not write the code itself down anywhere!
+— M. Ortega"
+metadata/zone_id = "E"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Documents/ArchivistMemo" unique_id=789317838]
+shape = SubResource("BoxShape_0p500_0p600_0p300")
+
+[node name="LobbyPlaque" type="Area3D" parent="Gameplay/Documents" unique_id=1813703544]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -11.83, 1.7, 20)
+script = ExtResource("6_55c5i")
+document_id = &"lobby_plaque"
+title = "Foundation plaque"
+text = "A brass plate in the lobby: Campus Library, founded 1962."
+kind = "clue"
+model = "plaque"
+display_text = "CAMPUS LIBRARY
+FOUNDED 1962
+Knowledge kept, knowledge shared"
+metadata/zone_id = "A"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Documents/LobbyPlaque" unique_id=632712471]
+shape = SubResource("BoxShape_0p500_0p600_0p300")
+
+[node name="NightRota" type="Area3D" parent="Gameplay/Documents" unique_id=836592802]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.83, 5.9, -17)
+script = ExtResource("6_55c5i")
+document_id = &"night_rota"
+title = "Night security rota"
+text = "NIGHT SECURITY ROTA
+Okoro: 21:00
+Lindqvist: 03:00
+Brand: 06:00
+Security locker (Office 1): the combination is the last digit of each start hour, in rota order."
+discovers_objective = &"security_locker"
+metadata/zone_id = "E"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Documents/NightRota" unique_id=1394037106]
+shape = SubResource("BoxShape_0p500_0p600_0p300")
+
+[node name="PatrolNotes" type="Area3D" parent="Gameplay/Documents" unique_id=865525143]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.83, 5.75, -23.3)
+script = ExtResource("6_55c5i")
+document_id = &"patrol_notes"
+title = "Patrol notes"
+text = "PATROL NOTES (security locker)
+Every guard keeps to a fixed loop and stops briefly at its corners: wait for the pause, then move.
+The basement is not patrolled at night.
+An alarm draws whoever hears it to the spot. Be somewhere else by then.
+— Night shift"
+available = false
+metadata/zone_id = "E"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Documents/PatrolNotes" unique_id=1410608537]
+shape = SubResource("BoxShape_0p500_0p600_0p300")
+
+[node name="Mission" type="Node3D" parent="Gameplay" unique_id=917845873]
+
+[node name="PowerNetwork" type="Node" parent="Gameplay/Mission" unique_id=1742102676]
+script = ExtResource("7_n7c1i")
+
+[node name="SecurityAlarm" type="Node3D" parent="Gameplay/Mission" unique_id=830940038]
+script = ExtResource("8_elrb7")
+
+[node name="ElectricalPanelCover" type="Area3D" parent="Gameplay/Mission" unique_id=817103347]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 1.35, -26.9)
+script = ExtResource("9_x37ws")
+mechanism_name = "Electrical panel cover"
+action_text = "Unscrew the cover"
+objective_id = &"open_panel"
+hide_model_when_operated = true
+metadata/zone_id = "D"
+
+[node name="Model" type="MeshInstance3D" parent="Gameplay/Mission/ElectricalPanelCover" unique_id=1898888396]
+layers = 4
+material_override = SubResource("Material_dark_metal")
+mesh = SubResource("BoxMesh_1p050_0p700_0p050")
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Mission/ElectricalPanelCover" unique_id=689278621]
+shape = SubResource("BoxShape_1p050_0p700_0p150")
+
+[node name="BreakerPanel" type="Node3D" parent="Gameplay/Mission" unique_id=329189302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 1.35, -27.02)
+script = ExtResource("10_8rcy5")
+breaker_names = PackedStringArray("A1 ARCHIVE LIGHTS", "A2 SUMP PUMP", "A3 VAULT LOCK", "A4 SECURITY GRID")
+cover_path = NodePath("../ElectricalPanelCover")
+puzzle_name = "Breaker panel"
+objective_id = &"restore_power"
+metadata/zone_id = "D"
+
+[node name="BreakerBackplate" type="Node3D" parent="Gameplay/Mission" unique_id=872415744]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 1.3000001, -27.050001)
+
+[node name="Mesh" type="MeshInstance3D" parent="Gameplay/Mission/BreakerBackplate" unique_id=1747941570]
+layers = 4
+material_override = SubResource("Material_dark_metal")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_1p100_0p750_0p040")
+
+[node name="VaultKeypad" type="Node3D" parent="Gameplay/Mission" unique_id=372767583]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 27.83, 5.85, -19.3)
+script = ExtResource("11_eqxy8")
+code = "2691"
+power_circuit = &"archive_vault"
+door_path = NodePath("../../VaultDoor")
+puzzle_name = "Vault keypad"
+objective_id = &"open_vault"
+metadata/zone_id = "F"
+
+[node name="VaultKeypadBackplate" type="Node3D" parent="Gameplay/Mission" unique_id=1561858255]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.87, 5.9, -19.3)
+
+[node name="Mesh" type="MeshInstance3D" parent="Gameplay/Mission/VaultKeypadBackplate" unique_id=1235005214]
+layers = 4
+material_override = SubResource("Material_dark_metal")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_0p040_0p550_0p750")
+
+[node name="SecurityLocker" type="Node3D" parent="Gameplay/Mission" unique_id=584556757]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.83, 5.85, -21.4)
+script = ExtResource("11_eqxy8")
+code = "136"
+lockout_time = 10.0
+alarm_on_wrong = false
+reveal_paths = Array[NodePath]([NodePath("../../Items/LockerBottle"), NodePath("../../Documents/PatrolNotes")])
+puzzle_name = "Security locker"
+objective_id = &"security_locker"
+metadata/zone_id = "E"
+
+[node name="SecurityLockerBackplate" type="Node3D" parent="Gameplay/Mission" unique_id=1456089046]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.87, 5.9, -21.4)
+
+[node name="Mesh" type="MeshInstance3D" parent="Gameplay/Mission/SecurityLockerBackplate" unique_id=619341193]
+layers = 4
+material_override = SubResource("Material_dark_metal")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_0p040_0p550_0p750")
+
+[node name="LockerCabinet" type="Node3D" parent="Gameplay/Mission" unique_id=1518478694]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6, 5.4, -22.4)
+
+[node name="Mesh" type="MeshInstance3D" parent="Gameplay/Mission/LockerCabinet" unique_id=485393670]
+layers = 4
+material_override = SubResource("Material_dark_metal")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_0p450_1p800_0p900")
+
+[node name="PumpCrank" type="Area3D" parent="Gameplay/Mission" unique_id=1510932494]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -3.4, -3, -14.27)
+script = ExtResource("9_x37ws")
+mechanism_name = "Pump crank"
+action_text = "Free the seized crank"
+metadata/zone_id = "G"
+
+[node name="Model" type="MeshInstance3D" parent="Gameplay/Mission/PumpCrank" unique_id=541695265]
+layers = 16
+material_override = SubResource("Material_steel")
+mesh = SubResource("BoxMesh_0p400_0p400_0p120")
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Mission/PumpCrank" unique_id=309598223]
+shape = SubResource("BoxShape_0p400_0p400_0p220")
+
+[node name="PumpControl" type="Node3D" parent="Gameplay/Mission" unique_id=1229245752]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -2.8, -14.3)
+script = ExtResource("12_fcd73")
+valve_names = PackedStringArray("VALVE 1", "VALVE 2", "VALVE 3")
+crank_path = NodePath("../PumpCrank")
+grate_path = NodePath("../../../Geometry/G_ServiceNetwork/StormDrainGrate")
+hide_on_solve = Array[NodePath]([NodePath("../../../Dressing/Signs/Sign_STORMDRAINSEALED")])
+puzzle_name = "Pump"
+objective_id = &"drain_culvert"
+metadata/zone_id = "G"
+
+[node name="StormDrainExit" type="Area3D" parent="Gameplay/Mission" unique_id=470280896]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.8, -35.8)
+script = ExtResource("13_xwlce")
+key_objective_id = &"take_manuscript"
+locked_sign = "STORM DRAIN · GRATE JAMMED"
+locked_reason = "You can't leave without the rare manuscript."
+locked_prompt = "Storm drain (blocked)"
+extra_key_objective_id = &"drain_culvert"
+extra_locked_reason = "The grate is jammed shut while the culvert is flooded."
+metadata/zone_id = "G"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Mission/StormDrainExit" unique_id=1014257144]
+shape = SubResource("BoxShape_3p600_2p400_1p000")
+
+[node name="Sign" type="Label3D" parent="Gameplay/Mission/StormDrainExit" unique_id=863301664]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.3)
+pixel_size = 0.006
+billboard = 1
+no_depth_test = true
+modulate = Color(1, 0.4, 0.3, 1)
+text = "STORM DRAIN · GRATE JAMMED"
+font_size = 40
+
+[node name="Noise" type="Node3D" parent="Gameplay/Mission/StormDrainExit" unique_id=2046377953]
+script = ExtResource("2_6vu6i")
+radius = 6.0
 
 [node name="Dressing" type="Node3D" parent="." unique_id=833799689]
 

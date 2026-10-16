@@ -2,7 +2,8 @@ class_name StealthHud
 extends CanvasLayer
 
 ## Player-facing stealth HUD (not a debug tool; present in release builds).
-##   - Banner (top centre): CHASED / BEING SEEN / A guard is investigating / HIDDEN
+##   - Banner (top centre): CHASED / BEING SEEN / A guard is investigating / HIDDEN,
+##     or "ALARM" while the SecurityAlarm is sounding (Expanded Library)
 ##   - Indicators around the crosshair: one per guard that is noticing you,
 ##     pointing toward that guard, filling with its detection meter, coloured
 ##     white → yellow "?" (suspicious / investigating) → red "!" (alerted / chasing)
@@ -120,6 +121,9 @@ func _process(delta: float) -> void:
 	var director := StealthDirector.find(self)
 	var status: StealthDirector.Status = director.status if director else StealthDirector.Status.NONE
 	var banner: Array = BANNERS[status]
+	var alarm := SecurityAlarm.find(self)
+	if alarm and alarm.is_active() and status < StealthDirector.Status.SPOTTED:
+		banner = ["ALARM — guards are on their way", COLOUR_ALERT]
 	_banner.text = banner[0]
 	_banner.add_theme_color_override("font_color", banner[1])
 	# The chase banner pulses.

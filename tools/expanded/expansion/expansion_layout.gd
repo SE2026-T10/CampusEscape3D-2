@@ -30,8 +30,17 @@ extends RefCounted
 ## clue documents in the new areas, so the mechanics can be played; the
 ## electrical room door now checks the carried staff card (key_item). Real
 ## tool-kit mechanisms and the clue texts come with the Phase 4 puzzles.
+##
+## Phase 4 (x3, puzzles, journal and objectives): the mission becomes a graph
+## (see MISSION_OBJECTIVES). Mandatory: the staff card, the tool kit, the
+## electrical panel cover (tool kit), the breaker panel (power), the vault
+## keypad (code, security alarm), the manuscript, an escape (loading dock or
+## storm drain). Optional: the pump (opens the storm drain), the security
+## locker, the archive back gate shortcut. Clues: the wiring chart, the
+## archivist's memo with the lobby plaque, the pump room log, the night rota.
+## Placed as gameplay only (no geometry, collision or navmesh change).
 
-const VERSION := "x2"
+const VERSION := "x3"
 
 ## Basement floor (top surface), and the slab under the existing ground floor.
 const BF := -4.0
@@ -150,6 +159,9 @@ const HIDING := [
 const DOORS := [
 	{"name": "ElectricalRoomDoor", "door_name": "Electrical Room Door", "centre": Vector3(36, 0, -23), "along_x": false,
 		"width": 2.0, "key": "take_card", "key_item": "staff_card", "key_name": "staff access card"},
+	# Phase 4: the existing vault doorway (archive hall → vault, upper floor) gets a door the keypad opens.
+	{"name": "VaultDoor", "door_name": "Vault Door", "centre": Vector3(28, 4.5, -21), "along_x": false,
+		"width": 2.0, "key": "open_vault", "key_name": "vault code"},
 ]
 
 ## Seals: invisible colliders (no mesh) that keep the navmesh as it was where
@@ -262,10 +274,12 @@ const SEALED := {
 ## Phase 3 (x2): provisional carried items (ItemPickup, ids from ItemCatalog),
 ## lying on top of the basement crates (crate top = BF + 1.2).
 const ITEMS := [
-	{"name": "ToolKit", "item": "toolkit", "zone": "G", "pos": Vector3(-26.8, BF + 1.2, -20.2), "yaw": 20.0},
+	{"name": "ToolKit", "item": "toolkit", "zone": "G", "pos": Vector3(-26.8, BF + 1.2, -20.2), "yaw": 20.0, "objective": "find_toolkit"},
 	{"name": "BottleTunnel", "item": "bottle", "zone": "G", "pos": Vector3(-14.0, BF + 1.2, -26.1), "yaw": 0.0},
 	{"name": "HardbackTunnel", "item": "hardback", "zone": "G", "pos": Vector3(19.0, BF + 1.2, -23.9), "yaw": 30.0},
 	{"name": "BottleCableBay", "item": "bottle", "zone": "G", "pos": Vector3(44.0, BF + 1.2, -21.0), "yaw": 0.0},
+	# Phase 4: inside the Office 1 security locker (appears when it is opened).
+	{"name": "LockerBottle", "item": "bottle", "zone": "E", "pos": Vector3(-5.0, 4.5, -22.4), "yaw": 0.0, "available": false},
 ]
 ## Storage shelves (ItemStorage): wall-mounted, no collision (nothing baked, no
 ## route changed). "pos" is the shelf surface, 1 m above the floor; "facing"
@@ -278,9 +292,86 @@ const STORAGE := [
 ## texts; Phase 4 gives them their puzzle clues.
 const DOCUMENTS := [
 	{"name": "PumpRoomLog", "id": "pump_room_log", "title": "Pump room log", "zone": "G",
-		"pos": Vector3(6.83, BF + 1.4, -17.0), "facing": -90.0,
-		"text": "Night log, pump room.\nThe sump pump trips whenever the storm drain backs up. Reset it from the control panel, never by hand.\nThe drain grate stays locked. Security holds the key.\n— Facilities, night shift"},
+		"pos": Vector3(6.83, BF + 1.4, -17.0), "facing": -90.0, "discovers": "drain_culvert",
+		"text": "Night log, pump room.\nThe culvert floods every storm, and the storm drain grate jams shut until it is pumped dry.\nTo drain it: free the crank first (it seizes; use the tool kit), open the two outer valves, keep the middle valve SHUT, then pull START. Any other setting stalls the pump with a bang you can hear upstairs.\n— Facilities, night shift"},
 	{"name": "ElectricalNotice", "id": "electrical_notice", "title": "Electrical room notice", "zone": "D",
 		"pos": Vector3(45.83, 1.4, -24.0), "facing": -90.0,
-		"text": "NOTICE TO STAFF\nBuilding power and the security system share this room. Do not open the cabinets without facilities staff present.\nThe tool kit is kept in the maintenance bay downstairs.\n— Library facilities"},
+		"text": "NOTICE TO STAFF\nThe archive sub-panel is behind the screwed-on cover (the tool kit is in the maintenance bay downstairs).\nThe wiring chart is pinned up in Book Processing. A wrong breaker setting trips the main, loudly.\n— Library facilities"},
+	# Phase 4 clues.
+	{"name": "WiringChart", "id": "wiring_chart", "title": "Wiring chart", "zone": "D",
+		"pos": Vector3(26.0, 1.4, -27.83), "facing": 0.0,
+		"text": "WIRING CHART · ARCHIVE SUB-PANEL (electrical room)\nA3 VAULT LOCK feeds the vault keypad. It only holds while A4 SECURITY GRID is live (the lock reports to security).\nA1 ARCHIVE LIGHTS shares A3's feed: with A1 off, the vault lock browns out.\nA2 SUMP PUMP: never energise A2 from this panel while the basement is wet. It trips the main.\nSet the breakers first, then engage MAIN.\n— Facilities"},
+	{"name": "ArchivistMemo", "id": "archivist_memo", "title": "Archivist's memo", "zone": "E",
+		"pos": Vector3(11.83, 5.9, -20.0), "facing": -90.0,
+		"text": "MEMO · Head archivist\nAfter the audit, security reset the vault keypad. The new code is the year this library was founded, with its digits in reverse order.\nThe year is on the plaque in the lobby if you forget it. Do not write the code itself down anywhere!\n— M. Ortega"},
+	{"name": "LobbyPlaque", "id": "lobby_plaque", "title": "Foundation plaque", "zone": "A", "kind": "clue", "model": "plaque",
+		"pos": Vector3(-11.83, 1.7, 20.0), "facing": 90.0,
+		"display": "CAMPUS LIBRARY\nFOUNDED 1962\nKnowledge kept, knowledge shared",
+		"text": "A brass plate in the lobby: Campus Library, founded 1962."},
+	{"name": "NightRota", "id": "night_rota", "title": "Night security rota", "zone": "E",
+		"pos": Vector3(5.83, 5.9, -17.0), "facing": -90.0, "discovers": "security_locker",
+		"text": "NIGHT SECURITY ROTA\nOkoro: 21:00\nLindqvist: 03:00\nBrand: 06:00\nSecurity locker (Office 1): the combination is the last digit of each start hour, in rota order."},
+	{"name": "PatrolNotes", "id": "patrol_notes", "title": "Patrol notes", "zone": "E", "available": false,
+		"pos": Vector3(-5.83, 5.75, -23.3), "facing": 90.0,
+		"text": "PATROL NOTES (security locker)\nEvery guard keeps to a fixed loop and stops briefly at its corners: wait for the pause, then move.\nThe basement is not patrolled at night.\nAn alarm draws whoever hears it to the spot. Be somewhere else by then.\n— Night shift"},
+]
+
+## Phase 4 (x3): the puzzles and their supports, built under Expansion/Gameplay/Mission.
+## Answers live only here, in the scene and in the clues: never in objective hints.
+const MISSION := {
+	"panel_cover": {"name": "ElectricalPanelCover", "pos": Vector3(41.0, 1.35, -26.9), "facing": 0.0, "zone": "D",
+		"mechanism_name": "Electrical panel cover", "action_text": "Unscrew the cover", "objective": "open_panel",
+		"size": Vector3(1.05, 0.7, 0.05)},
+	"breakers": {"name": "BreakerPanel", "pos": Vector3(41.0, 1.35, -27.02), "facing": 0.0, "zone": "D",
+		"circuit": "archive_vault", "solution": [true, false, true, true], "objective": "restore_power"},
+	"vault_keypad": {"name": "VaultKeypad", "pos": Vector3(27.83, 5.85, -19.3), "facing": -90.0, "zone": "F",
+		"code": "2691", "power": "archive_vault", "alarm": true, "attempts": 3, "lockout": 20.0,
+		"objective": "open_vault", "door": "VaultDoor", "title": "Vault keypad"},
+	"locker": {"name": "SecurityLocker", "pos": Vector3(-5.83, 5.85, -21.4), "facing": 90.0, "zone": "E",
+		"code": "136", "power": "", "alarm": false, "attempts": 3, "lockout": 10.0,
+		"objective": "security_locker", "reveal": ["Items/LockerBottle", "Documents/PatrolNotes"], "title": "Security locker",
+		"cabinet": {"centre": Vector3(-5.6, 5.4, -22.4), "size": Vector3(0.45, 1.8, 0.9)}},
+	"pump_crank": {"name": "PumpCrank", "pos": Vector3(-3.4, BF + 1.0, -14.27), "facing": 180.0, "zone": "G",
+		"mechanism_name": "Pump crank", "action_text": "Free the seized crank", "size": Vector3(0.4, 0.4, 0.12)},
+	"pump": {"name": "PumpControl", "pos": Vector3(0.0, BF + 1.2, -14.3), "facing": 180.0, "zone": "G",
+		"solution": [true, false, true], "objective": "drain_culvert"},
+	"drain_exit": {"name": "StormDrainExit", "pos": Vector3(0.0, BF + 1.2, -35.8), "zone": "G",
+		"size": Vector3(3.6, 2.4, 1.0)},
+}
+
+## Phase 4 (x3): the Expanded Library's objectives (ObjectiveManager graph mode),
+## written into expanded_library.tscn by tools/expanded/expansion/mission_x3.py.
+const MISSION_OBJECTIVES := [
+	{"id": "enter_library", "title": "Enter the library", "hint": "Go in through the main entrance.",
+		"done": "You're inside. Explore: the staff offices upstairs, the stacks, the basement"},
+	{"id": "take_card", "requires": ["enter_library"], "title": "Take a staff access card",
+		"hint": "Staff offices, upper floor: up the main stair (or the stacks stair), through the staff wing.",
+		"done": "Staff access card taken: staff doors open while you carry it"},
+	{"id": "find_toolkit", "requires": ["enter_library"], "title": "Find the tool kit",
+		"hint": "Somewhere in the basement maintenance areas. The west service door in the main stacks leads down.",
+		"done": "Tool kit found"},
+	{"id": "open_panel", "requires": ["find_toolkit"], "title": "Open the archive power panel",
+		"hint": "In the electrical room (east annex). Its cover is screwed shut.",
+		"done": "Panel cover off: the breakers are exposed"},
+	{"id": "restore_power", "requires": ["open_panel"], "title": "Restore power to the vault",
+		"hint": "Set the breakers, then engage MAIN. Facilities pinned up a wiring chart somewhere in the service wing.",
+		"done": "The archive vault has power"},
+	{"id": "open_vault", "requires": ["take_card", "restore_power"], "title": "Open the archive vault",
+		"hint": "The vault keypad is in the archive (through the Archive Front Gate, upper floor). The head archivist left a reminder of the code.",
+		"done": "Vault open"},
+	{"id": "take_manuscript", "requires": ["open_vault"], "title": "Retrieve the rare manuscript",
+		"hint": "On the pedestal inside the vault.",
+		"done": "Manuscript retrieved. Now get out: the loading dock, or another way"},
+	{"id": "escape", "requires": ["take_manuscript"], "title": "Escape with the manuscript",
+		"hint": "The loading dock exit (down the staff stair), or the storm drain if you can clear it.",
+		"done": "Escaped"},
+	{"id": "unlock_shortcut", "requires": ["take_card"], "optional": true, "title": "Unlock the archive back gate (shortcut)",
+		"hint": "East side of the archive hall. It only opens from inside the archive.",
+		"done": "Back gate open: the staff stair leads down to the loading dock"},
+	{"id": "drain_culvert", "optional": true, "hidden": true, "title": "Drain the storm culvert",
+		"hint": "Pump room, basement. The pump room log explains the valves.",
+		"done": "Culvert drained: the storm drain is a way out"},
+	{"id": "security_locker", "optional": true, "hidden": true, "title": "Open the security locker",
+		"hint": "Office 1, upper floor. The night rota mentions the combination.",
+		"done": "Security locker open"},
 ]

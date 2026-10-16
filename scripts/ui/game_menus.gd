@@ -124,6 +124,12 @@ func get_objectives_text() -> String:
 	var objectives := ObjectiveManager.find(self)
 	if objectives == null:
 		return ""
+	if objectives.is_graph():
+		var mandatory := objectives.get_mandatory_ids()
+		var optional := objectives.get_optional_ids()
+		return "Mission objectives %d/%d complete · optional %d/%d" % [
+			mandatory.filter(func(id): return objectives.is_completed(id)).size(), mandatory.size(),
+			optional.filter(func(id): return objectives.is_completed(id)).size(), optional.size()]
 	var done := 0
 	for id in objectives.get_ids():
 		if objectives.get_state(id) == ObjectiveManager.State.COMPLETED:

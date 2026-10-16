@@ -10,15 +10,25 @@ extends Interactable
 ## Puzzles connect to `operated` (Phase 4 places the real mechanisms). Operated
 ## or not is part of the mission state (group "checkpoint_state").
 ## The optional NoiseMaker child "Noise" makes a noise when it is operated.
+## `objective_id` (optional) completes when it is operated, or as soon as that
+## objective becomes ACTIVE if it was operated earlier. With
+## `hide_model_when_operated`, its "Model" child disappears once operated (a
+## cover that comes off).
 
 signal operated
 signal rejected(reason: String)
+## Emitted after a checkpoint restore (puzzles behind it refresh).
+signal operated_restored
 
 @export var mechanism_name := "Mechanism"
 ## ItemCatalog id of the tool needed.
 @export var required_item: StringName = ItemCatalog.TOOLKIT
 ## What using it does, for the prompt, e.g. "Unscrew the panel".
 @export var action_text := "Use the tool kit"
+## Objective completed by operating it (optional).
+@export var objective_id: StringName = &""
+## Hide the "Model" child once operated (e.g. a panel cover).
+@export var hide_model_when_operated := false
 
 var is_operated := false
 ## Times it refused the player (for tests).
@@ -32,6 +42,24 @@ func _ready() -> void:
 	add_to_group("checkpoint_state")
 	add_to_group("tool_mechanisms")
 	_apply()
+	_connect_manager.call_deferred()
+
+
+func _connect_manager() -> void:
+	var manager := ObjectiveManager.find(self)
+	if manager and objective_id != &"" and not manager.objective_changed.is_connected(_on_objective_changed):
+		manager.objective_changed.connect(_on_objective_changed)
+
+
+func _on_objective_changed(id: StringName, state: ObjectiveManager.State) -> void:
+	if id == objective_id and state == ObjectiveManager.State.ACTIVE and is_operated:
+		_complete_objective.call_deferred()
+
+
+func _complete_objective() -> void:
+	var manager := ObjectiveManager.find(self)
+	if is_operated and manager and objective_id != &"":
+		manager.try_complete(objective_id)
 
 
 func get_prompt(by: Node) -> String:
@@ -53,6 +81,7 @@ func _on_interact(_by: Node) -> bool:
 	_apply()
 	if _noise:
 		_noise.make_noise()
+	_complete_objective()
 	operated.emit()
 	return true
 
@@ -64,6 +93,11 @@ func _has_tool() -> bool:
 
 func _apply() -> void:
 	enabled = not is_operated
+	var model := get_node_or_null("Model") as Node3D
+	if model and hide_model_when_operated:
+		model.visible = not is_operated
+		# A removed cover no longer catches the interaction ray (what was behind it can be used).
+		collision_layer = 0 if is_operated else LAYER
 
 
 func get_checkpoint_state() -> Dictionary:
@@ -73,3 +107,4 @@ func get_checkpoint_state() -> Dictionary:
 func restore_checkpoint_state(state: Dictionary) -> void:
 	is_operated = bool(state.get("operated", false))
 	_apply()
+	operated_restored.emit()

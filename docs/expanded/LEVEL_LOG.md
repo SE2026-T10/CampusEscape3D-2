@@ -306,3 +306,19 @@ Guards, routes, mission and every other node are unchanged (baseline digests in 
 
 **Evidence:** [`expansion/phase-3/`](expansion/phase-3/); report [`expansion/phase-3-mechanics.md`](expansion/phase-3-mechanics.md).
 
+---
+
+## Expansion layout x3 — puzzles, journal and objectives (expansion Phase 4, 2026-10-16)
+
+**What:**
+- The mission is an objective graph (ObjectiveManager graph mode: prerequisites, optional and hidden objectives; the tutorial keeps the linear mode). 8 mandatory objectives, 3 optional ones; escape through the loading dock or the storm drain.
+- Puzzles: the electrical panel cover (tool kit), the breaker panel (power), the vault keypad (code; wrong codes raise the security alarm, three lock it 20 s) opening a new Vault Door; optional: the pump (opens the storm drain), the Office 1 security locker; the back gate is now an optional shortcut.
+- Clues: the wiring chart, the archivist's memo with the lobby plaque, the pump room log, the night rota; documents and clues in the journal, with the mission and the discovered optional objectives.
+- Interfaces for later phases: `PowerNetwork`, `SecurityAlarm` (main entrance lockdown reserved).
+
+**Why:** the owner's Phase 4 brief (explore freely, clear mandatory prerequisites, four or more puzzle interactions, fair clues, persistence defined); the owner approved the mission graph, extending ObjectiveManager, puzzles following checkpoints, escapes dock + storm drain.
+
+**Approved changes to the existing scene (`tools/expanded/expansion/mission_x3.py`):** the ObjectiveManager's `objectives` (the graph) and the loading dock ExitDoor's key (the manuscript) with its prompt and message. No geometry, navmesh, guard or route changed.
+
+**Evidence:** [`expansion/phase-4/`](expansion/phase-4/); report [`expansion/phase-4-puzzles.md`](expansion/phase-4-puzzles.md).
+

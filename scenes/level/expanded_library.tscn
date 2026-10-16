@@ -5796,30 +5796,73 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
 [node name="ObjectiveManager" type="Node" parent="Gameplay" unique_id=2007594789]
 script = ExtResource("9_yje15")
 objectives = Array[Dictionary]([{
-"done": "You're inside. Find a way into the staff offices upstairs",
+"done": "You're inside. Explore: the staff offices upstairs, the stacks, the basement",
 "hint": "Go in through the main entrance.",
 "id": &"enter_library",
 "title": "Enter the library"
 }, {
-"done": "Staff access card taken: staff-only doors now open for you",
+"done": "Staff access card taken: staff doors open while you carry it",
 "hint": "Staff offices, upper floor: up the main stair (or the stacks stair), through the staff wing.",
 "id": &"take_card",
+"requires": ["enter_library"],
 "title": "Take a staff access card"
 }, {
-"done": "Manuscript retrieved. Now find a faster way out",
-"hint": "In the archive vault. The Archive Front Gate is at the east end of the staff corridor.",
+"done": "Tool kit found",
+"hint": "Somewhere in the basement maintenance areas. The west service door in the main stacks leads down.",
+"id": &"find_toolkit",
+"requires": ["enter_library"],
+"title": "Find the tool kit"
+}, {
+"done": "Panel cover off: the breakers are exposed",
+"hint": "In the electrical room (east annex). Its cover is screwed shut.",
+"id": &"open_panel",
+"requires": ["find_toolkit"],
+"title": "Open the archive power panel"
+}, {
+"done": "The archive vault has power",
+"hint": "Set the breakers, then engage MAIN. Facilities pinned up a wiring chart somewhere in the service wing.",
+"id": &"restore_power",
+"requires": ["open_panel"],
+"title": "Restore power to the vault"
+}, {
+"done": "Vault open",
+"hint": "The vault keypad is in the archive (through the Archive Front Gate, upper floor). The head archivist left a reminder of the code.",
+"id": &"open_vault",
+"requires": ["take_card", "restore_power"],
+"title": "Open the archive vault"
+}, {
+"done": "Manuscript retrieved. Now get out: the loading dock, or another way",
+"hint": "On the pedestal inside the vault.",
 "id": &"take_manuscript",
+"requires": ["open_vault"],
 "title": "Retrieve the rare manuscript"
+}, {
+"done": "Escaped",
+"hint": "The loading dock exit (down the staff stair), or the storm drain if you can clear it.",
+"id": &"escape",
+"requires": ["take_manuscript"],
+"title": "Escape with the manuscript"
 }, {
 "done": "Back gate open: the staff stair leads down to the loading dock",
 "hint": "East side of the archive hall. It only opens from inside the archive.",
 "id": &"unlock_shortcut",
-"title": "Unlock the archive back gate"
+"optional": true,
+"requires": ["take_card"],
+"title": "Unlock the archive back gate (shortcut)"
 }, {
-"done": "Escaped",
-"hint": "Down the staff stair, through storage to the dock exit.",
-"id": &"escape",
-"title": "Escape through the loading dock"
+"done": "Culvert drained: the storm drain is a way out",
+"hidden": true,
+"hint": "Pump room, basement. The pump room log explains the valves.",
+"id": &"drain_culvert",
+"optional": true,
+"title": "Drain the storm culvert"
+}, {
+"done": "Security locker open",
+"hidden": true,
+"hint": "Office 1, upper floor. The night rota mentions the combination.",
+"id": &"security_locker",
+"optional": true,
+"title": "Open the security locker"
 }])
 
 [node name="CheckpointManager" type="Node" parent="Gameplay" unique_id=1397315636]
@@ -5984,10 +6027,10 @@ radius = 6.0
 [node name="ExitDoor" type="Area3D" parent="Gameplay" unique_id=1501409908 node_paths=PackedStringArray("door_mesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.6, 1.2, 24)
 script = ExtResource("15_1jy4a")
-key_objective_id = &"unlock_shortcut"
+key_objective_id = &"take_manuscript"
 locked_sign = "SEALED · STAFF EXIT"
-locked_reason = "The loading dock exit is sealed. First: %s."
-locked_prompt = "Exit locked (manuscript and back gate first)"
+locked_reason = "The loading dock exit is sealed until you have the rare manuscript."
+locked_prompt = "Exit locked (rare manuscript first)"
 door_mesh = NodePath("../../NavigationRegion3D/Ground/D_ServiceCorridor/ExitDoorPanel/Mesh")
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/ExitDoor" unique_id=1718093398]
