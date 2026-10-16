@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://scripts/systems/puzzles/code_lock.gd" id="11_eqxy8"]
 [ext_resource type="Script" path="res://scripts/systems/puzzles/pump_control.gd" id="12_fcd73"]
 [ext_resource type="Script" path="res://scripts/systems/objectives/exit_door.gd" id="13_xwlce"]
+[ext_resource type="Script" path="res://scripts/systems/security/circuit_switch.gd" id="14_kvclb"]
+[ext_resource type="Script" path="res://scripts/systems/security/security_camera.gd" id="15_gc7a4"]
 [ext_resource type="PackedScene" path="res://scenes/props/ceiling_light.tscn" id="4_35jku"]
 
 [sub_resource type="BoxShape3D" id="BoxShape_8p100_0p200_12p000"]
@@ -439,8 +441,8 @@ size = Vector3(4.94, 0.34, 0.04)
 size = Vector3(4.18, 0.34, 0.04)
 
 [node name="Expansion" type="Node3D" unique_id=424622795]
-editor_description = "Expanded Library expansion content (2026 expansion). Built by tools/expanded/expansion/build_expansion.gd from expansion_layout.gd (x3): the basement / service network (zone G), the electrical room (zone D), the west and east service stairs. New puzzles, mechanics and areas go here, not into expanded_library.tscn, whose builder is frozen. Instanced once into expanded_library.tscn as \"Expansion\", right after \"Gameplay\"; content uses the level's existing systems through their groups."
-metadata/expansion_layout_version = "x3"
+editor_description = "Expanded Library expansion content (2026 expansion). Built by tools/expanded/expansion/build_expansion.gd from expansion_layout.gd (x4): the basement / service network (zone G), the electrical room (zone D), the west and east service stairs. New puzzles, mechanics and areas go here, not into expanded_library.tscn, whose builder is frozen. Instanced once into expanded_library.tscn as \"Expansion\", right after \"Gameplay\"; content uses the level's existing systems through their groups."
+metadata/expansion_layout_version = "x4"
 
 [node name="Geometry" type="Node3D" parent="." unique_id=1582251620 groups=["expanded_navigation_source"]]
 
@@ -1994,7 +1996,7 @@ mesh = SubResource("BoxMesh_1p100_0p750_0p040")
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 27.83, 5.85, -19.3)
 script = ExtResource("11_eqxy8")
 code = "2691"
-power_circuit = &"archive_vault"
+power_circuit = &"archive_access"
 door_path = NodePath("../../VaultDoor")
 puzzle_name = "Vault keypad"
 objective_id = &"open_vault"
@@ -2090,6 +2092,65 @@ font_size = 40
 [node name="Noise" type="Node3D" parent="Gameplay/Mission/StormDrainExit" unique_id=2046377953]
 script = ExtResource("2_6vu6i")
 radius = 6.0
+
+[node name="Security" type="Node3D" parent="Gameplay" unique_id=547728]
+
+[node name="SurveillanceSwitch" type="Area3D" parent="Gameplay/Security" unique_id=600887908]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.8, 1.35, -27.02)
+script = ExtResource("14_kvclb")
+on_text = "Surveillance power ON: the cameras are watching again."
+off_text = "Surveillance power OFF: the cameras go dark. The guards are not affected."
+values = PackedStringArray("OFF", "ON")
+metadata/zone_id = "D"
+
+[node name="ServiceExitSwitch" type="Area3D" parent="Gameplay/Security" unique_id=556191596]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.2, 1.35, -27.02)
+script = ExtResource("14_kvclb")
+circuit = &"service_exit"
+circuit_title = "SERVICE EXIT"
+on_text = "Service power ON: the loading dock shutter has power."
+off_text = "Service power OFF: the loading dock shutter is dead."
+reboots_circuit = &"surveillance"
+reboot_text = "Service ON: dock powered. Security rebooted: cameras ON, switch locked 30 s."
+values = PackedStringArray("OFF", "ON")
+metadata/zone_id = "D"
+
+[node name="SwitchBoardLabel" type="Label3D" parent="Gameplay/Security" unique_id=2015503106]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 2.25, -27)
+pixel_size = 0.0035
+modulate = Color(1, 0.85, 0.45, 1)
+text = "SURVEILLANCE  ·  ARCHIVE (behind the cover)  ·  SERVICE EXIT"
+font_size = 22
+
+[node name="Cameras" type="Node3D" parent="Gameplay/Security" unique_id=1512994557]
+
+[node name="CameraStaffCorridor" type="Node3D" parent="Gameplay/Security/Cameras" unique_id=312884093]
+transform = Transform3D(-0.25286946, 0, 0.9675004, 0, 1, 0, -0.9675004, 0, -0.25286946, 11.6, 7.5, -13.6)
+script = ExtResource("15_gc7a4")
+camera_name = "staff corridor"
+pitch_degrees = 9.364634618633247
+metadata/zone_id = "E"
+
+[node name="CameraArchiveHall" type="Node3D" parent="Gameplay/Security/Cameras" unique_id=42140086]
+transform = Transform3D(0.6745711, 0, 0.7382099, 0, 1, 0, -0.7382099, 0, 0.6745711, 27.6, 7.5, -6.4)
+script = ExtResource("15_gc7a4")
+camera_name = "archive hall"
+pitch_degrees = 10.808631806128142
+metadata/zone_id = "F"
+
+[node name="CameraLoadingDock" type="Node3D" parent="Gameplay/Security/Cameras" unique_id=873322061]
+transform = Transform3D(-0.6796232, 0, 0.7335614, 0, 1, 0, -0.7335614, 0, -0.6796232, 35.6, 3.5, 12.4)
+script = ExtResource("15_gc7a4")
+camera_name = "loading dock"
+pitch_degrees = 10.690719545053582
+metadata/zone_id = "D"
+
+[node name="CameraTunnel" type="Node3D" parent="Gameplay/Security/Cameras" unique_id=905603684]
+transform = Transform3D(0.087166965, 0, 0.9961937, 0, 1, 0, -0.9961937, 0, 0.087166965, 12, -0.7, -23.25)
+script = ExtResource("15_gc7a4")
+camera_name = "service tunnel"
+pitch_degrees = 9.33435150986661
+metadata/zone_id = "G"
 
 [node name="Dressing" type="Node3D" parent="." unique_id=833799689]
 

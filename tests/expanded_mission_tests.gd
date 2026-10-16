@@ -511,7 +511,7 @@ func _check_level_guards_reset() -> void:
 	_expect(off == 0, "%d level guard(s) not back at their start, on patrol, with a clear memory after the respawn." % off)
 	_expect(_director.status == S.NONE, "The detection status should be clear after the respawn.")
 	await _check_restored("level guards")
-	print("  [expanded-mission] level guards: %d of %d had moved; after the capture all 6 at their starts, PATROL, detection 0" % [moved, guards.size()])
+	print("  [expanded-mission] level guards: %d of %d had moved; after the capture all %d at their starts, PATROL, detection 0" % [moved, guards.size(), guards.size()])
 
 
 # --- F. Fresh load ----------------------------------------------------------------------------
@@ -617,6 +617,11 @@ func _load(keep_guards: bool) -> void:
 	_escapes = 0
 	if _exit:
 		_exit.escaped.connect(func(): _escapes += 1)
+		# Expansion Phase 5 made the dock shutter need SERVICE EXIT power. These tests
+		# cover the doors, the objective order and the checkpoints, so the shutter's
+		# power requirement is taken out here; it is tested with real switches in
+		# tests/expanded_puzzle_tests.gd (route 1) and tests/expanded_security_tests.gd.
+		_exit.power_circuit = &""
 	GameFlow.find(_level).change_scene = func(_path: String): pass
 	await _frames(10)
 

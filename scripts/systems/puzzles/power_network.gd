@@ -11,7 +11,10 @@ extends Node
 ##   is_powered(circuit) -> bool          unknown circuits are off
 ##   set_powered(circuit, on)             emits power_changed when it changes
 ##   signal power_changed(circuit, on)
-## Circuit ids used so far: &"archive_vault" (the vault keypad).
+## Circuits (expansion Phase 5), each powering only its own devices:
+##   &"archive_access"  the vault keypad (BreakerPanel puzzle); starts off
+##   &"surveillance"    the security cameras (SecurityCamera; CircuitSwitch); starts on
+##   &"service_exit"    the loading dock shutter (ExitDoor.power_circuit; CircuitSwitch); starts off
 ##
 ## Persistence: part of the mission state (group "checkpoint_state"), so power
 ## switched on after the last checkpoint is off again when the player is caught.
@@ -19,7 +22,7 @@ extends Node
 signal power_changed(circuit: StringName, on: bool)
 
 ## Circuits and whether they start powered.
-@export var circuits := {&"archive_vault": false}
+@export var circuits := {&"archive_access": false, &"surveillance": true, &"service_exit": false}
 
 var _powered := {}
 

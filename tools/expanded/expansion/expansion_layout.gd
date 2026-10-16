@@ -39,8 +39,15 @@ extends RefCounted
 ## locker, the archive back gate shortcut. Clues: the wiring chart, the
 ## archivist's memo with the lobby plaque, the pump room log, the night rota.
 ## Placed as gameplay only (no geometry, collision or navmesh change).
+##
+## Phase 5 (x4, security systems): three circuits in the PowerNetwork
+## (archive access = the breaker puzzle, surveillance, service exit), two
+## circuit switches in the electrical room, four security cameras on the
+## surveillance circuit (SECURITY below). The basement guard and the guards'
+## expanded_security flag are written into expanded_library.tscn by
+## tools/expanded/expansion/security_x4.py.
 
-const VERSION := "x3"
+const VERSION := "x4"
 
 ## Basement floor (top surface), and the slab under the existing ground floor.
 const BF := -4.0
@@ -323,9 +330,9 @@ const MISSION := {
 		"mechanism_name": "Electrical panel cover", "action_text": "Unscrew the cover", "objective": "open_panel",
 		"size": Vector3(1.05, 0.7, 0.05)},
 	"breakers": {"name": "BreakerPanel", "pos": Vector3(41.0, 1.35, -27.02), "facing": 0.0, "zone": "D",
-		"circuit": "archive_vault", "solution": [true, false, true, true], "objective": "restore_power"},
+		"circuit": "archive_access", "solution": [true, false, true, true], "objective": "restore_power"},
 	"vault_keypad": {"name": "VaultKeypad", "pos": Vector3(27.83, 5.85, -19.3), "facing": -90.0, "zone": "F",
-		"code": "2691", "power": "archive_vault", "alarm": true, "attempts": 3, "lockout": 20.0,
+		"code": "2691", "power": "archive_access", "alarm": true, "attempts": 3, "lockout": 20.0,
 		"objective": "open_vault", "door": "VaultDoor", "title": "Vault keypad"},
 	"locker": {"name": "SecurityLocker", "pos": Vector3(-5.83, 5.85, -21.4), "facing": 90.0, "zone": "E",
 		"code": "136", "power": "", "alarm": false, "attempts": 3, "lockout": 10.0,
@@ -375,3 +382,28 @@ const MISSION_OBJECTIVES := [
 		"hint": "Office 1, upper floor. The night rota mentions the combination.",
 		"done": "Security locker open"},
 ]
+
+
+## Phase 5 (x4): switches (CircuitSwitch, on the electrical room cabinets) and
+## cameras (SecurityCamera: "pos" is the mount, "look" a point it faces at rest).
+const UY := 4.5
+const SECURITY := {
+	"switches": [
+		{"name": "SurveillanceSwitch", "circuit": "surveillance", "title": "SURVEILLANCE", "pos": Vector3(38.8, 1.35, -27.02),
+			"on": "Surveillance power ON: the cameras are watching again.",
+			"off": "Surveillance power OFF: the cameras go dark. The guards are not affected."},
+		{"name": "ServiceExitSwitch", "circuit": "service_exit", "title": "SERVICE EXIT", "pos": Vector3(43.2, 1.35, -27.02),
+			"on": "Service power ON: the loading dock shutter has power.",
+			"off": "Service power OFF: the loading dock shutter is dead.",
+			"reboots": "surveillance", "lock": 30.0,
+			"reboot": "Service ON: dock powered. Security rebooted: cameras ON, switch locked 30 s."},
+	],
+	"cameras": [
+		{"name": "CameraStaffCorridor", "title": "staff corridor", "zone": "E", "pos": Vector3(11.6, UY + 3.0, -13.6), "look": Vector3(-6.0, UY, -9.0)},
+		{"name": "CameraArchiveHall", "title": "archive hall", "zone": "F", "pos": Vector3(27.6, UY + 3.0, -6.4), "look": Vector3(16.0, UY, -17.0)},
+		{"name": "CameraLoadingDock", "title": "loading dock", "zone": "D", "pos": Vector3(35.6, 3.5, 12.4), "look": Vector3(22.0, 0.0, 25.0)},
+		{"name": "CameraTunnel", "title": "service tunnel", "zone": "G", "pos": Vector3(12.0, SLAB_BOTTOM - 0.5, -23.25), "look": Vector3(-8.0, BF, -25.0)},
+	],
+	"labels": {"switch_board": Vector3(41.0, 2.25, -27.0)},
+}
+

@@ -18,7 +18,7 @@ extends Puzzle
 @export var breaker_names: PackedStringArray = PackedStringArray(["A1 ARCHIVE LIGHTS", "A2 SUMP PUMP", "A3 VAULT LOCK", "A4 SECURITY GRID"])
 ## The ON / OFF setting that works, one per breaker.
 @export var solution: Array[bool] = [true, false, true, true]
-@export var circuit: StringName = &"archive_vault"
+@export var circuit: StringName = &"archive_access"
 ## ToolMechanism covering the panel (optional).
 @export var cover_path: NodePath
 ## Alarm radius when the main trips (metres).

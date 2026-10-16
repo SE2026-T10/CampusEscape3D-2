@@ -60,6 +60,7 @@ const G2_WEST := Vector3(10.6, U, -11)
 const AT_KEYPAD := Vector3(26.7, U, -19.3)
 const IN_VAULT := Vector3(32, U, -23.6)   # as the mission tests: at the pedestal
 const AT_DOCK := Vector3(34.3, 0, 24)
+const AT_SERVICE_SWITCH := Vector3(43.2, 0, -25.9)   # expansion Phase 5: the dock shutter's power
 const AT_PUMP := Vector3(0.0, B, -15.5)
 const AT_PUMP_LOG := Vector3(5.6, B, -17.0)
 const AT_DRAIN := Vector3(0.0, B, -34.6)
@@ -87,6 +88,7 @@ var _pump: PumpControl
 var _vault_door: AccessDoor
 var _drain_exit: ExitDoor
 var _dock_exit: ExitDoor
+var _service_switch: CircuitSwitch
 var _card: AccessCard
 var _manuscript: AccessCard
 var _g2: AccessDoor
@@ -230,9 +232,14 @@ func _check_route_dock() -> void:
 	for i in [0, 2, 3]:
 		await _use(_breakers.breakers[i], AT_PANEL)
 	await _use(_breakers.main_switch, AT_PANEL)
-	_expect(_breakers.is_solved and _power.is_powered(&"archive_vault") and _objectives.is_completed(&"restore_power"), "The right breakers power the vault.")
+	_expect(_breakers.is_solved and _power.is_powered(&"archive_access") and _objectives.is_completed(&"restore_power"), "The right breakers power the vault.")
 	_expect(_hud.get_message_text().contains("Power restored"), "Power feedback (%s)." % _hud.get_message_text())
 	log.append("power")
+	# Expansion Phase 5: the dock shutter needs SERVICE EXIT power (the switch beside the panel).
+	await _use(_service_switch, AT_SERVICE_SWITCH)
+	_expect(_power.is_powered(&"service_exit") and _power.is_powered(&"surveillance") and _hud.get_message_text().contains("dock powered"),
+		"SERVICE EXIT on: the dock has power, the cameras reboot (%s)." % _hud.get_message_text())
+	log.append("service power")
 	# The card, the memo, the archive.
 	await _use(_card, AT_CARD)
 	await _use(_doc("ArchivistMemo"), AT_MEMO)
@@ -329,7 +336,7 @@ func _check_invalid_sequences() -> void:
 	for i in [0, 1, 2, 3]:
 		await _use(_breakers.breakers[i], AT_PANEL)   # all four ON: A2 must stay off
 	await _use(_breakers.main_switch, AT_PANEL)
-	_expect(_breakers.trips == 1 and not _breakers.is_solved and not _power.is_powered(&"archive_vault"), "Wrong breakers trip the main.")
+	_expect(_breakers.trips == 1 and not _breakers.is_solved and not _power.is_powered(&"archive_access"), "Wrong breakers trip the main.")
 	_expect(_breakers.get_setting() == [false, false, false, false], "The breakers drop back to OFF.")
 	_expect(_alarm.alarms_raised == alarms + 1 and _alarm.is_active(), "A trip sounds the alarm.")
 	var stealth: StealthHud = _level.get_node("StealthHud")
@@ -341,7 +348,7 @@ func _check_invalid_sequences() -> void:
 	_clear_guard()
 	_breakers.set_setting([true, false, true, true])
 	_breakers.engage()
-	_expect(_breakers.is_solved and _power.is_powered(&"archive_vault"), "The right setting works right after a trip.")
+	_expect(_breakers.is_solved and _power.is_powered(&"archive_access"), "The right setting works right after a trip.")
 	# Wrong codes: an alarm each, a lockout after three, then the right code works.
 	_inventory.add(ItemCatalog.STAFF_CARD)
 	_objectives.complete(&"take_card")
@@ -428,7 +435,7 @@ func _check_persistence() -> void:
 	await _use(_doc("PumpRoomLog"), AT_PUMP_LOG)
 	_expect(_breakers.is_solved and _objectives.is_completed(&"restore_power"), "Power restored after the checkpoint.")
 	await _catch_and_respawn(IN_TUNNEL, IN_TUNNEL + Vector3(5, 0, 0))
-	_expect(not _cover.is_operated and not _breakers.is_solved and not _power.is_powered(&"archive_vault") and _breakers.get_setting() == [false, false, false, false],
+	_expect(not _cover.is_operated and not _breakers.is_solved and not _power.is_powered(&"archive_access") and _breakers.get_setting() == [false, false, false, false],
 		"Caught: the cover, breakers and power are back as at the checkpoint.")
 	_expect(_objectives.get_state(&"open_panel") == ACTIVE and _objectives.get_state(&"restore_power") == LOCKED, "Their objectives are undone too.")
 	_expect(_inventory.has_document(&"pump_room_log") and _inventory.has_document(&"wiring_chart") and _objectives.is_visible(&"drain_culvert"),
@@ -447,7 +454,7 @@ func _check_persistence() -> void:
 		await _enter_code(_keypad, "0000", AT_KEYPAD)
 	_expect(_keypad.lockout_left > 0.0 and _alarm.is_active(), "Locked out, alarm sounding.")
 	await _catch_and_respawn(IN_TUNNEL, IN_TUNNEL + Vector3(5, 0, 0))
-	_expect(_breakers.is_solved and _power.is_powered(&"archive_vault") and _cover.is_operated, "Saved puzzles stay solved.")
+	_expect(_breakers.is_solved and _power.is_powered(&"archive_access") and _cover.is_operated, "Saved puzzles stay solved.")
 	_expect(_keypad.lockout_left == 0.0 and _keypad.attempts_left == 3 and not _alarm.is_active(), "Respawn: fresh tries, no lockout, no alarm.")
 	# The vault opened and the manuscript taken after the checkpoint: undone, then solvable again.
 	await _enter_code(_keypad, VAULT_CODE, AT_KEYPAD)
@@ -459,6 +466,8 @@ func _check_persistence() -> void:
 	_check_consistency("after catch 3")
 	await _enter_code(_keypad, VAULT_CODE, AT_KEYPAD)
 	await _use(_manuscript, IN_VAULT)
+	if not _power.is_powered(&"service_exit"):
+		await _use(_service_switch, AT_SERVICE_SWITCH)   # Phase 5: the dock's power
 	_expect(_objectives.get_state(&"escape") == ACTIVE and _dock_exit.is_unlocked(), "Everything is still solvable after the captures.")
 	# Revisiting documents never duplicates journal entries.
 	var count := _inventory.documents.size()
@@ -477,7 +486,7 @@ func _check_consistency(label: String) -> void:
 		var done: bool = _objectives.is_completed(p[1])
 		var active: bool = _objectives.get_state(p[1]) == ACTIVE
 		_expect(done == p[0] or (not done and not active and p[0]), "%s: %s is %s but its puzzle solved=%s." % [label, p[1], _objectives.get_state(p[1]), p[0]])
-	_expect(_power.is_powered(&"archive_vault") == _breakers.is_solved, "%s: power and breakers disagree." % label)
+	_expect(_power.is_powered(&"archive_access") == _breakers.is_solved, "%s: power and breakers disagree." % label)
 	_expect(_vault_door.is_open == _keypad.is_solved, "%s: vault door and keypad disagree." % label)
 	_expect(_manuscript.visible == not _objectives.is_completed(&"take_manuscript"), "%s: manuscript and objective disagree." % label)
 
@@ -511,6 +520,7 @@ func _load() -> void:
 	_drain_exit = _level.get_node(m + "StormDrainExit")
 	_vault_door = _level.get_node("Expansion/Gameplay/VaultDoor")
 	_dock_exit = _level.get_node("Gameplay/ExitDoor")
+	_service_switch = _level.get_node("Expansion/Gameplay/Security/ServiceExitSwitch")
 	_card = _level.get_node("Gameplay/StaffAccessCard")
 	_manuscript = _level.get_node("Gameplay/RareManuscript")
 	_g2 = _level.get_node("Gameplay/ArchiveFrontGateG2")

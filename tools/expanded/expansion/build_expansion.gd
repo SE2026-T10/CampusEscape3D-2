@@ -43,6 +43,8 @@ const SCRIPTS := {
 	"breakers": "res://scripts/systems/puzzles/breaker_panel.gd",
 	"pump": "res://scripts/systems/puzzles/pump_control.gd",
 	"exit": "res://scripts/systems/objectives/exit_door.gd",
+	"switch": "res://scripts/systems/security/circuit_switch.gd",
+	"camera": "res://scripts/systems/security/security_camera.gd",
 }
 ## Mesh tiles are at most this long, so no mesh is reached by more than the
 ## renderer's 8 lights per mesh (lamps are 8-12 m apart, range 10 m).
@@ -128,6 +130,7 @@ func _build() -> void:
 	for doc in Layout.DOCUMENTS:
 		_add_document(documents, doc)
 	_add_mission(_group(gameplay, "Mission"))
+	_add_security(_group(gameplay, "Security"))
 
 	var dressing := _group(_root, "Dressing")
 	var ceilings := _group(dressing, "Ceilings")
@@ -488,6 +491,43 @@ func _add_mission(mission: Node3D) -> void:
 	noise.set_script(load(SCRIPTS.noise))
 	noise.set("radius", 6.0)
 	_add(exit, noise)
+
+
+## Phase 5: circuit switches and cameras (SECURITY in the layout).
+func _add_security(security: Node3D) -> void:
+	for sw in Layout.SECURITY.switches:
+		var node := Area3D.new()
+		node.name = sw.name
+		node.set_script(load(SCRIPTS.switch))
+		node.position = sw.pos
+		node.set("circuit", StringName(sw.circuit))
+		node.set("circuit_title", sw.title)
+		node.set("on_text", sw.on)
+		node.set("off_text", sw.off)
+		if sw.has("reboots"):
+			node.set("reboots_circuit", StringName(sw.reboots))
+			node.set("reboot_lock_time", sw.lock)
+			node.set("reboot_text", sw.reboot)
+		node.set_meta("zone_id", "D")
+		_add(security, node)
+	var board := _add_label(security, "SwitchBoardLabel", Layout.SECURITY.labels.switch_board,
+		"SURVEILLANCE  ·  ARCHIVE (behind the cover)  ·  SERVICE EXIT", Color(1.0, 0.85, 0.45))
+	board.billboard = BaseMaterial3D.BILLBOARD_DISABLED
+	board.no_depth_test = false
+	board.pixel_size = 0.0035
+	board.font_size = 22
+	var cameras := _group(security, "Cameras")
+	for c in Layout.SECURITY.cameras:
+		var cam := Node3D.new()
+		cam.name = c.name
+		cam.set_script(load(SCRIPTS.camera))
+		cam.position = c.pos
+		var to: Vector3 = c.look - c.pos
+		cam.rotation = Vector3(0, atan2(-to.x, -to.z), 0)
+		cam.set("camera_name", c.title)
+		cam.set("pitch_degrees", rad_to_deg(atan2(-to.y, Vector2(to.x, to.z).length())))
+		cam.set_meta("zone_id", c.zone)
+		_add(cameras, cam)
 
 
 ## A Node3D with `script` at d.pos facing d.facing (degrees about Y).

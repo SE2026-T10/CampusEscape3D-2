@@ -9,7 +9,9 @@ extends Node3D
 ##     which guards hear and investigate like any other noise;
 ##   - `alarm_raised` and a few seconds of "alarm active" for the HUD banner.
 ## It never catches the player by itself and never locks anything for good.
-## The later camera / security phase is expected to call the same entry point:
+## Callers: wrong puzzle attempts (Phase 4) and SecurityCamera (Phase 5). Guards
+## with expanded_security also pay more attention while it sounds (Guard).
+## Entry point:
 ##   SecurityAlarm.find(node)                       the level's alarm, or null
 ##   raise_alarm(position, reason, radius = -1)     -1: noise_radius
 ##   is_active() -> bool, time_left

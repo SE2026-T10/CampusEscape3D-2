@@ -94,13 +94,15 @@ func _physics_process(delta: float) -> void:
 	can_see_target = false
 	if _target:
 		distance = global_position.distance_to(_target_points()[0])
-		can_see_target = _check_sight()
+		can_see_target = _check_sight() and not _target_concealed()
 
 	if can_see_target:
 		time_since_seen = 0.0
 		last_known_position = _target.global_position
 		has_last_known_position = true
 		var factor: float = _target.get_visibility_factor() if _target.has_method("get_visibility_factor") else 1.0
+		if get_parent().has_method("is_alarm_attentive") and get_parent().is_alarm_attentive():
+			factor *= get_parent().alarm_detection_multiplier
 		detection += rise_rate_at(distance) * factor * delta
 	else:
 		time_since_seen += delta
@@ -153,6 +155,18 @@ func _check_sight() -> bool:
 		var query := PhysicsRayQueryParameters3D.create(global_position, point, sight_mask, exclude)
 		var hit := space.intersect_ray(query)
 		if not hit.is_empty() and hit.collider == _target:
+			return true
+	return false
+
+
+## Expanded security only (the guard's expanded_security): the player is in a
+## hiding spot they entered unseen, and this guard is not checking that spot.
+func _target_concealed() -> bool:
+	var guard := get_parent()
+	if guard == null or guard.get("expanded_security") != true:
+		return false
+	for spot in get_tree().get_nodes_in_group("hiding_spots"):
+		if spot.has_method("conceals_from") and spot.conceals_from(guard):
 			return true
 	return false
 

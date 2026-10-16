@@ -322,3 +322,20 @@ Guards, routes, mission and every other node are unchanged (baseline digests in 
 
 **Evidence:** [`expansion/phase-4/`](expansion/phase-4/); report [`expansion/phase-4-puzzles.md`](expansion/phase-4-puzzles.md).
 
+
+---
+
+## Expansion layout x4 — security systems (expansion Phase 5, 2026-10-16)
+
+**What:**
+- Three circuits on the existing `PowerNetwork`: ARCHIVE ACCESS (the Phase 4 breaker puzzle; the vault keypad only), SURVEILLANCE (starts ON; the four cameras), SERVICE EXIT (starts OFF; the loading dock shutter). Two new switches in the electrical room (`CircuitSwitch`); SERVICE EXIT ON reboots the cameras and locks the surveillance switch for 30 s. No switch is one-way.
+- Four security cameras (`SecurityCamera`): staff corridor, archive hall, loading dock approach, service tunnel. A full meter raises the existing `SecurityAlarm` at the player's position (guards investigate; never a capture). Off: dark lens, guards unaffected.
+- Guards of this level use `expanded_security` (an off-by-default flag on the shared guard): hiding only hides a player who got in unseen; a searching guard checks the nearest hiding spot; during an alarm, detection ×1.6 and searches ×1.5. Same three states. The tutorial's guards keep the default.
+- A seventh guard, GuardBasement, patrols the service tunnel and the east basement (route P9_Basement, 5 points).
+- The loading dock exit needs SERVICE EXIT power as well as the manuscript; the storm drain needs no power.
+
+**Why:** the owner's Phase 5 brief; the owner approved the circuits as proposed, the hiding and search rules for the Expanded Library only, and one basement guard.
+
+**Approved changes to the existing scene (`tools/expanded/expansion/security_x4.py`):** `expanded_security = true` on the six existing guards; the new GuardBasement with its route P9_Basement (in `Guards`); `power_circuit`, `no_power_reason` and `no_power_sign` on the loading dock ExitDoor. No geometry, navmesh, existing route or existing guard placement changed (the baseline test proves it with the two new nodes left out).
+
+**Evidence:** [`expansion/phase-5/`](expansion/phase-5/); report [`expansion/phase-5-security.md`](expansion/phase-5-security.md).

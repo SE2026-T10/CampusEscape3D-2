@@ -296,3 +296,16 @@ Added in expansion Phase 4 (report [`expansion/phase-4-puzzles.md`](expansion/ph
 | Security locker (+ bottle, patrol notes) | Office 1, west wall (−5.8, 5.85, −21.4) |
 | Wiring chart · archivist's memo · night rota · lobby plaque | Book Processing north wall · Office 3 east wall · Office 2 east wall · lobby west wall |
 
+
+### Security (layout x4)
+
+Added in expansion Phase 5 (report [`expansion/phase-5-security.md`](expansion/phase-5-security.md), specifications [`expansion/phase-5/security_specs.md`](expansion/phase-5/security_specs.md)). Gameplay nodes under `Expansion/Gameplay/Security`, plus GuardBasement and P9_Basement in the existing `Guards`; no geometry, collision or navmesh change.
+
+| Thing | Where |
+|---|---|
+| SURVEILLANCE switch · SERVICE EXIT switch | electrical room, on the cabinets (38.8, 1.35, −27) · (43.2, 1.35, −27); the ARCHIVE breakers between them, behind the cover |
+| Camera "staff corridor" | upper floor, (11.6, 7.5, −13.6), looking west along the staff corridor |
+| Camera "archive hall" | upper floor, (27.6, 7.5, −6.4), looking south-west into the archive hall |
+| Camera "loading dock" | ground, (35.6, 3.5, 12.4), looking south-west over the dock approach |
+| Camera "service tunnel" | basement, (12, −0.7, −23.25), looking west along the tunnel |
+| GuardBasement route P9_Basement | (−30, −4, −25) → (−10, −4, −24.8) → (14, −4, −25) → (39, −4, −21) → (39, −4, −10), looping |

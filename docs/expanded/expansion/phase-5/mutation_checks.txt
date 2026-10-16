@@ -1,0 +1,32 @@
+M1 hiding never conceals: exit 1, 3 failure(s)
+    FAIL: [expanded-security] Hiding: entered unseen and crouched, the expanded guard should not see the player.
+    FAIL: [expanded-security] Hiding: the investigating guard should go and check the hiding spot near the noise.
+    FAIL: [expanded-security] Hiding: at the spot the guard should find the player (found true at 5.7 m).
+M2 no security reboot: exit 1, 8 failure(s)
+    FAIL: [expanded-security] Service ON powers the dock and reboots surveillance (archive untouched).
+    FAIL: [expanded-security] Service OFF changes only the service circuit.
+    FAIL: [expanded-security] Reboot: service ON brings the cameras back ON.
+    FAIL: [expanded-security] Reboot: the HUD explains it (Service power ON: the loading dock shutter has power.).
+    FAIL: [expanded-security] Reboot: the surveillance switch is locked for 30 s (SURVEILLANCE power: OFF → ON).
+    FAIL: [expanded-security] Reboot: a locked switch does nothing.
+M3 dock ignores power: exit 1, 9 failure(s)
+    FAIL: [expanded-security] archive false, surveillance false, service false: the dock shutter must follow SERVICE EXIT only.
+    FAIL: [expanded-security] archive true, surveillance false, service false: the dock shutter must follow SERVICE EXIT only.
+    FAIL: [expanded-security] archive false, surveillance true, service false: the dock shutter must follow SERVICE EXIT only.
+    FAIL: [expanded-security] archive true, surveillance true, service false: the dock shutter must follow SERVICE EXIT only.
+    FAIL: [expanded-security] Dock: without service power it stays shut and says why (The exit won't open yet: escape with the manuscript first.).
+    FAIL: [expanded-security] Dock: its sign says NO POWER.
+M4 guards never check hiding spots: exit 1, 2 failure(s)
+    FAIL: [expanded-security] Hiding: the investigating guard should go and check the hiding spot near the noise.
+    FAIL: [expanded-security] Hiding: at the spot the guard should find the player (found false at 5.7 m).
+M5 camera raises no alarm: exit 1, 4 failure(s)
+    FAIL: [expanded-security] Camera: a full meter raises the alarm (after 2.0 s).
+    FAIL: [expanded-security] Camera: the alarm sounds at the player's position.
+    FAIL: [expanded-security] Camera: the HUD says why ().
+    FAIL: [expanded-security] Camera: a guard near the alarm investigates it.
+M6 surveillance switch also cuts service: exit 1, 5 failure(s)
+    FAIL: [expanded-security] Service ON powers the dock and reboots surveillance (archive untouched).
+    FAIL: [expanded-security] Reboot: after the lock the cameras can be switched off again with the dock still powered (recoverable).
+    FAIL: [expanded-security] No softlock: from all 8 combinations one press of SERVICE EXIT opens the dock (4/8).
+    FAIL: [expanded-security] Dock: with the manuscript and service power, the dock exit finishes the level.
+    FAIL: [expanded-security] Checkpoint setup.

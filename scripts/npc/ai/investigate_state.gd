@@ -2,7 +2,11 @@ class_name InvestigateState
 extends GuardState
 
 ## INVESTIGATE: walk to the suspicious location, then search there (turning
-## to look around) for actor.investigate_search_duration seconds. Fresh
+## to look around) for actor.investigate_search_duration seconds (longer while
+## an alarm sounds, for guards with expanded_security). Guards with
+## expanded_security first walk to the nearest hiding spot near the location
+## and check it (actor.find_hiding_spot_to_check); a player hidden there is
+## found when the guard gets within reach (GuardVision / HidingSpot). Fresh
 ## evidence moves the target and restarts the search. When the search runs
 ## out, it asks to return to PATROL. Seeing the player for certain is
 ## handled by the state machine's priority rules (→ CHASE).
@@ -19,6 +23,9 @@ var searching := false
 var search_left := 0.0
 var travel_time := 0.0
 var retargets := 0
+## Hiding spot being checked (expanded_security), and the ones already checked in this investigation.
+var checking_spot: Node3D = null
+var checked_spots: Array = []
 
 var _sweep_timer := 0.0
 var _sweep_side := 1.0
@@ -27,6 +34,7 @@ var _base_yaw := 0.0
 
 func enter(actor, _previous: int, position: Vector3) -> void:
 	retargets = 0
+	checked_spots = []
 	_go_to(actor, position)
 
 
@@ -53,30 +61,45 @@ func update(actor, perception: GuardPerception, delta: float) -> void:
 
 	travel_time += delta
 	if actor.has_arrived() or actor.is_stuck() or travel_time >= MAX_TRAVEL_TIME:
+		if checking_spot != null:
+			checked_spots.append(checking_spot)
+			checking_spot = null
+			_start_search(actor)
+			return
+		var spot: Node3D = actor.find_hiding_spot_to_check(target, checked_spots) if actor.has_method("find_hiding_spot_to_check") else null
+		if spot != null:
+			checking_spot = spot
+			travel_time = 0.0
+			actor.navigate_to(spot.global_position, actor.investigate_speed)
+			return
 		_start_search(actor)
 
 
 func exit(actor, _next: int) -> void:
 	searching = false
+	checking_spot = null
 	actor.stop_moving()
 
 
 func _go_to(actor, position: Vector3) -> void:
 	target = position
 	searching = false
+	checking_spot = null
 	travel_time = 0.0
 	actor.navigate_to(target, actor.investigate_speed)
 
 
 func _start_search(actor) -> void:
 	searching = true
-	search_left = actor.investigate_search_duration
+	search_left = actor.get_search_duration() if actor.has_method("get_search_duration") else actor.investigate_search_duration
 	_sweep_timer = 0.0
 	_base_yaw = actor.get_yaw()
 	actor.stop_moving()
 
 
 func get_debug_text() -> String:
+	if checking_spot != null:
+		return "checking hiding spot %s" % checking_spot.name
 	if searching:
 		return "searching %.1fs" % maxf(search_left, 0.0)
 	return "→ (%.1f, %.1f)" % [target.x, target.z]

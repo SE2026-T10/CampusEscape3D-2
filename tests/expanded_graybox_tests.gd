@@ -152,7 +152,7 @@ func _check_scene_structure() -> void:
 			if is_equal_approx(v.min_rise_rate, Layout.GUARD_VISION.min_rise_rate) and is_equal_approx(v.max_rise_rate, Layout.GUARD_VISION.max_rise_rate) \
 					and is_equal_approx(g.chase_speed, Layout.GUARD_TUNING.chase_speed):
 				tuned += 1
-	_expect(tuned == 6, "All six guards should carry the level's detection tuning (%d do)." % tuned)
+	_expect(tuned == 7, "All seven guards (six plus the expansion's basement guard) should carry the level's detection tuning (%d do)." % tuned)
 	level.free()
 	var tutorial := (load(TUTORIAL) as PackedScene).instantiate()
 	for g in tutorial.get_node("Guards").get_children():

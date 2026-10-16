@@ -28,6 +28,12 @@ signal escaped
 @export var extra_key_objective_id: StringName = &""
 @export var extra_locked_reason := "This way out is still blocked."
 
+## PowerNetwork circuit the door needs (optional; the Expanded Library's loading
+## dock shutter needs "service_exit"), and the reason shown without it.
+@export var power_circuit: StringName = &""
+@export var no_power_reason := "The exit has no power."
+@export var no_power_sign := "NO POWER"
+
 ## The visible door. It is tinted red while locked and green once the card is taken.
 @export var door_mesh: MeshInstance3D
 
@@ -50,12 +56,14 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	var has_key := _manager() != null and _manager().is_completed(key_objective_id) and _extra_done()
+	var has_key := _manager() != null and _manager().is_completed(key_objective_id) and _extra_done() and _has_power()
 	var colour := Color(0.3, 0.9, 0.45) if has_key else Color(0.8, 0.18, 0.15)
 	if _door_material:
 		_door_material.albedo_color = colour
 	if _sign:
-		_sign.text = "EXIT · UNLOCKED" if has_key else locked_sign
+		# The mission item comes first; once it is held, a missing power supply is what the sign shows.
+		var key_done := _manager() != null and _manager().is_completed(key_objective_id)
+		_sign.text = "EXIT · UNLOCKED" if has_key else (no_power_sign if key_done and not _has_power() else locked_sign)
 		_sign.modulate = colour.lightened(0.2)
 
 
@@ -66,7 +74,14 @@ func get_prompt(_by: Node) -> String:
 ## True when using the door would escape.
 func is_unlocked() -> bool:
 	var manager := _manager()
-	return manager != null and manager.get_state(objective_id) == ObjectiveManager.State.ACTIVE and _extra_done()
+	return manager != null and manager.get_state(objective_id) == ObjectiveManager.State.ACTIVE and _extra_done() and _has_power()
+
+
+func _has_power() -> bool:
+	if power_circuit == &"":
+		return true
+	var network := get_tree().get_first_node_in_group("power_network")
+	return network != null and network.is_powered(power_circuit)
 
 
 func _extra_done() -> bool:
@@ -97,6 +112,8 @@ func rejection_reason() -> String:
 		return extra_locked_reason
 	if not manager.is_completed(key_objective_id):
 		return locked_reason % manager.get_title(manager.current()).to_lower() if locked_reason.contains("%s") else locked_reason
+	if not _has_power():
+		return no_power_reason
 	return "The exit won't open yet: %s first." % manager.get_title(manager.current()).to_lower()
 
 

@@ -17,7 +17,7 @@ extends SceneTree
 ## Options (all optional):
 ##   --level=tutorial|expanded   which map (default tutorial)
 ##   --scenario=normal|several|stress   tutorial: 3, 8 or 24 guards; expanded:
-##                    6, 12 or 24 guards (default normal: the map's own guards)
+##                    7, 12 or 24 guards (default normal: the map's own guards; 7 since expansion Phase 5)
 ##   --npcs=N         any guard count instead (the level's own plus extra ones)
 ##   --seconds=S      measured time in simulated seconds (default 30)
 ##   --warmup=S       simulated seconds before measuring (default 5)
@@ -71,7 +71,7 @@ const LEVELS := {
 			Vector3(10, 0, -22.5), Vector3(22.5, 0, -10), Vector3(2, 0, -4)]},
 	"expanded": {
 		"scene": "res://scenes/level/expanded_library.tscn",
-		"scenarios": {"normal": 6, "several": 12, "stress": 24},
+		"scenarios": {"normal": 7, "several": 12, "stress": 24},
 		"speed": 6.0,
 		# The main route (layout ROUTES), the shortcut out, and back through the lobby.
 		"camera": [Vector3(0, 0, 30), Vector3(0, 0, 20), Vector3(-10.35, 0, 21.5), Vector3(-10.35, U, 8),

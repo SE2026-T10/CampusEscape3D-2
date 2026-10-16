@@ -35,6 +35,10 @@ const EXPANSION_SCENE := "res://scenes/level/expanded_library_expansion.tscn"
 ##     headers added, 12 decoration boxes split around the openings; the
 ##     navmesh rebaked with the expansion's geometry. Guards, routes and the
 ##     mission set-up unchanged (same actors digest).
+##   Phase 5 (approved): one guard added, GuardBasement with its route
+##     P9_Basement (security_x4.py). The digests and counts above are checked
+##     with those two nodes left out, so every existing node is still proven
+##     unchanged; the additions are checked on their own (PHASE5_ADDED).
 const BASELINE_GEOMETRY_SHA := "3d161e931fe655f4f5c8dbe035674ae2a8dcad7e5688dd83feffaf3a7379eb12"
 const BASELINE_DECORATION_SHA := "c9129c437e2c86d9f0ea7be21e8e7475f1edcc4a2ca4a4fffa0dac986812a9ff"
 const BASELINE_ACTORS_SHA := "5b21b05f6a85f8092db260a4459314cf7d3fdd9acc10a4d430530fdd5c9ea305"
@@ -44,6 +48,9 @@ const BASELINE_COUNTS := {"collision_objects": 269, "collision_shapes": 269, "ba
 ## Before: [enter_library, take_card, take_manuscript, unlock_shortcut, escape].
 const BASELINE_OBJECTIVES := [&"enter_library", &"take_card", &"find_toolkit", &"open_panel", &"restore_power", &"open_vault",
 	&"take_manuscript", &"escape", &"unlock_shortcut", &"drain_culvert", &"security_locker"]
+## Expansion Phase 5 (approved): the nodes added to the existing map, and what they add.
+const PHASE5_ADDED := [^"Guards/GuardBasement", ^"Guards/P9_Basement"]
+const PHASE5_ADDED_COUNTS := {"guards": 1, "patrol_points": 5}
 const BASELINE_NAVMESH := "res://scenes/level/expanded_library_navmesh.tres"
 const BASELINE_NAV_POLYGONS := 1020
 
@@ -106,12 +113,20 @@ func _instances_of(root: Node, path: String) -> Array[Node]:
 
 func _check_existing_level() -> void:
 	var level := (load(EXPANDED) as PackedScene).instantiate()
-	var d := digests(level)
+	var d := digests(level, PHASE5_ADDED)
 	_expect(d.geometry == BASELINE_GEOMETRY_SHA, "Collision geometry outside Expansion differs from the baseline (digest %s)." % d.geometry)
 	_expect(d.decoration == BASELINE_DECORATION_SHA, "Batched decoration (door frames, trims, furniture dressing) outside Expansion differs from the baseline (digest %s)." % d.decoration)
 	_expect(d.actors == BASELINE_ACTORS_SHA, "Guards, patrol routes or mission nodes outside Expansion differ from the baseline (digest %s)." % d.actors)
 	for key in BASELINE_COUNTS:
 		_expect(d.counts.get(key, -1) == BASELINE_COUNTS[key], "Baseline count '%s' is %s, expected %s." % [key, d.counts.get(key), BASELINE_COUNTS[key]])
+	var all := digests(level)
+	for key in BASELINE_COUNTS:
+		var expected: int = BASELINE_COUNTS[key] + PHASE5_ADDED_COUNTS.get(key, 0)
+		if key in ["collision_objects", "collision_shapes"]:
+			continue   # the guard's body and shape are checked below
+		_expect(all.counts.get(key, -1) == expected, "With the Phase 5 additions, count '%s' is %s, expected %s." % [key, all.counts.get(key), expected])
+	var basement: Node = level.get_node_or_null("Guards/GuardBasement")
+	_expect(basement is Guard and basement.patrol_route == level.get_node_or_null("Guards/P9_Basement"), "Phase 5: GuardBasement should patrol P9_Basement.")
 	var objectives := level.get_node("Gameplay/ObjectiveManager")
 	var ids: Array = objectives.objectives.map(func(o): return StringName(o.id))
 	_expect(ids == BASELINE_OBJECTIVES, "The mission's objectives changed: %s." % [ids])
@@ -119,14 +134,15 @@ func _check_existing_level() -> void:
 	_expect(region.navigation_mesh and region.navigation_mesh.resource_path == BASELINE_NAVMESH
 		and region.navigation_mesh.get_polygon_count() == BASELINE_NAV_POLYGONS,
 		"The navmesh must stay %s with %d polygons." % [BASELINE_NAVMESH, BASELINE_NAV_POLYGONS])
-	print("  [expansion] existing level matches the baseline (7d73492 + the 3 approved Phase 2 doorways): %d collision objects, %d shapes, %d batched decoration nodes, %d lights, 6 guards, 41 patrol points, 13 hiding spots, 4 access doors, 3 checkpoints, %d objectives (Phase 4 graph), navmesh %d polygons" % [
+	print("  [expansion] existing level matches the baseline (7d73492 + the 3 approved Phase 2 doorways): %d collision objects, %d shapes, %d batched decoration nodes, %d lights, 6 guards, 41 patrol points (+ the Phase 5 basement guard and its 5 points), 13 hiding spots, 4 access doors, 3 checkpoints, %d objectives (Phase 4 graph), navmesh %d polygons" % [
 		d.counts.collision_objects, d.counts.collision_shapes, d.counts.batched_nodes, d.counts.lights, BASELINE_OBJECTIVES.size(), BASELINE_NAV_POLYGONS])
 	level.free()
 
 
 ## Canonical listings of the level outside "Expansion", and their SHA-256.
 ## Public so the baseline can be recomputed (see the phase-1 baseline doc).
-func digests(level: Node) -> Dictionary:
+## `exclude`: node paths (relative to the level) left out with everything under them.
+func digests(level: Node, exclude: Array = []) -> Dictionary:
 	var geometry: PackedStringArray = []
 	var decoration: PackedStringArray = []
 	var actors: PackedStringArray = []
@@ -137,6 +153,8 @@ func digests(level: Node) -> Dictionary:
 		if expansion and (n == expansion or expansion.is_ancestor_of(n)):
 			continue
 		var path := String(level.get_path_to(n))
+		if exclude.any(func(e): return path == String(e) or path.begins_with(String(e) + "/")):
+			continue
 		if n is CollisionObject3D:
 			var c := n as CollisionObject3D
 			counts.collision_objects += 1
@@ -229,8 +247,8 @@ func _check_alternating_loads() -> void:
 			_expect(all.size() == 1 and level.is_ancestor_of(all[0]), "%s: expected exactly one '%s', in this map (found %d)." % [path.get_file(), g, all.size()])
 		var expanded: bool = path == EXPANDED
 		var guards := tree.get_nodes_in_group("guards").filter(func(n): return level.is_ancestor_of(n)).size()
-		_expect(guards == tree.get_nodes_in_group("guards").size() and guards == (6 if expanded else 3),
-			"%s: expected %d guards of its own, found %d (%d in the tree)." % [path.get_file(), 6 if expanded else 3, guards, tree.get_nodes_in_group("guards").size()])
+		_expect(guards == tree.get_nodes_in_group("guards").size() and guards == (7 if expanded else 3),
+			"%s: expected %d guards of its own, found %d (%d in the tree)." % [path.get_file(), 7 if expanded else 3, guards, tree.get_nodes_in_group("guards").size()])
 		_expect(level.has_node("Expansion") == expanded, "%s: the Expansion node must exist only in the Expanded Library." % path.get_file())
 		var objectives := ObjectiveManager.find(level)
 		var first: StringName = objectives.get_ids()[1] if objectives else &""

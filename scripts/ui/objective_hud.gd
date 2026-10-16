@@ -83,6 +83,10 @@ func _connect_signals() -> void:
 	var checkpoints := CheckpointManager.find(self)
 	if checkpoints:
 		checkpoints.checkpoint_activated.connect(func(cp: Checkpoint): show_message("Checkpoint reached: %s" % cp.checkpoint_name, COLOUR_GOOD))
+	# The security alarm says why it sounds (cameras); a puzzle's own message follows it.
+	var alarm := get_tree().get_first_node_in_group("security_alarm")
+	if alarm:
+		alarm.alarm_raised.connect(func(_at: Vector3, reason: String): show_message("ALARM: %s" % reason, COLOUR_WARNING))
 	# Puzzles explain every attempt (Expanded Library).
 	for node in get_tree().get_nodes_in_group("puzzles"):
 		node.feedback.connect(func(text: String, good: bool): show_message(text, COLOUR_GOOD if good else COLOUR_WARNING))

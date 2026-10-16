@@ -7,7 +7,7 @@ extends RefCounted
 ##   A. Navigation: both floors baked; the level is sealed (nothing outside the
 ##      building is reachable, nothing baked on walls or railings); every patrol
 ##      point is on the navmesh and clear of doorways and stairs.
-##   B. Patrols: all six level guards run together (time sped up 3×): every
+##   B. Patrols: all seven level guards (the expansion's basement guard included) run together (time sped up 3×): every
 ##      guard completes its whole loop in order, nobody gets stuck, nobody
 ##      leaves PATROL, the connecting guard really changes floors, and no guard
 ##      sees the player standing at the spawn.
@@ -113,11 +113,11 @@ func _check_navigation() -> void:
 	print("  [expanded-ai] navigation: both floors baked, sealed, nothing above the upper floor; loops: %s" % ", ".join(loops))
 
 
-# --- B. All six patrols together -------------------------------------------------------------
+# --- B. All seven patrols together -------------------------------------------------------------
 
 func _check_patrols() -> void:
 	var guards := _level_guards()
-	_expect(guards.size() == 6, "Expected six guards in the Expanded Library, found %d." % guards.size())
+	_expect(guards.size() == 7, "Expected seven guards in the Expanded Library, found %d." % guards.size())
 	var log := {}
 	for g in guards:
 		var entry := {"reached": [], "stuck": 0, "changes": 0, "saw": false, "ymin": INF, "ymax": -INF, "points": g.patrol_route.get_point_count()}
@@ -168,8 +168,8 @@ func _check_patrols() -> void:
 	for name in respawns:
 		_expect(respawns[name] == 0, "The %s checkpoint's respawn point was in a guard's view %d time(s) during the patrols." % [name, respawns[name]])
 	print("  [expanded-ai] checkpoints: respawn points %s never in a guard's view during the run" % ", ".join(respawns.keys()))
-	print("  [expanded-ai] patrols: 6 guards completed their loops in order in %.0f s game time, 0 stuck, all stayed in PATROL, spawn never seen; %s" % [
-		game_time, ", ".join(summary)])
+	print("  [expanded-ai] patrols: %d guards completed their loops in order in %.0f s game time, 0 stuck, all stayed in PATROL, spawn never seen; %s" % [
+		guards.size(), game_time, ", ".join(summary)])
 
 
 ## True once `reached` holds every point 0…count-1 in order, followed by 0 again.

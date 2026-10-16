@@ -44,6 +44,26 @@ signal got_stuck(index: int)
 ## A suspicious sighting counts as evidence for this many seconds after the player was last seen.
 @export var suspicion_memory := 2.0
 
+@export_group("Expanded security")
+## The Expanded Library's security rules (expansion Phase 5). Off by default,
+## so the tutorial's guards behave exactly as before. When on:
+##   - a player who slipped into a hiding spot unseen (and stays crouched) is
+##     hidden from this guard, unless the guard comes within hiding_check_reach
+##     of that spot; a player who was seen going in is not hidden at all;
+##   - while searching (INVESTIGATE), the guard first checks the nearest
+##     hiding spot within hiding_check_radius of the searched place;
+##   - while the SecurityAlarm sounds, the detection meter fills faster and
+##     searches last longer (alarm_detection_multiplier, alarm_search_multiplier).
+## The guard keeps its three states; all of this only changes what it perceives
+## and where it searches.
+@export var expanded_security := false
+## How close (horizontal metres) to a hiding spot a guard must be to find a player hidden in it.
+@export var hiding_check_reach := 1.6
+## How far from the searched place a guard looks for a hiding spot to check.
+@export var hiding_check_radius := 7.0
+@export var alarm_detection_multiplier := 1.6
+@export var alarm_search_multiplier := 1.5
+
 ## Kept for compatibility with Phase 4 scenes and tests: same as patrol_speed.
 var walk_speed: float:
 	get:
@@ -174,6 +194,38 @@ func build_perception() -> GuardPerception:
 func hear_noise(position: Vector3, loudness := 1.0) -> void:
 	if _pending_noise.is_empty() or loudness > _pending_noise.loudness:
 		_pending_noise = {"position": position, "loudness": loudness}
+
+
+# --- Expanded security (see expanded_security) -------------------------------------
+
+## True while the level's SecurityAlarm is sounding and this guard follows the expanded rules.
+func is_alarm_attentive() -> bool:
+	if not expanded_security:
+		return false
+	var alarm := get_tree().get_first_node_in_group("security_alarm")
+	return alarm != null and alarm.is_active()
+
+
+## Seconds a search lasts: investigate_search_duration, longer while an alarm sounds.
+func get_search_duration() -> float:
+	return investigate_search_duration * (alarm_search_multiplier if is_alarm_attentive() else 1.0)
+
+
+## The nearest hiding spot within hiding_check_radius of `around` that is not
+## in `checked`, or null (always null without expanded_security).
+func find_hiding_spot_to_check(around: Vector3, checked: Array) -> Node3D:
+	if not expanded_security:
+		return null
+	var best: Node3D = null
+	var best_distance := hiding_check_radius
+	for spot in get_tree().get_nodes_in_group("hiding_spots"):
+		if checked.has(spot) or not (spot is Node3D):
+			continue
+		var d := Vector2(spot.global_position.x - around.x, spot.global_position.z - around.z).length()
+		if d <= best_distance and absf(spot.global_position.y - around.y) < 2.5:
+			best = spot
+			best_distance = d
+	return best
 
 
 # --- Actor interface used by the states ------------------------------------------
