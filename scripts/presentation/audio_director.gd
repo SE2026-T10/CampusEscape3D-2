@@ -19,6 +19,13 @@ extends Node
 const STING_COOLDOWN := 1.5
 const MUSIC_FADE := 1.2
 const S := StealthDirector.Status
+## Expansion Phase 7: captions for the stingers (SoundCaptions).
+const STING_CAPTIONS := {
+	"notice": "A guard notices you",
+	"suspicious": "A guard heard something",
+	"alarm": "Guard shouts: you've been spotted!",
+	"lost_track": "The guards lose your trail",
+}
 
 ## Every sound requested, in order (for tests and debugging).
 var played: Array[String] = []
@@ -177,6 +184,8 @@ func _sting(sound: String, volume_db: float) -> void:
 		return
 	_last_sting[sound] = _time
 	play_sfx(sound, volume_db)
+	if STING_CAPTIONS.has(sound):
+		SoundCaptions.cue(self, "sting:" + sound, STING_CAPTIONS[sound])
 
 
 func _fade(player: AudioStreamPlayer, target: float, full_db: float, delta: float) -> void:

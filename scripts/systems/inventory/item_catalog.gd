@@ -27,9 +27,9 @@ const ITEMS := {
 		"size": Vector3(0.26, 0.015, 0.17), "colour": Color(0.2, 0.55, 0.95), "shape": "box"},
 	SECURITY_BADGE: {"name": "Security master badge", "kind": Kind.CARD,
 		"size": Vector3(0.24, 0.02, 0.16), "colour": Color(0.95, 0.75, 0.15), "shape": "box"},
-	BOTTLE: {"name": "Glass bottle", "kind": Kind.DISTRACTION, "noise_radius": 14.0, "noise_intensity": 1.0,
+	BOTTLE: {"name": "Glass bottle", "kind": Kind.DISTRACTION, "noise_radius": 14.0, "noise_intensity": 1.0, "caption": "Glass smashes",
 		"size": Vector3(0.09, 0.3, 0.09), "colour": Color(0.3, 0.7, 0.45), "shape": "cylinder"},
-	HARDBACK: {"name": "Heavy hardback", "kind": Kind.DISTRACTION, "noise_radius": 10.0, "noise_intensity": 0.8,
+	HARDBACK: {"name": "Heavy hardback", "kind": Kind.DISTRACTION, "noise_radius": 10.0, "noise_intensity": 0.8, "caption": "Heavy thud",
 		"size": Vector3(0.24, 0.07, 0.32), "colour": Color(0.45, 0.25, 0.14), "shape": "box"},
 }
 

@@ -272,6 +272,10 @@ func rejection_reason() -> String:
 	if manager == null:
 		return "The exit is locked."
 	if walk_through:
+		# Expansion Phase 7: in the Expanded Library only what the player knows is named.
+		var routes := EscapeRoutes.find(self)
+		if routes:
+			return routes.refusal_for(self)
 		# The mission item first, then the route's own conditions.
 		if not manager.is_completed(key_objective_id):
 			return locked_reason

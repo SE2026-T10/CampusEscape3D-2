@@ -61,7 +61,11 @@ extends RefCounted
 ## properties and the guards' checkpoint_snapshot flag are written into
 ## expanded_library.tscn by tools/expanded/expansion/escape_x5.py.
 
-const VERSION := "x5"
+##
+## Phase 7 (x6, HUD and accessibility): EscapeRoutes (Expansion/Gameplay/Escape),
+## what the player knows about the ways out, for the HUD's WAYS OUT list.
+
+const VERSION := "x6"
 
 ## Basement floor (top surface), and the slab under the existing ground floor.
 const BF := -4.0
@@ -80,6 +84,8 @@ const NAV_GROUP := &"expanded_navigation_source"
 ## plus one for the basement, so basement lights only light the basement.
 const LAYER_GROUND := 4
 const LAYER_BASEMENT := 16
+## The upper floor's surfaces (lit by the upper floor's lamps), as in the existing level.
+const LAYER_UPPER := 8
 const LIGHT_MASK_GROUND := 5      # actors (1) + ground (4), as the existing ground lights
 const LIGHT_MASK_BASEMENT := 17   # actors (1) + basement (16)
 
@@ -462,3 +468,13 @@ const ESCAPES := {
 	"dock_trigger": {"name": "DockExitTrigger", "centre": Vector3(36.4, 1.2, 24.0), "size": Vector3(0.7, 2.4, 3.0)},
 	"drain_trigger": {"name": "Trigger", "offset": Vector3(0.0, 0.0, -2.8), "size": Vector3(3.6, 2.4, 1.6)},
 }
+
+
+## Floor finish missing from the existing level: the archive strip in front of
+## the back gate (x 28–30, z −12…−6) belongs to none of the archive's areas, so
+## the frozen builder gave it no floor surface and no ceiling below (its
+## collision slab is there). Visual only: a floor tile on top, a ceiling tile
+## underneath, both inside the existing slab (top 4.5, 0.3 thick).
+const FLOOR_PATCHES := [
+	{"name": "ArchiveBackGateFloor", "rect": [28.0, -12.0, 30.0, -6.0], "top": UY, "slab": 0.3, "look": "floor_archive"},
+]

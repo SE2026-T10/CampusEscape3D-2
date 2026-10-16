@@ -47,6 +47,7 @@ const SCRIPTS := {
 	"camera": "res://scripts/systems/security/security_camera.gd",
 	"badge_reader": "res://scripts/systems/escape/badge_reader.gd",
 	"dock_shutter": "res://scripts/systems/escape/dock_shutter.gd",
+	"escape_routes": "res://scripts/systems/escape/escape_routes.gd",
 }
 ## Mesh tiles are at most this long, so no mesh is reached by more than the
 ## renderer's 8 lights per mesh (lamps are 8-12 m apart, range 10 m).
@@ -143,6 +144,16 @@ func _build() -> void:
 	for c in Layout.ROOFS:
 		var r: Array = c.rect
 		_add_visual_box(ceilings, "Roof", Vector3((r[0] + r[2]) / 2.0, c.y + 0.1, (r[1] + r[3]) / 2.0), Vector3(r[2] - r[0], 0.2, r[3] - r[1]), "ceiling")
+	var patches := _group(dressing, "FloorPatches")
+	for fp in Layout.FLOOR_PATCHES:
+		var r: Array = fp.rect
+		var cx: float = (r[0] + r[2]) / 2.0
+		var cz: float = (r[1] + r[3]) / 2.0
+		var sx: float = r[2] - r[0]
+		var sz: float = r[3] - r[1]
+		var top_t: float = fp.slab - 0.1
+		_add_visual_box(patches, fp.name, Vector3(cx, fp.top - top_t / 2.0, cz), Vector3(sx, top_t, sz), fp.look, Layout.LAYER_UPPER)
+		_add_visual_box(patches, fp.name + "Ceiling", Vector3(cx, fp.top - fp.slab + 0.05, cz), Vector3(sx, 0.1, sz), "ceiling", Layout.LAYER_GROUND)
 	var headers := _group(dressing, "DoorHeaders")
 	for hd in Layout.DOOR_HEADERS:
 		for side in [-1.0, 1.0]:
@@ -255,7 +266,8 @@ func _add_tiles(parent: Node3D, size: Vector3, look: String, name_prefix := "Mes
 		_tiles += 1
 
 
-func _add_visual_box(parent: Node, node_name: String, centre: Vector3, size: Vector3, look: String) -> void:
+## `layers` > 0 fixes the render layers (else _assign_layers picks them by height).
+func _add_visual_box(parent: Node, node_name: String, centre: Vector3, size: Vector3, look: String, layers := 0) -> void:
 	var holder := Node3D.new()
 	holder.name = node_name
 	holder.position = centre
@@ -263,6 +275,8 @@ func _add_visual_box(parent: Node, node_name: String, centre: Vector3, size: Vec
 	_add_tiles(holder, size, look)
 	for m in holder.get_children():
 		(m as GeometryInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		if layers > 0:
+			m.set_meta("render_layers", layers)
 
 
 ## A ramp from its top (ground, y 0) to its bottom (basement, y BF), with
@@ -461,10 +475,15 @@ func _add_mission(mission: Node3D) -> void:
 		for r in k.get("reveal", []):
 			reveals.append(lock.get_path_to(_root.get_node("Gameplay/" + r)))
 		lock.set("reveal_paths", reveals)
-		_add_visual_box(mission, k.name + "Backplate", k.pos + Basis.from_euler(Vector3(0, deg_to_rad(k.facing), 0)) * Vector3(0, 0.05, -0.04),
-			Vector3(0.75, 0.55, 0.04) if k.facing == 0.0 or k.facing == 180.0 else Vector3(0.04, 0.55, 0.75), "dark_metal")
+		# The backplate sits flush in front of the wall (its back 5 mm off the wall
+		# face, which is 2 cm behind the keypad), never inside it: a plate sharing
+		# the wall's plane flickered against it. Lit as the upper floor.
+		_add_visual_box(mission, k.name + "Backplate", k.pos + Vector3(0, 0.05, 0),
+			Vector3(0.75, 0.55, 0.03) if k.facing == 0.0 or k.facing == 180.0 else Vector3(0.03, 0.55, 0.75), "dark_metal",
+			Layout.LAYER_UPPER if k.pos.y > Layout.UY - 0.5 else 0)
 		if k.has("cabinet"):
-			_add_visual_box(mission, "LockerCabinet", k.cabinet.centre, k.cabinet.size, "dark_metal")
+			_add_visual_box(mission, "LockerCabinet", k.cabinet.centre, k.cabinet.size, "dark_metal",
+				Layout.LAYER_UPPER if k.cabinet.centre.y > Layout.UY - 0.5 else 0)
 	_add_tool_mechanism(mission, m.pump_crank, "steel")
 	var pump := _placed(mission, m.pump, SCRIPTS.pump)
 	pump.set("puzzle_name", "Pump")
@@ -624,6 +643,18 @@ func _add_escapes(escape: Node3D) -> void:
 	_add_visual_box(escape, "DockShutterBackplate", e.dock_shutter.pos + Vector3(0.03, 0.1, 0), Vector3(0.04, 0.8, 0.6), "dark_metal")
 	var dt: Dictionary = e.dock_trigger
 	_add_trigger(escape, dt.name, dt.centre, dt.size)
+	# Phase 7: what the player knows about the ways out (HUD, exit messages).
+	var routes := Node.new()
+	routes.name = "EscapeRoutes"
+	routes.set_script(load(SCRIPTS.escape_routes))
+	_add(escape, routes)
+	routes.set("main_exit_path", NodePath("../MainEntranceExit"))
+	routes.set("dock_exit_path", NodePath("../../../../Gameplay/ExitDoor"))
+	routes.set("drain_exit_path", NodePath("../../Mission/StormDrainExit"))
+	routes.set("shutter_path", NodePath("../DockShutterControl"))
+	routes.set("release_path", NodePath("../DockShutterRelease"))
+	routes.set("panel_path", NodePath("../../MaintenancePanel"))
+	routes.set("locker_path", NodePath("../../Mission/SecurityLocker"))
 
 
 ## An exit trigger (Area3D; ExitDoor sets its layers at run time).
@@ -721,7 +752,11 @@ func _add_label(parent: Node, node_name: String, pos: Vector3, text: String, col
 func _assign_layers(node: Node) -> void:
 	if node is GeometryInstance3D and not (node is Label3D) and node.owner == _root:
 		var gi := node as GeometryInstance3D
-		gi.layers = Layout.LAYER_BASEMENT if _global_y(gi) < -0.3 else Layout.LAYER_GROUND
+		if gi.has_meta("render_layers"):
+			gi.layers = gi.get_meta("render_layers")
+			gi.remove_meta("render_layers")
+		else:
+			gi.layers = Layout.LAYER_BASEMENT if _global_y(gi) < -0.3 else Layout.LAYER_GROUND
 	for child in node.get_children():
 		_assign_layers(child)
 

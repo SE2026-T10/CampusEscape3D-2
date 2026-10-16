@@ -1,0 +1,9 @@
+ERROR: FAIL: [guard] GuardMain waited 3.30s at point 1, expected 3.00s.
+ERROR: FAIL: [guard] GuardRestricted waited 2.30s at point 1, expected 2.00s.
+ERROR: FAIL: [guard] GuardEast waited 2.30s at point 1, expected 2.00s.
+ERROR: FAIL: [maps] Up/Down must move between the map buttons and Quit.
+ERROR: FAIL: [maps] Up/Down must move between the map buttons and Quit.
+ERROR: FAIL: [expansion-mechanics] Reading twice: one journal entry, carried slots unchanged (journal 3).
+ERROR: FAIL: [expansion-mechanics] A second document: two journal entries, slots unchanged.
+ERROR: FAIL: [expansion-puzzles] Drain message: The hidden maintenance passage won't open yet. Look around it for a way..
+Tests FAILED (8 issue(s)).

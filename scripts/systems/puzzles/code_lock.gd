@@ -126,7 +126,7 @@ func submit() -> void:
 		_wrong(text, 0.0)
 		var system := NoiseSystem.find(self)
 		if system:
-			system.emit_noise(global_position, NoiseEvent.Type.INTERACTION, "environment", 0.6, wrong_noise_radius)
+			system.emit_noise(global_position, NoiseEvent.Type.INTERACTION, "environment", 0.6, wrong_noise_radius, -1.0, "Keypad buzzes")
 	_refresh()
 
 

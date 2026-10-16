@@ -28,6 +28,9 @@ var timestamp := 0.0
 var lifetime := 0.5
 ## Coarse origin, e.g. "player" or "environment". Never a node reference.
 var source_group := ""
+## Expansion Phase 7: what it sounds like, for captions (SoundCaptions), e.g.
+## "Breaker clunk". Empty: not captioned (alarms get a default caption).
+var caption := ""
 
 
 func type_name() -> String:

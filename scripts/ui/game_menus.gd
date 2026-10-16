@@ -17,6 +17,9 @@ var win_panel: Control
 var resume_button: Button
 var restart_button: Button
 var pause_menu_button: Button
+## Expansion Phase 7: Settings in the pause menu.
+var settings_button: Button
+var settings_panel: SettingsPanel
 var play_again_button: Button
 var win_menu_button: Button
 
@@ -39,6 +42,7 @@ func _ready() -> void:
 	box.add_child(_pause_time)
 	resume_button = _add_button(box, "Resume", func(): _flow().resume())
 	restart_button = _add_button(box, "Restart level", func(): _flow().restart())
+	settings_button = _add_button(box, "Settings", open_settings)
 	pause_menu_button = _add_button(box, "Main menu", func(): _flow().go_to_main_menu())
 	_controls = MenuStyle.label(CONTROLS, 14)
 	_controls.modulate = Color(1, 1, 1, 0.7)
@@ -65,6 +69,9 @@ func _ready() -> void:
 	win_box.add_child(_win_objectives)
 	play_again_button = _add_button(win_box, "Play again", func(): _flow().restart())
 	win_menu_button = _add_button(win_box, "Main menu", func(): _flow().go_to_main_menu())
+	settings_panel = SettingsPanel.new()
+	add_child(settings_panel)
+	settings_panel.closed.connect(func(): settings_button.grab_focus())
 	_connect_flow.call_deferred()
 
 
@@ -94,6 +101,8 @@ func refresh() -> void:
 	var was_won := win_panel.visible
 	pause_panel.visible = game_state == GameStateMachine.State.PAUSED
 	win_panel.visible = game_state == GameStateMachine.State.WIN
+	if settings_panel and not pause_panel.visible:
+		settings_panel.visible = false
 	if pause_panel.visible:
 		_pause_time.text = "Time played %s" % format_time(flow.play_time)
 		_controls.text = get_controls_text()
@@ -130,6 +139,10 @@ func get_objectives_text() -> String:
 		var text := "Mission objectives %d/%d complete · optional %d/%d" % [
 			mandatory.filter(func(id): return objectives.is_completed(id)).size(), mandatory.size(),
 			optional.filter(func(id): return objectives.is_completed(id)).size(), optional.size()]
+		# Expansion Phase 7: the optional objectives done, by name.
+		var done_optional := optional.filter(func(id): return objectives.is_completed(id))
+		if not done_optional.is_empty():
+			text += "\nOptional: %s" % ", ".join(done_optional.map(func(id): return objectives.get_title(id)))
 		# Expansion Phase 6: the route the player escaped by.
 		if objectives.escape_route_name != "":
 			text += "\nEscape route: %s" % objectives.escape_route_name
@@ -151,6 +164,10 @@ func get_win_text() -> String:
 static func format_time(seconds: float) -> String:
 	var s := int(seconds)
 	return "%d:%02d" % [s / 60, s % 60]
+
+
+func open_settings() -> void:
+	settings_panel.open()
 
 
 func _fade_in(panel: Control, seconds: float) -> void:

@@ -414,8 +414,10 @@ func _check_inventory() -> void:
 	_expect(_interactor.focused == log_doc, "The pump room log should be readable.")
 	await _press("interact")
 	await _press("interact")
-	_expect(_inventory.documents.size() == 1 and _inventory.has_document(&"pump_room_log") and _inventory.slots == before,
-		"Reading twice: one journal entry, carried slots unchanged (journal %d)." % _inventory.documents.size())
+	# Documents only: since expansion Phase 7 the journal also holds route clues.
+	var docs_only := func() -> int: return _inventory.documents.filter(func(d): return d.get("kind", "document") == "document").size()
+	_expect(docs_only.call() == 1 and _inventory.has_document(&"pump_room_log") and _inventory.slots == before,
+		"Reading twice: one journal entry, carried slots unchanged (journal %d)." % docs_only.call())
 	_expect(_hud.is_journal_open(), "Reading a document should open the journal.")
 	await _press("journal")
 	_expect(not _hud.is_journal_open(), "J should close the journal.")
@@ -423,7 +425,7 @@ func _check_inventory() -> void:
 	_expect(_hud.is_journal_open(), "J should open the journal.")
 	await _press("journal")
 	var notice: DocumentPickup = _level.get_node("Expansion/Gameplay/Documents/ElectricalNotice")
-	_expect(notice.interact(_player) and _inventory.documents.size() == 2 and _inventory.slots == before,
+	_expect(notice.interact(_player) and docs_only.call() == 2 and _inventory.slots == before,
 		"A second document: two journal entries, slots unchanged.")
 	print("  [expansion-mechanics] inventory: 3 slots, 4th item and the card refused with full hands; tool kit operated 2 mechanisms and F ×3, still carried; 2 throws → 2 used, 2 noises, guard investigated; failed throw used nothing; journal 2 documents, read twice = once")
 

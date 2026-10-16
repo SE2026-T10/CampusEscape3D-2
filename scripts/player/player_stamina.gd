@@ -102,5 +102,10 @@ func get_ratio() -> float:
 
 
 ## True when a new sprint could start now.
+## Ran dry and the sprint key is still held (no sprint until it is released).
+func is_exhausted() -> bool:
+	return enabled and _locked
+
+
 func can_start_sprint() -> bool:
 	return not enabled or (stamina >= min_to_start and not _locked)

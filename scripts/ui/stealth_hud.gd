@@ -35,7 +35,7 @@ const RING_RADIUS := 90.0
 ## Detection meter size, in pixels.
 const METER_SIZE := Vector2(260, 10)
 ## Stamina bar size, in pixels.
-const STAMINA_SIZE := Vector2(220, 8)
+const STAMINA_SIZE := Vector2(200, 8)   # expansion Phase 7: 200 (was 220), clear of the slots at 125 %
 const COLOUR_STAMINA := Color(0.55, 0.9, 1.0)
 const COLOUR_STAMINA_LOW := Color(1.0, 0.6, 0.2)
 
@@ -49,6 +49,8 @@ var _meter_alpha := 0.0
 var _caught_bar: ProgressBar
 var _caught_time := 0.0
 var _stamina_bar: Control
+## Expansion Phase 7: the sound captions (SoundCaptions).
+var captions: SoundCaptions
 
 
 func _ready() -> void:
@@ -81,6 +83,11 @@ func _ready() -> void:
 	_stamina_bar.visible = false
 	_stamina_bar.draw.connect(_draw_stamina)
 	add_child(_stamina_bar)
+
+	# Expansion Phase 7: captions for important sounds (both maps; GameSettings.captions).
+	captions = SoundCaptions.new()
+	captions.name = "SoundCaptions"
+	add_child(captions)
 
 	_stance = _make_label(18, HORIZONTAL_ALIGNMENT_LEFT)
 	_stance.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
@@ -199,7 +206,10 @@ func _draw_stamina() -> void:
 	var mark := bar.position.x + bar.size.x * stamina.min_to_start / stamina.max_stamina
 	_stamina_bar.draw_line(Vector2(mark, bar.position.y - 2), Vector2(mark, bar.end.y + 2), Color(1, 1, 1, 0.7), 1.5)
 	var font := ThemeDB.fallback_font
-	var text := "STAMINA" if not low else "STAMINA · catch your breath"
+	# Expansion Phase 7: exhaustion says what to do; the bar pulses while it lasts.
+	var text := "STAMINA" if not low else ("EXHAUSTED · let go of Shift" if stamina.is_exhausted() else "STAMINA · catch your breath")
+	if stamina.is_exhausted():
+		_stamina_bar.draw_rect(bar.grow(3.0), Color(COLOUR_STAMINA_LOW, 0.35 + 0.35 * sin(Time.get_ticks_msec() / 120.0)), false, 2.0)
 	_stamina_bar.draw_string_outline(font, Vector2(0, 12), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color.BLACK)
 	_stamina_bar.draw_string(font, Vector2(0, 12), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(colour, 0.95))
 

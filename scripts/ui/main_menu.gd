@@ -17,6 +17,9 @@ var start_button: Button
 ## The Expanded Library's button.
 var expanded_button: Button
 var quit_button: Button
+## Expansion Phase 7: the settings screen (SettingsPanel) and its button.
+var settings_button: Button
+var settings_panel: SettingsPanel
 ## Map id → its button, for every map in the catalog.
 var level_buttons := {}
 ## How the level is loaded and how the game quits. Tests replace these.
@@ -35,6 +38,7 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	GameSettings.apply(get_tree())
 	var background := ColorRect.new()
 	background.color = Color(0.05, 0.07, 0.1)
 	background.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -56,6 +60,9 @@ func _ready() -> void:
 	start_button = level_buttons[LevelCatalog.TUTORIAL]
 	expanded_button = level_buttons[LevelCatalog.EXPANDED]
 	box.add_child(HSeparator.new())
+	settings_button = MenuStyle.button("Settings")
+	settings_button.pressed.connect(open_settings)
+	box.add_child(settings_button)
 	quit_button = MenuStyle.button("Quit")
 	quit_button.pressed.connect(quit)
 	box.add_child(quit_button)
@@ -63,7 +70,14 @@ func _ready() -> void:
 		"WASD move  ·  Shift sprint  ·  C / Ctrl crouch  ·  E use  ·  Esc pause\nStay out of the guards' sight. Crouch to stay quiet. Hide in the study carrels.", 15)
 	controls.modulate = Color(1, 1, 1, 0.75)
 	box.add_child(controls)
+	settings_panel = SettingsPanel.new()
+	add_child(settings_panel)
+	settings_panel.closed.connect(func(): settings_button.grab_focus())
 	start_button.grab_focus()
+
+
+func open_settings() -> void:
+	settings_panel.open()
 
 
 ## Loads the tutorial. Returns false if a map was already requested.

@@ -9,6 +9,8 @@ extends Node3D
 @export var intensity := -1.0
 @export var radius := -1.0
 @export var source_group := "player"
+## Caption for SoundCaptions (expansion Phase 7); empty: none.
+@export var caption := ""
 
 
 ## Emits the noise at this node's position. Returns the event, or null if the scene has no NoiseSystem.
@@ -16,4 +18,4 @@ func make_noise() -> NoiseEvent:
 	var system := NoiseSystem.find(self)
 	if system == null:
 		return null
-	return system.emit_noise(global_position, type, source_group, intensity, radius)
+	return system.emit_noise(global_position, type, source_group, intensity, radius, -1.0, caption)

@@ -43,6 +43,7 @@ func _ready() -> void:
 	add_to_group("game_flow")
 	machine.state_changed.connect(_on_machine_state_changed)
 	get_tree().paused = false
+	GameSettings.apply(get_tree())   # expansion Phase 7: interface size, volume, captions
 	_apply_mouse(mouse_mode_for(state))
 	_connect_systems.call_deferred()
 
@@ -70,6 +71,9 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause") and not event.is_echo():
+		# An open settings screen takes Escape first (it closes itself).
+		if get_tree().get_nodes_in_group("settings_panels").any(func(p): return p.visible):
+			return
 		toggle_pause()
 		get_viewport().set_input_as_handled()
 

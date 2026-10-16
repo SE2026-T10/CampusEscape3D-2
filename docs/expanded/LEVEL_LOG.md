@@ -363,3 +363,16 @@ Guards, routes, mission and every other node are unchanged (baseline digests in 
 No geometry, navmesh, guard placement or route changed.
 
 **Evidence:** [`expansion/phase-6/`](expansion/phase-6/); report [`expansion/phase-6-escapes.md`](expansion/phase-6-escapes.md).
+
+---
+
+## Expansion layout x6 — HUD and accessibility (expansion Phase 7, 2026-10-16)
+
+**What:**
+- A new `EscapeRoutes` node (`Expansion/Gameplay/Escape/EscapeRoutes`) that reads the three routes' requirements from the game and the player's journal, for the HUD's WAYS OUT list and the exits' refusal messages. What the player has learned is kept as journal clues, so it survives a capture.
+- The journal now holds only documents and clues (the Phase 4 journal also repeated the mission; the objective panel shows it).
+- No geometry, collision, navmesh, guard, route or existing node changed; the main scene is unchanged (the node is in the expansion sub-scene, rebuilt with `build_expansion.gd` and `keep_ids.py`).
+
+**Why:** the owner's Phase 7 brief and answers (settings in a config file; captions on both maps; routes learned and kept in the journal).
+
+**Evidence:** [`expansion/phase-7/`](expansion/phase-7/); report [`expansion/phase-7-hud.md`](expansion/phase-7-hud.md).

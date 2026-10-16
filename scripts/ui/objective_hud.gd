@@ -15,7 +15,13 @@ extends CanvasLayer
 ##     objectives are listed apart, under OPTIONAL
 ##   - In levels with an inventory (PlayerInventory enabled): the carried slots
 ##     (bottom centre, the selected one highlighted), item messages, and the
-##     journal of clue documents (left), opened with J or by reading a document
+##     journal (left), opened with J or by reading a document: only clues and
+##     documents (expansion Phase 7; the objectives are in the panel)
+##   - Expanded Library (expansion Phase 7), a second panel (top left, hidden
+##     while the journal is open): WAYS OUT, the
+##     escape routes the player knows with the requirements they know, each
+##     [x] met / [ ] not yet (EscapeRoutes); POWER, the circuits, once the
+##     electrical room's switches have been seen; the checkpoint you return to
 ## The end-of-level screen and restarting belong to GameMenus / GameFlow.
 ## Everything shown comes from ObjectiveManager, CheckpointManager, the exit
 ## door and the player's PlayerInteractor.
@@ -43,13 +49,24 @@ var _flash := 0.0
 var _last_objective := &""
 var _slots: Control
 var _journal: PanelContainer
+## Expansion Phase 7: WAYS OUT / POWER / checkpoint (top left).
+var _status_panel: PanelContainer
+var _status_text: RichTextLabel
 var _journal_text: RichTextLabel
 ## Document shown first in the journal (the one just read).
 var _journal_focus := &""
 var _journal_page := 0
 ## True when the journal was opened by reading a document: J then closes it.
 var _journal_from_read := false
+## Journal clue paging: the first clue on this page, whether it is a clues-only
+## page, the first clue that did not fit (-1: all shown), the view it was laid out for.
+var _clue_start := 0
+var _clues_only := false
+var _clue_next := -1
+var _journal_view := Vector2.ZERO
 
+## Space kept free under the journal (captions, stamina, stance), in pixels.
+const JOURNAL_BOTTOM_CLEARANCE := 250.0
 ## Carried slot size, in pixels.
 const SLOT_SIZE := Vector2(184, 44)
 
@@ -66,6 +83,7 @@ func _ready() -> void:
 	add_child(_message)
 
 	_build_slots()
+	_build_status_panel()
 	_build_journal()
 	_connect_signals.call_deferred()
 
@@ -120,18 +138,33 @@ func _process(delta: float) -> void:
 		_slots.queue_redraw()
 	if _journal.visible and (inventory == null or finished):
 		_journal.visible = false
+	if _journal.visible and get_viewport().get_visible_rect().size != _journal_view:
+		_show_journal_page()   # the interface size changed: re-page
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if InputMap.has_action("journal") and event.is_action_pressed("journal") and get_inventory() != null:
 		if not _journal.visible:
 			open_journal(&"")
-		elif not _journal_from_read and _journal_page < get_journal_documents().size() - 1:
-			_journal_page += 1
-			_show_journal_page()
 		else:
-			close_journal()
+			next_journal_page()
 		get_viewport().set_input_as_handled()
+
+
+## J while the journal is open: the clues that did not fit, then the next
+## document, then close.
+func next_journal_page() -> void:
+	if _clue_next >= 0:
+		_clue_start = _clue_next
+		_clues_only = true
+		_show_journal_page()
+	elif not _journal_from_read and _journal_page < get_journal_documents().size() - 1:
+		_journal_page += 1
+		_clue_start = 0
+		_clues_only = false
+		_show_journal_page()
+	else:
+		close_journal()
 
 
 ## The player's inventory if this level uses one, else null.
@@ -157,8 +190,8 @@ func is_journal_open() -> bool:
 	return _journal.visible
 
 
-## Opens the journal. It shows the mission (mandatory objectives, then the
-## discovered optional ones), every clue found, and one document in full:
+## Opens the journal. It shows every clue found and one document in full
+## (expansion Phase 7: the objectives are in the panel, not here):
 ## `focus` (the one just read), else the newest. J shows the next document,
 ## and closes the journal after the last one.
 func open_journal(focus: StringName) -> void:
@@ -169,6 +202,8 @@ func open_journal(focus: StringName) -> void:
 	if focus != &"":
 		_journal_focus = focus
 	_journal_page = 0
+	_clue_start = 0
+	_clues_only = false
 	_show_journal_page()
 	_journal.visible = true
 
@@ -194,31 +229,80 @@ func get_journal_text() -> String:
 
 func _show_journal_page() -> void:
 	var inventory := get_inventory()
-	var objectives := ObjectiveManager.find(self)
 	var docs := get_journal_documents()
 	var clues := inventory.documents.filter(func(d): return d.get("kind", "document") == "clue")
-	var more := "J: next document (%d/%d)" % [_journal_page + 1, docs.size()] if _journal_page < docs.size() - 1 and not _journal_from_read else "J: close"
+	clues.reverse()  # newest first
+	_fit_journal()
+	var max_height := _journal_max_height()
+	# Expansion Phase 7: the document first, then as many clues (newest first)
+	# as fit above the captions and stamina; the rest are on the next J page.
+	# A clue page shows at least one clue; a document page may show none.
+	var least := 1 if _clues_only else 0
+	var shown := clues.size() - _clue_start
+	while true:
+		_journal_text.text = _journal_page_text(docs, clues, shown)
+		if shown <= least or _journal_text.get_content_height() <= max_height:
+			break
+		shown -= 1
+	_clue_next = _clue_start + shown if _clue_start + shown < clues.size() else -1
+	_journal_text.text = _journal_page_text(docs, clues, shown)
+	_fit_journal()
+
+
+## One journal page: header, the current document (unless a clue page), and
+## `shown` clues from _clue_start.
+func _journal_page_text(docs: Array, clues: Array, shown: int) -> String:
+	var rest := clues.size() - _clue_start - shown
+	var more := "J: close"
+	if rest > 0:
+		more = "J: more clues"
+	elif _journal_page < docs.size() - 1 and not _journal_from_read:
+		more = "J: next document (%d/%d)" % [_journal_page + 2, docs.size()]
 	var text := "[b]JOURNAL[/b]  [color=#9aa3ad]%s[/color]\n" % more
-	if objectives and objectives.is_graph():
-		text += "\n[color=#ffd36b]MISSION[/color]\n"
-		for id in objectives.get_mandatory_ids():
-			text += "%s %s\n" % [_mark(objectives, id), objectives.get_title(id)]
-		var optional := objectives.get_optional_ids().filter(func(id): return objectives.is_visible(id))
-		if not optional.is_empty():
-			text += "[color=#ffd36b]OPTIONAL[/color]\n"
-			for id in optional:
-				text += "%s %s\n" % [_mark(objectives, id), objectives.get_title(id)]
-	if not clues.is_empty():
-		text += "\n[color=#ffd36b]CLUES[/color]\n"
-		for c in clues:
+	if not _clues_only:
+		text += "\n[color=#ffd36b]DOCUMENTS (%d)[/color]\n" % docs.size()
+		if docs.is_empty():
+			text += "[color=#9aa3ad]None yet. Read notes and notices to collect them here.[/color]\n"
+		else:
+			var d: Dictionary = docs[clampi(_journal_page, 0, docs.size() - 1)]
+			text += "[b]%s[/b]\n%s\n" % [d.title, d.text]
+	if not clues.is_empty() and (shown > 0 or _clues_only):
+		text += "\n[color=#ffd36b]CLUES (%d)%s[/color]\n" % [clues.size(), ", continued" if _clue_start > 0 else ""]
+		for i in shown:
+			var c: Dictionary = clues[_clue_start + i]
 			text += "· %s: %s\n" % [c.title, c.text]
-	text += "\n[color=#ffd36b]DOCUMENTS (%d)[/color]\n" % docs.size()
-	if docs.is_empty():
-		text += "[color=#9aa3ad]None yet. Read notes and notices to collect them here.[/color]"
-	else:
-		var d: Dictionary = docs[clampi(_journal_page, 0, docs.size() - 1)]
-		text += "[b]%s[/b]\n%s" % [d.title, d.text]
-	_journal_text.text = text.strip_edges()
+	if rest > 0:
+		text += "[color=#9aa3ad]… %d more clue%s: press J[/color]\n" % [rest, "" if rest == 1 else "s"]
+	return text.strip_edges()
+
+
+## Expansion Phase 7: the journal keeps clear of the objective panel (right) and
+## the captions, stamina and stance (bottom left) at every interface size: it
+## widens into the free space (up to 600 px); clues that do not fit go on the
+## next page, and only a single over-long entry is cut at the bottom.
+func _fit_journal() -> void:
+	var view := _journal_view_size()
+	_journal_view = view
+	var width := clampf(view.x - 364.0 - 20.0 - 20.0 - 20.0, 420.0, 600.0)
+	var max_height := _journal_max_height()
+	_journal.custom_minimum_size = Vector2(width, 0)
+	_journal_text.custom_minimum_size = Vector2(width - 32.0, 0)
+	_journal_text.fit_content = true
+	_journal.size = Vector2(width, 0)
+	var height := _journal_text.get_content_height()
+	if height > max_height:
+		_journal_text.fit_content = false
+		_journal_text.custom_minimum_size = Vector2(width - 32.0, max_height)
+		_journal_text.size = _journal_text.custom_minimum_size
+	_journal.size = Vector2(width, 0)
+
+
+func _journal_view_size() -> Vector2:
+	return get_viewport().get_visible_rect().size if is_inside_tree() else Vector2(1280, 720)
+
+
+func _journal_max_height() -> float:
+	return maxf(_journal_view_size().y - 20.0 - JOURNAL_BOTTOM_CLEARANCE - 32.0, 120.0)
 
 
 func close_journal() -> void:
@@ -251,12 +335,47 @@ func _draw_slots() -> void:
 		if id != &"":
 			var info: Dictionary = ItemCatalog.ITEMS[id]
 			_slots.draw_rect(Rect2(rect.position + Vector2(8, 14), Vector2(14, 14)), info.colour)
-		_slots.draw_string(font, rect.position + Vector2(30, 27), texts[i].substr(2), HORIZONTAL_ALIGNMENT_LEFT, SLOT_SIZE.x - 36, 15,
+		# Expansion Phase 7: a long name gets a smaller font instead of being cut.
+		var label := texts[i].substr(2)
+		var font_size := 15
+		while font_size > 11 and font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > SLOT_SIZE.x - 36:
+			font_size -= 1
+		_slots.draw_string(font, rect.position + Vector2(30, 27), label, HORIZONTAL_ALIGNMENT_LEFT, SLOT_SIZE.x - 36, font_size,
 			Color.WHITE if id != &"" else Color(1, 1, 1, 0.4))
 		_slots.draw_string(font, rect.position + Vector2(4, 12), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1, 1, 1, 0.6))
 	var hint := "1–3 select  ·  F use / throw  ·  J journal (%d)" % inventory.documents.size()
 	_slots.draw_string_outline(font, Vector2(0, SLOT_SIZE.y + 20), hint, HORIZONTAL_ALIGNMENT_CENTER, _slots.size.x, 13, 4, Color.BLACK)
 	_slots.draw_string(font, Vector2(0, SLOT_SIZE.y + 20), hint, HORIZONTAL_ALIGNMENT_CENTER, _slots.size.x, 13, Color(1, 1, 1, 0.75))
+
+
+func _build_status_panel() -> void:
+	_status_panel = PanelContainer.new()
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.03, 0.04, 0.06, 0.62)
+	style.set_corner_radius_all(6)
+	style.set_content_margin_all(12)
+	_status_panel.add_theme_stylebox_override("panel", style)
+	_status_panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_status_panel.position = Vector2(20, 20)
+	_status_panel.custom_minimum_size = Vector2(330, 0)
+	_status_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_status_panel.visible = false
+	add_child(_status_panel)
+	_status_text = RichTextLabel.new()
+	_status_text.bbcode_enabled = true
+	_status_text.fit_content = true
+	_status_text.scroll_active = false
+	_status_text.custom_minimum_size = Vector2(306, 0)
+	_status_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_status_text.add_theme_font_size_override("normal_font_size", 14)
+	_status_text.add_theme_constant_override("outline_size", 5)
+	_status_text.add_theme_color_override("font_outline_color", Color.BLACK)
+	_status_panel.add_child(_status_text)
+
+
+## The status panel (WAYS OUT, POWER, checkpoint) and the objective panel, for layout tests.
+func get_layout_controls() -> Dictionary:
+	return {"objectives": _panel, "status": _status_panel, "journal": _journal, "slots": _slots, "prompt": _prompt_box, "message": _message}
 
 
 func _build_journal() -> void:
@@ -401,6 +520,57 @@ func _update_panel(objectives: ObjectiveManager) -> void:
 			text += "[color=#%s]OPTIONAL[/color]\n" % Color(1.0, 0.82, 0.3).to_html(false)
 		text += "[color=#%s]%s[/color]\n" % [colours[objectives.get_state(ids[i])].to_html(false), lines[i]]
 	_list.text = text.strip_edges()
+	var status := _status_bbcode() if objectives.is_graph() else ""
+	_status_text.text = status.strip_edges()
+	_status_panel.visible = status != "" and not _journal.visible and not objectives.is_finished()
+
+
+## Expansion Phase 7: WAYS OUT, POWER and the checkpoint, as plain lines (for
+## tests); empty outside the Expanded Library. All read live from the game.
+func get_status_lines() -> Array[String]:
+	var out: Array[String] = []
+	var routes := EscapeRoutes.find(self)
+	if routes:
+		var known := routes.get_known_routes()
+		if not known.is_empty():
+			out.append("WAYS OUT")
+			for r in known:
+				var parts: Array[String] = []
+				for q in r.requirements:
+					parts.append("%s %s" % ["[x]" if q.met else "[ ]", q.text])
+				out.append("%s%s: %s" % [r.name, " (open)" if r.open else "", " · ".join(parts)])
+		var power: Array = routes.get_known_power()
+		if not power.is_empty():
+			out.append("POWER " + " · ".join(power.map(func(p): return "%s %s" % [p[0], "ON" if p[1] else "OFF"])))
+	var objectives := ObjectiveManager.find(self)
+	var checkpoints := CheckpointManager.find(self)
+	if checkpoints and objectives and objectives.is_graph():
+		out.append("Checkpoint: %s" % checkpoints.get_respawn_name())
+	return out
+
+
+func _status_bbcode() -> String:
+	var accent := Color(1.0, 0.82, 0.3).to_html(false)
+	var done := COLOUR_DONE.to_html(false)
+	var todo := COLOUR_LOCKED.to_html(false)
+	var text := ""
+	var routes := EscapeRoutes.find(self)
+	if routes:
+		var known := routes.get_known_routes()
+		if not known.is_empty():
+			text += "[color=#%s]WAYS OUT[/color]\n" % accent
+			for r in known:
+				var parts: Array[String] = []
+				for q in r.requirements:
+					parts.append("[color=#%s]%s %s[/color]" % [done if q.met else todo, "[x]" if q.met else "[ ]", q.text])
+				text += "[color=#%s]%s%s[/color]: %s\n" % [done if r.open else "ffffff", r.name, " (open)" if r.open else "", " · ".join(parts)]
+		var power: Array = routes.get_known_power()
+		if not power.is_empty():
+			text += "[color=#%s]POWER[/color] %s\n" % [accent, " · ".join(power.map(func(p): return "[color=#%s]%s %s[/color]" % [done if p[1] else "ff8a70", p[0], "ON" if p[1] else "OFF"]))]
+	var checkpoints := CheckpointManager.find(self)
+	if checkpoints:
+		text += "[color=#%s]Checkpoint:[/color] %s\n" % [accent, checkpoints.get_respawn_name()]
+	return text
 
 
 func _build_panel() -> void:

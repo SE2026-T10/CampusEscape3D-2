@@ -56,4 +56,4 @@ func _land() -> void:
 	var system := NoiseSystem.find(self)
 	if system:
 		noise = system.emit_noise(landing, NoiseEvent.Type.INTERACTION, "distraction",
-			info.get("noise_intensity", 0.8), info.get("noise_radius", 10.0))
+			info.get("noise_intensity", 0.8), info.get("noise_radius", 10.0), -1.0, info.get("caption", "Something crashes"))

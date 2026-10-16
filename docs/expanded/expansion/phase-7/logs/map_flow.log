@@ -1,0 +1,55 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  [ok] 1. The game opens at the main menu.
+  [ok] 2. Menu (visit 1): one menu, no level systems left, unpaused, Library Tutorial focused, 2 maps offered; nodes 43, orphans 0.
+  [ok] 3. Cycle 1: Library Tutorial selected from the menu: loads library_graybox.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2 }.
+  [ok] 4. Cycle 1: Library Tutorial starts with a clean mission.
+  [ok] 5. Cycle 1: Library Tutorial — progress made before restarting.
+  [ok] 6. Cycle 1: Library Tutorial — Esc pauses.
+  [ok] 7. Cycle 1: Library Tutorial restarted (Pause → Restart level): loads library_graybox.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2 }.
+  [ok] 8. Cycle 1: Library Tutorial restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 9. Cycle 1: Library Tutorial → Main menu: back at the menu, the level freed.
+  [ok] 10. Menu (visit 2): one menu, no level systems left, unpaused, Library Tutorial focused, 2 maps offered; nodes 43, orphans 0.
+  [ok] 11. Cycle 1: Expanded Library selected from the menu: loads expanded_library.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2 }.
+  [ok] 12. Cycle 1: Expanded Library starts with a clean mission.
+  [ok] 13. Cycle 1: Expanded Library — progress made before restarting.
+  [ok] 14. Cycle 1: Expanded Library — Esc pauses.
+  [ok] 15. Cycle 1: Expanded Library restarted (Pause → Restart level): loads expanded_library.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2 }.
+  [ok] 16. Cycle 1: Expanded Library restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 17. Cycle 1: Expanded Library → Main menu: back at the menu, the level freed.
+  [ok] 18. Menu (visit 3): one menu, no level systems left, unpaused, Library Tutorial focused, 2 maps offered; nodes 43, orphans 0.
+  [ok] 19. Cycle 2: Library Tutorial selected from the menu: loads library_graybox.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2 }.
+  [ok] 20. Cycle 2: Library Tutorial starts with a clean mission.
+  [ok] 21. Cycle 2: Library Tutorial — progress made before restarting.
+  [ok] 22. Cycle 2: Library Tutorial — Esc pauses.
+  [ok] 23. Cycle 2: Library Tutorial restarted (Pause → Restart level): loads library_graybox.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2 }.
+  [ok] 24. Cycle 2: Library Tutorial restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 25. Cycle 2: Library Tutorial → Main menu: back at the menu, the level freed.
+  [ok] 26. Menu (visit 4): one menu, no level systems left, unpaused, Library Tutorial focused, 2 maps offered; nodes 43, orphans 0.
+  [ok] 27. Cycle 2: Expanded Library selected from the menu: loads expanded_library.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2 }.
+  [ok] 28. Cycle 2: Expanded Library starts with a clean mission.
+  [ok] 29. Cycle 2: Expanded Library — progress made before restarting.
+  [ok] 30. Cycle 2: Expanded Library — Esc pauses.
+  [ok] 31. Cycle 2: Expanded Library restarted (Pause → Restart level): loads expanded_library.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2 }.
+  [ok] 32. Cycle 2: Expanded Library restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 33. Cycle 2: Expanded Library → Main menu: back at the menu, the level freed.
+  [ok] 34. Menu (visit 5): one menu, no level systems left, unpaused, Library Tutorial focused, 2 maps offered; nodes 43, orphans 0.
+  [ok] 35. Cycle 3: Library Tutorial selected from the menu: loads library_graybox.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2 }.
+  [ok] 36. Cycle 3: Library Tutorial starts with a clean mission.
+  [ok] 37. Cycle 3: Library Tutorial — progress made before restarting.
+  [ok] 38. Cycle 3: Library Tutorial — Esc pauses.
+  [ok] 39. Cycle 3: Library Tutorial restarted (Pause → Restart level): loads library_graybox.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2 }.
+  [ok] 40. Cycle 3: Library Tutorial restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 41. Cycle 3: Library Tutorial → Main menu: back at the menu, the level freed.
+  [ok] 42. Menu (visit 6): one menu, no level systems left, unpaused, Library Tutorial focused, 2 maps offered; nodes 43, orphans 0.
+  [ok] 43. Cycle 3: Expanded Library selected from the menu: loads expanded_library.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2 }.
+  [ok] 44. Cycle 3: Expanded Library starts with a clean mission.
+  [ok] 45. Cycle 3: Expanded Library — progress made before restarting.
+  [ok] 46. Cycle 3: Expanded Library — Esc pauses.
+  [ok] 47. Cycle 3: Expanded Library restarted (Pause → Restart level): loads expanded_library.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2 }.
+  [ok] 48. Cycle 3: Expanded Library restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 49. Cycle 3: Expanded Library → Main menu: back at the menu, the level freed.
+  [ok] 50. Menu (visit 7): one menu, no level systems left, unpaused, Library Tutorial focused, 2 maps offered; nodes 43, orphans 0.
+  [ok] 51. No leftovers from cycle 1 to cycle 3 (menu after the Expanded Library): nodes 43 → 43, orphan nodes 0 → 0, root children 1 → 1.
+  [ok] 52. Quit quits.
+MAP FLOW PASSED (52 checks, 12 levels loaded, 3 cycles)

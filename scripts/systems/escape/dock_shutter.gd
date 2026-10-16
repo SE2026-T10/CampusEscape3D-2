@@ -65,7 +65,7 @@ func _on_pressed() -> void:
 	exit.unlock()
 	var system := NoiseSystem.find(self)
 	if system:
-		system.emit_noise(global_position, NoiseEvent.Type.INTERACTION, "environment", 0.8, noise_radius)
+		system.emit_noise(global_position, NoiseEvent.Type.INTERACTION, "environment", 0.8, noise_radius, -1.0, "Shutter rattles up")
 	_mark_solved()
 	feedback.emit("Shutter open: the loading dock is clear.", true)
 

@@ -91,7 +91,7 @@ func _on_interact(by: Node) -> bool:
 	overriding = true
 	override_left = hold_time
 	overrides_started += 1
-	_noise(beep_radius, 0.7)
+	_noise(beep_radius, 0.7, "Badge reader beeps")
 	feedback.emit("Lockdown override started: stay at the reader for %d s." % int(hold_time), true)
 	return true
 
@@ -112,7 +112,7 @@ func _process(delta: float) -> void:
 		var exit := get_exit()
 		if exit:
 			exit.unlock()
-		_noise(bolts_radius, 1.0)
+		_noise(bolts_radius, 1.0, "Door bolts bang open")
 		feedback.emit("Lockdown lifted: the main entrance is open.", true)
 
 
@@ -131,10 +131,10 @@ func _on_respawned(_checkpoint: Checkpoint) -> void:
 	cancel()
 
 
-func _noise(radius: float, intensity: float) -> void:
+func _noise(radius: float, intensity: float, caption := "") -> void:
 	var system := NoiseSystem.find(self)
 	if system:
-		system.emit_noise(global_position, NoiseEvent.Type.INTERACTION, "environment", intensity, radius)
+		system.emit_noise(global_position, NoiseEvent.Type.INTERACTION, "environment", intensity, radius, -1.0, caption)
 
 
 func _update_screen() -> void:

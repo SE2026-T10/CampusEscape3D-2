@@ -94,7 +94,7 @@ func start() -> void:
 	_wrong("The pump stalls with a loud bang: wrong valve setting.", 0.0)
 	var system := NoiseSystem.find(self)
 	if system:
-		system.emit_noise(global_position, NoiseEvent.Type.INTERACTION, "environment", 1.0, stall_noise_radius)
+		system.emit_noise(global_position, NoiseEvent.Type.INTERACTION, "environment", 1.0, stall_noise_radius, -1.0, "Pump stalls with a bang")
 
 
 func _refresh() -> void:

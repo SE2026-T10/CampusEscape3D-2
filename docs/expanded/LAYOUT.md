@@ -323,3 +323,7 @@ Added in expansion Phase 6 (report [`expansion/phase-6-escapes.md`](expansion/ph
 | Maintenance panel (hidden) | the tunnel's north gap opposite the pump room door (0, −4, −27), full height |
 | Culvert access plan | maintenance bay, south wall (−23.5, −2.6, −17.17) |
 | Storm drain trigger | past the grate (0, −2.8, −38.6) |
+
+### HUD state node (layout x6)
+
+Added in expansion Phase 7 (report [`expansion/phase-7-hud.md`](expansion/phase-7-hud.md)). `Expansion/Gameplay/Escape/EscapeRoutes` (no position; logic only) links the three exits, the dock shutter control and release, the hidden maintenance panel and the Office 1 security locker. No geometry change.

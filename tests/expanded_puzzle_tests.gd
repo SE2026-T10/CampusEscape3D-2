@@ -390,7 +390,9 @@ func _check_invalid_sequences() -> void:
 	await _stand_and_look(AT_DRAIN, _drain_exit.global_position)
 	_expect(_hud.get_prompt_text() == "[E] Storm drain (blocked)" and not _interactor.try_interact() and _director.status != S.ESCAPED,
 		"The storm drain refuses with the manuscript but the culvert flooded.")
-	_expect(_hud.get_message_text() == "The grate is jammed shut while the culvert is flooded.", "Drain message: %s." % _hud.get_message_text())
+	# Since expansion Phase 7 an exit names only requirements the player knows:
+	# the culvert access plan has not been read, so the drain only hints.
+	_expect(_hud.get_message_text() == "The hidden maintenance passage won't open yet. Look around it for a way.", "Drain message: %s." % _hud.get_message_text())
 	_expect(noise.emitted_count > before, "Rattling the exits makes noise.")
 	# The pump: a stall, then the right valves.
 	await _use(_crank, AT_PUMP + Vector3(-3.4, 0, 0))
@@ -427,8 +429,10 @@ func _check_optional_locker() -> void:
 	_expect(not _hud.is_journal_open(), "J closes a journal opened by reading.")
 	await _press("journal")   # opened with J: pages through the documents
 	var text := _hud.get_journal_text()
-	_expect(text.contains("MISSION") and text.contains("OPTIONAL") and text.contains("[x] Open the security locker") and text.contains("CLUES") == false,
-		"The journal lists the mission and the optional objectives apart (%s)." % text.left(200))
+	# Expansion Phase 7: the journal holds only clues and documents; the objectives are in the panel.
+	_expect(not text.contains("MISSION") and not text.contains("OPTIONAL") and text.contains("DOCUMENTS") and text.contains("Patrol notes"),
+		"The journal lists only clues and documents (%s)." % text.left(200))
+	_expect(_hud.get_lines().has("[x] (optional) Open the security locker"), "The objective panel lists the optional objective done.")
 	await _press("journal")
 	await _press("journal")
 	print("  [expansion-puzzles] optional locker: hidden until the rota, wrong combination refused (no alarm), right one → bottle + patrol notes; mission unaffected")

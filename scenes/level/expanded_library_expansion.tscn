@@ -17,6 +17,7 @@
 [ext_resource type="Script" path="res://scripts/systems/security/security_camera.gd" id="15_gc7a4"]
 [ext_resource type="Script" path="res://scripts/systems/escape/badge_reader.gd" id="16_kk1gr"]
 [ext_resource type="Script" path="res://scripts/systems/escape/dock_shutter.gd" id="17_no1ex"]
+[ext_resource type="Script" path="res://scripts/systems/escape/escape_routes.gd" id="18_id7ge"]
 [ext_resource type="PackedScene" path="res://scenes/props/ceiling_light.tscn" id="4_35jku"]
 
 [sub_resource type="BoxShape3D" id="BoxShape_8p100_0p200_12p000"]
@@ -359,8 +360,8 @@ size = Vector3(1.05, 0.7, 0.15)
 [sub_resource type="BoxMesh" id="BoxMesh_1p100_0p750_0p040"]
 size = Vector3(1.1, 0.75, 0.04)
 
-[sub_resource type="BoxMesh" id="BoxMesh_0p040_0p550_0p750"]
-size = Vector3(0.04, 0.55, 0.75)
+[sub_resource type="BoxMesh" id="BoxMesh_0p030_0p550_0p750"]
+size = Vector3(0.03, 0.55, 0.75)
 
 [sub_resource type="BoxMesh" id="BoxMesh_0p450_1p800_0p900"]
 size = Vector3(0.45, 1.8, 0.9)
@@ -423,6 +424,16 @@ size = Vector3(8.15, 0.2, 5.46)
 [sub_resource type="BoxMesh" id="BoxMesh_10p150_0p200_5p575"]
 size = Vector3(10.15, 0.2, 5.575)
 
+[sub_resource type="StandardMaterial3D" id="Material_floor_archive"]
+albedo_color = Color(0.34, 0.1, 0.11, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_2p000_0p200_6p000"]
+size = Vector3(2, 0.2, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2p000_0p100_6p000"]
+size = Vector3(2, 0.1, 6)
+
 [sub_resource type="StandardMaterial3D" id="Material_header"]
 albedo_color = Color(0.78, 0.74, 0.66, 1)
 
@@ -479,8 +490,8 @@ size = Vector3(4.94, 0.34, 0.04)
 size = Vector3(4.18, 0.34, 0.04)
 
 [node name="Expansion" type="Node3D" unique_id=424622795]
-editor_description = "Expanded Library expansion content (2026 expansion). Built by tools/expanded/expansion/build_expansion.gd from expansion_layout.gd (x5): the basement / service network (zone G), the electrical room (zone D), the west and east service stairs. New puzzles, mechanics and areas go here, not into expanded_library.tscn, whose builder is frozen. Instanced once into expanded_library.tscn as \"Expansion\", right after \"Gameplay\"; content uses the level's existing systems through their groups."
-metadata/expansion_layout_version = "x5"
+editor_description = "Expanded Library expansion content (2026 expansion). Built by tools/expanded/expansion/build_expansion.gd from expansion_layout.gd (x6): the basement / service network (zone G), the electrical room (zone D), the west and east service stairs. New puzzles, mechanics and areas go here, not into expanded_library.tscn, whose builder is frozen. Instanced once into expanded_library.tscn as \"Expansion\", right after \"Gameplay\"; content uses the level's existing systems through their groups."
+metadata/expansion_layout_version = "x6"
 
 [node name="Geometry" type="Node3D" parent="." unique_id=1582251620 groups=["expanded_navigation_source"]]
 
@@ -2094,13 +2105,13 @@ objective_id = &"open_vault"
 metadata/zone_id = "F"
 
 [node name="VaultKeypadBackplate" type="Node3D" parent="Gameplay/Mission" unique_id=1561858255]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.87, 5.9, -19.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.83, 5.9, -19.3)
 
 [node name="Mesh" type="MeshInstance3D" parent="Gameplay/Mission/VaultKeypadBackplate" unique_id=1235005214]
-layers = 4
+layers = 8
 material_override = SubResource("Material_dark_metal")
 cast_shadow = 0
-mesh = SubResource("BoxMesh_0p040_0p550_0p750")
+mesh = SubResource("BoxMesh_0p030_0p550_0p750")
 
 [node name="SecurityLocker" type="Node3D" parent="Gameplay/Mission" unique_id=584556757]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.83, 5.85, -21.4)
@@ -2114,19 +2125,19 @@ objective_id = &"security_locker"
 metadata/zone_id = "E"
 
 [node name="SecurityLockerBackplate" type="Node3D" parent="Gameplay/Mission" unique_id=1456089046]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.87, 5.9, -21.4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.83, 5.9, -21.4)
 
 [node name="Mesh" type="MeshInstance3D" parent="Gameplay/Mission/SecurityLockerBackplate" unique_id=619341193]
-layers = 4
+layers = 8
 material_override = SubResource("Material_dark_metal")
 cast_shadow = 0
-mesh = SubResource("BoxMesh_0p040_0p550_0p750")
+mesh = SubResource("BoxMesh_0p030_0p550_0p750")
 
 [node name="LockerCabinet" type="Node3D" parent="Gameplay/Mission" unique_id=1518478694]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6, 5.4, -22.4)
 
 [node name="Mesh" type="MeshInstance3D" parent="Gameplay/Mission/LockerCabinet" unique_id=485393670]
-layers = 4
+layers = 8
 material_override = SubResource("Material_dark_metal")
 cast_shadow = 0
 mesh = SubResource("BoxMesh_0p450_1p800_0p900")
@@ -2367,6 +2378,16 @@ collision_mask = 2
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/Escape/DockExitTrigger" unique_id=1117511070]
 shape = SubResource("BoxShape_0p700_2p400_3p000")
 
+[node name="EscapeRoutes" type="Node" parent="Gameplay/Escape" unique_id=982270732]
+script = ExtResource("18_id7ge")
+main_exit_path = NodePath("../MainEntranceExit")
+dock_exit_path = NodePath("../../../../Gameplay/ExitDoor")
+drain_exit_path = NodePath("../../Mission/StormDrainExit")
+shutter_path = NodePath("../DockShutterControl")
+release_path = NodePath("../DockShutterRelease")
+panel_path = NodePath("../../MaintenancePanel")
+locker_path = NodePath("../../Mission/SecurityLocker")
+
 [node name="Dressing" type="Node3D" parent="." unique_id=833799689]
 
 [node name="Ceilings" type="Node3D" parent="Dressing" unique_id=2147361185]
@@ -2605,6 +2626,26 @@ layers = 4
 material_override = SubResource("Material_ceiling")
 cast_shadow = 0
 mesh = SubResource("BoxMesh_10p150_0p200_5p575")
+
+[node name="FloorPatches" type="Node3D" parent="Dressing" unique_id=913352525]
+
+[node name="ArchiveBackGateFloor" type="Node3D" parent="Dressing/FloorPatches" unique_id=495539168]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 4.4, -9)
+
+[node name="Mesh" type="MeshInstance3D" parent="Dressing/FloorPatches/ArchiveBackGateFloor" unique_id=413729248]
+layers = 8
+material_override = SubResource("Material_floor_archive")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_2p000_0p200_6p000")
+
+[node name="ArchiveBackGateFloorCeiling" type="Node3D" parent="Dressing/FloorPatches" unique_id=1396698713]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 4.25, -9)
+
+[node name="Mesh" type="MeshInstance3D" parent="Dressing/FloorPatches/ArchiveBackGateFloorCeiling" unique_id=385484053]
+layers = 4
+material_override = SubResource("Material_ceiling")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_2p000_0p100_6p000")
 
 [node name="DoorHeaders" type="Node3D" parent="Dressing" unique_id=1845716729]
 

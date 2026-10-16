@@ -1,0 +1,25 @@
+Tutorial tests/guard_tests.gd alone, fresh process each run, this VM, 2026-10-16 (Phase 7 tree).
+SUMMARY: Phase 7 as delivered 2 of 8 runs failed; with the proposed one-line test fix (await one process frame after setting Engine.time_scale, applied temporarily, then restored) 0 of 8.
+
+p7x r1: GUARD DONE: 0 failure(s)
+p7x r2: FAIL: [guard] GuardMain waited 3.20s at point 1, expected 3.00s.
+p7x r2: FAIL: [guard] GuardRestricted waited 2.20s at point 1, expected 2.00s.
+p7x r2: FAIL: [guard] GuardEast waited 2.20s at point 1, expected 2.00s.
+p7x r2: GUARD DONE: 3 failure(s)
+p7x r3: FAIL: [guard] GuardMain waited 3.50s at point 1, expected 3.00s.
+p7x r3: FAIL: [guard] GuardRestricted waited 2.50s at point 1, expected 2.00s.
+p7x r3: FAIL: [guard] GuardEast waited 2.50s at point 1, expected 2.00s.
+p7x r3: GUARD DONE: 3 failure(s)
+p7x r4: GUARD DONE: 0 failure(s)
+p7x r5: GUARD DONE: 0 failure(s)
+p7x r6: GUARD DONE: 0 failure(s)
+p7x r7: GUARD DONE: 0 failure(s)
+p7x r8: GUARD DONE: 0 failure(s)
+p7x+fix r1: GUARD DONE: 0 failure(s)
+p7x+fix r2: GUARD DONE: 0 failure(s)
+p7x+fix r3: GUARD DONE: 0 failure(s)
+p7x+fix r4: GUARD DONE: 0 failure(s)
+p7x+fix r5: GUARD DONE: 0 failure(s)
+p7x+fix r6: GUARD DONE: 0 failure(s)
+p7x+fix r7: GUARD DONE: 0 failure(s)
+p7x+fix r8: GUARD DONE: 0 failure(s)

@@ -92,7 +92,7 @@ func _on_interact(by: Node) -> bool:
 	switches += 1
 	var system := NoiseSystem.find(self)
 	if system:
-		system.emit_noise(global_position, NoiseEvent.Type.INTERACTION, "environment", 0.6, noise_radius)
+		system.emit_noise(global_position, NoiseEvent.Type.INTERACTION, "environment", 0.6, noise_radius, -1.0, "Breaker clunk")
 	var text := on_text if on else off_text
 	if on and reboots_circuit != &"":
 		network.set_powered(reboots_circuit, true)
