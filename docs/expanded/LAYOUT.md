@@ -309,3 +309,17 @@ Added in expansion Phase 5 (report [`expansion/phase-5-security.md`](expansion/p
 | Camera "loading dock" | ground, (35.6, 3.5, 12.4), looking south-west over the dock approach |
 | Camera "service tunnel" | basement, (12, −0.7, −23.25), looking west along the tunnel |
 | GuardBasement route P9_Basement | (−30, −4, −25) → (−10, −4, −24.8) → (14, −4, −25) → (39, −4, −21) → (39, −4, −10), looping |
+
+### Escape routes (layout x5)
+
+Added in expansion Phase 6 (report [`expansion/phase-6-escapes.md`](expansion/phase-6-escapes.md), specifications [`expansion/phase-6/escape_specs.md`](expansion/phase-6/escape_specs.md)). Gameplay nodes under `Expansion/Gameplay/Escape`, the hidden `MaintenancePanel` door, the `LockerBadge` item, the `CulvertAccessPlan` document and `CameraLobby`. No geometry, collision (other than door panels) or navmesh change.
+
+| Thing | Where |
+|---|---|
+| Main entrance exit: lockdown panel · trigger | the existing entrance opening (0, 1.5, 28), 4 m wide · the porch side (z 28.25–29.45) |
+| Badge reader · lobby camera | lobby wall east of the doors (2.9, 1.3, 27.8) · above it (2.9, 3.4, 26.0), looking down at the reader |
+| Security master badge | in the Office 1 security locker (−5.0, 4.5, −21.7), revealed when it opens |
+| Dock shutter release · shutter control · trigger | service corridor east wall (35.83, 1.1, 21.4) · (35.83, 1.3, 26.4) · just past the dock door (x 36.05–36.75) |
+| Maintenance panel (hidden) | the tunnel's north gap opposite the pump room door (0, −4, −27), full height |
+| Culvert access plan | maintenance bay, south wall (−23.5, −2.6, −17.17) |
+| Storm drain trigger | past the grate (0, −2.8, −38.6) |

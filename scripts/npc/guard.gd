@@ -64,6 +64,16 @@ signal got_stuck(index: int)
 @export var alarm_detection_multiplier := 1.6
 @export var alarm_search_multiplier := 1.5
 
+@export_group("Checkpoints")
+## Expanded Library (expansion Phase 6): when a checkpoint is activated, this
+## guard's position, facing, patrol progress and state are stored with it, and
+## a respawn puts the guard back there on PATROL with a clear memory instead of
+## at its start. A guard that would see the respawn point, or stand within
+## respawn_clearance of it, goes back to its start instead. Off by default (the
+## tutorial's guards go back to their starts).
+@export var checkpoint_snapshot := false
+@export var respawn_clearance := 10.0
+
 ## Kept for compatibility with Phase 4 scenes and tests: same as patrol_speed.
 var walk_speed: float:
 	get:
@@ -113,6 +123,8 @@ var current_point: int:
 
 func _ready() -> void:
 	add_to_group("guards")
+	if checkpoint_snapshot:
+		add_to_group("checkpoint_guards")
 	add_to_group("navigation_debug_agents")  # NavigationDebug draws this guard's path.
 	if OS.is_debug_build():
 		debug_label.add_to_group("debug_visuals")
@@ -152,6 +164,58 @@ func _physics_process(delta: float) -> void:
 func _create_machine() -> void:
 	machine = GuardStateMachine.new(self)
 	machine.transitioned.connect(func(from, to, reason): ai_state_changed.emit(from, to, reason))
+
+
+# --- Checkpoint snapshot (see checkpoint_snapshot) ------------------------------------
+
+## What a checkpoint stores for this guard (CheckpointManager, group "checkpoint_guards").
+func get_checkpoint_snapshot() -> Dictionary:
+	var patrol := machine.get_state(GuardStateMachine.PATROL) as PatrolState if machine else null
+	return {"transform": global_transform, "point": patrol.current_point if patrol else 0,
+		"state": machine.get_state_name() if machine else "NONE"}
+
+
+## Puts the guard back where `snapshot` says, on PATROL toward its stored
+## patrol point, with a clear memory. Called after reset_to_start() on a
+## respawn. Returns false (and leaves the guard at its start) if the stored spot
+## would put it near or in sight of the player at `respawn_point`.
+func restore_checkpoint_snapshot(snapshot: Dictionary, respawn_point: Vector3) -> bool:
+	if not checkpoint_snapshot or snapshot.is_empty():
+		return false
+	var xf: Transform3D = snapshot.transform
+	if xf.origin.distance_to(respawn_point) < respawn_clearance or _would_see(xf, respawn_point + Vector3(0, 1.5, 0)):
+		return false
+	global_transform = xf
+	velocity = Vector3.ZERO
+	stop_moving()
+	_pending_noise = {}
+	if vision:
+		vision.reset()
+	if hearing:
+		hearing.reset()
+	_create_machine()
+	var patrol := machine.get_state(GuardStateMachine.PATROL) as PatrolState
+	if patrol:
+		patrol.current_point = int(snapshot.get("point", 0))
+	machine.start()
+	return true
+
+
+## Would this guard, standing at `xf`, see `head` (inside its view cone and
+## range, nothing solid in between)?
+func _would_see(xf: Transform3D, head: Vector3) -> bool:
+	if vision == null:
+		return false
+	# The eye and its facing as they would be with the guard at xf (as GuardVision.is_in_view).
+	var relative := global_transform.affine_inverse() * vision.global_transform
+	var eye_xf := xf * relative
+	var to := head - eye_xf.origin
+	if to.length() > vision.detection_distance or to.length_squared() < 0.0001:
+		return false
+	if rad_to_deg((-eye_xf.basis.z).angle_to(to)) > vision.fov_degrees / 2.0:
+		return false
+	var hit := get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(eye_xf.origin, head, 1))
+	return hit.is_empty()
 
 
 ## Back to where the guard started, patrolling with no memory of the player.

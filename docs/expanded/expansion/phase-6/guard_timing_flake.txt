@@ -1,0 +1,47 @@
+Tutorial tests/guard_tests.gd alone, fresh process each run, this VM, 2026-10-16
+SUMMARY: Phase 5 tree 0 of 8 runs failed; Phase 6 tree 8 of 16 failed; Phase 6 with Phase 5's guard.gd 1 of 8;
+Phase 6 with the proposed test fix 0 of 8. The failure is always the first wait measured 0.2-0.3 s long
+(the test starts counting before the physics steps queued at the old time scale have run; see the Phase 5 balance
+report of the earlier series). With the fix every measured wait is within the test's 0.15 s tolerance on the Phase 6 code.
+
+Phase 5 tree (as delivered), runs:
+p5x r1: GUARD DONE: 0 failure(s)
+p5x r2: GUARD DONE: 0 failure(s)
+p5x r3: GUARD DONE: 0 failure(s)
+p5x r1: GUARD DONE: 0 failure(s)
+p5x r2: GUARD DONE: 0 failure(s)
+p5x r3: GUARD DONE: 0 failure(s)
+p5x r4: GUARD DONE: 0 failure(s)
+p5x r5: GUARD DONE: 0 failure(s)
+Phase 6 tree, runs:
+p6x r1: GUARD DONE: 0 failure(s)
+p6x r2: FAIL: [guard] GuardMain waited 3.30s at point 1, expected 3.00s.
+p6x r2: FAIL: [guard] GuardRestricted waited 2.30s at point 1, expected 2.00s.
+p6x r2: FAIL: [guard] GuardEast waited 2.30s at point 1, expected 2.00s.
+p6x r2: GUARD DONE: 3 failure(s)
+p6x r3: FAIL: [guard] GuardMain waited 3.20s at point 1, expected 3.00s.
+p6x r3: FAIL: [guard] GuardRestricted waited 2.20s at point 1, expected 2.00s.
+p6x r3: FAIL: [guard] GuardEast waited 2.20s at point 1, expected 2.00s.
+p6x r3: GUARD DONE: 3 failure(s)
+p6x r1: GUARD DONE: 0 failure(s)
+p6x r2: GUARD DONE: 0 failure(s)
+p6x r3: FAIL: [guard] GuardMain waited 3.20s at point 1, expected 3.00s.
+p6x r3: GUARD DONE: 3 failure(s)
+p6x r4: FAIL: [guard] GuardMain waited 3.30s at point 1, expected 3.00s.
+p6x r4: GUARD DONE: 3 failure(s)
+p6x r5: GUARD DONE: 0 failure(s)
+p6x r1: FAIL: [guard] GuardMain waited 3.20s at point 1, expected 3.00s.
+p6x r1: GUARD DONE: 3 failure(s)
+p6x r2: GUARD DONE: 0 failure(s)
+p6x r3: FAIL: [guard] GuardMain waited 3.20s at point 1, expected 3.00s.
+p6x r3: GUARD DONE: 3 failure(s)
+p6x r4: GUARD DONE: 0 failure(s)
+p6x r5: FAIL: [guard] GuardMain waited 3.20s at point 1, expected 3.00s.
+p6x r5: GUARD DONE: 3 failure(s)
+p6x r6: GUARD DONE: 0 failure(s)
+p6x r7: FAIL: [guard] GuardMain waited 3.20s at point 1, expected 3.00s.
+p6x r7: GUARD DONE: 3 failure(s)
+p6x r8: GUARD DONE: 0 failure(s)
+Phase 6 tree with guard.gd from Phase 5: 1 of 8 runs failed (3.20 s).
+Phase 6 tree with the proposed one-line test fix (await one process frame after setting Engine.time_scale; NOT delivered):
+8 of 8 runs passed (GUARD DONE: 0 failure(s)).

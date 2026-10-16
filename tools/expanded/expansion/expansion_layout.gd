@@ -46,8 +46,22 @@ extends RefCounted
 ## surveillance circuit (SECURITY below). The basement guard and the guards'
 ## expanded_security flag are written into expanded_library.tscn by
 ## tools/expanded/expansion/security_x4.py.
+##
+## Phase 6 (x5, escape routes and checkpoints): three escape routes, each with
+## its own prerequisites, all needing the manuscript (ESCAPES below):
+##   A  the main entrance: it locks behind the player (night lockdown); the
+##      security master badge (in the Office 1 locker) and a 4 s override at
+##      the lobby badge reader open it; a lobby camera watches the reader.
+##   B  the loading dock: the shutter release freed with the tool kit, SERVICE
+##      EXIT power, then the shutter control's OPEN button.
+##   C  the hidden maintenance passage: a false wall panel in the tunnel's
+##      north gap (found through the culvert access plan in the maintenance
+##      bay), then the pump drains the culvert and clears the storm drain grate.
+## Each exit is walked through (a trigger past the door). The dock exit's
+## properties and the guards' checkpoint_snapshot flag are written into
+## expanded_library.tscn by tools/expanded/expansion/escape_x5.py.
 
-const VERSION := "x4"
+const VERSION := "x5"
 
 ## Basement floor (top surface), and the slab under the existing ground floor.
 const BF := -4.0
@@ -169,6 +183,12 @@ const DOORS := [
 	# Phase 4: the existing vault doorway (archive hall → vault, upper floor) gets a door the keypad opens.
 	{"name": "VaultDoor", "door_name": "Vault Door", "centre": Vector3(28, 4.5, -21), "along_x": false,
 		"width": 2.0, "key": "open_vault", "key_name": "vault code"},
+	# Phase 6 (escape C): a false wall panel in the tunnel's existing north gap
+	# (x -2…2, opposite the pump room door), full height, hidden until the
+	# culvert access plan is read; then E works its latch.
+	{"name": "MaintenancePanel", "door_name": "Maintenance Panel", "centre": Vector3(0, BF, -27), "along_x": true,
+		"width": 4.0, "key": "", "key_name": "hidden latch", "height": SLAB_BOTTOM - BF, "hidden_until": "culvert_access_plan",
+		"prompt": "Work the hidden latch (maintenance panel)"},
 ]
 
 ## Seals: invisible colliders (no mesh) that keep the navmesh as it was where
@@ -245,9 +265,9 @@ const SIGNS := [
 const RESERVED := [
 	{"name": "PowerSecurityPuzzle", "text": "RESERVED · power / security puzzle", "pos": Vector3(41, 0, -26)},
 	{"name": "PumpPuzzle", "text": "RESERVED · pump puzzle", "pos": Vector3(0, BF, -16)},
-	{"name": "Escape2StormDrain", "text": "ESCAPE 2 (reserved) · storm drain grate", "pos": Vector3(0, BF, -36)},
-	{"name": "Escape3MainEntrance", "text": "ESCAPE 3 (reserved) · main entrance, security lockdown", "pos": Vector3(0, 0, 29)},
-	{"name": "Escape1LoadingDock", "text": "ESCAPE 1 · loading dock (existing mission exit)", "pos": Vector3(34.6, 0, 24)},
+	{"name": "Escape2StormDrain", "text": "ESCAPE C · hidden maintenance passage → storm drain", "pos": Vector3(0, BF, -36)},
+	{"name": "Escape3MainEntrance", "text": "ESCAPE A · main entrance (lockdown, badge reader)", "pos": Vector3(0, 0, 29)},
+	{"name": "Escape1LoadingDock", "text": "ESCAPE B · loading dock (shutter)", "pos": Vector3(34.6, 0, 24)},
 ]
 
 ## Points for the tests: where each new area is walked to.
@@ -287,6 +307,8 @@ const ITEMS := [
 	{"name": "BottleCableBay", "item": "bottle", "zone": "G", "pos": Vector3(44.0, BF + 1.2, -21.0), "yaw": 0.0},
 	# Phase 4: inside the Office 1 security locker (appears when it is opened).
 	{"name": "LockerBottle", "item": "bottle", "zone": "E", "pos": Vector3(-5.0, 4.5, -22.4), "yaw": 0.0, "available": false},
+	# Phase 6: the credential for escape A, also in the locker.
+	{"name": "LockerBadge", "item": "security_badge", "zone": "E", "pos": Vector3(-5.0, 4.5, -21.7), "yaw": 0.0, "available": false},
 ]
 ## Storage shelves (ItemStorage): wall-mounted, no collision (nothing baked, no
 ## route changed). "pos" is the shelf surface, 1 m above the floor; "facing"
@@ -320,7 +342,11 @@ const DOCUMENTS := [
 		"text": "NIGHT SECURITY ROTA\nOkoro: 21:00\nLindqvist: 03:00\nBrand: 06:00\nSecurity locker (Office 1): the combination is the last digit of each start hour, in rota order."},
 	{"name": "PatrolNotes", "id": "patrol_notes", "title": "Patrol notes", "zone": "E", "available": false,
 		"pos": Vector3(-5.83, 5.75, -23.3), "facing": 90.0,
-		"text": "PATROL NOTES (security locker)\nEvery guard keeps to a fixed loop and stops briefly at its corners: wait for the pause, then move.\nThe basement is not patrolled at night.\nAn alarm draws whoever hears it to the spot. Be somewhere else by then.\n— Night shift"},
+		"text": "PATROL NOTES (security locker)\nEvery guard keeps to a fixed loop and stops briefly at its corners: wait for the pause, then move.\nOne guard walks the whole basement tunnel. An alarm draws whoever hears it to the spot. Be somewhere else by then.\nThe master badge in this locker overrides the night lockdown at the main entrance reader. The override takes a few seconds and the lobby camera watches the reader.\n— Night shift"},
+	# Phase 6 (escape C): the clue to the hidden maintenance panel.
+	{"name": "CulvertAccessPlan", "id": "culvert_access_plan", "title": "Culvert access plan", "zone": "G",
+		"pos": Vector3(-23.5, BF + 1.4, -17.17), "facing": 180.0,
+		"text": "FACILITIES · CULVERT ACCESS\nAfter the 2019 flood the culvert access opposite the pump room door was boarded over with a false wall panel. Its latch still works: press the panel's right-hand edge.\nBeyond it the storm drain runs out under the grounds, but the grate at its end jams while the culvert is flooded. Pump it dry first.\n— Facilities"},
 ]
 
 ## Phase 4 (x3): the puzzles and their supports, built under Expansion/Gameplay/Mission.
@@ -336,7 +362,7 @@ const MISSION := {
 		"objective": "open_vault", "door": "VaultDoor", "title": "Vault keypad"},
 	"locker": {"name": "SecurityLocker", "pos": Vector3(-5.83, 5.85, -21.4), "facing": 90.0, "zone": "E",
 		"code": "136", "power": "", "alarm": false, "attempts": 3, "lockout": 10.0,
-		"objective": "security_locker", "reveal": ["Items/LockerBottle", "Documents/PatrolNotes"], "title": "Security locker",
+		"objective": "security_locker", "reveal": ["Items/LockerBottle", "Items/LockerBadge", "Documents/PatrolNotes"], "title": "Security locker",
 		"cabinet": {"centre": Vector3(-5.6, 5.4, -22.4), "size": Vector3(0.45, 1.8, 0.9)}},
 	"pump_crank": {"name": "PumpCrank", "pos": Vector3(-3.4, BF + 1.0, -14.27), "facing": 180.0, "zone": "G",
 		"mechanism_name": "Pump crank", "action_text": "Free the seized crank", "size": Vector3(0.4, 0.4, 0.12)},
@@ -350,7 +376,7 @@ const MISSION := {
 ## written into expanded_library.tscn by tools/expanded/expansion/mission_x3.py.
 const MISSION_OBJECTIVES := [
 	{"id": "enter_library", "title": "Enter the library", "hint": "Go in through the main entrance.",
-		"done": "You're inside. Explore: the staff offices upstairs, the stacks, the basement"},
+		"done": "Inside. The main doors locked behind you (night lockdown)"},
 	{"id": "take_card", "requires": ["enter_library"], "title": "Take a staff access card",
 		"hint": "Staff offices, upper floor: up the main stair (or the stacks stair), through the staff wing.",
 		"done": "Staff access card taken: staff doors open while you carry it"},
@@ -368,9 +394,9 @@ const MISSION_OBJECTIVES := [
 		"done": "Vault open"},
 	{"id": "take_manuscript", "requires": ["open_vault"], "title": "Retrieve the rare manuscript",
 		"hint": "On the pedestal inside the vault.",
-		"done": "Manuscript retrieved. Now get out: the loading dock, or another way"},
+		"done": "Manuscript retrieved. Now get out: the main entrance, the loading dock or a hidden way"},
 	{"id": "escape", "requires": ["take_manuscript"], "title": "Escape with the manuscript",
-		"hint": "The loading dock exit (down the staff stair), or the storm drain if you can clear it.",
+		"hint": "Three ways out, each needing something different: the main entrance (locked down; security has a master badge), the loading dock (its shutter needs power) or a hidden maintenance passage in the basement.",
 		"done": "Escaped"},
 	{"id": "unlock_shortcut", "requires": ["take_card"], "optional": true, "title": "Unlock the archive back gate (shortcut)",
 		"hint": "East side of the archive hall. It only opens from inside the archive.",
@@ -403,7 +429,36 @@ const SECURITY := {
 		{"name": "CameraArchiveHall", "title": "archive hall", "zone": "F", "pos": Vector3(27.6, UY + 3.0, -6.4), "look": Vector3(16.0, UY, -17.0)},
 		{"name": "CameraLoadingDock", "title": "loading dock", "zone": "D", "pos": Vector3(35.6, 3.5, 12.4), "look": Vector3(22.0, 0.0, 25.0)},
 		{"name": "CameraTunnel", "title": "service tunnel", "zone": "G", "pos": Vector3(12.0, SLAB_BOTTOM - 0.5, -23.25), "look": Vector3(-8.0, BF, -25.0)},
+		# Phase 6: a fixed camera looking down at the main entrance's badge reader
+		# (escape A) only: no sweep, a narrow view, so the doorway and the spot
+		# behind the entrance screen stay out of it.
+		{"name": "CameraLobby", "title": "main entrance", "zone": "A", "pos": Vector3(2.9, 3.4, 26.0), "look": Vector3(2.9, 0.6, 27.8),
+			"fov": 40.0, "sweep": 0.0, "range": 6.0},
 	],
 	"labels": {"switch_board": Vector3(41.0, 2.25, -27.0)},
 }
 
+
+
+## Phase 6 (x5): the escape routes (Expansion/Gameplay/Escape). Each exit is an
+## ExitDoor in walk-through mode: it opens when its conditions hold and the
+## player escapes by walking into its trigger with the manuscript. Triggers sit
+## just past the door, so a closed door keeps them out of reach.
+const ESCAPES := {
+	"main_entrance": {"name": "MainEntranceExit", "route": "main_entrance", "route_name": "Main entrance", "zone": "A",
+		"pos": Vector3(0.0, 1.2, 27.5), "size": Vector3(4.0, 2.4, 0.6),
+		"panel": {"centre": Vector3(0.0, 1.5, 28.0), "size": Vector3(4.0, 3.0, 0.2)},
+		"trigger": {"centre": Vector3(0.0, 1.2, 28.85), "size": Vector3(4.0, 2.4, 1.2)},
+		"armed_after": "enter_library",
+		# The lockdown is announced by enter_library's "done" text (MISSION_OBJECTIVES), so it isn't hidden by it.
+		"lockdown": "",
+		"locked_sign": "MAIN ENTRANCE · NIGHT LOCKDOWN", "open_sign": "MAIN ENTRANCE · OPEN",
+		"locked_prompt": "Main entrance (night lockdown)",
+		"unlock_reason": "The main entrance is under the night lockdown. Override it at the badge reader (security master badge)."},
+	"badge_reader": {"name": "BadgeReader", "pos": Vector3(2.9, 1.3, 27.8), "facing": 180.0, "zone": "A", "hold": 4.0},
+	"dock_release": {"name": "DockShutterRelease", "pos": Vector3(35.83, 1.1, 21.4), "facing": -90.0, "zone": "D",
+		"mechanism_name": "Dock shutter release", "action_text": "Free the jammed release", "size": Vector3(0.5, 0.4, 0.1)},
+	"dock_shutter": {"name": "DockShutterControl", "pos": Vector3(35.83, 1.3, 26.4), "facing": -90.0, "zone": "D"},
+	"dock_trigger": {"name": "DockExitTrigger", "centre": Vector3(36.4, 1.2, 24.0), "size": Vector3(0.7, 2.4, 3.0)},
+	"drain_trigger": {"name": "Trigger", "offset": Vector3(0.0, 0.0, -2.8), "size": Vector3(3.6, 2.4, 1.6)},
+}

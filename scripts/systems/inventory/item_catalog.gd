@@ -15,6 +15,8 @@ const TOOLKIT := &"toolkit"
 const STAFF_CARD := &"staff_card"
 const BOTTLE := &"bottle"
 const HARDBACK := &"hardback"
+## Expansion Phase 6: the night guard's master badge (the main entrance escape route).
+const SECURITY_BADGE := &"security_badge"
 
 ## id -> name, kind, look (mesh size, colour, "box" or "cylinder") and, for
 ## distractions, the noise made where it lands (radius in metres, intensity 0–1).
@@ -23,6 +25,8 @@ const ITEMS := {
 		"size": Vector3(0.46, 0.2, 0.26), "colour": Color(0.78, 0.16, 0.12), "shape": "box"},
 	STAFF_CARD: {"name": "Staff access card", "kind": Kind.CARD,
 		"size": Vector3(0.26, 0.015, 0.17), "colour": Color(0.2, 0.55, 0.95), "shape": "box"},
+	SECURITY_BADGE: {"name": "Security master badge", "kind": Kind.CARD,
+		"size": Vector3(0.24, 0.02, 0.16), "colour": Color(0.95, 0.75, 0.15), "shape": "box"},
 	BOTTLE: {"name": "Glass bottle", "kind": Kind.DISTRACTION, "noise_radius": 14.0, "noise_intensity": 1.0,
 		"size": Vector3(0.09, 0.3, 0.09), "colour": Color(0.3, 0.7, 0.45), "shape": "cylinder"},
 	HARDBACK: {"name": "Heavy hardback", "kind": Kind.DISTRACTION, "noise_radius": 10.0, "noise_intensity": 0.8,

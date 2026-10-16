@@ -5089,6 +5089,7 @@ script = ExtResource("7_v7wux")
 transform = Transform3D(0.17579068, 0, -0.9844276, 0, 1, 0, 0.9844276, 0, 0.17579068, -6, 0.05, 15.5)
 patrol_route = NodePath("../P1_Lobby")
 expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P1"
 
@@ -5206,6 +5207,7 @@ script = ExtResource("7_v7wux")
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -14, 0.05, -24)
 patrol_route = NodePath("../P2_MainStacks")
 expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P2"
 
@@ -5327,6 +5329,7 @@ wait_time = 2.5
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 14.5, 0.05, -18)
 patrol_route = NodePath("../P4_ServiceCorridor")
 expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P4"
 
@@ -5444,6 +5447,7 @@ script = ExtResource("7_v7wux")
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -13, 4.55, -25)
 patrol_route = NodePath("../P5_UpperStacks")
 expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P5"
 
@@ -5565,6 +5569,7 @@ script = ExtResource("7_v7wux")
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 14, 4.55, -9)
 patrol_route = NodePath("../P7_Archive")
 expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P7"
 
@@ -5706,6 +5711,7 @@ wait_time = 1.5
 transform = Transform3D(-0.98893636, 0, 0.14834043, 0, 1, 0, -0.14834043, 0, -0.98893636, 0, 0.05, -5)
 patrol_route = NodePath("../P8_Connector")
 expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P8"
 
@@ -5826,6 +5832,7 @@ script = ExtResource("7_v7wux")
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -30, -3.95, -25)
 patrol_route = NodePath("../P9_Basement")
 expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P9"
 
@@ -5922,7 +5929,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
 [node name="ObjectiveManager" type="Node" parent="Gameplay" unique_id=2007594789]
 script = ExtResource("9_yje15")
 objectives = Array[Dictionary]([{
-"done": "You're inside. Explore: the staff offices upstairs, the stacks, the basement",
+"done": "Inside. The main doors locked behind you (night lockdown)",
 "hint": "Go in through the main entrance.",
 "id": &"enter_library",
 "title": "Enter the library"
@@ -5957,14 +5964,14 @@ objectives = Array[Dictionary]([{
 "requires": ["take_card", "restore_power"],
 "title": "Open the archive vault"
 }, {
-"done": "Manuscript retrieved. Now get out: the loading dock, or another way",
+"done": "Manuscript retrieved. Now get out: the main entrance, the loading dock or a hidden way",
 "hint": "On the pedestal inside the vault.",
 "id": &"take_manuscript",
 "requires": ["open_vault"],
 "title": "Retrieve the rare manuscript"
 }, {
 "done": "Escaped",
-"hint": "The loading dock exit (down the staff stair), or the storm drain if you can clear it.",
+"hint": "Three ways out, each needing something different: the main entrance (locked down; security has a master badge), the loading dock (its shutter needs power) or a hidden maintenance passage in the basement.",
 "id": &"escape",
 "requires": ["take_manuscript"],
 "title": "Escape with the manuscript"
@@ -6158,8 +6165,16 @@ no_power_reason = "The dock shutter has no power: switch SERVICE EXIT on in the 
 no_power_sign = "SHUTTER · NO POWER"
 key_objective_id = &"take_manuscript"
 locked_sign = "SEALED · STAFF EXIT"
-locked_reason = "The loading dock exit is sealed until you have the rare manuscript."
-locked_prompt = "Exit locked (rare manuscript first)"
+locked_reason = "You can't leave without the rare manuscript."
+locked_prompt = "Loading dock exit (shutter down)"
+walk_through = true
+trigger_path = NodePath("../../Expansion/Gameplay/Escape/DockExitTrigger")
+panel_path = NodePath("../../NavigationRegion3D/Ground/D_ServiceCorridor/ExitDoorPanel")
+needs_unlock = true
+unlock_reason = "The dock shutter is down. Free its release (tool kit), then press OPEN on the shutter control."
+route_id = &"loading_dock"
+route_name = "Loading dock"
+open_sign = "DOCK · OPEN"
 door_mesh = NodePath("../../NavigationRegion3D/Ground/D_ServiceCorridor/ExitDoorPanel/Mesh")
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/ExitDoor" unique_id=1718093398]

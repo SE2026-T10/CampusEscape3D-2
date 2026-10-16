@@ -339,3 +339,27 @@ Guards, routes, mission and every other node are unchanged (baseline digests in 
 **Approved changes to the existing scene (`tools/expanded/expansion/security_x4.py`):** `expanded_security = true` on the six existing guards; the new GuardBasement with its route P9_Basement (in `Guards`); `power_circuit`, `no_power_reason` and `no_power_sign` on the loading dock ExitDoor. No geometry, navmesh, existing route or existing guard placement changed (the baseline test proves it with the two new nodes left out).
 
 **Evidence:** [`expansion/phase-5/`](expansion/phase-5/); report [`expansion/phase-5-security.md`](expansion/phase-5-security.md).
+
+---
+
+## Expansion layout x5 — escape routes and checkpoints (expansion Phase 6, 2026-10-16)
+
+**What:**
+- Three escape routes, each needing the manuscript and its own prerequisites:
+  - **A main entrance:** a lockdown panel closes the existing entrance once the player is inside; the new security master badge (in the Office 1 security locker) and a 4 s override at a new badge reader open it; a new fixed lobby camera watches the reader.
+  - **B loading dock:** the existing dock exit also needs a new shutter release (tool kit) and the OPEN button on a new shutter control, besides SERVICE EXIT power.
+  - **C hidden maintenance passage:** a false wall panel in the tunnel's existing north gap, revealed by a new document (culvert access plan); the Phase 4 pump still clears the storm drain grate.
+- Exits are walked through (a trigger past each door). The route used is recorded and shown on the win screen.
+- Checkpoints also store the guards' positions, facing and patrol progress (Expanded Library only), restored on PATROL with a clear memory; a guard near or in sight of the respawn point goes to its start.
+
+**Why:** the owner's Phase 6 brief; the owner approved the three routes as proposed, walk-through triggers, and guard positions in the snapshot.
+
+**Approved changes to the existing scene:**
+- `tools/expanded/expansion/escape_x5.py`:
+  - `checkpoint_snapshot = true` on the seven guards;
+  - walk-through properties on the loading dock ExitDoor (its trigger and panel, the unlock requirement, the route name, texts).
+- `tools/expanded/expansion/mission_x3.py`: the enter_library, take_manuscript and escape texts (the objective graph is unchanged).
+
+No geometry, navmesh, guard placement or route changed.
+
+**Evidence:** [`expansion/phase-6/`](expansion/phase-6/); report [`expansion/phase-6-escapes.md`](expansion/phase-6-escapes.md).

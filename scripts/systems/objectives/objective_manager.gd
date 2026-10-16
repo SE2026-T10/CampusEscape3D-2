@@ -111,6 +111,8 @@ func setup(objectives: Array) -> void:
 ## Back to the start: linear, the first objective ACTIVE and the rest LOCKED;
 ## graph, every objective without prerequisites ACTIVE.
 func reset() -> void:
+	escape_route = &""
+	escape_route_name = ""
 	if _graph:
 		_apply_graph({})
 	else:
@@ -138,6 +140,18 @@ func complete(id: StringName) -> bool:
 	else:
 		level_completed.emit()
 	return true
+
+
+## Expansion Phase 6: the escape route used (set by the exit just before it
+## completes the escape objective); empty until the player escapes. Reset by
+## reset() and restore() (an escape ends the level, so it is never restored).
+var escape_route: StringName = &""
+var escape_route_name := ""
+
+
+func record_escape_route(id: StringName, route_name: String) -> void:
+	escape_route = id
+	escape_route_name = route_name
 
 
 func get_state(id: StringName) -> State:
@@ -249,6 +263,8 @@ func get_progress() -> Dictionary:
 ## objectives is kept and everything after it is rebuilt, so the flow stays
 ## valid even if the snapshot is not.
 func restore(progress: Dictionary) -> void:
+	escape_route = &""
+	escape_route_name = ""
 	if _graph:
 		# Keep the snapshot's COMPLETED objectives whose prerequisites are kept too.
 		var kept := {}

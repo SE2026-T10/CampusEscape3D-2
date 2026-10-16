@@ -289,7 +289,8 @@ func _rise(guard: Guard, at: Vector3) -> float:
 # --- F. Cameras ------------------------------------------------------------------------------------------
 
 func _check_cameras() -> void:
-	_expect(_cameras.size() == 4, "Expected 4 cameras, found %d." % _cameras.size())
+	_expect(_cameras.size() == Expansion.SECURITY.cameras.size() and Expansion.SECURITY.cameras.size() == 5,
+		"Expected 5 cameras (4 from Phase 5, the lobby camera from Phase 6), found %d." % _cameras.size())
 	_expect(_power.is_powered(&"surveillance") and _cameras.all(func(c): return c.is_powered()), "Surveillance starts ON and the cameras with it.")
 	var cam: SecurityCamera = _level.get_node(SEC + "Cameras/CameraArchiveHall")
 	cam.sweep_speed = 0.0
@@ -431,6 +432,9 @@ func _check_service_power() -> void:
 	for id in [&"enter_library", &"take_card", &"find_toolkit", &"open_panel", &"restore_power", &"open_vault", &"take_manuscript"]:
 		_objectives.complete(id)
 	_expect(_objectives.current() == &"escape", "Setup: escape is the current objective.")
+	# Phase 6: the dock also needs its shutter opened (release + OPEN; tested in
+	# tests/expanded_escape_tests.gd). Opened here, only the power decides.
+	_dock.unlock()
 	_service.interact(_player)   # service OFF
 	_expect(not _dock.is_unlocked() and _dock.rejection_reason().contains("SERVICE EXIT"), "Dock: without service power it stays shut and says why (%s)." % _dock.rejection_reason())
 	await _frames(2)
@@ -461,7 +465,16 @@ func _check_service_power() -> void:
 	_expect(reachable == 8, "No softlock: from all 8 combinations one press of SERVICE EXIT opens the dock (%d/8)." % reachable)
 	_expect(_drain.objective_id == &"escape" and _drain.extra_key_objective_id == &"drain_culvert" and _drain.power_circuit == &"", "The storm drain stays the power-free alternative.")
 	_service.interact(_player) if not _power.is_powered(&"service_exit") else null
-	_dock.interact(_player)
+	# Phase 6: walked through (real input).
+	_player.global_position = Vector3(34.6, 0.05, 24)
+	_player.velocity = Vector3.ZERO
+	_player.rotation.y = -PI / 2.0   # facing +x
+	Input.action_press("move_forward")
+	for i in 120:
+		await _host.get_tree().physics_frame
+		if _director.status == S.ESCAPED:
+			break
+	Input.action_release("move_forward")
 	await _frames(2)
 	_expect(_director.status == S.ESCAPED and _objectives.is_finished(), "Dock: with the manuscript and service power, the dock exit finishes the level.")
 	print("  [expanded-security] service: reboot → cameras ON + surveillance switch locked %.1f s (refused with a message), then switchable again; dock refused without SERVICE EXIT ('SHUTTER · NO POWER'), opens with it; from all 8 combinations the dock is reachable; storm drain power-free" % waited)
@@ -581,10 +594,7 @@ func _load(keep_guards: bool) -> void:
 	_cameras = _level.get_tree().get_nodes_in_group("security_cameras")
 	_keypad = _level.get_node(MISSION + "VaultKeypad")
 	_dock = _level.get_node("Gameplay/ExitDoor")
-	_drain = null
-	for n in _level.find_children("*", "Area3D", true, false):
-		if n is ExitDoor and n != _dock:
-			_drain = n
+	_drain = _level.get_node(MISSION + "StormDrainExit")
 	_noises.clear()
 	NoiseSystem.find(_level).noise_emitted.connect(func(e: NoiseEvent): _noises.append(e))
 	await _frames(10)

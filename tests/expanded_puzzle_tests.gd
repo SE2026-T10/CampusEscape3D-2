@@ -61,6 +61,10 @@ const AT_KEYPAD := Vector3(26.7, U, -19.3)
 const IN_VAULT := Vector3(32, U, -23.6)   # as the mission tests: at the pedestal
 const AT_DOCK := Vector3(34.3, 0, 24)
 const AT_SERVICE_SWITCH := Vector3(43.2, 0, -25.9)   # expansion Phase 5: the dock shutter's power
+const AT_DOCK_RELEASE := Vector3(34.9, 0, 21.4)   # expansion Phase 6: the shutter release and control
+const AT_DOCK_CONTROL := Vector3(34.9, 0, 26.4)
+const AT_HIDDEN_PANEL := Vector3(0.0, B, -25.4)   # expansion Phase 6: the false wall panel
+const AT_CULVERT_PLAN := Vector3(-23.5, B, -18.2)
 const AT_PUMP := Vector3(0.0, B, -15.5)
 const AT_PUMP_LOG := Vector3(5.6, B, -17.0)
 const AT_DRAIN := Vector3(0.0, B, -34.6)
@@ -240,6 +244,12 @@ func _check_route_dock() -> void:
 	_expect(_power.is_powered(&"service_exit") and _power.is_powered(&"surveillance") and _hud.get_message_text().contains("dock powered"),
 		"SERVICE EXIT on: the dock has power, the cameras reboot (%s)." % _hud.get_message_text())
 	log.append("service power")
+	# Expansion Phase 6: the shutter release (tool kit), then OPEN on the shutter control.
+	await _use(_level.get_node("Expansion/Gameplay/Escape/DockShutterRelease"), AT_DOCK_RELEASE)
+	var shutter: DockShutter = _level.get_node("Expansion/Gameplay/Escape/DockShutterControl")
+	await _use(shutter.button, AT_DOCK_CONTROL)
+	_expect(_dock_exit.unlocked and _hud.get_message_text().contains("Shutter open"), "The shutter opens (%s)." % _hud.get_message_text())
+	log.append("shutter")
 	# The card, the memo, the archive.
 	await _use(_card, AT_CARD)
 	await _use(_doc("ArchivistMemo"), AT_MEMO)
@@ -253,14 +263,14 @@ func _check_route_dock() -> void:
 	_expect(_objectives.is_completed(&"take_manuscript") and _objectives.get_state(&"escape") == ACTIVE and _dock_exit.is_unlocked(), "Manuscript taken; the dock is open.")
 	_expect(not _drain_exit.is_unlocked(), "The storm drain stays shut (culvert not drained).")
 	_expect(_hud.get_header_text() == "MISSION 7/8", "HUD header %s." % _hud.get_header_text())
-	await _use(_dock_exit, AT_DOCK)
+	await _walk(AT_DOCK, Vector3(39, 0, 24))   # Phase 6: walked through
 	var flow := GameFlow.find(_level)
 	_expect(_objectives.is_finished() and _director.status == S.ESCAPED and flow.state == GameStateMachine.State.WIN,
 		"Escaping through the dock wins (state %s)." % flow.state)
 	_expect(OPTIONAL.all(func(id): return not _objectives.is_completed(id)), "The mission is won with no optional objective done.")
 	var menus: GameMenus = _level.get_node("GameMenus")
-	_expect(menus.get_objectives_text() == "Mission objectives 8/8 complete · optional 0/3", "Win text: %s." % menus.get_objectives_text())
-	print("  [expansion-puzzles] route 1 (real input): plaque → tool kit → notice → %s → card → memo → G2 → code → manuscript → loading dock: WIN, 0/3 optional" % " → ".join(log))
+	_expect(menus.get_objectives_text() == "Mission objectives 8/8 complete · optional 0/3\nEscape route: Loading dock", "Win text: %s." % menus.get_objectives_text())
+	print("  [expansion-puzzles] route 1 (real input): plaque → tool kit → notice → %s → card → memo → G2 → code → manuscript → walk out of the loading dock: WIN, 0/3 optional" % " → ".join(log))
 
 
 func _check_route_drain() -> void:
@@ -290,12 +300,16 @@ func _check_route_drain() -> void:
 	await _use(_breakers.main_switch, AT_PANEL)
 	await _enter_code(_keypad, VAULT_CODE, AT_KEYPAD)
 	await _use(_manuscript, IN_VAULT)
+	# Phase 6: the drain is behind the hidden maintenance panel; the plan in the bay shows it.
+	await _use(_doc("CulvertAccessPlan"), AT_CULVERT_PLAN)
+	_level.get_node("ObjectiveHud").close_journal()
+	await _use(_level.get_node("Expansion/Gameplay/MaintenancePanel"), AT_HIDDEN_PANEL)
 	# Out through the storm drain.
 	await _stand_and_look(AT_DRAIN, _drain_exit.global_position)
-	_expect(_interactor.focused == _drain_exit and _hud.get_prompt_text() == "[E] Escape", "Storm drain prompt: %s." % _hud.get_prompt_text())
-	await _press("interact")
+	_expect(_interactor.focused == _drain_exit and _hud.get_prompt_text() == "[E] Hidden maintenance passage: open · walk through to escape", "Storm drain prompt: %s." % _hud.get_prompt_text())
+	await _walk(AT_DRAIN, Vector3(0, B, -39.5))
 	_expect(_objectives.is_finished() and _director.status == S.ESCAPED and GameFlow.find(_level).state == GameStateMachine.State.WIN, "Escaping through the storm drain wins.")
-	print("  [expansion-puzzles] route 2 (real input): card → G2 (keypad: no power) → tool kit → pump log (optional revealed) → crank → valves 1+3 → START (grate cleared) → power → code → manuscript → storm drain: WIN")
+	print("  [expansion-puzzles] route 2 (real input): card → G2 (keypad: no power) → tool kit → pump log (optional revealed) → crank → valves 1+3 → START (grate cleared) → power → code → manuscript → culvert plan → hidden panel → walk out of the storm drain: WIN")
 
 
 # --- D. Invalid sequences ------------------------------------------------------------------------
@@ -371,7 +385,7 @@ func _check_invalid_sequences() -> void:
 	var before := noise.emitted_count
 	await _stand_and_look(AT_DOCK, _aim(_dock_exit))
 	_expect(not _interactor.try_interact() and _director.status != S.ESCAPED, "The dock refuses without the manuscript.")
-	_expect(_hud.get_message_text() == "The loading dock exit is sealed until you have the rare manuscript.", "Dock message: %s." % _hud.get_message_text())
+	_expect(_hud.get_message_text() == "You can't leave without the rare manuscript.", "Dock message: %s." % _hud.get_message_text())
 	await _use(_manuscript, IN_VAULT)
 	await _stand_and_look(AT_DRAIN, _drain_exit.global_position)
 	_expect(_hud.get_prompt_text() == "[E] Storm drain (blocked)" and not _interactor.try_interact() and _director.status != S.ESCAPED,
@@ -468,6 +482,9 @@ func _check_persistence() -> void:
 	await _use(_manuscript, IN_VAULT)
 	if not _power.is_powered(&"service_exit"):
 		await _use(_service_switch, AT_SERVICE_SWITCH)   # Phase 5: the dock's power
+	if not _dock_exit.unlocked:   # Phase 6: release and OPEN
+		_level.get_node("Expansion/Gameplay/Escape/DockShutterRelease").interact(_player)
+		(_level.get_node("Expansion/Gameplay/Escape/DockShutterControl") as DockShutter).button.interact(_player)
 	_expect(_objectives.get_state(&"escape") == ACTIVE and _dock_exit.is_unlocked(), "Everything is still solvable after the captures.")
 	# Revisiting documents never duplicates journal entries.
 	var count := _inventory.documents.size()
@@ -574,6 +591,20 @@ func _enter_code(lock: CodeLock, code: String, at: Vector3, submit := true) -> v
 		await _use(dial, at, turns)
 	if submit:
 		await _use(lock.enter, at)
+
+
+## Phase 6: stands at `from`, faces `toward` and walks (real input) until the level ends or 2 s pass.
+func _walk(from: Vector3, toward: Vector3) -> void:
+	await _teleport(from)
+	_player.rotation.y = atan2(-(toward.x - from.x), -(toward.z - from.z))
+	_player.head.rotation.x = 0.0
+	Input.action_press("move_forward")
+	for i in 120:
+		await _frames(1)
+		if _director.status == S.ESCAPED:
+			break
+	Input.action_release("move_forward")
+	await _frames(4)
 
 
 func _teleport(at: Vector3) -> void:

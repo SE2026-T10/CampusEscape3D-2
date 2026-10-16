@@ -45,6 +45,8 @@ const SCRIPTS := {
 	"exit": "res://scripts/systems/objectives/exit_door.gd",
 	"switch": "res://scripts/systems/security/circuit_switch.gd",
 	"camera": "res://scripts/systems/security/security_camera.gd",
+	"badge_reader": "res://scripts/systems/escape/badge_reader.gd",
+	"dock_shutter": "res://scripts/systems/escape/dock_shutter.gd",
 }
 ## Mesh tiles are at most this long, so no mesh is reached by more than the
 ## renderer's 8 lights per mesh (lamps are 8-12 m apart, range 10 m).
@@ -131,6 +133,7 @@ func _build() -> void:
 		_add_document(documents, doc)
 	_add_mission(_group(gameplay, "Mission"))
 	_add_security(_group(gameplay, "Security"))
+	_add_escapes(_group(gameplay, "Escape"))
 
 	var dressing := _group(_root, "Dressing")
 	var ceilings := _group(dressing, "Ceilings")
@@ -199,6 +202,7 @@ func _build() -> void:
 		SCENE_PATH, Layout.VERSION, _bodies, _tiles, Layout.LIGHTS.size(), Layout.HIDING.size(), Layout.DOORS.size(),
 		Layout.ITEMS.size(), Layout.STORAGE.size(), Layout.DOCUMENTS.size()])
 	print("  mission (x3): %d puzzle nodes under Gameplay/Mission" % Layout.MISSION.size())
+	print("  escapes (x5): main entrance exit + badge reader, dock shutter release + control + trigger, storm drain trigger")
 	_root.free()
 	quit(0)
 
@@ -308,8 +312,13 @@ func _add_access_door(parent: Node, d: Dictionary) -> void:
 	if d.has("key_item"):
 		door.set("key_item", StringName(d.key_item))
 	door.set("key_name", d.key_name)
+	if d.has("hidden_until"):
+		door.set("hidden_until_document", StringName(d.hidden_until))
+	if d.has("prompt"):
+		door.set("prompt", d.prompt)
 	_add(parent, door)
 	var w: float = d.width
+	var h: float = d.get("height", Layout.DOOR_HEIGHT)
 	var shape := CollisionShape3D.new()
 	shape.name = "Shape"
 	shape.shape = _box_shape(Vector3(w, 2.4, 1.0) if d.along_x else Vector3(1.0, 2.4, w))
@@ -318,9 +327,9 @@ func _add_access_door(parent: Node, d: Dictionary) -> void:
 	panel.name = "Panel"
 	panel.collision_layer = 1
 	panel.collision_mask = 0
-	panel.position = Vector3(0, Layout.DOOR_HEIGHT / 2.0 - 1.2, 0)
+	panel.position = Vector3(0, h / 2.0 - 1.2, 0)
 	_add(door, panel)
-	var size := Vector3(w, Layout.DOOR_HEIGHT, 0.18) if d.along_x else Vector3(0.18, Layout.DOOR_HEIGHT, w)
+	var size := Vector3(w, h, 0.18) if d.along_x else Vector3(0.18, h, w)
 	var mesh := MeshInstance3D.new()
 	mesh.name = "Mesh"
 	mesh.mesh = _box_mesh(size)
@@ -478,14 +487,23 @@ func _add_mission(mission: Node3D) -> void:
 	exit.set("locked_prompt", "Storm drain (blocked)")
 	exit.set("locked_reason", "You can't leave without the rare manuscript.")
 	exit.set("extra_locked_reason", "The grate is jammed shut while the culvert is flooded.")
+	# Phase 6 (escape C): walked through; the trigger is past the grate.
+	exit.set("walk_through", true)
+	exit.set("trigger_path", NodePath("Trigger"))
+	exit.set("route_id", &"maintenance_passage")
+	exit.set("route_name", "Hidden maintenance passage")
+	exit.set("open_sign", "STORM DRAIN · CLEAR")
 	exit.set_meta("zone_id", e.zone)
 	_add(mission, exit)
 	var shape := CollisionShape3D.new()
 	shape.name = "Shape"
 	shape.shape = _box_shape(e.size)
 	_add(exit, shape)
+	var dt: Dictionary = Layout.ESCAPES.drain_trigger
+	_add_trigger(exit, dt.name, dt.offset, dt.size)
 	var sign_label := _add_label(exit, "Sign", Vector3(0, 1.5, 0.3), "STORM DRAIN · GRATE JAMMED", Color(1, 0.4, 0.3))
 	sign_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	sign_label.no_depth_test = false   # Phase 6: not seen through the hidden maintenance panel
 	var noise := Node3D.new()
 	noise.name = "Noise"
 	noise.set_script(load(SCRIPTS.noise))
@@ -526,8 +544,100 @@ func _add_security(security: Node3D) -> void:
 		cam.rotation = Vector3(0, atan2(-to.x, -to.z), 0)
 		cam.set("camera_name", c.title)
 		cam.set("pitch_degrees", rad_to_deg(atan2(-to.y, Vector2(to.x, to.z).length())))
+		for key in [["fov", "fov_degrees"], ["sweep", "sweep_angle"], ["range", "view_range"]]:
+			if c.has(key[0]):
+				cam.set(key[1], c[key[0]])
 		cam.set_meta("zone_id", c.zone)
 		_add(cameras, cam)
+
+
+## Phase 6: the main entrance exit, its badge reader, the dock shutter's
+## release and control, the dock's trigger (ESCAPES in the layout). The dock
+## ExitDoor itself is the level's (escape_x5.py points it at these).
+func _add_escapes(escape: Node3D) -> void:
+	var e: Dictionary = Layout.ESCAPES
+	var m: Dictionary = e.main_entrance
+	var exit := Area3D.new()
+	exit.name = m.name
+	exit.set_script(load(SCRIPTS.exit))
+	exit.position = m.pos
+	exit.set("objective_id", &"escape")
+	exit.set("key_objective_id", &"take_manuscript")
+	exit.set("walk_through", true)
+	exit.set("needs_unlock", true)
+	exit.set("unlock_reason", m.unlock_reason)
+	exit.set("armed_after_objective", StringName(m.armed_after))
+	exit.set("lockdown_text", m.lockdown)
+	exit.set("route_id", StringName(m.route))
+	exit.set("route_name", m.route_name)
+	exit.set("locked_sign", m.locked_sign)
+	exit.set("open_sign", m.open_sign)
+	exit.set("locked_prompt", m.locked_prompt)
+	exit.set("locked_reason", "You can't leave without the rare manuscript.")
+	exit.set("trigger_path", NodePath("Trigger"))
+	exit.set("panel_path", NodePath("Panel"))
+	exit.set_meta("zone_id", m.zone)
+	_add(escape, exit)
+	var shape := CollisionShape3D.new()
+	shape.name = "Shape"
+	shape.shape = _box_shape(m.size)
+	_add(exit, shape)
+	var panel := StaticBody3D.new()
+	panel.name = "Panel"
+	panel.collision_layer = 1
+	panel.collision_mask = 0
+	panel.position = m.panel.centre - m.pos
+	_add(exit, panel)
+	var mesh := MeshInstance3D.new()
+	mesh.name = "Mesh"
+	mesh.mesh = _box_mesh(m.panel.size)
+	mesh.material_override = _look("dark_metal")
+	_add(panel, mesh)
+	var pshape := CollisionShape3D.new()
+	pshape.name = "Shape"
+	pshape.shape = _box_shape(m.panel.size)
+	_add(panel, pshape)
+	_add_trigger(exit, "Trigger", m.trigger.centre - m.pos, m.trigger.size)
+	var sign_label := _add_label(exit, "Sign", Vector3(0, 1.75, -0.45), m.locked_sign, Color(1, 0.4, 0.3))
+	sign_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	var noise := Node3D.new()
+	noise.name = "Noise"
+	noise.set_script(load(SCRIPTS.noise))
+	noise.set("radius", 6.0)
+	_add(exit, noise)
+	var r: Dictionary = e.badge_reader
+	var reader := Area3D.new()
+	reader.name = r.name
+	reader.set_script(load(SCRIPTS.badge_reader))
+	reader.position = r.pos
+	reader.rotation_degrees = Vector3(0, r.facing, 0)
+	reader.set("hold_time", r.hold)
+	reader.set_meta("zone_id", r.zone)
+	_add(escape, reader)
+	reader.set("exit_path", reader.get_path_to(exit))
+	var release := _add_tool_mechanism(escape, e.dock_release, "steel")
+	var shutter := _placed(escape, e.dock_shutter, SCRIPTS.dock_shutter)
+	shutter.set("puzzle_name", "Dock shutter")
+	shutter.set("release_path", shutter.get_path_to(release))
+	# The dock ExitDoor is in the level (Gameplay/ExitDoor): ../../../../Gameplay/ExitDoor from here.
+	shutter.set("exit_path", NodePath("../../../../Gameplay/ExitDoor"))
+	_add_visual_box(escape, "DockShutterBackplate", e.dock_shutter.pos + Vector3(0.03, 0.1, 0), Vector3(0.04, 0.8, 0.6), "dark_metal")
+	var dt: Dictionary = e.dock_trigger
+	_add_trigger(escape, dt.name, dt.centre, dt.size)
+
+
+## An exit trigger (Area3D; ExitDoor sets its layers at run time).
+func _add_trigger(parent: Node, node_name: String, offset: Vector3, size: Vector3) -> void:
+	var trig := Area3D.new()
+	trig.name = node_name
+	trig.position = offset
+	trig.collision_layer = 0
+	trig.collision_mask = 2
+	_add(parent, trig)
+	var shape := CollisionShape3D.new()
+	shape.name = "Shape"
+	shape.shape = _box_shape(size)
+	_add(trig, shape)
 
 
 ## A Node3D with `script` at d.pos facing d.facing (degrees about Y).

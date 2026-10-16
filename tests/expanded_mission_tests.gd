@@ -243,9 +243,9 @@ func _check_no_bypass() -> void:
 	# The back gate opened from inside before the card does not complete anything yet.
 	# The exit before the shortcut: rejected, explained, no escape.
 	await _stand_and_look(AT_EXIT, _aim(_exit))
-	_expect(_hud.get_prompt_text() == "[E] Exit locked (rare manuscript first)", "Exit prompt, got '%s'." % _hud.get_prompt_text())
+	_expect(_hud.get_prompt_text() == "[E] Loading dock exit (shutter down)", "Exit prompt, got '%s'." % _hud.get_prompt_text())
 	_expect(not _interactor.try_interact() and _exit.rejections == 1 and _director.status != S.ESCAPED, "The exit must reject the player.")
-	_expect(_hud.get_message_text() == "The loading dock exit is sealed until you have the rare manuscript.",
+	_expect(_hud.get_message_text() == "You can't leave without the rare manuscript.",
 		"The exit should say what is missing, got '%s'." % _hud.get_message_text())
 	_expect(_exit._sign.text == Layout.EXIT_DOOR.sign, "The exit sign should say %s." % Layout.EXIT_DOOR.sign)
 	# The card taken and the vault solved, but not the manuscript: still sealed.
@@ -622,6 +622,12 @@ func _load(keep_guards: bool) -> void:
 		# power requirement is taken out here; it is tested with real switches in
 		# tests/expanded_puzzle_tests.gd (route 1) and tests/expanded_security_tests.gd.
 		_exit.power_circuit = &""
+		# Expansion Phase 6 made the dock a walk-through exit (shutter release, OPEN
+		# control, a trigger past the door): tested with real input in
+		# tests/expanded_escape_tests.gd and the puzzle suite's route 1. Here the
+		# dock keeps its original E-to-escape behaviour.
+		_exit.walk_through = false
+		_exit.needs_unlock = false
 	GameFlow.find(_level).change_scene = func(_path: String): pass
 	await _frames(10)
 

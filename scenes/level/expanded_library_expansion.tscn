@@ -15,6 +15,8 @@
 [ext_resource type="Script" path="res://scripts/systems/objectives/exit_door.gd" id="13_xwlce"]
 [ext_resource type="Script" path="res://scripts/systems/security/circuit_switch.gd" id="14_kvclb"]
 [ext_resource type="Script" path="res://scripts/systems/security/security_camera.gd" id="15_gc7a4"]
+[ext_resource type="Script" path="res://scripts/systems/escape/badge_reader.gd" id="16_kk1gr"]
+[ext_resource type="Script" path="res://scripts/systems/escape/dock_shutter.gd" id="17_no1ex"]
 [ext_resource type="PackedScene" path="res://scenes/props/ceiling_light.tscn" id="4_35jku"]
 
 [sub_resource type="BoxShape3D" id="BoxShape_8p100_0p200_12p000"]
@@ -324,6 +326,15 @@ size = Vector3(0.18, 2.6, 2)
 [sub_resource type="BoxShape3D" id="BoxShape_0p180_2p600_2p000"]
 size = Vector3(0.18, 2.6, 2)
 
+[sub_resource type="BoxShape3D" id="BoxShape_4p000_2p400_1p000"]
+size = Vector3(4, 2.4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4p000_3p800_0p180"]
+size = Vector3(4, 3.8, 0.18)
+
+[sub_resource type="BoxShape3D" id="BoxShape_4p000_3p800_0p180"]
+size = Vector3(4, 3.8, 0.18)
+
 [sub_resource type="BoxShape3D" id="BoxShape_1p400_1p200_1p000"]
 size = Vector3(1.4, 1.2, 1)
 
@@ -362,6 +373,33 @@ size = Vector3(0.4, 0.4, 0.22)
 
 [sub_resource type="BoxShape3D" id="BoxShape_3p600_2p400_1p000"]
 size = Vector3(3.6, 2.4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_3p600_2p400_1p600"]
+size = Vector3(3.6, 2.4, 1.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape_4p000_2p400_0p600"]
+size = Vector3(4, 2.4, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4p000_3p000_0p200"]
+size = Vector3(4, 3, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape_4p000_3p000_0p200"]
+size = Vector3(4, 3, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape_4p000_2p400_1p200"]
+size = Vector3(4, 2.4, 1.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p500_0p400_0p100"]
+size = Vector3(0.5, 0.4, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p500_0p400_0p200"]
+size = Vector3(0.5, 0.4, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0p040_0p800_0p600"]
+size = Vector3(0.04, 0.8, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p700_2p400_3p000"]
+size = Vector3(0.7, 2.4, 3)
 
 [sub_resource type="StandardMaterial3D" id="Material_ceiling"]
 albedo_color = Color(0.86, 0.83, 0.76, 1)
@@ -441,8 +479,8 @@ size = Vector3(4.94, 0.34, 0.04)
 size = Vector3(4.18, 0.34, 0.04)
 
 [node name="Expansion" type="Node3D" unique_id=424622795]
-editor_description = "Expanded Library expansion content (2026 expansion). Built by tools/expanded/expansion/build_expansion.gd from expansion_layout.gd (x4): the basement / service network (zone G), the electrical room (zone D), the west and east service stairs. New puzzles, mechanics and areas go here, not into expanded_library.tscn, whose builder is frozen. Instanced once into expanded_library.tscn as \"Expansion\", right after \"Gameplay\"; content uses the level's existing systems through their groups."
-metadata/expansion_layout_version = "x4"
+editor_description = "Expanded Library expansion content (2026 expansion). Built by tools/expanded/expansion/build_expansion.gd from expansion_layout.gd (x5): the basement / service network (zone G), the electrical room (zone D), the west and east service stairs. New puzzles, mechanics and areas go here, not into expanded_library.tscn, whose builder is frozen. Instanced once into expanded_library.tscn as \"Expansion\", right after \"Gameplay\"; content uses the level's existing systems through their groups."
+metadata/expansion_layout_version = "x5"
 
 [node name="Geometry" type="Node3D" parent="." unique_id=1582251620 groups=["expanded_navigation_source"]]
 
@@ -1726,6 +1764,34 @@ shape = SubResource("BoxShape_0p180_2p600_2p000")
 script = ExtResource("2_6vu6i")
 radius = 6.0
 
+[node name="MaintenancePanel" type="Area3D" parent="Gameplay" unique_id=1035073574]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.8, -27)
+script = ExtResource("1_rbutt")
+door_name = "Maintenance Panel"
+key_objective_id = &""
+key_name = "hidden latch"
+hidden_until_document = &"culvert_access_plan"
+prompt = "Work the hidden latch (maintenance panel)"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/MaintenancePanel" unique_id=1517653394]
+shape = SubResource("BoxShape_4p000_2p400_1p000")
+
+[node name="Panel" type="StaticBody3D" parent="Gameplay/MaintenancePanel" unique_id=810661433]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="Gameplay/MaintenancePanel/Panel" unique_id=823096036]
+layers = 16
+material_override = SubResource("Material_d9332eff")
+mesh = SubResource("BoxMesh_4p000_3p800_0p180")
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/MaintenancePanel/Panel" unique_id=2052022934]
+shape = SubResource("BoxShape_4p000_3p800_0p180")
+
+[node name="Noise" type="Node3D" parent="Gameplay/MaintenancePanel" unique_id=292340140]
+script = ExtResource("2_6vu6i")
+radius = 6.0
+
 [node name="HidingSpots" type="Node3D" parent="Gameplay" unique_id=1693772592]
 
 [node name="Basementalcove" type="Area3D" parent="Gameplay/HidingSpots" unique_id=1025332515]
@@ -1823,6 +1889,17 @@ available = false
 metadata/zone_id = "E"
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/Items/LockerBottle" unique_id=1837670025]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
+shape = SubResource("BoxShape_0p500_0p350_0p500")
+
+[node name="LockerBadge" type="Area3D" parent="Gameplay/Items" unique_id=1696276296]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 4.5, -21.7)
+script = ExtResource("4_b71qq")
+item_id = &"security_badge"
+available = false
+metadata/zone_id = "E"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Items/LockerBadge" unique_id=1465419570]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
 shape = SubResource("BoxShape_0p500_0p350_0p500")
 
@@ -1940,13 +2017,27 @@ document_id = &"patrol_notes"
 title = "Patrol notes"
 text = "PATROL NOTES (security locker)
 Every guard keeps to a fixed loop and stops briefly at its corners: wait for the pause, then move.
-The basement is not patrolled at night.
-An alarm draws whoever hears it to the spot. Be somewhere else by then.
+One guard walks the whole basement tunnel. An alarm draws whoever hears it to the spot. Be somewhere else by then.
+The master badge in this locker overrides the night lockdown at the main entrance reader. The override takes a few seconds and the lobby camera watches the reader.
 — Night shift"
 available = false
 metadata/zone_id = "E"
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/Documents/PatrolNotes" unique_id=1410608537]
+shape = SubResource("BoxShape_0p500_0p600_0p300")
+
+[node name="CulvertAccessPlan" type="Area3D" parent="Gameplay/Documents" unique_id=324553436]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -23.5, -2.6, -17.17)
+script = ExtResource("6_55c5i")
+document_id = &"culvert_access_plan"
+title = "Culvert access plan"
+text = "FACILITIES · CULVERT ACCESS
+After the 2019 flood the culvert access opposite the pump room door was boarded over with a false wall panel. Its latch still works: press the panel's right-hand edge.
+Beyond it the storm drain runs out under the grounds, but the grate at its end jams while the culvert is flooded. Pump it dry first.
+— Facilities"
+metadata/zone_id = "G"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Documents/CulvertAccessPlan" unique_id=897702527]
 shape = SubResource("BoxShape_0p500_0p600_0p300")
 
 [node name="Mission" type="Node3D" parent="Gameplay" unique_id=917845873]
@@ -2017,7 +2108,7 @@ script = ExtResource("11_eqxy8")
 code = "136"
 lockout_time = 10.0
 alarm_on_wrong = false
-reveal_paths = Array[NodePath]([NodePath("../../Items/LockerBottle"), NodePath("../../Documents/PatrolNotes")])
+reveal_paths = Array[NodePath]([NodePath("../../Items/LockerBottle"), NodePath("../../Items/LockerBadge"), NodePath("../../Documents/PatrolNotes")])
 puzzle_name = "Security locker"
 objective_id = &"security_locker"
 metadata/zone_id = "E"
@@ -2075,16 +2166,28 @@ locked_reason = "You can't leave without the rare manuscript."
 locked_prompt = "Storm drain (blocked)"
 extra_key_objective_id = &"drain_culvert"
 extra_locked_reason = "The grate is jammed shut while the culvert is flooded."
+walk_through = true
+trigger_path = NodePath("Trigger")
+route_id = &"maintenance_passage"
+route_name = "Hidden maintenance passage"
+open_sign = "STORM DRAIN · CLEAR"
 metadata/zone_id = "G"
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/Mission/StormDrainExit" unique_id=1014257144]
 shape = SubResource("BoxShape_3p600_2p400_1p000")
 
+[node name="Trigger" type="Area3D" parent="Gameplay/Mission/StormDrainExit" unique_id=1471777131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.8)
+collision_layer = 0
+collision_mask = 2
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Mission/StormDrainExit/Trigger" unique_id=72827743]
+shape = SubResource("BoxShape_3p600_2p400_1p600")
+
 [node name="Sign" type="Label3D" parent="Gameplay/Mission/StormDrainExit" unique_id=863301664]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.3)
 pixel_size = 0.006
 billboard = 1
-no_depth_test = true
 modulate = Color(1, 0.4, 0.3, 1)
 text = "STORM DRAIN · GRATE JAMMED"
 font_size = 40
@@ -2151,6 +2254,118 @@ script = ExtResource("15_gc7a4")
 camera_name = "service tunnel"
 pitch_degrees = 9.33435150986661
 metadata/zone_id = "G"
+
+[node name="CameraLobby" type="Node3D" parent="Gameplay/Security/Cameras" unique_id=1089851748]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 2.9, 3.4, 26)
+script = ExtResource("15_gc7a4")
+camera_name = "main entrance"
+view_range = 6.0
+fov_degrees = 40.0
+sweep_angle = 0.0
+pitch_degrees = 57.26478654990915
+metadata/zone_id = "A"
+
+[node name="Escape" type="Node3D" parent="Gameplay" unique_id=1631828477]
+
+[node name="MainEntranceExit" type="Area3D" parent="Gameplay/Escape" unique_id=864969512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 27.5)
+script = ExtResource("13_xwlce")
+key_objective_id = &"take_manuscript"
+locked_sign = "MAIN ENTRANCE · NIGHT LOCKDOWN"
+locked_reason = "You can't leave without the rare manuscript."
+locked_prompt = "Main entrance (night lockdown)"
+walk_through = true
+trigger_path = NodePath("Trigger")
+panel_path = NodePath("Panel")
+needs_unlock = true
+unlock_reason = "The main entrance is under the night lockdown. Override it at the badge reader (security master badge)."
+armed_after_objective = &"enter_library"
+route_id = &"main_entrance"
+route_name = "Main entrance"
+open_sign = "MAIN ENTRANCE · OPEN"
+metadata/zone_id = "A"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Escape/MainEntranceExit" unique_id=600963145]
+shape = SubResource("BoxShape_4p000_2p400_0p600")
+
+[node name="Panel" type="StaticBody3D" parent="Gameplay/Escape/MainEntranceExit" unique_id=2135254948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.29999995, 0.5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="Gameplay/Escape/MainEntranceExit/Panel" unique_id=995346813]
+layers = 4
+material_override = SubResource("Material_dark_metal")
+mesh = SubResource("BoxMesh_4p000_3p000_0p200")
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Escape/MainEntranceExit/Panel" unique_id=857172989]
+shape = SubResource("BoxShape_4p000_3p000_0p200")
+
+[node name="Trigger" type="Area3D" parent="Gameplay/Escape/MainEntranceExit" unique_id=1494340145]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.3500004)
+collision_layer = 0
+collision_mask = 2
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Escape/MainEntranceExit/Trigger" unique_id=863372984]
+shape = SubResource("BoxShape_4p000_2p400_1p200")
+
+[node name="Sign" type="Label3D" parent="Gameplay/Escape/MainEntranceExit" unique_id=1875874172]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, -0.45)
+pixel_size = 0.006
+billboard = 1
+no_depth_test = true
+modulate = Color(1, 0.4, 0.3, 1)
+text = "MAIN ENTRANCE · NIGHT LOCKDOWN"
+font_size = 40
+
+[node name="Noise" type="Node3D" parent="Gameplay/Escape/MainEntranceExit" unique_id=442021917]
+script = ExtResource("2_6vu6i")
+radius = 6.0
+
+[node name="BadgeReader" type="Area3D" parent="Gameplay/Escape" unique_id=1575814142]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2.9, 1.3, 27.8)
+script = ExtResource("16_kk1gr")
+exit_path = NodePath("../MainEntranceExit")
+metadata/zone_id = "A"
+
+[node name="DockShutterRelease" type="Area3D" parent="Gameplay/Escape" unique_id=1507391369]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 35.83, 1.1, 21.4)
+script = ExtResource("9_x37ws")
+mechanism_name = "Dock shutter release"
+action_text = "Free the jammed release"
+metadata/zone_id = "D"
+
+[node name="Model" type="MeshInstance3D" parent="Gameplay/Escape/DockShutterRelease" unique_id=1053045718]
+layers = 4
+material_override = SubResource("Material_steel")
+mesh = SubResource("BoxMesh_0p500_0p400_0p100")
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Escape/DockShutterRelease" unique_id=51490883]
+shape = SubResource("BoxShape_0p500_0p400_0p200")
+
+[node name="DockShutterControl" type="Node3D" parent="Gameplay/Escape" unique_id=1324971738]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 35.83, 1.3, 26.4)
+script = ExtResource("17_no1ex")
+exit_path = NodePath("../../../../Gameplay/ExitDoor")
+release_path = NodePath("../DockShutterRelease")
+puzzle_name = "Dock shutter"
+metadata/zone_id = "D"
+
+[node name="DockShutterBackplate" type="Node3D" parent="Gameplay/Escape" unique_id=601309457]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.86, 1.4, 26.4)
+
+[node name="Mesh" type="MeshInstance3D" parent="Gameplay/Escape/DockShutterBackplate" unique_id=1283144850]
+layers = 4
+material_override = SubResource("Material_dark_metal")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_0p040_0p800_0p600")
+
+[node name="DockExitTrigger" type="Area3D" parent="Gameplay/Escape" unique_id=1769563338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.4, 1.2, 24)
+collision_layer = 0
+collision_mask = 2
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Escape/DockExitTrigger" unique_id=1117511070]
+shape = SubResource("BoxShape_0p700_2p400_3p000")
 
 [node name="Dressing" type="Node3D" parent="." unique_id=833799689]
 
@@ -3011,7 +3226,7 @@ pixel_size = 0.006
 billboard = 1
 no_depth_test = true
 modulate = Color(0.6, 1, 0.65, 1)
-text = "ESCAPE 2 (reserved) · storm drain grate"
+text = "ESCAPE C · hidden maintenance passage → storm drain"
 font_size = 40
 metadata/reserved = true
 
@@ -3021,7 +3236,7 @@ pixel_size = 0.006
 billboard = 1
 no_depth_test = true
 modulate = Color(0.6, 1, 0.65, 1)
-text = "ESCAPE 3 (reserved) · main entrance, security lockdown"
+text = "ESCAPE A · main entrance (lockdown, badge reader)"
 font_size = 40
 metadata/reserved = true
 
@@ -3031,7 +3246,7 @@ pixel_size = 0.006
 billboard = 1
 no_depth_test = true
 modulate = Color(0.6, 1, 0.65, 1)
-text = "ESCAPE 1 · loading dock (existing mission exit)"
+text = "ESCAPE B · loading dock (shutter)"
 font_size = 40
 metadata/reserved = true
 

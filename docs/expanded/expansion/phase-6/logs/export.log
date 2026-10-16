@@ -1,0 +1,10 @@
+-rw-r--r-- 1 root root 38605843 Oct 16 18:08 dist/CampusEscape3D-1.1.0-windows-x64.zip
+
+build:
+total 107656
+-rw-r--r-- 1 root root 109127680 Oct 16 18:08 CampusEscape3D.exe
+-rw-r--r-- 1 root root   1102100 Oct 16 18:08 CampusEscape3D.pck
+-rw-r--r-- 1 root root       293 Oct 16 18:08 README.txt
+EXPORT PASSED: dist/CampusEscape3D-1.1.0-windows-x64.zip
+EEXIT=0
+RUNDONE

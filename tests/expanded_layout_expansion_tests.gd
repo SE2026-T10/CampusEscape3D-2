@@ -232,6 +232,11 @@ func _check_player_walk() -> void:
 	var door := _level.get_node_or_null("Expansion/Gameplay/ElectricalRoomDoor")
 	if door:
 		door.open()   # the card door (closed doors are tested in G and in the mission tests)
+	# Expansion Phase 6: the storm drain is behind a hidden maintenance panel
+	# (tested in tests/expanded_escape_tests.gd); open here, the drain is walked as before.
+	var panel := _level.get_node_or_null("Expansion/Gameplay/MaintenancePanel")
+	if panel:
+		panel.open()
 	await _frames(3)
 	var legs := [
 		["stacks_cross_aisle", ["west_landing", "west_basement", "basement_alcove", "maintenance_bay", "tunnel_middle", "pump_room",
@@ -258,6 +263,8 @@ func _check_player_walk() -> void:
 	_expect(lowest > X.BF - 0.3, "Walk: the player fell below the basement floor (lowest y %.2f)." % lowest)
 	if door:
 		door.restore_checkpoint_state({"open": false})
+	if panel:
+		panel.restore_checkpoint_state({"open": false})
 	print("  [expansion-layout] walk: %d/%d new places reached with real input, %.0f m, down the west service stair, along the tunnel, up the east service stair; lowest y %.2f" % [
 		reached, total, walked, lowest])
 

@@ -9,8 +9,12 @@ extends Node
 ##   - a snapshot of the mission state of every node in the "checkpoint_state"
 ##     group (get_checkpoint_state() / restore_checkpoint_state(), e.g. which
 ##     access doors are open), keyed by node path
+##   - (expansion Phase 6) where every guard in the "checkpoint_guards" group is
+##     (Guard.checkpoint_snapshot: the Expanded Library's guards): position,
+##     facing, patrol progress. Taken only when an activation changes something,
+##     so it is from the same moment as the rest of the snapshot
 ## Before any checkpoint, the level start (the player's own spawn) and the
-## starting progress are used.
+## starting progress are used (and guards start from their starts).
 ##
 ## When the player is caught, StealthDirector resets the level (player to the
 ## respawn location, guards back to their starts on patrol with clear memory)
@@ -34,6 +38,10 @@ var active: Checkpoint = null
 var saved_progress := {}
 ## Mission state stored at the last activation: node path -> that node's get_checkpoint_state().
 var saved_state := {}
+## Guard snapshots stored at the last activation: guard path -> Guard.get_checkpoint_snapshot().
+var saved_guards := {}
+## Guards put back at their stored spot by the last respawn (the rest went to their starts; for tests).
+var guards_restored := 0
 ## Number of activations (for tests and the HUD).
 var activations := 0
 
@@ -76,6 +84,9 @@ func activate(checkpoint: Checkpoint) -> bool:
 	checkpoint.set_active(true)
 	saved_progress = progress
 	saved_state = state
+	saved_guards = {}
+	for guard in get_tree().get_nodes_in_group("checkpoint_guards"):
+		saved_guards[String(get_path_to(guard))] = guard.get_checkpoint_snapshot()
 	activations += 1
 	var player := get_tree().get_first_node_in_group("player")
 	if player and player.has_method("set_spawn_transform"):
@@ -106,6 +117,14 @@ func restore_checkpoint() -> void:
 	var objectives := ObjectiveManager.find(self)
 	if objectives:
 		objectives.restore(saved_progress)
+	# Guards (already back at their starts): to their stored spots, unless that
+	# would put them on top of, or in sight of, the respawned player.
+	guards_restored = 0
+	var player := get_tree().get_first_node_in_group("player") as Node3D
+	for guard in get_tree().get_nodes_in_group("checkpoint_guards"):
+		var key := String(get_path_to(guard))
+		if player and saved_guards.has(key) and guard.restore_checkpoint_snapshot(saved_guards[key], player.global_position):
+			guards_restored += 1
 	respawned.emit(active)
 
 

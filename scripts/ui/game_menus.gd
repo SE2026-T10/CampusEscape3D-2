@@ -127,9 +127,13 @@ func get_objectives_text() -> String:
 	if objectives.is_graph():
 		var mandatory := objectives.get_mandatory_ids()
 		var optional := objectives.get_optional_ids()
-		return "Mission objectives %d/%d complete · optional %d/%d" % [
+		var text := "Mission objectives %d/%d complete · optional %d/%d" % [
 			mandatory.filter(func(id): return objectives.is_completed(id)).size(), mandatory.size(),
 			optional.filter(func(id): return objectives.is_completed(id)).size(), optional.size()]
+		# Expansion Phase 6: the route the player escaped by.
+		if objectives.escape_route_name != "":
+			text += "\nEscape route: %s" % objectives.escape_route_name
+		return text
 	var done := 0
 	for id in objectives.get_ids():
 		if objectives.get_state(id) == ObjectiveManager.State.COMPLETED:

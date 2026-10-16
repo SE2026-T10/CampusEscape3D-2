@@ -24,7 +24,7 @@ SCENE = "scenes/level/expanded_library.tscn"
 # Same data as MISSION_OBJECTIVES in expansion_layout.gd (the suite checks they match).
 OBJECTIVES = [
     {"id": "enter_library", "title": "Enter the library", "hint": "Go in through the main entrance.",
-     "done": "You're inside. Explore: the staff offices upstairs, the stacks, the basement"},
+     "done": "Inside. The main doors locked behind you (night lockdown)"},
     {"id": "take_card", "requires": ["enter_library"], "title": "Take a staff access card",
      "hint": "Staff offices, upper floor: up the main stair (or the stacks stair), through the staff wing.",
      "done": "Staff access card taken: staff doors open while you carry it"},
@@ -42,9 +42,9 @@ OBJECTIVES = [
      "done": "Vault open"},
     {"id": "take_manuscript", "requires": ["open_vault"], "title": "Retrieve the rare manuscript",
      "hint": "On the pedestal inside the vault.",
-     "done": "Manuscript retrieved. Now get out: the loading dock, or another way"},
+     "done": "Manuscript retrieved. Now get out: the main entrance, the loading dock or a hidden way"},
     {"id": "escape", "requires": ["take_manuscript"], "title": "Escape with the manuscript",
-     "hint": "The loading dock exit (down the staff stair), or the storm drain if you can clear it.",
+     "hint": "Three ways out, each needing something different: the main entrance (locked down; security has a master badge), the loading dock (its shutter needs power) or a hidden maintenance passage in the basement.",
      "done": "Escaped"},
     {"id": "unlock_shortcut", "requires": ["take_card"], "optional": True, "title": "Unlock the archive back gate (shortcut)",
      "hint": "East side of the archive hall. It only opens from inside the archive.",
@@ -57,10 +57,12 @@ OBJECTIVES = [
      "done": "Security locker open"},
 ]
 
+# Expansion Phase 6 updated the texts (and the objective hints above) for the
+# three escape routes; escape_x5.py adds the walk-through properties.
 EXIT_PROPS = {
     "key_objective_id": '&"take_manuscript"',
-    "locked_reason": '"The loading dock exit is sealed until you have the rare manuscript."',
-    "locked_prompt": '"Exit locked (rare manuscript first)"',
+    "locked_reason": '"You can\'t leave without the rare manuscript."',
+    "locked_prompt": '"Loading dock exit (shutter down)"',
 }
 
 
