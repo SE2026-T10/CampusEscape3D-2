@@ -376,3 +376,13 @@ No geometry, navmesh, guard placement or route changed.
 **Why:** the owner's Phase 7 brief and answers (settings in a config file; captions on both maps; routes learned and kept in the journal).
 
 **Evidence:** [`expansion/phase-7/`](expansion/phase-7/); report [`expansion/phase-7-hud.md`](expansion/phase-7-hud.md).
+
+---
+
+## Expansion — end-to-end testing (expansion Phase 8, 2026-10-17)
+
+**What:** no layout change. One critical fix found by the end-to-end runs: with an exit open (dock shutter up, badge override done, or the grate cleared and the panel open) and no manuscript, walking into the exit's trigger showed "You can't leave without the rare manuscript." but nothing stopped the player; past the dock door there is no floor, so they fell out of the level and respawned at the last checkpoint. `scripts/systems/objectives/exit_door.gd` now adds an invisible wall at each walk-through exit's threshold, solid only while the way is open but leaving would be refused.
+
+**Scene changes:** none (the wall is created at run time by the exit script).
+
+**Evidence:** [`expansion/phase-8/`](expansion/phase-8/); report [`expansion/phase-8-e2e.md`](expansion/phase-8-e2e.md).

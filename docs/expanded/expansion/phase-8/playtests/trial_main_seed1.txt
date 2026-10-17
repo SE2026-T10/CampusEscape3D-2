@@ -1,0 +1,7 @@
+Trial run before the batch (same bot, before the locked-door fix and the two-waypoint detours; the main route takes the card first, so neither change applies), 2026-10-17:
+RUN route=main profile=careful explore=false seed=1: completed in 11:22, captures 4, noticed 53, investigated 27, chased 4, waited 109 s, forced 0, state checks 4, violations 0
+    caught at 2:23 ((37.9, -4.0, -20.5)) by GuardBasement during notice
+    caught at 3:58 ((4.9, 4.5, -9.0)) by GuardConnector during tool kit
+    caught at 4:43 ((8.3, 4.5, -10.2)) by GuardArchive during tool kit
+    caught at 5:44 ((-3.4, 4.5, 2.2)) by GuardConnector during tool kit
+RUNDONE

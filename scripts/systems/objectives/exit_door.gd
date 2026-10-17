@@ -71,6 +71,14 @@ var unlocked := false
 
 var _trigger: Area3D
 var _panel: StaticBody3D
+## Expansion Phase 8: an invisible wall at the threshold, solid while the way
+## is open but walking out would be refused (the mission item missing). The
+## trigger lies past the level's floor (beyond the dock door there is none): a
+## refused player walked on and fell out of the level, then respawned at the
+## last checkpoint. The wall stands 0.1 m inside the trigger's near side, so a
+## player against it still touches the trigger (and hears why) while standing
+## on the floor.
+var _barrier: StaticBody3D
 var _panel_open := true
 var _refuse_cooldown := 0.0
 
@@ -97,6 +105,7 @@ func _ready() -> void:
 			_trigger.collision_mask = 2   # player
 			_trigger.monitoring = true
 			_trigger.body_entered.connect(_on_trigger_entered)
+			_build_barrier.call_deferred()
 		_panel = get_node_or_null(panel_path) as StaticBody3D
 		_apply_panel.call_deferred()
 		_connect_walk_through.call_deferred()
@@ -186,6 +195,9 @@ func _walk_reason_sign() -> String:
 
 
 func _apply_panel() -> void:
+	if _barrier:
+		var refusing := _armed() and is_open() and not is_unlocked()
+		_barrier.collision_layer = 1 if refusing else 0
 	var open := is_open()
 	if open == _panel_open and _panel and _panel.visible == not open:
 		return
@@ -194,6 +206,33 @@ func _apply_panel() -> void:
 		_panel.visible = not open
 		# Only the layer changes (allowed at any time, also mid physics step).
 		_panel.collision_layer = 0 if open else 1
+
+
+## The barrier: as wide and tall as the trigger, 0.3 m thick, from 0.1 m inside
+## the trigger's near side (toward the door) outward.
+func _build_barrier() -> void:
+	var shape_node := _trigger.get_node_or_null("Shape") as CollisionShape3D
+	if shape_node == null or not shape_node.shape is BoxShape3D:
+		return
+	var size: Vector3 = (shape_node.shape as BoxShape3D).size
+	var centre := shape_node.global_position
+	var out := centre - global_position
+	out.y = 0.0
+	var along_x := absf(out.x) >= absf(out.z)
+	var dir := Vector3(signf(out.x), 0, 0) if along_x else Vector3(0, 0, signf(out.z))
+	var half := (size.x if along_x else size.z) / 2.0
+	_barrier = StaticBody3D.new()
+	_barrier.name = "RefusalBarrier"
+	_barrier.collision_layer = 0
+	_barrier.collision_mask = 0
+	var cs := CollisionShape3D.new()
+	var box := BoxShape3D.new()
+	box.size = Vector3(0.3, size.y, size.z) if along_x else Vector3(size.x, size.y, 0.3)
+	cs.shape = box
+	_barrier.add_child(cs)
+	add_child(_barrier)
+	_barrier.global_position = centre - dir * (half - 0.25)
+	_apply_panel()
 
 
 func _on_trigger_entered(body: Node) -> void:

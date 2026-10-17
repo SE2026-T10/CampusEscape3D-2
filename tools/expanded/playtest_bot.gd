@@ -6,10 +6,25 @@ extends SceneTree
 ## PlayerInteractor), and records what happened.
 ##
 ##   godot --headless --path . --script res://tools/expanded/playtest_bot.gd -- \
-##       --route=main --profile=careful --explore --seed=1 --runs=1 --scale=3 --out=docs/expanded/v3/playtests
+##       --route=dock --profile=careful --seed=1 --runs=1 --scale=3 --out=docs/expanded/expansion/phase-8/playtests
 ##
-## What the bot knows (what a player can know):
-##   - the objective panel (the current objective) and its hint;
+## Expansion Phase 8: updated to the current mission (the Phase 4 objective
+## graph, the Phase 5 circuits, the Phase 6 escape routes). It follows a route
+## script: each step is skipped when the game already shows it done, so after a
+## capture the bot carries on from what the checkpoint restored.
+## Routes:
+##   dock     mandatory objectives only, out by the loading dock;
+##   main     the night rota and the security locker (optional) for the master
+##            badge, the lobby reader's override, out by the main entrance;
+##   passage  the pump (optional) and the culvert plan, the hidden panel, out
+##            through the storm drain;
+##   full     every optional objective (locker, pump, back gate shortcut), out
+##            by the main entrance.
+## The bot knows the map, the codes and the order (no searching, no time spent
+## reading the documents it picks up): its times are a lower bound for a
+## player who knows the level, not a first-time player's time.
+##
+## What the bot perceives (what a player can know):
 ##   - guards it can see: a guard counts as seen while there is a clear line of
 ##     sight from the player's eye to it within 30 m (a player looks around), and
 ##     its last seen position and heading are remembered for 2 s;
@@ -20,23 +35,14 @@ extends SceneTree
 ##   careful  waits in cover until the path ahead is out of every seen guard's
 ##            view, backs off when noticed, crouches near guards, never sprints;
 ##   hasty    walks (sprints in the open), only reacts once a guard notices it;
-##   reckless ignores the guards until one chases it (then runs): a first-timer
-##            who hasn't understood the stealth rules yet;
-##   learner  plays hasty until it has been caught twice, then careful (a
-##            first-timer who learns from being caught).
-## After every capture the bot also checks the mission state the checkpoint
-## restored (items shown exactly while their objective is open, card doors open
-## only with the card, back gate and its objective agree, one objective active)
-## and counts violations: repeated captures must never corrupt the state.
-## --explore: a first-time player who doesn't know where things are. For each
-## objective it searches the places the objective's hint points to, in a
-## seeded order, until it sees the item. Without it, the bot goes straight
-## to each objective (a player who knows the map).
-## Routes: main (S1, staff wing door), stacks (S3, stacks staff door), early_gate
-## (main, opening the back gate before taking the manuscript).
+##   reckless ignores the guards until one chases it (then runs);
+##   learner  plays hasty until it has been caught twice, then careful.
+## After every capture the bot checks that the objectives and the mission state
+## (inventory, items, doors, puzzles, circuits, exits) equal what the checkpoint
+## stored, and counts violations.
 ##
 ## Each run appends one JSON line to <out>/runs.jsonl and prints a summary:
-## completion time (game time), captures (where, by whom, at which objective),
+## completion time (game time), captures (where, by whom, at which step),
 ## times noticed / investigated / chased, time spent waiting, forced moves
 ## (waited too long and went anyway), stalls (no progress for 8 min = softlock).
 
@@ -50,13 +56,38 @@ const WAIT_LIMIT := 45.0
 const STALL_LIMIT := 480.0
 const MAX_GAME_TIME := 2700.0
 
-# Where things are (stand points on the floor), from the layout data.
-var AT_CARD: Vector3 = Layout.OBJECTIVES[1].pos
-var AT_ITEM: Vector3 = Layout.OBJECTIVES[2].pos
-var AT_G3: Vector3 = Layout.OBJECTIVES[3].pos
-var AT_EXIT := Vector3(34.3, 0, 24)
+const B := -4.0
+const VAULT_CODE := "2691"
+const LOCKER_CODE := "136"
+const M := "Expansion/Gameplay/Mission/"
+const DOC := "Expansion/Gameplay/Documents/"
+const ESC := "Expansion/Gameplay/Escape/"
+# Stand points (on the floor, in reach), as tests/expanded_e2e_tests.gd.
+const IN_LOBBY := Vector3(0, 0, 20)
+const AT_PLAQUE := Vector3(-10.6, 0, 20)
+const AT_CARD := Vector3(4.9, U, -23.0)
+const AT_MEMO := Vector3(10.6, U, -20.0)
+const AT_ROTA := Vector3(4.6, U, -17.0)
+const AT_LOCKER := Vector3(-4.7, U, -21.4)
+const AT_BADGE := Vector3(-4.2, U, -21.7)
+const G2_WEST := Vector3(10.6, U, -11)
+const AT_KEYPAD := Vector3(26.7, U, -19.3)
+const IN_VAULT := Vector3(32, U, -23.6)
+const AT_G3 := Vector3(28.8, U, -9)
+const AT_TOOLKIT := Vector3(-24.8, B, -20.2)
+const AT_PANEL := Vector3(41.0, 0, -25.9)
+const AT_NOTICE := Vector3(44.5, 0, -24.0)
+const AT_CHART := Vector3(26.0, 0, -26.6)
+const AT_SERVICE := Vector3(43.2, 0, -25.9)
+const AT_RELEASE := Vector3(34.9, 0, 21.4)
+const AT_CONTROL := Vector3(34.9, 0, 26.4)
+const AT_READER := Vector3(2.9, 0, 26.8)
+const AT_PUMP_LOG := Vector3(5.6, B, -17.0)
+const AT_PUMP := Vector3(0.0, B, -15.5)
+const AT_PLAN := Vector3(-23.5, B, -18.2)
+const AT_HIDDEN_PANEL := Vector3(0.0, B, -25.4)
 
-var _route := "main"
+var _route := "dock"
 var _profile := "careful"
 var _profile_arg := "careful"
 var _explore := false
@@ -83,6 +114,14 @@ var _explored := {}      # objective id -> Array of points already searched
 var _respawned := false
 var _abort := false
 var _last_progress_t := 0.0
+var _doors: Array[AccessDoor] = []
+## Where the player was caught (a player remembers where it went wrong).
+var _catch_spots: Array[Vector3] = []
+const HOT_RADIUS := 6.0
+var _detours := {}
+## Doors that refused the player, keyed by position (floor height).
+var _blocked_doors := {}
+var _step_label := ""
 
 
 func _init() -> void:
@@ -136,9 +175,13 @@ func _play(seed: int) -> void:
 	_log = {"layout": Layout.VERSION, "route": _route, "profile": _profile, "explore": _explore, "seed": seed,
 		"completed": false, "time_s": 0.0, "captures": [], "noticed": 0, "investigated": 0, "chased": 0,
 		"wait_s": 0.0, "forced": 0, "stalled": false, "objective_times": {}, "walked_m": 0.0, "events": []}
+	_catch_spots.clear()
+	_detours.clear()
+	_blocked_doors.clear()
 	_director.player_caught.connect(func(by: Guard):
+		_catch_spots.append(_player.global_position)
 		_event("CAUGHT by %s" % by.name)
-		_log.captures.append({"t": snappedf(_t, 0.1), "objective": String(_objectives.current()), "guard": String(by.name),
+		_log.captures.append({"t": snappedf(_t, 0.1), "objective": _step_label, "guard": String(by.name),
 			"at": _v(_player.global_position)}))
 	_objectives.objective_completed.connect(func(id: StringName):
 		_log.objective_times[String(id)] = snappedf(_t, 0.1)
@@ -153,8 +196,13 @@ func _play(seed: int) -> void:
 		await _tick()
 	_last_progress_t = _t
 	_abort = false
+	_doors.clear()
+	for node in _level.get_tree().get_nodes_in_group("interactables"):
+		if node is AccessDoor:
+			_doors.append(node)
+	var script := _script()
 	while not _objectives.is_finished() and _t < MAX_GAME_TIME and not _abort:
-		await _do_objective()
+		await _run_script(script)
 	if _abort:
 		_log.stalled = true
 		_event("stalled at %s, objective %s" % [_v(_player.global_position), _objectives.current()])
@@ -164,6 +212,8 @@ func _play(seed: int) -> void:
 	_log.time_s = snappedf(_t, 0.1)
 	_log.walked_m = snappedf(_log.walked_m, 1.0)
 	_log.wait_s = snappedf(_log.wait_s, 0.1)
+	_log["route_name"] = String(_objectives.escape_route)
+	_log["optional_done"] = [&"unlock_shortcut", &"drain_culvert", &"security_locker"].filter(func(id): return _objectives.is_completed(id)).size()
 	print("RUN route=%s profile=%s explore=%s seed=%d: %s in %s, captures %d, noticed %d, investigated %d, chased %d, waited %.0f s, forced %d, state checks %d, violations %d%s" % [
 		_route, _log.profile, _explore, seed, "completed" if _log.completed else "NOT completed", _clock(_t), _log.captures.size(),
 		_log.noticed, _log.investigated, _log.chased, _log.wait_s, _log.forced, _log.get("state_checks", 0), _log.get("state_violations", 0), ", STALLED" if _log.stalled else ""])
@@ -182,107 +232,171 @@ func _play(seed: int) -> void:
 		await process_frame
 
 
-## Plays the current objective until it changes (or the player is caught).
-func _do_objective() -> void:
-	var id := _objectives.current()
+## The route's steps: [label, kind, args, done]. Kinds: "go" (a point),
+## "use" (node, stand, presses), "code" (lock, code, stand), "override" (the
+## badge reader), "exit" (from, toward). `done` (a Callable, or null) tells
+## when the game already shows the step done: it is then skipped.
+func _script() -> Array:
+	var n := func(path: String) -> Node3D: return _level.get_node(path)
+	var obj := _objectives
+	var inv: PlayerInventory = _player.get_node("Inventory")
+	var has_doc := func(id: StringName) -> Callable: return func(): return inv.has_document(id)
+	var done := func(id: StringName) -> Callable: return func(): return obj.is_completed(id)
+	var carried := func(item: StringName, id: StringName) -> Callable: return func(): return inv.has(item) or (id != &"" and obj.is_completed(id))
+	var breakers: BreakerPanel = n.call(M + "BreakerPanel")
+	var pump: PumpControl = n.call(M + "PumpControl")
+	var lobby := ["lobby", "go", [IN_LOBBY], null]
+	var card := [["card", "use", [n.call("Gameplay/StaffAccessCard"), AT_CARD, 1], func(): return inv.has(ItemCatalog.STAFF_CARD)],
+		["memo", "use", [n.call(DOC + "ArchivistMemo"), AT_MEMO, 1], has_doc.call(&"archivist_memo")],
+		["archive gate", "use", [n.call("Gameplay/ArchiveFrontGateG2"), G2_WEST, 1], func(): return (n.call("Gameplay/ArchiveFrontGateG2") as AccessDoor).is_open]]
+	var toolkit := [["tool kit", "use", [n.call("Expansion/Gameplay/Items/ToolKit"), AT_TOOLKIT, 1], carried.call(ItemCatalog.TOOLKIT, &"")]]
+	var power := [["notice", "use", [n.call(DOC + "ElectricalNotice"), AT_NOTICE, 1], has_doc.call(&"electrical_notice")],
+		["panel cover", "use", [n.call(M + "ElectricalPanelCover"), AT_PANEL, 1], done.call(&"open_panel")],
+		["wiring chart", "use", [n.call(DOC + "WiringChart"), AT_CHART, 1], has_doc.call(&"wiring_chart")]]
+	for i in 4:
+		var want: bool = [true, false, true, true][i]
+		power.append(["breaker %d" % (i + 1), "use", [breakers.breakers[i], AT_PANEL, 1],
+			func(): return obj.is_completed(&"restore_power") or (breakers.breakers[i].index == 1) == want])
+	power.append(["main breaker", "use", [breakers.main_switch, AT_PANEL, 1], done.call(&"restore_power")])
+	var vault := [lobby, ["archive gate (west)", "go", [G2_WEST], done.call(&"open_vault")],
+		["vault code", "code", [n.call(M + "VaultKeypad"), VAULT_CODE, AT_KEYPAD], done.call(&"open_vault")],
+		["manuscript", "use", [n.call("Gameplay/RareManuscript"), IN_VAULT, 1], done.call(&"take_manuscript")]]
+	var locker := [["rota", "use", [n.call(DOC + "NightRota"), AT_ROTA, 1], has_doc.call(&"night_rota")],
+		["locker code", "code", [n.call(M + "SecurityLocker"), LOCKER_CODE, AT_LOCKER], done.call(&"security_locker")],
+		["badge", "use", [n.call("Expansion/Gameplay/Items/LockerBadge"), AT_BADGE, 1], func(): return inv.has(ItemCatalog.SECURITY_BADGE)]]
+	var pump_steps := [["pump log", "use", [n.call(DOC + "PumpRoomLog"), AT_PUMP_LOG, 1], has_doc.call(&"pump_room_log")],
+		["pump crank", "use", [n.call(M + "PumpCrank"), AT_PUMP + Vector3(-3.4, 0, 0), 1], func(): return obj.is_completed(&"drain_culvert") or (n.call(M + "PumpCrank") as ToolMechanism).is_operated]]
+	for i in 3:
+		var want: bool = pump.solution[i]
+		pump_steps.append(["valve %d" % (i + 1), "use", [pump.valves[i], AT_PUMP + Vector3(pump.valves[i].global_position.x, 0, 0), 1],
+			func(): return obj.is_completed(&"drain_culvert") or (pump.valves[i].index == 1) == want])
+	pump_steps.append(["pump start", "use", [pump.start_lever, AT_PUMP + Vector3(pump.start_lever.global_position.x, 0, 0), 1], done.call(&"drain_culvert")])
+	var main_exit := [lobby, ["badge reader", "override", [n.call(ESC + "BadgeReader"), AT_READER], func(): return (n.call(ESC + "MainEntranceExit") as ExitDoor).unlocked],
+		["main entrance", "exit", [Vector3(0, 0, 26.8), Vector3(0, 0, 31.0)], null]]
+	var steps := [lobby, ["plaque", "use", [n.call(DOC + "LobbyPlaque"), AT_PLAQUE, 1], has_doc.call(&"lobby_plaque")]]
+	match _route:
+		"dock":
+			steps += toolkit + power
+			steps += [["service switch", "use", [n.call("Expansion/Gameplay/Security/ServiceExitSwitch"), AT_SERVICE, 1], func(): return _power().is_powered(&"service_exit")],
+				["shutter release", "use", [n.call(ESC + "DockShutterRelease"), AT_RELEASE, 1], func(): return (n.call(ESC + "DockShutterRelease") as ToolMechanism).is_operated],
+				["shutter control", "use", [(n.call(ESC + "DockShutterControl") as DockShutter).button, AT_CONTROL, 1], func(): return (n.call("Gameplay/ExitDoor") as ExitDoor).unlocked]]
+			steps += card + vault
+			steps += [lobby, ["loading dock", "exit", [Vector3(34.6, 0, 24), Vector3(39, 0, 24)], null]]
+		"main":
+			steps += locker + card + toolkit + power + vault + main_exit
+		"passage":
+			steps += card + toolkit + pump_steps + power + vault
+			steps += [["culvert plan", "use", [n.call(DOC + "CulvertAccessPlan"), AT_PLAN, 1], has_doc.call(&"culvert_access_plan")],
+				["hidden panel", "use", [n.call("Expansion/Gameplay/MaintenancePanel"), AT_HIDDEN_PANEL, 1], func(): return (n.call("Expansion/Gameplay/MaintenancePanel") as AccessDoor).is_open],
+				["storm drain", "exit", [Vector3(0, B, -34.6), Vector3(0, B, -39.5)], null]]
+		"full":
+			steps += locker + card + toolkit + pump_steps + power + vault
+			steps += [["back gate", "use", [n.call("Gameplay/ArchiveBackGateG3"), AT_G3, 1], done.call(&"unlock_shortcut")],
+				["staff stair", "go", [Vector3(34.35, 0, 5.5)], null]]
+			steps += main_exit
+	return steps
+
+
+## Runs the script from the top, skipping what is done, until a step fails
+## (caught, or it did not work): then waits for the reset and returns.
+func _run_script(steps: Array) -> void:
 	var catches := _director.catches
-	var plan := _plan(id)
-	for step in plan:
-		if _objectives.current() != id or _director.catches != catches or _abort:
-			return
+	for st in steps:
+		if _objectives.is_finished() or _abort or _director.catches != catches:
+			break
+		if st[3] != null and (st[3] as Callable).call():
+			continue
+		_step_label = st[0]
 		var ok := true
-		match step[0]:
+		var args: Array = st[2]
+		match st[1]:
 			"go":
-				ok = await _go(step[1])
-			"search":
-				ok = await _search(id, step[1], step[2])
+				ok = await _go(args[0])
 			"use":
-				ok = await _use(step[1], step[2])
+				for k in args[2]:
+					ok = ok and await _use(args[1], args[0])
+				_close_journal()
+			"code":
+				ok = await _code(args[0], args[1], args[2])
+			"override":
+				ok = await _override(args[0], args[1])
+			"exit":
+				ok = await _exit(args[0], args[1])
+		if ok:
+			_last_progress_t = _t
+		if ok and st[3] != null and not (st[3] as Callable).call() and st[1] != "go":
+			_event("step '%s' did not take effect" % st[0])
+			ok = false
 		if not ok:
 			break
-	# Caught, or the step failed: wait for the reset, then plan again.
 	await _wait_reset()
 
 
-## The steps for objective `id`, skipping the leading waypoints a direct path makes unnecessary.
-func _plan(id: StringName) -> Array:
-	var card: Node3D = _level.get_node("Gameplay/StaffAccessCard")
-	var item: Node3D = _level.get_node("Gameplay/RareManuscript")
-	var g2: Node3D = _level.get_node("Gameplay/ArchiveFrontGateG2")
-	var g3: Node3D = _level.get_node("Gameplay/ArchiveBackGateG3")
-	var exit: Node3D = _level.get_node("Gameplay/ExitDoor")
-	var upstairs: Array = [Vector3(-10.35, 0, 21.5), Vector3(-10.35, U, 8), Vector3(2, U, -2), Vector3(3, U, -8), Vector3(3, U, -11)]
-	if _route == "stacks":
-		upstairs = [Vector3(-12, 0, 24), Vector3(-20, 0, 19), Vector3(-34.35, 0, 21.5), Vector3(-34.35, U, 8),
-			Vector3(-33.5, U, 5), Vector3(-13, U, 5), Vector3(-13, U, -10), Vector3(-6, U, -11), Vector3(0, U, -11)]
-	var steps := []
-	match id:
-		&"enter_library":
-			steps = [["go", Vector3(0, 0, 20)]]
-		&"take_card":
-			for p in upstairs:
-				steps.append(["go", p])
-			if _explore:
-				var rooms := [Vector3(-3, U, -17), Vector3(9, U, -17), Vector3(3, U, -17)]
-				_shuffle(rooms)
-				steps.append(["search", rooms, card])
-			steps.append(["use", AT_CARD, card])
-		&"take_manuscript":
-			steps.append(["go", Vector3(3, U, -11)])
-			steps.append(["go", Vector3(10.6, U, -11)])
-			if g2.get("is_open") == false:
-				steps.append(["use", Vector3(10.6, U, -11), g2])
-			if _route == "early_gate" and g3.get("is_open") == false:
-				steps.append(["go", Vector3(26.5, U, -11)])
-				steps.append(["use", AT_G3, g3])
-			if _explore:
-				var places := [Vector3(16, U, -21.5), Vector3(23, U, -17.5), Vector3(30, U, -21)]
-				steps.append(["search", places, item])
-			steps.append(["go", Vector3(26.5, U, -21)])
-			steps.append(["use", AT_ITEM, item])
-		&"unlock_shortcut":
-			steps.append(["go", Vector3(26.5, U, -21)])
-			steps.append(["go", Vector3(26.5, U, -9)])
-			steps.append(["use", AT_G3, g3])
-		&"escape":
-			steps = [["go", Vector3(31.4, U, -9)], ["go", Vector3(34.35, U, -8.5)], ["go", Vector3(34.35, 0, 5.5)],
-				["go", Vector3(29, 0, 10)], ["go", Vector3(22, 0, 12)], ["go", Vector3(27, 0, 20)], ["use", AT_EXIT, exit]]
-	# After a respawn the player may be part-way along (a checkpoint): skip what is behind.
-	return _trim(steps) if _respawned else steps
+func _code(lock: CodeLock, code: String, stand: Vector3) -> bool:
+	if lock.lockout_left > 0.0:
+		return false
+	for i in code.length():
+		var dial := lock.dials[i]
+		var turns := (int(code[i]) - dial.index + 10) % 10
+		for k in turns:
+			if not await _use(stand, dial):
+				return false
+	return await _use(stand, lock.enter)
 
 
-## Drops leading "go" steps when walking straight to a later step is no longer than following them.
-func _trim(steps: Array) -> Array:
-	var here := _player.global_position
-	var best := 0
-	var best_cost := INF
-	for i in steps.size():
-		var cost := _len(here, _target(steps[i])) + _plan_len(steps, i)
-		if cost < best_cost - 0.5:
-			best_cost = cost
-			best = i
-		if steps[i][0] != "go":
-			break   # never skip a search or a use
-	return steps.slice(best)
+## Starts the badge reader's override and stays until it completes.
+func _override(reader: BadgeReader, stand: Vector3) -> bool:
+	if not await _use(stand, reader):
+		return false
+	var catches := _director.catches
+	var started := _t
+	while reader.overriding and _t - started < reader.hold_time + 2.0:
+		if _director.catches != catches:
+			return false
+		_stop(false)
+		await _tick()
+	return true
 
 
-func _target(step: Array) -> Vector3:
-	return step[1] if step[0] != "search" else step[1][0]
+## Walks out through an exit's trigger.
+func _exit(from: Vector3, toward: Vector3) -> bool:
+	if not await _go(from):
+		return false
+	var to := toward - _player.global_position
+	_player.rotation.y = atan2(-to.x, -to.z)
+	_player.head.rotation.x = 0.0
+	Input.action_press("move_forward")
+	var started := _t
+	while _t - started < 2.5 and _director.status != S.ESCAPED:
+		await _tick()
+	_release()
+	return _director.status == S.ESCAPED
 
 
-func _plan_len(steps: Array, from: int) -> float:
-	var total := 0.0
-	for k in range(from, steps.size() - 1):
-		total += _len(_target(steps[k]), _target(steps[k + 1]))
-	return total
+func _close_journal() -> void:
+	var hud := _level.get_node_or_null("ObjectiveHud")
+	if hud and hud.has_method("close_journal"):
+		hud.close_journal()
 
 
-func _len(a: Vector3, b: Vector3) -> float:
-	var path := NavigationServer3D.map_get_path(_map, a, b, true)
-	var total := 0.0
-	for i in range(1, path.size()):
-		total += path[i - 1].distance_to(path[i])
-	return total if not path.is_empty() else INF
+func _power() -> PowerNetwork:
+	return PowerNetwork.find(_level)
+
+
+## The closed, discovered door within 1.6 m that the path goes through next.
+func _closed_door_ahead(here: Vector3, path: PackedVector3Array, index: int) -> AccessDoor:
+	for door in _doors:
+		if door.is_open or not door.is_discovered() or not door.is_inside_tree():
+			continue
+		var d := door.global_position
+		if Vector2(here.x - d.x, here.z - d.z).length() > 1.6 or absf(here.y - d.y) > 1.5:
+			continue
+		var prev := here
+		for k in range(index, mini(index + 3, path.size())):
+			if Geometry2D.get_closest_point_to_segment(Vector2(d.x, d.z), Vector2(prev.x, prev.z), Vector2(path[k].x, path[k].z)).distance_to(Vector2(d.x, d.z)) < 1.0:
+				return door
+			prev = path[k]
+	return null
 
 
 # --- Steps ----------------------------------------------------------------------------------
@@ -290,7 +404,7 @@ func _len(a: Vector3, b: Vector3) -> float:
 ## Walks to `target` along the navmesh with the profile's stealth rules. False if caught.
 func _go(target: Vector3) -> bool:
 	var catches := _director.catches
-	var path := NavigationServer3D.map_get_path(_map, _player.global_position, target, true)
+	var path := _plan_path(_player.global_position, target)
 	if path.is_empty():
 		_event("no path to %s" % _v(target))
 		return false
@@ -314,6 +428,24 @@ func _go(target: Vector3) -> bool:
 			return true
 		while index < path.size() - 1 and Vector2(path[index].x - here.x, path[index].z - here.z).length() < 0.5:
 			index += 1
+		# A closed door in the way: E on it (a refusal ends the walk).
+		var door := _closed_door_ahead(here, path, index)
+		if door:
+			_release()
+			_look_at(door.global_position + Vector3(0, 1.0, 0))
+			for i in 3:
+				await _tick()
+			if _interactor.focused == door:
+				_interactor.try_interact()
+				for i in 3:
+					await _tick()
+			if not door.is_open:
+				_event("%s refused near %s: walking around it" % [door.door_name, _v(here)])
+				_blocked_doors[Vector3(door.global_position.x, here.y, door.global_position.z)] = door
+				return false
+			path = _plan_path(_player.global_position, target)
+			index = 0
+			continue
 		# Stealth decisions.
 		var noticed := _being_noticed()
 		var ahead := _point_ahead(path, index, here, 2.5)
@@ -323,14 +455,14 @@ func _go(target: Vector3) -> bool:
 			await _flee(catches)
 			if _director.catches != catches:
 				return false
-			path = NavigationServer3D.map_get_path(_map, _player.global_position, target, true)
+			path = _plan_path(_player.global_position, target)
 			index = 0
 			continue
 		if _profile == "careful" and (noticed or danger_here):
 			await _retreat(catches)
 			if _director.catches != catches:
 				return false
-			path = NavigationServer3D.map_get_path(_map, _player.global_position, target, true)
+			path = _plan_path(_player.global_position, target)
 			index = 0
 			waited = 0.0
 			continue
@@ -338,7 +470,7 @@ func _go(target: Vector3) -> bool:
 			await _retreat(catches)
 			if _director.catches != catches:
 				return false
-			path = NavigationServer3D.map_get_path(_map, _player.global_position, target, true)
+			path = _plan_path(_player.global_position, target)
 			index = 0
 			continue
 		if _profile == "careful" and danger_ahead and waited < WAIT_LIMIT:
@@ -380,11 +512,124 @@ func _go(target: Vector3) -> bool:
 					_release()
 					return false
 				await _sidestep(unstuck)
-				path = NavigationServer3D.map_get_path(_map, _player.global_position, target, true)
+				path = _plan_path(_player.global_position, target)
 				index = 0
 			anchor = _player.global_position
 			anchor_t = _t
 	return false
+
+
+## A path to `target`. After two or more captures near the same spot, a
+## player avoids it: if the direct path passes such a spot, the shortest path
+## through one or two waypoints (stair ends, room centres) that avoids every
+## such spot is used instead (worked out once per target and capture count).
+func _plan_path(from: Vector3, target: Vector3, doors_only := false) -> PackedVector3Array:
+	var direct := NavigationServer3D.map_get_path(_map, from, target, true)
+	var hot := _hot_spots()
+	if doors_only:
+		hot = hot.filter(func(h): return _blocked_doors.has(h))
+	if hot.is_empty() or not _passes(direct, hot):
+		return direct
+	var key := "%s|%d|%d|%s" % [_v(target), _catch_spots.size(), _blocked_doors.size(), doors_only]
+	if _detours.has(key):
+		var vias: Array = _detours[key]
+		if vias.is_empty():
+			return direct
+		var path := PackedVector3Array()
+		var at := from
+		for v in vias + [target]:
+			var leg := NavigationServer3D.map_get_path(_map, at, v, true)
+			path += leg if path.is_empty() else leg.slice(1)
+			at = v
+		return path
+	var points := _detour_points()
+	var best: Array = []
+	var best_len := INF
+	var clear := {}   # point index -> path from `from` avoids the hot spots
+	for i in points.size():
+		var a := NavigationServer3D.map_get_path(_map, from, points[i], true)
+		if a.is_empty() or _passes(a, hot):
+			continue
+		clear[i] = _path_length(a)
+		var b := NavigationServer3D.map_get_path(_map, points[i], target, true)
+		if not b.is_empty() and not _passes(b, hot) and clear[i] + _path_length(b) < best_len:
+			best_len = clear[i] + _path_length(b)
+			best = [points[i]]
+	if best.is_empty():
+		for i in clear:
+			for j in points.size():
+				if j == i:
+					continue
+				var mid := NavigationServer3D.map_get_path(_map, points[i], points[j], true)
+				if mid.is_empty() or _passes(mid, hot):
+					continue
+				var b := NavigationServer3D.map_get_path(_map, points[j], target, true)
+				if b.is_empty() or _passes(b, hot):
+					continue
+				var l: float = clear[i] + _path_length(mid) + _path_length(b)
+				if l < best_len:
+					best_len = l
+					best = [points[i], points[j]]
+	_detours[key] = best
+	if best.is_empty():
+		_event("no detour avoids the %d spot(s)%s" % [hot.size(), " (locked doors only)" if doors_only else ""])
+		# A locked door cannot be walked through; capture spots are only avoided if possible.
+		if not doors_only and hot.any(func(h): return _blocked_doors.has(h)):
+			return _plan_path(from, target, true)
+		return direct
+	_event("detour via %s avoiding %d capture spot(s)" % [", ".join(best.map(func(p): return _v(p))), hot.size()])
+	return _plan_path(from, target, doors_only)
+
+
+func _hot_spots() -> Array[Vector3]:
+	var hot: Array[Vector3] = []
+	# Doors that refused the player (a staff door without the card): walk around.
+	for d in _blocked_doors.keys():
+		if not (_blocked_doors[d] as AccessDoor).is_open and (_blocked_doors[d] as AccessDoor)._refusal(_player) != "":
+			hot.append(d)
+	for p in _catch_spots:
+		var n := 0
+		for q in _catch_spots:
+			if p.distance_to(q) < HOT_RADIUS:
+				n += 1
+		if n >= 2 and not hot.any(func(h): return h.distance_to(p) < HOT_RADIUS):
+			hot.append(p)
+	return hot
+
+
+func _passes(path: PackedVector3Array, hot: Array[Vector3]) -> bool:
+	for i in range(1, path.size()):
+		for h in hot:
+			var r := 1.2 if _blocked_doors.has(h) else HOT_RADIUS
+			var c := Geometry3D.get_closest_point_to_segment(h, path[i - 1], path[i])
+			if c.distance_to(h) < r:
+				return true
+	return false
+
+
+func _path_length(path: PackedVector3Array) -> float:
+	var total := 0.0
+	for i in range(1, path.size()):
+		total += path[i - 1].distance_to(path[i])
+	return total
+
+
+## The ends of every stair (the existing S1–S3 and the expansion's service
+## stairs) and the centre of every area.
+func _detour_points() -> Array[Vector3]:
+	var pts: Array[Vector3] = []
+	for z in Layout.ZONES:
+		for a in z.areas:
+			var y := U if z.floor == "upper" else 0.0
+			pts.append(NavigationServer3D.map_get_closest_point(_map, Vector3((a.rect[0] + a.rect[2]) / 2.0, y, (a.rect[1] + a.rect[3]) / 2.0)))
+	for st in Layout.STAIRS:
+		for e in Layout.stair_ends(st):
+			pts.append(NavigationServer3D.map_get_closest_point(_map, e))
+	for r in [[-42.2, -12.0, -22.0], [44.2, -18.0, -8.0]]:
+		var dir := signf(r[2] - r[1])
+		pts.append(NavigationServer3D.map_get_closest_point(_map, Vector3(r[0], 0, r[1] - dir * 1.5)))
+		pts.append(NavigationServer3D.map_get_closest_point(_map, Vector3(r[0], B, r[2] + dir * 1.5)))
+	return pts
 
 
 ## Backs off and steps sideways for a moment (alternating sides).
@@ -399,22 +644,6 @@ func _sidestep(n: int) -> void:
 	for i in int(0.5 / _dt()):
 		await _tick()
 	Input.action_release(side)
-
-
-## Visits `places` (the hint's candidate rooms) until `item` is seen, then returns.
-func _search(id: StringName, places: Array, item: Node3D) -> bool:
-	for p in places:
-		if _sees_item(item):
-			return true
-		if not await _go(p):
-			return false
-		# Look around the room.
-		for k in 8:
-			_player.rotation.y += TAU / 8.0
-			await _tick()
-			if _sees_item(item):
-				return true
-	return true
 
 
 ## Goes to `stand`, looks at `node` and presses the interact key. False if caught or it didn't work.
@@ -508,28 +737,16 @@ func _wait_reset() -> void:
 		_respawned = true
 
 
-## The invariants a checkpoint restore must keep (as in tests/expanded_mission_tests.gd).
+## After a capture: objectives and mission state as the checkpoint stored them.
 func _check_state() -> void:
 	var problems := []
-	var active := 0
-	for id in _objectives.get_ids():
-		if _objectives.get_state(id) == ObjectiveManager.State.ACTIVE:
-			active += 1
-	if active != 1:
-		problems.append("%d active objectives" % active)
-	for item_name in ["StaffAccessCard", "RareManuscript"]:
-		var item: AccessCard = _level.get_node("Gameplay/" + item_name)
-		if item.visible == _objectives.is_completed(item.objective_id):
-			problems.append("%s shown=%s but objective done=%s" % [item_name, item.visible, _objectives.is_completed(item.objective_id)])
-	for door_name in ["ArchiveFrontGateG2", "LobbyStaffDoorG4"]:
-		var door: AccessDoor = _level.get_node("Gameplay/" + door_name)
-		if door.is_open and not _objectives.is_completed(door.key_objective_id):
-			problems.append("%s open without the card" % door_name)
-	var g3: AccessDoor = _level.get_node("Gameplay/ArchiveBackGateG3")
-	if _objectives.is_completed(&"unlock_shortcut") != g3.is_open and not (g3.is_open and _objectives.get_state(&"unlock_shortcut") == ObjectiveManager.State.LOCKED):
-		problems.append("back gate open=%s, objective %s" % [g3.is_open, _objectives.get_state(&"unlock_shortcut")])
-	if _objectives.get_progress() != _level.get_node("Gameplay/CheckpointManager").saved_progress:
-		problems.append("progress differs from the checkpoint's")
+	var cm: CheckpointManager = _level.get_node("Gameplay/CheckpointManager")
+	if _objectives.get_progress() != cm.saved_progress:
+		problems.append("objectives differ from the checkpoint's")
+	var state := cm.get_mission_state()
+	for key in cm.saved_state:
+		if state.get(key) != cm.saved_state[key]:
+			problems.append("%s differs" % key)
 	_log["state_checks"] = _log.get("state_checks", 0) + 1
 	if not problems.is_empty():
 		_log["state_violations"] = _log.get("state_violations", 0) + 1
