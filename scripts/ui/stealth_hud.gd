@@ -46,6 +46,8 @@ var _caught_label: Label
 var _indicators: Control
 var _meter: Control
 var _meter_alpha := 0.0
+var _banner_colour := Color(0, 0, 0, 0)
+var _meter_drawn := true
 var _caught_bar: ProgressBar
 var _caught_time := 0.0
 var _stamina_bar: Control
@@ -132,7 +134,10 @@ func _process(delta: float) -> void:
 	if alarm and alarm.is_active() and status < StealthDirector.Status.SPOTTED:
 		banner = ["ALARM — guards are on their way", COLOUR_ALERT]
 	_banner.text = banner[0]
-	_banner.add_theme_color_override("font_color", banner[1])
+	if banner[1] != _banner_colour:
+		# Expansion Phase 9: a theme override only when the colour changes.
+		_banner_colour = banner[1]
+		_banner.add_theme_color_override("font_color", banner[1])
 	# The chase banner pulses.
 	_banner.modulate.a = 0.75 + 0.25 * sin(Time.get_ticks_msec() / 110.0) if status == StealthDirector.Status.CHASE else 1.0
 	var was_caught := _caught.visible
@@ -154,7 +159,10 @@ func _process(delta: float) -> void:
 	var level := get_detection_level()
 	_meter_alpha = move_toward(_meter_alpha, 1.0 if level > 0.0 and status < StealthDirector.Status.CAUGHT else 0.0, delta * 3.0)
 	_meter.modulate.a = _meter_alpha
-	_meter.queue_redraw()
+	# Expansion Phase 9: the meter is redrawn only while it shows (or just faded out).
+	if _meter_alpha > 0.0 or _meter_drawn:
+		_meter.queue_redraw()
+		_meter_drawn = _meter_alpha > 0.0
 	_indicators.queue_redraw()
 
 

@@ -1,0 +1,4 @@
+normal before (HEAD 79a50aa): frame ms runs [2.23, 2.19, 2.24] median 2.23; p99 median 4.25; fps median 449; scripts ms median 1.22; guard AI median 0.23
+normal Phase 9: frame ms runs [1.7, 1.98, 2.29] median 1.98; p99 median 3.58; fps median 505; scripts ms median 1.09; guard AI median 0.23
+stress before (HEAD 79a50aa): frame ms runs [4.6, 4.48, 4.58] median 4.58; p99 median 9.02; fps median 218; scripts ms median 2.46; guard AI median 0.73
+stress Phase 9: frame ms runs [4.44, 4.51, 4.12] median 4.44; p99 median 7.88; fps median 225; scripts ms median 2.43; guard AI median 0.78

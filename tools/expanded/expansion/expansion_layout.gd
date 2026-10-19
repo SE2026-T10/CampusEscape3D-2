@@ -265,6 +265,84 @@ const SIGNS := [
 	{"text": "STORM DRAIN · SEALED", "pos": Vector3(0.0, BF + 2.75, -36.9), "facing": 0.0, "red": true},
 	{"text": "SERVICE STAIR ↑ ELECTRICAL", "pos": Vector3(45.83, BF + 2.75, -12.0), "facing": -90.0},
 	{"text": "SERVICE STAIR ↑ STACKS", "pos": Vector3(-43.83, BF + 2.75, -24.5), "facing": 90.0},
+	# Phase 9 (wayfinding and storytelling).
+	{"text": "MAINTENANCE BAY", "pos": Vector3(-24.0, BF + 2.75, -22.83), "facing": 180.0},
+	{"text": "← STACKS · PUMP ROOM →", "pos": Vector3(-30.0, BF + 2.75, -26.83), "facing": 0.0},
+	{"text": "← PUMP ROOM · ELECTRICAL →", "pos": Vector3(28.0, BF + 2.75, -26.83), "facing": 0.0},
+	{"text": "DANGER · 400 V", "pos": Vector3(41.0, 3.05, -27.83), "facing": 0.0, "red": true},
+	{"text": "FLOOD LEVEL · 2019", "pos": Vector3(1.83, BF + 0.95, -31.0), "facing": -90.0},
+]
+
+## Phase 9 (polish, decorative only): boxes with no collision, flush with a
+## wall, above head height (2.3 m) or a flat decal on the floor, so the
+## walkable space, the navmesh and the sightlines to clues and hiding spots
+## stay as they were (tests/expanded_polish_tests.gd checks this). Batched with
+## the rest of the dressing (plain looks share the batches' vertex-colour
+## material; only the puddles and the door lamps add materials). Metres.
+const DECOR_LOOKS := {
+	"pipe": [Color(0.3, 0.35, 0.33), 0.9, 0.0, 0.0],
+	"pipe_red": [Color(0.5, 0.12, 0.09), 0.9, 0.0, 0.0],
+	"conduit": [Color(0.52, 0.53, 0.55), 0.9, 0.0, 0.0],
+	"water": [Color(0.24, 0.29, 0.32), 0.12, 0.05, 0.0],
+	"flood_mark": [Color(0.27, 0.24, 0.18), 1.0, 0.0, 0.0],
+	"damp": [Color(0.31, 0.3, 0.28), 1.0, 0.0, 0.0],
+	"pegboard": [Color(0.5, 0.4, 0.27), 1.0, 0.0, 0.0],
+	"tool_steel": [Color(0.55, 0.57, 0.6), 0.9, 0.0, 0.0],
+	"tool_dark": [Color(0.14, 0.14, 0.15), 0.9, 0.0, 0.0],
+	"glow_amber": [Color(1.0, 0.62, 0.2), 0.5, 0.0, 1.6],
+	"glow_red": [Color(0.95, 0.12, 0.08), 0.5, 0.0, 1.6],
+}
+const _BC := SLAB_BOTTOM - 0.05 - BF   # basement ceiling height (3.75 m)
+const DECOR := [
+	# Service tunnel: two pipes along the north wall (a gap at the culvert
+	# x -2…2), a cable tray along the south wall (a gap at the tunnel camera).
+	{"name": "TunnelPipeWest", "centre": Vector3(-23.2, BF + 3.45, -26.72), "size": Vector3(41.2, 0.2, 0.2), "look": "pipe"},
+	{"name": "TunnelPipeEast", "centre": Vector3(24.2, BF + 3.45, -26.72), "size": Vector3(43.2, 0.2, 0.2), "look": "pipe"},
+	{"name": "TunnelMainWest", "centre": Vector3(-23.2, BF + 3.15, -26.76), "size": Vector3(41.2, 0.14, 0.14), "look": "pipe_red"},
+	{"name": "TunnelMainEast", "centre": Vector3(24.2, BF + 3.15, -26.76), "size": Vector3(43.2, 0.14, 0.14), "look": "pipe_red"},
+	{"name": "CableTrayWest", "centre": Vector3(-13.15, BF + 3.2, -23.4), "size": Vector3(45.3, 0.06, 0.4), "look": "conduit"},
+	{"name": "CableTrayEast", "centre": Vector3(25.3, BF + 3.2, -23.4), "size": Vector3(21.6, 0.06, 0.4), "look": "conduit"},
+	{"name": "TunnelPuddle", "centre": Vector3(-8.0, BF + 0.006, -24.4), "size": Vector3(1.6, 0.012, 1.0), "look": "water"},
+	# Door lamps (emissive, no light) beside the bay and pump room doors, and the electrical room door.
+	{"name": "BayDoorLamp", "centre": Vector3(-25.45, BF + 2.5, -23.19), "size": Vector3(0.22, 0.12, 0.08), "look": "glow_amber"},
+	{"name": "PumpDoorLamp", "centre": Vector3(1.45, BF + 2.5, -23.19), "size": Vector3(0.22, 0.12, 0.08), "look": "glow_amber"},
+	{"name": "ElectricalDoorLamp", "centre": Vector3(35.81, 2.75, -24.45), "size": Vector3(0.08, 0.12, 0.22), "look": "glow_red"},
+	# Pump room: headers along the west and east walls, cross pipes into the
+	# pump at ceiling height, and risers down the walls.
+	{"name": "PumpHeaderWest", "centre": Vector3(-6.75, BF + 3.4, -18.5), "size": Vector3(0.16, 0.16, 8.6), "look": "pipe"},
+	{"name": "PumpCrossWest", "centre": Vector3(-4.34, BF + 3.4, -19.0), "size": Vector3(4.66, 0.16, 0.16), "look": "pipe"},
+	{"name": "PumpRiserWest", "centre": Vector3(-6.75, BF + _BC / 2.0, -21.5), "size": Vector3(0.16, _BC, 0.16), "look": "pipe"},
+	{"name": "PumpHeaderEast", "centre": Vector3(6.75, BF + 3.4, -20.9), "size": Vector3(0.16, 0.16, 3.8), "look": "pipe"},
+	{"name": "PumpCrossEast", "centre": Vector3(4.34, BF + 3.4, -19.0), "size": Vector3(4.66, 0.16, 0.16), "look": "pipe"},
+	{"name": "PumpRiserEast", "centre": Vector3(6.75, BF + _BC / 2.0, -22.6), "size": Vector3(0.16, _BC, 0.16), "look": "pipe"},
+	# Storm drain: the 2019 flood line and damp along its walls, puddles.
+	{"name": "FloodLineWest", "centre": Vector3(-1.84, BF + 0.7, -33.6), "size": Vector3(0.02, 0.12, 12.5), "look": "flood_mark"},
+	{"name": "FloodLineEast", "centre": Vector3(1.84, BF + 0.7, -33.6), "size": Vector3(0.02, 0.12, 12.5), "look": "flood_mark"},
+	{"name": "FloodLineEnd", "centre": Vector3(0.0, BF + 0.7, -39.84), "size": Vector3(3.66, 0.12, 0.02), "look": "flood_mark"},
+	{"name": "DampWest", "centre": Vector3(-1.845, BF + 0.3, -33.6), "size": Vector3(0.01, 0.6, 12.5), "look": "damp"},
+	{"name": "DampEast", "centre": Vector3(1.845, BF + 0.3, -33.6), "size": Vector3(0.01, 0.6, 12.5), "look": "damp"},
+	{"name": "DrainPuddleA", "centre": Vector3(0.4, BF + 0.006, -31.5), "size": Vector3(1.6, 0.012, 2.2), "look": "water"},
+	{"name": "DrainPuddleB", "centre": Vector3(-0.6, BF + 0.006, -29.0), "size": Vector3(1.0, 0.012, 1.2), "look": "water"},
+	# Maintenance bay: a tool board on the west wall, above the crate.
+	{"name": "ToolBoard", "centre": Vector3(-27.835, BF + 1.95, -20.2), "size": Vector3(0.03, 1.0, 1.8), "look": "pegboard"},
+	{"name": "ToolWrench", "centre": Vector3(-27.81, BF + 2.05, -20.8), "size": Vector3(0.02, 0.5, 0.08), "look": "tool_steel"},
+	{"name": "ToolHammer", "centre": Vector3(-27.81, BF + 2.0, -20.4), "size": Vector3(0.02, 0.45, 0.1), "look": "tool_dark"},
+	{"name": "ToolSaw", "centre": Vector3(-27.81, BF + 2.1, -19.95), "size": Vector3(0.02, 0.18, 0.5), "look": "hazard_yellow"},
+	{"name": "ToolBar", "centre": Vector3(-27.81, BF + 1.95, -19.5), "size": Vector3(0.02, 0.6, 0.06), "look": "tool_steel"},
+	# Electrical room: conduits up the north wall beside the sign, and a tray.
+	{"name": "ConduitA", "centre": Vector3(36.6, 2.1, -27.76), "size": Vector3(0.1, 4.2, 0.1), "look": "conduit"},
+	{"name": "ConduitB", "centre": Vector3(38.6, 3.1, -27.76), "size": Vector3(0.1, 2.2, 0.1), "look": "conduit"},
+	{"name": "ConduitC", "centre": Vector3(43.4, 3.1, -27.76), "size": Vector3(0.1, 2.2, 0.1), "look": "conduit"},
+	{"name": "ConduitD", "centre": Vector3(45.4, 2.1, -27.76), "size": Vector3(0.1, 4.2, 0.1), "look": "conduit"},
+	{"name": "ConduitTray", "centre": Vector3(41.0, 4.0, -27.72), "size": Vector3(9.6, 0.08, 0.25), "look": "conduit"},
+]
+## Hazard stripes (floor decals) across both service stairs, top and bottom:
+## six alternating segments from x0 to x1, centred on z.
+const STAIR_STRIPES := [
+	{"name": "WestStairTop", "x0": -43.85, "x1": -40.5, "z": -11.825, "y": 0.0},
+	{"name": "WestStairBottom", "x0": -43.85, "x1": -40.5, "z": -22.175, "y": BF},
+	{"name": "EastStairTop", "x0": 42.5, "x1": 45.85, "z": -18.175, "y": 0.0},
+	{"name": "EastStairBottom", "x0": 42.5, "x1": 45.85, "z": -7.825, "y": BF},
 ]
 
 ## Reserved spaces for later phases (markers under Layout, shown with F3).
@@ -438,8 +516,11 @@ const SECURITY := {
 		# Phase 6: a fixed camera looking down at the main entrance's badge reader
 		# (escape A) only: no sweep, a narrow view, so the doorway and the spot
 		# behind the entrance screen stay out of it.
-		{"name": "CameraLobby", "title": "main entrance", "zone": "A", "pos": Vector3(2.9, 3.4, 26.0), "look": Vector3(2.9, 0.6, 27.8),
-			"fov": 40.0, "sweep": 0.0, "range": 6.0},
+		# On the lobby's east wall (face x 11.85; the bracket reaches 0.5 m behind
+		# the camera), looking west along the south wall at the badge reader:
+		# narrow and only as long as the reader, so the doorway stays out of view.
+		{"name": "CameraLobby", "title": "main entrance", "zone": "A", "pos": Vector3(11.35, 3.4, 26.6), "look": Vector3(2.9, 1.0, 26.6),
+			"fov": 30.0, "sweep": 0.0, "range": 9.3},
 	],
 	"labels": {"switch_board": Vector3(41.0, 2.25, -27.0)},
 }

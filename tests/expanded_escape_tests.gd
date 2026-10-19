@@ -141,7 +141,12 @@ func _check_route_main() -> void:
 	alarm.clear()
 	# The camera covers the reader only (no sweep, short range), not the doorway.
 	var cam: SecurityCamera = _level.get_node("Expansion/Gameplay/Security/Cameras/CameraLobby")
-	_expect(cam.view_range == 6.0 and cam.sweep_angle == 0.0, "The lobby camera is fixed on the reader.")
+	_expect(cam.sweep_angle == 0.0 and cam.view_range < 10.0 and cam.fov_degrees <= 30.0, "The lobby camera is fixed on the reader.")
+	# Mounted on the east wall, not in mid-air; the doorway is out of its cone or range.
+	_expect(cam.global_position.x > 11.0, "The lobby camera hangs on the lobby's east wall (%s)." % cam.global_position)
+	for p in [Vector3(1.5, 1.5, 28.0), Vector3(0.0, 1.5, 28.0), Vector3(-1.5, 1.5, 28.0)]:
+		var to: Vector3 = p - cam.get_node("Head").global_position
+		_expect(to.length() > cam.view_range or rad_to_deg(cam.look_direction().angle_to(to)) > cam.fov_degrees / 2.0, "The lobby camera does not see the doorway at %s." % p)
 	# Walking out without the manuscript: refused, no escape.
 	await _walk_to(Vector3(0, 0, 26.8), Vector3(0, 0, 30.5), 1.5)
 	_expect(_escapes == 0 and _director.status != S.ESCAPED and _main.rejections >= 1, "Walking out without the manuscript is refused.")

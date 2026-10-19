@@ -47,15 +47,17 @@ func _ready() -> void:
 	volume_slider.value_changed.connect(_on_volume)
 	box.add_child(volume_slider)
 	captions_button = CheckButton.new()
-	captions_button.text = "Sound captions"
 	captions_button.add_theme_font_size_override("font_size", 20)
 	captions_button.button_pressed = GameSettings.captions
-	captions_button.toggled.connect(func(on: bool): GameSettings.set_captions(get_tree(), on))
+	captions_button.toggled.connect(func(on: bool):
+		GameSettings.set_captions(get_tree(), on)
+		_update_captions_label())
 	box.add_child(captions_button)
 	back_button = MenuStyle.button("Back")
 	back_button.pressed.connect(close)
 	box.add_child(back_button)
 	_update_volume_label()
+	_update_captions_label()
 	visible = false
 
 
@@ -65,6 +67,7 @@ func open() -> void:
 	volume_slider.set_value_no_signal(round(GameSettings.master_volume * 100.0))
 	captions_button.set_pressed_no_signal(GameSettings.captions)
 	_update_volume_label()
+	_update_captions_label()
 	visible = true
 	scale_button.grab_focus()
 
@@ -89,6 +92,11 @@ func _on_volume(value: float) -> void:
 
 func _update_volume_label() -> void:
 	volume_label.text = "Master volume: %d %%" % int(volume_slider.value) if volume_slider.value > 0.0 else "Master volume: muted"
+
+
+## The switch says its state: "Sound captions: On" / "Off".
+func _update_captions_label() -> void:
+	captions_button.text = "Sound captions: %s" % ("On" if captions_button.button_pressed else "Off")
 
 
 func _row_label(text: String) -> Label:

@@ -52,6 +52,18 @@ func _init() -> void:
 	# Music layers.
 	_save("music_tension", _loopable(_tension(8.0), 0.5))
 	_save("music_chase", _chase(4.0))
+	# Expansion Phase 9: the Expanded Library's mechanisms (made last, so the
+	# sounds above keep their exact samples).
+	_save("mech_click", _mix([_click(0.035, 1700.0, 0.45), _step(0.05, 1200.0, 140.0, 0.25)]))
+	_save("mech_clunk", _mix([_step(0.28, 420.0, 58.0, 0.85), _delay(_click(0.03, 900.0, 0.3), 0.02)]))
+	_save("puzzle_wrong", _mix([_tri(174.6, 0.38, 0.4), _tri(185.0, 0.38, 0.35)]))
+	_save("puzzle_solved", _mix([_bell(784.0, 0.5, 0.4), _delay(_bell(1046.5, 0.5, 0.4), 0.09), _delay(_bell(1318.5, 0.6, 0.35), 0.18)]))
+	_save("reader_beep", _mix([_click(0.07, 1850.0, 0.45), _delay(_click(0.07, 1850.0, 0.45), 0.12)]))
+	_save("shutter_rattle", _mix([_sweep_noise(1.3, 220.0, 950.0, 0.5), _rattle()]))
+	_save("pump_stall", _mix([_step(0.4, 300.0, 45.0, 0.9), _sweep_noise(0.6, 900.0, 200.0, 0.4)]))
+	_save("glass_smash", _mix([_sweep_noise(0.4, 7000.0, 2500.0, 0.6), _click(0.02, 3200.0, 0.4), _delay(_click(0.02, 4100.0, 0.3), 0.05)]))
+	_save("item_thud", _step(0.22, 420.0, 72.0, 0.75))
+	_save("item_pickup", _mix([_bell(1046.5, 0.3, 0.35), _delay(_click(0.03, 2200.0, 0.2), 0.03)]))
 	print("Generated sounds in %s" % OUT)
 	quit(0)
 

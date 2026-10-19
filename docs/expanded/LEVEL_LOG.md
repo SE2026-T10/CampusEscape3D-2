@@ -386,3 +386,11 @@ No geometry, navmesh, guard placement or route changed.
 **Scene changes:** none (the wall is created at run time by the exit script).
 
 **Evidence:** [`expansion/phase-8/`](expansion/phase-8/); report [`expansion/phase-8-e2e.md`](expansion/phase-8-e2e.md).
+
+## Expansion — polish and performance (expansion Phase 9, 2026-10-18)
+
+**What:** decorative only; no wall, floor, door, collision, navmesh or gameplay change. The expansion's static boxes (floors, walls, ramps, cover, ceilings, headers and the new decor) are merged into BatchedBoxes (one MultiMesh per 12 m cell, look kind and layer, split until at most 8 lights reach each piece), as the existing level's builder already does. New decor (no collision, flush with walls, above 2.3 m or flat on the floor): tunnel pipes and a cable tray, pump room pipes, a tool board in the maintenance bay, conduits and a DANGER · 400 V sign in the electrical room, a 2019 flood line, damp and puddles in the storm drain with a FLOOD LEVEL · 2019 sign, hazard stripes at both ends of both service stairs, emissive door lamps (no new lights), direction signs in the tunnel and a MAINTENANCE BAY sign. The storm drain's state label (GRATE JAMMED / CLEAR) moved 0.5 m down so it no longer overlaps the wall's SEALED sign. Ten synthesised mechanism sounds (MechanismAudio, 3D, listening to existing signals only). Per-frame work trimmed in the security cameras, access and exit doors, objective HUD and stealth HUD (no re-setting of unchanged text, colours and materials; cameras skip sight checks out of range).
+
+**Scene changes:** `scenes/level/expanded_library_expansion.tscn` rebuilt by `build_expansion.gd` (Batched nodes under Geometry and Dressing groups, Dressing/Decor, five signs, Gameplay/MechanismAudio). `expanded_library.tscn` and the navmesh unchanged (collision fingerprint identical; a rebake gives a byte-identical navmesh).
+
+**Evidence:** [`expansion/phase-9/`](expansion/phase-9/); report [`expansion/phase-9-polish-performance.md`](expansion/phase-9-polish-performance.md).

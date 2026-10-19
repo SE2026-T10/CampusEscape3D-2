@@ -129,6 +129,10 @@ func _check_settings() -> void:
 	GameSettings.reset_to_defaults()
 	GameSettings.load_settings(true)
 	_expect(GameSettings.hud_scale == 1.25 and is_equal_approx(GameSettings.master_volume, 0.55) and not GameSettings.captions, "…and they are saved.")
+	_expect(panel.captions_button.text == "Sound captions: Off", "The captions switch says Off (%s)." % panel.captions_button.text)
+	panel.captions_button.button_pressed = true
+	await _frames(1)
+	_expect(GameSettings.captions and panel.captions_button.text == "Sound captions: On", "…and On when switched back (%s)." % panel.captions_button.text)
 	panel.back_button.pressed.emit()
 	await _frames(2)
 	_expect(not panel.visible and menu.settings_button.has_focus(), "Back closes it, focus returns to Settings.")

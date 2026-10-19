@@ -119,9 +119,14 @@ func _process(_delta: float) -> void:
 		# Green only when the player could open it from where they are (a one-way
 		# door is red from its locked side).
 		var player := get_tree().get_first_node_in_group("player")
-		_panel_material.albedo_color = Color(0.3, 0.75, 0.4) if player and _refusal(player) == "" else Color(0.7, 0.2, 0.17)
+		var colour := Color(0.3, 0.75, 0.4) if player and _refusal(player) == "" else Color(0.7, 0.2, 0.17)
+		# Expansion Phase 9: the material is only touched when its colour changes.
+		if _panel_material.albedo_color != colour:
+			_panel_material.albedo_color = colour
 	if _sign:
-		_sign.modulate = _panel_material.albedo_color.lightened(0.3) if _panel_material else Color.WHITE
+		var tint := _panel_material.albedo_color.lightened(0.3) if _panel_material else Color.WHITE
+		if _sign.modulate != tint:
+			_sign.modulate = tint
 
 
 func get_prompt(by: Node) -> String:

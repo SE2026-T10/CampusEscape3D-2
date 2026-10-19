@@ -28,7 +28,8 @@ extends SceneTree
 ##                    ceilings, dressing (all decoration), hud (all UI layers),
 ##                    book_shadows (books stop casting shadows), shadow_splits
 ##                    (sun shadow 2 splits instead of 4), shadow_distance (40 m),
-##                    shadow_size (sun shadow atlas 2048 instead of 4096)
+##                    shadow_size (sun shadow atlas 2048 instead of 4096),
+##                    expansion (every visual of the Expanded Library's expansion)
 ##
 ## What happens, the same way every run:
 ##   - the real level scene loads; the player stands at the spawn (no input)
@@ -315,6 +316,15 @@ func _apply_disable() -> void:
 					n.directional_shadow_max_distance = 40.0
 			"shadow_size":
 				RenderingServer.directional_shadow_atlas_set_size(2048, true)
+			"expansion":
+				# Expansion Phase 9: every visual of the expansion sub-scene (its
+				# collision and gameplay stay), to see what it costs to draw.
+				var x := _level.get_node_or_null("Expansion")
+				if x:
+					for n in x.find_children("*", "GeometryInstance3D", true, false):
+						n.visible = false
+					for n in x.find_children("*", "Light3D", true, false):
+						n.visible = false
 			"hud":
 				for n in _level.get_children():
 					if n is CanvasLayer:

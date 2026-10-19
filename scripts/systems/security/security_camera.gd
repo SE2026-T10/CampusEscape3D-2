@@ -41,6 +41,8 @@ var _sweep := 0.0
 var _sweep_dir := 1.0
 var _head: Node3D
 var _lens_material: StandardMaterial3D
+var _player: Node3D
+var _visual_state := Vector3(-1, -1, -1)
 var _cone_material: StandardMaterial3D
 var _cone: MeshInstance3D
 
@@ -75,11 +77,14 @@ func _physics_process(delta: float) -> void:
 	_head.rotation_degrees = Vector3(-pitch_degrees, _sweep, 0)
 	if cooldown_left > 0.0:
 		cooldown_left = maxf(cooldown_left - delta, 0.0)
-	var player := get_tree().get_first_node_in_group("player") as Node3D
+	if _player == null or not is_instance_valid(_player):
+		_player = get_tree().get_first_node_in_group("player") as Node3D
+	var player := _player
 	var distance := 0.0
 	if player and cooldown_left == 0.0:
 		distance = _head.global_position.distance_to(player.global_position)
-		sees_player = can_see(player)
+		# Expansion Phase 9: no rays or hiding-spot checks for a player well out of range.
+		sees_player = distance <= view_range + 2.0 and can_see(player)
 	if sees_player:
 		var closeness := 1.0 - clampf((distance - 3.0) / maxf(view_range - 3.0, 0.1), 0.0, 1.0)
 		var factor: float = player.get_visibility_factor() if player.has_method("get_visibility_factor") else 1.0
@@ -125,6 +130,11 @@ func _update_visual(powered: bool) -> void:
 	var colour := Color(0.05, 0.05, 0.06)
 	if powered:
 		colour = Color(1.0, 0.2, 0.15) if cooldown_left > 0.0 else (Color(1.0, 0.85, 0.2) if meter > 0.0 else Color(0.25, 0.9, 0.35))
+	# Expansion Phase 9: the materials are only touched when what they show changes.
+	var state := Vector3(colour.r + colour.g * 2.0 + colour.b * 4.0, float(powered), snappedf(meter, 2.0))
+	if state == _visual_state:
+		return
+	_visual_state = state
 	_lens_material.albedo_color = colour
 	_lens_material.emission = colour
 	_lens_material.emission_energy_multiplier = 2.0 if powered else 0.0

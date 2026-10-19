@@ -12,7 +12,10 @@ const VARIATIONS := {"player_step": 4, "guard_step": 4}
 const SINGLE := ["guard_keys", "guard_radio", "card_pickup", "objective_complete", "checkpoint", "door_locked",
 	"door_open", "notice", "suspicious", "alarm", "lost_track", "caught", "victory", "ui_hover", "ui_click",
 	"ui_pause", "ui_resume", "amb_room_tone", "amb_clock_tick", "amb_page_turn", "amb_book_thud",
-	"amb_chair_creak", "music_tension", "music_chase"]
+	"amb_chair_creak", "music_tension", "music_chase",
+	# Expansion Phase 9: the Expanded Library's mechanisms (MechanismAudio).
+	"mech_click", "mech_clunk", "puzzle_wrong", "puzzle_solved", "reader_beep", "shutter_rattle", "pump_stall",
+	"glass_smash", "item_thud", "item_pickup"]
 ## Sounds imported with forward looping.
 const LOOPED := ["amb_room_tone", "amb_clock_tick", "music_tension", "music_chase"]
 

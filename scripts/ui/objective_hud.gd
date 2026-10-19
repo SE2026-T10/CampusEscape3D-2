@@ -64,6 +64,7 @@ var _clue_start := 0
 var _clues_only := false
 var _clue_next := -1
 var _journal_view := Vector2.ZERO
+var _prompt_colour := Color(0, 0, 0, 0)
 
 ## Space kept free under the journal (captions, stamina, stance), in pixels.
 const JOURNAL_BOTTOM_CLEARANCE := 250.0
@@ -165,6 +166,11 @@ func next_journal_page() -> void:
 		_show_journal_page()
 	else:
 		close_journal()
+
+
+func _set_text(control: Control, text: String) -> void:
+	if control.get("text") != text:
+		control.set("text", text)
 
 
 ## The player's inventory if this level uses one, else null.
@@ -505,9 +511,11 @@ func _update_panel(objectives: ObjectiveManager) -> void:
 		if _last_objective != &"":
 			_flash = 0.8
 		_last_objective = id
-	_header.text = get_header_text()
-	_current.text = objectives.get_title(id)
-	_hint.text = objectives.get_hint(id)
+	# Expansion Phase 9: labels are only reassigned when their text changes (a
+	# RichTextLabel re-parses and re-lays out its BBCode on every assignment).
+	_set_text(_header, get_header_text())
+	_set_text(_current, objectives.get_title(id))
+	_set_text(_hint, objectives.get_hint(id))
 	var colours := {ObjectiveManager.State.COMPLETED: COLOUR_DONE, ObjectiveManager.State.ACTIVE: COLOUR_CURRENT,
 		ObjectiveManager.State.LOCKED: COLOUR_LOCKED}
 	var lines := get_lines()
@@ -519,9 +527,9 @@ func _update_panel(objectives: ObjectiveManager) -> void:
 			optional_header = true
 			text += "[color=#%s]OPTIONAL[/color]\n" % Color(1.0, 0.82, 0.3).to_html(false)
 		text += "[color=#%s]%s[/color]\n" % [colours[objectives.get_state(ids[i])].to_html(false), lines[i]]
-	_list.text = text.strip_edges()
+	_set_text(_list, text.strip_edges())
 	var status := _status_bbcode() if objectives.is_graph() else ""
-	_status_text.text = status.strip_edges()
+	_set_text(_status_text, status.strip_edges())
 	_status_panel.visible = status != "" and not _journal.visible and not objectives.is_finished()
 
 
@@ -615,10 +623,14 @@ func _update_prompt(delta: float) -> void:
 	var text := get_prompt_text()
 	if text != "":
 		var parts := split_prompt(text)
-		_prompt_key.text = parts[0]
+		_set_text(_prompt_key, parts[0])
 		_prompt_key.get_parent().visible = parts[0] != ""
-		_prompt.text = parts[1]
-		_prompt.add_theme_color_override("font_color", COLOUR_WARNING if text.contains("locked") or text.contains("not yet") or text.contains("hands full") else Color.WHITE)
+		_set_text(_prompt, parts[1])
+		var colour := COLOUR_WARNING if text.contains("locked") or text.contains("not yet") or text.contains("hands full") else Color.WHITE
+		if colour != _prompt_colour:
+			# Every override call sends a theme change through the control: only on change.
+			_prompt_colour = colour
+			_prompt.add_theme_color_override("font_color", colour)
 	_prompt_alpha = move_toward(_prompt_alpha, 1.0 if text != "" else 0.0, delta * 8.0)
 	_prompt_box.modulate.a = _prompt_alpha
 

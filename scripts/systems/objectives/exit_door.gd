@@ -128,12 +128,16 @@ func _process(delta: float) -> void:
 		_apply_panel()
 		var ready := is_unlocked()
 		var colour_w := Color(0.3, 0.9, 0.45) if ready else Color(0.8, 0.18, 0.15)
-		if _door_material:
+		# Expansion Phase 9: material and sign only touched when they change.
+		if _door_material and _door_material.albedo_color != colour_w:
 			_door_material.albedo_color = colour_w
 		if _sign:
 			# The text says whether the way is open; the colour whether walking out would escape.
-			_sign.text = open_sign if is_open() else (locked_sign if not _key_done() else _walk_reason_sign())
-			_sign.modulate = colour_w.lightened(0.2)
+			var sign_text := open_sign if is_open() else (locked_sign if not _key_done() else _walk_reason_sign())
+			if _sign.text != sign_text:
+				_sign.text = sign_text
+			if _sign.modulate != colour_w.lightened(0.2):
+				_sign.modulate = colour_w.lightened(0.2)
 		return
 	var has_key := _manager() != null and _manager().is_completed(key_objective_id) and _extra_done() and _has_power()
 	var colour := Color(0.3, 0.9, 0.45) if has_key else Color(0.8, 0.18, 0.15)

@@ -22,6 +22,7 @@ extends SceneTree
 ##   │  in the level, and shelves and items change no route. Item, shelf and
 ##   │  clipboard models are made by their scripts at run time (ItemCatalog).
 ##   ├─ Dressing: ceilings and roofs (no collision), lamps, door headers, signs
+##     and (Phase 9) decor: pipes, trays, stripes, flood marks (no collision)
 ##   └─ Layout (debug_visuals, F3): zone labels and reserved-space markers
 ## Colours: the existing level's palette (LOOKS of the frozen builder).
 
@@ -48,6 +49,7 @@ const SCRIPTS := {
 	"badge_reader": "res://scripts/systems/escape/badge_reader.gd",
 	"dock_shutter": "res://scripts/systems/escape/dock_shutter.gd",
 	"escape_routes": "res://scripts/systems/escape/escape_routes.gd",
+	"mechanism_audio": "res://scripts/presentation/mechanism_audio.gd",
 }
 ## Mesh tiles are at most this long, so no mesh is reached by more than the
 ## renderer's 8 lights per mesh (lamps are 8-12 m apart, range 10 m).
@@ -135,6 +137,11 @@ func _build() -> void:
 	_add_mission(_group(gameplay, "Mission"))
 	_add_security(_group(gameplay, "Security"))
 	_add_escapes(_group(gameplay, "Escape"))
+	# Phase 9: 3D sounds for the mechanisms (it only listens to their signals).
+	var audio := Node3D.new()
+	audio.name = "MechanismAudio"
+	audio.set_script(load(SCRIPTS.mechanism_audio))
+	_add(gameplay, audio)
 
 	var dressing := _group(_root, "Dressing")
 	var ceilings := _group(dressing, "Ceilings")
@@ -177,6 +184,7 @@ func _build() -> void:
 		omni.distance_fade_begin = 28.0
 		omni.distance_fade_length = 6.0
 		(lamp.get_node("Fixture") as GeometryInstance3D).layers = Layout.LAYER_BASEMENT if l.basement else Layout.LAYER_GROUND
+	_add_decor(_group(dressing, "Decor"))
 	var signs := _group(dressing, "Signs")
 	for s in Layout.SIGNS:
 		_add_sign(signs, s)
@@ -198,6 +206,12 @@ func _build() -> void:
 		marker.set_meta("reserved", true)
 
 	_assign_layers(_root)
+	_batch_static_meshes()
+	# The decor's holders are empty once their boxes are batched.
+	for holder in _root.get_node("Dressing/Decor").get_children():
+		if holder.name != "Batched" and holder.get_child_count() == 0:
+			holder.get_parent().remove_child(holder)
+			holder.free()
 	var packed := PackedScene.new()
 	var err := packed.pack(_root)
 	if err != OK:
@@ -520,7 +534,8 @@ func _add_mission(mission: Node3D) -> void:
 	_add(exit, shape)
 	var dt: Dictionary = Layout.ESCAPES.drain_trigger
 	_add_trigger(exit, dt.name, dt.offset, dt.size)
-	var sign_label := _add_label(exit, "Sign", Vector3(0, 1.5, 0.3), "STORM DRAIN · GRATE JAMMED", Color(1, 0.4, 0.3))
+	# Phase 9: 0.5 m below the wall's STORM DRAIN · SEALED sign, which it overlapped.
+	var sign_label := _add_label(exit, "Sign", Vector3(0, 1.0, 0.3), "STORM DRAIN · GRATE JAMMED", Color(1, 0.4, 0.3))
 	sign_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	sign_label.no_depth_test = false   # Phase 6: not seen through the hidden maintenance panel
 	var noise := Node3D.new()
@@ -710,6 +725,17 @@ func _add_tool_mechanism(parent: Node, d: Dictionary, look: String) -> Area3D:
 
 # --- Dressing --------------------------------------------------------------------------------
 
+## Phase 9: the decorative boxes and stair stripes (no collision; see Layout.DECOR).
+func _add_decor(parent: Node3D) -> void:
+	for d in Layout.DECOR:
+		_add_visual_box(parent, d.name, d.centre, d.size, d.look)
+	for st in Layout.STAIR_STRIPES:
+		var w: float = (st.x1 - st.x0) / 6.0
+		for i in 6:
+			_add_visual_box(parent, "%s_%d" % [st.name, i], Vector3(st.x0 + w * (i + 0.5), st.y + 0.006, st.z),
+				Vector3(w, 0.012, 0.25), "hazard_yellow" if i % 2 == 0 else "hazard_black")
+
+
 func _add_sign(parent: Node, s: Dictionary) -> void:
 	var holder := Node3D.new()
 	holder.name = "Sign_" + String(s.text).validate_node_name().replace(" ", "").replace("·", "").replace("↓", "Down").replace("↑", "Up")
@@ -747,6 +773,153 @@ func _add_label(parent: Node, node_name: String, pos: Vector3, text: String, col
 	return label
 
 
+## Expansion Phase 9: the static boxes of Geometry and Dressing (floors, walls,
+## ramps, cover, ceilings, door headers, floor patches; not the doors, items,
+## signs, lamps or anything in Gameplay) merged into BatchedBoxes, as the
+## existing level's builder does (scripts/level/batched_boxes.gd): one MultiMesh
+## per 12 m cell, look kind, render layer and shadow setting, split again until
+## at most 8 lights reach each piece (the Compatibility renderer's per-mesh
+## limit; the existing level's lights near the expansion count too). Collision
+## bodies keep their shapes; only their visual tiles move into the batches.
+const BATCH_CELL := 12.0
+const MAX_LIGHTS_PER_MESH := 8
+const BATCH_SCRIPT := "res://scripts/level/batched_boxes.gd"
+var _batched := 0
+var _batches := 0
+
+
+func _batch_static_meshes() -> void:
+	var found: Array[MeshInstance3D] = []
+	for group_name in ["Geometry", "Dressing"]:
+		_collect_batchable(_root.get_node(group_name), found)
+	var groups := {}   # host -> {key -> {...}}
+	for mi in found:
+		var host := _batch_host(mi)
+		var xf := _world_of(mi) * Transform3D(Basis.from_scale((mi.mesh as BoxMesh).size), Vector3.ZERO)
+		var material := mi.material_override as StandardMaterial3D
+		# Plain colours share one vertex-colour material; metal and glowing looks keep theirs.
+		var kind := "plain" if not material.emission_enabled and material.metallic == 0.0 else String(material.resource_scene_unique_id).trim_prefix("Material_")
+		var cell := Vector2i(floori(xf.origin.x / BATCH_CELL), floori(xf.origin.z / BATCH_CELL))
+		var shadow := mi.cast_shadow
+		var key := "%d_%d_%s_L%d_S%d" % [cell.x, cell.y, kind, mi.layers, int(shadow != GeometryInstance3D.SHADOW_CASTING_SETTING_OFF)]
+		if not groups.has(host):
+			groups[host] = {}
+		if not groups[host].has(key):
+			groups[host][key] = {"items": [], "material": material, "plain": kind == "plain", "layers": mi.layers, "shadow": shadow}
+		groups[host][key].items.append([xf, material.albedo_color])
+		mi.get_parent().remove_child(mi)
+		mi.free()
+		_batched += 1
+	var plain := StandardMaterial3D.new()
+	plain.resource_scene_unique_id = "Material_batched_plain"
+	plain.vertex_color_use_as_albedo = true
+	plain.roughness = 0.9
+	var lights := _light_bounds()
+	for host in groups:
+		var keys: Array = groups[host].keys()
+		keys.sort()
+		for key in keys:
+			var g: Dictionary = groups[host][key]
+			var pieces := _split_for_lights(g.items, g.layers, lights)
+			for k in pieces.size():
+				var items: Array = pieces[k]
+				var centre := _items_aabb(items).get_center()
+				var origin := Vector3(snappedf(centre.x, 0.5), snappedf(centre.y, 0.5), snappedf(centre.z, 0.5))
+				var data := PackedFloat32Array()
+				for it in items:
+					BatchedBoxes.pack(data, Transform3D(Basis(), -origin) * it[0], it[1])
+				var node := MultiMeshInstance3D.new()
+				node.name = "Batch_" + key + ("" if pieces.size() == 1 else "_%d" % k)
+				node.set_script(load(BATCH_SCRIPT))
+				node.set("boxes", data)
+				node.position = _world_of(host).affine_inverse() * origin
+				node.material_override = plain if g.plain else g.material
+				node.layers = g.layers
+				node.cast_shadow = g.shadow
+				_add(host, node)
+				_batches += 1
+	print("batched %d boxes into %d BatchedBoxes" % [_batched, _batches])
+
+
+func _collect_batchable(node: Node, out: Array[MeshInstance3D]) -> void:
+	# Not the signs and lamps, nor the storm drain grate (the pump hides it).
+	if node.name in ["Signs", "Lights", Layout.GRATE.name] or node.owner != _root and node != _root:
+		return
+	if node is MeshInstance3D and (node as MeshInstance3D).mesh is BoxMesh and node.material_override is StandardMaterial3D:
+		out.append(node)
+	for child in node.get_children():
+		_collect_batchable(child, out)
+
+
+## Batches go to <Geometry or Dressing>/<first group>/Batched (Dressing/Ceilings
+## keeps its own, hidden in top-down captures).
+func _batch_host(node: Node) -> Node3D:
+	var n := node
+	while n.get_parent() and n.get_parent().get_parent() != _root:
+		n = n.get_parent()
+	var group := n as Node3D
+	var existing := group.get_node_or_null("Batched") as Node3D
+	return existing if existing else _group(group, "Batched")
+
+
+## Every omni light that can reach the expansion, as [range bounds, cull mask]:
+## the expansion's own lamps and the existing level's (read from its scene).
+func _light_bounds() -> Array:
+	var out := []
+	for l in _root.find_children("*", "OmniLight3D", true, false):
+		var omni := l as OmniLight3D
+		out.append([AABB(_world_of(omni).origin - Vector3.ONE * omni.omni_range, Vector3.ONE * omni.omni_range * 2.0), omni.light_cull_mask])
+	var level: Node = (load("res://scenes/level/expanded_library.tscn") as PackedScene).instantiate()
+	for l in level.find_children("*", "OmniLight3D", true, false):
+		if _under(l, level.get_node_or_null("Expansion")):
+			continue
+		var omni := l as OmniLight3D
+		var at := _world_in(omni, level).origin
+		out.append([AABB(at - Vector3.ONE * omni.omni_range, Vector3.ONE * omni.omni_range * 2.0), omni.light_cull_mask])
+	level.free()
+	return out
+
+
+func _split_for_lights(items: Array, layers: int, lights: Array) -> Array:
+	var bounds := _items_aabb(items)
+	var reached := 0
+	for l in lights:
+		if (l[1] & layers) != 0 and (l[0] as AABB).intersects(bounds):
+			reached += 1
+	if reached <= MAX_LIGHTS_PER_MESH or items.size() == 1:
+		return [items]
+	var axis := 0 if bounds.size.x >= bounds.size.z else 2
+	var sorted := items.duplicate()
+	sorted.sort_custom(func(a, b): return (a[0] as Transform3D).origin[axis] < (b[0] as Transform3D).origin[axis])
+	var half := sorted.size() / 2
+	return _split_for_lights(sorted.slice(0, half), layers, lights) + _split_for_lights(sorted.slice(half), layers, lights)
+
+
+func _items_aabb(items: Array) -> AABB:
+	var bounds := (items[0][0] as Transform3D) * AABB(-Vector3.ONE / 2.0, Vector3.ONE)
+	for it in items:
+		bounds = bounds.merge((it[0] as Transform3D) * AABB(-Vector3.ONE / 2.0, Vector3.ONE))
+	return bounds
+
+
+func _world_of(node: Node) -> Transform3D:
+	return _world_in(node, _root)
+
+
+func _world_in(node: Node, top: Node) -> Transform3D:
+	var t := Transform3D.IDENTITY
+	var n := node
+	while n and n != top:
+		if n is Node3D:
+			t = (n as Node3D).transform * t
+		n = n.get_parent()
+	return t
+
+
+func _under(node: Node, ancestor: Node) -> bool:
+	return ancestor != null and ancestor.is_ancestor_of(node)
+
+
 ## Render layers as the existing level's (ground 4) plus the basement (16), so
 ## the basement's lamps light only the basement and the ground lamps the ground.
 func _assign_layers(node: Node) -> void:
@@ -778,7 +951,7 @@ func _global_y(node: Node3D) -> float:
 func _look(look_name: String) -> StandardMaterial3D:
 	var key := "look_" + look_name
 	if not _materials.has(key):
-		var spec: Array = Palette.LOOKS[look_name]
+		var spec: Array = Layout.DECOR_LOOKS[look_name] if Layout.DECOR_LOOKS.has(look_name) else Palette.LOOKS[look_name]
 		var m := StandardMaterial3D.new()
 		m.resource_scene_unique_id = "Material_%s" % look_name
 		m.albedo_color = spec[0]

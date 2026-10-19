@@ -317,7 +317,7 @@ Added in expansion Phase 6 (report [`expansion/phase-6-escapes.md`](expansion/ph
 | Thing | Where |
 |---|---|
 | Main entrance exit: lockdown panel · trigger | the existing entrance opening (0, 1.5, 28), 4 m wide · the porch side (z 28.25–29.45) |
-| Badge reader · lobby camera | lobby wall east of the doors (2.9, 1.3, 27.8) · above it (2.9, 3.4, 26.0), looking down at the reader |
+| Badge reader · lobby camera | lobby wall east of the doors (2.9, 1.3, 27.8) · on the lobby's east wall (11.35, 3.4, 26.6), looking west along the entrance wall at the reader (fixed, 30°, 9.3 m) |
 | Security master badge | in the Office 1 security locker (−5.0, 4.5, −21.7), revealed when it opens |
 | Dock shutter release · shutter control · trigger | service corridor east wall (35.83, 1.1, 21.4) · (35.83, 1.3, 26.4) · just past the dock door (x 36.05–36.75) |
 | Maintenance panel (hidden) | the tunnel's north gap opposite the pump room door (0, −4, −27), full height |
