@@ -17,7 +17,7 @@ extends SceneTree
 ## Options (all optional):
 ##   --level=tutorial|expanded   which map (default tutorial)
 ##   --scenario=normal|several|stress   tutorial: 3, 8 or 24 guards; expanded:
-##                    6, 12 or 24 guards (default normal: the map's own guards)
+##                    7, 12 or 24 guards (default normal: the map's own guards; 7 since expansion Phase 5)
 ##   --npcs=N         any guard count instead (the level's own plus extra ones)
 ##   --seconds=S      measured time in simulated seconds (default 30)
 ##   --warmup=S       simulated seconds before measuring (default 5)
@@ -28,7 +28,8 @@ extends SceneTree
 ##                    ceilings, dressing (all decoration), hud (all UI layers),
 ##                    book_shadows (books stop casting shadows), shadow_splits
 ##                    (sun shadow 2 splits instead of 4), shadow_distance (40 m),
-##                    shadow_size (sun shadow atlas 2048 instead of 4096)
+##                    shadow_size (sun shadow atlas 2048 instead of 4096),
+##                    expansion (every visual of the Expanded Library's expansion)
 ##
 ## What happens, the same way every run:
 ##   - the real level scene loads; the player stands at the spawn (no input)
@@ -71,7 +72,7 @@ const LEVELS := {
 			Vector3(10, 0, -22.5), Vector3(22.5, 0, -10), Vector3(2, 0, -4)]},
 	"expanded": {
 		"scene": "res://scenes/level/expanded_library.tscn",
-		"scenarios": {"normal": 6, "several": 12, "stress": 24},
+		"scenarios": {"normal": 7, "several": 12, "stress": 24},
 		"speed": 6.0,
 		# The main route (layout ROUTES), the shortcut out, and back through the lobby.
 		"camera": [Vector3(0, 0, 30), Vector3(0, 0, 20), Vector3(-10.35, 0, 21.5), Vector3(-10.35, U, 8),
@@ -315,6 +316,15 @@ func _apply_disable() -> void:
 					n.directional_shadow_max_distance = 40.0
 			"shadow_size":
 				RenderingServer.directional_shadow_atlas_set_size(2048, true)
+			"expansion":
+				# Expansion Phase 9: every visual of the expansion sub-scene (its
+				# collision and gameplay stay), to see what it costs to draw.
+				var x := _level.get_node_or_null("Expansion")
+				if x:
+					for n in x.find_children("*", "GeometryInstance3D", true, false):
+						n.visible = false
+					for n in x.find_children("*", "Light3D", true, false):
+						n.visible = false
 			"hud":
 				for n in _level.get_children():
 					if n is CanvasLayer:

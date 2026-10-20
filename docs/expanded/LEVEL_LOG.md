@@ -257,3 +257,155 @@ Commit: `484761d` (planned as `level(expanded-v4): visual pass in the tutorial's
 - a human look at readability and lighting;
 - from v3: human playtests and the 20–30 minute target.
 
+
+---
+
+## Expansion (2026) — integration point (expansion Phase 1, 2026-10-15)
+
+No new layout version: the layout data and the scene's existing content are unchanged (baseline digests in [`expansion/phase-1-baseline.md`](expansion/phase-1-baseline.md), checked by `tests/expanded_baseline_tests.gd`).
+
+**What changed:**
+- The level gained one child, `Expansion`, an instance of the new, empty `scenes/level/expanded_library_expansion.tscn`, placed right after `Gameplay`. New puzzles, mechanics and areas go into that sub-scene.
+- **The builder is frozen** (owner decision, expansion Phase 1). `tools/expanded/build_expanded_graybox.gd` would revert the door-frame fix and drop `Expansion`, and the baseline tests fail if it is run. Changes to the existing level need approval and a new baseline.
+
+**Why:** the expansion's rules require the existing scene, its geometry and its fixes to stay as they are; a sub-scene keeps new work in its own small file.
+
+---
+
+## Expansion layout x1 — seven zones and the basement network (expansion Phase 2, 2026-10-15)
+
+**What:**
+- Zone G (basement / service network: west and east service stairs, the service tunnel, maintenance bay, pump room, storm drain, cable bay) and the electrical room (zone D), in the Expansion sub-scene.
+- Three doorways cut into existing walls: B west (z −9), D east (z −23, a staff-card door), B/C (z −21).
+- The navmesh rebaked from both parts (1,020 polygons).
+
+**Why:** the owner's seven-zone target with a compact service network and a stacks hub; reserved spaces for puzzles, security and the three escape routes.
+
+**Approved changes to the existing scene:**
+- the three cuts (3 wall bodies shortened, 3 pieces and 3 headers added, 12 decoration boxes split);
+- the `NavigationRegion3D` joined the navmesh's bake group;
+- the navmesh file was rebaked.
+
+Guards, routes, mission and every other node are unchanged (baseline digests in `tests/expanded_baseline_tests.gd`).
+
+**Evidence:** [`expansion/phase-2/`](expansion/phase-2/) (before/after views, plans, zone connections, navigation results); report [`expansion/phase-2-layout.md`](expansion/phase-2-layout.md).
+
+---
+
+## Expansion layout x2 — stamina, inventory, provisional items (expansion Phase 3, 2026-10-15)
+
+**What:**
+- Stamina (Expanded Library only): 100, sprint −20/s, +15/s after 1 s, 15 to start a sprint; `PlayerStamina` on the player, switched on by the level's `Player.use_stamina`.
+- Inventory: three carried slots, a journal for clue documents, storage shelves as the only places to leave or swap items; `PlayerInventory` on the player (`Player.use_inventory`), with `ItemPickup`, `ItemStorage`, `DocumentPickup`, `ToolMechanism` and `ItemCatalog`.
+- The staff card is a carried item; the staff doors (G2, G4, the electrical room door) check the carried card (`AccessDoor.key_item`).
+- Provisional placements in the Expansion sub-scene: tool kit, three distractions, two shelves, two documents (see LAYOUT.md, layout x2).
+
+**Why:** the owner's Phase 3 rules (stamina values; three slots; reusable tools and cards, single-use distractions, journal, drop/swap only at appropriate places, checkpoint restore).
+
+**Approved changes to the existing scene (`tools/expanded/expansion/enable_items.py`):** five property lines: `use_stamina` and `use_inventory` on Player, `grants_item` on the staff card, `key_item` on G2 and G4. No geometry, navmesh, guard or route changed.
+
+**Evidence:** [`expansion/phase-3/`](expansion/phase-3/); report [`expansion/phase-3-mechanics.md`](expansion/phase-3-mechanics.md).
+
+---
+
+## Expansion layout x3 — puzzles, journal and objectives (expansion Phase 4, 2026-10-16)
+
+**What:**
+- The mission is an objective graph (ObjectiveManager graph mode: prerequisites, optional and hidden objectives; the tutorial keeps the linear mode). 8 mandatory objectives, 3 optional ones; escape through the loading dock or the storm drain.
+- Puzzles: the electrical panel cover (tool kit), the breaker panel (power), the vault keypad (code; wrong codes raise the security alarm, three lock it 20 s) opening a new Vault Door; optional: the pump (opens the storm drain), the Office 1 security locker; the back gate is now an optional shortcut.
+- Clues: the wiring chart, the archivist's memo with the lobby plaque, the pump room log, the night rota; documents and clues in the journal, with the mission and the discovered optional objectives.
+- Interfaces for later phases: `PowerNetwork`, `SecurityAlarm` (main entrance lockdown reserved).
+
+**Why:** the owner's Phase 4 brief (explore freely, clear mandatory prerequisites, four or more puzzle interactions, fair clues, persistence defined); the owner approved the mission graph, extending ObjectiveManager, puzzles following checkpoints, escapes dock + storm drain.
+
+**Approved changes to the existing scene (`tools/expanded/expansion/mission_x3.py`):** the ObjectiveManager's `objectives` (the graph) and the loading dock ExitDoor's key (the manuscript) with its prompt and message. No geometry, navmesh, guard or route changed.
+
+**Evidence:** [`expansion/phase-4/`](expansion/phase-4/); report [`expansion/phase-4-puzzles.md`](expansion/phase-4-puzzles.md).
+
+
+---
+
+## Expansion layout x4 — security systems (expansion Phase 5, 2026-10-16)
+
+**What:**
+- Three circuits on the existing `PowerNetwork`: ARCHIVE ACCESS (the Phase 4 breaker puzzle; the vault keypad only), SURVEILLANCE (starts ON; the four cameras), SERVICE EXIT (starts OFF; the loading dock shutter). Two new switches in the electrical room (`CircuitSwitch`); SERVICE EXIT ON reboots the cameras and locks the surveillance switch for 30 s. No switch is one-way.
+- Four security cameras (`SecurityCamera`): staff corridor, archive hall, loading dock approach, service tunnel. A full meter raises the existing `SecurityAlarm` at the player's position (guards investigate; never a capture). Off: dark lens, guards unaffected.
+- Guards of this level use `expanded_security` (an off-by-default flag on the shared guard): hiding only hides a player who got in unseen; a searching guard checks the nearest hiding spot; during an alarm, detection ×1.6 and searches ×1.5. Same three states. The tutorial's guards keep the default.
+- A seventh guard, GuardBasement, patrols the service tunnel and the east basement (route P9_Basement, 5 points).
+- The loading dock exit needs SERVICE EXIT power as well as the manuscript; the storm drain needs no power.
+
+**Why:** the owner's Phase 5 brief; the owner approved the circuits as proposed, the hiding and search rules for the Expanded Library only, and one basement guard.
+
+**Approved changes to the existing scene (`tools/expanded/expansion/security_x4.py`):** `expanded_security = true` on the six existing guards; the new GuardBasement with its route P9_Basement (in `Guards`); `power_circuit`, `no_power_reason` and `no_power_sign` on the loading dock ExitDoor. No geometry, navmesh, existing route or existing guard placement changed (the baseline test proves it with the two new nodes left out).
+
+**Evidence:** [`expansion/phase-5/`](expansion/phase-5/); report [`expansion/phase-5-security.md`](expansion/phase-5-security.md).
+
+---
+
+## Expansion layout x5 — escape routes and checkpoints (expansion Phase 6, 2026-10-16)
+
+**What:**
+- Three escape routes, each needing the manuscript and its own prerequisites:
+  - **A main entrance:** a lockdown panel closes the existing entrance once the player is inside; the new security master badge (in the Office 1 security locker) and a 4 s override at a new badge reader open it; a new fixed lobby camera watches the reader.
+  - **B loading dock:** the existing dock exit also needs a new shutter release (tool kit) and the OPEN button on a new shutter control, besides SERVICE EXIT power.
+  - **C hidden maintenance passage:** a false wall panel in the tunnel's existing north gap, revealed by a new document (culvert access plan); the Phase 4 pump still clears the storm drain grate.
+- Exits are walked through (a trigger past each door). The route used is recorded and shown on the win screen.
+- Checkpoints also store the guards' positions, facing and patrol progress (Expanded Library only), restored on PATROL with a clear memory; a guard near or in sight of the respawn point goes to its start.
+
+**Why:** the owner's Phase 6 brief; the owner approved the three routes as proposed, walk-through triggers, and guard positions in the snapshot.
+
+**Approved changes to the existing scene:**
+- `tools/expanded/expansion/escape_x5.py`:
+  - `checkpoint_snapshot = true` on the seven guards;
+  - walk-through properties on the loading dock ExitDoor (its trigger and panel, the unlock requirement, the route name, texts).
+- `tools/expanded/expansion/mission_x3.py`: the enter_library, take_manuscript and escape texts (the objective graph is unchanged).
+
+No geometry, navmesh, guard placement or route changed.
+
+**Evidence:** [`expansion/phase-6/`](expansion/phase-6/); report [`expansion/phase-6-escapes.md`](expansion/phase-6-escapes.md).
+
+---
+
+## Expansion layout x6 — HUD and accessibility (expansion Phase 7, 2026-10-16)
+
+**What:**
+- A new `EscapeRoutes` node (`Expansion/Gameplay/Escape/EscapeRoutes`) that reads the three routes' requirements from the game and the player's journal, for the HUD's WAYS OUT list and the exits' refusal messages. What the player has learned is kept as journal clues, so it survives a capture.
+- The journal now holds only documents and clues (the Phase 4 journal also repeated the mission; the objective panel shows it).
+- No geometry, collision, navmesh, guard, route or existing node changed; the main scene is unchanged (the node is in the expansion sub-scene, rebuilt with `build_expansion.gd` and `keep_ids.py`).
+
+**Why:** the owner's Phase 7 brief and answers (settings in a config file; captions on both maps; routes learned and kept in the journal).
+
+**Evidence:** [`expansion/phase-7/`](expansion/phase-7/); report [`expansion/phase-7-hud.md`](expansion/phase-7-hud.md).
+
+---
+
+## Expansion — end-to-end testing (expansion Phase 8, 2026-10-17)
+
+**What:** no layout change. One critical fix found by the end-to-end runs: with an exit open (dock shutter up, badge override done, or the grate cleared and the panel open) and no manuscript, walking into the exit's trigger showed "You can't leave without the rare manuscript." but nothing stopped the player; past the dock door there is no floor, so they fell out of the level and respawned at the last checkpoint. `scripts/systems/objectives/exit_door.gd` now adds an invisible wall at each walk-through exit's threshold, solid only while the way is open but leaving would be refused.
+
+**Scene changes:** none (the wall is created at run time by the exit script).
+
+**Evidence:** [`expansion/phase-8/`](expansion/phase-8/); report [`expansion/phase-8-e2e.md`](expansion/phase-8-e2e.md).
+
+## Expansion — polish and performance (expansion Phase 9, 2026-10-18)
+
+**What:** decorative only; no wall, floor, door, collision, navmesh or gameplay change. The expansion's static boxes (floors, walls, ramps, cover, ceilings, headers and the new decor) are merged into BatchedBoxes (one MultiMesh per 12 m cell, look kind and layer, split until at most 8 lights reach each piece), as the existing level's builder already does. New decor (no collision, flush with walls, above 2.3 m or flat on the floor): tunnel pipes and a cable tray, pump room pipes, a tool board in the maintenance bay, conduits and a DANGER · 400 V sign in the electrical room, a 2019 flood line, damp and puddles in the storm drain with a FLOOD LEVEL · 2019 sign, hazard stripes at both ends of both service stairs, emissive door lamps (no new lights), direction signs in the tunnel and a MAINTENANCE BAY sign. The storm drain's state label (GRATE JAMMED / CLEAR) moved 0.5 m down so it no longer overlaps the wall's SEALED sign. Ten synthesised mechanism sounds (MechanismAudio, 3D, listening to existing signals only). Per-frame work trimmed in the security cameras, access and exit doors, objective HUD and stealth HUD (no re-setting of unchanged text, colours and materials; cameras skip sight checks out of range).
+
+**Scene changes:** `scenes/level/expanded_library_expansion.tscn` rebuilt by `build_expansion.gd` (Batched nodes under Geometry and Dressing groups, Dressing/Decor, five signs, Gameplay/MechanismAudio). `expanded_library.tscn` and the navmesh unchanged (collision fingerprint identical; a rebake gives a byte-identical navmesh).
+
+**Evidence:** [`expansion/phase-9/`](expansion/phase-9/); report [`expansion/phase-9-polish-performance.md`](expansion/phase-9-polish-performance.md).
+
+## Expansion — Phase 9 follow-up fixes (2026-10-19, approved by the owner)
+
+**What:** fixes for the known issues the owner approved (items 2, 4, 7c+a, 8a, 9a, 11, 14b, 15 of the Phase 9 issue list):
+- **P1:** the Staff Offices checkpoint keeps its pad by the card desk, but the respawn moved to the back of Office 1, facing its door (toward the stacks staff door G1b and the back stair S3); a hiding nook (carrel panel and low bench) on the staff balcony against the staff wing's wall, west of G1a.
+- **P2:** a checkpoint pad inside the maintenance bay's door.
+- **P3:** a niche with a hiding spot in the tunnel's north wall beside the west crate.
+- **Lights per mesh:** two ground-floor batches split (no piece over 8 lights; every box kept); four upper-floor props moved to the upper floor's render layer. 0 meshes over 8 lights (was 7).
+- **Decor:** the pump room risers and the two floor-to-ceiling electrical conduits moved into corners and slimmed to 0.12 m.
+- **Sound:** a wrong pump setting plays only the stall bang (no buzz).
+- **Tests:** the tutorial guard-timing test waits one frame after changing the time scale (the flake's cause); `run_tests.sh` gives the suite 2400 s.
+
+**Scene changes:** `expanded_library.tscn` patched by `tools/expanded/expansion/fixes_x7.gd` (batches, prop layers, Staff Offices respawn; collision and guards unchanged); `expanded_library_expansion.tscn` rebuilt (niche walls and floor, nook cover, two hiding spots, the bay checkpoint); navmesh rebaked (1031 polygons, was 1020).
+
+**Evidence:** report [`expansion/phase-9-followup-fixes.md`](expansion/phase-9-followup-fixes.md).

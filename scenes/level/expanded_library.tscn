@@ -27,6 +27,7 @@
 [ext_resource type="Script" path="res://scripts/game/game_flow.gd" id="25_rw5ae"]
 [ext_resource type="Script" path="res://scripts/ui/game_menus.gd" id="26_eguvm"]
 [ext_resource type="Script" path="res://scripts/presentation/audio_director.gd" id="27_fup4f"]
+[ext_resource type="PackedScene" path="res://scenes/level/expanded_library_expansion.tscn" id="28_expsn"]
 
 [sub_resource type="Environment" id="Environment_graybox"]
 background_mode = 1
@@ -90,12 +91,6 @@ size = Vector3(24, 0.2, 56)
 
 [sub_resource type="BoxShape3D" id="BoxShape_72p300_4p200_0p300"]
 size = Vector3(72.3, 4.2, 0.3)
-
-[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_56p300"]
-size = Vector3(0.3, 4.2, 56.3)
-
-[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_24p650"]
-size = Vector3(0.3, 4.2, 24.65)
 
 [sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_23p000"]
 size = Vector3(0.3, 4.2, 23)
@@ -163,9 +158,6 @@ size = Vector3(0.1, 1.5, 1.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape_1p600_0p750_0p800"]
 size = Vector3(1.6, 0.75, 0.8)
-
-[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_50p650"]
-size = Vector3(0.3, 4.2, 50.65)
 
 [sub_resource type="StandardMaterial3D" id="Material_40d966ff"]
 albedo_color = Color(0.25, 0.85, 0.4, 1)
@@ -506,6 +498,21 @@ emission_enabled = true
 emission = Color(0.16, 0.24, 0.4, 1)
 emission_energy_multiplier = 0.6
 
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_18p150"]
+size = Vector3(0.3, 4.2, 18.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_36p150"]
+size = Vector3(0.3, 4.2, 36.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_4p150"]
+size = Vector3(0.3, 4.2, 4.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_44p500"]
+size = Vector3(0.3, 4.2, 44.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p200_16p500"]
+size = Vector3(0.3, 4.2, 16.5)
+
 [node name="ExpandedLibrary" type="Node3D" unique_id=452990316]
 metadata/layout_version = "v4"
 
@@ -520,7 +527,7 @@ shadow_enabled = true
 directional_shadow_mode = 1
 directional_shadow_max_distance = 40.0
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1966932187]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1966932187 groups=["expanded_navigation_source"]]
 navigation_mesh = ExtResource("1_0kotx")
 
 [node name="Ground" type="Node3D" parent="NavigationRegion3D" unique_id=1494631999]
@@ -663,18 +670,46 @@ collision_mask = 0
 shape = SubResource("BoxShape_72p300_4p200_0p300")
 
 [node name="Wall05_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=869087978]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.1, -19.075)
 collision_mask = 0
 
 [node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall05_0" unique_id=2087628941]
-shape = SubResource("BoxShape_0p300_4p200_56p300")
+shape = SubResource("BoxShape_0p300_4p200_18p150")
+
+[node name="Wall05_0_cut" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=2063535912]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.1, 10.075)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall05_0_cut" unique_id=553644888]
+shape = SubResource("BoxShape_0p300_4p200_36p150")
+
+[node name="Header_WestServiceDoor" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=526142795]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 3.4, -9)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Header_WestServiceDoor" unique_id=1045456997]
+shape = SubResource("BoxShape_0p300_1p600_2p000")
 
 [node name="Wall07_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=929651093]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.1, -15.825)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.1, -25.075)
 collision_mask = 0
 
 [node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall07_0" unique_id=1726418076]
-shape = SubResource("BoxShape_0p300_4p200_24p650")
+shape = SubResource("BoxShape_0p300_4p200_6p150")
+
+[node name="Wall07_0_cut" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=186550337]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.1, -11.75)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Wall07_0_cut" unique_id=164162543]
+shape = SubResource("BoxShape_0p300_4p200_16p500")
+
+[node name="Header_Study1StacksDoor" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1410052080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 3.4, -21)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/B_MainStacks/Header_Study1StacksDoor" unique_id=516822119]
+shape = SubResource("BoxShape_0p300_1p600_2p000")
 
 [node name="Wall07_1" type="StaticBody3D" parent="NavigationRegion3D/Ground/B_MainStacks" unique_id=1191089143]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.1, 11)
@@ -1457,11 +1492,25 @@ collision_mask = 0
 shape = SubResource("BoxShape_24p000_0p200_56p000")
 
 [node name="Wall06_0" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1381103371]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 2.1, -2.825)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 2.1, -26.075)
 collision_mask = 0
 
 [node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall06_0" unique_id=1786001177]
-shape = SubResource("BoxShape_0p300_4p200_50p650")
+shape = SubResource("BoxShape_0p300_4p200_4p150")
+
+[node name="Wall06_0_cut" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1132896790]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 2.1, 0.25)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Wall06_0_cut" unique_id=122491952]
+shape = SubResource("BoxShape_0p300_4p200_44p500")
+
+[node name="Header_ElectricalRoomDoor" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=1860850141]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 3.4, -23)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor/Header_ElectricalRoomDoor" unique_id=1868802636]
+shape = SubResource("BoxShape_0p300_1p600_2p000")
 
 [node name="Wall06_1" type="StaticBody3D" parent="NavigationRegion3D/Ground/D_ServiceCorridor" unique_id=343760479]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 2.1, 26.825)
@@ -1762,14 +1811,14 @@ layers = 4
 material_override = SubResource("Material_batched_plain")
 cast_shadow = 0
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, -3, -0.1, -2.9285717, 0.4, 0.3, 0.22, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, -3, -0.1, 2.5, 0.4, 0.3, 0.22, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, 3, -0.1, -2.9285717, 0.4, 0.3, 0.22, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, 3, -0.1, 2.5, 0.4, 0.3, 0.22, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 8, -5.834999, 0.49999988, 1.5, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 8, -5.8199997, 1.0199999, 1.5, 0.28, 0.18, 0.1, 1)
+boxes = PackedFloat32Array(6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, -3, -0.1, -2.9285717, 0.4, 0.3, 0.22, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, -3, -0.1, 2.5, 0.4, 0.3, 0.22, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, 3, -0.1, -2.9285717, 0.4, 0.3, 0.22, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, 3, -0.1, 2.5, 0.4, 0.3, 0.22, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 4, -5.834999, 0.5, -0.5, 0.36, 0.24, 0.14, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 2, -5.834999, 0.5, 4.5, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 4, -5.82, 1.02, -0.5, 0.28, 0.18, 0.1, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 2, -5.82, 1.02, 4.5, 0.28, 0.18, 0.1, 1)
 
 [node name="Batch_0_1_plain_L4_S1" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=1541944086]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, -11.5)
 layers = 4
 material_override = SubResource("Material_batched_plain")
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(0.3, 0, 0, 0, 4.2, 0, 0, 0, 5.63, 0, 2.1, -2.5749998, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 5.63, 0, 2.1, 3.0550003, 0.78, 0.72, 0.62, 1)
+boxes = PackedFloat32Array(0.3, 0, 0, 0, 4.2, 0, 0, 0, 5.63, 0, 2.1, -2.5749998, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 1.26, 0, 2.1, 0.87, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 2.37, 0, 2.1, 4.685, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 1.6, 0, 0, 0, 2, 0, 3.4, 2.5, 0.78, 0.72, 0.62, 1)
 
 [node name="Batch_0_2_plain_L4_S0" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=1687461790]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 1.5)
@@ -1837,7 +1886,39 @@ layers = 4
 material_override = SubResource("Material_batched_plain")
 cast_shadow = 0
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, 3, -0.1, -5.785715, 0.4, 0.3, 0.22, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, 3, -0.1, -0.3571434, 0.4, 0.3, 0.22, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, 9, -0.1, -5.785715, 0.4, 0.3, 0.22, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, 9, -0.1, -0.3571434, 0.4, 0.3, 0.22, 1, 23.85, 0, 0, 0, 1, 0, 0, 0, 0.03, 0.07500076, 0.49999988, -8.334999, 0.36, 0.24, 0.14, 1, 23.85, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 0.07500076, 1.0199999, -8.32, 0.28, 0.18, 0.1, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 13.85, 11.835, 0.49999988, -1.4249992, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 13.85, 11.82, 1.0199999, -1.4249992, 0.28, 0.18, 0.1, 1, 0.66, 0, 0, 0, 0.03999996, 0, 0, 0, 14.06, 2, 2.22, 1.5, 0.28, 0.18, 0.1, 1, 0.66, 0, 0, 0, 0.03999996, 0, 0, 0, 14.06, 5, 2.22, 1.5, 0.28, 0.18, 0.1, 1, 0.66, 0, 0, 0, 0.03999996, 0, 0, 0, 14.06, 8, 2.22, 1.5, 0.28, 0.18, 0.1, 1)
+boxes = PackedFloat32Array(23.85, 0, 0, 0, 1, 0, 0, 0, 0.03, 0.07500076, 0.49999988, -8.334999, 0.36, 0.24, 0.14, 1)
+
+[node name="Batch_1_0_plain_L4_S0_1" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=1821687229]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, -19.5)
+layers = 4
+material_override = SubResource("Material_batched_plain")
+cast_shadow = 0
+script = ExtResource("3_wyiue")
+boxes = PackedFloat32Array(23.85, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 0.07500076, 1.0199999, -8.32, 0.28, 0.18, 0.1, 1)
+
+[node name="Batch_1_0_plain_L4_S0_2" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=1821687230]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, -19.5)
+layers = 4
+material_override = SubResource("Material_batched_plain")
+cast_shadow = 0
+script = ExtResource("3_wyiue")
+boxes = PackedFloat32Array(0.66, 0, 0, 0, 0.03999996, 0, 0, 0, 14.06, 2, 2.22, 1.5, 0.28, 0.18, 0.1, 1)
+
+[node name="Batch_1_0_plain_L4_S0_3" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=1821687231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, -19.5)
+layers = 4
+material_override = SubResource("Material_batched_plain")
+cast_shadow = 0
+script = ExtResource("3_wyiue")
+boxes = PackedFloat32Array(6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, 3, -0.1, -5.785715, 0.4, 0.3, 0.22, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, 3, -0.1, -0.3571434, 0.4, 0.3, 0.22, 1, 0.66, 0, 0, 0, 0.03999996, 0, 0, 0, 14.06, 5, 2.22, 1.5, 0.28, 0.18, 0.1, 1)
+
+[node name="Batch_1_0_plain_L4_S0_4" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=1821687232]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, -19.5)
+layers = 4
+material_override = SubResource("Material_batched_plain")
+cast_shadow = 0
+script = ExtResource("3_wyiue")
+boxes = PackedFloat32Array(0.66, 0, 0, 0, 0.03999996, 0, 0, 0, 14.06, 8, 2.22, 1.5, 0.28, 0.18, 0.1, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, 9, -0.1, -5.785715, 0.4, 0.3, 0.22, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 5.428571, 9, -0.1, -0.3571434, 0.4, 0.3, 0.22, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 5.849999, 11.82, 1.02, -5.425, 0.28, 0.18, 0.1, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 6.000001, 11.82, 1.02, 2.5, 0.28, 0.18, 0.1, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 5.849999, 11.835, 0.5, -5.425, 0.36, 0.24, 0.14, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 6.000001, 11.835, 0.5, 2.5, 0.36, 0.24, 0.14, 1)
 
 [node name="Batch_1_0_plain_L4_S1" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=1021794109]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.5, 0, -19.5)
@@ -2001,14 +2082,14 @@ layers = 4
 material_override = SubResource("Material_batched_plain")
 cast_shadow = 0
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(6, 0, 0, 0, 1, 0, 0, 0, 0.03, -3, 0.49999988, -6.834999, 0.36, 0.24, 0.14, 1, 6, 0, 0, 0, 0.06, 0, 0, 0, 0.06, -3, 1.0199999, -6.8199997, 0.28, 0.18, 0.1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0.03, 0.5, 0.49999988, -6.834999, 0.36, 0.24, 0.14, 1, 1, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 0.5, 1.0199999, -6.8199997, 0.28, 0.18, 0.1, 1, 5, 0, 0, 0, 1, 0, 0, 0, 0.03, 3.5, 0.49999988, -6.834999, 0.36, 0.24, 0.14, 1, 5, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 3.5, 1.0199999, -6.8199997, 0.28, 0.18, 0.1, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 13.85, -5.835, 0.49999988, 0.07500076, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 13.85, -5.8199997, 1.0199999, 0.07500076, 0.28, 0.18, 0.1, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.6666665, -3, -0.1, -4.666666, 0.26, 0.32, 0.33, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.6666665, -3, -0.1, 0, 0.26, 0.32, 0.33, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.6666665, -3, -0.1, 4.666666, 0.26, 0.32, 0.33, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.6666665, 3, -0.1, -4.666666, 0.26, 0.32, 0.33, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.6666665, 3, -0.1, 0, 0.26, 0.32, 0.33, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.6666665, 3, -0.1, 4.666666, 0.26, 0.32, 0.33, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 13.7, -0.16499996, 0.49999988, 0, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 13.7, -0.17999983, 1.0199999, 0, 0.28, 0.18, 0.1, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 13.7, 0.16499996, 0.49999988, 0, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 13.7, 0.17999983, 1.0199999, 0, 0.28, 0.18, 0.1, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 2.85, 5.835, 0.49999988, -5.425001, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 2.85, 5.82, 1.0199999, -5.425001, 0.28, 0.18, 0.1, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 8.85, 5.835, 0.49999988, 2.4250011, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 8.85, 5.82, 1.0199999, 2.4250011, 0.28, 0.18, 0.1, 1, 1.2, 0, 0, 0, 0.05, 0, 0, 0, 0.74, -4.5, 0.74, -6.4799995, 0.55, 0.37, 0.21, 1, 1.2, 0, 0, 0, 0.05, 0, 0, 0, 0.74, -1.5, 0.74, -6.4799995, 0.55, 0.37, 0.21, 1, 1.2, 0, 0, 0, 0.05, 0, 0, 0, 0.74, 1.5, 0.74, -6.4799995, 0.55, 0.37, 0.21, 1, 1.2, 0, 0, 0, 0.05, 0, 0, 0, 0.74, 4.5, 0.74, -6.4799995, 0.55, 0.37, 0.21, 1)
+boxes = PackedFloat32Array(6, 0, 0, 0, 1, 0, 0, 0, 0.03, -3, 0.49999988, -6.834999, 0.36, 0.24, 0.14, 1, 6, 0, 0, 0, 0.06, 0, 0, 0, 0.06, -3, 1.0199999, -6.8199997, 0.28, 0.18, 0.1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0.03, 0.5, 0.49999988, -6.834999, 0.36, 0.24, 0.14, 1, 1, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 0.5, 1.0199999, -6.8199997, 0.28, 0.18, 0.1, 1, 5, 0, 0, 0, 1, 0, 0, 0, 0.03, 3.5, 0.49999988, -6.834999, 0.36, 0.24, 0.14, 1, 5, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 3.5, 1.0199999, -6.8199997, 0.28, 0.18, 0.1, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 5.849999, -5.835, 0.5, -3.925, 0.36, 0.24, 0.14, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 6.000001, -5.835, 0.5, 4, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 5.849999, -5.82, 1.02, -3.925, 0.28, 0.18, 0.1, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 6.000001, -5.82, 1.02, 4, 0.28, 0.18, 0.1, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.6666665, -3, -0.1, -4.666666, 0.26, 0.32, 0.33, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.6666665, -3, -0.1, 0, 0.26, 0.32, 0.33, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.6666665, -3, -0.1, 4.666666, 0.26, 0.32, 0.33, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.6666665, 3, -0.1, -4.666666, 0.26, 0.32, 0.33, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.6666665, 3, -0.1, 0, 0.26, 0.32, 0.33, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.6666665, 3, -0.1, 4.666666, 0.26, 0.32, 0.33, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 13.7, -0.16499996, 0.49999988, 0, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 13.7, -0.17999983, 1.0199999, 0, 0.28, 0.18, 0.1, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 13.7, 0.16499996, 0.49999988, 0, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 13.7, 0.17999983, 1.0199999, 0, 0.28, 0.18, 0.1, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 2.85, 5.835, 0.49999988, -5.425001, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 2.85, 5.82, 1.0199999, -5.425001, 0.28, 0.18, 0.1, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 8.85, 5.835, 0.49999988, 2.4250011, 0.36, 0.24, 0.14, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 8.85, 5.82, 1.0199999, 2.4250011, 0.28, 0.18, 0.1, 1, 1.2, 0, 0, 0, 0.05, 0, 0, 0, 0.74, -4.5, 0.74, -6.4799995, 0.55, 0.37, 0.21, 1, 1.2, 0, 0, 0, 0.05, 0, 0, 0, 0.74, -1.5, 0.74, -6.4799995, 0.55, 0.37, 0.21, 1, 1.2, 0, 0, 0, 0.05, 0, 0, 0, 0.74, 1.5, 0.74, -6.4799995, 0.55, 0.37, 0.21, 1, 1.2, 0, 0, 0, 0.05, 0, 0, 0, 0.74, 4.5, 0.74, -6.4799995, 0.55, 0.37, 0.21, 1)
 
 [node name="Batch_2_0_plain_L4_S1" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=1624562573]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, -21)
 layers = 4
 material_override = SubResource("Material_batched_plain")
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(5.5615387, 0, 0, 0, 4.2, 0, 0, 0, 0.3, -3.6230774, 2.1, -7, 0.78, 0.72, 0.62, 1, 5.5615387, 0, 0, 0, 4.2, 0, 0, 0, 0.3, 1.9384613, 2.1, -7, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 4.93, -4.5, 2.1, -4.6849995, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 4.93, -4.5, 2.1, 0.24500084, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 4.766667, 1.5, 2.1, -4.7666664, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 4.766667, 1.5, 2.1, 0, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 4.766667, 1.5, 2.1, 4.7666664, 0.78, 0.72, 0.62, 1, 1.2, 0, 0, 0, 0.75, 0, 0, 0, 0.7, -3, 0.375, -6.5, 0.42, 0.3, 0.2, 1, 1.2, 0, 0, 0, 0.75, 0, 0, 0, 0.7, 0, 0.375, -6.5, 0.42, 0.3, 0.2, 1, 1.2, 0, 0, 0, 0.75, 0, 0, 0, 0.7, 3, 0.375, -6.5, 0.42, 0.3, 0.2, 1, 1.2, 0, 0, 0, 0.75, 0, 0, 0, 0.7, 6, 0.375, -6.5, 0.42, 0.3, 0.2, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, -3.6499996, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, -2.3500004, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, -0.6499996, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 0.6500001, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 2.35, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 3.65, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 5.35, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 6.65, 0.75, -6.25, 0.33, 0.22, 0.13, 1)
+boxes = PackedFloat32Array(5.5615387, 0, 0, 0, 4.2, 0, 0, 0, 0.3, -3.6230774, 2.1, -7, 0.78, 0.72, 0.62, 1, 5.5615387, 0, 0, 0, 4.2, 0, 0, 0, 0.3, 1.9384613, 2.1, -7, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 4.93, -4.5, 2.1, -4.6849995, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 1.219999, -4.5, 2.1, -1.61, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 1.710001, -4.5, 2.1, 1.855, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 1.6, 0, 0, 0, 2, -4.5, 3.4, 0, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 4.766667, 1.5, 2.1, -4.7666664, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 4.766667, 1.5, 2.1, 0, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 4.766667, 1.5, 2.1, 4.7666664, 0.78, 0.72, 0.62, 1, 1.2, 0, 0, 0, 0.75, 0, 0, 0, 0.7, -3, 0.375, -6.5, 0.42, 0.3, 0.2, 1, 1.2, 0, 0, 0, 0.75, 0, 0, 0, 0.7, 0, 0.375, -6.5, 0.42, 0.3, 0.2, 1, 1.2, 0, 0, 0, 0.75, 0, 0, 0, 0.7, 3, 0.375, -6.5, 0.42, 0.3, 0.2, 1, 1.2, 0, 0, 0, 0.75, 0, 0, 0, 0.7, 6, 0.375, -6.5, 0.42, 0.3, 0.2, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, -3.6499996, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, -2.3500004, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, -0.6499996, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 0.6500001, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 2.35, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 3.65, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 5.35, 0.75, -6.25, 0.33, 0.22, 0.13, 1, 0.1, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 6.65, 0.75, -6.25, 0.33, 0.22, 0.13, 1)
 
 [node name="Batch_2_1_plain_L4_S0" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=257053725]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -8)
@@ -2623,7 +2704,7 @@ layers = 4
 material_override = SubResource("Material_batched_plain")
 cast_shadow = 0
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(18.85, 0, 0, 0, 1, 0, 0, 0, 0.03, -0.07500076, 0.49999988, -6.834999, 0.42, 0.13, 0.11, 1, 18.85, 0, 0, 0, 0.06, 0, 0, 0, 0.06, -0.07500076, 1.0199999, -6.8199997, 0.6, 0.12, 0.1, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 5.5, -2.375, -0.1, -4.25, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 5.5, -2.375, -0.1, 1.25, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 5.5, 2.375, -0.1, -4.25, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 5.5, 2.375, -0.1, 1.25, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 5.5, 7.125, -0.1, -4.25, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 5.5, 7.125, -0.1, 1.25, 0.4, 0.4, 0.38, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 13.85, 9.334999, 0.49999988, 0.074998856, 0.42, 0.13, 0.11, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 13.85, 9.32, 1.0199999, 0.074998856, 0.6, 0.12, 0.1, 1, 3.06, 0, 0, 0, 0.05, 0, 0, 0, 1.26, 2.5, 0.89, -1, 0.33, 0.21, 0.12, 1, 0.3, 0, 0, 0, 0.16, 0, 0, 0, 0.22, 1.6000004, 0.97999996, -1, 0.62, 0.2, 0.15, 1, 0.3, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 2.3500004, 1.01, -0.8999996, 0.2, 0.38, 0.55, 1, 0.3, 0, 0, 0, 0.1, 0, 0, 0, 0.22, 3.1000004, 0.95, -1, 0.75, 0.6, 0.22, 1)
+boxes = PackedFloat32Array(18.85, 0, 0, 0, 1, 0, 0, 0, 0.03, -0.07500076, 0.49999988, -6.834999, 0.42, 0.13, 0.11, 1, 18.85, 0, 0, 0, 0.06, 0, 0, 0, 0.06, -0.07500076, 1.0199999, -6.8199997, 0.6, 0.12, 0.1, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 5.5, -2.375, -0.1, -4.25, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 5.5, -2.375, -0.1, 1.25, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 5.5, 2.375, -0.1, -4.25, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 5.5, 2.375, -0.1, 1.25, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 5.5, 7.125, -0.1, -4.25, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 5.5, 7.125, -0.1, 1.25, 0.4, 0.4, 0.38, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 3.850001, 9.334999, 0.5, -4.925001, 0.42, 0.13, 0.11, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 7.999999, 9.334999, 0.5, 2.999999, 0.42, 0.13, 0.11, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 3.850001, 9.32, 1.02, -4.925001, 0.6, 0.12, 0.1, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 7.999999, 9.32, 1.02, 2.999999, 0.6, 0.12, 0.1, 1, 3.06, 0, 0, 0, 0.05, 0, 0, 0, 1.26, 2.5, 0.89, -1, 0.33, 0.21, 0.12, 1, 0.3, 0, 0, 0, 0.16, 0, 0, 0, 0.22, 1.6000004, 0.97999996, -1, 0.62, 0.2, 0.15, 1, 0.3, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 2.3500004, 1.01, -0.8999996, 0.2, 0.38, 0.55, 1, 0.3, 0, 0, 0, 0.1, 0, 0, 0, 0.22, 3.1000004, 0.95, -1, 0.75, 0.6, 0.22, 1)
 
 [node name="Batch_5_0_plain_L4_S1" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=1210100955]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 0, -25)
@@ -2683,7 +2764,71 @@ layers = 4
 material_override = SubResource("Material_batched_plain")
 cast_shadow = 0
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(4.75, 0, 0, 0, 0.2, 0, 0, 0, 6, -4.875, -0.1, -5, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 6, -4.875, -0.1, 1, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 6, -0.125, -0.1, -5, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 6, -0.125, -0.1, 1, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 6, 4.625, -0.1, -5, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 6, 4.625, -0.1, 1, 0.4, 0.4, 0.38, 1, 0.03, 0, 0, 0, 1, 0, 0, 0, 16, 6.834999, 0.49999988, -2.3841858e-07, 0.42, 0.13, 0.11, 1, 0.06, 0, 0, 0, 0.06, 0, 0, 0, 16, 6.8199997, 1.0199999, -2.3841858e-07, 0.6, 0.12, 0.1, 1, 2.06, 0, 0, 0, 0.04, 0, 0, 0, 2.06, -2, 0.050000012, -3, 0.42, 0.44, 0.47, 1, 0.92, 0, 0, 0, 0.40666667, 0, 0, 0, 2.04, -2.5, 0.2733333, -3, 0.62, 0.48, 0.3, 1, 0.92, 0, 0, 0, 0.48666668, 0, 0, 0, 2.04, -1.5, 0.31333333, -3, 0.55, 0.42, 0.25, 1, 2.06, 0, 0, 0, 0.04, 0, 0, 0, 2.06, -2, 0.7166667, -3, 0.42, 0.44, 0.47, 1, 0.92, 0, 0, 0, 0.48666668, 0, 0, 0, 2.04, -2.5, 0.98, -3, 0.55, 0.42, 0.25, 1, 0.92, 0, 0, 0, 0.40666667, 0, 0, 0, 2.04, -1.5, 0.94, -3, 0.62, 0.48, 0.3, 1, 2.06, 0, 0, 0, 0.04, 0, 0, 0, 2.06, -2, 1.3833333, -3, 0.42, 0.44, 0.47, 1, 0.92, 0, 0, 0, 0.40666667, 0, 0, 0, 2.04, -2.5, 1.6066667, -3, 0.62, 0.48, 0.3, 1, 0.92, 0, 0, 0, 0.48666668, 0, 0, 0, 2.04, -1.5, 1.6466666, -3, 0.55, 0.42, 0.25, 1, 2.06, 0, 0, 0, 0.04, 0, 0, 0, 2.06, -2, 0.050000012, 5, 0.42, 0.44, 0.47, 1, 0.92, 0, 0, 0, 0.48666668, 0, 0, 0, 2.04, -2.5, 0.31333333, 5, 0.62, 0.48, 0.3, 1, 0.92, 0, 0, 0, 0.40666667, 0, 0, 0, 2.04, -1.5, 0.2733333, 5, 0.55, 0.42, 0.25, 1, 2.06, 0, 0, 0, 0.04, 0, 0, 0, 2.06, -2, 0.7166667, 5, 0.42, 0.44, 0.47, 1, 0.92, 0, 0, 0, 0.40666667, 0, 0, 0, 2.04, -2.5, 0.94, 5, 0.55, 0.42, 0.25, 1, 0.92, 0, 0, 0, 0.48666668, 0, 0, 0, 2.04, -1.5, 0.98, 5, 0.62, 0.48, 0.3, 1, 2.06, 0, 0, 0, 0.04, 0, 0, 0, 2.06, -2, 1.3833333, 5, 0.42, 0.44, 0.47, 1, 0.92, 0, 0, 0, 0.48666668, 0, 0, 0, 2.04, -2.5, 1.6466666, 5, 0.62, 0.48, 0.3, 1, 0.92, 0, 0, 0, 0.40666667, 0, 0, 0, 2.04, -1.5, 1.6066667, 5, 0.55, 0.42, 0.25, 1)
+boxes = PackedFloat32Array(4.75, 0, 0, 0, 0.2, 0, 0, 0, 6, -4.875, -0.1, -5, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 6, -0.125, -0.1, -5, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 6, 4.625, -0.1, -5, 0.4, 0.4, 0.38, 1, 0.92, 0, 0, 0, 0.48666668, 0, 0, 0, 2.04, -1.5, 1.6466666, -3, 0.55, 0.42, 0.25, 1, 0.92, 0, 0, 0, 0.40666667, 0, 0, 0, 2.04, -2.5, 1.6066667, -3, 0.62, 0.48, 0.3, 1, 0.92, 0, 0, 0, 0.40666667, 0, 0, 0, 2.04, -1.5, 0.94, -3, 0.62, 0.48, 0.3, 1)
+
+[node name="Batch_5_2_plain_L4_S0_1" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=270530883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 2)
+layers = 4
+material_override = SubResource("Material_batched_plain")
+cast_shadow = 0
+script = ExtResource("3_wyiue")
+boxes = PackedFloat32Array(0.92, 0, 0, 0, 0.48666668, 0, 0, 0, 2.04, -2.5, 0.98, -3, 0.55, 0.42, 0.25, 1, 0.92, 0, 0, 0, 0.48666668, 0, 0, 0, 2.04, -1.5, 0.31333333, -3, 0.55, 0.42, 0.25, 1, 0.92, 0, 0, 0, 0.40666667, 0, 0, 0, 2.04, -2.5, 0.2733333, -3, 0.62, 0.48, 0.3, 1)
+
+[node name="Batch_5_2_plain_L4_S0_2" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=270530884]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 2)
+layers = 4
+material_override = SubResource("Material_batched_plain")
+cast_shadow = 0
+script = ExtResource("3_wyiue")
+boxes = PackedFloat32Array(2.06, 0, 0, 0, 0.04, 0, 0, 0, 2.06, -2, 0.050000012, -3, 0.42, 0.44, 0.47, 1, 2.06, 0, 0, 0, 0.04, 0, 0, 0, 2.06, -2, 0.7166667, -3, 0.42, 0.44, 0.47, 1)
+
+[node name="Batch_5_2_plain_L4_S0_3" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=270530885]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 2)
+layers = 4
+material_override = SubResource("Material_batched_plain")
+cast_shadow = 0
+script = ExtResource("3_wyiue")
+boxes = PackedFloat32Array(2.06, 0, 0, 0, 0.04, 0, 0, 0, 2.06, -2, 1.3833333, -3, 0.42, 0.44, 0.47, 1)
+
+[node name="Batch_5_2_plain_L4_S0_4" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=270530886]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 2)
+layers = 4
+material_override = SubResource("Material_batched_plain")
+cast_shadow = 0
+script = ExtResource("3_wyiue")
+boxes = PackedFloat32Array(0.06, 0, 0, 0, 0.06, 0, 0, 0, 16, 6.8199997, 1.0199999, -2.3841858e-07, 0.6, 0.12, 0.1, 1)
+
+[node name="Batch_5_2_plain_L4_S0_5" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=270530887]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 2)
+layers = 4
+material_override = SubResource("Material_batched_plain")
+cast_shadow = 0
+script = ExtResource("3_wyiue")
+boxes = PackedFloat32Array(0.03, 0, 0, 0, 1, 0, 0, 0, 16, 6.834999, 0.49999988, -2.3841858e-07, 0.42, 0.13, 0.11, 1)
+
+[node name="Batch_5_2_plain_L4_S0_6" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=270530888]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 2)
+layers = 4
+material_override = SubResource("Material_batched_plain")
+cast_shadow = 0
+script = ExtResource("3_wyiue")
+boxes = PackedFloat32Array(4.75, 0, 0, 0, 0.2, 0, 0, 0, 6, 4.625, -0.1, 1, 0.4, 0.4, 0.38, 1, 4.75, 0, 0, 0, 0.2, 0, 0, 0, 6, -0.125, -0.1, 1, 0.4, 0.4, 0.38, 1)
+
+[node name="Batch_5_2_plain_L4_S0_7" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=270530889]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 2)
+layers = 4
+material_override = SubResource("Material_batched_plain")
+cast_shadow = 0
+script = ExtResource("3_wyiue")
+boxes = PackedFloat32Array(4.75, 0, 0, 0, 0.2, 0, 0, 0, 6, -4.875, -0.1, 1, 0.4, 0.4, 0.38, 1, 0.92, 0, 0, 0, 0.40666667, 0, 0, 0, 2.04, -1.5, 1.6066667, 5, 0.55, 0.42, 0.25, 1, 0.92, 0, 0, 0, 0.48666668, 0, 0, 0, 2.04, -2.5, 1.6466666, 5, 0.62, 0.48, 0.3, 1)
+
+[node name="Batch_5_2_plain_L4_S0_8" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=270530890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 2)
+layers = 4
+material_override = SubResource("Material_batched_plain")
+cast_shadow = 0
+script = ExtResource("3_wyiue")
+boxes = PackedFloat32Array(2.06, 0, 0, 0, 0.04, 0, 0, 0, 2.06, -2, 1.3833333, 5, 0.42, 0.44, 0.47, 1, 0.92, 0, 0, 0, 0.48666668, 0, 0, 0, 2.04, -1.5, 0.98, 5, 0.62, 0.48, 0.3, 1, 0.92, 0, 0, 0, 0.40666667, 0, 0, 0, 2.04, -2.5, 0.94, 5, 0.55, 0.42, 0.25, 1, 2.06, 0, 0, 0, 0.04, 0, 0, 0, 2.06, -2, 0.7166667, 5, 0.42, 0.44, 0.47, 1, 0.92, 0, 0, 0, 0.40666667, 0, 0, 0, 2.04, -1.5, 0.2733333, 5, 0.55, 0.42, 0.25, 1, 0.92, 0, 0, 0, 0.48666668, 0, 0, 0, 2.04, -2.5, 0.31333333, 5, 0.62, 0.48, 0.3, 1, 2.06, 0, 0, 0, 0.04, 0, 0, 0, 2.06, -2, 0.050000012, 5, 0.42, 0.44, 0.47, 1)
 
 [node name="Batch_5_2_plain_L4_S1" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=1455468598]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, 3)
@@ -2727,7 +2872,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -22.5)
 layers = 4
 material_override = SubResource("Material_batched_plain")
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(0.3, 0, 0, 0, 4.2, 0, 0, 0, 5.6277776, 0, 2.1, -2.836111, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 5.6277776, 0, 2.1, 2.791666, 0.78, 0.72, 0.62, 1)
+boxes = PackedFloat32Array(0.3, 0, 0, 0, 4.2, 0, 0, 0, 4.15, 0, 2.1, -3.575, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 1.6, 0, 0, 0, 1.477778, 0, 3.4, -0.761111, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4.2, 0, 0, 0, 5.105555, 0, 2.1, 3.052777, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 1.6, 0, 0, 0, 0.522223, 0, 3.4, 0.238889, 0.78, 0.72, 0.62, 1)
 
 [node name="Batch_6_1_plain_L4_S1" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=771704389]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -11.5)
@@ -4334,6 +4479,8 @@ visible_on_start = false
 
 [node name="Player" parent="." unique_id=709154803 instance=ExtResource("5_m134h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 32)
+use_stamina = true
+use_inventory = true
 
 [node name="PreviewCamera" type="Camera3D" parent="." unique_id=1660251441]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 60, 2)
@@ -5037,6 +5184,8 @@ script = ExtResource("7_v7wux")
 [node name="GuardLobby" parent="Guards" unique_id=2126109090 node_paths=PackedStringArray("patrol_route") instance=ExtResource("8_4rnbs")]
 transform = Transform3D(0.17579068, 0, -0.9844276, 0, 1, 0, 0.9844276, 0, 0.17579068, -6, 0.05, 15.5)
 patrol_route = NodePath("../P1_Lobby")
+expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P1"
 
@@ -5153,6 +5302,8 @@ script = ExtResource("7_v7wux")
 [node name="GuardStacksOuter" parent="Guards" unique_id=1144925545 node_paths=PackedStringArray("patrol_route") instance=ExtResource("8_4rnbs")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -14, 0.05, -24)
 patrol_route = NodePath("../P2_MainStacks")
+expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P2"
 
@@ -5273,6 +5424,8 @@ wait_time = 2.5
 [node name="GuardService" parent="Guards" unique_id=398864850 node_paths=PackedStringArray("patrol_route") instance=ExtResource("8_4rnbs")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 14.5, 0.05, -18)
 patrol_route = NodePath("../P4_ServiceCorridor")
+expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P4"
 
@@ -5389,6 +5542,8 @@ script = ExtResource("7_v7wux")
 [node name="GuardUpper" parent="Guards" unique_id=563573301 node_paths=PackedStringArray("patrol_route") instance=ExtResource("8_4rnbs")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -13, 4.55, -25)
 patrol_route = NodePath("../P5_UpperStacks")
+expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P5"
 
@@ -5509,6 +5664,8 @@ script = ExtResource("7_v7wux")
 [node name="GuardArchive" parent="Guards" unique_id=1066438866 node_paths=PackedStringArray("patrol_route") instance=ExtResource("8_4rnbs")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 14, 4.55, -9)
 patrol_route = NodePath("../P7_Archive")
+expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P7"
 
@@ -5649,6 +5806,8 @@ wait_time = 1.5
 [node name="GuardConnector" parent="Guards" unique_id=1956898536 node_paths=PackedStringArray("patrol_route") instance=ExtResource("8_4rnbs")]
 transform = Transform3D(-0.98893636, 0, 0.14834043, 0, 1, 0, -0.14834043, 0, -0.98893636, 0, 0.05, -5)
 patrol_route = NodePath("../P8_Connector")
+expanded_security = true
+checkpoint_snapshot = true
 chase_speed = 5.6
 metadata/patrol_id = "P8"
 
@@ -5740,35 +5899,199 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
 [node name="DebugLabel" parent="Guards/GuardConnector" index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
 
+[node name="P9_Basement" type="Node3D" parent="Guards" unique_id=386471429]
+script = ExtResource("6_3myks")
+metadata/zone_id = "G"
+metadata/patrol_id = "P9"
+
+[node name="Point0" type="Marker3D" parent="Guards/P9_Basement" unique_id=980918996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, -4, -25)
+script = ExtResource("7_v7wux")
+
+[node name="Point1" type="Marker3D" parent="Guards/P9_Basement" unique_id=1276299895]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -4, -24.8)
+script = ExtResource("7_v7wux")
+
+[node name="Point2" type="Marker3D" parent="Guards/P9_Basement" unique_id=736641024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -4, -25)
+script = ExtResource("7_v7wux")
+
+[node name="Point3" type="Marker3D" parent="Guards/P9_Basement" unique_id=1053582183]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, -4, -21)
+script = ExtResource("7_v7wux")
+
+[node name="Point4" type="Marker3D" parent="Guards/P9_Basement" unique_id=474071250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, -4, -10)
+script = ExtResource("7_v7wux")
+
+[node name="GuardBasement" parent="Guards" unique_id=1562615358 node_paths=PackedStringArray("patrol_route") instance=ExtResource("8_4rnbs")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -30, -3.95, -25)
+patrol_route = NodePath("../P9_Basement")
+expanded_security = true
+checkpoint_snapshot = true
+chase_speed = 5.6
+metadata/patrol_id = "P9"
+
+[node name="CollisionShape3D" parent="Guards/GuardBasement" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="Hips" parent="Guards/GuardBasement/Model" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="Torso" parent="Guards/GuardBasement/Model/Hips" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="Chest" parent="Guards/GuardBasement/Model/Hips/Torso" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+
+[node name="Badge" parent="Guards/GuardBasement/Model/Hips/Torso" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, 0.38, -0.135)
+
+[node name="Head" parent="Guards/GuardBasement/Model/Hips/Torso" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52, 0)
+
+[node name="Face" parent="Guards/GuardBasement/Model/Hips/Torso/Head" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13, 0)
+
+[node name="EyeL" parent="Guards/GuardBasement/Model/Hips/Torso/Head" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.055, 0.15, -0.123)
+
+[node name="EyeR" parent="Guards/GuardBasement/Model/Hips/Torso/Head" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055, 0.15, -0.123)
+
+[node name="Hair" parent="Guards/GuardBasement/Model/Hips/Torso/Head" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.1)
+
+[node name="Cap" parent="Guards/GuardBasement/Model/Hips/Torso/Head" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
+
+[node name="Brim" parent="Guards/GuardBasement/Model/Hips/Torso/Head" index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -0.18)
+
+[node name="ArmL" parent="Guards/GuardBasement/Model/Hips/Torso" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.29, 0.46, 0)
+
+[node name="Sleeve" parent="Guards/GuardBasement/Model/Hips/Torso/ArmL" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+
+[node name="Hand" parent="Guards/GuardBasement/Model/Hips/Torso/ArmL" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
+
+[node name="ArmR" parent="Guards/GuardBasement/Model/Hips/Torso" index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29, 0.46, 0)
+
+[node name="Sleeve" parent="Guards/GuardBasement/Model/Hips/Torso/ArmR" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+
+[node name="Hand" parent="Guards/GuardBasement/Model/Hips/Torso/ArmR" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
+
+[node name="LegL" parent="Guards/GuardBasement/Model/Hips" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, -0.05, 0)
+
+[node name="Trouser" parent="Guards/GuardBasement/Model/Hips/LegL" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+
+[node name="Shoe" parent="Guards/GuardBasement/Model/Hips/LegL" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.81, -0.04)
+
+[node name="LegR" parent="Guards/GuardBasement/Model/Hips" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, -0.05, 0)
+
+[node name="Trouser" parent="Guards/GuardBasement/Model/Hips/LegR" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+
+[node name="Shoe" parent="Guards/GuardBasement/Model/Hips/LegR" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.81, -0.04)
+
+[node name="Vision" parent="Guards/GuardBasement" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+target_sample_heights = PackedFloat32Array(1.5, 0.9, 0.3)
+max_rise_rate = 80.0
+min_rise_rate = 20.0
+
+[node name="Hearing" parent="Guards/GuardBasement" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+ignored_source_groups = PackedStringArray("guards")
+
+[node name="AlertIcon" parent="Guards/GuardBasement" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
+
+[node name="DebugLabel" parent="Guards/GuardBasement" index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+
 [node name="Gameplay" type="Node3D" parent="." unique_id=232585820]
 
 [node name="ObjectiveManager" type="Node" parent="Gameplay" unique_id=2007594789]
 script = ExtResource("9_yje15")
 objectives = Array[Dictionary]([{
-"done": "You're inside. Find a way into the staff offices upstairs",
+"done": "Inside. The main doors locked behind you (night lockdown)",
 "hint": "Go in through the main entrance.",
 "id": &"enter_library",
 "title": "Enter the library"
 }, {
-"done": "Staff access card taken: staff-only doors now open for you",
+"done": "Staff access card taken: staff doors open while you carry it",
 "hint": "Staff offices, upper floor: up the main stair (or the stacks stair), through the staff wing.",
 "id": &"take_card",
+"requires": ["enter_library"],
 "title": "Take a staff access card"
 }, {
-"done": "Manuscript retrieved. Now find a faster way out",
-"hint": "In the archive vault. The Archive Front Gate is at the east end of the staff corridor.",
+"done": "Tool kit found",
+"hint": "Somewhere in the basement maintenance areas. The west service door in the main stacks leads down.",
+"id": &"find_toolkit",
+"requires": ["enter_library"],
+"title": "Find the tool kit"
+}, {
+"done": "Panel cover off: the breakers are exposed",
+"hint": "In the electrical room (east annex). Its cover is screwed shut.",
+"id": &"open_panel",
+"requires": ["find_toolkit"],
+"title": "Open the archive power panel"
+}, {
+"done": "The archive vault has power",
+"hint": "Set the breakers, then engage MAIN. Facilities pinned up a wiring chart somewhere in the service wing.",
+"id": &"restore_power",
+"requires": ["open_panel"],
+"title": "Restore power to the vault"
+}, {
+"done": "Vault open",
+"hint": "The vault keypad is in the archive (through the Archive Front Gate, upper floor). The head archivist left a reminder of the code.",
+"id": &"open_vault",
+"requires": ["take_card", "restore_power"],
+"title": "Open the archive vault"
+}, {
+"done": "Manuscript retrieved. Now get out: the main entrance, the loading dock or a hidden way",
+"hint": "On the pedestal inside the vault.",
 "id": &"take_manuscript",
+"requires": ["open_vault"],
 "title": "Retrieve the rare manuscript"
+}, {
+"done": "Escaped",
+"hint": "Three ways out, each needing something different: the main entrance (locked down; security has a master badge), the loading dock (its shutter needs power) or a hidden maintenance passage in the basement.",
+"id": &"escape",
+"requires": ["take_manuscript"],
+"title": "Escape with the manuscript"
 }, {
 "done": "Back gate open: the staff stair leads down to the loading dock",
 "hint": "East side of the archive hall. It only opens from inside the archive.",
 "id": &"unlock_shortcut",
-"title": "Unlock the archive back gate"
+"optional": true,
+"requires": ["take_card"],
+"title": "Unlock the archive back gate (shortcut)"
 }, {
-"done": "Escaped",
-"hint": "Down the staff stair, through storage to the dock exit.",
-"id": &"escape",
-"title": "Escape through the loading dock"
+"done": "Culvert drained: the storm drain is a way out",
+"hidden": true,
+"hint": "Pump room, basement. The pump room log explains the valves.",
+"id": &"drain_culvert",
+"optional": true,
+"title": "Drain the storm culvert"
+}, {
+"done": "Security locker open",
+"hidden": true,
+"hint": "Office 1, upper floor. The night rota mentions the combination.",
+"id": &"security_locker",
+"optional": true,
+"title": "Open the security locker"
 }])
 
 [node name="CheckpointManager" type="Node" parent="Gameplay" unique_id=1397315636]
@@ -5785,6 +6108,7 @@ shape = SubResource("BoxShape_22p000_2p000_15p500")
 [node name="StaffAccessCard" type="Area3D" parent="Gameplay" unique_id=1985886920]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 5.5, -23.5)
 script = ExtResource("12_uasep")
+grants_item = &"staff_card"
 waiting_prompt = "Staff access card (not yet)"
 prompt = "Take the staff access card"
 
@@ -5795,6 +6119,7 @@ shape = SubResource("BoxShape_0p700_0p450_0p900")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.13, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="Gameplay/StaffAccessCard/Model" unique_id=171127324]
+layers = 8
 material_override = SubResource("Material_glow_ffd94dff")
 mesh = SubResource("BoxMesh_0p320_0p020_0p200")
 
@@ -5834,6 +6159,7 @@ outline_size = 10
 [node name="ArchiveFrontGateG2" type="Area3D" parent="Gameplay" unique_id=40573199]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 5.7, -11)
 script = ExtResource("13_n5xn2")
+key_item = &"staff_card"
 door_name = "Archive Front Gate"
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/ArchiveFrontGateG2" unique_id=814686581]
@@ -5857,6 +6183,7 @@ radius = 6.0
 [node name="LobbyStaffDoorG4" type="Area3D" parent="Gameplay" unique_id=53929515]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.2, 21)
 script = ExtResource("13_n5xn2")
+key_item = &"staff_card"
 door_name = "Lobby Staff Door"
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/LobbyStaffDoorG4" unique_id=1220425647]
@@ -5930,10 +6257,21 @@ radius = 6.0
 [node name="ExitDoor" type="Area3D" parent="Gameplay" unique_id=1501409908 node_paths=PackedStringArray("door_mesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.6, 1.2, 24)
 script = ExtResource("15_1jy4a")
-key_objective_id = &"unlock_shortcut"
+power_circuit = &"service_exit"
+no_power_reason = "The dock shutter has no power: switch SERVICE EXIT on in the electrical room."
+no_power_sign = "SHUTTER · NO POWER"
+key_objective_id = &"take_manuscript"
 locked_sign = "SEALED · STAFF EXIT"
-locked_reason = "The loading dock exit is sealed. First: %s."
-locked_prompt = "Exit locked (manuscript and back gate first)"
+locked_reason = "You can't leave without the rare manuscript."
+locked_prompt = "Loading dock exit (shutter down)"
+walk_through = true
+trigger_path = NodePath("../../Expansion/Gameplay/Escape/DockExitTrigger")
+panel_path = NodePath("../../NavigationRegion3D/Ground/D_ServiceCorridor/ExitDoorPanel")
+needs_unlock = true
+unlock_reason = "The dock shutter is down. Free its release (tool kit), then press OPEN on the shutter control."
+route_id = &"loading_dock"
+route_name = "Loading dock"
+open_sign = "DOCK · OPEN"
 door_mesh = NodePath("../../NavigationRegion3D/Ground/D_ServiceCorridor/ExitDoorPanel/Mesh")
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/ExitDoor" unique_id=1718093398]
@@ -5983,9 +6321,10 @@ metadata/zone_id = "E"
 shape = SubResource("BoxShape_2p600_2p000_2p200")
 
 [node name="Spawn" type="Marker3D" parent="Gameplay/CheckpointStaffOffices" unique_id=1160675921]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1.8000002, -0.95, -4.699999)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, -0.95, -4.7)
 
 [node name="Pad" type="MeshInstance3D" parent="Gameplay/CheckpointStaffOffices" unique_id=601639429]
+layers = 8
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.99, 0)
 mesh = SubResource("CylinderMesh_checkpoint_pad")
 
@@ -6142,6 +6481,7 @@ metadata/zone_id = "E"
 shape = SubResource("BoxShape_1p400_1p200_1p000")
 
 [node name="FloorMark" type="MeshInstance3D" parent="Gameplay/HidingSpots/Upperstacksaisle" unique_id=1144226836]
+layers = 8
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.594, 0)
 material_override = SubResource("Material_141a33ff")
 cast_shadow = 0
@@ -6202,6 +6542,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.594, 0)
 material_override = SubResource("Material_141a33ff")
 cast_shadow = 0
 mesh = SubResource("BoxMesh_1p400_0p010_1p000")
+
+[node name="Expansion" parent="." unique_id=1530477261 instance=ExtResource("28_expsn")]
 
 [node name="Dressing" type="Node3D" parent="." unique_id=1887352135]
 
@@ -7879,6 +8221,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9, 4.5, -23.06)
 [node name="Chair25" parent="Dressing/Props" unique_id=521478044 instance=ExtResource("19_alyiv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 4.5, -23.06)
 
+[node name="Legs" parent="Dressing/Props/Chair25" index="0"]
+layers = 8
+
+[node name="Seat" parent="Dressing/Props/Chair25" index="1"]
+layers = 8
+
+[node name="Back" parent="Dressing/Props/Chair25" index="2"]
+layers = 8
+
 [node name="Chair26" parent="Dressing/Props" unique_id=1515392142 instance=ExtResource("19_alyiv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.1, 4.5, -23.06)
 
@@ -8837,3 +9188,4 @@ script = ExtResource("27_fup4f")
 [editable path="Dressing/Lights/F_Vault_0"]
 [editable path="Dressing/Lights/F_Alcove_0"]
 [editable path="Dressing/Lights/F_StaffStairLanding_0"]
+[editable path="Dressing/Props/Chair25"]

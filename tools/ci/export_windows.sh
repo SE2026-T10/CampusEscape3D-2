@@ -30,6 +30,7 @@ head -c 2 build/CampusEscape3D.exe | grep -q "MZ" || { echo "::error::The execut
 for needed in project.binary scenes/ui/main_menu.tscn.remap scripts/game/level_catalog.gd \
               scenes/level/library_graybox.tscn.remap scenes/level/library_navmesh.tres \
               scenes/level/expanded_library.tscn.remap scenes/level/expanded_library_navmesh.tres \
+              scenes/level/expanded_library_expansion.tscn.remap \
               scenes/npc/guard.tscn.remap scenes/player/player.tscn.remap \
               scenes/props/ceiling_light.tscn scenes/props/chair.tscn \
               scripts/systems/objectives/access_door.gd scripts/level/batched_boxes.gd scripts/level/shelf_books.gd; do

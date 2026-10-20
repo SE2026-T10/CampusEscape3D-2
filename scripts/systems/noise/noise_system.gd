@@ -49,7 +49,7 @@ func _physics_process(delta: float) -> void:
 ## Makes a noise. Values left at -1 come from the type's preset.
 ## Returns the event (already delivered to listeners).
 func emit_noise(position: Vector3, type: NoiseEvent.Type, source_group := "environment",
-		intensity := -1.0, radius := -1.0, lifetime := -1.0) -> NoiseEvent:
+		intensity := -1.0, radius := -1.0, lifetime := -1.0, caption := "") -> NoiseEvent:
 	var preset: Dictionary = NoiseEvent.PRESETS[type]
 	var event := NoiseEvent.new()
 	event.id = _next_id
@@ -61,6 +61,7 @@ func emit_noise(position: Vector3, type: NoiseEvent.Type, source_group := "envir
 	event.lifetime = preset.lifetime if lifetime < 0.0 else lifetime
 	event.timestamp = now
 	event.source_group = source_group
+	event.caption = caption
 	emitted_count += 1
 	_active.append(event)
 	noise_emitted.emit(event)

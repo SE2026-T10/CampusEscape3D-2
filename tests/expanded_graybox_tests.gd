@@ -37,6 +37,8 @@ const SCENE := "res://scenes/level/expanded_library.tscn"
 const NAVMESH := "res://scenes/level/expanded_library_navmesh.tres"
 const TUTORIAL := "res://scenes/level/library_graybox.tscn"
 const Layout := preload("res://tools/expanded/expanded_layout.gd")
+## The 2026 expansion (its doors join the gates below; its gameplay and markers are not dressing).
+const Expansion := preload("res://tools/expanded/expansion/expansion_layout.gd")
 const TestUtils := preload("res://tests/test_utils.gd")
 const ZONE_NODES := {
 	"A": "NavigationRegion3D/Ground/A_EntranceLobby", "B": "NavigationRegion3D/Ground/B_MainStacks",
@@ -150,7 +152,7 @@ func _check_scene_structure() -> void:
 			if is_equal_approx(v.min_rise_rate, Layout.GUARD_VISION.min_rise_rate) and is_equal_approx(v.max_rise_rate, Layout.GUARD_VISION.max_rise_rate) \
 					and is_equal_approx(g.chase_speed, Layout.GUARD_TUNING.chase_speed):
 				tuned += 1
-	_expect(tuned == 6, "All six guards should carry the level's detection tuning (%d do)." % tuned)
+	_expect(tuned == 7, "All seven guards (six plus the expansion's basement guard) should carry the level's detection tuning (%d do)." % tuned)
 	level.free()
 	var tutorial := (load(TUTORIAL) as PackedScene).instantiate()
 	for g in tutorial.get_node("Guards").get_children():
@@ -294,7 +296,7 @@ func _check_dressing() -> void:
 		for p in outline:
 			bounds = bounds.expand(p)
 		polys.append([outline, bounds, lo + 0.1, hi + 1.9])
-	var skip := ["Player", "Guards", "Gameplay", "Layout", "NavigationDebug"].map(func(n): return _level.get_node(n))
+	var skip := ["Player", "Guards", "Gameplay", "Layout", "NavigationDebug", "Expansion/Gameplay", "Expansion/Layout"].map(func(n): return _level.get_node(n))
 	# Every collider's box: decoration entirely inside one is harmless (a piece's own tiles).
 	var solids: Array[AABB] = []
 	for shape in _all(_level, func(n): return n is CollisionShape3D and n.get_parent() is StaticBody3D):
@@ -400,7 +402,8 @@ func _check_approaches_and_gates() -> void:
 	var dock := Vector3(27, 0, 20)
 	var landing := Vector3(33, Layout.UPPER_Y, -9)
 	var upper_stacks := Vector3(-24, Layout.UPPER_Y, -10)
-	var card_doors := ["Archive Front Gate G2", "Lobby Staff Door G4"]
+	# Expansion Phase 2: the electrical room door (staff card) keeps zone D behind the card from the basement too.
+	var card_doors := ["Archive Front Gate G2", "Lobby Staff Door G4", "Electrical Room Door"]
 	var g3 := "Archive Back Gate G3"
 	var sc1 := "Service Shortcut SC1"
 	var spawn := Layout.SPAWN
@@ -505,6 +508,10 @@ func _blocker_boxes(name: String) -> Array:
 			var w: float = s.x1 - s.x0 + 0.3
 			return [[Vector3(xc, 1.5, s.z_low - dir * 0.7), Vector3(w, 3.0, 1.0)],
 				[Vector3(xc, Layout.UPPER_Y + 1.5, s.z_high + dir * 0.7), Vector3(w, 3.0, 1.0)]]
+	for d in Expansion.DOORS:
+		if d.door_name == name:
+			var dw: float = d.width + 0.4
+			return [[d.centre + Vector3(0, Layout.DOOR_HEIGHT / 2.0, 0), Vector3(dw, Layout.DOOR_HEIGHT, 1.0) if d.along_x else Vector3(1.0, Layout.DOOR_HEIGHT, dw)]]
 	var found := Layout.find_opening(name)
 	if found.is_empty():
 		_expect(false, "Unknown opening or stair '%s'." % name)

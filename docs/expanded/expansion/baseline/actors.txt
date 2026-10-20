@@ -1,0 +1,54 @@
+checkpoint Gameplay/CheckpointStaffOffices Staff Offices (3.000,5.500,-21.600) (1.000,0.000,0.000) (0.000,1.000,0.000) (0.000,0.000,1.000)
+checkpoint Gameplay/CheckpointStorage Storage (31.000,1.000,8.500) (1.000,0.000,0.000) (0.000,1.000,0.000) (0.000,0.000,1.000)
+checkpoint Gameplay/CheckpointStudyRooms Study Rooms (-3.000,1.000,-18.500) (1.000,0.000,0.000) (0.000,1.000,0.000) (0.000,0.000,1.000)
+door Gameplay/ArchiveBackGateG3 mode=1 key=take_card completes=unlock_shortcut from=(-1.000,0.000,0.000)
+door Gameplay/ArchiveFrontGateG2 mode=0 key=take_card completes= from=(1.000,0.000,0.000)
+door Gameplay/LobbyStaffDoorG4 mode=0 key=take_card completes= from=(1.000,0.000,0.000)
+door Gameplay/ServiceShortcutSC1 mode=1 key=take_card completes= from=(1.000,0.000,0.000)
+guard Guards/GuardArchive (14.000,4.550,-9.000) (0.000,0.000,1.000) (0.000,1.000,0.000) (-1.000,0.000,0.000) route=Guards/P7_Archive chase=5.600
+guard Guards/GuardConnector (0.000,0.050,-5.000) (-0.989,0.000,-0.148) (0.000,1.000,0.000) (0.148,0.000,-0.989) route=Guards/P8_Connector chase=5.600
+guard Guards/GuardLobby (-6.000,0.050,15.500) (0.176,0.000,0.984) (0.000,1.000,0.000) (-0.984,0.000,0.176) route=Guards/P1_Lobby chase=5.600
+guard Guards/GuardService (14.500,0.050,-18.000) (-1.000,0.000,0.000) (0.000,1.000,0.000) (0.000,0.000,-1.000) route=Guards/P4_ServiceCorridor chase=5.600
+guard Guards/GuardStacksOuter (-14.000,0.050,-24.000) (-1.000,0.000,0.000) (0.000,1.000,0.000) (0.000,0.000,-1.000) route=Guards/P2_MainStacks chase=5.600
+guard Guards/GuardUpper (-13.000,4.550,-25.000) (-1.000,0.000,0.000) (0.000,1.000,0.000) (0.000,0.000,-1.000) route=Guards/P5_UpperStacks chase=5.600
+point Guards/P1_Lobby/Point0 (-6.000,0.000,15.500) wait=-1.000
+point Guards/P1_Lobby/Point1 (8.000,0.000,13.000) wait=-1.000
+point Guards/P1_Lobby/Point2 (8.500,0.000,21.500) wait=-1.000
+point Guards/P1_Lobby/Point3 (-5.000,0.000,22.000) wait=-1.000
+point Guards/P2_MainStacks/Point0 (-14.000,0.000,-24.000) wait=-1.000
+point Guards/P2_MainStacks/Point1 (-14.000,0.000,4.000) wait=-1.000
+point Guards/P2_MainStacks/Point2 (-33.500,0.000,4.000) wait=-1.000
+point Guards/P2_MainStacks/Point3 (-33.500,0.000,-24.000) wait=-1.000
+point Guards/P4_ServiceCorridor/Point0 (14.500,0.000,-18.000) wait=2.500
+point Guards/P4_ServiceCorridor/Point1 (14.500,0.000,17.000) wait=2.500
+point Guards/P4_ServiceCorridor/Point2 (25.000,0.000,20.000) wait=2.500
+point Guards/P4_ServiceCorridor/Point3 (25.000,0.000,3.000) wait=2.500
+point Guards/P5_UpperStacks/Point0 (-13.000,4.500,-25.000) wait=-1.000
+point Guards/P5_UpperStacks/Point1 (-13.000,4.500,-1.000) wait=-1.000
+point Guards/P5_UpperStacks/Point2 (-33.500,4.500,2.000) wait=-1.000
+point Guards/P5_UpperStacks/Point3 (-33.500,4.500,-25.000) wait=-1.000
+point Guards/P7_Archive/Point0 (14.000,4.500,-9.000) wait=-1.000
+point Guards/P7_Archive/Point1 (23.200,4.500,-9.000) wait=-1.000
+point Guards/P7_Archive/Point2 (26.500,4.500,-15.000) wait=-1.000
+point Guards/P7_Archive/Point3 (26.500,4.500,-26.000) wait=-1.000
+point Guards/P7_Archive/Point4 (14.000,4.500,-26.000) wait=-1.000
+point Guards/P8_Connector/Point0 (0.000,0.000,-5.000) wait=1.500
+point Guards/P8_Connector/Point1 (-3.000,0.000,15.000) wait=1.500
+point Guards/P8_Connector/Point2 (-10.350,4.500,6.500) wait=1.500
+point Guards/P8_Connector/Point3 (4.000,4.500,1.000) wait=1.500
+point Guards/P8_Connector/Point4 (6.000,4.500,-11.000) wait=1.500
+point Guards/P8_Connector/Point5 (-9.000,4.500,-11.000) wait=1.500
+point Guards/P8_Connector/Point6 (-30.000,4.500,6.000) wait=1.500
+point Guards/P8_Connector/Point7 (-28.000,0.000,19.000) wait=1.500
+point Layout/PlannedPatrols/P2b_StacksInner/Point0 (-17.500,0.000,-9.000) wait=-1.000
+point Layout/PlannedPatrols/P2b_StacksInner/Point1 (-29.500,0.000,-9.000) wait=-1.000
+point Layout/PlannedPatrols/P2b_StacksInner/Point2 (-29.500,0.000,8.000) wait=-1.000
+point Layout/PlannedPatrols/P2b_StacksInner/Point3 (-20.000,0.000,19.000) wait=-1.000
+point Layout/PlannedPatrols/P2b_StacksInner/Point4 (-14.500,0.000,8.000) wait=-1.000
+point Layout/PlannedPatrols/P3_ReadingHall/Point0 (-9.500,0.000,-11.500) wait=-1.000
+point Layout/PlannedPatrols/P3_ReadingHall/Point1 (9.500,0.000,-11.500) wait=-1.000
+point Layout/PlannedPatrols/P3_ReadingHall/Point2 (9.500,0.000,7.000) wait=-1.000
+point Layout/PlannedPatrols/P3_ReadingHall/Point3 (-9.500,0.000,7.000) wait=-1.000
+point Layout/PlannedPatrols/P6_StaffCorridor/Point0 (-3.000,4.500,-11.000) wait=-1.000
+point Layout/PlannedPatrols/P6_StaffCorridor/Point1 (9.000,4.500,-11.000) wait=-1.000
+point Layout/PlannedPatrols/P6_StaffCorridor/Point2 (3.000,4.500,-18.500) wait=-1.000

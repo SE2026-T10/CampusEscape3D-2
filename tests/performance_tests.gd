@@ -36,7 +36,7 @@ func _check_shadow_settings() -> void:
 
 func _check_benchmark_tool() -> void:
 	_expect(Benchmark.LEVELS.tutorial.scenarios == {"normal": 3, "several": 8, "stress": 24}, "Benchmark scenarios (tutorial) should be 3, 8 and 24 guards.")
-	_expect(Benchmark.LEVELS.expanded.scenarios == {"normal": 6, "several": 12, "stress": 24}, "Benchmark scenarios (Expanded Library) should be 6, 12 and 24 guards.")
+	_expect(Benchmark.LEVELS.expanded.scenarios == {"normal": 7, "several": 12, "stress": 24}, "Benchmark scenarios (Expanded Library) should be 7 (its own guards since expansion Phase 5), 12 and 24 guards.")
 	for level_name in Benchmark.LEVELS:
 		var level: Dictionary = Benchmark.LEVELS[level_name]
 		_expect(ResourceLoader.exists(level.scene) and level.camera.size() >= 2 and not level.noise.is_empty(),

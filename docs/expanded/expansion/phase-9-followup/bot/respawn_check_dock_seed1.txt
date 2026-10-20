@@ -1,0 +1,21 @@
+    4:12 CAUGHT by GuardBasement (respawn: Maintenance Bay)
+    5:05 CAUGHT by GuardConnector (respawn: Maintenance Bay)
+    5:57 CAUGHT by GuardConnector (respawn: Maintenance Bay)
+  t=6:00 at (-6.5, 0.0, 5.5) objective=take_card status=CAUGHT catches=3 crouch=false
+    6:39 CAUGHT by GuardStacksOuter (respawn: Maintenance Bay)
+  t=6:40 at (-32.1, 0.0, 5.9) objective=take_card status=CAUGHT catches=4 crouch=false
+    7:10 CAUGHT by GuardStacksOuter (respawn: Maintenance Bay)
+    8:29 CAUGHT by GuardLobby (respawn: Maintenance Bay)
+    10:30 CAUGHT by GuardLobby (respawn: Maintenance Bay)
+    11:50 CAUGHT by GuardLobby (respawn: Maintenance Bay)
+    12:42 CAUGHT by GuardConnector (respawn: Maintenance Bay)
+    13:35 CAUGHT by GuardConnector (respawn: Maintenance Bay)
+    14:28 CAUGHT by GuardConnector (respawn: Maintenance Bay)
+    15:21 CAUGHT by GuardConnector (respawn: Maintenance Bay)
+    16:14 CAUGHT by GuardConnector (respawn: Maintenance Bay)
+    17:07 CAUGHT by GuardConnector (respawn: Maintenance Bay)
+    18:00 CAUGHT by GuardConnector (respawn: Maintenance Bay)
+    18:52 CAUGHT by GuardConnector (respawn: Maintenance Bay)
+    19:45 CAUGHT by GuardConnector (respawn: Maintenance Bay)
+    20:38 CAUGHT by GuardConnector (respawn: Maintenance Bay)
+  t=20:40 at (-7.8, 0.0, 4.4) objective=take_card status=CAUGHT catches=18 crouch=false

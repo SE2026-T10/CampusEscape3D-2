@@ -36,7 +36,7 @@ jobs:
   validate-and-test:
     name: Validate and test
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
+    timeout-minutes: 60
     steps:
       - name: Check out
         uses: actions/checkout@v4

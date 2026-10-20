@@ -2,7 +2,7 @@
 
 The design of the second, larger map: a two-floor university library with six major zones. It is a separate scene (`scenes/level/expanded_library.tscn`) next to the tutorial, which is unchanged.
 
-**Status:** chosen from the main menu (Phase 2), with six guards (Phase 3) and the full five-objective mission (Phase 4): access doors, a one-way return shortcut, the exit, three checkpoints. Balanced in Phase 5 (v3: patrols, detection tuning, hiding spots, signs, an entrance screen; [`phase-5-balance.md`](phase-5-balance.md)). **Dressed in Phase 6 (v4):** the tutorial's low-poly library look on both floors (bookcases with books, desks and chairs, trims, wainscots, rugs, windows, ceilings and lights), with the same colliders, navmesh and stealth balance as v3 ([`phase-6-visual-polish.md`](phase-6-visual-polish.md), [Look and lighting](#look-and-lighting-v4) below). The unguarded loops (P2b, P3, P6) are still **planned** markers.
+**Status:** chosen from the main menu (Phase 2), with six guards (Phase 3) and the full five-objective mission (Phase 4): access doors, a one-way return shortcut, the exit, three checkpoints. Balanced in Phase 5 (v3: patrols, detection tuning, hiding spots, signs, an entrance screen; [`phase-5-balance.md`](phase-5-balance.md)). **Dressed in Phase 6 (v4):** the tutorial's low-poly library look on both floors (bookcases with books, desks and chairs, trims, wainscots, rugs, windows, ceilings and lights), with the same colliders, navmesh and stealth balance as v3 ([`phase-6-visual-polish.md`](phase-6-visual-polish.md), [Look and lighting](#look-and-lighting-v4) below). The unguarded loops (P2b, P3, P6) are still **planned** markers. **Expansion (2026), layout x1:** seven zones (a basement / service network G and an electrical room for D, in the Expansion sub-scene) and three new doorways; see [Expansion (2026)](#expansion-2026-layout-x1-seven-zones-and-the-basement-network) at the end. **Layout x2 (expansion Phase 3):** provisional carried items, two storage shelves and two clue documents in the new areas; see [Items, shelves and documents](#items-shelves-and-documents-layout-x2).
 
 **Plans:** [`v3/layout_ground.png`](v3/layout_ground.png) and [`v3/layout_upper.png`](v3/layout_upper.png), drawn from the layout data (v4 changed no geometry, so they still apply). Screenshots of the dressed level are in [`v4/views/`](v4/views/) (before/after pairs in [`v4/compare/`](v4/compare/)), the mission with its HUD in [`v4/mission/`](v4/mission/), and coverage heat maps in [`v3/coverage/`](v3/coverage/). Earlier versions: [`v0/`](v0/), [`v1/`](v1/), [`v2/`](v2/), [`v3/`](v3/).
 
@@ -152,8 +152,9 @@ The spawn is (0, 0.05, 32) on the porch, facing north.
 | Checkpoint | Where | Why there |
 |---|---|---|
 | Study Rooms | C, Study 2 (−3, 0, −18.5) | a quiet pocket off the reading hall |
-| Staff Offices | E, Office 2: pad in front of the card desk (3, 4.5, −21.6), respawn at the back (4.8, 4.5, −26.3) | taking the card always saves (v3); the respawn point is more than 14 m (guard sight range) from the staff corridor |
+| Staff Offices | E, Office 2: pad in front of the card desk (3, 4.5, −21.6); respawn at the back of **Office 1** (−1.8, 4.5, −26.3), facing its door (Phase 9 follow-up; before: the back of Office 2, (4.8, 4.5, −26.3)) | taking the card always saves (v3); the respawn point is more than 14 m (guard sight range) from the staff corridor, and Office 1's door is 3 m from the stacks staff door G1b, the way to the quiet back stair S3, away from the balcony and the archive gate |
 | Storage | D, storage near the S2 foot (31, 0, 8.5) | on the way out, after the shortcut |
+| Maintenance Bay (expansion, Phase 9 follow-up) | G, inside the bay's door (−24, −4, −21.6), respawn (−22.6, −4, −19) facing the door | the first room of the basement / electrical route: walking in and out with the tool kit saves, so a capture in the tunnel no longer sends the player back to the porch |
 
 No guard has a respawn point in view during the patrols (`expanded_ai_tests`, and the soak in `v2/soak/`).
 
@@ -215,4 +216,123 @@ Phase 6 dressed the level in the tutorial's palette and props. Every piece is de
 | 84 ceiling lights / pendants (the tutorial's `ceiling_light.tscn`), warm glows on the card and the manuscript, a green glow at the exit, red at the card gates | — | lit rooms; the mission's objects |
 
 **Lighting rules** (the Compatibility renderer draws at most 32 lights in view and 8 per mesh, dropping the rest in no particular order): lights fade out by distance (16 + 5 m), each floor's lights reach only that floor's surfaces (render layers 4 and 8; characters, props and gameplay objects on layer 1 are lit by both), and batches cover at most a 12 m cell. Only walls, the upper slab, furniture, headers and stairs cast sun shadows (as in v3), within 40 m; books are drawn within 20 m of the camera (the bookcase box beyond). `light_report.gd` checks all of it: at most 25 lights in any of 43,104 player views, at most 8 on any mesh, and the light at a guard's chest between the ambient 0.50 and about 1.1 on every route. Report: [`v4/lighting.md`](v4/lighting.md).
+
+
+## Expansion (2026), layout x1: seven zones and the basement network
+
+Added in expansion Phase 2 (approved plan: [`expansion/phase-2-layout.md`](expansion/phase-2-layout.md)). Everything above this section is unchanged, except three doorways cut into existing walls. The new parts live in their own sub-scene, `scenes/level/expanded_library_expansion.tscn` (the level's child "Expansion"), built from `tools/expanded/expansion/expansion_layout.gd` by `tools/expanded/expansion/build_expansion.gd`. The v4 builder stays frozen.
+
+![As built: plan and zone connections](expansion/phase-2/zone_connections_asbuilt.png)
+
+**The seven zones:**
+
+| Zone | Where | Status |
+|---|---|---|
+| A Entrance & Lobby | ground | existing |
+| B Main Book Stacks | ground | existing, **now a hub with 5 routes**: Stacks Arch (Lobby), Stacks Arch (Reading Hall), S3, the west service door (new, cut 1), the Study 1 door (new, cut 3) |
+| C Reading Rooms & Study Wing | ground | existing; Study 1 gains a door to the stacks |
+| D Service and Electrical Rooms | ground | existing corridor, processing, storage, dock, **plus the new Electrical Room** (annex x 36…46, z −28…−18) behind a staff-card door from Book Processing (cut 2) |
+| E Staff Offices & Upper Stacks | upper | existing |
+| F Restricted Archive | upper | existing |
+| **G Basement / Service Network** | **y −4 m** | **new**: see below |
+
+**Zone G:**
+- **West Service Stair:** an annex outside the stacks' west wall, entered from the stacks' cross aisle (cut 1, z −9). A 3.35 m ramp descends 4 m north to the tunnel. Beside the ramp, at the bottom, is the **basement alcove** (hiding spot).
+- **Service Tunnel:** 4 m wide, x −44…46 along z −27…−23, under the north side of the building (stacks, study wing, service zone). Two crates break up the sightline.
+- **Maintenance Bay** (x −28…−20, door x −25…−23; hiding spot) and **Pump Room** (x −7…7, door x −1…1; a full-height pump unit in the middle as cover; **reserved: pump puzzle**).
+- **Storm Drain:** from the tunnel north to a sealed grate at z −37. **Reserved: escape 2.**
+- **East Service Stair:** a 3.35 m ramp from the Electrical Room down to an east corridor (x 36.5…42) back to the tunnel, and the **cable bay** under the electrical room (hiding spot).
+
+**Electrical Room (D):** reached from Book Processing only through the **staff-card door** (an `AccessDoor`, as G2 and G4), so zone D still needs the card even through the basement. Without the card, the basement and the electrical room itself can be reached (from the stacks), but not Book Processing. Cabinets along the north wall. **Reserved: the power / security puzzle.**
+
+**Escape routes (reserved spaces, Phase 2):**
+1. The loading dock, the mission's existing exit.
+2. The storm drain (G), behind its grate.
+3. The main entrance (A), for a later security lockdown.
+
+They are marked under `Expansion/Layout` (F3).
+
+**Connections and doorways:** the three cut doorways are 2.0 m wide and 2.6 m high, as the level's doors (tested). The cuts changed only those wall pieces and the decoration across them (`tools/expanded/expansion/cut_doorways.py`).
+
+**Navigation:**
+- The level's navmesh is baked from the group `expanded_navigation_source`, which holds the `NavigationRegion3D` and `Expansion/Geometry` (`tools/expanded/expansion/bake_navmesh.gd`). It has 1,020 polygons (898 before).
+- Every walkable place of the v4 navmesh is still in it; the new walkable area inside the original building is only at the three doorways (`tools/expanded/expansion/compare_navmesh.gd`).
+- One **seal**: an invisible collider on the east wall's top along S2. With geometry east of the building, the bake treated that wall top as walkable next to the stair top.
+
+**Rendering:**
+- Basement meshes use render layer 16 and its lamps the cull mask 1 | 16, so they light only the basement and the actors.
+- The ground-floor annexes use layer 4 and mask 5, as the existing ground floor.
+- The existing `ceiling_light.tscn` provides the lamps; the colours are the level's palette.
+- **No final polish yet** (Phase 2 is playable geometry).
+
+### Items, shelves and documents (layout x2)
+
+Added in expansion Phase 3 (stamina and inventory; report [`expansion/phase-3-mechanics.md`](expansion/phase-3-mechanics.md)). **Provisional:** placed so the mechanics can be played; the Phase 4 puzzles may move them and give the documents their clues. No geometry, collision or navmesh changed: shelves are wall-mounted with no collision, items lie on existing crates.
+
+| Thing | Where | Kind |
+|---|---|---|
+| Tool kit | maintenance bay, on the crate (−26.8, BF+1.2, −20.2) | reusable tool (for tool-kit mechanisms, Phase 4) |
+| Glass bottle | service tunnel, west crate (−14, BF+1.2, −26.1) | single-use distraction (noise radius 14 m) |
+| Heavy hardback | service tunnel, east crate (19, BF+1.2, −23.9) | single-use distraction (noise radius 10 m) |
+| Glass bottle | cable bay crate (44, BF+1.2, −21) | single-use distraction |
+| Maintenance shelf | maintenance bay, east wall (−20.36, BF+1, −20) | storage: leave, take back, swap (4 places) |
+| Electrical room shelf | electrical room, south wall (39.5, 1, −18.36) | storage (4 places) |
+| Pump room log | pump room, east wall (6.83, BF+1.4, −17) | clue document (journal) |
+| Electrical room notice | electrical room, east wall (45.83, 1.4, −24) | clue document (journal) |
+
+The staff access card in the staff offices is now also a carried item (it still completes "Take a staff access card"); the Lobby Staff Door, the Archive Front Gate and the electrical room door open while it is carried. The tutorial is unchanged.
+
+### Mission and puzzles (layout x3)
+
+Added in expansion Phase 4 (report [`expansion/phase-4-puzzles.md`](expansion/phase-4-puzzles.md), specifications [`expansion/phase-4/puzzle_specs.md`](expansion/phase-4/puzzle_specs.md)). Gameplay nodes only, under `Expansion/Gameplay` (`Mission`, `Documents`, `Items`, and the new `VaultDoor` in the existing vault doorway); no geometry, collision or navmesh change.
+
+![Objective dependency graph](expansion/phase-4/objective_graph.png)
+
+| Thing | Where |
+|---|---|
+| Electrical panel cover, breaker panel | electrical room, on the cabinets (41, 1.35, −27) |
+| Vault keypad, Vault Door | archive stacks beside the vault doorway (27.8, 5.85, −19.3); door at (28, 4.5, −21) |
+| Pump crank, valves, START | pump room, south wall (z −14.3) |
+| Storm drain exit | in front of the grate (0, BF, −35.8) |
+| Security locker (+ bottle, patrol notes) | Office 1, west wall (−5.8, 5.85, −21.4) |
+| Wiring chart · archivist's memo · night rota · lobby plaque | Book Processing north wall · Office 3 east wall · Office 2 east wall · lobby west wall |
+
+
+### Security (layout x4)
+
+Added in expansion Phase 5 (report [`expansion/phase-5-security.md`](expansion/phase-5-security.md), specifications [`expansion/phase-5/security_specs.md`](expansion/phase-5/security_specs.md)). Gameplay nodes under `Expansion/Gameplay/Security`, plus GuardBasement and P9_Basement in the existing `Guards`; no geometry, collision or navmesh change.
+
+| Thing | Where |
+|---|---|
+| SURVEILLANCE switch · SERVICE EXIT switch | electrical room, on the cabinets (38.8, 1.35, −27) · (43.2, 1.35, −27); the ARCHIVE breakers between them, behind the cover |
+| Camera "staff corridor" | upper floor, (11.6, 7.5, −13.6), looking west along the staff corridor |
+| Camera "archive hall" | upper floor, (27.6, 7.5, −6.4), looking south-west into the archive hall |
+| Camera "loading dock" | ground, (35.6, 3.5, 12.4), looking south-west over the dock approach |
+| Camera "service tunnel" | basement, (12, −0.7, −23.25), looking west along the tunnel |
+| GuardBasement route P9_Basement | (−30, −4, −25) → (−10, −4, −24.8) → (14, −4, −25) → (39, −4, −21) → (39, −4, −10), looping |
+
+### Escape routes (layout x5)
+
+Added in expansion Phase 6 (report [`expansion/phase-6-escapes.md`](expansion/phase-6-escapes.md), specifications [`expansion/phase-6/escape_specs.md`](expansion/phase-6/escape_specs.md)). Gameplay nodes under `Expansion/Gameplay/Escape`, the hidden `MaintenancePanel` door, the `LockerBadge` item, the `CulvertAccessPlan` document and `CameraLobby`. No geometry, collision (other than door panels) or navmesh change.
+
+| Thing | Where |
+|---|---|
+| Main entrance exit: lockdown panel · trigger | the existing entrance opening (0, 1.5, 28), 4 m wide · the porch side (z 28.25–29.45) |
+| Badge reader · lobby camera | lobby wall east of the doors (2.9, 1.3, 27.8) · on the lobby's east wall (11.35, 3.4, 26.6), looking west along the entrance wall at the reader (fixed, 30°, 9.3 m) |
+| Security master badge | in the Office 1 security locker (−5.0, 4.5, −21.7), revealed when it opens |
+| Dock shutter release · shutter control · trigger | service corridor east wall (35.83, 1.1, 21.4) · (35.83, 1.3, 26.4) · just past the dock door (x 36.05–36.75) |
+| Maintenance panel (hidden) | the tunnel's north gap opposite the pump room door (0, −4, −27), full height |
+| Culvert access plan | maintenance bay, south wall (−23.5, −2.6, −17.17) |
+| Storm drain trigger | past the grate (0, −2.8, −38.6) |
+
+### HUD state node (layout x6)
+
+Added in expansion Phase 7 (report [`expansion/phase-7-hud.md`](expansion/phase-7-hud.md)). `Expansion/Gameplay/Escape/EscapeRoutes` (no position; logic only) links the three exits, the dock shutter control and release, the hidden maintenance panel and the Office 1 security locker. No geometry change.
+
+### Phase 9 follow-up (layout x6, approved fixes)
+
+- **Tunnel niche** (G): a 2 m wide, 1.6 m deep niche in the tunnel's north wall at x −12…−10, beside the west tunnel crate, with a hiding spot inside (−11, −4, −27.85).
+- **Balcony nook** (E, built by the expansion): a carrel panel and a low bench against the staff wing's south wall, west of G1a, open to the west; a hiding spot inside (−3.1, 4.5, −7.05).
+- **Maintenance Bay checkpoint** and the **Staff Offices respawn in Office 1** (see [Checkpoints](#checkpoints)).
+- Navmesh rebaked: 1031 polygons (was 1020). Patrol routes unchanged.
 

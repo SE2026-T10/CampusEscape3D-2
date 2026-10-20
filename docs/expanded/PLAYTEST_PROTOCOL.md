@@ -19,13 +19,16 @@ The automated playtester (`tools/expanded/playtest_bot.gd`) measures what a bot 
 | Played the tutorial before? (yes / no) | |
 | Completed? Time on the win screen | |
 | Captures (win screen) | |
-| Time at each objective (O1 … O5) | |
+| Time at each objective (since the 2026 expansion: enter, card, tool kit, panel, power, vault, manuscript, escape; optional: locker, pump, back gate) | |
+| Escape route (win screen: main entrance, loading dock or hidden maintenance passage) and optional objectives done | |
+| Documents read (journal count on the HUD) | |
 | Where each capture happened, and why (in the player's words) | |
 | Moments of confusion (where, how long, what they were looking for) | |
 | Guards or places that felt unfair (why) | |
 | Navigation or interaction problems (stuck, missed a prompt, a door didn't open) | |
 | Did they understand when they were seen? When they were hidden? | |
-| Did they find the back gate shortcut? Did they understand why the exit was sealed? | |
+| Did they find the back gate shortcut? Did they understand why an exit would not open (the WAYS OUT panel, the exit's message)? | |
+| Did the sound captions or the settings (interface size, volume) matter to them? | |
 | Did they use crouch? A hiding spot? A different stair? | |
 | After a capture, did they understand where they were and what had been undone? | |
 | Anything else | |
@@ -37,10 +40,10 @@ Ask three questions:
 2. "When did you feel lost?"
 3. "Was getting caught ever not your fault?"
 
-Add the row to the table in `docs/expanded/phase-5-balance.md` ("Human playtests"). One result is an anecdote; three or more show a pattern.
+Add the row to the table in `docs/expanded/phase-5-balance.md` ("Human playtests"); for the expanded map also to `docs/expanded/expansion/phase-8-e2e.md` ("Human runs"). One result is an anecdote; three or more show a pattern.
 
 ## What the results decide
 
 - **First completion under 20 minutes for most testers:** the level is shorter than the target. See "Pacing" in `phase-5-balance.md` for the adjustment plan.
-- **Over 30 minutes, or more than about 8 captures:** look at where the captures cluster. The coverage maps in `docs/expanded/v3/coverage/` show which guard covers that spot.
+- **Over 30 minutes, or more than about 8 captures:** look at where the captures cluster (the expansion's Phase 8 bot runs found one cluster: the staff corridor and balcony between the Staff Offices checkpoint and the main stair, see `expansion/phase-8-e2e.md`). The coverage maps in `docs/expanded/v3/coverage/` show which guard covers that spot.
 - **Confusion at the same place for two or more testers:** fix the sign or hint there before touching any guard.

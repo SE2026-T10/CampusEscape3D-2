@@ -75,11 +75,14 @@ func _check_menu() -> void:
 		_expect(menu.expanded_button == menu.level_buttons[LevelCatalog.EXPANDED] and menu.expanded_button.text == "Expanded Library",
 			"expanded_button must be the Expanded Library button.")
 		_expect(menu.start_button.has_focus(), "The Library Tutorial button should have keyboard focus.")
-		# Keyboard: Down walks tutorial → expanded → Quit, Up walks back.
+		# Keyboard: Down walks tutorial → expanded → Settings → Quit, Up walks back
+		# (Settings since expansion Phase 7).
 		var down := menu.start_button.find_valid_focus_neighbor(SIDE_BOTTOM)
-		_expect(down == menu.expanded_button and menu.expanded_button.find_valid_focus_neighbor(SIDE_BOTTOM) == menu.quit_button
-			and menu.quit_button.find_valid_focus_neighbor(SIDE_TOP) == menu.expanded_button,
-			"Up/Down must move between the map buttons and Quit.")
+		_expect(down == menu.expanded_button and menu.expanded_button.find_valid_focus_neighbor(SIDE_BOTTOM) == menu.settings_button
+			and menu.settings_button.find_valid_focus_neighbor(SIDE_BOTTOM) == menu.quit_button
+			and menu.quit_button.find_valid_focus_neighbor(SIDE_TOP) == menu.settings_button
+			and menu.settings_button.find_valid_focus_neighbor(SIDE_TOP) == menu.expanded_button,
+			"Up/Down must move between the map buttons, Settings and Quit.")
 		var button: Button = menu.level_buttons[level.id]
 		button.pressed.emit()
 		button.pressed.emit()

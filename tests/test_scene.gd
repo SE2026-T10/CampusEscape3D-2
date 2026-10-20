@@ -4,7 +4,7 @@ extends Node
 ## (tests/player_tests.gd), Phase 3 navigation tests (tests/navigation_tests.gd)
 ## Phase 4 guard tests (tests/guard_tests.gd), Phase 5 vision tests (tests/vision_tests.gd)
 ## Phase 6 AI tests (tests/ai_state_tests.gd unit tests, tests/ai_behavior_tests.gd in the level)
-## Phase 7 hearing tests (tests/hearing_tests.gd), Phase 8 stealth-loop tests (tests/loop_tests.gd), Phase 9 objective and checkpoint tests (tests/objective_tests.gd), Phase 10 game-flow tests (tests/game_flow_tests.gd), Phase 11 level-design tests (tests/level_design_tests.gd), Phase 12 presentation tests (tests/presentation_tests.gd), Phase 13 performance checks (tests/performance_tests.gd) Phase 14 QA playthroughs and regression tests (tests/qa_playthrough_tests.gd, tests/qa_regression_tests.gd) the Expanded Library graybox tests (tests/expanded_graybox_tests.gd), the map selection tests (tests/map_selection_tests.gd), the Expanded Library navigation and guard tests (tests/expanded_ai_tests.gd) and the Expanded Library mission tests (tests/expanded_mission_tests.gd). Run this scene directly in Godot (F6), or headless:
+## Phase 7 hearing tests (tests/hearing_tests.gd), Phase 8 stealth-loop tests (tests/loop_tests.gd), Phase 9 objective and checkpoint tests (tests/objective_tests.gd), Phase 10 game-flow tests (tests/game_flow_tests.gd), Phase 11 level-design tests (tests/level_design_tests.gd), Phase 12 presentation tests (tests/presentation_tests.gd), Phase 13 performance checks (tests/performance_tests.gd) Phase 14 QA playthroughs and regression tests (tests/qa_playthrough_tests.gd, tests/qa_regression_tests.gd) the Expanded Library graybox tests (tests/expanded_graybox_tests.gd), the map selection tests (tests/map_selection_tests.gd), the Expanded Library navigation and guard tests (tests/expanded_ai_tests.gd) the Expanded Library mission tests (tests/expanded_mission_tests.gd), the Expanded Library expansion layout tests (tests/expanded_layout_expansion_tests.gd), the Expanded Library expansion stamina and inventory tests (tests/expanded_mechanics_tests.gd), the Expanded Library expansion puzzle, journal and objective tests (tests/expanded_puzzle_tests.gd), the Expanded Library expansion security tests (tests/expanded_security_tests.gd), the Expanded Library expansion escape and checkpoint tests (tests/expanded_escape_tests.gd), the Expanded Library expansion HUD and accessibility tests (tests/expanded_hud_tests.gd), the Expanded Library expansion end-to-end tests (tests/expanded_e2e_tests.gd), the Expanded Library expansion polish tests (tests/expanded_polish_tests.gd) and the Expanded Library expansion baseline tests (tests/expanded_baseline_tests.gd). Run this scene directly in Godot (F6), or headless:
 ##   godot --headless --path . res://tests/test_scene.tscn
 ## Exits with code 0 when every check passes and 1 otherwise, so it can be
 ## used by an automated build. Checks use explicit failures instead of
@@ -32,6 +32,15 @@ const ExpandedGrayboxTests := preload("res://tests/expanded_graybox_tests.gd")
 const MapSelectionTests := preload("res://tests/map_selection_tests.gd")
 const ExpandedAITests := preload("res://tests/expanded_ai_tests.gd")
 const ExpandedMissionTests := preload("res://tests/expanded_mission_tests.gd")
+const ExpandedBaselineTests := preload("res://tests/expanded_baseline_tests.gd")
+const ExpandedLayoutExpansionTests := preload("res://tests/expanded_layout_expansion_tests.gd")
+const ExpandedMechanicsTests := preload("res://tests/expanded_mechanics_tests.gd")
+const ExpandedPuzzleTests := preload("res://tests/expanded_puzzle_tests.gd")
+const ExpandedSecurityTests := preload("res://tests/expanded_security_tests.gd")
+const ExpandedEscapeTests := preload("res://tests/expanded_escape_tests.gd")
+const ExpandedHudTests := preload("res://tests/expanded_hud_tests.gd")
+const ExpandedE2ETests := preload("res://tests/expanded_e2e_tests.gd")
+const ExpandedPolishTests := preload("res://tests/expanded_polish_tests.gd")
 const MAIN_MENU_SCENE := "res://scenes/ui/main_menu.tscn"
 const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
 const REQUIRED_DIRS := [
@@ -74,9 +83,18 @@ func _ready() -> void:
 	_failures.append_array(await MapSelectionTests.new().run(self))
 	_failures.append_array(await ExpandedAITests.new().run(self))
 	_failures.append_array(await ExpandedMissionTests.new().run(self))
+	_failures.append_array(await ExpandedLayoutExpansionTests.new().run(self))
+	_failures.append_array(await ExpandedMechanicsTests.new().run(self))
+	_failures.append_array(await ExpandedPuzzleTests.new().run(self))
+	_failures.append_array(await ExpandedSecurityTests.new().run(self))
+	_failures.append_array(await ExpandedEscapeTests.new().run(self))
+	_failures.append_array(await ExpandedHudTests.new().run(self))
+	_failures.append_array(await ExpandedE2ETests.new().run(self))
+	_failures.append_array(await ExpandedPolishTests.new().run(self))
+	_failures.append_array(await ExpandedBaselineTests.new().run(self))
 
 	if _failures.is_empty():
-		print("All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design, Phase 12 presentation, Phase 13 performance, Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards, Expanded Library mission).")
+		print("All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design, Phase 12 presentation, Phase 13 performance, Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards, Expanded Library mission, Expanded Library expansion layout, Expanded Library expansion stamina and inventory, Expanded Library expansion puzzles, Expanded Library expansion security, Expanded Library expansion escapes and checkpoints, Expanded Library expansion HUD and accessibility, Expanded Library expansion end to end, Expanded Library expansion polish and performance, Expanded Library expansion baseline).")
 		get_tree().quit(0)
 	else:
 		for failure in _failures:

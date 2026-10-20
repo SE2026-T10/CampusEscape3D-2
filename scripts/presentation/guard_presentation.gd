@@ -121,6 +121,8 @@ func _update_footsteps(speed: float, state: int) -> void:
 	_steps.pitch_scale = (1.08 if running else 1.0) * _rng.randf_range(0.94, 1.06)
 	_steps.play()
 	footsteps_played += 1
+	# Expansion Phase 7: captioned when close enough to matter (one caption line per guard).
+	SoundCaptions.cue(self, "steps:%d" % _guard.get_instance_id(), "Running footsteps" if running else "Footsteps", position, 9.0)
 	# The keys on the belt jingle every few steps.
 	if _step_count % (2 if running else 4) == 0:
 		_play_gear("guard_keys", -9.0 if running else -14.0)
@@ -146,6 +148,8 @@ func _play(animation: String) -> void:
 
 
 func _play_gear(sound: String, volume_db: float) -> void:
+	if sound == "guard_radio":
+		SoundCaptions.cue(self, "radio:%d" % _guard.get_instance_id(), "Guard radio crackles", _guard.global_position, 14.0)
 	_gear.stream = SoundBank.pick(sound)
 	_gear.volume_db = volume_db
 	_gear.pitch_scale = _rng.randf_range(0.95, 1.05)

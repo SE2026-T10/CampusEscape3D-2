@@ -1,0 +1,12 @@
+Expansion Phase 8 mutation checks (2026-10-17). Each break was applied to one line, the end-to-end suite (tests/expanded_e2e_tests.gd) run alone, and the file restored.
+M2 was first not caught (the suite never tried a one-way door from the wrong side); the back-gate check was added to run A and M2 run again (second line).
+
+M0 refused player walks off the level again (barrier removed): E2E DONE: 6 failure(s) | FAIL: [expanded-e2e] A mandatory-only run: Refused at the exit, the player stays on the floor at its threshold (at (4.8, 4.500844, -24.78751), respawns 0). / FAIL: [expanded-e2e] A mandatory-only run: The right code opens the vault.
+M1 an exit lets the player out without the manuscript: E2E DONE: 11 failure(s) | FAIL: [expanded-e2e] A mandatory-only run: Walking out of the dock without the manuscript is refused (escaped true, message ''). / FAIL: [expanded-e2e] A mandatory-only run: step 'to the lobby' failed: stuck at (35.8, 0.0, 23.8) on the way to (0.0, 0.0, 20.0)
+M2 one-way doors open from both sides: E2E DONE: 0 failure(s) | 
+M3 captures lose the journal: E2E DONE: 1 failure(s) | FAIL: [expanded-e2e] B optional run: The journal keeps every document and clue (7 → 0).
+M4 guards ignore noises while investigating: E2E DONE: 1 failure(s) | FAIL: [expanded-e2e] D distractions: INVESTIGATE: a new landing moves the search there (target (-13.0, 0.000391, -9.0), landing (-21.41597, -0.0, -11.52479)).
+M5 the pump never clears the grate: E2E DONE: 4 failure(s) | FAIL: [expanded-e2e] B optional run: Effect: the pump drains the culvert and clears the grate. / FAIL: [expanded-e2e] C passage run: Walking out of the storm drain without the manuscript is refused (escaped false, '').
+MUTDONE
+M2 one-way doors open from both sides: E2E DONE: 2 failure(s) | FAIL: [expanded-e2e] A mandatory-only run: From the staff stair landing the back gate refuses (opened). / FAIL: [expanded-e2e] A mandatory-only run: The manuscript is reached with no optional objective done ([&"unlock_shortcut"]; doors ["Electrical Room Door", "Archive Back Gate", "Lobby Staff Door"]).
+MUTDONE

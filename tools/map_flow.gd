@@ -150,7 +150,9 @@ func _make_progress(level: Node) -> bool:
 	objectives.complete(ids[1])
 	for door in get_nodes_in_group("access_doors"):
 		door.open()
-	return objectives.completed_count() == 2
+	# At least the two: in the Expanded Library (objective graph, expansion Phase 4)
+	# opening the back gate also completes its optional shortcut objective.
+	return objectives.completed_count() >= 2
 
 
 func _mission_is_clean(level: Node) -> bool:

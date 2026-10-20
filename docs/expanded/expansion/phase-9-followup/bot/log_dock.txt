@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+RUN route=dock profile=careful explore=false seed=1: NOT completed in 45:00, captures 45, noticed 156, investigated 47, chased 61, waited 343 s, forced 0, state checks 45, violations 0, STALLED
+    caught at 4:12 ((-16.9, -4.0, -24.3)) by GuardBasement during lobby
+    caught at 5:05 ((-6.5, -0.0, 5.5)) by GuardConnector during panel cover
+    caught at 5:58 ((-6.5, 0.0, 5.5)) by GuardConnector during panel cover
+    caught at 6:39 ((-32.1, 0.0, 5.9)) by GuardStacksOuter during lobby
+    caught at 7:10 ((-33.3, 0.0, -0.0)) by GuardStacksOuter during lobby
+    caught at 8:29 ((-5.0, 0.0, 21.2)) by GuardLobby during panel cover
+    caught at 10:30 ((0.9, 0.0, 9.1)) by GuardLobby during lobby
+    caught at 11:50 ((-4.8, 0.0, 21.2)) by GuardLobby during lobby
+    caught at 12:42 ((-7.9, 0.0, 4.3)) by GuardConnector during panel cover
+    caught at 13:35 ((-6.4, -0.0, 5.5)) by GuardConnector during panel cover
+    caught at 14:28 ((-7.8, 0.0, 4.4)) by GuardConnector during panel cover
+    caught at 15:21 ((-7.9, 0.0, 4.3)) by GuardConnector during panel cover
+    caught at 16:14 ((-7.9, 0.0, 4.3)) by GuardConnector during panel cover
+    caught at 17:06 ((-7.9, -0.0, 4.3)) by GuardConnector during panel cover
+    caught at 17:59 ((-7.9, 0.0, 4.3)) by GuardConnector during panel cover
+    caught at 18:52 ((-6.5, -0.0, 5.5)) by GuardConnector during panel cover
+    caught at 19:45 ((-7.8, 0.0, 4.4)) by GuardConnector during panel cover
+    caught at 20:38 ((-7.9, 0.0, 4.3)) by GuardConnector during panel cover
+    caught at 21:31 ((-7.9, -0.0, 4.3)) by GuardConnector during panel cover
+    caught at 22:24 ((-7.9, -0.0, 4.3)) by GuardConnector during panel cover
+    caught at 23:16 ((-7.9, -0.0, 4.3)) by GuardConnector during panel cover
+    caught at 24:09 ((-7.9, 0.0, 4.3)) by GuardConnector during panel cover
+    caught at 25:02 ((-7.9, -0.0, 4.3)) by GuardConnector during panel cover
+    caught at 25:55 ((-7.9, -0.0, 4.3)) by GuardConnector during panel cover
+    caught at 26:48 ((-7.9, 0.0, 4.3)) by GuardConnector during panel cover
+    caught at 27:41 ((-6.5, 0.0, 5.5)) by GuardConnector during panel cover
+    caught at 28:34 ((-7.8, 0.0, 4.4)) by GuardConnector during panel cover
+    caught at 29:26 ((-7.9, 0.0, 4.3)) by GuardConnector during panel cover
+    caught at 30:19 ((-7.9, -0.0, 4.3)) by GuardConnector during panel cover
+    caught at 31:12 ((-7.9, -0.0, 4.3)) by GuardConnector during panel cover
+    caught at 32:05 ((-7.9, -0.0, 4.3)) by GuardConnector during panel cover
+    caught at 32:58 ((-7.9, 0.0, 4.3)) by GuardConnector during panel cover
+    caught at 33:51 ((-7.9, -0.0, 4.3)) by GuardConnector during panel cover
+    caught at 34:43 ((-7.9, 0.0, 4.4)) by GuardConnector during panel cover
+    caught at 35:36 ((-6.5, -0.0, 5.5)) by GuardConnector during panel cover
+    caught at 36:29 ((-6.5, -0.0, 5.5)) by GuardConnector during panel cover
+    caught at 37:22 ((-6.5, -0.0, 5.5)) by GuardConnector during panel cover
+    caught at 38:15 ((-6.5, 0.0, 5.5)) by GuardConnector during panel cover
+    caught at 39:08 ((-6.5, -0.0, 5.5)) by GuardConnector during panel cover
+    caught at 40:01 ((-6.5, -0.0, 5.5)) by GuardConnector during panel cover
+    caught at 40:54 ((-6.5, 0.0, 5.5)) by GuardConnector during panel cover
+    caught at 41:47 ((-6.5, -0.0, 5.5)) by GuardConnector during panel cover
+    caught at 42:40 ((-6.5, 0.0, 5.5)) by GuardConnector during panel cover
+    caught at 43:33 ((-6.5, -0.0, 5.5)) by GuardConnector during panel cover
+    caught at 44:26 ((-6.5, 0.0, 5.5)) by GuardConnector during panel cover

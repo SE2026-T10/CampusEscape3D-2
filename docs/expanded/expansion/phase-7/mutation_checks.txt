@@ -1,0 +1,13 @@
+Expansion Phase 7 mutation checks (2026-10-16). Each break was applied to one line, the HUD suite (tests/expanded_hud_tests.gd) run alone, and the file restored.
+M6 and M7 were run again after the layout test switched to rendered frames (same result).
+
+M0 journal shows the mission: HUD DONE: 2 failure(s) | FAIL: [expanded-hud] The journal shows only clues and documents ([b]JOURNAL[/b]  [color=#9aa3ad]J: close[/color] / FAIL: [expanded-hud] Layout problems: (1024, 768) @100%: journal layout (status visible true, journal [P: (20.0, 20.0), S: (600.0, 444.0)]).
+M1 passage listed without its plan: HUD DONE: 3 failure(s) | FAIL: [expanded-hud] Before entering: no ways out known yet (["WAYS OUT", "Hidden maintenance passage: [ ] manuscript · [ ] open the false panel (tunnel) · [ ] drain the culvert (pump room)", "Checkpoint: the entrance"]). / FAIL: [expanded-hud] The hidden passage, the panel and the release are not s
+M2 release requirement shown before it is known: HUD DONE: 5 failure(s) | FAIL: [expanded-hud] After entering: the main entrance and the dock with what is known (["WAYS OUT", "Main entrance: [ ] manuscript · [ ] master badge · [ ] override at the lobby reader", "Loading dock: [ ] manuscript · [ ] shutter power · [ ] free the release (tool kit)", "Checkpoint: the entrance"
+M3 refusal names an unknown requirement: HUD DONE: 1 failure(s) | FAIL: [expanded-hud] Powered but nothing else known: a hint, no names (The loading dock needs the tool kit.).
+M4 captions ignore the setting: HUD DONE: 1 failure(s) | FAIL: [expanded-hud] Captions off: nothing shown.
+M5 settings not saved: HUD DONE: 2 failure(s) | FAIL: [expanded-hud] Saved and loaded back (1.0, 1.0, true). / FAIL: [expanded-hud] …and they are saved.
+M6 status panel stays up under the journal: HUD DONE: 1 failure(s) | FAIL: [expanded-hud] Layout problems: (1280, 720) @90%: journal layout (status visible true, journal [P: (20.0, 20.0), S: (600.0, 426.0)]); (1280, 720) @100%: journal layout (status visible true, journal [P: (20.0, 20.0), S: (600.0, 426.0)]); (1280, 720) @110%: journal layout (status visible true, j
+M7 overflowing clues unreachable: HUD DONE: 1 failure(s) | FAIL: [expanded-hud] Layout problems: (1280, 720) @110%: journal entry 'Main entrance' unreachable with J; (1280, 720) @110%: journal entry 'Loading dock' unreachable with J; (1280, 720) @110%: journal entry 'Electrical room' unreachable with J; (1280, 720) @125%: journal entry 'Main entrance' unrea
+M8 stamina exhaustion not shown: HUD DONE: 1 failure(s) | FAIL: [expanded-hud] Running dry: exhausted, and captioned (["You\'re out of breath"]).
+MUTDONE

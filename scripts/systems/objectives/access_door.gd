@@ -2,7 +2,10 @@ class_name AccessDoor
 extends Interactable
 
 ## A closed door the player opens with the interact key (E), once allowed:
-##   - KEY: needs `key_objective_id` COMPLETED (e.g. the staff access card).
+##   - KEY: needs `key_objective_id` COMPLETED (e.g. the staff access card),
+##     or, if `key_item` is set, the player to be carrying that item
+##     (PlayerInventory; the Expanded Library's staff card). The item is only
+##     checked, never used up.
 ##   - ONE_WAY: opens only from the side `open_from` points to (a shortcut
 ##     that is unlocked from inside, then stays open both ways).
 ## Opening completes `complete_objective_id` if one is set: at once if that
@@ -33,6 +36,8 @@ enum Mode { KEY, ONE_WAY }
 @export var door_name := "Door"
 ## KEY mode: the objective that must be completed before the door opens.
 @export var key_objective_id: StringName = ObjectiveManager.TAKE_CARD
+## KEY mode: ItemCatalog id the player must be carrying instead of the objective (empty: use the objective).
+@export var key_item: StringName = &""
 ## What the player is missing, for the prompt and the rejection message.
 @export var key_name := "staff access card"
 ## ONE_WAY mode: world direction (horizontal) from the door to the side it opens from.
@@ -41,6 +46,12 @@ enum Mode { KEY, ONE_WAY }
 @export var complete_objective_id: StringName = &""
 ## How close (horizontally, metres) a guard must be for the door to be drawn open.
 @export var guard_open_distance := 1.6
+## Expansion Phase 6 (a hidden door): until the player has this clue document in
+## the journal, the door looks like the wall around it (`hidden_colour`), shows
+## no prompt and can't be used. A KEY door with neither key_objective_id nor
+## key_item then opens with E (a hidden latch).
+@export var hidden_until_document: StringName = &""
+@export var hidden_colour := Color(0.55, 0.53, 0.5)
 
 ## True once opened.
 var is_open := false
@@ -91,6 +102,15 @@ func _let_through(guard: Node) -> void:
 func _process(_delta: float) -> void:
 	if _panel == null or is_open:
 		return
+	if hidden_until_document != &"":
+		var found := is_discovered()
+		enabled = found
+		if _sign:
+			_sign.visible = found
+		if not found:
+			if _panel_material:
+				_panel_material.albedo_color = hidden_colour
+			return
 	# Drawn open while a guard is in the doorway (it stays solid for the player).
 	var mesh := _panel.get_node_or_null("Mesh") as Node3D
 	if mesh:
@@ -99,9 +119,14 @@ func _process(_delta: float) -> void:
 		# Green only when the player could open it from where they are (a one-way
 		# door is red from its locked side).
 		var player := get_tree().get_first_node_in_group("player")
-		_panel_material.albedo_color = Color(0.3, 0.75, 0.4) if player and _refusal(player) == "" else Color(0.7, 0.2, 0.17)
+		var colour := Color(0.3, 0.75, 0.4) if player and _refusal(player) == "" else Color(0.7, 0.2, 0.17)
+		# Expansion Phase 9: the material is only touched when its colour changes.
+		if _panel_material.albedo_color != colour:
+			_panel_material.albedo_color = colour
 	if _sign:
-		_sign.modulate = _panel_material.albedo_color.lightened(0.3) if _panel_material else Color.WHITE
+		var tint := _panel_material.albedo_color.lightened(0.3) if _panel_material else Color.WHITE
+		if _sign.modulate != tint:
+			_sign.modulate = tint
 
 
 func get_prompt(by: Node) -> String:
@@ -121,7 +146,7 @@ func can_open(by: Node) -> bool:
 
 
 func _on_interact(by: Node) -> bool:
-	if is_open:
+	if is_open or not is_discovered():
 		return false
 	var reason := _refusal(by)
 	if reason != "":
@@ -148,7 +173,7 @@ func open() -> void:
 func _refusal(by: Node) -> String:
 	match mode:
 		Mode.KEY:
-			if not _allowed_by_key():
+			if not _allowed_by_key(by):
 				return "%s is locked. You need the %s." % [door_name, key_name]
 		Mode.ONE_WAY:
 			var node := by as Node3D
@@ -162,9 +187,24 @@ func _refusal(by: Node) -> String:
 	return ""
 
 
-func _allowed_by_key() -> bool:
+## A hidden door: whether its clue document is in the journal (always true for other doors).
+func is_discovered() -> bool:
+	if hidden_until_document == &"":
+		return true
+	var inventory := PlayerInventory.find(self)
+	return inventory != null and inventory.has_document(hidden_until_document)
+
+
+func _allowed_by_key(by: Node = null) -> bool:
 	if mode != Mode.KEY:
 		return true
+	if key_item == &"" and key_objective_id == &"":
+		return true   # a latch: anyone who knows where it is
+	if key_item != &"":
+		var inventory := by.get_node_or_null("Inventory") as PlayerInventory if by else null
+		if inventory == null:
+			inventory = PlayerInventory.find(self)
+		return inventory != null and inventory.enabled and inventory.has(key_item)
 	var manager := _manager()
 	return manager != null and manager.is_completed(key_objective_id)
 
@@ -196,7 +236,7 @@ func _complete_objective() -> void:
 
 ## Shows or hides the panel and switches its collision to match is_open.
 func _apply() -> void:
-	enabled = not is_open
+	enabled = not is_open and (hidden_until_document == &"" or is_inside_tree() and is_discovered())
 	if _panel:
 		_panel.visible = not is_open
 		# Only the layer changes (allowed at any time, also mid physics step).

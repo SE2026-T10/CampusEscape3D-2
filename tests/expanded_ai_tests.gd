@@ -7,7 +7,7 @@ extends RefCounted
 ##   A. Navigation: both floors baked; the level is sealed (nothing outside the
 ##      building is reachable, nothing baked on walls or railings); every patrol
 ##      point is on the navmesh and clear of doorways and stairs.
-##   B. Patrols: all six level guards run together (time sped up 3×): every
+##   B. Patrols: all seven level guards (the expansion's basement guard included) run together (time sped up 3×): every
 ##      guard completes its whole loop in order, nobody gets stuck, nobody
 ##      leaves PATROL, the connecting guard really changes floors, and no guard
 ##      sees the player standing at the spawn.
@@ -32,6 +32,8 @@ extends RefCounted
 const SCENE := "res://scenes/level/expanded_library.tscn"
 const GUARD_SCENE := "res://scenes/npc/guard.tscn"
 const Layout := preload("res://tools/expanded/expanded_layout.gd")
+## The 2026 expansion: annexes west and east, the basement under the north side and the storm drain.
+const Expansion := preload("res://tools/expanded/expansion/expansion_layout.gd")
 const TestUtils := preload("res://tests/test_utils.gd")
 const PATROL := GuardStateMachine.PATROL
 const INVESTIGATE := GuardStateMachine.INVESTIGATE
@@ -76,14 +78,14 @@ func _check_navigation() -> void:
 	var outside := 0
 	var too_high := 0
 	for v in vertices:
-		if v.x < -36.0 or v.x > 36.0 or v.z < -28.0 or v.z > 34.0:
+		if v.x < -44.0 or v.x > 46.0 or v.z < -40.0 or v.z > 34.0:
 			outside += 1
-		if v.y > U + 0.6 or v.y < -0.5:
+		if v.y > U + 0.6 or v.y < Expansion.BF - 0.5:
 			too_high += 1
 	_expect(outside == 0, "%d navmesh vertices lie outside the building." % outside)
 	_expect(too_high == 0, "%d navmesh vertices are above the upper floor or below the ground (baked on walls or railings?)." % too_high)
 	# Sealed: points outside are not reachable from the spawn (the exit is a closed door panel).
-	for p in [Vector3(40, 0, 24), Vector3(0, 0, 40), Vector3(-40, 0, 0), Vector3(0, 0, -32), Vector3(40, U, -15)]:
+	for p in [Vector3(40, 0, 24), Vector3(0, 0, 40), Vector3(-48, 0, -8), Vector3(0, 0, -44), Vector3(40, U, -15), Vector3(50, 0, -15)]:
 		var path := NavigationServer3D.map_get_path(_map, Layout.SPAWN, p, true)
 		_expect(path.is_empty() or path[path.size() - 1].distance_to(p) > 3.0, "The outside point %s is reachable: the level is not sealed." % p)
 	# Patrol points: on the navmesh, and not standing in a doorway or on a stair.
@@ -111,11 +113,11 @@ func _check_navigation() -> void:
 	print("  [expanded-ai] navigation: both floors baked, sealed, nothing above the upper floor; loops: %s" % ", ".join(loops))
 
 
-# --- B. All six patrols together -------------------------------------------------------------
+# --- B. All seven patrols together -------------------------------------------------------------
 
 func _check_patrols() -> void:
 	var guards := _level_guards()
-	_expect(guards.size() == 6, "Expected six guards in the Expanded Library, found %d." % guards.size())
+	_expect(guards.size() == 7, "Expected seven guards in the Expanded Library, found %d." % guards.size())
 	var log := {}
 	for g in guards:
 		var entry := {"reached": [], "stuck": 0, "changes": 0, "saw": false, "ymin": INF, "ymax": -INF, "points": g.patrol_route.get_point_count()}
@@ -162,12 +164,13 @@ func _check_patrols() -> void:
 	var connector: Node3D = _level.get_node("Guards/GuardConnector")
 	var c: Dictionary = log[connector]
 	_expect(c.ymax > U - 0.2 and c.ymin < 0.2, "GuardConnector should patrol both floors (y %.2f…%.2f)." % [c.ymin, c.ymax])
-	_expect(respawns.size() == Layout.CHECKPOINTS.size(), "Expected %d checkpoints." % Layout.CHECKPOINTS.size())
+	# The level's three, plus the expansion's maintenance bay (Phase 9 follow-up).
+	_expect(respawns.size() == Layout.CHECKPOINTS.size() + Expansion.CHECKPOINTS.size(), "Expected %d checkpoints." % (Layout.CHECKPOINTS.size() + Expansion.CHECKPOINTS.size()))
 	for name in respawns:
 		_expect(respawns[name] == 0, "The %s checkpoint's respawn point was in a guard's view %d time(s) during the patrols." % [name, respawns[name]])
 	print("  [expanded-ai] checkpoints: respawn points %s never in a guard's view during the run" % ", ".join(respawns.keys()))
-	print("  [expanded-ai] patrols: 6 guards completed their loops in order in %.0f s game time, 0 stuck, all stayed in PATROL, spawn never seen; %s" % [
-		game_time, ", ".join(summary)])
+	print("  [expanded-ai] patrols: %d guards completed their loops in order in %.0f s game time, 0 stuck, all stayed in PATROL, spawn never seen; %s" % [
+		guards.size(), game_time, ", ".join(summary)])
 
 
 ## True once `reached` holds every point 0…count-1 in order, followed by 0 again.
@@ -355,7 +358,7 @@ func _check_narrow_passages() -> void:
 	for name in GATES_TOURED:
 		_expect(passed.has(name), "Tour: the guard never went through %s." % name)
 	var doors := _level.get_tree().get_nodes_in_group("access_doors")
-	_expect(doors.size() == 4 and doors.all(func(d): return not d.is_open), "Tour: the access doors should still be closed (the guard passes them, it doesn't open them).")
+	_expect(doors.size() == 4 + Expansion.DOORS.size() and doors.all(func(d): return not d.is_open), "Tour: the access doors should still be closed (the guard passes them, it doesn't open them).")
 	await _free_guard(guard)
 	print("  [expanded-ai] narrow passages: head-on crossings in a 2 m door and on S2; tour through G1a, G1b and the closed G2, G3, G4, SC1, up S2, down S3, up and down S1, with 0 stuck")
 

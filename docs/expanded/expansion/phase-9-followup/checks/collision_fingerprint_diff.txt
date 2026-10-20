@@ -1,0 +1,40 @@
+0a1
+> body Expansion/Gameplay/Checkpoints/CheckpointMaintenanceBay Area3D layer=1 mask=1 o=(-24.0000,-3.0000,-21.6000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000)
+16a18
+> body Expansion/Gameplay/HidingSpots/Balconynook Area3D layer=1 mask=1 o=(-3.1000,5.1000,-7.0500) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000)
+19a22
+> body Expansion/Gameplay/HidingSpots/Tunnelniche Area3D layer=1 mask=1 o=(-11.0000,-3.4000,-27.8500) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000)
+43a47,48
+> body Expansion/Geometry/E_StaffBalcony/Cover_BalconyNookBench StaticBody3D layer=1 mask=0 o=(-3.1000,4.9000,-6.1500) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000)
+> body Expansion/Geometry/E_StaffBalcony/Cover_BalconyNookPanel StaticBody3D layer=1 mask=0 o=(-1.8000,5.1000,-6.9250) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000)
+54a60
+> body Expansion/Geometry/G_ServiceNetwork/Floor_TunnelNiche StaticBody3D layer=1 mask=0 o=(-11.0000,-4.1000,-27.8750) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000)
+83a90,92
+> body Expansion/Geometry/G_ServiceNetwork/Wall_NicheBack StaticBody3D layer=1 mask=0 o=(-11.0000,-2.2000,-28.6000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000)
+> body Expansion/Geometry/G_ServiceNetwork/Wall_NicheEast StaticBody3D layer=1 mask=0 o=(-10.0000,-2.2000,-27.8000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000)
+> body Expansion/Geometry/G_ServiceNetwork/Wall_NicheWest StaticBody3D layer=1 mask=0 o=(-12.0000,-2.2000,-27.8000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000)
+88c97,98
+< body Expansion/Geometry/G_ServiceNetwork/Wall_TunnelNorthWest StaticBody3D layer=1 mask=0 o=(-23.0000,-2.2000,-27.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000)
+---
+> body Expansion/Geometry/G_ServiceNetwork/Wall_TunnelNorthMid StaticBody3D layer=1 mask=0 o=(-6.0000,-2.2000,-27.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000)
+> body Expansion/Geometry/G_ServiceNetwork/Wall_TunnelNorthWest StaticBody3D layer=1 mask=0 o=(-28.0000,-2.2000,-27.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000)
+422a433
+> shape Expansion/Gameplay/Checkpoints/CheckpointMaintenanceBay/Shape o=(0.0000,0.0000,0.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000) box(2.6000,2.0000,2.2000) disabled=false
+437a449
+> shape Expansion/Gameplay/HidingSpots/Balconynook/Shape o=(0.0000,0.0000,0.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000) box(1.4000,1.2000,1.0000) disabled=false
+440a453
+> shape Expansion/Gameplay/HidingSpots/Tunnelniche/Shape o=(0.0000,0.0000,0.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000) box(1.4000,1.2000,1.0000) disabled=false
+460a474,475
+> shape Expansion/Geometry/E_StaffBalcony/Cover_BalconyNookBench/Shape o=(0.0000,0.0000,0.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000) box(2.4000,0.8000,0.3000) disabled=false
+> shape Expansion/Geometry/E_StaffBalcony/Cover_BalconyNookPanel/Shape o=(0.0000,0.0000,0.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000) box(0.2000,1.2000,1.8500) disabled=false
+471a487
+> shape Expansion/Geometry/G_ServiceNetwork/Floor_TunnelNiche/Shape o=(0.0000,0.0000,0.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000) box(2.3000,0.2000,1.7500) disabled=false
+500a517,519
+> shape Expansion/Geometry/G_ServiceNetwork/Wall_NicheBack/Shape o=(0.0000,0.0000,0.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000) box(2.3000,4.0000,0.3000) disabled=false
+> shape Expansion/Geometry/G_ServiceNetwork/Wall_NicheEast/Shape o=(0.0000,0.0000,0.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000) box(0.3000,4.0000,1.6000) disabled=false
+> shape Expansion/Geometry/G_ServiceNetwork/Wall_NicheWest/Shape o=(0.0000,0.0000,0.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000) box(0.3000,4.0000,1.6000) disabled=false
+505c524,525
+< shape Expansion/Geometry/G_ServiceNetwork/Wall_TunnelNorthWest/Shape o=(0.0000,0.0000,0.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000) box(42.0000,4.0000,0.3000) disabled=false
+---
+> shape Expansion/Geometry/G_ServiceNetwork/Wall_TunnelNorthMid/Shape o=(0.0000,0.0000,0.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000) box(8.0000,4.0000,0.3000) disabled=false
+> shape Expansion/Geometry/G_ServiceNetwork/Wall_TunnelNorthWest/Shape o=(0.0000,0.0000,0.0000) x=(1.0000,0.0000,0.0000) y=(0.0000,1.0000,0.0000) z=(0.0000,0.0000,1.0000) box(32.0000,4.0000,0.3000) disabled=false

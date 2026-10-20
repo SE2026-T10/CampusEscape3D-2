@@ -1,0 +1,202 @@
+{
+  "caught": 0,
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+  "cpu_threads": 2,
+  "debug_build": true,
+  "disabled": "",
+  "fps_1pct_low": 250.25025025025,
+  "fps_avg": 564.833113780611,
+  "frames": 1800,
+  "godot": "4.7.2-stable (official)",
+  "gpu": " / ",
+  "guard_ai_ms_per_tick": 0.193727222222222,
+  "guard_ai_ms_per_tick_per_guard": 0.0276753174603174,
+  "guards": 7,
+  "label": "p5x-normal7-r3",
+  "level": "expanded",
+  "metrics": {
+    "collision_pairs": {
+      "max": 35.0,
+      "mean": 31.3483333333333,
+      "p50": 31.0,
+      "p95": 34.0,
+      "p99": 35.0
+    },
+    "draw_calls": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "frame_ms": {
+      "max": 15.739,
+      "mean": 1.77043444444444,
+      "p50": 1.607,
+      "p95": 2.639,
+      "p99": 3.996
+    },
+    "guard_ai_ms": {
+      "max": 1.264,
+      "mean": 0.193727222222222,
+      "p50": 0.162,
+      "p95": 0.333,
+      "p99": 0.451
+    },
+    "guard_presentation_ms": {
+      "max": 2.199,
+      "mean": 0.0984772222222221,
+      "p50": 0.071,
+      "p95": 0.182,
+      "p99": 0.467
+    },
+    "guards_moving": {
+      "max": 7.0,
+      "mean": 5.42611111111111,
+      "p50": 5.0,
+      "p95": 7.0,
+      "p99": 7.0
+    },
+    "nav_agents": {
+      "max": 7.0,
+      "mean": 7.0,
+      "p50": 7.0,
+      "p95": 7.0,
+      "p99": 7.0
+    },
+    "navigation_max1s_ms": {
+      "max": 2.945,
+      "mean": 2.37815944444443,
+      "p50": 2.495,
+      "p95": 2.945,
+      "p99": 2.945
+    },
+    "node_count": {
+      "max": 2637.0,
+      "mean": 2637.0,
+      "p50": 2637.0,
+      "p95": 2637.0,
+      "p99": 2637.0
+    },
+    "object_count": {
+      "max": 5531.0,
+      "mean": 5513.24,
+      "p50": 5513.0,
+      "p95": 5524.0,
+      "p99": 5528.0
+    },
+    "objects": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "orphan_nodes": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "other_ms": {
+      "max": 12.387,
+      "mean": 0.856584999999998,
+      "p50": 0.793,
+      "p95": 1.318,
+      "p99": 2.23
+    },
+    "physics_active": {
+      "max": 8.0,
+      "mean": 8.0,
+      "p50": 8.0,
+      "p95": 8.0,
+      "p99": 8.0
+    },
+    "physics_max1s_ms": {
+      "max": 694.725,
+      "mean": 115.433127222226,
+      "p50": 3.803,
+      "p95": 694.725,
+      "p99": 694.725
+    },
+    "physics_ticks": {
+      "max": 1.0,
+      "mean": 1.0,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0
+    },
+    "primitives": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "process_max1s_ms": {
+      "max": 6.434,
+      "mean": 4.44336888888884,
+      "p50": 3.151,
+      "p95": 6.434,
+      "p99": 6.434
+    },
+    "render_cpu_ms": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "render_gpu_ms": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "scripts_physics_ms": {
+      "max": 2.708,
+      "mean": 0.447924444444444,
+      "p50": 0.403,
+      "p95": 0.713,
+      "p99": 0.971
+    },
+    "scripts_process_ms": {
+      "max": 4.727,
+      "mean": 0.466103333333334,
+      "p50": 0.412,
+      "p95": 0.752,
+      "p99": 1.126
+    },
+    "static_mem_mb": {
+      "max": 75.3251447677612,
+      "mean": 75.1593420102861,
+      "p50": 75.1534833908081,
+      "p95": 75.2730340957642,
+      "p99": 75.3146104812622
+    },
+    "video_mem_mb": {
+      "max": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    }
+  },
+  "mode": "headless",
+  "object_count_growth": 18,
+  "os": "Linux 24.04",
+  "physics_ticks_per_frame": 1.0,
+  "renderer": "gl_compatibility",
+  "resolution": "none (headless)",
+  "scenario": "normal",
+  "seconds": 30.0,
+  "static_mem_growth_mb": 0.206438064575195,
+  "status_changes": {
+    "INVESTIGATING": 2,
+    "NONE": 1
+  },
+  "stuck_events": [],
+  "warmup": 5.0
+}
