@@ -13,7 +13,7 @@ mkdir -p ci-logs
 
 echo "Running the test suite (about 17 minutes)"
 set +e
-timeout 1800 "$GODOT" --headless --path . res://tests/test_scene.tscn > ci-logs/tests.log 2>&1
+timeout 2400 "$GODOT" --headless --path . res://tests/test_scene.tscn > ci-logs/tests.log 2>&1
 status=$?
 set -e
 grep -E "^All tests passed|^Tests FAILED|^  \[" ci-logs/tests.log || true

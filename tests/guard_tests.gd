@@ -33,6 +33,8 @@ func run(host: Node) -> Array[String]:
 
 	_previous_time_scale = Engine.time_scale
 	Engine.time_scale = TIME_SCALE
+	# Let the physics steps queued at the old time scale run before timing waits.
+	await _host.get_tree().process_frame
 	await _check_level_patrols()
 	_remove_level_guards()
 	await _check_guards_crossing_paths()

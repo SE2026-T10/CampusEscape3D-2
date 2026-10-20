@@ -152,8 +152,9 @@ The spawn is (0, 0.05, 32) on the porch, facing north.
 | Checkpoint | Where | Why there |
 |---|---|---|
 | Study Rooms | C, Study 2 (−3, 0, −18.5) | a quiet pocket off the reading hall |
-| Staff Offices | E, Office 2: pad in front of the card desk (3, 4.5, −21.6), respawn at the back (4.8, 4.5, −26.3) | taking the card always saves (v3); the respawn point is more than 14 m (guard sight range) from the staff corridor |
+| Staff Offices | E, Office 2: pad in front of the card desk (3, 4.5, −21.6); respawn at the back of **Office 1** (−1.8, 4.5, −26.3), facing its door (Phase 9 follow-up; before: the back of Office 2, (4.8, 4.5, −26.3)) | taking the card always saves (v3); the respawn point is more than 14 m (guard sight range) from the staff corridor, and Office 1's door is 3 m from the stacks staff door G1b, the way to the quiet back stair S3, away from the balcony and the archive gate |
 | Storage | D, storage near the S2 foot (31, 0, 8.5) | on the way out, after the shortcut |
+| Maintenance Bay (expansion, Phase 9 follow-up) | G, inside the bay's door (−24, −4, −21.6), respawn (−22.6, −4, −19) facing the door | the first room of the basement / electrical route: walking in and out with the tool kit saves, so a capture in the tunnel no longer sends the player back to the porch |
 
 No guard has a respawn point in view during the patrols (`expanded_ai_tests`, and the soak in `v2/soak/`).
 
@@ -327,3 +328,11 @@ Added in expansion Phase 6 (report [`expansion/phase-6-escapes.md`](expansion/ph
 ### HUD state node (layout x6)
 
 Added in expansion Phase 7 (report [`expansion/phase-7-hud.md`](expansion/phase-7-hud.md)). `Expansion/Gameplay/Escape/EscapeRoutes` (no position; logic only) links the three exits, the dock shutter control and release, the hidden maintenance panel and the Office 1 security locker. No geometry change.
+
+### Phase 9 follow-up (layout x6, approved fixes)
+
+- **Tunnel niche** (G): a 2 m wide, 1.6 m deep niche in the tunnel's north wall at x −12…−10, beside the west tunnel crate, with a hiding spot inside (−11, −4, −27.85).
+- **Balcony nook** (E, built by the expansion): a carrel panel and a low bench against the staff wing's south wall, west of G1a, open to the west; a hiding spot inside (−3.1, 4.5, −7.05).
+- **Maintenance Bay checkpoint** and the **Staff Offices respawn in Office 1** (see [Checkpoints](#checkpoints)).
+- Navmesh rebaked: 1031 polygons (was 1020). Patrol routes unchanged.
+

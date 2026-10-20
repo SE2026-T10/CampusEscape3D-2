@@ -344,12 +344,14 @@ func _run_optional_main() -> void:
 	# A capture: everything back as the checkpoint stored it, the journal kept.
 	if _ok:
 		await _check_capture()
-	# The capture undid the tool kit and the pump (taken after that checkpoint): again.
+	# The capture undid what came after the last checkpoint: again. (Since the
+	# Phase 9 follow-up the maintenance bay pad saves with the tool kit, so only
+	# the pump is undone; before, the tool kit was too.)
 	if _ok and not _inventory.has(ItemCatalog.TOOLKIT):
 		_step("tool kit again", await _w.use(_level.get_node("Expansion/Gameplay/Items/ToolKit"), AT_TOOLKIT))
-		if not _objectives.is_completed(&"drain_culvert"):
-			await _run_pump()
-			_expect(_objectives.is_completed(&"drain_culvert"), "The pump can be done again after the capture.")
+	if _ok and not _objectives.is_completed(&"drain_culvert"):
+		await _run_pump()
+		_expect(_objectives.is_completed(&"drain_culvert"), "The pump can be done again after the capture.")
 	# Power, vault, manuscript.
 	_step("panel cover", await _w.use(_level.get_node(M + "ElectricalPanelCover"), AT_PANEL))
 	var breakers: BreakerPanel = _level.get_node(M + "BreakerPanel")

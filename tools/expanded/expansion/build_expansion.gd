@@ -50,6 +50,7 @@ const SCRIPTS := {
 	"dock_shutter": "res://scripts/systems/escape/dock_shutter.gd",
 	"escape_routes": "res://scripts/systems/escape/escape_routes.gd",
 	"mechanism_audio": "res://scripts/presentation/mechanism_audio.gd",
+	"checkpoint": "res://scripts/systems/checkpoints/checkpoint.gd",
 }
 ## Mesh tiles are at most this long, so no mesh is reached by more than the
 ## renderer's 8 lights per mesh (lamps are 8-12 m apart, range 10 m).
@@ -83,6 +84,10 @@ func _build() -> void:
 		node.set_meta("zone_name", z.name)
 		node.set_meta("areas", z.areas.map(func(a): return a.name))
 		zones[z.id] = node
+	# Phase 9 follow-up: cover added to the existing staff balcony (zone E).
+	var balcony := _group(geometry, "E_StaffBalcony")
+	balcony.set_meta("zone_id", "E")
+	zones["E"] = balcony
 	for f in Layout.FLOORS:
 		var r: Array = f.rect
 		_add_box_body(zones[f.zone], "Floor_" + f.name, Vector3((r[0] + r[2]) / 2.0, f.y - Layout.FLOOR_T / 2.0, (r[1] + r[3]) / 2.0),
@@ -100,8 +105,12 @@ func _build() -> void:
 		_add_ramp(zones[ramp.zone], ramp)
 	for c in Layout.COVER:
 		var r: Array = c.rect
-		_add_box_body(zones[c.zone], "Cover_" + c.name, Vector3((r[0] + r[2]) / 2.0, c.y + c.h / 2.0, (r[1] + r[3]) / 2.0),
+		var cover := _add_box_body(zones[c.zone], "Cover_" + c.name, Vector3((r[0] + r[2]) / 2.0, c.y + c.h / 2.0, (r[1] + r[3]) / 2.0),
 			Vector3(r[2] - r[0], c.h, r[3] - r[1]), c.look)
+		if c.has("layers"):
+			for m in cover.get_children():
+				if m is MeshInstance3D:
+					m.set_meta("render_layers", c.layers)
 	var seals := _group(geometry, "Seals")
 	for seal in Layout.SEALS:
 		var body := StaticBody3D.new()
@@ -134,6 +143,9 @@ func _build() -> void:
 	var documents := _group(gameplay, "Documents")
 	for doc in Layout.DOCUMENTS:
 		_add_document(documents, doc)
+	var checkpoints := _group(gameplay, "Checkpoints")
+	for cp in Layout.CHECKPOINTS:
+		_add_checkpoint(checkpoints, cp)
 	_add_mission(_group(gameplay, "Mission"))
 	_add_security(_group(gameplay, "Security"))
 	_add_escapes(_group(gameplay, "Escape"))
@@ -392,7 +404,47 @@ func _add_hiding_spot(parent: Node, h: Dictionary) -> void:
 	mark.mesh = _box_mesh(Vector3(1.4, 0.01, 1.0))
 	mark.material_override = _colour(Color(0.08, 0.1, 0.2))
 	mark.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	if h.pos.y > 4.0:
+		mark.set_meta("render_layers", Layout.LAYER_UPPER)   # lit by the upper floor's lamps only
 	_add(spot, mark)
+
+
+## Phase 9 follow-up: a checkpoint built as the existing level's (pad, spawn, label).
+func _add_checkpoint(parent: Node, c: Dictionary) -> void:
+	var cp := Area3D.new()
+	cp.name = c.node
+	cp.set_script(load(SCRIPTS.checkpoint))
+	cp.position = c.pos + Vector3(0, 1.0, 0)
+	cp.set("checkpoint_name", c.name)
+	cp.set_meta("zone_id", c.zone)
+	_add(parent, cp)
+	var shape := CollisionShape3D.new()
+	shape.name = "Shape"
+	shape.shape = _box_shape(Vector3(2.6, 2.0, 2.2))
+	_add(cp, shape)
+	var spawn := Marker3D.new()
+	spawn.name = "Spawn"
+	spawn.position = c.spawn - cp.position + Vector3(0, 0.05, 0)
+	spawn.rotation_degrees = Vector3(0, c.facing, 0)
+	_add(cp, spawn)
+	var pad := MeshInstance3D.new()
+	pad.name = "Pad"
+	pad.position = Vector3(0, -0.99, 0)
+	var disc := CylinderMesh.new()
+	disc.top_radius = 0.75
+	disc.bottom_radius = 0.75
+	disc.height = 0.02
+	pad.mesh = disc
+	pad.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_add(cp, pad)
+	var label := Label3D.new()
+	label.name = "Label"
+	label.position = Vector3(0, 1.2, 0)
+	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	label.text = "CHECKPOINT"
+	label.font_size = 28
+	label.outline_size = 10
+	_add(cp, label)
 
 
 ## A carried item (ItemPickup) with its interaction box; the model comes from ItemCatalog at run time.

@@ -5,7 +5,8 @@ extends Node3D
 ## where they happen (3D, on the SFX bus, paused with the game). It only
 ## listens; no mechanism script changes:
 ##   - every puzzle control (keypad dials and ENTER, breakers, valves, pump
-##     start): a click; a puzzle solved: a rising chime; a wrong attempt: a buzz;
+##     start): a click; a puzzle solved: a rising chime; a wrong attempt: a buzz
+##     (not for the pump, whose wrong setting is the stall bang below);
 ##   - circuit switches and tool mechanisms (panel cover, pump crank, shutter
 ##     release): a clunk;
 ##   - an item taken from the floor or a shelf (the inventory's "… taken"
@@ -55,7 +56,8 @@ func _connect() -> void:
 		if node is Puzzle:
 			node.solved.connect(func(): play_at("puzzle_solved", node.global_position, -3.0))
 			node.feedback.connect(func(_t, good: bool):
-				if not good:
+				# The pump's wrong setting already sounds as a stall bang (its caption).
+				if not good and not node is PumpControl:
 					play_at("puzzle_wrong", node.global_position, -2.0))
 	for node in get_tree().get_nodes_in_group("circuit_switches"):
 		node.feedback.connect(func(_t, good: bool): play_at("mech_clunk" if good else "puzzle_wrong", node.global_position, -2.0))

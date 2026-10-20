@@ -39,10 +39,16 @@ const EXPANSION_SCENE := "res://scenes/level/expanded_library_expansion.tscn"
 ##     P9_Basement (security_x4.py). The digests and counts above are checked
 ##     with those two nodes left out, so every existing node is still proven
 ##     unchanged; the additions are checked on their own (PHASE5_ADDED).
+##   Phase 9 follow-up (approved, fixes_x7.gd): two ground-floor batches split
+##     so no piece is reached by more than 8 lights (Batch_1_0 into 5, Batch_5_2
+##     into 9: the same boxes, shared out; batched nodes 295 → 307, decoration
+##     digest updated); render layers of four upper-floor props and the Staff
+##     Offices respawn point (not in the digests); the navmesh rebaked with the
+##     expansion's tunnel niche and balcony nook (1020 → 1031 polygons).
 const BASELINE_GEOMETRY_SHA := "3d161e931fe655f4f5c8dbe035674ae2a8dcad7e5688dd83feffaf3a7379eb12"
-const BASELINE_DECORATION_SHA := "c9129c437e2c86d9f0ea7be21e8e7475f1edcc4a2ca4a4fffa0dac986812a9ff"
+const BASELINE_DECORATION_SHA := "553bfc8219042a8aa93c88d12f81a6a5b481e9c939e4d7a8b0a7667528e83da3"
 const BASELINE_ACTORS_SHA := "5b21b05f6a85f8092db260a4459314cf7d3fdd9acc10a4d430530fdd5c9ea305"
-const BASELINE_COUNTS := {"collision_objects": 269, "collision_shapes": 269, "batched_nodes": 295,
+const BASELINE_COUNTS := {"collision_objects": 269, "collision_shapes": 269, "batched_nodes": 307,
 	"guards": 6, "patrol_points": 41, "hiding_spots": 13, "access_doors": 4, "checkpoints": 3, "lights": 90}
 ## Expansion Phase 4 (approved): the mission became an objective graph (mission_x3.py).
 ## Before: [enter_library, take_card, take_manuscript, unlock_shortcut, escape].
@@ -52,7 +58,7 @@ const BASELINE_OBJECTIVES := [&"enter_library", &"take_card", &"find_toolkit", &
 const PHASE5_ADDED := [^"Guards/GuardBasement", ^"Guards/P9_Basement"]
 const PHASE5_ADDED_COUNTS := {"guards": 1, "patrol_points": 5}
 const BASELINE_NAVMESH := "res://scenes/level/expanded_library_navmesh.tres"
-const BASELINE_NAV_POLYGONS := 1020
+const BASELINE_NAV_POLYGONS := 1031
 
 const SYSTEM_GROUPS := ["game_flow", "stealth_director", "noise_system", "audio_director", "player",
 	"objective_manager", "checkpoint_manager"]

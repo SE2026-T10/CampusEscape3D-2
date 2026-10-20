@@ -114,6 +114,8 @@ const FLOORS := [
 	{"name": "PumpRoom", "zone": "G", "rect": [-7.15, -23, 7.15, -13.85], "y": BF, "look": "floor_service"},
 	{"name": "MaintenanceBay", "zone": "G", "rect": [-28.15, -23, -19.85, -16.85], "y": BF, "look": "floor_concrete"},
 	{"name": "StormDrain", "zone": "G", "rect": [-2.15, -40.15, 2.15, -27], "y": BF, "look": "stone"},
+	# Phase 9 follow-up (P3, approved): a niche in the tunnel's north wall, a hiding spot.
+	{"name": "TunnelNiche", "zone": "G", "rect": [-12.15, -28.75, -9.85, -27.0], "y": BF, "look": "floor_concrete"},
 ]
 
 ## Walls: axis-aligned centre lines a → b, WALL_T thick, from y0 to y1.
@@ -129,7 +131,12 @@ const WALLS := [
 	{"name": "WestRampSide", "zone": "G", "a": [-40.35, -22], "b": [-40.35, -12], "y0": _B0, "y1": RAIL},
 	{"name": "WestBasementEast", "zone": "G", "a": [-36, -23], "b": [-36, -12], "y0": _B0, "y1": SLAB_BOTTOM},
 	# Service tunnel (under the north side of the building).
-	{"name": "TunnelNorthWest", "zone": "G", "a": [-44, -27], "b": [-2, -27], "y0": _B0, "y1": SLAB_BOTTOM},
+	{"name": "TunnelNorthWest", "zone": "G", "a": [-44, -27], "b": [-12, -27], "y0": _B0, "y1": SLAB_BOTTOM},
+	{"name": "TunnelNorthMid", "zone": "G", "a": [-10, -27], "b": [-2, -27], "y0": _B0, "y1": SLAB_BOTTOM},
+	# Phase 9 follow-up (P3): the tunnel niche (x -12…-10, 1.6 m deep), its hiding spot inside.
+	{"name": "NicheWest", "zone": "G", "a": [-12, -27], "b": [-12, -28.6], "y0": _B0, "y1": SLAB_BOTTOM},
+	{"name": "NicheEast", "zone": "G", "a": [-10, -27], "b": [-10, -28.6], "y0": _B0, "y1": SLAB_BOTTOM},
+	{"name": "NicheBack", "zone": "G", "a": [-12.15, -28.6], "b": [-9.85, -28.6], "y0": _B0, "y1": SLAB_BOTTOM},
 	{"name": "TunnelNorthEast", "zone": "G", "a": [2, -27], "b": [46, -27], "y0": _B0, "y1": SLAB_BOTTOM},
 	{"name": "TunnelSouthA", "zone": "G", "a": [-36, -23], "b": [-25, -23], "y0": _B0, "y1": SLAB_BOTTOM},
 	{"name": "TunnelSouthB", "zone": "G", "a": [-23, -23], "b": [-1, -23], "y0": _B0, "y1": SLAB_BOTTOM},
@@ -173,6 +180,11 @@ const COVER := [
 	{"name": "TunnelCrateEast", "zone": "G", "rect": [18.2, -24.7, 19.8, -23.15], "y": BF, "h": 1.2, "look": "crate"},
 	{"name": "PumpMachine", "zone": "G", "rect": [-2.0, -20.2, 2.0, -17.8], "y": BF, "h": SLAB_BOTTOM - BF, "look": "steel"},   # floor to ceiling: full cover, nothing baked on top
 	{"name": "ElectricalCabinets", "zone": "D", "rect": [38.0, -27.85, 44.0, -27.1], "y": 0.0, "h": 2.0, "look": "dark_metal"},
+	# Phase 9 follow-up (P1a, approved): a nook on the staff balcony against the
+	# staff wing's wall, west of G1a: a carrel panel on its east side and a low
+	# bench on its south side, open to the west (away from GuardConnector's legs).
+	{"name": "BalconyNookPanel", "zone": "E", "rect": [-1.9, -7.85, -1.7, -6.0], "y": 4.5, "h": 1.2, "look": "carrel", "layers": LAYER_UPPER},
+	{"name": "BalconyNookBench", "zone": "E", "rect": [-4.3, -6.3, -1.9, -6.0], "y": 4.5, "h": 0.8, "look": "desk", "layers": LAYER_UPPER},
 ]
 
 ## Hiding spots (HidingSpot, as the existing level's): crouched behind cover.
@@ -180,6 +192,17 @@ const HIDING := [
 	{"name": "Basement alcove", "zone": "G", "pos": Vector3(-38.0, BF, -14.0)},
 	{"name": "Maintenance bay", "zone": "G", "pos": Vector3(-26.8, BF, -18.2)},
 	{"name": "Cable bay", "zone": "G", "pos": Vector3(44.0, BF, -19.0)},
+	# Phase 9 follow-up (P3 and P1a, approved).
+	{"name": "Tunnel niche", "zone": "G", "pos": Vector3(-11.0, BF, -27.85)},
+	{"name": "Balcony nook", "zone": "E", "pos": Vector3(-3.1, 4.5, -7.05)},
+]
+
+## Phase 9 follow-up (P2, approved): a checkpoint in the maintenance bay, the
+## first room of the basement / electrical route. The pad lies inside the
+## door, so walking in and out (with the tool kit) saves; the respawn faces the door.
+const CHECKPOINTS := [
+	{"name": "Maintenance Bay", "node": "CheckpointMaintenanceBay", "zone": "G", "pos": Vector3(-24.0, BF, -21.6),
+		"spawn": Vector3(-22.6, BF, -19.0), "facing": 0.0},
 ]
 
 ## Access doors (AccessDoor). Cut 2 keeps zone D behind the staff card.
@@ -217,6 +240,7 @@ const CEILINGS := [
 	{"rect": [-7, -23, 7, -14], "y": -0.25},
 	{"rect": [-28, -23, -20, -17], "y": -0.25},
 	{"rect": [-2, -40, 2, -28], "y": -0.25},
+	{"rect": [-12, -28.6, -10, -27], "y": -0.25},   # the tunnel niche
 ]
 const ROOFS := [
 	{"rect": [-44.15, -27.15, -36, 0.15], "y": GROUND_WALL_TOP},
@@ -311,10 +335,10 @@ const DECOR := [
 	# pump at ceiling height, and risers down the walls.
 	{"name": "PumpHeaderWest", "centre": Vector3(-6.75, BF + 3.4, -18.5), "size": Vector3(0.16, 0.16, 8.6), "look": "pipe"},
 	{"name": "PumpCrossWest", "centre": Vector3(-4.34, BF + 3.4, -19.0), "size": Vector3(4.66, 0.16, 0.16), "look": "pipe"},
-	{"name": "PumpRiserWest", "centre": Vector3(-6.75, BF + _BC / 2.0, -21.5), "size": Vector3(0.16, _BC, 0.16), "look": "pipe"},
+	{"name": "PumpRiserWest", "centre": Vector3(-6.79, BF + _BC / 2.0, -22.79), "size": Vector3(0.12, _BC, 0.12), "look": "pipe"},
 	{"name": "PumpHeaderEast", "centre": Vector3(6.75, BF + 3.4, -20.9), "size": Vector3(0.16, 0.16, 3.8), "look": "pipe"},
 	{"name": "PumpCrossEast", "centre": Vector3(4.34, BF + 3.4, -19.0), "size": Vector3(4.66, 0.16, 0.16), "look": "pipe"},
-	{"name": "PumpRiserEast", "centre": Vector3(6.75, BF + _BC / 2.0, -22.6), "size": Vector3(0.16, _BC, 0.16), "look": "pipe"},
+	{"name": "PumpRiserEast", "centre": Vector3(6.79, BF + _BC / 2.0, -22.79), "size": Vector3(0.12, _BC, 0.12), "look": "pipe"},
 	# Storm drain: the 2019 flood line and damp along its walls, puddles.
 	{"name": "FloodLineWest", "centre": Vector3(-1.84, BF + 0.7, -33.6), "size": Vector3(0.02, 0.12, 12.5), "look": "flood_mark"},
 	{"name": "FloodLineEast", "centre": Vector3(1.84, BF + 0.7, -33.6), "size": Vector3(0.02, 0.12, 12.5), "look": "flood_mark"},
@@ -330,10 +354,10 @@ const DECOR := [
 	{"name": "ToolSaw", "centre": Vector3(-27.81, BF + 2.1, -19.95), "size": Vector3(0.02, 0.18, 0.5), "look": "hazard_yellow"},
 	{"name": "ToolBar", "centre": Vector3(-27.81, BF + 1.95, -19.5), "size": Vector3(0.02, 0.6, 0.06), "look": "tool_steel"},
 	# Electrical room: conduits up the north wall beside the sign, and a tray.
-	{"name": "ConduitA", "centre": Vector3(36.6, 2.1, -27.76), "size": Vector3(0.1, 4.2, 0.1), "look": "conduit"},
+	{"name": "ConduitA", "centre": Vector3(36.21, 2.1, -27.79), "size": Vector3(0.12, 4.2, 0.12), "look": "conduit"},
 	{"name": "ConduitB", "centre": Vector3(38.6, 3.1, -27.76), "size": Vector3(0.1, 2.2, 0.1), "look": "conduit"},
 	{"name": "ConduitC", "centre": Vector3(43.4, 3.1, -27.76), "size": Vector3(0.1, 2.2, 0.1), "look": "conduit"},
-	{"name": "ConduitD", "centre": Vector3(45.4, 2.1, -27.76), "size": Vector3(0.1, 4.2, 0.1), "look": "conduit"},
+	{"name": "ConduitD", "centre": Vector3(45.79, 2.1, -27.79), "size": Vector3(0.12, 4.2, 0.12), "look": "conduit"},
 	{"name": "ConduitTray", "centre": Vector3(41.0, 4.0, -27.72), "size": Vector3(9.6, 0.08, 0.25), "look": "conduit"},
 ]
 ## Hazard stripes (floor decals) across both service stairs, top and bottom:

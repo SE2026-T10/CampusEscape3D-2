@@ -137,7 +137,9 @@ func _check_setup() -> void:
 		_expect(n != null, "A mission node is missing (%s)." % n)
 	_expect(_level.get_tree().get_nodes_in_group("objective_manager").size() == 1
 		and _level.get_tree().get_nodes_in_group("checkpoint_manager").size() == 1, "Exactly one ObjectiveManager and one CheckpointManager.")
-	_expect(_level.get_tree().get_nodes_in_group("checkpoints").size() == Layout.CHECKPOINTS.size(), "Expected %d checkpoints." % Layout.CHECKPOINTS.size())
+	# The level's three, plus the expansion's (Phase 9 follow-up: the maintenance bay).
+	var checkpoint_count := Layout.CHECKPOINTS.size() + X.CHECKPOINTS.size()
+	_expect(_level.get_tree().get_nodes_in_group("checkpoints").size() == checkpoint_count, "Expected %d checkpoints." % checkpoint_count)
 	for d in [_g2, _g3, _g4, _sc1]:
 		_expect(not d.is_open and d.enabled, "%s should start closed." % d.door_name)
 		var panel: StaticBody3D = d.get_node("Panel")

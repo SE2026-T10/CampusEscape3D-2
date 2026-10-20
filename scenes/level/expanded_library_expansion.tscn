@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/systems/inventory/document_pickup.gd" id="6_55c5i"]
 [ext_resource type="Script" path="res://scripts/systems/puzzles/power_network.gd" id="7_n7c1i"]
 [ext_resource type="Script" path="res://scripts/systems/puzzles/security_alarm.gd" id="8_elrb7"]
+[ext_resource type="Script" path="res://scripts/systems/checkpoints/checkpoint.gd" id="8_x37ws"]
 [ext_resource type="Script" path="res://scripts/systems/inventory/tool_mechanism.gd" id="9_x37ws"]
 [ext_resource type="Script" path="res://scripts/systems/puzzles/breaker_panel.gd" id="10_8rcy5"]
 [ext_resource type="Script" path="res://scripts/systems/puzzles/code_lock.gd" id="11_eqxy8"]
@@ -43,6 +44,9 @@ size = Vector3(8.3, 0.2, 6.15)
 [sub_resource type="BoxShape3D" id="BoxShape_4p300_0p200_13p150"]
 size = Vector3(4.3, 0.2, 13.15)
 
+[sub_resource type="BoxShape3D" id="BoxShape_2p300_0p200_1p750"]
+size = Vector3(2.3, 0.2, 1.75)
+
 [sub_resource type="BoxShape3D" id="BoxShape_0p300_8p400_27p300"]
 size = Vector3(0.3, 8.4, 27.3)
 
@@ -61,8 +65,14 @@ size = Vector3(0.3, 5.3, 10)
 [sub_resource type="BoxShape3D" id="BoxShape_0p300_4p000_11p000"]
 size = Vector3(0.3, 4, 11)
 
-[sub_resource type="BoxShape3D" id="BoxShape_42p000_4p000_0p300"]
-size = Vector3(42, 4, 0.3)
+[sub_resource type="BoxShape3D" id="BoxShape_32p000_4p000_0p300"]
+size = Vector3(32, 4, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_0p300_4p000_1p600"]
+size = Vector3(0.3, 4, 1.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape_2p300_4p000_0p300"]
+size = Vector3(2.3, 4, 0.3)
 
 [sub_resource type="BoxShape3D" id="BoxShape_44p000_4p000_0p300"]
 size = Vector3(44, 4, 0.3)
@@ -171,6 +181,12 @@ size = Vector3(6.5, 4.4, 0.3)
 [sub_resource type="BoxShape3D" id="BoxShape_6p000_2p000_0p750"]
 size = Vector3(6, 2, 0.75)
 
+[sub_resource type="BoxShape3D" id="BoxShape_0p200_1p200_1p850"]
+size = Vector3(0.2, 1.2, 1.85)
+
+[sub_resource type="BoxShape3D" id="BoxShape_2p400_0p800_0p300"]
+size = Vector3(2.4, 0.8, 0.3)
+
 [sub_resource type="BoxShape3D" id="BoxShape_0p300_0p300_10p300"]
 size = Vector3(0.3, 0.3, 10.3)
 
@@ -209,6 +225,14 @@ size = Vector3(0.5, 0.35, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape_0p500_0p600_0p300"]
 size = Vector3(0.5, 0.6, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_2p600_2p000_2p200"]
+size = Vector3(2.6, 2, 2.2)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_8rcy5"]
+top_radius = 0.75
+bottom_radius = 0.75
+height = 0.02
 
 [sub_resource type="BoxMesh" id="BoxMesh_1p050_0p700_0p050"]
 size = Vector3(1.05, 0.7, 0.05)
@@ -391,6 +415,13 @@ collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Geometry/G_ServiceNetwork/Floor_StormDrain" unique_id=553128400]
 shape = SubResource("BoxShape_4p300_0p200_13p150")
 
+[node name="Floor_TunnelNiche" type="StaticBody3D" parent="Geometry/G_ServiceNetwork" unique_id=540989536]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -4.1, -27.875)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/G_ServiceNetwork/Floor_TunnelNiche" unique_id=1802725662]
+shape = SubResource("BoxShape_2p300_0p200_1p750")
+
 [node name="Wall_WestAnnexWest" type="StaticBody3D" parent="Geometry/G_ServiceNetwork" unique_id=546396582]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 0, -13.5)
 collision_mask = 0
@@ -441,11 +472,39 @@ collision_mask = 0
 shape = SubResource("BoxShape_0p300_4p000_11p000")
 
 [node name="Wall_TunnelNorthWest" type="StaticBody3D" parent="Geometry/G_ServiceNetwork" unique_id=1417141240]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, -2.2, -27)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, -2.2, -27)
 collision_mask = 0
 
 [node name="Shape" type="CollisionShape3D" parent="Geometry/G_ServiceNetwork/Wall_TunnelNorthWest" unique_id=1423211877]
-shape = SubResource("BoxShape_42p000_4p000_0p300")
+shape = SubResource("BoxShape_32p000_4p000_0p300")
+
+[node name="Wall_TunnelNorthMid" type="StaticBody3D" parent="Geometry/G_ServiceNetwork" unique_id=901597208]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -2.2, -27)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/G_ServiceNetwork/Wall_TunnelNorthMid" unique_id=896269143]
+shape = SubResource("BoxShape_8p000_4p000_0p300")
+
+[node name="Wall_NicheWest" type="StaticBody3D" parent="Geometry/G_ServiceNetwork" unique_id=1061408668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, -2.2, -27.8)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/G_ServiceNetwork/Wall_NicheWest" unique_id=242298100]
+shape = SubResource("BoxShape_0p300_4p000_1p600")
+
+[node name="Wall_NicheEast" type="StaticBody3D" parent="Geometry/G_ServiceNetwork" unique_id=2087143981]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -2.2, -27.8)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/G_ServiceNetwork/Wall_NicheEast" unique_id=1658875388]
+shape = SubResource("BoxShape_0p300_4p000_1p600")
+
+[node name="Wall_NicheBack" type="StaticBody3D" parent="Geometry/G_ServiceNetwork" unique_id=665775160]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -2.2, -28.6)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/G_ServiceNetwork/Wall_NicheBack" unique_id=1178298822]
+shape = SubResource("BoxShape_2p300_4p000_0p300")
 
 [node name="Wall_TunnelNorthEast" type="StaticBody3D" parent="Geometry/G_ServiceNetwork" unique_id=292117548]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -2.2, -27)
@@ -748,7 +807,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -2, -29.5)
 layers = 16
 material_override = SubResource("Material_batched_plain")
 script = ExtResource("1_n7c1i")
-boxes = PackedFloat32Array(6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, -3, -2.1, 4.424999, 0.4, 0.4, 0.38, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, 3, -2.1, 4.424999, 0.4, 0.4, 0.38, 1, 6, 0, 0, 0, 4, 0, 0, 0, 0.3, -3, -0.20000005, 2.5, 0.78, 0.72, 0.62, 1, 6, 0, 0, 0, 4, 0, 0, 0, 0.3, 3, -0.20000005, 2.5, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4, 0, 0, 0, 4.3333335, 6, -0.20000005, -4, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4, 0, 0, 0, 4.3333335, 6, -0.20000005, 0.33333397, 0.78, 0.72, 0.62, 1)
+boxes = PackedFloat32Array(6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, -3, -2.1, 4.424999, 0.4, 0.4, 0.38, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, 3, -2.1, 4.424999, 0.4, 0.4, 0.38, 1, 2.3, 0, 0, 0, 0.2, 0, 0, 0, 1.75, -3, -2.1, 1.625, 0.4, 0.4, 0.38, 1, 4, 0, 0, 0, 4, 0, 0, 0, 0.3, 0, -0.20000005, 2.5, 0.78, 0.72, 0.62, 1, 4, 0, 0, 0, 4, 0, 0, 0, 0.3, 4, -0.20000005, 2.5, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4, 0, 0, 0, 1.6, -4, -0.20000005, 1.7000008, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4, 0, 0, 0, 1.6, -2, -0.20000005, 1.7000008, 0.78, 0.72, 0.62, 1, 2.3, 0, 0, 0, 4, 0, 0, 0, 0.3, -3, -0.20000005, 0.8999996, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4, 0, 0, 0, 4.3333335, 6, -0.20000005, -4, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4, 0, 0, 0, 4.3333335, 6, -0.20000005, 0.33333397, 0.78, 0.72, 0.62, 1)
 
 [node name="Batch_-1_-4_plain_L16_S1" type="MultiMeshInstance3D" parent="Geometry/G_ServiceNetwork/Batched" unique_id=1170355714]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -2, -38)
@@ -765,11 +824,11 @@ script = ExtResource("1_n7c1i")
 boxes = PackedFloat32Array(4.15, 0, 0, 0, 0.2, 0, 0, 0, 6.15, -3.9249992, -2.1, 0.07500076, 0.4, 0.4, 0.38, 1, 5.5, 0, 0, 0, 4, 0, 0, 0, 0.3, -2.25, -0.20000005, -3, 0.78, 0.72, 0.62, 1, 5.5, 0, 0, 0, 4, 0, 0, 0, 0.3, 3.25, -0.20000005, -3, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4, 0, 0, 0, 6, -2, -0.20000005, 0, 0.78, 0.72, 0.62, 1, 4, 0, 0, 0, 4, 0, 0, 0, 0.3, -4, -0.20000005, 3, 0.78, 0.72, 0.62, 1)
 
 [node name="Batch_-2_-3_plain_L16_S1" type="MultiMeshInstance3D" parent="Geometry/G_ServiceNetwork/Batched" unique_id=1079579400]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.5, -2, -25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -2, -25)
 layers = 16
 material_override = SubResource("Material_batched_plain")
 script = ExtResource("1_n7c1i")
-boxes = PackedFloat32Array(6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, -3.5, -2.1, -0.07500076, 0.4, 0.4, 0.38, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, 2.5, -2.1, -0.07500076, 0.4, 0.4, 0.38, 1, 6, 0, 0, 0, 4, 0, 0, 0, 0.3, -3.5, -0.20000005, -2, 0.78, 0.72, 0.62, 1, 6, 0, 0, 0, 4, 0, 0, 0, 0.3, 2.5, -0.20000005, -2, 0.78, 0.72, 0.62, 1, 1.6, 0, 0, 0, 1.2, 0, 0, 0, 1.55, 5.5, -1.4000001, -1.0750008, 0.55, 0.42, 0.25, 1)
+boxes = PackedFloat32Array(6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, -4, -2.1, -0.07500076, 0.4, 0.4, 0.38, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, 2, -2.1, -0.07500076, 0.4, 0.4, 0.38, 1, 5.3333335, 0, 0, 0, 4, 0, 0, 0, 0.3, -1, -0.20000005, -2, 0.78, 0.72, 0.62, 1, 5.3333335, 0, 0, 0, 4, 0, 0, 0, 0.3, 4.333333, -0.20000005, -2, 0.78, 0.72, 0.62, 1, 1.6, 0, 0, 0, 1.2, 0, 0, 0, 1.55, 5, -1.4000001, -1.0750008, 0.55, 0.42, 0.25, 1)
 
 [node name="Batch_-3_-2_plain_L16_S1" type="MultiMeshInstance3D" parent="Geometry/G_ServiceNetwork/Batched" unique_id=705968059]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, -2, -17.5)
@@ -779,11 +838,11 @@ script = ExtResource("1_n7c1i")
 boxes = PackedFloat32Array(4.15, 0, 0, 0, 0.2, 0, 0, 0, 6.15, 3.9249992, -2.1, -2.4249992, 0.4, 0.4, 0.38, 1, 0.3, 0, 0, 0, 4, 0, 0, 0, 5.5, -6, -0.20000005, -2.75, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4, 0, 0, 0, 5.5, -6, -0.20000005, 2.75, 0.78, 0.72, 0.62, 1, 5.5, 0, 0, 0, 4, 0, 0, 0, 0.3, -3.25, -0.20000005, -5.5, 0.78, 0.72, 0.62, 1, 5.5, 0, 0, 0, 4, 0, 0, 0, 0.3, 2.25, -0.20000005, -5.5, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 4, 0, 0, 0, 6, 2, -0.20000005, -2.5, 0.78, 0.72, 0.62, 1, 4, 0, 0, 0, 4, 0, 0, 0, 0.3, 4, -0.20000005, 0.5, 0.78, 0.72, 0.62, 1, 1.6, 0, 0, 0, 1.2, 0, 0, 0, 1.6, 3.2000008, -1.4000001, -2.7000008, 0.55, 0.42, 0.25, 1)
 
 [node name="Batch_-3_-3_plain_L16_S1" type="MultiMeshInstance3D" parent="Geometry/G_ServiceNetwork/Batched" unique_id=864810014]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, -2, -25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, -2, -25)
 layers = 16
 material_override = SubResource("Material_batched_plain")
 script = ExtResource("1_n7c1i")
-boxes = PackedFloat32Array(6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, -3, -2.1, -0.07500076, 0.4, 0.4, 0.38, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, 3, -2.1, -0.07500076, 0.4, 0.4, 0.38, 1, 6, 0, 0, 0, 4, 0, 0, 0, 0.3, -3, -0.20000005, -2, 0.78, 0.72, 0.62, 1, 6, 0, 0, 0, 4, 0, 0, 0, 0.3, 3, -0.20000005, -2, 0.78, 0.72, 0.62, 1)
+boxes = PackedFloat32Array(6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, -4.5, -2.1, -0.07500076, 0.4, 0.4, 0.38, 1, 6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, 1.5, -2.1, -0.07500076, 0.4, 0.4, 0.38, 1, 5.3333335, 0, 0, 0, 4, 0, 0, 0, 0.3, -5.5, -0.20000005, -2, 0.78, 0.72, 0.62, 1, 5.3333335, 0, 0, 0, 4, 0, 0, 0, 0.3, -0.16666603, -0.20000005, -2, 0.78, 0.72, 0.62, 1, 5.3333335, 0, 0, 0, 4, 0, 0, 0, 0.3, 5.166666, -0.20000005, -2, 0.78, 0.72, 0.62, 1)
 
 [node name="Batch_-4_-1_plain_L16_S1" type="MultiMeshInstance3D" parent="Geometry/G_ServiceNetwork/Batched" unique_id=1862829321]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, -2, -12)
@@ -818,7 +877,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, -2, -25)
 layers = 16
 material_override = SubResource("Material_batched_plain")
 script = ExtResource("1_n7c1i")
-boxes = PackedFloat32Array(6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, 0, -2.1, -0.07500076, 0.4, 0.4, 0.38, 1, 6, 0, 0, 0, 4, 0, 0, 0, 0.3, 0, -0.20000005, -2, 0.78, 0.72, 0.62, 1)
+boxes = PackedFloat32Array(6, 0, 0, 0, 0.2, 0, 0, 0, 4.15, 0, -2.1, -0.07500076, 0.4, 0.4, 0.38, 1, 5.3333335, 0, 0, 0, 4, 0, 0, 0, 0.3, -0.33333206, -0.20000005, -2, 0.78, 0.72, 0.62, 1)
 
 [node name="Batch_-4_-3_plain_L4_S1" type="MultiMeshInstance3D" parent="Geometry/G_ServiceNetwork/Batched" unique_id=664008317]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, -24.5)
@@ -988,6 +1047,32 @@ material_override = SubResource("Material_batched_plain")
 script = ExtResource("1_n7c1i")
 boxes = PackedFloat32Array(5, 0, 0, 0, 4.4, 0, 0, 0, 0.3, -2.5, 2, -2.5, 0.78, 0.72, 0.62, 1, 5, 0, 0, 0, 4.4, 0, 0, 0, 0.3, 2.5, 2, -2.5, 0.78, 0.72, 0.62, 1, 0.3, 0, 0, 0, 8.4, 0, 0, 0, 5.575, 5, 0, 0.13750076, 0.78, 0.72, 0.62, 1)
 
+[node name="E_StaffBalcony" type="Node3D" parent="Geometry" unique_id=2085035600]
+metadata/zone_id = "E"
+
+[node name="Cover_BalconyNookPanel" type="StaticBody3D" parent="Geometry/E_StaffBalcony" unique_id=814188592]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 5.1, -6.925)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/E_StaffBalcony/Cover_BalconyNookPanel" unique_id=868143034]
+shape = SubResource("BoxShape_0p200_1p200_1p850")
+
+[node name="Cover_BalconyNookBench" type="StaticBody3D" parent="Geometry/E_StaffBalcony" unique_id=1852809457]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1, 4.9, -6.15)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/E_StaffBalcony/Cover_BalconyNookBench" unique_id=368562672]
+shape = SubResource("BoxShape_2p400_0p800_0p300")
+
+[node name="Batched" type="Node3D" parent="Geometry/E_StaffBalcony" unique_id=1300311746]
+
+[node name="Batch_-1_-1_plain_L8_S1" type="MultiMeshInstance3D" parent="Geometry/E_StaffBalcony/Batched" unique_id=1516811973]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 5, -7)
+layers = 8
+material_override = SubResource("Material_batched_plain")
+script = ExtResource("1_n7c1i")
+boxes = PackedFloat32Array(0.2, 0, 0, 0, 1.2, 0, 0, 0, 1.85, 1.2, 0.099999905, 0.07499981, 0.42, 0.3, 0.2, 1, 2.4, 0, 0, 0, 0.8, 0, 0, 0, 0.3, -0.099999905, -0.099999905, 0.8499999, 0.33, 0.22, 0.13, 1)
+
 [node name="Seals" type="Node3D" parent="Geometry" unique_id=2095862612]
 
 [node name="S2WallTopCap" type="StaticBody3D" parent="Geometry/Seals" unique_id=1805141533]
@@ -1122,6 +1207,36 @@ shape = SubResource("BoxShape_1p400_1p200_1p000")
 [node name="FloorMark" type="MeshInstance3D" parent="Gameplay/HidingSpots/Cablebay" unique_id=786802921]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.594, 0)
 layers = 16
+material_override = SubResource("Material_141a33ff")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_1p400_0p010_1p000")
+
+[node name="Tunnelniche" type="Area3D" parent="Gameplay/HidingSpots" unique_id=346075466]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -3.4, -27.85)
+script = ExtResource("3_e45nx")
+metadata/zone_id = "G"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/HidingSpots/Tunnelniche" unique_id=956830758]
+shape = SubResource("BoxShape_1p400_1p200_1p000")
+
+[node name="FloorMark" type="MeshInstance3D" parent="Gameplay/HidingSpots/Tunnelniche" unique_id=1563615473]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.594, 0)
+layers = 16
+material_override = SubResource("Material_141a33ff")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_1p400_0p010_1p000")
+
+[node name="Balconynook" type="Area3D" parent="Gameplay/HidingSpots" unique_id=1922247697]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1, 5.1, -7.05)
+script = ExtResource("3_e45nx")
+metadata/zone_id = "E"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/HidingSpots/Balconynook" unique_id=612038471]
+shape = SubResource("BoxShape_1p400_1p200_1p000")
+
+[node name="FloorMark" type="MeshInstance3D" parent="Gameplay/HidingSpots/Balconynook" unique_id=1288423242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.594, 0)
+layers = 8
 material_override = SubResource("Material_141a33ff")
 cast_shadow = 0
 mesh = SubResource("BoxMesh_1p400_0p010_1p000")
@@ -1326,6 +1441,33 @@ metadata/zone_id = "G"
 
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/Documents/CulvertAccessPlan" unique_id=897702527]
 shape = SubResource("BoxShape_0p500_0p600_0p300")
+
+[node name="Checkpoints" type="Node3D" parent="Gameplay" unique_id=63433001]
+
+[node name="CheckpointMaintenanceBay" type="Area3D" parent="Gameplay/Checkpoints" unique_id=1970388110]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, -3, -21.6)
+script = ExtResource("8_x37ws")
+checkpoint_name = "Maintenance Bay"
+metadata/zone_id = "G"
+
+[node name="Shape" type="CollisionShape3D" parent="Gameplay/Checkpoints/CheckpointMaintenanceBay" unique_id=1047570762]
+shape = SubResource("BoxShape_2p600_2p000_2p200")
+
+[node name="Spawn" type="Marker3D" parent="Gameplay/Checkpoints/CheckpointMaintenanceBay" unique_id=586200581]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3999996, -0.95, 2.6000004)
+
+[node name="Pad" type="MeshInstance3D" parent="Gameplay/Checkpoints/CheckpointMaintenanceBay" unique_id=1366822918]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.99, 0)
+layers = 16
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_8rcy5")
+
+[node name="Label" type="Label3D" parent="Gameplay/Checkpoints/CheckpointMaintenanceBay" unique_id=64162447]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+billboard = 1
+text = "CHECKPOINT"
+font_size = 28
+outline_size = 10
 
 [node name="Mission" type="Node3D" parent="Gameplay" unique_id=917845873]
 
@@ -1686,10 +1828,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, -0.2, -20)
 [node name="@Node3D@5" type="Node3D" parent="Dressing/Ceilings" unique_id=1050656999]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, -34)
 
+[node name="@Node3D@6" type="Node3D" parent="Dressing/Ceilings" unique_id=2035796609]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -0.2, -27.8)
+
 [node name="Roof" type="Node3D" parent="Dressing/Ceilings" unique_id=1142594659]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.075, 4.3, -13.5)
 
-[node name="@Node3D@6" type="Node3D" parent="Dressing/Ceilings" unique_id=2035796609]
+[node name="@Node3D@7" type="Node3D" parent="Dressing/Ceilings" unique_id=1584484618]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.075, 4.3, -17)
 
 [node name="Batched" type="Node3D" parent="Dressing/Ceilings" unique_id=1924645481]
@@ -1703,12 +1848,12 @@ script = ExtResource("1_n7c1i")
 boxes = PackedFloat32Array(4.6666665, 0, 0, 0, 0.1, 0, 0, 0, 9, -0.16666651, -0.2, 0, 0.86, 0.83, 0.76, 1)
 
 [node name="Batch_-1_-3_plain_L4_S0" type="MultiMeshInstance3D" parent="Dressing/Ceilings/Batched" unique_id=1814260115]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -26)
 layers = 4
 material_override = SubResource("Material_batched_plain")
 cast_shadow = 0
 script = ExtResource("1_n7c1i")
-boxes = PackedFloat32Array(5.5615387, 0, 0, 0, 0.1, 0, 0, 0, 4, -2.9730778, -0.2, 0, 0.86, 0.83, 0.76, 1, 5.5615387, 0, 0, 0, 0.1, 0, 0, 0, 4, 2.5884614, -0.2, 0, 0.86, 0.83, 0.76, 1)
+boxes = PackedFloat32Array(5.5615387, 0, 0, 0, 0.1, 0, 0, 0, 4, -2.9730778, -0.2, 1, 0.86, 0.83, 0.76, 1, 5.5615387, 0, 0, 0, 0.1, 0, 0, 0, 4, 2.5884614, -0.2, 1, 0.86, 0.83, 0.76, 1, 2, 0, 0, 0, 0.1, 0, 0, 0, 1.6, -3, -0.2, -1.7999992, 0.86, 0.83, 0.76, 1)
 
 [node name="Batch_-2_-2_plain_L4_S0" type="MultiMeshInstance3D" parent="Dressing/Ceilings/Batched" unique_id=521192650]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -20)
@@ -2261,7 +2406,7 @@ layers = 16
 material_override = SubResource("Material_batched_plain")
 cast_shadow = 0
 script = ExtResource("1_n7c1i")
-boxes = PackedFloat32Array(5.6625, 0, 0, 0, 0.06, 0, 0, 0, 0.4, -2.8187494, 1.2, -4.3999996, 0.52, 0.53, 0.55, 1, 5.6625, 0, 0, 0, 0.06, 0, 0, 0, 0.4, 2.84375, 1.2, -4.3999996, 0.52, 0.53, 0.55, 1, 0.16, 0, 0, 0, 0.16, 0, 0, 0, 4.3, 0.75, 1.4, -1.6499996, 0.3, 0.35, 0.33, 1, 0.16, 0, 0, 0, 0.16, 0, 0, 0, 4.3, 0.75, 1.4, 2.6499996, 0.3, 0.35, 0.33, 1, 4.66, 0, 0, 0, 0.16, 0, 0, 0, 0.16, 3.1599998, 1.4, 0, 0.3, 0.35, 0.33, 1, 0.16, 0, 0, 0, 3.75, 0, 0, 0, 0.16, 0.75, -0.125, -2.5, 0.3, 0.35, 0.33, 1)
+boxes = PackedFloat32Array(5.6625, 0, 0, 0, 0.06, 0, 0, 0, 0.4, -2.8187494, 1.2, -4.3999996, 0.52, 0.53, 0.55, 1, 5.6625, 0, 0, 0, 0.06, 0, 0, 0, 0.4, 2.84375, 1.2, -4.3999996, 0.52, 0.53, 0.55, 1, 0.16, 0, 0, 0, 0.16, 0, 0, 0, 4.3, 0.75, 1.4, -1.6499996, 0.3, 0.35, 0.33, 1, 0.16, 0, 0, 0, 0.16, 0, 0, 0, 4.3, 0.75, 1.4, 2.6499996, 0.3, 0.35, 0.33, 1, 4.66, 0, 0, 0, 0.16, 0, 0, 0, 0.16, 3.1599998, 1.4, 0, 0.3, 0.35, 0.33, 1, 0.12, 0, 0, 0, 3.75, 0, 0, 0, 0.12, 0.71000004, -0.125, -3.790001, 0.3, 0.35, 0.33, 1)
 
 [node name="Batch_-1_-3_plain_L16_S0" type="MultiMeshInstance3D" parent="Dressing/Decor/Batched" unique_id=1499000329]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -2, -31)
@@ -2365,7 +2510,7 @@ layers = 16
 material_override = SubResource("Material_batched_plain")
 cast_shadow = 0
 script = ExtResource("1_n7c1i")
-boxes = PackedFloat32Array(5.6625, 0, 0, 0, 0.06, 0, 0, 0, 0.4, -2.9937496, 1.2, -1.8999996, 0.52, 0.53, 0.55, 1, 5.6625, 0, 0, 0, 0.06, 0, 0, 0, 0.4, 2.6687508, 1.2, -1.8999996, 0.52, 0.53, 0.55, 1, 0.16, 0, 0, 0, 0.16, 0, 0, 0, 3.8, 2.75, 1.4, 0.6000004, 0.3, 0.35, 0.33, 1, 4.66, 0, 0, 0, 0.16, 0, 0, 0, 0.16, 0.34000015, 1.4, 2.5, 0.3, 0.35, 0.33, 1, 0.16, 0, 0, 0, 3.75, 0, 0, 0, 0.16, 2.75, -0.125, -1.1000004, 0.3, 0.35, 0.33, 1)
+boxes = PackedFloat32Array(5.6625, 0, 0, 0, 0.06, 0, 0, 0, 0.4, -2.9937496, 1.2, -1.8999996, 0.52, 0.53, 0.55, 1, 5.6625, 0, 0, 0, 0.06, 0, 0, 0, 0.4, 2.6687508, 1.2, -1.8999996, 0.52, 0.53, 0.55, 1, 0.16, 0, 0, 0, 0.16, 0, 0, 0, 3.8, 2.75, 1.4, 0.6000004, 0.3, 0.35, 0.33, 1, 4.66, 0, 0, 0, 0.16, 0, 0, 0, 0.16, 0.34000015, 1.4, 2.5, 0.3, 0.35, 0.33, 1, 0.12, 0, 0, 0, 3.75, 0, 0, 0, 0.12, 2.79, -0.125, -1.2900009, 0.3, 0.35, 0.33, 1)
 
 [node name="Batch_0_-3_plain_L16_S0" type="MultiMeshInstance3D" parent="Dressing/Decor/Batched" unique_id=1849467146]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, -2, -31)
@@ -2461,7 +2606,7 @@ layers = 4
 material_override = SubResource("Material_batched_plain")
 cast_shadow = 0
 script = ExtResource("1_n7c1i")
-boxes = PackedFloat32Array(0.1, 0, 0, 0, 4.2, 0, 0, 0, 0.1, -4.4000015, 0.099999905, -0.26000023, 0.52, 0.53, 0.55, 1, 0.1, 0, 0, 0, 2.2, 0, 0, 0, 0.1, -2.4000015, 1.0999999, -0.26000023, 0.52, 0.53, 0.55, 1, 0.1, 0, 0, 0, 2.2, 0, 0, 0, 0.1, 2.4000015, 1.0999999, -0.26000023, 0.52, 0.53, 0.55, 1, 0.1, 0, 0, 0, 4.2, 0, 0, 0, 0.1, 4.4000015, 0.099999905, -0.26000023, 0.52, 0.53, 0.55, 1, 4.8, 0, 0, 0, 0.08, 0, 0, 0, 0.25, -2.4000015, 2, -0.21999931, 0.52, 0.53, 0.55, 1, 4.8, 0, 0, 0, 0.08, 0, 0, 0, 0.25, 2.4000015, 2, -0.21999931, 0.52, 0.53, 0.55, 1)
+boxes = PackedFloat32Array(0.12, 0, 0, 0, 4.2, 0, 0, 0, 0.12, -4.790001, 0.099999905, -0.29000092, 0.52, 0.53, 0.55, 1, 0.1, 0, 0, 0, 2.2, 0, 0, 0, 0.1, -2.4000015, 1.0999999, -0.26000023, 0.52, 0.53, 0.55, 1, 0.1, 0, 0, 0, 2.2, 0, 0, 0, 0.1, 2.4000015, 1.0999999, -0.26000023, 0.52, 0.53, 0.55, 1, 0.12, 0, 0, 0, 4.2, 0, 0, 0, 0.12, 4.790001, 0.099999905, -0.29000092, 0.52, 0.53, 0.55, 1, 4.8, 0, 0, 0, 0.08, 0, 0, 0, 0.25, -2.4000015, 2, -0.21999931, 0.52, 0.53, 0.55, 1, 4.8, 0, 0, 0, 0.08, 0, 0, 0, 0.25, 2.4000015, 2, -0.21999931, 0.52, 0.53, 0.55, 1)
 
 [node name="Signs" type="Node3D" parent="Dressing" unique_id=906233411]
 

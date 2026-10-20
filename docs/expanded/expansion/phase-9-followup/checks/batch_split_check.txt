@@ -1,0 +1,2 @@
+Every batched box outside Expansion, as world transform + colour + layer, sorted, before and after fixes_x7.gd:
+before 1769 boxes, after 1769 boxes, identical: true

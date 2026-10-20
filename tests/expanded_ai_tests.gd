@@ -164,7 +164,8 @@ func _check_patrols() -> void:
 	var connector: Node3D = _level.get_node("Guards/GuardConnector")
 	var c: Dictionary = log[connector]
 	_expect(c.ymax > U - 0.2 and c.ymin < 0.2, "GuardConnector should patrol both floors (y %.2f…%.2f)." % [c.ymin, c.ymax])
-	_expect(respawns.size() == Layout.CHECKPOINTS.size(), "Expected %d checkpoints." % Layout.CHECKPOINTS.size())
+	# The level's three, plus the expansion's maintenance bay (Phase 9 follow-up).
+	_expect(respawns.size() == Layout.CHECKPOINTS.size() + Expansion.CHECKPOINTS.size(), "Expected %d checkpoints." % (Layout.CHECKPOINTS.size() + Expansion.CHECKPOINTS.size()))
 	for name in respawns:
 		_expect(respawns[name] == 0, "The %s checkpoint's respawn point was in a guard's view %d time(s) during the patrols." % [name, respawns[name]])
 	print("  [expanded-ai] checkpoints: respawn points %s never in a guard's view during the run" % ", ".join(respawns.keys()))

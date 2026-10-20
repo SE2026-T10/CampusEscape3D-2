@@ -12,6 +12,11 @@ extends RefCounted
 ##      Dressing; every box is a floor decal, above head height, or off the
 ##      navmesh (nothing in walkable space); none is within 0.6 m of anything
 ##      the player uses or hides in; the new signs are built.
+##   D. Follow-up (approved fixes): the pump's wrong setting plays its stall
+##      bang, not the buzz; the tunnel niche and the balcony nook are hiding
+##      spots the player can walk into; the maintenance bay checkpoint saves
+##      when walked onto and respawns there; the Staff Offices respawn is in
+##      Office 1 facing its door; no mesh is reached by more than 8 lights.
 ##   C. Readability: the storm drain's state label no longer overlaps the
 ##      wall's STORM DRAIN · SEALED sign.
 
@@ -40,6 +45,7 @@ func run(host: Node) -> Array[String]:
 	await _check_sounds()
 	_check_decor()
 	_check_drain_label()
+	await _check_follow_up()
 	await _load(TUTORIAL)
 	_expect(_level.find_children("*", "MechanismAudio", true, false).is_empty(), "The tutorial should have no MechanismAudio.")
 	await _unload()
@@ -173,6 +179,76 @@ func _check_decor() -> void:
 			if label and label.text == s.text:
 				found = true
 		_expect(found, "Sign %s missing." % s.text)
+
+
+# --- D. Follow-up --------------------------------------------------------------------------
+
+func _check_follow_up() -> void:
+	# The pump: no buzz on a stall (its bang plays through the caption).
+	var pump := _level.get_node_or_null(M + X.MISSION.pump.name) as Puzzle
+	_expect(pump != null and _audio != null, "Pump or MechanismAudio missing.")
+	if pump and _audio:
+		_audio.played.clear()
+		pump.feedback.emit("The pump stalls with a loud bang: wrong valve setting.", false)
+		NoiseSystem.find(_level).emit_noise(pump.global_position, NoiseEvent.Type.INTERACTION, "environment", 1.0, 12.0, -1.0, "Pump stalls with a bang")
+		await _frames(2)
+		_expect(_audio.played.has("pump_stall") and not _audio.played.has("puzzle_wrong"),
+			"A pump stall should play pump_stall only (played %s)." % [_audio.played])
+	# The new hiding spots: built, and walkable to from the entrance.
+	var map: RID = _level.get_world_3d().navigation_map
+	for name in ["Tunnelniche", "Balconynook"]:
+		var spot := _level.get_node_or_null("Expansion/Gameplay/HidingSpots/" + name) as HidingSpot
+		_expect(spot != null, "Hiding spot %s missing." % name)
+		if spot:
+			var floor_at := spot.global_position - Vector3(0, 0.6, 0)
+			var path := NavigationServer3D.map_get_path(map, Layout.SPAWN, floor_at, true)
+			_expect(path.size() > 0 and Vector2(path[-1].x - floor_at.x, path[-1].z - floor_at.z).length() < 0.5,
+				"Hiding spot %s should be walkable from the entrance." % name)
+	# The maintenance bay checkpoint: walking onto its pad saves; its respawn is on the navmesh.
+	var cp := _level.get_node_or_null("Expansion/Gameplay/Checkpoints/" + X.CHECKPOINTS[0].node) as Checkpoint
+	var manager := CheckpointManager.find(_level)
+	_expect(cp != null and cp.checkpoint_name == X.CHECKPOINTS[0].name, "Maintenance bay checkpoint missing.")
+	if cp and manager:
+		_player.global_position = X.CHECKPOINTS[0].pos + Vector3(0, 0.05, 0)
+		_player.velocity = Vector3.ZERO
+		await _frames(6)
+		_expect(manager.active == cp, "Walking onto the maintenance bay pad should activate it (active: %s)." % [manager.active.checkpoint_name if manager.active else "none"])
+		var spawn := cp.get_spawn_transform()
+		var c := NavigationServer3D.map_get_closest_point(map, spawn.origin)
+		_expect(Vector2(c.x - spawn.origin.x, c.z - spawn.origin.z).length() < 0.1, "The bay respawn should be on the navmesh.")
+		_expect(spawn.basis.z.dot(Vector3(0, 0, 1)) > 0.9, "The bay respawn should face the door (north).")
+	# Staff Offices: the pad by the card desk, the respawn in Office 1 facing its door.
+	var staff := _level.get_node("Gameplay/CheckpointStaffOffices") as Checkpoint
+	var s := staff.get_spawn_transform()
+	_expect(s.origin.x > -6.0 and s.origin.x < 0.0 and s.origin.z < -24.0 and s.basis.z.dot(Vector3(0, 0, 1)) > 0.9,
+		"The Staff Offices respawn should be at the back of Office 1, facing the door (at %s)." % s.origin)
+	# Lights per mesh: at most 8 omni lights reach any mesh (range cube and cull mask, as Godot pairs them).
+	var lights := []
+	for l in _level.find_children("*", "OmniLight3D", true, false):
+		var o := l as OmniLight3D
+		if o.is_visible_in_tree():
+			lights.append([AABB(o.global_position - Vector3.ONE * o.omni_range, Vector3.ONE * o.omni_range * 2.0), o.light_cull_mask])
+	var over: Array[String] = []
+	for gi in _level.find_children("*", "GeometryInstance3D", true, false):
+		var box := AABB()
+		if gi is BatchedBoxes:
+			var b := gi as BatchedBoxes
+			if b.box_count() == 0:
+				continue
+			box = b.global_transform * (b.box_transform(0) * AABB(-Vector3.ONE / 2.0, Vector3.ONE))
+			for i in b.box_count():
+				box = box.merge(b.global_transform * (b.box_transform(i) * AABB(-Vector3.ONE / 2.0, Vector3.ONE)))
+		elif gi is MeshInstance3D and (gi as MeshInstance3D).mesh and gi.is_visible_in_tree():
+			box = gi.global_transform * (gi as MeshInstance3D).get_aabb()
+		else:
+			continue
+		var n := 0
+		for l in lights:
+			if (l[1] & gi.layers) != 0 and (l[0] as AABB).intersects(box):
+				n += 1
+		if n > 8:
+			over.append("%s (%d)" % [_level.get_path_to(gi), n])
+	_expect(over.is_empty(), "Meshes reached by more than 8 lights: %s" % ", ".join(over))
 
 
 # --- C. Readability --------------------------------------------------------------------------

@@ -394,3 +394,18 @@ No geometry, navmesh, guard placement or route changed.
 **Scene changes:** `scenes/level/expanded_library_expansion.tscn` rebuilt by `build_expansion.gd` (Batched nodes under Geometry and Dressing groups, Dressing/Decor, five signs, Gameplay/MechanismAudio). `expanded_library.tscn` and the navmesh unchanged (collision fingerprint identical; a rebake gives a byte-identical navmesh).
 
 **Evidence:** [`expansion/phase-9/`](expansion/phase-9/); report [`expansion/phase-9-polish-performance.md`](expansion/phase-9-polish-performance.md).
+
+## Expansion — Phase 9 follow-up fixes (2026-10-19, approved by the owner)
+
+**What:** fixes for the known issues the owner approved (items 2, 4, 7c+a, 8a, 9a, 11, 14b, 15 of the Phase 9 issue list):
+- **P1:** the Staff Offices checkpoint keeps its pad by the card desk, but the respawn moved to the back of Office 1, facing its door (toward the stacks staff door G1b and the back stair S3); a hiding nook (carrel panel and low bench) on the staff balcony against the staff wing's wall, west of G1a.
+- **P2:** a checkpoint pad inside the maintenance bay's door.
+- **P3:** a niche with a hiding spot in the tunnel's north wall beside the west crate.
+- **Lights per mesh:** two ground-floor batches split (no piece over 8 lights; every box kept); four upper-floor props moved to the upper floor's render layer. 0 meshes over 8 lights (was 7).
+- **Decor:** the pump room risers and the two floor-to-ceiling electrical conduits moved into corners and slimmed to 0.12 m.
+- **Sound:** a wrong pump setting plays only the stall bang (no buzz).
+- **Tests:** the tutorial guard-timing test waits one frame after changing the time scale (the flake's cause); `run_tests.sh` gives the suite 2400 s.
+
+**Scene changes:** `expanded_library.tscn` patched by `tools/expanded/expansion/fixes_x7.gd` (batches, prop layers, Staff Offices respawn; collision and guards unchanged); `expanded_library_expansion.tscn` rebuilt (niche walls and floor, nook cover, two hiding spots, the bay checkpoint); navmesh rebaked (1031 polygons, was 1020).
+
+**Evidence:** report [`expansion/phase-9-followup-fixes.md`](expansion/phase-9-followup-fixes.md).

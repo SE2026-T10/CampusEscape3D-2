@@ -1,0 +1,40 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+RUN route=main profile=careful explore=false seed=1: NOT completed in 45:00, captures 37, noticed 59, investigated 2, chased 37, waited 352 s, forced 0, state checks 37, violations 0, STALLED
+    caught at 2:23 ((37.9, -4.0, -20.5)) by GuardBasement during notice
+    caught at 3:48 ((2.7, 0.0, 18.4)) by GuardLobby during notice
+    caught at 4:36 ((0.4, -0.0, 16.8)) by GuardLobby during notice
+    caught at 5:25 ((0.4, 0.0, 16.8)) by GuardLobby during notice
+    caught at 6:13 ((0.4, 0.0, 16.8)) by GuardLobby during notice
+    caught at 7:02 ((0.4, 0.0, 16.8)) by GuardLobby during notice
+    caught at 7:50 ((0.4, -0.0, 16.8)) by GuardLobby during notice
+    caught at 8:39 ((0.4, -0.0, 16.8)) by GuardLobby during notice
+    caught at 10:10 ((1.2, 0.0, 11.1)) by GuardLobby during lobby
+    caught at 10:58 ((0.4, -0.0, 16.8)) by GuardLobby during notice
+    caught at 12:29 ((1.0, 0.0, 12.0)) by GuardLobby during lobby
+    caught at 13:17 ((0.4, -0.0, 16.8)) by GuardLobby during notice
+    caught at 14:48 ((1.1, 0.0, 11.4)) by GuardLobby during lobby
+    caught at 15:36 ((0.4, 0.0, 16.8)) by GuardLobby during notice
+    caught at 16:54 ((0.5, -0.0, 16.8)) by GuardLobby during notice
+    caught at 18:24 ((1.0, -0.0, 12.0)) by GuardLobby during lobby
+    caught at 19:13 ((0.4, -0.0, 16.8)) by GuardLobby during notice
+    caught at 20:43 ((1.0, 0.0, 12.1)) by GuardLobby during lobby
+    caught at 21:32 ((0.4, -0.0, 16.8)) by GuardLobby during notice
+    caught at 23:03 ((1.0, -0.0, 12.0)) by GuardLobby during lobby
+    caught at 23:51 ((0.4, 0.0, 16.8)) by GuardLobby during notice
+    caught at 25:22 ((1.1, 0.0, 11.4)) by GuardLobby during lobby
+    caught at 26:10 ((0.4, 0.0, 16.8)) by GuardLobby during notice
+    caught at 27:41 ((1.1, 0.0, 11.3)) by GuardLobby during lobby
+    caught at 28:29 ((0.4, 0.0, 16.8)) by GuardLobby during notice
+    caught at 30:00 ((1.2, 0.0, 11.1)) by GuardLobby during lobby
+    caught at 30:48 ((0.4, -0.0, 16.8)) by GuardLobby during notice
+    caught at 32:19 ((1.0, -0.0, 12.0)) by GuardLobby during lobby
+    caught at 33:08 ((0.4, -0.0, 16.8)) by GuardLobby during notice
+    caught at 34:38 ((1.1, 0.0, 11.3)) by GuardLobby during lobby
+    caught at 36:09 ((1.1, 0.0, 11.4)) by GuardLobby during lobby
+    caught at 37:40 ((1.1, 0.0, 11.4)) by GuardLobby during lobby
+    caught at 38:28 ((0.4, 0.0, 16.8)) by GuardLobby during notice
+    caught at 39:59 ((1.1, 0.0, 11.3)) by GuardLobby during lobby
+    caught at 41:30 ((1.1, 0.0, 11.4)) by GuardLobby during lobby
+    caught at 43:00 ((1.1, 0.0, 11.4)) by GuardLobby during lobby
+    caught at 44:31 ((1.1, 0.0, 11.4)) by GuardLobby during lobby
