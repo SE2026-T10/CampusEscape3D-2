@@ -1,31 +1,32 @@
 # Campus Escape 3D
 
-[![Build](https://github.com/SE2026-T10/CampusEscape3D-2/actions/workflows/build.yml/badge.svg?branch=Development)](https://github.com/SE2026-T10/CampusEscape3D-2/actions/workflows/build.yml)
+[![Kiểm thử và đóng gói](https://github.com/SE2026-T10/CampusEscape3D-2/actions/workflows/build.yml/badge.svg?branch=Development)](https://github.com/SE2026-T10/CampusEscape3D-2/actions/workflows/build.yml)
 
-## Project description
+## Giới thiệu dự án
 
-This branch organizes development around independent maps. Shared player/NPC/UI code is in `shared/`, optional mechanics in `features/`, and each map owns its scenes, scripts, resources, tests and tools under `maps/<map_id>/`. See [Working on a map](docs/architecture/MAP_LAYOUT.md) for the current layout, HUD extension interface and test commands. The new bank, museum and intelligence folders are workspaces only; the menu still lists the two playable maps.
+Dự án được tổ chức theo các bản đồ độc lập. Mã dùng chung cho nhân vật, NPC và giao diện nằm trong `shared/`; các cơ chế tùy chọn nằm trong `features/`. Mỗi bản đồ quản lý cảnh, mã xử lý, tài nguyên, kiểm thử và công cụ của mình trong `maps/<map_id>/`. Xem [Hướng dẫn làm việc theo bản đồ](docs/architecture/MAP_LAYOUT.md) để biết cấu trúc, giao diện mở rộng HUD và lệnh kiểm tra. Các thư mục ngân hàng, bảo tàng và tình báo hiện là khung làm việc; menu vẫn chỉ có hai bản đồ chơi được.
 
-Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university library at night. You sneak in, steal what you came for and get out, past guards who patrol, see, hear, investigate and chase.
+Campus Escape 3D là trò chơi hành động lén lút 3D góc nhìn thứ nhất, sử dụng phong cách đồ họa ít đa giác. Hai bản đồ hiện có lấy bối cảnh thư viện đại học vào ban đêm. Người chơi thâm nhập, lấy vật phẩm mục tiêu rồi trốn thoát, tránh các bảo vệ có khả năng tuần tra, nhìn, nghe, điều tra và truy đuổi.
 
-It has two maps, chosen from the main menu:
-- **Library Tutorial** (the MVP level): one floor, three guards; take an access card from the Restricted Stacks and escape.
-- **Expanded Library**: two floors plus a basement, seven guards, eight mandatory and three optional objectives, and three escape routes. Its completion-time target still needs human playtests.
+Người chơi chọn một trong hai bản đồ từ menu chính:
 
-Built in Godot with GDScript, for Windows desktop. The current version is **1.1.0** (`application/config/version` in `project.godot`).
+- **Library Tutorial** — thư viện hướng dẫn, thuộc phiên bản sản phẩm tối thiểu (MVP): một tầng, ba bảo vệ; lấy thẻ ra vào trong khu Restricted Stacks rồi trốn thoát.
+- **Expanded Library** — thư viện mở rộng: hai tầng và một tầng hầm, bảy bảo vệ, tám nhiệm vụ bắt buộc, ba nhiệm vụ tùy chọn và ba đường thoát. Mục tiêu về thời gian hoàn thành vẫn cần được xác nhận bằng người chơi thử.
 
-## Cấu trúc thư mục và cách tổ chức file
+Trò chơi được phát triển bằng Godot và GDScript, dành cho máy tính Windows. Phiên bản hiện tại là **1.1.0**, khai báo tại `application/config/version` trong `project.godot`. Tên bản đồ, nhãn giao diện và định danh kỹ thuật được giữ nguyên để đối chiếu với trò chơi và mã nguồn.
 
-Project được tổ chức để 5 thành viên có thể phát triển 5 map độc lập trong cùng một game. Người chơi chọn map từ menu; các map có thể mang bối cảnh khác nhau như thư viện, ngân hàng, bảo tàng hoặc cơ sở tình báo. AI NPC, điều khiển nhân vật, tương tác và HUD dùng chung; bố cục, nhiệm vụ và cơ chế đặc trưng nằm trong thư mục của từng map.
+## Cấu trúc thư mục và cách tổ chức tệp
+
+Dự án được tổ chức để 5 thành viên có thể phát triển 5 bản đồ (map) độc lập trong cùng một trò chơi. Người chơi chọn bản đồ từ menu; mỗi bản đồ có thể mang bối cảnh khác nhau như thư viện, ngân hàng, bảo tàng hoặc cơ sở tình báo. Trí tuệ nhân tạo (AI) của NPC, điều khiển nhân vật, tương tác và giao diện trong lúc chơi (HUD) dùng chung; bố cục, nhiệm vụ và cơ chế đặc trưng nằm trong thư mục của từng bản đồ.
 
 ### Cây thư mục chính
 
 ```text
 CampusEscape3D-2/
-├── shared/                         # Thành phần dùng chung giữa các map
-│   ├── scenes/                     # Scene player, NPC, props và giao diện
-│   ├── scripts/                    # Điều khiển, AI, tương tác, HUD, game flow
-│   └── assets/                     # Âm thanh, model, texture, vật liệu dùng chung
+├── shared/                         # Thành phần dùng chung giữa các bản đồ
+│   ├── scenes/                     # Cảnh nhân vật, NPC, đồ vật và giao diện
+│   ├── scripts/                    # Điều khiển, AI, tương tác, HUD, luồng trò chơi
+│   └── assets/                     # Âm thanh, mô hình, ảnh bề mặt, vật liệu chung
 ├── features/                       # Các cơ chế có thể lựa chọn sử dụng
 │   ├── inventory/                  # Vật phẩm, nhặt và sử dụng đồ
 │   ├── stamina/                    # Thể lực khi chạy
@@ -33,577 +34,602 @@ CampusEscape3D-2/
 │   ├── checkpoints/                # Điểm hồi sinh và khôi phục trạng thái
 │   ├── puzzles/                    # Mật mã, nguồn điện và cơ chế giải đố
 │   └── security/                   # Camera và các thiết bị an ninh
-├── maps/                           # Nội dung riêng của từng map
-│   ├── tutorial/                   # Tutorial hiện có, dùng để tham khảo và test
-│   ├── library/                    # Map thư viện mở rộng hiện có
-│   ├── bank/                       # Khung ví dụ cho map ngân hàng
-│   ├── museum/                     # Khung ví dụ cho map bảo tàng
-│   └── intelligence/               # Khung cho map cơ sở tình báo
-├── templates/map/                  # Khung thư mục để bắt đầu một map mới
-├── tests/                          # Test dùng chung và runner tích hợp các map
-├── tools/                          # Công cụ CI, benchmark, kiểm tra chuyển map
-├── docs/                           # Kiến trúc, hướng dẫn build, báo cáo chung
-├── .github/workflows/              # Workflow kiểm thử và build tự động
-├── project.godot                   # Cấu hình project Godot
-└── export_presets.cfg              # Cấu hình xuất bản game
+├── maps/                           # Nội dung riêng của từng bản đồ
+│   ├── tutorial/                   # Bản đồ hướng dẫn, dùng để tham khảo và kiểm thử
+│   ├── library/                    # Bản đồ thư viện mở rộng hiện có
+│   ├── bank/                       # Khung ví dụ cho bản đồ ngân hàng
+│   ├── museum/                     # Khung ví dụ cho bản đồ bảo tàng
+│   └── intelligence/               # Khung cho bản đồ cơ sở tình báo
+├── templates/map/                  # Khung thư mục để bắt đầu bản đồ mới
+├── tests/                          # Kiểm thử chung và bộ chạy kiểm thử các bản đồ
+├── tools/                          # Công cụ CI, đo hiệu năng, kiểm tra chuyển bản đồ
+├── docs/                           # Kiến trúc, hướng dẫn đóng gói, báo cáo chung
+├── .github/workflows/              # Quy trình kiểm thử và đóng gói tự động
+├── project.godot                   # Cấu hình dự án Godot
+└── export_presets.cfg              # Cấu hình xuất bản trò chơi
 ```
 
-Hiện chỉ có **Library Tutorial** và **Expanded Library** là hai map chơi được trong menu. `bank/` và `museum/` là khung ví dụ, chưa phải phân công chính thức; `intelligence/` mới chuẩn bị cấu trúc và ý tưởng. Các map còn lại được thêm khi nhóm chốt bối cảnh. Tutorial được giữ làm mẫu và kiểm thử, không mặc định tính là một trong năm map của nhóm.
+Hiện chỉ có **Library Tutorial** và **Expanded Library** là hai bản đồ chơi được trong menu. `bank/` và `museum/` là khung ví dụ, chưa phải phân công chính thức; `intelligence/` mới chuẩn bị cấu trúc và ý tưởng. Các bản đồ còn lại được thêm khi nhóm chốt bối cảnh. Bản đồ hướng dẫn được giữ làm mẫu và kiểm thử, không mặc định tính là một trong năm bản đồ của nhóm.
 
 ### Phân chia nội dung dùng chung và nội dung riêng
 
 | Vị trí | Nội dung đặt tại đây | Ví dụ |
 |---|---|---|
-| `shared/` | Thành phần được nhiều map sử dụng | Player, guard AI, tương tác bằng phím E, HUD, menu, âm thanh chung |
-| `features/` | Cơ chế tái sử dụng mà map lựa chọn và cấu hình | Inventory, stamina, nhiệm vụ, checkpoint, puzzle, camera |
-| `maps/<map_id>/` | Tài nguyên và logic đặc trưng của một map | Bố cục phòng, tuyến tuần tra, navmesh, nhiệm vụ, vật phẩm và cơ chế riêng |
-| `tests/`, `tools/`, `docs/` ở gốc | Kiểm thử, công cụ và tài liệu áp dụng cho toàn project | Runner test, kiểm tra chuyển map, CI, hướng dẫn build |
+| `shared/` | Thành phần được nhiều bản đồ sử dụng | Nhân vật, AI bảo vệ, tương tác bằng phím E, HUD, menu, âm thanh chung |
+| `features/` | Cơ chế tái sử dụng mà bản đồ lựa chọn và cấu hình | Túi đồ, thể lực, nhiệm vụ, điểm hồi sinh, giải đố, camera |
+| `maps/<map_id>/` | Tài nguyên và mã xử lý đặc trưng của một bản đồ | Bố cục phòng, tuyến tuần tra, lưới điều hướng, nhiệm vụ, vật phẩm và cơ chế riêng |
+| `tests/`, `tools/`, `docs/` ở gốc | Kiểm thử, công cụ và tài liệu áp dụng cho toàn dự án | Bộ chạy kiểm thử, kiểm tra chuyển bản đồ, CI, hướng dẫn đóng gói |
 
-Ví dụ: logic đường thoát, badge reader và bến hàng của thư viện nằm trong `maps/library/scripts/`; dữ liệu tuần tra được bố trí trong scene của map, còn AI xử lý tuần tra nằm trong `shared/scripts/npc/`. Map mới sử dụng scene player/NPC chung thay vì sao chép thành một bộ điều khiển và AI khác.
+Ví dụ: mã xử lý đường thoát, đầu đọc thẻ và bến hàng của thư viện nằm trong `maps/library/scripts/`; dữ liệu tuần tra được bố trí trong cảnh (scene) của bản đồ, còn AI xử lý tuần tra nằm trong `shared/scripts/npc/`. Bản đồ mới sử dụng cảnh nhân vật/NPC chung thay vì sao chép thành một bộ điều khiển và AI khác.
 
-`features/` hiện là các cơ chế bật/tắt hoặc cấu hình theo map, chưa phải các plugin có thể xóa tùy ý khỏi project. Các dữ liệu nhiệm vụ, vật phẩm và thông báo mặc định cần được cấu hình phù hợp với map mới.
+`features/` hiện là các cơ chế bật/tắt hoặc cấu hình theo bản đồ, chưa phải các phần mở rộng có thể xóa tùy ý khỏi dự án. Các dữ liệu nhiệm vụ, vật phẩm và thông báo mặc định cần được cấu hình phù hợp với bản đồ mới.
 
-### Cấu trúc bên trong một map
+### Cấu trúc bên trong một bản đồ
 
-Mỗi map có cùng khung thư mục `maps/<map_id>/`:
+Mỗi bản đồ có cùng khung thư mục `maps/<map_id>/`:
 
-| Thư mục | File và nội dung |
+| Thư mục | Tệp và nội dung |
 |---|---|
-| `scenes/` | Scene chính của map và các scene con riêng (`.tscn`) |
-| `scripts/` | Logic nhiệm vụ, cơ chế và điều phối riêng (`.gd` cùng `.gd.uid`) |
-| `assets/` | Model, ảnh, vật liệu, âm thanh chỉ dùng trong map |
-| `resources/` | Navmesh và dữ liệu cấu hình của map (`.tres`...) |
-| `tests/` | Kiểm thử hành vi và điều kiện hoàn thành của map |
-| `tools/` | Công cụ dựng map, bake navmesh, chụp ảnh hoặc đo đạc riêng |
+| `scenes/` | Cảnh chính của bản đồ và các cảnh con riêng (`.tscn`) |
+| `scripts/` | Mã xử lý nhiệm vụ, cơ chế và điều phối riêng (`.gd` cùng `.gd.uid`) |
+| `assets/` | Mô hình, ảnh, vật liệu, âm thanh chỉ dùng trong bản đồ |
+| `resources/` | Lưới điều hướng và dữ liệu cấu hình của bản đồ (`.tres`...) |
+| `tests/` | Kiểm thử hành vi và điều kiện hoàn thành của bản đồ |
+| `tools/` | Công cụ dựng bản đồ, tạo lưới điều hướng, chụp ảnh hoặc đo đạc riêng |
 | `docs/` | Cốt truyện, thiết kế, ảnh và kết quả kiểm thử; có `.gdignore` để Godot bỏ qua |
 
-Mỗi map có một scene chính làm điểm vào. `expanded_library_expansion.tscn` là scene con của map thư viện, không phải một map độc lập. Khi rời map, các node hệ thống thuộc scene đó được giải phóng để lần chọn map tiếp theo bắt đầu riêng biệt.
+Mỗi bản đồ có một cảnh chính làm điểm vào. `expanded_library_expansion.tscn` là cảnh con của bản đồ thư viện, không phải một bản đồ độc lập. Khi rời bản đồ, các nút (node) hệ thống thuộc cảnh đó được giải phóng để lần chọn bản đồ tiếp theo bắt đầu riêng biệt.
 
-### Bắt đầu làm một map mới
+### Bắt đầu làm một bản đồ mới
 
-1. Sao chép nội dung `templates/map/` sang `maps/<map_id>/`, bổ sung README mô tả bối cảnh, nhiệm vụ và phạm vi. Không sao chép `templates/.gdignore` vào gốc map mới; giữ `.gdignore` trong `docs/`.
-2. Tạo scene chính trong `scenes/`, bố trí môi trường, collision, navmesh và tuyến tuần tra. Sử dụng `shared/scenes/player/player.tscn` và `shared/scenes/npc/guard.tscn` cho nhân vật và NPC.
-3. Thêm các hệ thống cần dùng từ `features/`, cấu hình mục tiêu và điều kiện thắng/thua của map. Logic đặc trưng đặt trong `scripts/`. Nếu cần trạng thái HUD riêng, triển khai `MapHudProvider` để cung cấp dữ liệu cho HUD chung.
-4. Khi scene chơi được, đăng ký `{id, title, scene, description}` trong [`shared/scripts/game/level_catalog.gd`](shared/scripts/game/level_catalog.gd) để menu hiển thị map.
-5. Viết test trong `maps/<map_id>/tests/` và đăng ký suite vào [`tests/test_scene.gd`](tests/test_scene.gd). Chỉ đặt file trong thư mục chưa làm test hành vi tự chạy. Kiểm tra thêm việc restart, thoát về menu và chuyển sang map khác.
+1. Sao chép nội dung `templates/map/` sang `maps/<map_id>/`, bổ sung README mô tả bối cảnh, nhiệm vụ và phạm vi. Không sao chép `templates/.gdignore` vào gốc bản đồ mới; giữ `.gdignore` trong `docs/`.
+2. Tạo cảnh chính trong `scenes/`, bố trí môi trường, va chạm, lưới điều hướng và tuyến tuần tra. Sử dụng `shared/scenes/player/player.tscn` và `shared/scenes/npc/guard.tscn` cho nhân vật và NPC.
+3. Thêm các hệ thống cần dùng từ `features/`, cấu hình mục tiêu và điều kiện thắng/thua của bản đồ. Mã xử lý đặc trưng đặt trong `scripts/`. Nếu cần trạng thái HUD riêng, triển khai `MapHudProvider` để cung cấp dữ liệu cho HUD chung.
+4. Khi cảnh chơi được, đăng ký `{id, title, scene, description}` trong [`shared/scripts/game/level_catalog.gd`](shared/scripts/game/level_catalog.gd) để menu hiển thị bản đồ.
+5. Viết kiểm thử trong `maps/<map_id>/tests/` và đăng ký bộ kiểm thử vào [`tests/test_scene.gd`](tests/test_scene.gd). Chỉ đặt tệp trong thư mục chưa làm kiểm thử hành vi tự chạy. Kiểm tra thêm việc chơi lại, thoát về menu và chuyển sang bản đồ khác.
 
-Chi tiết về cấu hình nhiệm vụ, giao diện HUD và lệnh kiểm tra: [Hướng dẫn làm việc theo map](docs/architecture/MAP_LAYOUT.md). Kết quả kiểm tra lần tổ chức lại: [VALIDATION.md](docs/architecture/VALIDATION.md).
+Chi tiết về cấu hình nhiệm vụ, giao diện HUD và lệnh kiểm tra: [Hướng dẫn làm việc theo bản đồ](docs/architecture/MAP_LAYOUT.md). Kết quả kiểm tra lần tổ chức lại: [VALIDATION.md](docs/architecture/VALIDATION.md).
 
-## Godot version
+## Phiên bản Godot
 
-- **Engine:** Godot **4.7.2 Stable**, official build (`4.7.2.stable.official.ed1daf0bf`). Other versions are not supported. The test suite and the build pipeline both check the exact version.
-- **Language:** GDScript.
-- **Renderer:** Compatibility (OpenGL).
-- **Target:** Windows desktop (x86_64).
+- **Bộ máy phát triển:** Godot **4.7.2 Stable**, bản chính thức (`4.7.2.stable.official.ed1daf0bf`). Các phiên bản khác chưa được hỗ trợ. Bộ kiểm thử và quy trình đóng gói đều kiểm tra đúng phiên bản này.
+- **Ngôn ngữ lập trình:** GDScript.
+- **Bộ kết xuất:** Compatibility (OpenGL).
+- **Nền tảng đích:** máy tính Windows (x86_64).
 
-## Installation
+## Cài đặt
 
-**To play:** download `CampusEscape3D-<version>-windows-x64.zip`, either from the repository's GitHub Releases or from a workflow run's artifacts (see Automated build). Unzip it anywhere and run `CampusEscape3D.exe`; keep `CampusEscape3D.pck` in the same folder. Nothing else needs installing. The executable is not code-signed, so Windows SmartScreen may ask for confirmation the first time.
+**Để chơi:** tải `CampusEscape3D-<version>-windows-x64.zip` từ mục GitHub Releases hoặc tệp kết quả của một lần chạy GitHub Actions, xem phần Đóng gói tự động. Giải nén và chạy `CampusEscape3D.exe`; giữ `CampusEscape3D.pck` cùng thư mục. Không cần cài thêm thành phần khác. Tệp thực thi chưa được ký số nên Windows SmartScreen có thể yêu cầu xác nhận trong lần chạy đầu.
 
-**To develop:**
-1. Install [Godot 4.7.2 Stable](https://godotengine.org/download/archive/4.7.2-stable/).
-2. Clone the repository.
-3. Import `project.godot` in the Godot Project Manager.
+**Để phát triển:**
 
-## How to run
+1. Cài [Godot 4.7.2 Stable](https://godotengine.org/download/archive/4.7.2-stable/).
+2. Sao chép kho mã nguồn về máy bằng `git clone`.
+3. Nhập `project.godot` trong trình quản lý dự án của Godot.
 
-- **From the editor:** open the project and press **F5**. The game starts on the main menu. Choose a map:
-  - **Library Tutorial**: the original level, with its full mission.
-  - **Expanded Library**: the two-floor map (since the 2026 expansion with a basement service network and seven zones), dressed in the tutorial's low-poly library look, seven patrolling guards (one in the basement since the 2026 expansion) and a mission of free exploration with clear prerequisites (since the 2026 expansion): get in; find a staff access card and the tool kit; open the electrical panel, restore the vault's power and crack the vault keypad from clues; take the rare manuscript and escape by one of three routes (since the 2026 expansion), each with its own requirements: the main entrance (it locks behind you; the security master badge and an override at the lobby reader open it), the loading dock (its shutter needs SERVICE EXIT power, the release freed with the tool kit and OPEN), or a hidden maintenance passage in the basement that leads to the storm drain. You escape by walking out; the win screen names your route. Optional puzzles: the pump, a security locker, the archive's back-gate shortcut. Security (since the 2026 expansion): four cameras on a SURVEILLANCE circuit raise the alarm when they spot you (guards come to look, it never ends the run); switches in the electrical room turn the cameras off or give the loading dock shutter SERVICE EXIT power, which reboots the cameras; guards check hiding spots near where they search, and a hiding spot only hides you if nobody saw you get in. Sprinting uses stamina here, and the player carries up to three items (tool kit, staff card, distractions) and keeps a journal of clue documents. The HUD (since the 2026 expansion) shows a WAYS OUT list of the escape routes and requirements you have learned (never ones you have not found), the power circuits once you have seen the switch board, and the last checkpoint; the journal holds only documents and clues.
-- **Settings** (main menu and pause menu, both maps): interface size 90/100/110/125 %, master volume and sound captions (on by default: important sounds such as alarms, guards' footsteps and radios, breaking glass and switches appear as short captions with a direction arrow, bottom left). They are saved in `user://settings.cfg`.
-- **Straight into a level** while developing: open `maps/tutorial/scenes/library_graybox.tscn` or `maps/library/scenes/expanded_library.tscn` and press **F6**.
-- **Exported build:** run `CampusEscape3D.exe`.
+## Chạy trò chơi
 
-## Controls
+- **Từ trình biên tập:** mở dự án và nhấn **F5**. Trò chơi bắt đầu tại menu chính để chọn bản đồ.
+- **Library Tutorial:** bản đồ hướng dẫn ban đầu, có đầy đủ chuỗi nhiệm vụ lấy thẻ và trốn thoát.
+- **Expanded Library:** thư viện hai tầng, thêm mạng lưới bảo trì ở tầng hầm trong bản mở rộng năm 2026, gồm bảy khu vực và bảy bảo vệ. Người chơi tự do khám phá theo các điều kiện nhiệm vụ: tìm thẻ nhân viên và bộ dụng cụ; mở bảng điện, cấp điện cho kho, suy luận mã khóa từ manh mối; lấy bản thảo quý rồi thoát theo một trong ba đường:
+  - **Cửa chính:** khóa lại sau khi đi vào; cần thẻ an ninh tổng và thao tác ghi đè tại đầu đọc ở sảnh.
+  - **Bến hàng:** cửa cuốn cần nguồn điện `SERVICE EXIT`, cơ cấu nhả được gỡ kẹt bằng bộ dụng cụ và lệnh `OPEN`.
+  - **Lối bảo trì bí mật:** nằm ở tầng hầm và dẫn ra cống thoát nước.
 
-| Action | Key |
+  Người chơi đi qua lối thoát để thắng; màn hình kết quả ghi lại đường đã dùng. Các câu đố tùy chọn gồm máy bơm, tủ an ninh và đường tắt qua cổng sau khu lưu trữ. Bốn camera trên mạch `SURVEILLANCE` phát báo động khi phát hiện người chơi, khiến bảo vệ đến kiểm tra. Báo động không kết thúc lượt chơi ngay. Công tắc trong phòng điện điều khiển camera và nguồn điện bến hàng; bật nguồn bến hàng sẽ khởi động lại camera. Bảo vệ kiểm tra các chỗ ẩn gần nơi tìm kiếm; chỗ ẩn chỉ có tác dụng nếu không ai thấy người chơi đi vào. Chạy nhanh tiêu hao thể lực. Người chơi mang tối đa ba vật phẩm và có nhật ký lưu tài liệu, manh mối. HUD hiển thị `WAYS OUT` cho các đường thoát và điều kiện đã khám phá, trạng thái điện sau khi xem bảng công tắc và điểm hồi sinh gần nhất.
+- **Cài đặt (`Settings`):** có trong menu chính và menu tạm dừng của cả hai bản đồ. Hỗ trợ cỡ giao diện 90/100/110/125 %, âm lượng tổng và phụ đề âm thanh. Phụ đề bật mặc định, hiển thị tiếng báo động, bước chân, bộ đàm, kính vỡ và công tắc kèm mũi tên chỉ hướng ở góc dưới trái. Cấu hình lưu tại `user://settings.cfg`.
+- **Chạy thẳng một cảnh khi phát triển:** mở `maps/tutorial/scenes/library_graybox.tscn` hoặc `maps/library/scenes/expanded_library.tscn`, nhấn **F6**.
+- **Bản đã đóng gói:** chạy `CampusEscape3D.exe`.
+
+## Điều khiển
+
+| Thao tác | Phím |
 |---|---|
-| Move | **W A S D** |
-| Sprint | hold **Shift** (Expanded Library: uses stamina, 5 s from full; it refills 1 s after you stop) |
-| Crouch (quieter, harder to see, slower) | hold **C** or **Ctrl** |
-| Use (take the access card, open the exit) | **E** |
-| Select a carried item (Expanded Library) | **1**, **2**, **3** |
-| Use the selected item: throw a distraction (Expanded Library) | **F** |
-| Journal of clue documents (Expanded Library) | **J** |
-| Look | mouse |
-| Pause / resume (shows the cursor and the pause menu) | **Escape** or **P** |
-| Debug view: navigation, guard paths, routes, vision cones, detection, AI state, noise rings and hearing estimates (debug builds) | **F3** |
+| Di chuyển | **W A S D** |
+| Chạy nhanh | Giữ **Shift**; trong Expanded Library tiêu hao thể lực, chạy liên tục được 5 giây khi đầy và bắt đầu hồi sau khi dừng 1 giây |
+| Ngồi thấp: yên tĩnh hơn, khó bị thấy hơn, di chuyển chậm hơn | Giữ **C** hoặc **Ctrl** |
+| Tương tác: lấy thẻ, dùng cửa và đồ vật | **E** |
+| Chọn vật phẩm đang mang trong Expanded Library | **1**, **2**, **3** |
+| Dùng vật phẩm đã chọn, ném đồ gây xao nhãng trong Expanded Library | **F** |
+| Mở nhật ký tài liệu và manh mối trong Expanded Library | **J** |
+| Nhìn xung quanh | Chuột |
+| Tạm dừng/tiếp tục, hiển thị con trỏ và menu tạm dừng | **Escape** hoặc **P** |
+| Hiển thị gỡ lỗi: điều hướng, đường đi, tầm nhìn, phát hiện, trạng thái AI, vùng tiếng động và ước lượng thính giác | **F3**, trong bản có hỗ trợ gỡ lỗi |
 
-There is no jump: the library has no vertical routes, and jumping onto shelves would let the player skip sections or climb out. All keys are defined in **Project Settings → Input Map**.
+Trò chơi không có thao tác nhảy. Các đường lên xuống sử dụng cầu thang; nhảy lên kệ có thể khiến người chơi bỏ qua khu vực hoặc ra ngoài bản đồ. Toàn bộ phím được khai báo tại **Project Settings → Input Map**.
 
-## How to build
+## Đóng gói trò chơi
 
-The full build and release guide is **[`docs/BUILD.md`](docs/BUILD.md)**.
+Hướng dẫn đầy đủ về đóng gói và phát hành nằm trong **[`docs/BUILD.md`](docs/BUILD.md)**.
 
-**From the editor (Windows):**
-1. Install the 4.7.2 export templates: Editor → Manage Export Templates.
-2. Project → Export → **Windows Desktop** → Export Project → `build/CampusEscape3D.exe`, with debug unticked.
-3. Ship `CampusEscape3D.exe` and `CampusEscape3D.pck` together.
+**Từ trình biên tập trên Windows:**
 
-**From a terminal (Linux or WSL), the same scripts the CI runs:**
+1. Cài bộ mẫu xuất bản 4.7.2 tại **Editor → Manage Export Templates**.
+2. Chọn **Project → Export → Windows Desktop → Export Project**, lưu tại `build/CampusEscape3D.exe` và bỏ chọn chế độ gỡ lỗi.
+3. Phân phối `CampusEscape3D.exe` cùng `CampusEscape3D.pck`.
+
+**Từ dòng lệnh trên Linux hoặc WSL, sử dụng đúng các lệnh mà CI chạy:**
 
 ```
-export GODOT="$(bash tools/ci/setup_godot.sh | tail -n 1)"   # downloads Godot 4.7.2 + Windows templates, checksums verified
-bash tools/ci/validate.sh        # exact Godot version, clean import, every script compiles, version numbers
-bash tools/ci/run_tests.sh       # full test suite + game-flow and map-selection runs
+export GODOT="$(bash tools/ci/setup_godot.sh | tail -n 1)"   # Tải Godot 4.7.2 và mẫu Windows, kiểm tra mã băm
+bash tools/ci/validate.sh        # Kiểm tra phiên bản, nhập tài nguyên, biên dịch mã và cấu hình
+bash tools/ci/run_tests.sh       # Toàn bộ kiểm thử, luồng trò chơi và chọn bản đồ
 bash tools/ci/export_windows.sh  # → dist/CampusEscape3D-<version>-windows-x64.zip
 ```
 
-## Automated build
+## Đóng gói tự động
 
-GitHub Actions (`.github/workflows/build.yml`) runs on:
-- every push to `Development`, `main` or `twp`;
-- every pull request into `Development` or `main`;
-- version tags `vX.Y.Z`;
-- a manual **Run workflow**.
+GitHub Actions, khai báo tại `.github/workflows/build.yml`, chạy khi:
 
-| Job | Steps | Result |
+- Đẩy mã lên nhánh `Development`, `main` hoặc `twp`.
+- Tạo yêu cầu hợp nhất mã (PR) vào `Development` hoặc `main`.
+- Đẩy thẻ phiên bản dạng `vX.Y.Z`.
+- Chạy thủ công bằng nút **Run workflow**.
+
+| Công việc | Các bước | Kết quả |
 |---|---|---|
-| Validate and test | set up Godot 4.7.2 (SHA-512 verified) → `validate.sh` → `run_tests.sh` | fails the workflow on any validation error, compile error, failing test or failed flow run |
-| Export Windows x64 | only if the first job passed: set up → validate → `export_windows.sh` | uploads `CampusEscape3D-<version>-windows-x64` as a workflow artifact (30 days) |
-| GitHub Release | tags only, only if the export passed | creates the release with the zipped build and `docs/release-notes/<tag>.md` |
+| Kiểm tra cấu hình và kiểm thử | Cài Godot 4.7.2, xác minh SHA-512 → `validate.sh` → `run_tests.sh` | Dừng quy trình nếu lỗi cấu hình, biên dịch, kiểm thử hoặc luồng trò chơi |
+| Xuất bản Windows x64 | Chỉ chạy khi kiểm thử thành công: cài đặt → kiểm tra → `export_windows.sh` | Tải lên gói `CampusEscape3D-<version>-windows-x64`, giữ trong 30 ngày |
+| Phát hành trên GitHub | Chỉ chạy với thẻ phiên bản và sau khi xuất bản thành công | Tạo bản phát hành kèm gói nén và nội dung `docs/release-notes/<tag>.md` |
 
-**No secrets:** none are used or stored; the release uses the workflow's own `GITHUB_TOKEN`.
+**Thông tin xác thực:** quy trình không dùng hay lưu thông tin bí mật riêng; bước phát hành sử dụng `GITHUB_TOKEN` do GitHub cấp cho lần chạy.
 
-**Release process:** bump the version → write release notes → push to `Development` → green run → tag `vX.Y.Z` → push the tag. Details are in `docs/BUILD.md`. Releases: **`v1.0.0`** (MVP, the tutorial) and **`v1.1.0`** (both maps); neither tag has been pushed yet.
+**Quy trình phát hành:** tăng phiên bản → viết ghi chú phát hành → đẩy lên `Development` → chờ kiểm thử thành công → tạo thẻ `vX.Y.Z` → đẩy thẻ lên GitHub. Chi tiết trong `docs/BUILD.md`. Tài liệu phát hành được chuẩn bị cho **`v1.0.0`** (MVP, bản đồ hướng dẫn) và **`v1.1.0`** (cả hai bản đồ); việc có tài liệu chưa đồng nghĩa bản phát hành đã được công bố.
 
-## Architecture
+## Kiến trúc hệ thống
 
-Each map is one level scene with its gameplay systems as nodes in it; the main menu picks the map from `LevelCatalog`, and leaving a map frees it with all its systems (there are no autoloads). Systems find each other through groups (`StealthDirector.find(node)` and similar), and talk through signals. Presentation code (sound, animation, UI) only listens to the gameplay code and never changes it.
+Mỗi bản đồ có một cảnh chính, chứa các hệ thống trò chơi dưới dạng nút. Menu chọn bản đồ theo `LevelCatalog`. Khi rời bản đồ, cảnh cùng các hệ thống của nó được giải phóng; dự án không dùng hệ thống tự nạp toàn cục (autoload). Các hệ thống tìm nhau qua nhóm, chẳng hạn `StealthDirector.find(node)`, và trao đổi qua tín hiệu. Phần trình bày như âm thanh, hoạt ảnh và giao diện lắng nghe sự kiện từ logic trò chơi.
 
 ```
-shared/scenes/ui/main_menu.tscn                 main scene: one button per map (LevelCatalog) / Quit
-maps/library/scenes/expanded_library.tscn       the Expanded Library (same runtime and mission systems; built and dressed by maps/library/tools/)
-└── Expansion (expanded_library_expansion.tscn)   the 2026 expansion: basement / service network (zone G), electrical room; built by maps/library/tools/expansion/ (the v4 builder is frozen)
-maps/tutorial/scenes/library_graybox.tscn        the Library Tutorial
-├── NavigationRegion3D (+ library_navmesh.tres)   rooms, walls, shelves, furniture, carrels (HidingSpot)
-├── Player (shared/scenes/player/player.tscn)   FirstPersonPlayer + PlayerNoise + PlayerInteractor + PlayerFeedback + PlayerStamina + PlayerInventory (the last two off unless the level sets use_stamina / use_inventory: the Expanded Library does)
-├── Guards                               PatrolRoute/PatrolPoint markers + Guard instances (shared/scenes/npc/guard.tscn)
-├── Gameplay                             ObjectiveManager, triggers, AccessCard, ExitDoor, CheckpointManager, Checkpoints
-│                                        (Expanded Library: also AccessDoor card / one-way doors)
-├── StealthDirector                      overall stealth status, catching, level reset
-├── NoiseSystem                          noise events → guards' hearing
-├── GameFlow                             game state PLAYING / CAUGHT / PAUSED / WIN, pause, restart, scene changes
-├── StealthHud, ObjectiveHud, GameMenus  player-facing UI
-├── AudioDirector, Ambience              music, stings, UI sounds, room tone, positional ambience
-├── Dressing                             decoration only (no collision): signs, books, lights, props
-└── NavigationDebug, DetectionDebugHud   F3 debug overlays (removed from release builds)
+shared/scenes/ui/main_menu.tscn                 Cảnh menu: một nút cho mỗi bản đồ trong LevelCatalog và nút thoát
+maps/library/scenes/expanded_library.tscn       Thư viện mở rộng; công cụ dựng và trang trí nằm trong maps/library/tools/
+└── Expansion (expanded_library_expansion.tscn) Phần mở rộng năm 2026: tầng hầm, mạng bảo trì khu G, phòng điện
+                                               Công cụ tại maps/library/tools/expansion/; bộ dựng v4 được giữ làm mốc
+maps/tutorial/scenes/library_graybox.tscn       Bản đồ hướng dẫn
+├── NavigationRegion3D (+ library_navmesh.tres) Phòng, tường, kệ, bàn ghế và chỗ ẩn HidingSpot
+├── Player (shared/scenes/player/player.tscn)   FirstPersonPlayer, PlayerNoise, PlayerInteractor, PlayerFeedback
+│                                              PlayerStamina/PlayerInventory bật qua use_stamina/use_inventory
+├── Guards                                     Các điểm PatrolRoute/PatrolPoint và cảnh shared/scenes/npc/guard.tscn
+├── Gameplay                                   ObjectiveManager, vùng kích hoạt, AccessCard, ExitDoor, CheckpointManager
+│                                              Thư viện mở rộng có thêm cửa thẻ và cửa một chiều AccessDoor
+├── StealthDirector                            Trạng thái lén lút, bắt người chơi và đặt lại bản đồ
+├── NoiseSystem                                Sự kiện tiếng động gửi tới thính giác bảo vệ
+├── GameFlow                                   PLAYING / CAUGHT / PAUSED / WIN; tạm dừng, chơi lại, chuyển cảnh
+├── StealthHud, ObjectiveHud, GameMenus          Giao diện cho người chơi
+├── AudioDirector, Ambience                     Nhạc, âm hiệu, âm thanh giao diện và không gian
+├── Dressing                                   Trang trí không va chạm: biển, sách, đèn, đồ vật
+└── NavigationDebug, DetectionDebugHud          Lớp hiển thị gỡ lỗi F3, loại khỏi bản phát hành
 ```
 
-| Folder | Contents |
+| Thư mục | Nội dung |
 |---|---|
-| `shared/scripts/player/` | `FirstPersonPlayer` (movement, crouch, look, respawn), `PlayerNoise` (footstep noise), `PlayerInteractor` (E-key ray) |
-| `shared/scripts/npc/` | `Guard` (navigation, movement, perception snapshot), `GuardVision`, `GuardHearing`, `PatrolRoute`, `PatrolPoint` |
-| `shared/scripts/npc/ai/` | `GuardStateMachine` with `PatrolState`, `InvestigateState`, `ChaseState`; `GuardPerception` |
+| `shared/scripts/player/` | `FirstPersonPlayer`: di chuyển, ngồi thấp, nhìn, hồi sinh; `PlayerNoise`: tiếng bước chân; `PlayerInteractor`: dò tương tác bằng phím E |
+| `shared/scripts/npc/` | `Guard`: điều hướng, di chuyển, dữ liệu cảm nhận; `GuardVision`, `GuardHearing`, `PatrolRoute`, `PatrolPoint` |
+| `shared/scripts/npc/ai/` | Máy trạng thái `GuardStateMachine` với `PatrolState`, `InvestigateState`, `ChaseState`; dữ liệu cảm nhận `GuardPerception` |
 | `shared/scripts/stealth/` | `StealthDirector`, `HidingSpot` |
-| `shared/scripts/interaction/`, `shared/scripts/noise/`, `shared/scripts/debug/` | shared interaction, noise events and debug overlays |
-| `features/` | optional inventory, stamina, objectives, checkpoints, puzzles and security systems |
-| `shared/scripts/game/` | `GameFlow`, `GameStateMachine`, `LevelCatalog` (the maps the menu offers) |
+| `shared/scripts/interaction/`, `shared/scripts/noise/`, `shared/scripts/debug/` | Tương tác chung, sự kiện tiếng động và hiển thị gỡ lỗi |
+| `features/` | Các hệ thống tùy chọn: túi đồ, thể lực, nhiệm vụ, điểm hồi sinh, giải đố, an ninh |
+| `shared/scripts/game/` | `GameFlow`, `GameStateMachine`, `LevelCatalog`: danh sách bản đồ trong menu |
 | `shared/scripts/ui/` | `MainMenu`, `StealthHud`, `ObjectiveHud`, `GameMenus`, `MenuStyle` |
-| `shared/scripts/presentation/` | `AudioDirector`, `SoundBank`, `PlayerFeedback`, `GuardPresentation` (model animation), `AmbientEmitter` |
-| `shared/scripts/level/` | `ShelfBooks` (generated book MultiMeshes) |
-| `maps/<map_id>/` | map-specific scenes, scripts, assets, resources, tests, tools and documentation |
-| `tests/` | shared tests and the runner that registers map-specific suites |
-| `tools/` | shared benchmark, QA, map-flow and CI tools; map-specific tools live in `maps/<map_id>/tools/` (tools are excluded from the export) |
+| `shared/scripts/presentation/` | `AudioDirector`, `SoundBank`, `PlayerFeedback`, `GuardPresentation`: hoạt ảnh mô hình; `AmbientEmitter`: âm thanh môi trường |
+| `shared/scripts/level/` | `ShelfBooks`: tạo sách bằng `MultiMesh` |
+| `maps/<map_id>/` | Cảnh, mã xử lý, tài nguyên, kiểm thử, công cụ và tài liệu riêng của bản đồ |
+| `tests/` | Kiểm thử chung và bộ chạy đăng ký kiểm thử riêng của từng bản đồ |
+| `tools/` | Công cụ đo hiệu năng, QA, chuyển bản đồ và CI; công cụ riêng nằm trong `maps/<map_id>/tools/`, đều được loại khỏi bản xuất |
 
-**Physics layers:**
-1. world
-2. player
-3. npc
-4. interactable
+**Các lớp vật lý:**
 
-## AI states
+1. `world`: môi trường.
+2. `player`: nhân vật người chơi.
+3. `npc`: nhân vật máy.
+4. `interactable`: đối tượng tương tác.
 
-Each guard runs an explicit state machine (`shared/scripts/npc/ai/guard_state_machine.gd`) with three states. The tutorial has three guards; the Expanded Library has six, with the same scene and AI.
+## Trạng thái AI của bảo vệ
 
-| State | Behaviour |
+Mỗi bảo vệ sử dụng máy trạng thái tại `shared/scripts/npc/ai/guard_state_machine.gd`, gồm ba trạng thái. Bản đồ hướng dẫn có ba bảo vệ; thư viện mở rộng hiện có bảy bảo vệ, sử dụng chung cảnh và nền tảng AI.
+
+| Trạng thái | Hành vi |
 |---|---|
-| **PATROL** | walks its looping route with `NavigationAgent3D`, waiting at each point |
-| **INVESTIGATE** | walks to where it saw something suspicious or *thinks* it heard a noise, searches there (looking around) for 6 s, then returns to patrol |
-| **CHASE** | runs after the player while it can see them; on losing sight it investigates the last known position |
+| **PATROL** — tuần tra | Đi theo tuyến bằng `NavigationAgent3D`, dừng chờ tại từng điểm |
+| **INVESTIGATE** — điều tra | Đi tới vị trí đã thấy dấu hiệu khả nghi hoặc vị trí ước lượng của tiếng động, tìm kiếm và nhìn quanh trong 6 giây rồi quay lại tuần tra |
+| **CHASE** — truy đuổi | Chạy theo khi còn nhìn thấy người chơi; mất dấu thì điều tra vị trí cuối cùng đã biết |
 
-**Transitions.** They are checked every physics tick in this priority order; the first that applies wins:
+**Chuyển trạng thái:** được kiểm tra trong mỗi nhịp vật lý theo thứ tự ưu tiên dưới đây. Điều kiện hợp lệ đầu tiên được áp dụng.
 
-| # | Trigger | Transition |
+| Ưu tiên | Điều kiện | Chuyển trạng thái |
 |---|---|---|
-| 1 | confirmed sighting (meter at 100 and the player visible) | PATROL / INVESTIGATE → CHASE |
-| 2 | suspicious sighting (meter ≥ 30) | PATROL → INVESTIGATE, at the sighting |
-| 3 | noise heard | PATROL → INVESTIGATE, at the estimated position |
-| 4 | search timed out | INVESTIGATE → PATROL |
-| 4 | lost sight | CHASE → INVESTIGATE |
+| 1 | Xác nhận nhìn thấy: mức phát hiện đạt 100 và người chơi còn trong tầm nhìn | PATROL / INVESTIGATE → CHASE |
+| 2 | Thấy dấu hiệu khả nghi: mức phát hiện ≥ 30 | PATROL → INVESTIGATE tại vị trí nhìn thấy |
+| 3 | Nghe tiếng động | PATROL → INVESTIGATE tại vị trí ước lượng |
+| 4 | Hết thời gian tìm kiếm | INVESTIGATE → PATROL |
+| 4 | Mất dấu người chơi | CHASE → INVESTIGATE |
 
-Any other transition (for example CHASE → PATROL) is rejected.
+Các chuyển trạng thái khác, chẳng hạn CHASE → PATROL trực tiếp, đều bị từ chối.
 
-**Perception:**
-- **Vision:** a 90° cone reaching 14 m, blocked by walls and tall shelves.
-- **Detection meter:** 0–100. It fills faster up close and drains when the player is out of sight; SUSPICIOUS at 30, ALERTED at 100.
-- **Hearing:** walking is heard within about 5 m and sprinting within about 12 m; walls halve those distances. The guard's position estimate is always off, more so with distance.
-- **Crouching:** halves how fast the meter fills and makes footsteps very quiet.
-- **Carrels:** crouching inside one blocks sight from the sides and back.
+**Cảm nhận cơ bản:**
 
-## The game
+- **Thị giác:** góc nhìn 90°, tầm xa 14 m; bị tường và kệ cao che khuất.
+- **Mức phát hiện:** từ 0 đến 100, tăng nhanh khi ở gần và giảm khi người chơi khuất tầm nhìn. Mức 30 là khả nghi (`SUSPICIOUS`), mức 100 là báo động (`ALERTED`).
+- **Thính giác:** nghe bước đi trong khoảng 5 m, chạy nhanh trong khoảng 12 m; tường làm khoảng cách này giảm một nửa. Vị trí ước lượng luôn có sai số, tăng theo khoảng cách.
+- **Ngồi thấp:** giảm một nửa tốc độ tăng mức phát hiện và làm bước chân nhỏ hơn.
+- **Ô bàn học có vách:** khi ngồi thấp bên trong, vách che tầm nhìn từ hai bên và phía sau.
 
-The library level (`maps/tutorial/scenes/library_graybox.tscn`; the file name is kept from the graybox so references stay stable) is one small low-poly university library:
+## Nội dung và cơ chế trò chơi
 
-- **Entrance:** spawn, with a red rug, plants and a notice board.
-- **Main Library Room:** four tall bookcases on the west side; on the east, a **Reading Area** with tables, green lamps, low 1.2 m bookcases (crouch cover) and the circulation desk with a globe. A wall clock on the north wall faces the entrance.
-- **Hallway West** to the **Restricted Stacks** (the objective area: red carpet, red RESTRICTED signs on both doors, and the access card under a spotlight on the archive desk).
-- **Back Corridor** with book carts and the **Staff Nook** checkpoint.
-- **Hallway East** with a **study alcove** carrel.
-- **Exit Area**, guarded, with crates, a rack and the exit door.
+Bản đồ hướng dẫn tại `maps/tutorial/scenes/library_graybox.tscn` là một thư viện đại học nhỏ theo phong cách ít đa giác. Tên tệp được giữ từ giai đoạn dựng khối thô để ổn định các tham chiếu. Bản đồ gồm:
 
-There are two routes to the card (west via Hallway West, east via Hallway East and the back corridor) and two ways from the card to the exit. Green EXIT signs mark both escape routes. How the level got here, with measurements and before/after pictures for each version, is in `maps/tutorial/docs/level/LEVEL_LOG.md`.
+- **Entrance:** lối vào và điểm xuất hiện, có thảm đỏ, cây và bảng thông báo.
+- **Main Library Room:** phòng chính, bốn kệ cao ở phía tây; phía đông là khu đọc sách **Reading Area** với bàn, đèn xanh, kệ thấp 1,2 m để ngồi ẩn và quầy thủ thư có quả địa cầu. Đồng hồ trên tường bắc hướng về lối vào.
+- **Hallway West:** hành lang phía tây dẫn tới **Restricted Stacks**, khu mục tiêu có thảm đỏ, biển `RESTRICTED` đỏ trên hai cửa và thẻ ra vào được chiếu sáng trên bàn lưu trữ.
+- **Back Corridor:** hành lang sau có xe đẩy sách và điểm hồi sinh **Staff Nook**.
+- **Hallway East:** hành lang phía đông có ô bàn học để ẩn.
+- **Exit Area:** khu thoát có bảo vệ, thùng, giá và cửa ra.
 
-Three **guards** (dark blue) patrol the main room, the restricted stacks and the exit area (GuardEast is the exit warden). Each walks its own looping route with `NavigationAgent3D` and pauses at every patrol point. Guards **see**: each has a 90° vision cone reaching 14 m, blocked by walls and shelves. While a guard can see you, its detection meter (0–100) fills: fast up close, slowly at long range. Once you're out of sight it drains again. At 30 the guard becomes SUSPICIOUS, at 100 ALERTED. It remembers where it last saw you, and nothing else. Each guard runs an explicit state machine with three states:
+Có hai đường đến thẻ: phía tây qua Hallway West, hoặc phía đông qua Hallway East và hành lang sau. Từ thẻ cũng có hai đường tới cửa thoát, được đánh dấu bằng biển `EXIT` màu xanh. Lịch sử thiết kế, số đo và ảnh trước/sau của từng phiên bản nằm trong `maps/tutorial/docs/level/LEVEL_LOG.md`.
 
-- **PATROL:** walks its route.
-- **INVESTIGATE:** walks to where it saw something suspicious (meter ≥ 30) or heard a noise, then searches there for 6 s before going back to patrol.
-- **CHASE:** runs after you once the meter is full and it can see you. If it loses sight, it heads to where it last saw you and investigates there.
+Ba **bảo vệ** màu xanh đậm tuần tra phòng chính, khu hạn chế và khu thoát; `GuardEast` canh lối ra. Mỗi người đi theo một tuyến lặp bằng `NavigationAgent3D`, dừng tại từng điểm. Tầm nhìn có góc 90°, xa 14 m, bị tường và kệ chắn. Khi thấy người chơi, mức phát hiện tăng nhanh ở gần và chậm ở xa; khi khuất tầm nhìn thì giảm. Mức 30 chuyển sang khả nghi, mức 100 chuyển sang báo động. Khi mất dấu, bảo vệ chỉ biết vị trí cuối cùng đã nhìn thấy người chơi.
 
-Guards also **hear**:
+- **PATROL:** đi theo tuyến tuần tra.
+- **INVESTIGATE:** tới nơi thấy khả nghi hoặc nghe tiếng động, tìm kiếm trong 6 giây rồi quay lại tuần tra.
+- **CHASE:** truy đuổi khi mức phát hiện đầy và còn nhìn thấy người chơi; khi mất dấu thì tới vị trí cuối cùng để điều tra.
 
-- Walking makes quiet footsteps, heard within about 5 m.
-- Sprinting makes loud ones, heard within about 12 m.
-- Walls halve those distances.
-- A guard that hears you investigates where it *thinks* the noise came from. That estimate is always somewhat off, and the further away the noise, the worse the guess.
+Bảo vệ cũng **nghe tiếng động**:
 
-Seeing you always outranks hearing you, and a chasing guard ignores noise.
+- Đi bộ tạo bước chân nhỏ, nghe được trong khoảng 5 m.
+- Chạy nhanh tạo tiếng lớn hơn, nghe được trong khoảng 12 m.
+- Tường làm khoảng cách nghe giảm một nửa.
+- Khi nghe thấy, bảo vệ điều tra vị trí ước lượng của tiếng động. Ước lượng luôn có sai số và càng xa càng kém chính xác.
 
-Crouching halves how fast a guard's meter fills, makes you a smaller target and makes your footsteps very quiet (about 2 m), at the cost of speed. Five **study carrels** (desk booths with 1.4 m panels) are hiding spots: crouch inside one and the panels block sight from the sides and back. Standing, your head shows over them.
+Nhìn thấy người chơi luôn được ưu tiên hơn nghe tiếng động; bảo vệ đang truy đuổi bỏ qua tiếng động.
 
-**Detection UI.** A banner at the top tells you the most urgent situation: **CHASED — break line of sight!** (red), **YOU ARE BEING SEEN** (orange), **A guard is investigating** (yellow) or **HIDDEN** (blue). Triangles around the crosshair point to each guard that is noticing, investigating or chasing you, including guards behind you. Guards show a `?` or `!` above their heads. The bottom-left line shows your stance and noise level.
+Ngồi thấp làm giảm một nửa tốc độ tăng mức phát hiện, thu nhỏ mục tiêu và giảm khoảng cách nghe bước chân xuống khoảng 2 m, đổi lại di chuyển chậm hơn. Năm **ô bàn học** có vách cao 1,4 m là chỗ ẩn: khi ngồi bên trong, vách che hai bên và phía sau; đứng lên sẽ để lộ đầu.
 
-**Goal.** The objective panel (top right) walks you through the level:
+**Giao diện phát hiện:** dải thông báo phía trên hiển thị tình huống khẩn cấp nhất: đang bị đuổi, cần cắt tầm nhìn (`CHASED — break line of sight!`, đỏ); đang bị nhìn thấy (`YOU ARE BEING SEEN`, cam); bảo vệ đang điều tra (`A guard is investigating`, vàng); hoặc đang ẩn (`HIDDEN`, xanh). Các tam giác quanh tâm ngắm chỉ hướng từng bảo vệ đang chú ý, điều tra hoặc truy đuổi, kể cả phía sau. Biểu tượng `?` hoặc `!` xuất hiện trên đầu bảo vệ. Dòng dưới trái cho biết tư thế và mức tiếng động.
 
-1. Enter the library.
-2. Reach the Restricted Stacks.
-3. Take the access card from the archive desk at the back of the stacks (look at it and press **E**).
-4. Reach the exit.
-5. Escape through the exit door (**E**).
+**Mục tiêu bản đồ hướng dẫn:** bảng nhiệm vụ ở góc trên phải hướng dẫn theo thứ tự:
 
-Objectives complete in order. The exit door stays locked (red) until you have the card. Trying it anyway rattles the door, which nearby guards can hear.
+1. Đi vào thư viện.
+2. Đến khu Restricted Stacks.
+3. Lấy thẻ trên bàn lưu trữ phía sau các kệ: nhìn vào thẻ và nhấn **E**.
+4. Đến lối thoát.
+5. Dùng cửa thoát bằng phím **E**.
 
-**Expanded Library goal** (the same panel, five objectives):
+Nhiệm vụ hoàn thành tuần tự. Cửa thoát vẫn khóa, có màu đỏ, cho tới khi có thẻ. Thử mở khi chưa đủ điều kiện làm cửa rung và tạo tiếng động mà bảo vệ gần đó có thể nghe.
 
-1. Enter the library.
-2. Take a staff access card (Office 2, upstairs in the staff wing).
-3. Retrieve the rare manuscript from the archive vault. The Archive Front Gate opens with the card (**E**); so does the Lobby Staff Door to the service corridor.
-4. Unlock the archive back gate. It opens only from inside the archive, and leads straight to the staff stair and the loading dock. You may open it before taking the manuscript.
-5. Escape through the loading dock exit (**E**). It stays sealed until the back gate is open.
+**Chuỗi nhiệm vụ gốc của Expanded Library, trước bản mở rộng năm 2026:** gồm năm bước dưới đây, được giữ để đối chiếu các báo cáo và kiểm thử cũ. Nhiệm vụ hiện tại có tám mục bắt buộc, ba mục tùy chọn và ba đường thoát như phần Chạy trò chơi.
 
-Checkpoints: Study Rooms, Staff Offices (at the card desk) and Storage. Being caught undoes everything since the last checkpoint, doors included. Dark floor marks show hiding spots (crouch there: HIDDEN); red signs mark restricted doors. The guards here notice faster and chase faster than in the tutorial: break line of sight rather than trying to outrun them.
+1. Đi vào thư viện.
+2. Lấy thẻ nhân viên trong Office 2 ở tầng trên, khu nhân viên.
+3. Lấy bản thảo quý trong kho lưu trữ. Dùng thẻ và phím **E** để mở Archive Front Gate hoặc Lobby Staff Door dẫn tới hành lang dịch vụ.
+4. Mở cổng sau kho lưu trữ. Cổng chỉ mở từ phía trong, dẫn tới cầu thang nhân viên và bến hàng; có thể mở trước khi lấy bản thảo.
+5. Thoát qua bến hàng bằng phím **E** trong phiên bản gốc; cửa còn khóa cho tới khi cổng sau mở.
 
-**Checkpoints.** Step onto a checkpoint pad (Hallway West, and the Staff Nook off the back corridor) to make it your respawn point. It turns green.
+Các điểm hồi sinh của thiết kế gốc gồm Study Rooms, Staff Offices và Storage. Bị bắt sẽ khôi phục trạng thái tại điểm gần nhất, gồm cả trạng thái cửa. Vạch sẫm trên sàn đánh dấu chỗ ẩn; ngồi thấp tại đó để nhận trạng thái `HIDDEN`. Biển đỏ đánh dấu cửa hạn chế. Bảo vệ thư viện mở rộng phát hiện và chạy nhanh hơn bản đồ hướng dẫn, nên cần tận dụng vật cản để cắt tầm nhìn.
 
-**Caught.** A chasing guard that reaches you catches you. After 2.5 s:
+**Điểm hồi sinh:** trong bản đồ hướng dẫn, bước lên đệm tại Hallway West hoặc Staff Nook cạnh hành lang sau để đặt điểm hồi sinh. Đệm chuyển sang màu xanh.
 
-- you're back at your last checkpoint, or the entrance if you haven't reached one;
-- every guard is back on patrol with no memory of you;
-- objective progress goes back to what it was when you reached that checkpoint. If you took the card after the checkpoint, the card is back on the desk.
+**Bị bắt:** bảo vệ đang truy đuổi sẽ bắt người chơi khi tới đủ gần. Sau 2,5 giây:
 
-Checkpoints don't activate during a chase.
+- Người chơi trở lại điểm hồi sinh gần nhất; nếu chưa kích hoạt điểm nào thì trở lại lối vào.
+- Các bảo vệ trở về tuần tra và xóa ký ức về người chơi.
+- Tiến độ nhiệm vụ được khôi phục về thời điểm kích hoạt điểm hồi sinh. Nếu lấy thẻ sau thời điểm đó, thẻ sẽ trở lại bàn.
 
-**Game flow.** The game has four game-level states, separate from the guards' AI:
+Điểm hồi sinh không kích hoạt trong lúc bị truy đuổi.
 
-- **PLAYING**
-- **CAUGHT**: the short caught screen
-- **PAUSED**
-- **WIN**: escaped
+**Luồng trò chơi:** có bốn trạng thái cấp trò chơi, tách biệt với AI của bảo vệ:
 
-What happens in each:
+- **PLAYING:** đang chơi.
+- **CAUGHT:** hiển thị màn hình bị bắt trong thời gian ngắn.
+- **PAUSED:** tạm dừng.
+- **WIN:** đã trốn thoát.
 
-- **Pause** (Esc/P, or the window losing focus) freezes the whole level: guards, navigation, physics, noise and timers. The cursor appears and the pause menu offers **Resume**, **Restart level**, **Settings** (since the 2026 expansion) and **Main menu**.
-- **Caught:** after the caught screen the game respawns you and returns to PLAYING. You can't pause during the caught screen.
-- **Win:** escaping shows your time and catches, with **Play again** and **Main menu**.
+Hành vi tương ứng:
 
-The mouse is captured only while playing.
+- **Tạm dừng:** nhấn Esc/P hoặc chuyển sang cửa sổ khác sẽ dừng bảo vệ, điều hướng, vật lý, tiếng động và bộ đếm thời gian. Con trỏ hiện ra cùng các nút tiếp tục (`Resume`), chơi lại (`Restart level`), cài đặt (`Settings`) và menu chính (`Main menu`).
+- **Bị bắt:** sau màn hình thông báo, người chơi hồi sinh và trở về `PLAYING`. Không thể tạm dừng trong màn hình bị bắt.
+- **Thắng:** màn hình hiển thị thời gian và số lần bị bắt, kèm nút chơi lại (`Play again`) và menu chính (`Main menu`).
 
-Press **F3** to show the navigation mesh (cyan), each guard's current path (yellow), its route (coloured lines), its vision cone (green/yellow/red by awareness), a line to you while you're seen, the last-known-position marker, and a label with state and meter. A panel at the top left lists every guard's meter.
+Chuột chỉ được giữ trong cửa sổ khi đang chơi.
 
-### Sound and presentation
+Nhấn **F3** để hiển thị lưới điều hướng màu lam, đường đi hiện tại màu vàng, tuyến tuần tra bằng các đường màu, vùng tầm nhìn xanh/vàng/đỏ theo mức nhận biết, đường nối tới người chơi khi bị thấy, dấu vị trí cuối cùng và nhãn trạng thái/mức phát hiện. Bảng góc trên trái liệt kê mức phát hiện của từng bảo vệ.
 
-- **Player:** footsteps on every stride (soft when crouched, heavier when sprinting), a gentle head bob, a slightly wider view while sprinting, and a tick when the use prompt appears.
-- **Guards:** a low-poly jointed model with idle, walk, run (chase) and search (investigating) animations; 3D footsteps, keys jingling, radio chatter on patrol and a radio call when an investigation starts; the "?" / "!" icon pops when a guard's state changes.
-- **Library:** room tone, the wall clock ticking, and page turns, a book being put down and a chair creaking now and then. These are decoration: guards don't hear them.
-- **Stealth audio:** short stings when a guard notices you, starts investigating, starts a chase or loses you; tension music while you are seen or investigated, chase music during a chase.
-- **UI:** detection meter under the status banner, key-cap use prompt, objective progress ("OBJECTIVE 2/5") with a flash on change, pause menu and button sounds, caught screen with vignette and respawn countdown, victory screen with stats.
-- Volumes are on four buses (`default_bus_layout.tres`): Music, SFX, Ambience, UI.
-- All sounds are generated by `tools/generate_audio.gd` (no external shared/assets). Regenerate them with `godot --headless --path . --script res://tools/generate_audio.gd`; the four loops are set to loop in their `.import` files.
-- `maps/tutorial/tools/capture_presentation.gd` renders the guard poses and HUD screenshots in `docs/presentation/`.
+### Âm thanh và trình bày
 
-## Testing
+- **Nhân vật:** tiếng chân theo từng bước, nhỏ khi ngồi thấp và nặng hơn khi chạy; đầu dao động nhẹ; góc nhìn rộng hơn một chút lúc chạy; âm báo nhỏ khi xuất hiện gợi ý tương tác.
+- **Bảo vệ:** mô hình ít đa giác có các khớp, hoạt ảnh đứng yên, đi bộ, chạy và tìm kiếm; tiếng chân 3D, chìa khóa, hội thoại bộ đàm khi tuần tra và cuộc gọi khi bắt đầu điều tra. Biểu tượng `?`/`!` bật lên khi trạng thái đổi.
+- **Thư viện:** âm nền trong phòng, tiếng đồng hồ, lật trang, đặt sách và ghế kêu theo từng lúc. Đây là âm trang trí, bảo vệ không nghe chúng.
+- **Âm thanh lén lút:** âm hiệu ngắn khi bị chú ý, bị điều tra, bắt đầu truy đuổi hoặc mất dấu; nhạc căng thẳng khi bị nhìn thấy/điều tra và nhạc truy đuổi khi bị đuổi.
+- **Giao diện:** thanh phát hiện dưới dải trạng thái; gợi ý phím tương tác; tiến độ như `OBJECTIVE 2/5` với hiệu ứng nháy khi đổi; menu tạm dừng và âm nút bấm; màn hình bị bắt có viền tối, đếm ngược hồi sinh; màn hình thắng có thống kê.
+- Âm lượng được chia thành bốn kênh trong `default_bus_layout.tres`: `Music` (nhạc), `SFX` (hiệu ứng), `Ambience` (môi trường), `UI` (giao diện).
+- Tất cả âm thanh được tạo bởi `tools/generate_audio.gd`, không dùng tài nguyên âm thanh bên ngoài. Tạo lại bằng `godot --headless --path . --script res://tools/generate_audio.gd`; bốn âm lặp được cấu hình trong tệp `.import` tương ứng.
+- `maps/tutorial/tools/capture_presentation.gd` kết xuất tư thế bảo vệ và ảnh HUD vào `docs/presentation/`.
 
-**Run the tests.** In the editor, open `res://tests/test_scene.tscn` and press **F6**. A successful run prints `All tests passed (Phase 1 setup, … Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards, Expanded Library mission, Expanded Library expansion layout, Expanded Library expansion stamina and inventory, Expanded Library expansion puzzles, Expanded Library expansion security, Expanded Library expansion escapes and checkpoints, Expanded Library expansion HUD and accessibility, Expanded Library expansion end to end, Expanded Library expansion polish and performance, Expanded Library expansion baseline).`. From a terminal:
+## Kiểm thử
 
-```
-godot --headless --path . --editor --quit          # first run only: imports the project
+**Chạy kiểm thử:** trong trình biên tập, mở `res://tests/test_scene.tscn` và nhấn **F6**. Khi thành công, chương trình in thông báo bắt đầu bằng `All tests passed`, kèm danh sách các giai đoạn đã kiểm tra: thiết lập, nhân vật, điều hướng, AI, thính giác, lén lút, nhiệm vụ, luồng trò chơi, trình bày, hiệu năng, QA và các phần mở rộng của thư viện. Từ dòng lệnh:
+
+```bash
+godot --headless --path . --editor --quit          # Lần đầu: nhập tài nguyên của dự án
 godot --headless --path . res://tests/test_scene.tscn
-godot --headless --path . --script res://tools/qa_flow.gd   # real game flow with scene changes
-godot --headless --path . --script res://tools/map_flow.gd  # both maps selected, restarted and left, 3 times
+godot --headless --path . --script res://tools/qa_flow.gd   # Luồng trò chơi với chuyển cảnh thật
+godot --headless --path . --script res://tools/map_flow.gd  # Chọn, chơi lại và rời cả hai bản đồ, lặp 3 lần
 ```
 
-- **Exit code:** the suite exits `0` when every check passes and `1` otherwise, listing each failure. It takes about 9 minutes, because the movement, navigation, guard and vision tests step real physics frames.
-- **Expected warnings:** 8, from tests that build broken setups on purpose.
-- **In CI:** `tools/ci/run_tests.sh` runs the suite, the flow run and the map-selection run.
+- **Mã thoát:** `0` khi tất cả kiểm tra thành công, `1` khi có lỗi và liệt kê từng lỗi. Các kiểm thử di chuyển, điều hướng và cảm nhận chạy qua các nhịp vật lý thật nên có thể kéo dài hàng chục phút; lần kiểm tra trên Windows ngày 25/10/2026 mất khoảng 25 phút.
+- **Cảnh báo dự kiến:** 8 cảnh báo từ các ca chủ động tạo cấu hình thiếu hoặc bị chặn để kiểm tra hành vi xử lý lỗi.
+- **Trong CI:** `tools/ci/run_tests.sh` chạy toàn bộ bộ kiểm thử, kiểm tra luồng trò chơi và kiểm tra chọn bản đồ.
+- **Cấu trúc và tài nguyên:** `python tools/ci/check_layout.py` kiểm tra đường dẫn; `tools/ci/check_map_contract.gd` kiểm tra giao tiếp giữa bản đồ, HUD và cửa thoát. Kết quả lần tổ chức lại nằm trong [VALIDATION.md](docs/architecture/VALIDATION.md).
 
-- `tests/test_scene.gd` — checks that every script compiles, Phase 1 setup checks (engine version, project settings, Windows export preset, folders, graybox) and the test runner.
-- `tests/player_tests.gd` — Phase 2 player checks: InputMap bindings, movement maths, mouse-look clamping, and in-level movement (landing, walk and sprint speed, stopping, crate and wall collision, fall respawn).
-- `tests/guard_tests.gd` — Phase 4 checks: patrol route logic, the guard scene, every library guard's points are walkable and reachable, every guard completes its loop in order, waits match the configured times, no teleporting or leaving the navmesh, guards never overlap, two guards pass head-on, a blocked guard skips its point, a guard without a route stands still, and a non-looping route stops at its end.
-- `tests/ai_state_tests.gd` — Phase 6 state machine unit tests with a fake guard, so no physics: initial state, every allowed transition, priority (a confirmed sighting beats noise), rejected transitions, enter/exit order, repeated requests, a 2000-step random stress test, and no shared state.
-- `tests/ai_behavior_tests.gd` — Phase 6 in the library: a guard goes PATROL → INVESTIGATE → CHASE → INVESTIGATE → PATROL against the real player, follows only the last known position once sight is lost, and investigates a noise.
-- `tests/hearing_tests.gd` — Phase 7 checks:
-  - noise presets and range; walls muffle
-  - estimates are never exact, are deterministic, get worse with distance, and differ between guards
-  - stale and expired events are ignored; duplicates are processed once; repeated footsteps merge
-  - multiple guards; a guard ignores noise from other guards
-  - player footsteps: walking gives WALK, sprinting gives RUN, standing still and teleporting give nothing
-  - `NoiseMaker` makes interaction noise
-  - in the library: walking behind a guard isn't heard, sprinting is (INVESTIGATE near an estimate, never the exact spot), and a chase ignores noise
-- `tests/loop_tests.gd` — Phase 8 stealth loop checks:
-  - status priority; crouch, including not standing up under a low beam
-  - a carrel hides a crouched player from the side but not a standing one, and halves detection from the opening
-  - a guard that loses a hidden player investigates and returns to patrol (`SPOTTED → INVESTIGATING → HIDDEN`)
-  - crouch-walking is quiet
-  - HUD direction indicators and stance text
-  - a sprinting player can escape a chase; being caught freezes, then resets the level
-- `tests/objective_tests.gd` — Phase 9 checks:
-  - objective states and order, and progress snapshots
-  - every objective, the card, the door and the checkpoints are reachable in order
-  - interaction reach and walls
-  - the exit rejects the player without the card; full flow to ESCAPED
-  - checkpoints keep progress from before them and undo progress after them
-  - all guards reset on respawn; no activation during a chase
-  - no guard sees a checkpoint's respawn point during its patrol
-- `tests/game_flow_tests.gd` — Phase 10 checks:
-  - the game-state machine: allowed transitions only, no duplicates, 3000 random requests
-  - main menu Start/Quit; Esc/P pause binding
-  - pause and resume by key, button and focus loss, with the cursor right in each state
-  - everything frozen while paused: guards, navigation, vision meters, player, noise clock, timers
-  - caught → respawn; victory; restart and main menu, with only one scene change at a time
-- `tests/level_design_tests.gd` — Phase 11 checks:
-  - every required space exists
-  - two independent routes to the card and two ways to the exit
-  - carrels reachable, including the east-route alcove
-  - RESTRICTED, room and EXIT signs; the card spotlight and clock landmark
-  - decoration (books, signs, lights, ceilings) has no collision; ceilings on render layer 2
-  - books generated the same way every time and kept inside their bookcase
-- `tests/presentation_tests.gd` — Phase 12 checks:
-  - every sound loads; loops loop and one-shots don't; the four buses exist
-  - head bob, movement kind, guard animation choice and the prompt key split
-  - the guard model has every animated joint, no collision, and the guard's capsule and speeds are unchanged
-  - in the library: one footstep sound per stride; the camera settles when standing still
-  - guards walk on patrol and search when investigating, with footsteps and radio
-  - the AudioDirector reacts to stealth, objective, pause and door events, without repeating stings
-  - UI sounds work while paused; the detection meter follows the most aware guard
-- `tests/qa_playthrough_tests.gd` — Phase 14 playthroughs:
-  - the whole route walked with real input (all objectives, checkpoints, E on the card and door, victory, sounds);
-  - a real chase and catch (run animation, chase music, caught screen, respawn at the checkpoint).
-- `tests/qa_regression_tests.gd` — one check per bug fixed in the QA pass (win title pop, benchmark guard placement)
-- `tests/performance_tests.gd` — Phase 13 checks: the measured shadow settings stay (sun shadows on, 2 cascades, 2048 atlas); the benchmark's scenarios and statistics
-- `tests/vision_tests.gd` — Phase 5 checks in a purpose-built arena: FOV and range maths, a player straight ahead is seen and the meter fills in the expected time, the meter holds then drains after losing sight, the last known position never updates while hidden, walls and tall shelves block sight but a low table doesn't, players outside the cone or out of range are not seen, far players fill the meter slowly, thresholds are configurable, and the debug cone stops at walls. In the library: every guard has vision, and no guard sees the spawn during a full patrol loop.
-- `tests/navigation_tests.gd` — Phase 3 checks: every room exists, navigation covers open floor and none of the walls or furniture, nothing is baked outside the rooms or on furniture, every floor edge is walled, paths reach every room without crossing walls, a `NavigationAgent3D` probe walks from the entrance to the exit, the debug overlay draws the navmesh, and the saved navmesh matches a fresh bake.
+### Kiểm thử dùng chung
 
-- `maps/library/tests/expanded_graybox_tests.gd` — Expanded Library graybox: scene structure, doorway and stair dimensions, navmesh on both floors, the visual dressing (no collision in it, one box collider per solid piece, no decorative mesh within 0.15 m of the walkable space), every planned location reachable, each stair on its own, planned gates and two approaches (rebaked with blockers), and a real-input walk of the main and alternative routes.
-- `maps/library/tests/expanded_ai_tests.gd` — Expanded Library navigation and guards: both floors baked and sealed, every patrol point clear of doorways and stairs, all six guards completing their loops together with nothing stuck, vision (walls, shelves, the slab, the balcony railing), hearing (open, through a wall, through the slab), chase and loss of contact, a chase up a stair and back, head-on crossings in a door and on a stair, and one guard touring every gate and stair.
-- `maps/library/tests/expanded_layout_expansion_tests.gd` — Expanded Library expansion layout (Phase 2): the seven zones, every new area reachable and the outside, the drain beyond its grate and the space under the floors sealed; the stacks' five routes; the new doorways clear (2 m × 2.6 m) and both service stairs (width, slope, headroom); the real player walking down the west service stair, along the tunnel and up the east service stair; a guard touring every new area; zone D still behind the staff card through the basement.
-- `maps/library/tests/expanded_mechanics_tests.gd` — Expanded Library expansion stamina and inventory (Phase 3): the stamina rules at 7–144 Hz and uneven frame times; a real-input sprint at 30, 60 and 120 physics ticks (5 s, same distance); no drain walking, standing, crouching, hiding, using things or being seen; respawn refills; three slots, the fourth item and the card refused with full hands; tools and cards never used up; one distraction per successful throw (one noise, a guard investigates), none for a failed throw; documents in the journal once each; leave, take back and swap at storage shelves only, with item totals unchanged; card doors check the carried card; three catches restore slots, shelves and pickups exactly with no duplicates; the tutorial without stamina, inventory or item HUD.
-- `maps/library/tests/expanded_puzzle_tests.gd` — Expanded Library expansion puzzles, journal and objectives (Phase 4): the objective graph (prerequisites exist, no cycle, no mandatory → optional edge, the archive / vault / manuscript gated, nothing gives a code away); ObjectiveManager graph mode (parallel and optional objectives, consistent restore, hidden objectives) with linear mode unchanged; two full valid routes with real input (loading dock without optional objectives; storm drain via the pump); invalid sequences (archive without card, vault by hand, manuscript early, keypad unpowered, breakers behind the cover, wrong breakers and codes with alarms, lockout and retry, exits early, pump stall); the optional locker; puzzles following checkpoints with the journal and discoveries kept and everything still solvable.
-- `maps/library/tests/expanded_security_tests.gd` — Expanded Library expansion security (Phase 5): the expanded rules on the Expanded Library's seven guards only (tutorial and guard scene unchanged); guard states (noise, sight, chase, lost contact, search, patrol); a thrown distraction drawing a guard to where it landed; hiding entered unseen hides, entered seen does not, a searching guard checks the spot and finds the player; alarm attention (detection ×1.6, searches ×1.5, never a capture); cameras (meter slower crouched and far away, alarm at the player's position, HUD, guards investigate; off = dark, guards unaffected); all 8 circuit combinations power only their own devices; the service reboot and its 30 s lock; the dock needing the manuscript and service power, the storm drain power-free, no softlock; circuits following checkpoints; a chase up the east service stair and back; the basement guard's loop.
-- `maps/library/tests/expanded_escape_tests.gd` — Expanded Library expansion escapes and checkpoints (Phase 6): each of the three routes played on a fresh level with real input where it matters (walking, looking, E): the main entrance lockdown, badge reader (refusal without the badge, interrupted and full override, the lobby camera's alarm), the dock shutter (no power, jammed release, tool kit, OPEN, power off/on), the hidden panel (no prompt until the plan is read, latch, jammed grate, pump); every route refuses without the manuscript; the other routes stay closed throughout; the route is recorded on the win screen. Checkpoints: the capture before any checkpoint, the caught screen, respawn position and facing, stamina, detection, items, objectives, puzzles, circuits, exits, the hidden panel, the journal, HUD, 5 captures without duplicates, routes opened before or after the checkpoint, still finishing afterwards; guards back at their stored spots on PATROL, the clearance rule.
-- `maps/library/tests/expanded_hud_tests.gd` — Expanded Library expansion HUD and accessibility (Phase 7): settings (defaults, bad values, saved and loaded back, applied to the interface size and the Master bus, the menu and pause panels); the HUD reading the game (stamina bar and EXHAUSTED, slots, checklist, journal of clues and documents only); WAYS OUT showing only learned routes and requirements, the hidden passage only after its plan; exit messages naming only known requirements; journal, ways out and power after a capture; captions (alarm, distraction, switch, stingers, guard footsteps, direction and floor, out of earshot, off); layout at 1280×720, 1920×1080, 1024×768 and 2560×1440 at every interface size (on screen, no overlaps, every journal entry reachable with J); the completion screen (route, time, optional objectives); the tutorial HUD with captions and Settings.
-- `maps/library/tests/expanded_e2e_tests.gd` (with `tests/e2e_walker.gd`) — Expanded Library expansion end to end (Phase 8): the map played from the porch to an escape, walked with real input (the move keys along a navigation path, E, F, the slot keys; no teleporting): a mandatory-only run out by the loading dock (wrong breakers and a wrong code recovered, the dock refused without the manuscript, the back gate refused from the staff stair, a tour of every area and stair with the manuscript); every optional objective and their effects, out by the main entrance, with a capture in the middle (inventory, objectives and puzzles as stored, journal kept); the hidden passage with the circuits switched in another order; distractions thrown at a guard on PATROL, during INVESTIGATE and during CHASE; the tutorial replayed afterwards. A refused player stays at the exit's threshold.
-- `maps/library/tests/expanded_polish_tests.gd` — Expanded Library expansion polish and performance (Phase 9): the mechanism sounds (a dial click, a wrong-code buzz, a solved chime, an item pickup chime but none when refused, the panel cover and switch clunks, thrown items and the badge reader through their captions, played at the mechanism); every decorative box has no collision and is a floor decal, above head height or off the navmesh, at least 0.6 m from anything the player uses or hides in; the new signs exist; the storm drain's state label sits below the wall sign; the tutorial has no mechanism sounds. Follow-up fixes: no buzz on a pump stall; the tunnel niche and balcony nook hiding spots are walkable; the maintenance bay checkpoint saves and respawns facing its door; the Staff Offices respawn is in Office 1; no mesh is reached by more than 8 lights.
-- `maps/library/tests/expanded_baseline_tests.gd` — Expanded Library expansion baseline: the expansion sub-scene is instanced exactly once (after `Gameplay`, not moved) and only in the Expanded Library; outside it, the collision geometry, batched decoration (door frames included), guards, routes and mission nodes match the baseline digests of commit `7d73492`; the two maps loaded alternately each keep their own systems, guards and objectives and leave nothing behind.
-- `maps/library/tests/expanded_mission_tests.gd` — Expanded Library mission: the five objectives played with real input (walking, looking, E) from a fresh start to the win screen; every bypass refused (card doors without the card, one-way doors from the wrong side, the manuscript before the card, the exit before the shortcut) and closed doors blocking the walking player and a guard's sight; the back gate opened before the manuscript; captures before and right after the card, after the manuscript and after the shortcut, five repeated captures, level guards reset, no checkpoint during a chase; after every respawn the mission state equals the checkpoint's snapshot and items, doors, objectives, exit and HUD agree.
-- Balance tools (development only): `maps/library/tools/coverage_map.gd` (where guards can see, heat maps, route exposure), `maps/library/tools/playtest_bot.gd` (an automated playtester, updated in expansion Phase 8 to the current mission and its four routes: dock, main, passage, full; it plays through the real player), `maps/library/tools/summarize_playtests.py`. See `maps/library/docs/phase-5-balance.md`; human playtests: `maps/library/docs/PLAYTEST_PROTOCOL.md`.
-- Visual-pass tools (development only): `maps/library/tools/capture_views.gd` (the same player views on any build), `maps/library/tools/light_report.gd` (lights against the Compatibility renderer's limits, light on the guards' routes), `maps/library/tools/profile_expanded.gd` (rendering profile, with diagnostics), `maps/library/tools/collision_fingerprint.gd` (every collider, guard and patrol point; diff two builds). See `maps/library/docs/phase-6-visual-polish.md`.
-- `tests/map_selection_tests.gd` — map selection: the catalog, one menu button per map with keyboard navigation, each button loading its map once, and for each map (loaded twice) one of each system, Restart → same map, Main menu → menu, signal connections made once, everything freed on leaving.
+- `tests/test_scene.gd` — bộ chạy kiểm thử và kiểm tra thiết lập giai đoạn 1: phiên bản Godot, cấu hình dự án, cấu hình xuất bản Windows, thư mục, cảnh khối thô và khả năng biên dịch mã.
+- `tests/player_tests.gd` — giai đoạn 2: ánh xạ phím, tính toán chuyển động, giới hạn góc nhìn bằng chuột; trong cảnh kiểm tra tiếp đất, tốc độ đi/chạy, dừng, va chạm thùng/tường và hồi sinh khi rơi.
+- `tests/navigation_tests.gd` — giai đoạn 3: đủ phòng; lưới điều hướng phủ sàn trống, không phủ tường/đồ đạc hoặc ra ngoài phòng; các mép sàn có tường; đường tới mọi phòng không xuyên tường; một đối tượng thử `NavigationAgent3D` đi từ lối vào tới lối ra; lớp gỡ lỗi vẽ được lưới; lưới đã lưu khớp với kết quả tạo lại.
+- `tests/guard_tests.gd` — giai đoạn 4: logic tuyến tuần tra, cảnh bảo vệ, khả năng đi tới từng điểm; hoàn thành vòng đúng thứ tự và thời gian chờ, không dịch chuyển tức thời hoặc rời lưới; không chồng lên nhau, đi ngược chiều qua nhau; bỏ qua điểm bị chặn, đứng yên khi không có tuyến, dừng ở cuối tuyến không lặp.
+- `tests/vision_tests.gd` — giai đoạn 5 trong khu thử riêng: góc/tầm nhìn; thời gian tăng mức phát hiện; giữ rồi giảm mức sau khi mất dấu; vị trí cuối cùng không cập nhật khi người chơi ẩn; tường và kệ cao chắn nhìn, bàn thấp không chắn; ngoài góc hoặc tầm nhìn không bị thấy; ở xa tăng mức chậm hơn; ngưỡng cấu hình được và vùng gỡ lỗi dừng ở tường. Trong thư viện, kiểm tra mọi bảo vệ có thị giác và không ai nhìn thấy điểm xuất hiện suốt một vòng tuần tra.
+- `tests/ai_state_tests.gd` — kiểm thử đơn vị giai đoạn 6 với bảo vệ giả, không dùng vật lý: trạng thái đầu, mọi chuyển trạng thái hợp lệ, thứ tự ưu tiên nhìn thấy trước tiếng động, từ chối chuyển không hợp lệ, thứ tự vào/ra, yêu cầu lặp, 2.000 bước ngẫu nhiên và không chia sẻ trạng thái giữa các bảo vệ.
+- `tests/ai_behavior_tests.gd` — giai đoạn 6 trong thư viện: bảo vệ đi qua chuỗi `PATROL → INVESTIGATE → CHASE → INVESTIGATE → PATROL` với nhân vật thật; chỉ theo vị trí cuối cùng khi mất dấu và điều tra tiếng động.
+- `tests/hearing_tests.gd` — giai đoạn 7:
+  - Cấu hình tiếng động, phạm vi nghe và tác dụng giảm âm của tường.
+  - Vị trí ước lượng không chính xác tuyệt đối, có tính xác định, sai số tăng theo khoảng cách và khác nhau giữa các bảo vệ.
+  - Bỏ qua sự kiện cũ/hết hạn; sự kiện trùng chỉ xử lý một lần; gộp bước chân lặp.
+  - Nhiều bảo vệ hoạt động đồng thời và bỏ qua tiếng từ bảo vệ khác.
+  - Bước đi tạo `WALK`, chạy tạo `RUN`; đứng yên và dịch chuyển tức thời không phát tiếng.
+  - `NoiseMaker` tạo tiếng tương tác.
+  - Trong thư viện, đi bộ sau bảo vệ không bị nghe nhưng chạy bị nghe; bảo vệ điều tra gần vị trí ước lượng, không đi đúng tọa độ thật; đang đuổi thì bỏ qua tiếng động.
+- `tests/loop_tests.gd` — giai đoạn 8:
+  - Ưu tiên trạng thái, ngồi thấp và không đứng dậy dưới dầm thấp.
+  - Ô bàn học che người ngồi nhưng không che người đứng; nhìn từ phía mở làm tốc độ phát hiện giảm một nửa.
+  - Mất dấu người chơi đang ẩn khiến bảo vệ điều tra rồi quay về tuần tra: `SPOTTED → INVESTIGATING → HIDDEN`.
+  - Đi khi ngồi thấp ít gây tiếng; chỉ báo hướng và tư thế trên HUD đúng.
+  - Người chạy có thể cắt đuôi; bị bắt làm đóng băng rồi đặt lại bản đồ.
+- `tests/objective_tests.gd` — giai đoạn 9:
+  - Trạng thái, thứ tự nhiệm vụ và ảnh chụp tiến độ.
+  - Đến được các mục tiêu, thẻ, cửa và điểm hồi sinh theo thứ tự.
+  - Tầm tương tác và tác dụng ngăn của tường.
+  - Cửa từ chối khi thiếu thẻ; hoàn thành đầy đủ tới trạng thái `ESCAPED`.
+  - Điểm hồi sinh giữ tiến độ trước đó, hoàn tác tiến độ về sau và đặt lại bảo vệ; không kích hoạt khi bị truy đuổi.
+  - Không bảo vệ nào nhìn thấy vị trí hồi sinh trong vòng tuần tra.
+- `tests/game_flow_tests.gd` — giai đoạn 10:
+  - Máy trạng thái chỉ nhận chuyển hợp lệ, không lặp và chịu được 3.000 yêu cầu ngẫu nhiên.
+  - Nút bắt đầu/thoát ở menu và phím Esc/P.
+  - Tạm dừng/tiếp tục bằng phím, nút và khi cửa sổ mất tiêu điểm; con trỏ đúng trạng thái.
+  - Khi tạm dừng, bảo vệ, điều hướng, mức phát hiện, nhân vật, đồng hồ tiếng động và bộ đếm đều dừng.
+  - Bị bắt rồi hồi sinh, thắng, chơi lại và về menu; mỗi lần chỉ có một chuyển cảnh.
+- `tests/level_design_tests.gd` — giai đoạn 11:
+  - Đủ các không gian bắt buộc, hai đường độc lập tới thẻ và hai đường tới lối ra.
+  - Đến được các chỗ ẩn, gồm ô bàn học trên đường phía đông.
+  - Có biển `RESTRICTED`, tên phòng, `EXIT`, đèn chiếu thẻ và đồng hồ làm mốc.
+  - Sách, biển, đèn và trần trang trí không va chạm; trần dùng lớp kết xuất 2.
+  - Sách được tạo nhất quán và nằm trong kệ.
+- `tests/presentation_tests.gd` — giai đoạn 12:
+  - Tải được mọi âm thanh; âm lặp và âm phát một lần đúng cấu hình; đủ bốn kênh âm.
+  - Dao động đầu, loại chuyển động, chọn hoạt ảnh bảo vệ và tách phím trong gợi ý tương tác.
+  - Mô hình đủ khớp hoạt ảnh, không thêm va chạm, giữ nguyên khối va chạm và tốc độ bảo vệ.
+  - Mỗi bước phát một tiếng; camera ổn định khi đứng yên.
+  - Bảo vệ đi khi tuần tra, tìm kiếm khi điều tra, có tiếng chân và bộ đàm.
+  - `AudioDirector` phản ứng với sự kiện lén lút, nhiệm vụ, tạm dừng và cửa, không lặp âm hiệu.
+  - Âm giao diện hoạt động lúc tạm dừng; thanh phát hiện theo bảo vệ có mức nhận biết cao nhất.
+- `tests/performance_tests.gd` — giai đoạn 13: giữ cấu hình bóng đã đo, gồm bóng mặt trời, 2 tầng bóng và bộ nhớ bản đồ bóng 2048; kiểm tra kịch bản và thống kê của công cụ đo hiệu năng.
+- `tests/qa_playthrough_tests.gd` — giai đoạn 14: đi hết nhiệm vụ bằng thao tác thật, kích hoạt điểm hồi sinh, nhấn E lấy thẻ/dùng cửa, thắng và phát âm thanh; tạo truy đuổi, bị bắt rồi hồi sinh với hoạt ảnh, nhạc và màn hình tương ứng.
+- `tests/qa_regression_tests.gd` — mỗi lỗi đã sửa trong đợt QA có một kiểm tra hồi quy, gồm hiệu ứng tiêu đề thắng và bố trí bảo vệ của công cụ đo hiệu năng.
+- `tests/map_selection_tests.gd` — danh sách bản đồ, một nút cho mỗi bản đồ và điều hướng bàn phím; mỗi nút tải đúng một lần; mỗi bản đồ được tải hai lần, có đúng một bản của từng hệ thống, chơi lại đúng bản đồ, về đúng menu, không nhân đôi kết nối tín hiệu và giải phóng hết khi rời.
+- `tests/map_hud_provider_tests.gd` — dữ liệu trạng thái và thông báo cửa thoát riêng được đưa vào HUD chung qua `MapHudProvider`; xóa dữ liệu khi gỡ nút cung cấp hoặc rời bản đồ. Bộ này được chạy riêng bởi `tools/ci/check_map_contract.gd`.
 
-**Before a release:** work through `docs/qa/REGRESSION_CHECKLIST.md`: the automated part, plus the manual checks on Windows.
+### Kiểm thử riêng của thư viện mở rộng
 
-### QA tools
+Các tệp dưới đây nằm trong `maps/library/tests/`. Nhiều bộ kiểm thử gốc được giữ để so sánh với thiết kế trước bản mở rộng năm 2026.
 
-- `tools/qa_flow.gd` plays the real game flow with real scene changes and checks 15 steps:
-  - main menu → start, pause, resume, restart;
-  - caught → respawn, back to the menu and start again;
-  - win, play again, quit.
+- `maps/library/tests/expanded_graybox_tests.gd` — cấu trúc cảnh, kích thước cửa/cầu thang, lưới hai tầng, phần trang trí không va chạm; mỗi phần rắn có một khối va chạm, không có chi tiết trang trí trong phạm vi 0,15 m của vùng đi; đến được mọi vị trí, từng cầu thang, cổng và hai hướng tiếp cận; nhân vật thật đi tuyến chính/phụ.
+- `maps/library/tests/expanded_ai_tests.gd` — điều hướng và bảo vệ của bố cục gốc: hai tầng được tạo lưới và bịt kín; điểm tuần tra tránh cửa/cầu thang; sáu bảo vệ gốc đi hết vòng đồng thời không kẹt; tường, kệ, sàn và lan can ảnh hưởng thị giác; nghe ở chỗ mở, qua tường và qua sàn; truy đuổi, mất dấu, lên/xuống cầu thang; đi ngược chiều qua cửa và cầu thang; một bảo vệ đi qua mọi cổng và cầu thang.
+- `maps/library/tests/expanded_layout_expansion_tests.gd` — bố cục mở rộng, giai đoạn 2: bảy khu, mọi khu mới đi tới được; bịt kín bên ngoài, cống sau song chắn và dưới sàn; năm tuyến qua khu kệ; cửa mới rộng 2 m, cao 2,6 m và hai cầu thang bảo trì đủ rộng, độ dốc, khoảng trống đầu; nhân vật đi xuống phía tây, qua hầm và lên phía đông; bảo vệ tới mọi khu mới; khu D vẫn cần thẻ dù đi từ tầng hầm.
+- `maps/library/tests/expanded_mechanics_tests.gd` — thể lực và túi đồ, giai đoạn 3: quy tắc thể lực ở 7–144 Hz và thời gian khung hình không đều; chạy thật tại 30/60/120 nhịp vật lý cho cùng 5 giây và quãng đường; không mất thể lực khi đi, đứng, ngồi, ẩn, tương tác hoặc bị nhìn thấy; hồi sinh nạp đầy. Kiểm tra ba ô đồ, từ chối món thứ tư/thẻ khi đầy, dụng cụ và thẻ không tiêu hao; mỗi lần ném thành công mất một vật phẩm và tạo một tiếng khiến bảo vệ điều tra, ném thất bại không tiêu hao; tài liệu chỉ ghi nhật ký một lần; chỉ gửi/lấy/đổi ở kệ lưu đồ, tổng đồ không đổi; cửa kiểm tra thẻ đang mang; ba lần bị bắt khôi phục ô, kệ và vật nhặt không trùng; bản đồ hướng dẫn không có các cơ chế này.
+- `maps/library/tests/expanded_puzzle_tests.gd` — giải đố, nhật ký và nhiệm vụ, giai đoạn 4: đồ thị nhiệm vụ đủ điều kiện tiên quyết, không có chu trình hoặc phụ thuộc từ mục bắt buộc vào mục tùy chọn; kho/bản thảo được bảo vệ và không tiết lộ mã. `ObjectiveManager` hỗ trợ mục song song, tùy chọn, ẩn và khôi phục nhất quán, giữ nguyên chế độ tuyến tính. Chơi hai tuyến hợp lệ bằng thao tác thật: bến hàng không làm tùy chọn và cống qua máy bơm. Thử các thứ tự sai: thiếu thẻ, mở kho bằng tay, lấy bản thảo sớm, khóa thiếu điện, cầu dao sau nắp, mã/cầu dao sai gây báo động, khóa tạm thời và thử lại, thoát sớm, máy bơm đình trệ; kiểm tra tủ tùy chọn. Khôi phục điểm hồi sinh vẫn giữ nhật ký/khám phá và giải tiếp được.
+- `maps/library/tests/expanded_security_tests.gd` — an ninh, giai đoạn 5: quy tắc mở rộng chỉ áp dụng cho bảy bảo vệ của thư viện; giữ bản đồ hướng dẫn và cảnh bảo vệ gốc. Kiểm tra nghe, nhìn, truy đuổi, mất dấu, tìm kiếm và tuần tra; đồ ném kéo bảo vệ tới chỗ rơi; đi vào chỗ ẩn khi không bị thấy thì ẩn được, khi bị thấy thì không, bảo vệ tìm kiếm có thể kiểm tra và phát hiện. Báo động nhân tốc độ phát hiện 1,6 và thời gian tìm kiếm 1,5 nhưng không tự bắt người chơi. Camera phát hiện chậm hơn khi ngồi/ở xa, báo đúng vị trí, cập nhật HUD và gọi bảo vệ; tắt thì tối, không ảnh hưởng AI bảo vệ. Tám tổ hợp mạch điện chỉ cấp đúng thiết bị; khởi động lại và khóa công tắc 30 giây; bến hàng cần bản thảo/điện, cống không cần điện và không gây bế tắc; khôi phục mạch theo điểm hồi sinh; truy đuổi lên cầu thang đông rồi quay lại; vòng tuần tra bảo vệ tầng hầm.
+- `maps/library/tests/expanded_escape_tests.gd` — đường thoát và điểm hồi sinh, giai đoạn 6: chơi từng đường trong lượt mới, dùng thao tác thật ở phần cần thiết. Cửa chính khóa lại, đầu đọc từ chối thiếu thẻ, thao tác ghi đè bị ngắt/hoàn tất và báo động camera sảnh; cửa cuốn thiếu điện, cơ cấu kẹt, dụng cụ, lệnh `OPEN`, tắt/bật điện; vách bí mật chỉ có gợi ý sau khi đọc sơ đồ, chốt, song chắn kẹt và máy bơm. Mọi đường đều từ chối khi thiếu bản thảo, các đường khác giữ đóng, màn hình thắng ghi đúng đường. Kiểm tra bị bắt trước điểm đầu, màn hình, vị trí/hướng hồi sinh, thể lực, mức phát hiện, đồ, nhiệm vụ, câu đố, điện, cửa, vách, nhật ký, HUD; năm lần bị bắt không nhân đồ; mở đường trước/sau điểm hồi sinh vẫn hoàn thành được; bảo vệ trở lại vị trí lưu ở `PATROL` và đủ khoảng trống hồi sinh.
+- `maps/library/tests/expanded_hud_tests.gd` — HUD và khả năng tiếp cận, giai đoạn 7: giá trị cài đặt mặc định/sai, lưu/đọc, áp dụng cỡ giao diện và kênh `Master`, menu chính/tạm dừng. HUD phản ánh thể lực, `EXHAUSTED`, ô đồ, nhiệm vụ và nhật ký chỉ chứa tài liệu/manh mối. `WAYS OUT` và thông báo chỉ nêu đường/điều kiện đã biết; lối bí mật chỉ hiện sau sơ đồ. Kiểm tra nhật ký, đường thoát, điện sau khi bị bắt; phụ đề báo động, vật gây xao nhãng, công tắc, âm hiệu, tiếng chân, hướng/tầng, ngoài tầm nghe và khi tắt. Kiểm tra bố cục 1280×720, 1920×1080, 1024×768, 2560×1440 ở mọi cỡ giao diện: nằm trong màn hình, không chồng, nhấn J xem hết nhật ký. Kiểm tra màn hình kết quả và HUD hướng dẫn có phụ đề/cài đặt.
+- `maps/library/tests/expanded_e2e_tests.gd`, cùng `tests/e2e_walker.gd` — chơi từ đầu đến cuối, giai đoạn 8: đi từ hiên tới lối thoát bằng phím di chuyển, E, F và phím ô đồ, không dịch chuyển tức thời. Lượt bắt buộc thoát bến hàng: thử sai cầu dao/mã rồi sửa, bị từ chối khi thiếu bản thảo, không mở cổng sau từ phía cầu thang, đi khắp khu và cầu thang khi mang bản thảo. Lượt làm đủ tùy chọn thoát cửa chính, bị bắt giữa chừng và khôi phục đồ/nhiệm vụ/câu đố, giữ nhật ký. Lượt thoát lối bí mật đổi mạch theo thứ tự khác. Ném đồ vào bảo vệ ở `PATROL`, `INVESTIGATE`, `CHASE`; chơi lại bản đồ hướng dẫn. Người bị cửa từ chối vẫn đứng an toàn ở ngưỡng cửa.
+- `maps/library/tests/expanded_polish_tests.gd` — hoàn thiện và hiệu năng, giai đoạn 9: âm xoay số, sai mã, giải đúng, nhặt đồ, nắp bảng/công tắc, đồ ném và đầu đọc; âm phát tại đúng cơ cấu, không phát âm nhặt khi bị từ chối. Hộp trang trí không va chạm, nằm trên sàn như hình trang trí, trên đầu hoặc ngoài lưới, cách đồ tương tác/chỗ ẩn ít nhất 0,6 m; đủ biển mới; nhãn trạng thái cống dưới biển tường; bản đồ hướng dẫn không có âm cơ cấu riêng. Các sửa lỗi bổ sung: máy bơm đình trệ không phát âm sai mã; đi được vào chỗ ẩn hầm/ban công; điểm Maintenance Bay lưu/hồi sinh hướng về cửa; Staff Offices hồi sinh trong Office 1; mỗi mô hình chịu tối đa 8 đèn.
+- `maps/library/tests/expanded_baseline_tests.gd` — mốc đối chiếu: cảnh con mở rộng được tạo đúng một lần sau `Gameplay`, đúng vị trí và chỉ trong thư viện mở rộng. Phần ngoài cảnh con giữ dấu vân tay hình học va chạm, trang trí gộp, khung cửa, bảo vệ, tuyến và nút nhiệm vụ so với commit `7d73492`. Tải luân phiên hai bản đồ không để sót hệ thống, bảo vệ hay mục tiêu.
+- `maps/library/tests/expanded_mission_tests.gd` — chuỗi năm nhiệm vụ gốc: thao tác thật từ lúc bắt đầu tới màn hình thắng; từ chối thiếu thẻ, mở sai phía, lấy bản thảo sớm, thoát trước đường tắt; cửa đóng chặn nhân vật và tầm nhìn. Mở cổng sau trước khi lấy bản thảo; bị bắt trước/sau lấy thẻ, sau bản thảo, sau đường tắt và lặp năm lần; đặt lại bảo vệ, không kích hoạt điểm hồi sinh khi bị đuổi; sau mỗi hồi sinh, đồ/cửa/nhiệm vụ/lối ra/HUD khớp ảnh trạng thái đã lưu.
 
-  Run it with `godot --path . --script res://tools/qa_flow.gd -- --out=docs/qa/flow_check`; it prints `QA FLOW PASSED` and exits 0.
-- `tools/map_flow.gd` selects each map from the real menu, restarts it and returns to the menu, three times over, with real scene changes. After every change it checks the right scene, the old one freed, one of each system, unchanged signal-connection counts, and no node growth. It prints `MAP FLOW PASSED` and exits 0.
-- `docs/qa/REGRESSION_CHECKLIST.md` lists what to run and what to check by hand before a release.
+**Công cụ cân bằng, chỉ dùng khi phát triển:** `maps/library/tools/coverage_map.gd` đo tầm nhìn, bản đồ nhiệt và độ lộ của tuyến; `maps/library/tools/playtest_bot.gd` là người chơi thử tự động, đã cập nhật ở giai đoạn mở rộng 8 để đi bốn phương án bến hàng, cửa chính, lối bí mật và đầy đủ; `maps/library/tools/summarize_playtests.py` tổng hợp kết quả. Xem `maps/library/docs/phase-5-balance.md`; quy trình người chơi thử trong `maps/library/docs/PLAYTEST_PROTOCOL.md`.
 
-## Performance evidence
+**Công cụ hình ảnh, chỉ dùng khi phát triển:** `maps/library/tools/capture_views.gd` chụp cùng góc nhìn qua các bản; `maps/library/tools/light_report.gd` đối chiếu đèn với giới hạn bộ kết xuất Compatibility và độ sáng tuyến tuần tra; `maps/library/tools/profile_expanded.gd` đo kết xuất kèm chẩn đoán; `maps/library/tools/collision_fingerprint.gd` ghi các khối va chạm, bảo vệ và điểm tuần tra để so sánh hai bản. Xem `maps/library/docs/phase-6-visual-polish.md`.
 
-**Release 1.1.0, both maps:** [`docs/performance/release_1_1/README.md`](docs/performance/release_1_1/README.md). On the development VM (software rendering, so absolute FPS mean nothing there) the Expanded Library runs at about 93% of the tutorial's frame rate with similar draw calls, and 24 guards cost about 2.5 ms of CPU per frame in either map. **The 60 / 45 FPS targets have not been measured on Windows for this release**; the commands to do it are in that file.
+**Trước khi phát hành:** thực hiện `docs/qa/REGRESSION_CHECKLIST.md`, gồm kiểm thử tự động và kiểm tra thủ công trên Windows.
 
-**Phase 13 (tutorial):** full method and data: **[`docs/phase-13-performance.md`](docs/phase-13-performance.md)**. Evidence is in `docs/performance/`: per-frame CSVs, summaries, charts and before/after renders.
+### Công cụ kiểm tra chất lượng
 
-**Benchmark:**
-- `tools/benchmark.gd` replays a fixed scenario in the real level: the camera flies a fixed path and noise events happen on a fixed schedule.
-- Scenarios: normal (3 guards), several (8) and stress (24).
-- It records frame time, script, AI, animation and render time, draw calls, memory and stuck guards.
+- `tools/qa_flow.gd` chạy luồng trò chơi và chuyển cảnh thật, kiểm tra 15 bước: từ menu bắt đầu, tạm dừng, tiếp tục, chơi lại; bị bắt rồi hồi sinh, về menu và bắt đầu lại; thắng, chơi lại và thoát. Chạy bằng `godot --path . --script res://tools/qa_flow.gd -- --out=docs/qa/flow_check`; thành công in `QA FLOW PASSED`, thoát với mã `0`.
+- `tools/map_flow.gd` chọn từng bản đồ từ menu thật, chơi lại và về menu, lặp ba lần. Sau mỗi chuyển cảnh, kiểm tra đúng cảnh, giải phóng cảnh cũ, mỗi hệ thống chỉ có một bản, số kết nối tín hiệu không đổi và số nút không tăng. Thành công in `MAP FLOW PASSED`, thoát với mã `0`.
+- `docs/qa/REGRESSION_CHECKLIST.md` liệt kê các bước tự động và thủ công cần thực hiện trước phát hành.
 
-**Measured on a GPU-less Linux VM** (2 vCPUs, Mesa llvmpipe software rendering, 1280×720, debug build), where the optimisation was found and measured:
+## Kết quả đo hiệu năng
 
-| | Normal (3 guards) | Stress (24 guards) |
+Các số liệu dưới đây là kết quả lịch sử tại từng giai đoạn, không phải kết quả đo lại sau khi đổi cấu trúc thư mục. Kiểm tra cấu trúc mới ngày 25/10/2026 được ghi riêng trong [VALIDATION.md](docs/architecture/VALIDATION.md).
+
+**Phiên bản 1.1.0, cả hai bản đồ:** xem [`docs/performance/release_1_1/README.md`](docs/performance/release_1_1/README.md). Trên máy ảo phát triển dùng kết xuất phần mềm, FPS tuyệt đối không phản ánh máy chơi thật. Thư viện mở rộng đạt khoảng 93% tốc độ khung hình của bản đồ hướng dẫn, với số lệnh vẽ tương đương; 24 bảo vệ tiêu tốn khoảng 2,5 ms CPU mỗi khung hình ở cả hai bản đồ. **Các mục tiêu 60/45 FPS chưa được đo trên Windows cho phiên bản này trong báo cáo đó**; lệnh đo nằm trong tài liệu liên kết.
+
+**Giai đoạn 13, bản đồ hướng dẫn:** phương pháp và dữ liệu đầy đủ trong **[`docs/phase-13-performance.md`](docs/phase-13-performance.md)**. Bằng chứng nằm tại `docs/performance/`, gồm CSV từng khung hình, bản tổng hợp, biểu đồ và ảnh kết xuất trước/sau.
+
+**Công cụ đo:**
+
+- `tools/benchmark.gd` chạy lại kịch bản cố định trong bản đồ thật: camera đi theo đường định sẵn, tiếng động xuất hiện theo lịch cố định.
+- Các kịch bản gồm thông thường `normal` với 3 bảo vệ, nhiều bảo vệ `several` với 8 và tải nặng `stress` với 24.
+- Ghi thời gian khung hình, mã xử lý, AI, hoạt ảnh, kết xuất, số lệnh vẽ, bộ nhớ và bảo vệ bị kẹt.
+
+**Đo trên máy ảo Linux không có GPU:** 2 CPU ảo, Mesa llvmpipe kết xuất bằng phần mềm, độ phân giải 1280×720, bản có gỡ lỗi. Đây là môi trường dùng để tìm và đo tác dụng của tối ưu bóng.
+
+| Chỉ số | Thông thường, 3 bảo vệ | Tải nặng, 24 bảo vệ |
 |---|---|---|
-| Avg FPS before → after the shadow optimisation | 8.37 → 11.61 | 7.85 → 10.57 |
-| Mean frame time before → after | 119.6 → 86.2 ms | 127.3 → 94.6 ms |
-| CPU per frame, headless (all game logic, physics, navigation) | 0.7 ms | 2.1 ms |
+| FPS trung bình trước → sau tối ưu bóng | 8,37 → 11,61 | 7,85 → 10,57 |
+| Thời gian khung hình trung bình trước → sau | 119,6 → 86,2 ms | 127,3 → 94,6 ms |
+| CPU mỗi khung hình khi không kết xuất, gồm logic, vật lý và điều hướng | 0,7 ms | 2,1 ms |
 
-**Measured on Windows hardware** (release validation, 2026-10-09; Windows 10, Intel i5-8265U, NVIDIA GeForce MX130, 1280×720, debug build; evidence in `docs/performance/windows/`, details in `docs/FINAL_REPORT.md`):
+**Đo trên phần cứng Windows:** kiểm tra phát hành ngày 09/10/2026, Windows 10, Intel i5-8265U, NVIDIA GeForce MX130, 1280×720, bản có gỡ lỗi. Bằng chứng trong `docs/performance/windows/`, chi tiết trong `docs/FINAL_REPORT.md`.
 
-| | Normal (3 guards) | Stress (24 guards) |
+| Chỉ số | Thông thường, 3 bảo vệ | Tải nặng, 24 bảo vệ |
 |---|---|---|
-| Avg FPS (1% low) | 202.8 (62.1) | 153.2 (57.5) |
-| Mean / p95 frame time | 4.94 / 6.81 ms | 6.54 / 10.7 ms |
-| CPU per frame, headless | 0.85 ms | 2.93 ms |
+| FPS trung bình, trong ngoặc là nhóm 1% khung hình chậm nhất | 202,8 (62,1) | 153,2 (57,5) |
+| Thời gian khung hình trung bình / phân vị 95 | 4,94 / 6,81 ms | 6,54 / 10,7 ms |
+| CPU mỗi khung hình khi không kết xuất | 0,85 ms | 2,93 ms |
 
-**Findings:**
-- Rendering was about 90% of the frame, and the sun's 4-cascade shadow map was the biggest single cost.
-- **The fix:** 2 cascades and a 2048 shadow atlas, with no visible change (pixel-compared).
-- The game logic is cheap: 48 guards cost 3.8 ms of CPU per frame.
-- **Memory:** flat over a 5-minute run.
-- The Phase 14 QA pass corrected the stress figures after fixing a benchmark bug.
+**Kết quả phân tích:**
 
-### Performance benchmark
+- Kết xuất chiếm khoảng 90% thời gian khung hình; bóng mặt trời với 4 tầng là chi phí đơn lẻ lớn nhất.
+- Giảm còn 2 tầng và kích thước bộ nhớ bản đồ bóng 2048; phép so sánh điểm ảnh không thấy thay đổi hình ảnh.
+- Logic trò chơi có chi phí thấp: 48 bảo vệ dùng 3,8 ms CPU mỗi khung hình trong phép đo này.
+- Bộ nhớ ổn định trong lượt chạy 5 phút.
+- Đợt QA giai đoạn 14 đã sửa số liệu tải nặng sau khi khắc phục lỗi của công cụ đo.
 
-`tools/benchmark.gd` runs the real level in a fixed, repeatable scenario and records frame time, script, guard-AI, animation and render time, draw calls, memory and NPC counts:
+### Chạy đo hiệu năng
 
-```
+`tools/benchmark.gd` chạy bản đồ thật với kịch bản cố định, lặp lại được; ghi thời gian khung hình, mã xử lý, AI bảo vệ, hoạt ảnh, kết xuất, số lệnh vẽ, bộ nhớ và số NPC:
+
+```bash
 godot --path . --resolution 1280x720 --script res://tools/benchmark.gd -- --scenario=normal --out=docs/performance/my_run
 godot --headless --fixed-fps 60 --path . --script res://tools/benchmark.gd -- --scenario=stress --out=docs/performance/my_run
 godot --path . --resolution 1280x720 --script res://tools/benchmark.gd -- --level=expanded --scenario=stress --out=docs/performance/my_run
 ```
 
-- `--level=tutorial` (default) or `--level=expanded`. Each level has its own camera loop and noise points.
-- Scenarios: tutorial `normal` (3 guards), `several` (8), `stress` (24); Expanded Library `normal` (6), `several` (12), `stress` (24); or `--npcs=N`.
-- The headless form measures CPU only (one physics tick per frame, no rendering).
-- `python3 docs/performance/analyse.py` rebuilds the tables and charts (needs matplotlib).
-- Results and method: `docs/phase-13-performance.md`.
+- Chọn `--level=tutorial` mặc định hoặc `--level=expanded`. Mỗi bản đồ có vòng camera và các điểm tiếng động riêng.
+- Cấu hình kịch bản của công cụ: bản đồ hướng dẫn `normal` 3 bảo vệ, `several` 8, `stress` 24; thư viện mở rộng `normal` 6, `several` 12, `stress` 24; hoặc đặt `--npcs=N`. Đây là số NPC của kịch bản đo, không phải tổng bảo vệ trong bản đồ hiện tại.
+- Chế độ `--headless` chỉ đo CPU, một nhịp vật lý mỗi khung hình và không kết xuất.
+- `python3 docs/performance/analyse.py` tạo lại bảng và biểu đồ, cần thư viện matplotlib.
+- Phương pháp và kết quả nằm trong `docs/phase-13-performance.md`.
 
-## Level-design version history
+## Lịch sử các phiên bản thiết kế bản đồ
 
-The Expanded Library has its own log, with the commit of each version on `Development` (v0 `cce1e9a`, v1 `3896e7c`, v2 `8dd2d63`, v3 and v4 together `484761d`): **[`maps/library/docs/LEVEL_LOG.md`](maps/library/docs/LEVEL_LOG.md)** (design in [`maps/library/docs/LAYOUT.md`](maps/library/docs/LAYOUT.md)). The tutorial's history:
+Thư viện mở rộng có nhật ký riêng tại **[`maps/library/docs/LEVEL_LOG.md`](maps/library/docs/LEVEL_LOG.md)**, thiết kế tại [`maps/library/docs/LAYOUT.md`](maps/library/docs/LAYOUT.md). Các commit trên nhánh `Development` ghi nhận: v0 `cce1e9a`, v1 `3896e7c`, v2 `8dd2d63`, v3 và v4 cùng nằm trong `484761d`.
 
-The level went through five measured versions, each recorded as an evidence folder (all five landed in git as one commit, `3320e45`). The full log, with what changed, why, the metrics and before/after pictures, is in **[`maps/tutorial/docs/level/LEVEL_LOG.md`](maps/tutorial/docs/level/LEVEL_LOG.md)**.
+Bản đồ hướng dẫn trải qua năm phiên bản có số đo, mỗi phiên bản có thư mục bằng chứng. Cả năm được đưa vào Git trong commit `3320e45`. Nhật ký đầy đủ về thay đổi, lý do, số đo và ảnh trước/sau nằm tại **[`maps/tutorial/docs/level/LEVEL_LOG.md`](maps/tutorial/docs/level/LEVEL_LOG.md)**.
 
-| Version | What changed | Evidence |
+| Phiên bản | Thay đổi | Bằng chứng |
 |---|---|---|
-| v0 | baseline: the Phase 10 graybox measured with the new level tools | `maps/tutorial/docs/level/v0/` |
-| v1 | cover and sightline pass: low bookcases, catalogue cabinet, Hallway East study alcove and carrel, book carts, exit-area crates and rack | `maps/tutorial/docs/level/v1/` (+ `compare.md`) |
-| v2 | GuardEast's patrol becomes an exit-area warden (6 candidate routes measured, B2 chosen) | `maps/tutorial/docs/level/v2/` (+ `experiments/`) |
-| v3 | readability: doors, room / RESTRICTED / EXIT signs, landmarks, card spotlight (visual only; metrics identical) | `maps/tutorial/docs/level/v3/` |
-| v4 | low-poly art: palette, lighting, books, ceilings, chairs, plants, windows, posters, rugs | `maps/tutorial/docs/level/v4/`, `maps/tutorial/docs/level/before_after/` |
+| v0 | Mốc ban đầu: đo bản khối thô giai đoạn 10 bằng bộ công cụ bản đồ mới | `maps/tutorial/docs/level/v0/` |
+| v1 | Bổ sung vật che và điều chỉnh tầm nhìn: kệ thấp, tủ mục lục, ô bàn học hành lang đông, xe sách, thùng và giá ở khu thoát | `maps/tutorial/docs/level/v1/` cùng `compare.md` |
+| v2 | Chuyển GuardEast sang canh khu thoát; đo 6 tuyến đề xuất, chọn B2 | `maps/tutorial/docs/level/v2/` cùng `experiments/` |
+| v3 | Tăng khả năng nhận biết: cửa, biển tên phòng, `RESTRICTED`, `EXIT`, mốc định hướng và đèn chiếu thẻ; chỉ đổi hình ảnh, số đo giữ nguyên | `maps/tutorial/docs/level/v3/` |
+| v4 | Hoàn thiện đồ họa ít đa giác: bảng màu, ánh sáng, sách, trần, ghế, cây, cửa sổ, áp phích và thảm | `maps/tutorial/docs/level/v4/`, `maps/tutorial/docs/level/before_after/` |
 
-**Measured from v0 to v4:**
-- Floor within 1.5 m of cover rose from 33% to 42%.
-- The safest east route to the card got shorter (115–117 m → 103 m) and less exposed (38% → 31% peak).
-- Spawn and both checkpoints stay at 0% exposure.
+**Đo từ v0 đến v4:**
 
-## Known limitations
+- Tỷ lệ sàn cách vật che không quá 1,5 m tăng từ 33% lên 42%.
+- Tuyến phía đông an toàn nhất đến thẻ ngắn hơn, từ 115–117 m còn 103 m; mức lộ cao nhất giảm từ 38% xuống 31%.
+- Điểm xuất hiện và hai điểm hồi sinh giữ mức lộ 0%.
 
-**Scope:**
-- Two maps (the tutorial and the Expanded Library).
-- No save game.
-- No settings menu (mouse sensitivity, volume, resolution).
-- Quit only from the main menu.
+## Giới hạn và những việc cần kiểm chứng
 
-**Testing:**
-- The automated suite and the game-flow run pass on Linux (CI and the development VM) and on Windows 10 (release validation, 2026-10-09).
-- The CI-built Windows executable was launched on Windows and played from the main menu into the level; a full manual playthrough of the checklist's Part 2 has not been recorded yet.
-- The audio has not been judged by ear.
-- The scripted playthroughs don't judge stealth difficulty; that needs human play.
-- **Release 1.1.0:** the suite, the flow runs and the export pass on Linux (the development VM, and CI Build #5 on `484761d`). Not yet done on Windows for this release: launching the exported build, choosing both maps in it, playing the Expanded Library to the end, and the frame-rate benchmark. No human has played the Expanded Library yet, so its 20–30 minute target is unconfirmed (the automated playtester's runs are in `maps/library/docs/v3/` and `v4/playtests/`).
+**Phạm vi:**
 
-**Level:**
-- The scene file is still named `library_graybox.tscn` (kept so references stay stable).
-- Only the exit door is interactive.
-- Decoration (chairs, signs, books) has no collision; plants do.
-- Windows are emissive panels.
-- Only two checkpoints; none on the east route after the card.
-- Expanded Library: its door-frame fix (z-fighting) was made in the scene file only; rebuilding the scene with `maps/library/tools/build_expanded_graybox.gd` would bring the old frames back.
+- Hiện có hai bản đồ chơi được: bản hướng dẫn và thư viện mở rộng. Các bản đồ khác mới có khung thư mục.
+- Chưa có lưu tiến trình lượt chơi ra đĩa.
+- Menu đã có cỡ giao diện, âm lượng và phụ đề âm thanh; chưa có đầy đủ tùy chỉnh độ nhạy chuột hoặc độ phân giải.
+- Thoát ứng dụng từ menu chính.
+
+**Kiểm thử:**
+
+- Báo cáo phát hành ngày 09/10/2026 ghi nhận bộ kiểm thử và luồng trò chơi qua trên Linux, máy ảo phát triển và Windows 10.
+- Trong đợt đó, bản thực thi Windows do CI tạo đã được mở và đi từ menu vào bản đồ; chưa có bản ghi chơi thủ công đầy đủ phần 2 của danh sách kiểm tra.
+- Âm thanh chưa có đánh giá nghe trực tiếp được ghi nhận trong báo cáo.
+- Các lượt chơi bằng chương trình không đánh giá được độ khó lén lút; cần người chơi thật.
+- **Báo cáo phát hành 1.1.0:** bộ kiểm thử, luồng và xuất bản qua trên Linux, gồm máy ảo và CI lần #5 tại `484761d`. Báo cáo đó chưa ghi nhận việc mở bản xuất Windows, chọn cả hai bản đồ, chơi hết thư viện mở rộng và đo FPS cho phiên bản này. Mục tiêu hoàn thành 20–30 phút chưa được xác nhận bằng người chơi; kết quả của chương trình chơi thử nằm tại `maps/library/docs/v3/` và `v4/playtests/`.
+- **Kiểm tra sau tổ chức thư mục ngày 25/10/2026:** bộ kiểm thử cơ chế chơi đầy đủ, kiểm tra chuyển bản đồ và tải gói PCK đã qua trên Windows; xem [biên bản kiểm tra](docs/architecture/VALIDATION.md). Kết quả này không thay thế việc chơi thủ công hoặc đo FPS.
+
+**Bản đồ:**
+
+- Cảnh hướng dẫn vẫn mang tên `library_graybox.tscn` để giữ ổn định tham chiếu.
+- Vật trang trí như ghế, biển và sách không có va chạm; cây có va chạm. Phần trang trí không phải đồ tương tác.
+- Cửa sổ sử dụng các mặt phẳng phát sáng.
+- Bản hướng dẫn có hai điểm hồi sinh, chưa có điểm trên tuyến đông sau khi lấy thẻ.
+- Thư viện mở rộng từng sửa hiện tượng nhấp nháy do hai bề mặt chồng nhau ở khung cửa trực tiếp trong cảnh. Dựng lại bằng `maps/library/tools/build_expanded_graybox.gd` có thể đưa khung cửa cũ trở lại.
 
 **AI:**
-- Guards sharing one patrol route can block each other at a narrow spot for about 5 s before skipping ahead. Both maps have one guard per route; the benchmark's stress scenario adds guards to shared routes and shows it (`docs/performance/release_1_1/`).
-- Ambient sounds are decoration: guards don't hear them, and walls don't block them.
 
-**Presentation:**
-- The guard model is rigid box parts with code-built animations, about 20 draw calls per guard.
-- The sounds are simple synthesised effects.
+- Các bảo vệ dùng chung một tuyến có thể chặn nhau ở lối hẹp khoảng 5 giây trước khi bỏ qua điểm. Hai bản đồ chính dùng một bảo vệ cho mỗi tuyến; kịch bản tải nặng chủ động thêm nhiều bảo vệ trên cùng tuyến, xem `docs/performance/release_1_1/`.
+- Âm thanh môi trường chỉ phục vụ trang trí: bảo vệ không nghe và tường không làm giảm âm này.
 
-**Build:**
-- Windows x64 only.
-- The executable is not code-signed.
-- Builds aren't byte-for-byte identical, because the pack records file times.
-- The workflow's actions (`checkout`, `cache`, `upload-artifact` @v4) target Node.js 20, which GitHub has deprecated; runs pass, with a warning.
+**Trình bày:**
 
-**CI status:** [Build #5](https://github.com/SE2026-T10/CampusEscape3D-2/actions/runs/38188815204) on `484761d` (Expanded Library phases 5 and 6) passed both jobs (validate and test 11 m 59 s, Windows export 42 s) and uploaded `CampusEscape3D-1.0.0-windows-x64` (37.6 MB); builds #1–#5 all passed. The 1.1.0 changes of the release phase are not pushed yet. The first GitHub run, [Build #1](https://github.com/SE2026-T10/CampusEscape3D-2/actions/runs/37272574230) on commit `15b3ebf`, passed both jobs (validate and test 4 m 16 s, Windows export 39 s) and uploaded `CampusEscape3D-1.0.0-windows-x64` (37.5 MB).
+- Mô hình bảo vệ gồm các khối cứng, hoạt ảnh bằng mã; khoảng 20 lệnh vẽ cho mỗi bảo vệ theo báo cáo hiện có.
+- Âm thanh là các hiệu ứng tổng hợp đơn giản.
 
-## Development notes
+**Đóng gói:**
 
-### Adding or changing a guard patrol
+- Chỉ xuất bản cho Windows x64.
+- Tệp thực thi chưa được ký số.
+- Các gói không giống nhau hoàn toàn ở mức từng byte vì lưu thời gian của tệp.
+- Báo cáo CI cũ ghi nhận cảnh báo về Node.js 20 của các tác vụ `checkout`, `cache`, `upload-artifact` phiên bản `@v4`; cần đọc nhật ký của lần chạy cụ thể để biết trạng thái hiện tại.
 
-1. Add a `PatrolRoute` node (script `shared/scripts/npc/patrol_route.gd`) under `Guards`. Untick **Loop** if the guard should stop at the last point.
-2. Add `Marker3D` children with `shared/scripts/npc/patrol_point.gd` attached, in the order to visit them, on walkable floor. Set **Wait Time** per point (-1 uses the guard's default).
-3. Instance `shared/scenes/npc/guard.tscn` under `Guards` and set its **Patrol Route** to the new route. Several guards can share one route.
+**Lịch sử CI:** [lần đóng gói #5](https://github.com/SE2026-T10/CampusEscape3D-2/actions/runs/38188815204) tại `484761d`, thuộc giai đoạn 5–6 của thư viện mở rộng, qua kiểm tra/kiểm thử trong 11 phút 59 giây và xuất Windows trong 42 giây; tải lên `CampusEscape3D-1.0.0-windows-x64`, 37,6 MB. Các lần #1–#5 được báo cáo thành công. [Lần đóng gói #1](https://github.com/SE2026-T10/CampusEscape3D-2/actions/runs/37272574230) tại `15b3ebf` qua kiểm tra/kiểm thử trong 4 phút 16 giây, xuất Windows trong 39 giây và tải gói 37,5 MB. Đây là kết quả lịch sử, không đại diện cho CI của nhánh hiện tại.
 
-The tests check that every patrol point in the library is on the navigation mesh and reachable.
+## Hướng dẫn phát triển
 
-### Level-design tools
+### Thêm hoặc chỉnh tuyến tuần tra
 
-Measure the level and record a version (run on the commit you want to record):
+1. Thêm nút `PatrolRoute`, gắn mã `shared/scripts/npc/patrol_route.gd`, dưới `Guards`. Bỏ chọn **Loop** nếu muốn bảo vệ dừng ở điểm cuối.
+2. Thêm các nút con `Marker3D`, gắn `shared/scripts/npc/patrol_point.gd`, theo thứ tự đi và đặt trên sàn có thể đi. Cấu hình **Wait Time** cho từng điểm; `-1` dùng thời gian mặc định của bảo vệ.
+3. Thêm một thể hiện của `shared/scenes/npc/guard.tscn` dưới `Guards`, đặt **Patrol Route** trỏ tới tuyến mới. Nhiều bảo vệ có thể dùng chung tuyến.
 
-```
+Kiểm thử xác nhận từng điểm tuần tra trong thư viện nằm trên lưới điều hướng và có đường tới.
+
+### Công cụ thiết kế bản đồ
+
+Đo bản đồ và ghi lại một phiên bản; chạy trên đúng commit cần lưu bằng chứng:
+
+```bash
 godot --path . --script res://maps/tutorial/tools/level_report.gd -- --out=maps/tutorial/docs/level/v5 --version=v5
 godot --path . --resolution 1280x720 --script res://maps/tutorial/tools/capture_views.gd -- --out=maps/tutorial/docs/level/v5/views
 godot --headless --path . --script res://maps/tutorial/tools/level_compare.gd -- --before=maps/tutorial/docs/level/v4 --after=maps/tutorial/docs/level/v5
 ```
 
-What each one produces:
+Kết quả của từng công cụ:
 
-- `level_report.gd` writes `report.md`, `metrics.json` and, when run with a display, `map.png`. It measures:
-  - exposure: how much of each guard's patrol loop a spot is inside its view cone;
-  - cover;
-  - patrol loops;
-  - shortest and safest player routes;
-  - hiding-spot and respawn-point exposure.
-- `--scene=res://other.tscn` measures an experimental copy of the level instead.
-- `capture_views.gd` renders the 8 fixed viewpoints and a top-down view, so versions can be compared shot for shot.
-- `level_compare.gd` writes a before/after table, `compare.md`.
+- `level_report.gd` tạo `report.md`, `metrics.json` và `map.png` khi chạy có hiển thị. Các chỉ số gồm:
+  - Mức lộ: tỷ lệ thời gian một vị trí nằm trong tầm nhìn của bảo vệ trong vòng tuần tra.
+  - Vùng che chắn.
+  - Vòng tuần tra.
+  - Đường ngắn nhất và an toàn nhất của người chơi.
+  - Mức lộ của chỗ ẩn và vị trí hồi sinh.
+- `--scene=res://other.tscn` chuyển sang đo một cảnh thử nghiệm khác.
+- `capture_views.gd` chụp 8 góc nhìn cố định và một góc từ trên xuống để so sánh các phiên bản cùng vị trí.
+- `level_compare.gd` tạo bảng trước/sau trong `compare.md`.
 
-### Rebaking navigation after changing the level
+### Tạo lại lưới điều hướng sau khi đổi bản đồ
 
-Navigation is baked from the level's static collision into `maps/tutorial/resources/library_navmesh.tres`. After moving walls, shelves or furniture, rebake using either of these:
+Lưới điều hướng được tạo từ các khối va chạm tĩnh, lưu tại `maps/tutorial/resources/library_navmesh.tres`. Sau khi di chuyển tường, kệ hoặc đồ đạc, tạo lại bằng một trong hai cách:
 
-- **Editor:** select `NavigationRegion3D` in the library scene, click **Bake NavigationMesh** in the toolbar, then save (Ctrl+S).
-- **Command line:** `godot --headless --path . --script res://maps/tutorial/tools/bake_navigation.gd`
+- **Trong trình biên tập:** chọn `NavigationRegion3D` trong cảnh thư viện, nhấn **Bake NavigationMesh** trên thanh công cụ rồi lưu bằng Ctrl+S.
+- **Từ dòng lệnh:** `godot --headless --path . --script res://maps/tutorial/tools/bake_navigation.gd`.
 
-If you forget to rebake, the tests fail with "The saved navigation mesh is out of date".
+Nếu quên tạo lại, kiểm thử báo `The saved navigation mesh is out of date`, nghĩa là lưới đã lưu không còn khớp với bản đồ.
 
-## Documentation
+## Tài liệu tham khảo
 
-- `docs/phase-1-setup.md`
-- `docs/phase-2-first-person-player.md`
-- `docs/phase-3-library-navigation.md`
-- `docs/phase-4-npc-patrol.md`
-- `docs/phase-5-npc-vision.md`
-- `docs/phase-6-npc-ai-state-machine.md`
-- `docs/phase-7-hearing-and-noise.md`
-- `docs/phase-8-stealth-loop.md`
-- `docs/phase-9-objectives-and-checkpoints.md`
-- `docs/phase-10-game-flow.md`
-- `docs/phase-11-final-level.md`
-- `maps/tutorial/docs/level/LEVEL_LOG.md` (level-design versions v0–v4 with evidence)
-- `docs/phase-12-presentation.md`
-- `docs/phase-13-performance.md` (benchmark, measurements, optimisation; evidence in `docs/performance/`)
-- `docs/phase-14-qa.md` (final QA pass; checklist and evidence in `docs/qa/`)
-- `docs/BUILD.md` (build, CI and release process)
-- `docs/phase-15-build-pipeline.md`
-- `docs/release-notes/v1.0.0.md`
-- `docs/release-notes/v1.1.0.md`
-- `maps/library/docs/expansion/` (Expanded Library expansion: Phase 1 baseline and integration point)
-- `maps/library/docs/phase-7-release.md` (release 1.1.0: final QA, performance, build; acceptance)
-- `docs/performance/release_1_1/README.md` (both maps benchmarked)
-- **[`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md)** (final MVP report and release validation)
-- Expanded Library: `maps/library/docs/phase-0-audit.md`, `maps/library/docs/LAYOUT.md`, `maps/library/docs/phase-1-graybox.md`, `maps/library/docs/phase-2-map-selection.md`, `maps/library/docs/phase-3-navigation-and-guards.md`, `maps/library/docs/phase-4-mission.md`, `maps/library/docs/phase-5-balance.md`, `maps/library/docs/phase-6-visual-polish.md`, `maps/library/docs/PLAYTEST_PROTOCOL.md`, `maps/library/docs/LEVEL_LOG.md`
+- [Tổ chức và làm việc theo bản đồ](docs/architecture/MAP_LAYOUT.md).
+- [Kết quả kiểm tra sau khi tổ chức lại](docs/architecture/VALIDATION.md).
+- `docs/phase-1-setup.md` — thiết lập dự án.
+- `docs/phase-2-first-person-player.md` — nhân vật góc nhìn thứ nhất.
+- `docs/phase-3-library-navigation.md` — điều hướng trong thư viện.
+- `docs/phase-4-npc-patrol.md` — tuần tra của NPC.
+- `docs/phase-5-npc-vision.md` — thị giác NPC.
+- `docs/phase-6-npc-ai-state-machine.md` — máy trạng thái AI.
+- `docs/phase-7-hearing-and-noise.md` — thính giác và tiếng động.
+- `docs/phase-8-stealth-loop.md` — vòng lặp lén lút.
+- `docs/phase-9-objectives-and-checkpoints.md` — nhiệm vụ và điểm hồi sinh.
+- `docs/phase-10-game-flow.md` — luồng trò chơi.
+- `docs/phase-11-final-level.md` — bản đồ hoàn thiện.
+- `maps/tutorial/docs/level/LEVEL_LOG.md` — thiết kế v0–v4 cùng bằng chứng.
+- `docs/phase-12-presentation.md` — âm thanh và trình bày.
+- `docs/phase-13-performance.md` — đo, phân tích, tối ưu hiệu năng; bằng chứng trong `docs/performance/`.
+- `docs/phase-14-qa.md` — kiểm tra chất lượng cuối kỳ; danh sách và bằng chứng trong `docs/qa/`.
+- `docs/BUILD.md` — đóng gói, CI và quy trình phát hành.
+- `docs/phase-15-build-pipeline.md` — quy trình đóng gói tự động.
+- `docs/release-notes/v1.0.0.md` — ghi chú phát hành 1.0.0.
+- `docs/release-notes/v1.1.0.md` — ghi chú phát hành 1.1.0.
+- `maps/library/docs/expansion/` — phần mở rộng thư viện, mốc ban đầu và điểm tích hợp.
+- `maps/library/docs/phase-7-release.md` — QA, hiệu năng, đóng gói và nghiệm thu phiên bản 1.1.0.
+- `docs/performance/release_1_1/README.md` — đo hiệu năng cả hai bản đồ.
+- **[`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md)** — báo cáo MVP cuối cùng và kiểm chứng phát hành.
+- Thiết kế thư viện mở rộng: `maps/library/docs/phase-0-audit.md`, `maps/library/docs/LAYOUT.md`, `maps/library/docs/phase-1-graybox.md`, `maps/library/docs/phase-2-map-selection.md`, `maps/library/docs/phase-3-navigation-and-guards.md`, `maps/library/docs/phase-4-mission.md`, `maps/library/docs/phase-5-balance.md`, `maps/library/docs/phase-6-visual-polish.md`, `maps/library/docs/PLAYTEST_PROTOCOL.md`, `maps/library/docs/LEVEL_LOG.md`.
