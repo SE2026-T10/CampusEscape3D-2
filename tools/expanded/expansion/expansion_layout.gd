@@ -174,12 +174,12 @@ const RAMP_FILLER_STEPS := 10
 ## Cover with collision: "low" hides a crouched player, "full" a standing one.
 const COVER := [
 	{"name": "AlcoveCrate", "zone": "G", "rect": [-38.9, -16.6, -37.1, -15.0], "y": BF, "h": 1.2, "look": "crate"},
-	{"name": "BayCrate", "zone": "G", "rect": [-27.6, -21.0, -26.0, -19.4], "y": BF, "h": 1.2, "look": "crate"},
+	{"name": "BayCrate", "zone": "G", "rect": [-27.6, -21.0, -26.0, -19.4], "y": BF, "h": 1.2, "look": "crate", "hidden": true},   # polish: two tool chests are its look
 	{"name": "CableBayCrate", "zone": "G", "rect": [43.2, -21.8, 44.8, -20.2], "y": BF, "h": 1.2, "look": "crate_dark"},
 	{"name": "TunnelCrateWest", "zone": "G", "rect": [-14.8, -26.85, -13.2, -25.3], "y": BF, "h": 1.2, "look": "crate"},
 	{"name": "TunnelCrateEast", "zone": "G", "rect": [18.2, -24.7, 19.8, -23.15], "y": BF, "h": 1.2, "look": "crate"},
-	{"name": "PumpMachine", "zone": "G", "rect": [-2.0, -20.2, 2.0, -17.8], "y": BF, "h": SLAB_BOTTOM - BF, "look": "steel"},   # floor to ceiling: full cover, nothing baked on top
-	{"name": "ElectricalCabinets", "zone": "D", "rect": [38.0, -27.85, 44.0, -27.1], "y": 0.0, "h": 2.0, "look": "dark_metal"},
+	{"name": "PumpMachine", "zone": "G", "rect": [-2.0, -20.2, 2.0, -17.8], "y": BF, "h": SLAB_BOTTOM - BF, "look": "steel", "hidden": true},   # floor to ceiling: full cover, nothing baked on top; polish: no mesh, the pump unit (built by the builder) is its look
+	{"name": "ElectricalCabinets", "zone": "D", "rect": [38.0, -27.85, 44.0, -27.1], "y": 0.0, "h": 2.0, "look": "cabinet_green"},
 	# Phase 9 follow-up (P1a, approved): a nook on the staff balcony against the
 	# staff wing's wall, west of G1a: a carrel panel on its east side and a low
 	# bench on its south side, open to the west (away from GuardConnector's legs).
@@ -208,7 +208,7 @@ const CHECKPOINTS := [
 ## Access doors (AccessDoor). Cut 2 keeps zone D behind the staff card.
 const DOORS := [
 	{"name": "ElectricalRoomDoor", "door_name": "Electrical Room Door", "centre": Vector3(36, 0, -23), "along_x": false,
-		"width": 2.0, "key": "take_card", "key_item": "staff_card", "key_name": "staff access card"},
+		"width": 2.0, "key": "take_card", "key_item": "staff_card", "key_name": "staff access card", "security": true},
 	# Phase 4: the existing vault doorway (archive hall → vault, upper floor) gets a door the keypad opens.
 	{"name": "VaultDoor", "door_name": "Vault Door", "centre": Vector3(28, 4.5, -21), "along_x": false,
 		"width": 2.0, "key": "open_vault", "key_name": "vault code"},
@@ -217,7 +217,7 @@ const DOORS := [
 	# culvert access plan is read; then E works its latch.
 	{"name": "MaintenancePanel", "door_name": "Maintenance Panel", "centre": Vector3(0, BF, -27), "along_x": true,
 		"width": 4.0, "key": "", "key_name": "hidden latch", "height": SLAB_BOTTOM - BF, "hidden_until": "culvert_access_plan",
-		"prompt": "Work the hidden latch (maintenance panel)"},
+		"prompt": "Work the hidden latch (maintenance panel)", "hatch": true},
 ]
 
 ## Seals: invisible colliders (no mesh) that keep the navmesh as it was where
@@ -280,22 +280,7 @@ const DOOR_HEADERS := [
 
 ## Signs (Label3D, no collision), as the existing level's: text 3.05 m up on
 ## the ground floor, 2.6 m in the basement; facing in degrees about y.
-const SIGNS := [
-	{"text": "SERVICE STAIR ↓", "pos": Vector3(-35.83, 3.05, -9.0), "facing": 90.0},
-	{"text": "ELECTRICAL · STAFF CARD", "pos": Vector3(35.83, 3.05, -23.0), "facing": -90.0, "red": true},
-	{"text": "STUDY 1", "pos": Vector3(-12.17, 3.05, -21.0), "facing": -90.0},
-	{"text": "STACKS", "pos": Vector3(-11.83, 3.05, -21.0), "facing": 90.0},
-	{"text": "PUMP ROOM", "pos": Vector3(0.0, BF + 2.75, -22.83), "facing": 180.0},
-	{"text": "STORM DRAIN · SEALED", "pos": Vector3(0.0, BF + 2.75, -36.9), "facing": 0.0, "red": true},
-	{"text": "SERVICE STAIR ↑ ELECTRICAL", "pos": Vector3(45.83, BF + 2.75, -12.0), "facing": -90.0},
-	{"text": "SERVICE STAIR ↑ STACKS", "pos": Vector3(-43.83, BF + 2.75, -24.5), "facing": 90.0},
-	# Phase 9 (wayfinding and storytelling).
-	{"text": "MAINTENANCE BAY", "pos": Vector3(-24.0, BF + 2.75, -22.83), "facing": 180.0},
-	{"text": "← STACKS · PUMP ROOM →", "pos": Vector3(-30.0, BF + 2.75, -26.83), "facing": 0.0},
-	{"text": "← PUMP ROOM · ELECTRICAL →", "pos": Vector3(28.0, BF + 2.75, -26.83), "facing": 0.0},
-	{"text": "DANGER · 400 V", "pos": Vector3(41.0, 3.05, -27.83), "facing": 0.0, "red": true},
-	{"text": "FLOOD LEVEL · 2019", "pos": Vector3(1.83, BF + 0.95, -31.0), "facing": -90.0},
-]
+const SIGNS := []   # removed by request (no wall signs); the builder still builds any listed here
 
 ## Phase 9 (polish, decorative only): boxes with no collision, flush with a
 ## wall, above head height (2.3 m) or a flat decal on the floor, so the
@@ -315,6 +300,109 @@ const DECOR_LOOKS := {
 	"tool_dark": [Color(0.14, 0.14, 0.15), 0.9, 0.0, 0.0],
 	"glow_amber": [Color(1.0, 0.62, 0.2), 0.5, 0.0, 1.6],
 	"glow_red": [Color(0.95, 0.12, 0.08), 0.5, 0.0, 1.6],
+	# Electrical room polish: the cabinets, the breaker panel and its wiring.
+	"cabinet_green": [Color(0.4, 0.48, 0.43), 0.75, 0.0, 0.0],
+	# The code locks: the vault keypad's housing and screen, the locker.
+	"keypad_steel": [Color(0.62, 0.64, 0.67), 0.35, 0.0, 0.0],
+	"keypad_bezel": [Color(0.2, 0.21, 0.23), 0.5, 0.0, 0.0],
+	"locker_grey": [Color(0.5, 0.54, 0.57), 0.6, 0.0, 0.0],
+	"locker_inside": [Color(0.38, 0.41, 0.44), 0.8, 0.0, 0.0],
+	"panel_grey": [Color(0.55, 0.57, 0.6), 0.5, 0.0, 0.0],
+	"duct_grey": [Color(0.56, 0.58, 0.57), 0.8, 0.0, 0.0],
+	"seam_dark": [Color(0.17, 0.2, 0.18), 0.9, 0.0, 0.0],
+	"copper": [Color(0.72, 0.43, 0.2), 0.4, 0.5, 0.0],
+	"wire_black": [Color(0.05, 0.05, 0.055), 0.6, 0.0, 0.0],
+	"screen_dark": [Color(0.04, 0.06, 0.07), 0.3, 0.0, 0.0],
+	"led_green": [Color(0.2, 0.85, 0.35), 0.5, 0.0, 0.5],
+	"led_amber": [Color(1.0, 0.6, 0.1), 0.5, 0.0, 0.5],
+	"sticker_yellow": [Color(0.97, 0.78, 0.1), 0.8, 0.0, 0.0],
+	# The pump room and the storm drain: the pump unit, the crank, the grille.
+	"motor_blue": [Color(0.16, 0.3, 0.5), 0.5, 0.2, 0.0],
+	"motor_dark": [Color(0.12, 0.17, 0.25), 0.6, 0.2, 0.0],
+	"pump_casing": [Color(0.34, 0.39, 0.37), 0.55, 0.3, 0.0],
+	"rust": [Color(0.42, 0.22, 0.12), 0.95, 0.0, 0.0],
+	"grille_steel": [Color(0.3, 0.31, 0.31), 0.7, 0.4, 0.0],
+	"gauge_face": [Color(0.92, 0.92, 0.88), 0.5, 0.0, 0.0],
+	# The loading dock: shutter, release and station, props, the yard outside.
+	"release_yellow": [Color(0.95, 0.72, 0.08), 0.6, 0.0, 0.0],
+	"shutter_steel": [Color(0.66, 0.68, 0.69), 0.55, 0.0, 0.0],
+	"shutter_groove": [Color(0.42, 0.44, 0.45), 0.7, 0.0, 0.0],
+	"shutter_box": [Color(0.54, 0.56, 0.57), 0.6, 0.0, 0.0],
+	"exit_sign": [Color(0.1, 0.72, 0.3), 0.5, 0.0, 1.2],
+	"rack_blue": [Color(0.12, 0.28, 0.55), 0.6, 0.0, 0.0],
+	"rack_orange": [Color(0.9, 0.42, 0.08), 0.6, 0.0, 0.0],
+	"pallet_wood": [Color(0.66, 0.52, 0.34), 0.95, 0.0, 0.0],
+	"pallet_dark": [Color(0.5, 0.38, 0.24), 0.95, 0.0, 0.0],
+	"cardboard_dark": [Color(0.52, 0.39, 0.24), 1.0, 0.0, 0.0],
+	"wrap": [Color(0.8, 0.83, 0.85), 0.25, 0.0, 0.0],
+	"forklift_yellow": [Color(0.95, 0.68, 0.05), 0.55, 0.0, 0.0],
+	"van_white": [Color(0.88, 0.89, 0.9), 0.4, 0.1, 0.0],
+	"brick": [Color(0.46, 0.26, 0.19), 0.95, 0.0, 0.0],
+	"yard_concrete": [Color(0.42, 0.42, 0.4), 0.95, 0.0, 0.0],
+	"yard_paint": [Color(0.85, 0.85, 0.8), 0.9, 0.0, 0.0],
+	"grass_dark": [Color(0.12, 0.2, 0.1), 1.0, 0.0, 0.0],
+	"tread_steel": [Color(0.45, 0.46, 0.47), 0.5, 0.5, 0.0],
+	"glow_sodium": [Color(1.0, 0.75, 0.4), 0.5, 0.0, 2.0],
+	# The storage room: archive boxes, the shelving's mesh back panels.
+	"archive_box": [Color(0.76, 0.75, 0.7), 0.9, 0.0, 0.0],
+	"mesh_grey": [Color(0.24, 0.25, 0.26), 0.8, 0.0, 0.0],
+	# Book Processing: the electrical room door, the workstations, the noticeboard.
+	"door_steel": [Color(0.55, 0.57, 0.58), 0.55, 0.0, 0.0],
+	"wired_glass": [Color(0.32, 0.38, 0.42), 0.15, 0.0, 0.0],
+	"screen_lit": [Color(0.3, 0.55, 0.75), 0.4, 0.0, 0.6],
+	"cork": [Color(0.62, 0.45, 0.28), 1.0, 0.0, 0.0],
+	# The lobby and the reading hall: banker's lamps.
+	"lamp_green": [Color(0.08, 0.4, 0.2), 0.3, 0.0, 0.3],
+	# The browsing hall and the stacks.
+	"oak": [Color(0.58, 0.4, 0.23), 0.75, 0.0, 0.0],
+	"oak_dark": [Color(0.4, 0.26, 0.14), 0.8, 0.0, 0.0],
+	"fabric_green": [Color(0.16, 0.33, 0.27), 1.0, 0.0, 0.0],
+	"leather": [Color(0.42, 0.17, 0.1), 0.55, 0.0, 0.0],
+	"carpet_border": [Color(0.42, 0.13, 0.12), 1.0, 0.0, 0.0],
+	"carpet_gold": [Color(0.6, 0.47, 0.22), 1.0, 0.0, 0.0],
+	"carpet_seam": [Color(0.22, 0.24, 0.26), 1.0, 0.0, 0.0],
+	"carpet_runner": [Color(0.27, 0.31, 0.38), 1.0, 0.0, 0.0],
+	# The restricted archive (polish): walnut, the carpet's dark border.
+	"walnut": [Color(0.3, 0.19, 0.11), 0.7, 0.0, 0.0],
+	"walnut_dark": [Color(0.2, 0.12, 0.06), 0.75, 0.0, 0.0],
+	"archive_border": [Color(0.22, 0.06, 0.07), 1.0, 0.0, 0.0],
+	# The study rooms (polish): carpet border, lockers, boards, ceiling grid, glass doors.
+	"study_border": [Color(0.2, 0.24, 0.28), 1.0, 0.0, 0.0],
+	"locker_sage": [Color(0.47, 0.6, 0.52), 0.6, 0.0, 0.0],
+	"whiteboard": [Color(0.94, 0.95, 0.95), 0.25, 0.0, 0.0],
+	"alu": [Color(0.74, 0.76, 0.78), 0.4, 0.0, 0.0],
+	"marker_blue": [Color(0.1, 0.25, 0.7), 0.6, 0.0, 0.0],
+	"marker_red": [Color(0.75, 0.12, 0.1), 0.6, 0.0, 0.0],
+	"marker_green": [Color(0.1, 0.5, 0.2), 0.6, 0.0, 0.0],
+	"ceiling_grid": [Color(0.9, 0.9, 0.88), 0.6, 0.0, 0.0],
+	"glass_door": [Color(0.56, 0.68, 0.72), 0.1, 0.0, 0.0],
+	# The service corridor (polish): the duct, the extinguishers.
+	"duct_steel": [Color(0.66, 0.68, 0.7), 0.45, 0.0, 0.0],
+	"extinguisher_red": [Color(0.75, 0.1, 0.08), 0.4, 0.0, 0.0],
+	# The porch (polish): stone, plaster, bronze, the mat, the rope, planter soil.
+	"stone_light": [Color(0.74, 0.71, 0.65), 0.85, 0.0, 0.0],
+	"stone_dark": [Color(0.4, 0.38, 0.35), 0.85, 0.0, 0.0],
+	"stone_seam": [Color(0.5, 0.48, 0.45), 0.9, 0.0, 0.0],
+	"plaster": [Color(0.9, 0.88, 0.82), 0.95, 0.0, 0.0],
+	"bronze": [Color(0.36, 0.26, 0.16), 0.45, 0.0, 0.0],
+	"rope_red": [Color(0.55, 0.08, 0.08), 0.9, 0.0, 0.0],
+	"mat_dark": [Color(0.16, 0.15, 0.14), 1.0, 0.0, 0.0],
+	"soil": [Color(0.2, 0.14, 0.09), 1.0, 0.0, 0.0],
+	"deck_seam": [Color(0.3, 0.31, 0.3), 0.9, 0.0, 0.0],
+	"fluoro": [Color(1.0, 0.98, 0.92), 0.4, 0.0, 1.6],
+	"fluoro_housing": [Color(0.82, 0.82, 0.8), 0.6, 0.0, 0.0],
+	"steel_beam": [Color(0.42, 0.45, 0.48), 0.6, 0.0, 0.0],
+	"steel_shelf": [Color(0.5, 0.53, 0.56), 0.55, 0.0, 0.0],
+	"card_white": [Color(0.93, 0.92, 0.87), 1.0, 0.0, 0.0],
+	"dust": [Color(0.62, 0.6, 0.55), 1.0, 0.0, 0.0],
+	"lamp_cream": [Color(0.95, 0.88, 0.7), 0.8, 0.0, 0.5],
+	# The staff wing.
+	"mesh_panel": [Color(0.42, 0.44, 0.46), 0.7, 0.0, 0.0],
+	# The basement: concrete utility.
+	"concrete_wall": [Color(0.6, 0.6, 0.57), 0.95, 0.0, 0.0],
+	"concrete_ceiling": [Color(0.5, 0.5, 0.48), 1.0, 0.0, 0.0],
+	"floor_sealed": [Color(0.44, 0.45, 0.44), 0.55, 0.0, 0.0],
+	"band_paint": [Color(0.3, 0.34, 0.36), 0.7, 0.0, 0.0],
 }
 const _BC := SLAB_BOTTOM - 0.05 - BF   # basement ceiling height (3.75 m)
 const DECOR := [
@@ -347,16 +435,10 @@ const DECOR := [
 	{"name": "DampEast", "centre": Vector3(1.845, BF + 0.3, -33.6), "size": Vector3(0.01, 0.6, 12.5), "look": "damp"},
 	{"name": "DrainPuddleA", "centre": Vector3(0.4, BF + 0.006, -31.5), "size": Vector3(1.6, 0.012, 2.2), "look": "water"},
 	{"name": "DrainPuddleB", "centre": Vector3(-0.6, BF + 0.006, -29.0), "size": Vector3(1.0, 0.012, 1.2), "look": "water"},
-	# Maintenance bay: a tool board on the west wall, above the crate.
-	{"name": "ToolBoard", "centre": Vector3(-27.835, BF + 1.95, -20.2), "size": Vector3(0.03, 1.0, 1.8), "look": "pegboard"},
-	{"name": "ToolWrench", "centre": Vector3(-27.81, BF + 2.05, -20.8), "size": Vector3(0.02, 0.5, 0.08), "look": "tool_steel"},
-	{"name": "ToolHammer", "centre": Vector3(-27.81, BF + 2.0, -20.4), "size": Vector3(0.02, 0.45, 0.1), "look": "tool_dark"},
-	{"name": "ToolSaw", "centre": Vector3(-27.81, BF + 2.1, -19.95), "size": Vector3(0.02, 0.18, 0.5), "look": "hazard_yellow"},
-	{"name": "ToolBar", "centre": Vector3(-27.81, BF + 1.95, -19.5), "size": Vector3(0.02, 0.6, 0.06), "look": "tool_steel"},
 	# Electrical room: conduits up the north wall beside the sign, and a tray.
 	{"name": "ConduitA", "centre": Vector3(36.21, 2.1, -27.79), "size": Vector3(0.12, 4.2, 0.12), "look": "conduit"},
-	{"name": "ConduitB", "centre": Vector3(38.6, 3.1, -27.76), "size": Vector3(0.1, 2.2, 0.1), "look": "conduit"},
-	{"name": "ConduitC", "centre": Vector3(43.4, 3.1, -27.76), "size": Vector3(0.1, 2.2, 0.1), "look": "conduit"},
+	{"name": "ConduitB", "centre": Vector3(38.8, 3.1, -27.76), "size": Vector3(0.1, 2.2, 0.1), "look": "conduit"},   # above the SURVEILLANCE switch
+	{"name": "ConduitC", "centre": Vector3(43.2, 3.1, -27.76), "size": Vector3(0.1, 2.2, 0.1), "look": "conduit"},   # above the SERVICE EXIT switch
 	{"name": "ConduitD", "centre": Vector3(45.79, 2.1, -27.79), "size": Vector3(0.12, 4.2, 0.12), "look": "conduit"},
 	{"name": "ConduitTray", "centre": Vector3(41.0, 4.0, -27.72), "size": Vector3(9.6, 0.08, 0.25), "look": "conduit"},
 ]
@@ -414,9 +496,9 @@ const ITEMS := [
 	{"name": "HardbackTunnel", "item": "hardback", "zone": "G", "pos": Vector3(19.0, BF + 1.2, -23.9), "yaw": 30.0},
 	{"name": "BottleCableBay", "item": "bottle", "zone": "G", "pos": Vector3(44.0, BF + 1.2, -21.0), "yaw": 0.0},
 	# Phase 4: inside the Office 1 security locker (appears when it is opened).
-	{"name": "LockerBottle", "item": "bottle", "zone": "E", "pos": Vector3(-5.0, 4.5, -22.4), "yaw": 0.0, "available": false},
+	{"name": "LockerBottle", "item": "bottle", "zone": "E", "pos": Vector3(-5.6, 5.41, -22.62), "yaw": 0.0, "available": false},   # polish: on the locker's middle shelf
 	# Phase 6: the credential for escape A, also in the locker.
-	{"name": "LockerBadge", "item": "security_badge", "zone": "E", "pos": Vector3(-5.0, 4.5, -21.7), "yaw": 0.0, "available": false},
+	{"name": "LockerBadge", "item": "security_badge", "zone": "E", "pos": Vector3(-5.6, 5.41, -22.2), "yaw": 90.0, "available": false},   # polish: middle shelf
 ]
 ## Storage shelves (ItemStorage): wall-mounted, no collision (nothing baked, no
 ## route changed). "pos" is the shelf surface, 1 m above the floor; "facing"
@@ -429,49 +511,55 @@ const STORAGE := [
 ## texts; Phase 4 gives them their puzzle clues.
 const DOCUMENTS := [
 	{"name": "PumpRoomLog", "id": "pump_room_log", "title": "Pump room log", "zone": "G",
-		"pos": Vector3(6.83, BF + 1.4, -17.0), "facing": -90.0, "discovers": "drain_culvert",
+		"board": true, "pos": Vector3(6.83, BF + 1.4, -17.0), "facing": -90.0, "discovers": "drain_culvert",
 		"text": "Night log, pump room.\nThe culvert floods every storm, and the storm drain grate jams shut until it is pumped dry.\nTo drain it: free the crank first (it seizes; use the tool kit), open the two outer valves, keep the middle valve SHUT, then pull START. Any other setting stalls the pump with a bang you can hear upstairs.\n— Facilities, night shift"},
 	{"name": "ElectricalNotice", "id": "electrical_notice", "title": "Electrical room notice", "zone": "D",
-		"pos": Vector3(45.83, 1.4, -24.0), "facing": -90.0,
+		"board": true, "pos": Vector3(45.83, 1.4, -24.0), "facing": -90.0,
 		"text": "NOTICE TO STAFF\nThe archive sub-panel is behind the screwed-on cover (the tool kit is in the maintenance bay downstairs).\nThe wiring chart is pinned up in Book Processing. A wrong breaker setting trips the main, loudly.\n— Library facilities"},
 	# Phase 4 clues.
 	{"name": "WiringChart", "id": "wiring_chart", "title": "Wiring chart", "zone": "D",
-		"pos": Vector3(26.0, 1.4, -27.83), "facing": 0.0,
+		"board": true, "pos": Vector3(26.0, 1.4, -27.83), "facing": 0.0,
 		"text": "WIRING CHART · ARCHIVE SUB-PANEL (electrical room)\nA3 VAULT LOCK feeds the vault keypad. It only holds while A4 SECURITY GRID is live (the lock reports to security).\nA1 ARCHIVE LIGHTS shares A3's feed: with A1 off, the vault lock browns out.\nA2 SUMP PUMP: never energise A2 from this panel while the basement is wet. It trips the main.\nSet the breakers first, then engage MAIN.\n— Facilities"},
 	{"name": "ArchivistMemo", "id": "archivist_memo", "title": "Archivist's memo", "zone": "E",
-		"pos": Vector3(11.83, 5.9, -20.0), "facing": -90.0,
-		"text": "MEMO · Head archivist\nAfter the audit, security reset the vault keypad. The new code is the year this library was founded, with its digits in reverse order.\nThe year is on the plaque in the lobby if you forget it. Do not write the code itself down anywhere!\n— M. Ortega"},
-	{"name": "LobbyPlaque", "id": "lobby_plaque", "title": "Foundation plaque", "zone": "A", "kind": "clue", "model": "plaque",
-		"pos": Vector3(-11.83, 1.7, 20.0), "facing": 90.0,
-		"display": "CAMPUS LIBRARY\nFOUNDED 1962\nKnowledge kept, knowledge shared",
-		"text": "A brass plate in the lobby: Campus Library, founded 1962."},
+		"board": true, "pos": Vector3(11.83, 5.9, -20.0), "facing": -90.0,
+		"text": "MEMO · Head archivist\nAfter the audit, security reset the vault keypad. The new code is the year this library was founded, with its digits in reverse order.\nThe year is on the cornerstone in the lobby if you forget it. Do not write the code itself down anywhere!\n— M. Ortega"},
+	# Polish (approved): the foundation plaque became a cornerstone in the lobby's north
+	# wall, beside the circulation desk (was a brass plate at the foot of S1, −11.83, 1.7,
+	# 20); "stone": the builder gives it its model (_cornerstone_model), a great panel above
+	# the wainscot over about three quarters of the wall east of the reading hall arch.
+	{"name": "LobbyPlaque", "id": "lobby_plaque", "title": "Cornerstone", "zone": "A", "kind": "clue", "model": "plaque",
+		"pos": Vector3(7.0, 2.575, 10.3), "facing": 0.0, "stone": true,
+		"display": "CAMPUS LIBRARY\nFOUNDED A.D. 1962\nKnowledge kept, knowledge shared",
+		"text": "A stone set into the lobby wall: Campus Library, founded 1962."},
 	{"name": "NightRota", "id": "night_rota", "title": "Night security rota", "zone": "E",
-		"pos": Vector3(5.83, 5.9, -17.0), "facing": -90.0, "discovers": "security_locker",
+		"board": true, "pos": Vector3(5.83, 5.9, -17.0), "facing": -90.0, "discovers": "security_locker",
 		"text": "NIGHT SECURITY ROTA\nOkoro: 21:00\nLindqvist: 03:00\nBrand: 06:00\nSecurity locker (Office 1): the combination is the last digit of each start hour, in rota order."},
 	{"name": "PatrolNotes", "id": "patrol_notes", "title": "Patrol notes", "zone": "E", "available": false,
-		"pos": Vector3(-5.83, 5.75, -23.3), "facing": 90.0,
+		"pos": Vector3(-5.79, 6.07, -22.4), "facing": 90.0,   # polish: on the back of the locker's upper compartment
 		"text": "PATROL NOTES (security locker)\nEvery guard keeps to a fixed loop and stops briefly at its corners: wait for the pause, then move.\nOne guard walks the whole basement tunnel. An alarm draws whoever hears it to the spot. Be somewhere else by then.\nThe master badge in this locker overrides the night lockdown at the main entrance reader. The override takes a few seconds and the lobby camera watches the reader.\n— Night shift"},
 	# Phase 6 (escape C): the clue to the hidden maintenance panel.
 	{"name": "CulvertAccessPlan", "id": "culvert_access_plan", "title": "Culvert access plan", "zone": "G",
-		"pos": Vector3(-23.5, BF + 1.4, -17.17), "facing": 180.0,
+		"board": true, "pos": Vector3(-23.5, BF + 1.4, -17.17), "facing": 180.0,
 		"text": "FACILITIES · CULVERT ACCESS\nAfter the 2019 flood the culvert access opposite the pump room door was boarded over with a false wall panel. Its latch still works: press the panel's right-hand edge.\nBeyond it the storm drain runs out under the grounds, but the grate at its end jams while the culvert is flooded. Pump it dry first.\n— Facilities"},
 ]
 
 ## Phase 4 (x3): the puzzles and their supports, built under Expansion/Gameplay/Mission.
 ## Answers live only here, in the scene and in the clues: never in objective hints.
 const MISSION := {
-	"panel_cover": {"name": "ElectricalPanelCover", "pos": Vector3(41.0, 1.35, -26.9), "facing": 0.0, "zone": "D",
+	# Polish: the cover fits the breaker panel's frame (rail of breakers, cable duct above).
+	"panel_cover": {"name": "ElectricalPanelCover", "pos": Vector3(41.0, 1.48, -26.9), "facing": 0.0, "zone": "D",
 		"mechanism_name": "Electrical panel cover", "action_text": "Unscrew the cover", "objective": "open_panel",
-		"size": Vector3(1.05, 0.7, 0.05)},
+		"size": Vector3(1.38, 0.58, 0.04)},
 	"breakers": {"name": "BreakerPanel", "pos": Vector3(41.0, 1.35, -27.02), "facing": 0.0, "zone": "D",
 		"circuit": "archive_access", "solution": [true, false, true, true], "objective": "restore_power"},
 	"vault_keypad": {"name": "VaultKeypad", "pos": Vector3(27.83, 5.85, -19.3), "facing": -90.0, "zone": "F",
 		"code": "2691", "power": "archive_access", "alarm": true, "attempts": 3, "lockout": 20.0,
 		"objective": "open_vault", "door": "VaultDoor", "title": "Vault keypad"},
-	"locker": {"name": "SecurityLocker", "pos": Vector3(-5.83, 5.85, -21.4), "facing": 90.0, "zone": "E",
+	# Polish: the combination lock sits on the locker's door (it swings open with it).
+	"locker": {"name": "SecurityLocker", "pos": Vector3(-5.3, 5.75, -22.55), "facing": 90.0, "zone": "E",
 		"code": "136", "power": "", "alarm": false, "attempts": 3, "lockout": 10.0,
 		"objective": "security_locker", "reveal": ["Items/LockerBottle", "Items/LockerBadge", "Documents/PatrolNotes"], "title": "Security locker",
-		"cabinet": {"centre": Vector3(-5.6, 5.4, -22.4), "size": Vector3(0.45, 1.8, 0.9)}},
+		"cabinet": {"centre": Vector3(-5.6, 5.4, -22.4), "size": Vector3(0.45, 1.8, 0.9), "hinge_z": -21.96, "shelves": [4.95, 5.4, 5.85]}},
 	"pump_crank": {"name": "PumpCrank", "pos": Vector3(-3.4, BF + 1.0, -14.27), "facing": 180.0, "zone": "G",
 		"mechanism_name": "Pump crank", "action_text": "Free the seized crank", "size": Vector3(0.4, 0.4, 0.12)},
 	"pump": {"name": "PumpControl", "pos": Vector3(0.0, BF + 1.2, -14.3), "facing": 180.0, "zone": "G",
@@ -546,7 +634,7 @@ const SECURITY := {
 		{"name": "CameraLobby", "title": "main entrance", "zone": "A", "pos": Vector3(11.35, 3.4, 26.6), "look": Vector3(2.9, 1.0, 26.6),
 			"fov": 30.0, "sweep": 0.0, "range": 9.3},
 	],
-	"labels": {"switch_board": Vector3(41.0, 2.25, -27.0)},
+	# (Polish: the switch board's floating label became a name plate on each switch.)
 }
 
 

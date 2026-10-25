@@ -10,6 +10,7 @@ extends PuzzleControl
 ##   - Every change says what it did (`feedback`, shown by ObjectiveHud) and
 ##     makes a breaker clunk guards nearby can hear.
 ## No switch is ever one-way, so no combination can block the mission.
+## While locked, its lamp (style "rotary") blinks amber.
 ## Its position is the PowerNetwork's state (stored at checkpoints); the lock
 ## is not stored (a respawn unlocks it).
 
@@ -70,10 +71,21 @@ func lock(seconds: float) -> void:
 	_update_block()
 
 
+const BLINK := Color(1.0, 0.62, 0.1)
+const BLINK_PERIOD := 0.8
+
+
 func _process(delta: float) -> void:
 	if lock_left > 0.0:
 		lock_left = maxf(lock_left - delta, 0.0)
 		_update_block()
+	# The lamp blinks amber while locked (the material only changes on each blink).
+	var blink := Color(0, 0, 0, 0)
+	if lock_left > 0.0:
+		blink = BLINK if fmod(lock_left, BLINK_PERIOD) > BLINK_PERIOD / 2.0 else Color(0.25, 0.15, 0.03)
+	if blink != lamp_override:
+		lamp_override = blink
+		_set_lamp()
 
 
 func _update_block() -> void:

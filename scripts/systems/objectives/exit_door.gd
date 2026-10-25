@@ -63,6 +63,16 @@ signal feedback(text: String, good: bool)
 @export var route_id: StringName = &""
 @export var route_name := ""
 @export var open_sign := "EXIT · OPEN"
+## Polish (the loading dock): false hides the floating "Sign" (the shutter control's screen shows the state).
+@export var show_sign := true
+## Polish (the main entrance): a grille (its rows: the node's Node3D children) that
+## rolls up while the exit is open and drops while it is closed (the lockdown); a
+## row is hidden once it is above `curtain_top` (curtain-local). A checkpoint
+## restore and the level start set it at once. The panel's collision is unchanged.
+@export var curtain_path: NodePath
+@export var curtain_lift := 2.7
+@export var curtain_time := 2.0
+@export var curtain_top := 2.62
 
 ## Times the door has refused the player (for tests).
 var rejections := 0
@@ -87,11 +97,21 @@ var _refuse_cooldown := 0.0
 
 
 var _door_material: StandardMaterial3D
+## Polish: how far the grille is rolled up (0 down … 1 up).
+var curtain_open := 0.0
+var _curtain: Node3D
+var _curtain_rest := Vector3.ZERO
+var _curtain_snap := true
 
 
 func _ready() -> void:
 	super()
 	prompt = "Escape"
+	if _sign and not show_sign:
+		_sign.visible = false
+	_curtain = get_node_or_null(curtain_path) as Node3D
+	if _curtain:
+		_curtain_rest = _curtain.position
 	if door_mesh:
 		_door_material = StandardMaterial3D.new()
 		door_mesh.material_override = _door_material
@@ -126,6 +146,8 @@ func _process(delta: float) -> void:
 	if walk_through:
 		_refuse_cooldown = maxf(_refuse_cooldown - delta, 0.0)
 		_apply_panel()
+		if _curtain:
+			_animate_curtain(delta)
 		var ready := is_unlocked()
 		var colour_w := Color(0.3, 0.9, 0.45) if ready else Color(0.8, 0.18, 0.15)
 		# Expansion Phase 9: material and sign only touched when they change.
@@ -136,6 +158,7 @@ func _process(delta: float) -> void:
 			var sign_text := open_sign if is_open() else (locked_sign if not _key_done() else _walk_reason_sign())
 			if _sign.text != sign_text:
 				_sign.text = sign_text
+				_sign.visible = show_sign and sign_text != ""   # polish: an empty sign text hides it (the storm drain once open)
 			if _sign.modulate != colour_w.lightened(0.2):
 				_sign.modulate = colour_w.lightened(0.2)
 		return
@@ -212,6 +235,20 @@ func _apply_panel() -> void:
 		_panel.collision_layer = 0 if open else 1
 
 
+## Polish: the grille toward open (up) or closed (down).
+func _animate_curtain(delta: float) -> void:
+	var target := 1.0 if is_open() else 0.0
+	var before := curtain_open
+	curtain_open = target if _curtain_snap else move_toward(curtain_open, target, delta / maxf(curtain_time, 0.01))
+	if curtain_open != before or _curtain_snap:
+		var lift := curtain_open * curtain_lift
+		_curtain.position = _curtain_rest + Vector3(0, lift, 0)
+		for row in _curtain.get_children():
+			if row is Node3D:
+				(row as Node3D).visible = (row as Node3D).position.y + lift < curtain_top
+	_curtain_snap = false
+
+
 ## The barrier: as wide and tall as the trigger, 0.3 m thick, from 0.1 m inside
 ## the trigger's near side (toward the door) outward.
 func _build_barrier() -> void:
@@ -269,6 +306,7 @@ func get_checkpoint_state() -> Dictionary:
 
 func restore_checkpoint_state(state: Dictionary) -> void:
 	unlocked = bool(state.get("unlocked", false))
+	_curtain_snap = true
 	_refuse_cooldown = 0.0
 	_apply_panel()
 

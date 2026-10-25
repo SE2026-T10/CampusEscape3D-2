@@ -45,8 +45,78 @@ const EXPANSION_SCENE := "res://scenes/level/expanded_library_expansion.tscn"
 ##     digest updated); render layers of four upper-floor props and the Staff
 ##     Offices respawn point (not in the digests); the navmesh rebaked with the
 ##     expansion's tunnel niche and balcony nook (1020 → 1031 polygons).
+##   - Loading dock polish (approved): tools/expanded/expansion/fixes_x8.gd hides
+##     the dock's red shutter panel mesh, its green header batch and the exit's
+##     floating sign (visibility only; not in the digests); the navmesh rebaked
+##     with the expansion's ten solid dock props (1031 → 1054 polygons).
+##   - Storage room polish (approved): tools/expanded/expansion/fixes_x9.gd
+##     removes the four racks' old boxes (40) from the level's batches and
+##     recolours the S2 staff stair's boxes (decoration digest updated; the
+##     racks' and the stair's colliders unchanged) and hides its cream nosing;
+##     the navmesh rebaked with the expansion's wall shelving and book trolley
+##     (1054 → 1057 polygons).
+##   - Book Processing polish (approved): the navmesh rebaked with the
+##     expansion's six solid processing props (1057 → 1077 polygons).
+##   - Lobby and reading hall polish (approved): tools/expanded/expansion/fixes_x10.gd
+##     recolours the S1 main stair's boxes (decoration digest updated; colliders
+##     unchanged), hides its cream nosing and points the G4 staff door at the
+##     expansion's wooden leaves; the navmesh rebaked with the reading hall's
+##     eleven solid props (1077 → 1082 polygons).
+##   - No wall decor (requested): tools/expanded/expansion/fixes_x11.gd removes the
+##     windows, posters and clocks from the dressing's batches and hides the
+##     signs (decoration digest updated; no collision change).
+##   - Browsing hall, main and upper stacks polish (approved): tools/expanded/expansion/fixes_x12.gd
+##     removes the browsing tables' old boxes, the rugs and the S3 balustrade's panels
+##     from the batches and recolours the floors, the S3 stair's boxes and the upper
+##     stacks' shelves, railing and wainscot (decoration digest updated; colliders
+##     unchanged), hides the old chairs, the S3 nosing and the stacks' round light
+##     fixtures; the navmesh rebaked with the expansion's twelve solid props
+##     (1082 → 1099 polygons).
+##   - Staff wing polish (approved): tools/expanded/expansion/fixes_x13.gd removes the
+##     office desks' and balcony tables' old boxes, the balcony rugs and the balcony
+##     railing's boxes from the batches and recolours the floors, the wainscot and the
+##     door frames (decoration digest updated; colliders unchanged), hides the old
+##     chairs and the round light fixtures; the navmesh rebaked with the expansion's
+##     twenty-five solid staff wing props, the lounge coffee table's collider raised
+##     to 0.7 m so no navmesh island is baked on its top (1099 → 1144 polygons).
+##   - Basement and tool box room polish (approved): no change to the level's scene; the
+##     navmesh rebaked with the expansion's fourteen solid basement props
+##     (1144 → 1169 polygons).
+##   - Lobby polish (requested): tools/expanded/expansion/fixes_x14.gd removes S1's
+##     balustrade boxes and recolours its fillers, ramp surface and mats and the
+##     circulation desk's boxes in oak, and removes the upper railing's end post and cap
+##     that sat inside the west wall at the S3 top, and trims the upper floor's outer wall
+##     pieces where they overlapped the single-height rooms' at the S3 and S2 tops
+##     (decoration digest updated; colliders unchanged).
+##   - Restricted archive redesign (approved): tools/expanded/expansion/fixes_x15.gd
+##     recolours the archive's wainscot, dado, door frames, shelves and the S2 top mat,
+##     removes the old reading table, pedestal, alcove crate and runners from the batches
+##     (decoration digest updated; colliders unchanged), hides the archive's round light
+##     fixtures, sets the shelves' book layout and points G3 at the expansion's steel
+##     leaves; the navmesh rebaked with the expansion's nine solid archive props
+##     (1169 → 1185 polygons).
+##   - Study rooms polish (approved): tools/expanded/expansion/fixes_x16.gd removes the
+##     carrels' and the O1 desk's old boxes and lamp shades from the batches and recolours
+##     the study floors, wainscot, dado rails and door frames (decoration digest updated;
+##     colliders unchanged), hides the carrels' lamp stems and the round light fixtures;
+##     the navmesh rebaked with the expansion's eight solid study props (1185 → 1204
+##     polygons).
+##   - Service corridor polish (approved): tools/expanded/expansion/fixes_x17.gd recolours
+##     the corridor's floor, wainscot and dado rails and the processing, storage and dock
+##     door frames, removes the south part's pendant rods from the batches (decoration
+##     digest updated; colliders unchanged) and hides the round light fixtures; the
+##     navmesh rebaked with the expansion's eight solid corridor props (1204 → 1230
+##     polygons).
+##   - Main entrance and porch polish (approved): tools/expanded/expansion/fixes_x19.gd
+##     recolours the porch floor, wainscot and dado rails and the main entrance's frame
+##     (decoration digest updated; colliders unchanged) and hides the porch's round light
+##     fixture; the navmesh rebaked with the expansion's twelve solid porch props (1230 →
+##     1232 polygons).
+##   - Service stair landings polish (approved): no change to the level's scene; the
+##     navmesh rebaked with the expansion's five solid west landing props (1232 → 1244
+##     polygons).
 const BASELINE_GEOMETRY_SHA := "3d161e931fe655f4f5c8dbe035674ae2a8dcad7e5688dd83feffaf3a7379eb12"
-const BASELINE_DECORATION_SHA := "553bfc8219042a8aa93c88d12f81a6a5b481e9c939e4d7a8b0a7667528e83da3"
+const BASELINE_DECORATION_SHA := "b5b52cbc5261245544c28400064fc9b70e6ca88c3bdbaf76b1d935f1335cce2c"
 const BASELINE_ACTORS_SHA := "5b21b05f6a85f8092db260a4459314cf7d3fdd9acc10a4d430530fdd5c9ea305"
 const BASELINE_COUNTS := {"collision_objects": 269, "collision_shapes": 269, "batched_nodes": 307,
 	"guards": 6, "patrol_points": 41, "hiding_spots": 13, "access_doors": 4, "checkpoints": 3, "lights": 90}
@@ -58,7 +128,7 @@ const BASELINE_OBJECTIVES := [&"enter_library", &"take_card", &"find_toolkit", &
 const PHASE5_ADDED := [^"Guards/GuardBasement", ^"Guards/P9_Basement"]
 const PHASE5_ADDED_COUNTS := {"guards": 1, "patrol_points": 5}
 const BASELINE_NAVMESH := "res://scenes/level/expanded_library_navmesh.tres"
-const BASELINE_NAV_POLYGONS := 1031
+const BASELINE_NAV_POLYGONS := 1244
 
 const SYSTEM_GROUPS := ["game_flow", "stealth_director", "noise_system", "audio_director", "player",
 	"objective_manager", "checkpoint_manager"]
