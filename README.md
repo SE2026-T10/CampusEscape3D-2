@@ -10,7 +10,7 @@ It has two maps, chosen from the main menu:
 - **Library Tutorial** (the MVP level): one floor, three guards; take an access card from the Restricted Stacks and escape.
 - **Expanded Library** (since 1.1.0): two floors, six zones, six guards and a five-objective mission, planned for a 20–30 minute first completion (not yet confirmed by human playtests).
 
-Built in Godot with GDScript, for Windows desktop. The current version is **1.1.0** (`application/config/version` in `project.godot`).
+Built in Godot with GDScript, for Windows desktop. The current version is **1.2.0** (`application/config/version` in `project.godot`).
 
 ## Godot version
 
