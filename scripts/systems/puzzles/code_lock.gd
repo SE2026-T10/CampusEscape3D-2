@@ -12,6 +12,12 @@ extends Puzzle
 ##   - The right code: the door (`door_path`, an AccessDoor) opens, the
 ##     `reveal_paths` nodes (ItemPickup / DocumentPickup) become available,
 ##     the objective completes.
+## Looks (polish, `lock_style`): "box" (the coloured boxes), "keypad" (an
+## electronic keypad: a ▲ key per digit with the digits on a screen above,
+## a green ENTER key, three lamps for the tries left, a status lamp, a NO
+## POWER lamp) or "wheels" (a combination lock: a wheel per digit and a lever
+## as ENTER). With `door_visual_path` (a Node3D hinge) the right code swings
+## that door open by `door_open_angle`, the lock moving with it.
 ## Persistence: stores whether it is solved (and so whether its reveals are
 ## available). Not stored: the dials, tries and lockout (fresh after a respawn).
 ## The door it opens stores its own state, from the same snapshot.
@@ -31,11 +37,26 @@ extends Puzzle
 @export var reveal_paths: Array[NodePath] = []
 ## Spacing of the dials along local X (metres).
 @export var dial_spacing := 0.16
+## "box", "keypad" or "wheels" (see above).
+@export var lock_style := "box"
+## A hinge (Node3D) swung open by the right code, with the lock (optional).
+@export var door_visual_path: NodePath
+@export var door_open_angle := -100.0
+@export var door_open_time := 0.6
 
 var attempts_left := 3
 var lockout_left := 0.0
 var dials: Array[PuzzleControl] = []
 var enter: PuzzleControl
+## "keypad": the lamps (try lamps, status, no power), set only when they change.
+var _lamps: Array[StandardMaterial3D] = []
+var _lamp_state := ""
+## The door: how far open (0…1), and the lock's pose relative to the hinge when shut.
+var _door_open := 0.0
+var _door: Node3D
+var _lock_in_hinge := Transform3D.IDENTITY
+var _door_rest := Transform3D.IDENTITY
+var _door_tween: Tween
 
 
 func _ready() -> void:
@@ -49,8 +70,13 @@ func _ready() -> void:
 		dial.name = "Dial%d" % (i + 1)
 		dial.control_name = "Dial %d" % (i + 1)
 		dial.values = digits
-		dial.size = Vector3(0.11, 0.13, 0.06)
+		dial.size = Vector3(0.06, 0.1, 0.06) if lock_style == "wheels" else Vector3(0.11, 0.13, 0.06)
 		dial.position = Vector3((i - (n - 1) / 2.0) * dial_spacing, 0.12, 0.0)
+		if lock_style == "keypad":
+			dial.style = "key"
+			dial.value_offset = Vector3(0, 0.295, 0.012)   # on the screen, above the key
+		elif lock_style == "wheels":
+			dial.style = "wheel"
 		add_child(dial)
 		dials.append(dial)
 	enter = PuzzleControl.new()
@@ -60,9 +86,96 @@ func _ready() -> void:
 	enter.action_text = "Enter the code"
 	enter.size = Vector3(n * dial_spacing * 0.8, 0.08, 0.06)
 	enter.position = Vector3(0, -0.08, 0.0)
+	if lock_style == "keypad":
+		enter.style = "key"
+	elif lock_style == "wheels":
+		enter.style = "lever"
 	add_child(enter)
 	enter.pressed.connect(submit)
+	if lock_style == "keypad":
+		_build_lamps()
+	_door = get_node_or_null(door_visual_path) as Node3D
+	if _door:
+		_door_rest = _door.transform
+		_lock_in_hinge = _door_rest.affine_inverse() * transform
 	super()
+
+
+## "keypad": three try lamps on the left, the NO POWER and status lamps on the right.
+func _build_lamps() -> void:
+	var xs := [-0.29, -0.25, -0.21, 0.2, 0.29]
+	for i in xs.size():
+		var lamp := MeshInstance3D.new()
+		lamp.name = ["Try1", "Try2", "Try3", "NoPower", "Status"][i]
+		var lens := CylinderMesh.new()
+		lens.top_radius = 0.011
+		lens.bottom_radius = 0.012
+		lens.height = 0.01
+		lens.radial_segments = 10
+		lamp.mesh = lens
+		lamp.rotation = Vector3(PI / 2.0, 0, 0)
+		lamp.position = Vector3(xs[i], -0.15, 0.008)
+		var m := StandardMaterial3D.new()
+		m.emission_enabled = true
+		lamp.material_override = m
+		add_child(lamp)
+		_lamps.append(m)
+	var tag := Label3D.new()
+	tag.name = "NoPowerTag"
+	tag.text = "NO POWER"
+	tag.font_size = 12
+	tag.pixel_size = 0.0016
+	tag.outline_size = 0
+	tag.modulate = Color(0.75, 0.76, 0.78)
+	tag.position = Vector3(0.2, -0.172, 0.006)
+	add_child(tag)
+
+
+func _set_lamps() -> void:
+	if _lamps.is_empty():
+		return
+	var powered := has_power()
+	var state := "%s %s %d %s" % [powered, is_solved, attempts_left, lockout_left > 0.0]
+	if state == _lamp_state:
+		return
+	_lamp_state = state
+	var off := Color(0.12, 0.12, 0.13)
+	for i in 3:
+		_lamp(i, Color(1.0, 0.7, 0.15) if powered and not is_solved and i < attempts_left else off)
+	_lamp(3, off if powered else Color(0.9, 0.12, 0.08))
+	_lamp(4, off if not powered else (Color(0.25, 0.95, 0.4) if is_solved else Color(0.9, 0.12, 0.08)))
+	for dial in dials:
+		dial.set_value_lit(powered)
+
+
+func _lamp(i: int, colour: Color) -> void:
+	var m := _lamps[i]
+	m.albedo_color = colour
+	m.emission = colour
+	m.emission_energy_multiplier = 0.0 if colour.v < 0.2 else 0.9
+
+
+## The door follows `is_solved`: swung open on the right code, shut or open at once on a restore.
+func _set_door(animate: bool) -> void:
+	if _door == null:
+		return
+	var target := 1.0 if is_solved else 0.0
+	if is_equal_approx(_door_open, target):
+		return
+	if _door_tween:
+		_door_tween.kill()
+	if animate and is_inside_tree():
+		_door_tween = create_tween()
+		_door_tween.tween_method(_pose_door, _door_open, target, door_open_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	else:
+		_pose_door(target)
+
+
+func _pose_door(open: float) -> void:
+	_door_open = open
+	var hinge := Transform3D(Basis(Vector3.UP, deg_to_rad(door_open_angle * open)) * _door_rest.basis, _door_rest.origin)
+	_door.transform = hinge
+	transform = hinge * _lock_in_hinge
 
 
 func _connect_manager() -> void:
@@ -154,6 +267,8 @@ func _refresh() -> void:
 		var node := get_node_or_null(path)
 		if node and node.has_method("set_available"):
 			node.set_available(is_solved)
+	_set_lamps()
+	_set_door(not _restoring)
 	if is_solved:
 		_set_display("%s\nACCEPTED" % puzzle_name.to_upper(), Color(0.4, 1.0, 0.55))
 	elif not has_power():
@@ -168,6 +283,9 @@ func get_checkpoint_state() -> Dictionary:
 	return {"solved": is_solved}
 
 
+var _restoring := false
+
+
 func restore_checkpoint_state(state: Dictionary) -> void:
 	is_solved = bool(state.get("solved", false))
 	attempts_left = max_attempts
@@ -175,4 +293,6 @@ func restore_checkpoint_state(state: Dictionary) -> void:
 	if not is_solved:
 		for dial in dials:
 			dial.set_index(0)
+	_restoring = true
 	_refresh()
+	_restoring = false

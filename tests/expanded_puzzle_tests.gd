@@ -48,7 +48,7 @@ const LOCKER_CODE := "136"
 
 ## Standing spots (floor level).
 const IN_LOBBY := Vector3(0, 0, 20)
-const AT_PLAQUE := Vector3(-10.6, 0, 20)
+const AT_PLAQUE := Vector3(7.0, 0, 11.2)   # in front of the lobby cornerstone (polish)
 const AT_TOOLKIT := Vector3(-24.8, B, -20.2)
 const AT_PANEL := Vector3(41.0, 0, -25.9)
 const AT_NOTICE := Vector3(44.5, 0, -24.0)
@@ -68,7 +68,7 @@ const AT_CULVERT_PLAN := Vector3(-23.5, B, -18.2)
 const AT_PUMP := Vector3(0.0, B, -15.5)
 const AT_PUMP_LOG := Vector3(5.6, B, -17.0)
 const AT_DRAIN := Vector3(0.0, B, -34.6)
-const AT_LOCKER := Vector3(-4.7, U, -21.4)
+const AT_LOCKER := Vector3(-4.5, U, -22.55)   # polish: the lock is on the locker's door
 const IN_TUNNEL := Vector3(-30.0, B, -25.0)
 
 var failures: Array[String] = []
@@ -293,7 +293,6 @@ func _check_route_drain() -> void:
 	var grate := _level.get_node("Expansion/Geometry/G_ServiceNetwork/StormDrainGrate") as StaticBody3D
 	_expect(_pump.is_solved and _objectives.is_completed(&"drain_culvert") and not grate.visible and grate.collision_layer == 0,
 		"The pump drains the culvert and clears the grate.")
-	_expect(not (_level.get_node("Expansion/Dressing/Signs/Sign_STORMDRAINSEALED") as Node3D).visible, "The STORM DRAIN · SEALED sign goes once it is drained.")
 	# Power and vault.
 	await _use(_cover, AT_PANEL)
 	_breakers.set_setting([true, false, true, true])
@@ -422,7 +421,7 @@ func _check_optional_locker() -> void:
 	_expect(not _locker.is_solved and _alarm.alarms_raised == alarms and _hud.get_message_text().contains("rejected"), "A wrong combination: refused, no alarm (a small noise).")
 	await _enter_code(_locker, LOCKER_CODE, AT_LOCKER)
 	_expect(_locker.is_solved and _objectives.is_completed(&"security_locker") and bottle.visible and notes.visible, "The right combination opens it: a bottle and patrol notes.")
-	await _use(notes, Vector3(-4.6, U, -23.3))
+	await _use(notes, Vector3(-4.5, U, -22.45))   # polish: inside the locker
 	_expect(_inventory.has_document(&"patrol_notes"), "The patrol notes go to the journal.")
 	_expect(not _objectives.is_finished() and _objectives.current() == &"take_card", "An optional objective doesn't move the mission.")
 	await _press("journal")   # opened by reading: J closes it

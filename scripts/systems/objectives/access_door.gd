@@ -52,6 +52,21 @@ enum Mode { KEY, ONE_WAY }
 ## key_item then opens with E (a hidden latch).
 @export var hidden_until_document: StringName = &""
 @export var hidden_colour := Color(0.55, 0.53, 0.5)
+## Polish (the maintenance panel): once found, the panel shows this colour (alpha 0:
+## the usual green / red) and its "Panel/Hatch" child (the hatch's frame, latch and
+## stencil) appears; before, the hatch is hidden and the panel looks like the wall.
+@export var found_colour := Color(0, 0, 0, 0)
+## Polish (the electrical room door): door leaves on hinges (Node3Ds turning about y)
+## drawn instead of the panel's mesh; they swing to `leaf_open_angles` (degrees) when
+## the door opens (and while a guard walks through), back when it closes, at once on a
+## checkpoint restore. The panel's collision is unchanged.
+@export var leaf_paths: Array[NodePath] = []
+@export var leaf_open_angles := PackedFloat32Array()
+## Lamps (MeshInstance3Ds) showing what the panel's colour shows: green when the
+## player could open the door from where they are, red otherwise.
+@export var status_light_paths: Array[NodePath] = []
+
+const LEAF_TIME := 0.6
 
 ## True once opened.
 var is_open := false
@@ -61,8 +76,15 @@ var rejections := 0
 @onready var _panel: StaticBody3D = get_node_or_null("Panel")
 @onready var _noise: NoiseMaker = get_node_or_null("Noise")
 @onready var _sign: Label3D = get_node_or_null("Sign")
+@onready var _hatch: Node3D = get_node_or_null("Panel/Hatch")
 
 var _panel_material: StandardMaterial3D
+var _leaves: Array[Node3D] = []
+var _leaves_open := false
+var _leaf_tween: Tween
+var _animate_leaves := false
+var _status_materials: Array[StandardMaterial3D] = []
+var _status_colour := Color(0, 0, 0, 0)
 
 
 func _ready() -> void:
@@ -76,6 +98,18 @@ func _ready() -> void:
 		if mesh:
 			_panel_material = StandardMaterial3D.new()
 			mesh.material_override = _panel_material
+	for path in leaf_paths:
+		var leaf := get_node_or_null(path) as Node3D
+		if leaf:
+			_leaves.append(leaf)
+	for path in status_light_paths:
+		var lamp := get_node_or_null(path) as GeometryInstance3D
+		if lamp:
+			var m := StandardMaterial3D.new()
+			m.emission_enabled = true
+			m.emission_energy_multiplier = 0.9
+			lamp.material_override = m
+			_status_materials.append(m)
 	_apply()
 	get_tree().node_added.connect(_on_node_added)
 	_connect_late.call_deferred()
@@ -110,16 +144,26 @@ func _process(_delta: float) -> void:
 		if not found:
 			if _panel_material:
 				_panel_material.albedo_color = hidden_colour
+			if _hatch and _hatch.visible:
+				_hatch.visible = false
 			return
 	# Drawn open while a guard is in the doorway (it stays solid for the player).
 	var mesh := _panel.get_node_or_null("Mesh") as Node3D
-	if mesh:
-		mesh.visible = not _guard_in_doorway()
+	var guard_through := _guard_in_doorway()
+	if not _leaves.is_empty():
+		_set_leaves(guard_through, true)
+	elif mesh:
+		mesh.visible = not guard_through
+		if _hatch and _hatch.visible != mesh.visible:
+			_hatch.visible = mesh.visible
 	if _panel_material:
 		# Green only when the player could open it from where they are (a one-way
 		# door is red from its locked side).
 		var player := get_tree().get_first_node_in_group("player")
 		var colour := Color(0.3, 0.75, 0.4) if player and _refusal(player) == "" else Color(0.7, 0.2, 0.17)
+		_set_status(colour)
+		if found_colour.a > 0.0:
+			colour = found_colour
 		# Expansion Phase 9: the material is only touched when its colour changes.
 		if _panel_material.albedo_color != colour:
 			_panel_material.albedo_color = colour
@@ -164,7 +208,9 @@ func open() -> void:
 	if is_open:
 		return
 	is_open = true
+	_animate_leaves = true
 	_apply()
+	_animate_leaves = false
 	_complete_objective()
 	opened.emit()
 
@@ -243,9 +289,37 @@ func _apply() -> void:
 		_panel.collision_layer = 0 if is_open else 1
 		var mesh := _panel.get_node_or_null("Mesh") as Node3D
 		if mesh:
-			mesh.visible = true
+			mesh.visible = _leaves.is_empty()   # with leaves (their own nodes), the panel draws nothing
+	_set_leaves(is_open, _animate_leaves)
 	if _sign:
 		_sign.visible = not is_open
+
+
+## Polish: the leaves open or shut (animated, or at once).
+func _set_leaves(open_now: bool, animate: bool) -> void:
+	if _leaves.is_empty() or (open_now == _leaves_open and animate):
+		return
+	_leaves_open = open_now
+	if _leaf_tween:
+		_leaf_tween.kill()
+	if animate and is_inside_tree():
+		_leaf_tween = create_tween().set_parallel(true)
+	for i in _leaves.size():
+		var angle := deg_to_rad(leaf_open_angles[i] if open_now and i < leaf_open_angles.size() else 0.0)
+		if animate and is_inside_tree():
+			_leaf_tween.tween_property(_leaves[i], "rotation:y", angle, LEAF_TIME).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		else:
+			_leaves[i].rotation.y = angle
+
+
+## Polish: the status lamps' colour (only touched when it changes).
+func _set_status(colour: Color) -> void:
+	if _status_materials.is_empty() or colour == _status_colour:
+		return
+	_status_colour = colour
+	for m in _status_materials:
+		m.albedo_color = colour
+		m.emission = colour
 
 
 # --- Checkpoints -------------------------------------------------------------------------------

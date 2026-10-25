@@ -54,13 +54,13 @@ const LOCKER_CODE := "136"
 
 # Stand points (on the floor, in reach of the thing used).
 const IN_LOBBY := Vector3(0, 0, 20)
-const AT_PLAQUE := Vector3(-10.6, 0, 20)
+const AT_PLAQUE := Vector3(7.0, 0, 11.2)   # in front of the lobby cornerstone (polish)
 const AT_CARD := Vector3(4.9, U, -23.0)
 const AT_MEMO := Vector3(10.6, U, -20.0)
 const AT_ROTA := Vector3(4.6, U, -17.0)
-const AT_LOCKER := Vector3(-4.7, U, -21.4)
-const AT_BADGE := Vector3(-4.2, U, -21.7)
-const AT_LOCKER_BOTTLE := Vector3(-4.2, U, -22.4)
+const AT_LOCKER := Vector3(-4.5, U, -22.55)   # polish: the lock is on the locker's door
+const AT_BADGE := Vector3(-4.5, U, -22.35)   # polish: the badge is on the locker's middle shelf
+const AT_LOCKER_BOTTLE := Vector3(-4.5, U, -22.5)   # in front of the open locker
 const G2_WEST := Vector3(10.6, U, -11)
 const AT_KEYPAD := Vector3(26.7, U, -19.3)
 const IN_VAULT := Vector3(32, U, -23.6)
@@ -366,7 +366,11 @@ func _run_optional_main() -> void:
 	_step("manuscript", await _w.use(_level.get_node("Gameplay/RareManuscript"), IN_VAULT))
 	# The back gate (shortcut) and down the staff stair it opens.
 	var g3: AccessDoor = _level.get_node("Gameplay/ArchiveBackGateG3")
-	if _step("back gate", await _w.use(g3, AT_G3)):
+	# The walker opens a closed door its path runs through with E (use_door, real input):
+	# since the basement polish's rebake its way to AT_G3 passes the gate, which can then be
+	# open (by that press) before use() looks for it.
+	var used_g3: bool = await _w.use(g3, AT_G3)
+	if _step("back gate", used_g3 or g3.is_open):
 		_expect(g3.is_open and _objectives.is_completed(&"unlock_shortcut"), "Effect: the back gate opens (optional done).")
 	var before: float = _w.walked
 	_step("through the back gate", await _w.walk_to(Vector3(31.4, U, -9)))
