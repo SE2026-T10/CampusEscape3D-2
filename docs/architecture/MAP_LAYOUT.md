@@ -81,6 +81,8 @@ HUD vẫn lấy mục tiêu từ `ObjectiveManager`, lời nhắc từ `PlayerIn
 
 ## Kiểm tra và build
 
+Kết quả kiểm tra của lần tổ chức lại được ghi trong [VALIDATION.md](VALIDATION.md).
+
 ```text
 godot --headless --path . --editor --quit
 godot --headless --path . --script res://tools/ci/check_scripts.gd
