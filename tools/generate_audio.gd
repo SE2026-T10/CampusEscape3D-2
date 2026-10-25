@@ -1,6 +1,6 @@
 extends SceneTree
 
-## Synthesises every sound the game uses and writes them to assets/audio/ as
+## Synthesises every sound the game uses and writes them to shared/assets/audio/ as
 ## 16-bit mono WAV files. There are no recorded or downloaded sounds: the
 ## files are built from sine waves, filtered noise and envelopes, which also
 ## suits the low-poly look. The same seed always gives the same files.
@@ -11,7 +11,7 @@ extends SceneTree
 ## settings set forward looping (see LOOPED in sound_bank.gd).
 
 const RATE := 22050
-const OUT := "res://assets/audio/"
+const OUT := "res://shared/assets/audio/"
 
 var _rng := RandomNumberGenerator.new()
 

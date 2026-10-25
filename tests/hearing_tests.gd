@@ -4,9 +4,9 @@ extends RefCounted
 ## Arena checks use exact geometry (floor, one wall, two guards that stand
 ## still); library checks run hearing together with the AI state machine.
 
-const GUARD_SCENE := "res://scenes/npc/guard.tscn"
-const PLAYER_SCENE := "res://scenes/player/player.tscn"
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
+const GUARD_SCENE := "res://shared/scenes/npc/guard.tscn"
+const PLAYER_SCENE := "res://shared/scenes/player/player.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 const T := NoiseEvent.Type
 

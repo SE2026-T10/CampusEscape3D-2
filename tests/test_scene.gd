@@ -4,7 +4,7 @@ extends Node
 ## (tests/player_tests.gd), Phase 3 navigation tests (tests/navigation_tests.gd)
 ## Phase 4 guard tests (tests/guard_tests.gd), Phase 5 vision tests (tests/vision_tests.gd)
 ## Phase 6 AI tests (tests/ai_state_tests.gd unit tests, tests/ai_behavior_tests.gd in the level)
-## Phase 7 hearing tests (tests/hearing_tests.gd), Phase 8 stealth-loop tests (tests/loop_tests.gd), Phase 9 objective and checkpoint tests (tests/objective_tests.gd), Phase 10 game-flow tests (tests/game_flow_tests.gd), Phase 11 level-design tests (tests/level_design_tests.gd), Phase 12 presentation tests (tests/presentation_tests.gd), Phase 13 performance checks (tests/performance_tests.gd) Phase 14 QA playthroughs and regression tests (tests/qa_playthrough_tests.gd, tests/qa_regression_tests.gd) the Expanded Library graybox tests (tests/expanded_graybox_tests.gd), the map selection tests (tests/map_selection_tests.gd), the Expanded Library navigation and guard tests (tests/expanded_ai_tests.gd) the Expanded Library mission tests (tests/expanded_mission_tests.gd), the Expanded Library expansion layout tests (tests/expanded_layout_expansion_tests.gd), the Expanded Library expansion stamina and inventory tests (tests/expanded_mechanics_tests.gd), the Expanded Library expansion puzzle, journal and objective tests (tests/expanded_puzzle_tests.gd), the Expanded Library expansion security tests (tests/expanded_security_tests.gd), the Expanded Library expansion escape and checkpoint tests (tests/expanded_escape_tests.gd), the Expanded Library expansion HUD and accessibility tests (tests/expanded_hud_tests.gd), the Expanded Library expansion end-to-end tests (tests/expanded_e2e_tests.gd), the Expanded Library expansion polish tests (tests/expanded_polish_tests.gd) and the Expanded Library expansion baseline tests (tests/expanded_baseline_tests.gd). Run this scene directly in Godot (F6), or headless:
+## Phase 7 hearing tests (tests/hearing_tests.gd), Phase 8 stealth-loop tests (tests/loop_tests.gd), Phase 9 objective and checkpoint tests (tests/objective_tests.gd), Phase 10 game-flow tests (tests/game_flow_tests.gd), Phase 11 level-design tests (tests/level_design_tests.gd), Phase 12 presentation tests (tests/presentation_tests.gd), Phase 13 performance checks (tests/performance_tests.gd) Phase 14 QA playthroughs and regression tests (tests/qa_playthrough_tests.gd, tests/qa_regression_tests.gd) the Expanded Library graybox tests (maps/library/tests/expanded_graybox_tests.gd), the map selection tests (tests/map_selection_tests.gd), the Expanded Library navigation and guard tests (maps/library/tests/expanded_ai_tests.gd) the Expanded Library mission tests (maps/library/tests/expanded_mission_tests.gd), the Expanded Library expansion layout tests (maps/library/tests/expanded_layout_expansion_tests.gd), the Expanded Library expansion stamina and inventory tests (maps/library/tests/expanded_mechanics_tests.gd), the Expanded Library expansion puzzle, journal and objective tests (maps/library/tests/expanded_puzzle_tests.gd), the Expanded Library expansion security tests (maps/library/tests/expanded_security_tests.gd), the Expanded Library expansion escape and checkpoint tests (maps/library/tests/expanded_escape_tests.gd), the Expanded Library expansion HUD and accessibility tests (maps/library/tests/expanded_hud_tests.gd), the Expanded Library expansion end-to-end tests (maps/library/tests/expanded_e2e_tests.gd), the Expanded Library expansion polish tests (maps/library/tests/expanded_polish_tests.gd) and the Expanded Library expansion baseline tests (maps/library/tests/expanded_baseline_tests.gd). Run this scene directly in Godot (F6), or headless:
 ##   godot --headless --path . res://tests/test_scene.tscn
 ## Exits with code 0 when every check passes and 1 otherwise, so it can be
 ## used by an automated build. Checks use explicit failures instead of
@@ -28,28 +28,29 @@ const PresentationTests := preload("res://tests/presentation_tests.gd")
 const PerformanceTests := preload("res://tests/performance_tests.gd")
 const QAPlaythroughTests := preload("res://tests/qa_playthrough_tests.gd")
 const QARegressionTests := preload("res://tests/qa_regression_tests.gd")
-const ExpandedGrayboxTests := preload("res://tests/expanded_graybox_tests.gd")
+const ExpandedGrayboxTests := preload("res://maps/library/tests/expanded_graybox_tests.gd")
 const MapSelectionTests := preload("res://tests/map_selection_tests.gd")
-const ExpandedAITests := preload("res://tests/expanded_ai_tests.gd")
-const ExpandedMissionTests := preload("res://tests/expanded_mission_tests.gd")
-const ExpandedBaselineTests := preload("res://tests/expanded_baseline_tests.gd")
-const ExpandedLayoutExpansionTests := preload("res://tests/expanded_layout_expansion_tests.gd")
-const ExpandedMechanicsTests := preload("res://tests/expanded_mechanics_tests.gd")
-const ExpandedPuzzleTests := preload("res://tests/expanded_puzzle_tests.gd")
-const ExpandedSecurityTests := preload("res://tests/expanded_security_tests.gd")
-const ExpandedEscapeTests := preload("res://tests/expanded_escape_tests.gd")
-const ExpandedHudTests := preload("res://tests/expanded_hud_tests.gd")
-const ExpandedE2ETests := preload("res://tests/expanded_e2e_tests.gd")
-const ExpandedPolishTests := preload("res://tests/expanded_polish_tests.gd")
-const MAIN_MENU_SCENE := "res://scenes/ui/main_menu.tscn"
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
+const ExpandedAITests := preload("res://maps/library/tests/expanded_ai_tests.gd")
+const ExpandedMissionTests := preload("res://maps/library/tests/expanded_mission_tests.gd")
+const ExpandedBaselineTests := preload("res://maps/library/tests/expanded_baseline_tests.gd")
+const ExpandedLayoutExpansionTests := preload("res://maps/library/tests/expanded_layout_expansion_tests.gd")
+const ExpandedMechanicsTests := preload("res://maps/library/tests/expanded_mechanics_tests.gd")
+const ExpandedPuzzleTests := preload("res://maps/library/tests/expanded_puzzle_tests.gd")
+const ExpandedSecurityTests := preload("res://maps/library/tests/expanded_security_tests.gd")
+const ExpandedEscapeTests := preload("res://maps/library/tests/expanded_escape_tests.gd")
+const ExpandedHudTests := preload("res://maps/library/tests/expanded_hud_tests.gd")
+const ExpandedE2ETests := preload("res://maps/library/tests/expanded_e2e_tests.gd")
+const ExpandedPolishTests := preload("res://maps/library/tests/expanded_polish_tests.gd")
+const MAIN_MENU_SCENE := "res://shared/scenes/ui/main_menu.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
 const REQUIRED_DIRS := [
-	"res://scenes/player", "res://scenes/npc", "res://scenes/level",
-	"res://scenes/ui", "res://scenes/systems",
-	"res://scripts/player", "res://scripts/npc", "res://scripts/systems",
-	"res://scripts/utilities",
-	"res://assets/models", "res://assets/materials", "res://assets/audio",
-	"res://assets/textures",
+	"res://shared/scenes/player", "res://shared/scenes/npc",
+	"res://shared/scenes/ui", "res://maps/tutorial/scenes", "res://maps/library/scenes",
+	"res://shared/scripts/player", "res://shared/scripts/npc", "res://shared/scripts/interaction",
+	"res://features", "res://maps/library/tests",
+	"res://shared/scripts/utilities",
+	"res://shared/assets/models", "res://shared/assets/materials", "res://shared/assets/audio",
+	"res://shared/assets/textures",
 	"res://tests", "res://docs",
 ]
 
@@ -142,7 +143,7 @@ func _check_folder_structure() -> void:
 ## error only prints to the log while dependent scenes quietly lose behaviour.
 func _check_all_scripts_compile() -> void:
 	var checked := 0
-	for folder in ["res://scripts", "res://tests", "res://tools"]:
+	for folder in ["res://shared", "res://features", "res://maps", "res://tests", "res://tools"]:
 		for path in _find_scripts(folder):
 			checked += 1
 			var script := load(path) as GDScript
@@ -156,6 +157,8 @@ func _find_scripts(folder: String) -> PackedStringArray:
 		if file.ends_with(".gd"):
 			found.append(folder.path_join(file))
 	for sub in DirAccess.get_directories_at(folder):
+		if sub.begins_with(".") or FileAccess.file_exists(folder.path_join(sub).path_join(".gdignore")):
+			continue
 		found.append_array(_find_scripts(folder.path_join(sub)))
 	return found
 

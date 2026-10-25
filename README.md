@@ -4,11 +4,13 @@
 
 ## Project description
 
+This branch organizes development around independent maps. Shared player/NPC/UI code is in `shared/`, optional mechanics in `features/`, and each map owns its scenes, scripts, resources, tests and tools under `maps/<map_id>/`. See [Working on a map](docs/architecture/MAP_LAYOUT.md) for the current layout, HUD extension interface and test commands. The new bank, museum and intelligence folders are workspaces only; the menu still lists the two playable maps.
+
 Campus Escape 3D is a low-poly, first-person 3D stealth game set in a university library at night. You sneak in, steal what you came for and get out, past guards who patrol, see, hear, investigate and chase.
 
 It has two maps, chosen from the main menu:
 - **Library Tutorial** (the MVP level): one floor, three guards; take an access card from the Restricted Stacks and escape.
-- **Expanded Library** (since 1.1.0): two floors, six zones, six guards and a five-objective mission, planned for a 20–30 minute first completion (not yet confirmed by human playtests).
+- **Expanded Library**: two floors plus a basement, seven guards, eight mandatory and three optional objectives, and three escape routes. Its completion-time target still needs human playtests.
 
 Built in Godot with GDScript, for Windows desktop. The current version is **1.1.0** (`application/config/version` in `project.godot`).
 
@@ -34,7 +36,7 @@ Built in Godot with GDScript, for Windows desktop. The current version is **1.1.
   - **Library Tutorial**: the original level, with its full mission.
   - **Expanded Library**: the two-floor map (since the 2026 expansion with a basement service network and seven zones), dressed in the tutorial's low-poly library look, seven patrolling guards (one in the basement since the 2026 expansion) and a mission of free exploration with clear prerequisites (since the 2026 expansion): get in; find a staff access card and the tool kit; open the electrical panel, restore the vault's power and crack the vault keypad from clues; take the rare manuscript and escape by one of three routes (since the 2026 expansion), each with its own requirements: the main entrance (it locks behind you; the security master badge and an override at the lobby reader open it), the loading dock (its shutter needs SERVICE EXIT power, the release freed with the tool kit and OPEN), or a hidden maintenance passage in the basement that leads to the storm drain. You escape by walking out; the win screen names your route. Optional puzzles: the pump, a security locker, the archive's back-gate shortcut. Security (since the 2026 expansion): four cameras on a SURVEILLANCE circuit raise the alarm when they spot you (guards come to look, it never ends the run); switches in the electrical room turn the cameras off or give the loading dock shutter SERVICE EXIT power, which reboots the cameras; guards check hiding spots near where they search, and a hiding spot only hides you if nobody saw you get in. Sprinting uses stamina here, and the player carries up to three items (tool kit, staff card, distractions) and keeps a journal of clue documents. The HUD (since the 2026 expansion) shows a WAYS OUT list of the escape routes and requirements you have learned (never ones you have not found), the power circuits once you have seen the switch board, and the last checkpoint; the journal holds only documents and clues.
 - **Settings** (main menu and pause menu, both maps): interface size 90/100/110/125 %, master volume and sound captions (on by default: important sounds such as alarms, guards' footsteps and radios, breaking glass and switches appear as short captions with a direction arrow, bottom left). They are saved in `user://settings.cfg`.
-- **Straight into a level** while developing: open `scenes/level/library_graybox.tscn` or `scenes/level/expanded_library.tscn` and press **F6**.
+- **Straight into a level** while developing: open `maps/tutorial/scenes/library_graybox.tscn` or `maps/library/scenes/expanded_library.tscn` and press **F6**.
 - **Exported build:** run `CampusEscape3D.exe`.
 
 ## Controls
@@ -95,13 +97,13 @@ GitHub Actions (`.github/workflows/build.yml`) runs on:
 Each map is one level scene with its gameplay systems as nodes in it; the main menu picks the map from `LevelCatalog`, and leaving a map frees it with all its systems (there are no autoloads). Systems find each other through groups (`StealthDirector.find(node)` and similar), and talk through signals. Presentation code (sound, animation, UI) only listens to the gameplay code and never changes it.
 
 ```
-scenes/ui/main_menu.tscn                 main scene: one button per map (LevelCatalog) / Quit
-scenes/level/expanded_library.tscn       the Expanded Library (same runtime and mission systems; built and dressed by tools/expanded/)
-└── Expansion (expanded_library_expansion.tscn)   the 2026 expansion: basement / service network (zone G), electrical room; built by tools/expanded/expansion/ (the v4 builder is frozen)
-scenes/level/library_graybox.tscn        the Library Tutorial
+shared/scenes/ui/main_menu.tscn                 main scene: one button per map (LevelCatalog) / Quit
+maps/library/scenes/expanded_library.tscn       the Expanded Library (same runtime and mission systems; built and dressed by maps/library/tools/)
+└── Expansion (expanded_library_expansion.tscn)   the 2026 expansion: basement / service network (zone G), electrical room; built by maps/library/tools/expansion/ (the v4 builder is frozen)
+maps/tutorial/scenes/library_graybox.tscn        the Library Tutorial
 ├── NavigationRegion3D (+ library_navmesh.tres)   rooms, walls, shelves, furniture, carrels (HidingSpot)
-├── Player (scenes/player/player.tscn)   FirstPersonPlayer + PlayerNoise + PlayerInteractor + PlayerFeedback + PlayerStamina + PlayerInventory (the last two off unless the level sets use_stamina / use_inventory: the Expanded Library does)
-├── Guards                               PatrolRoute/PatrolPoint markers + Guard instances (scenes/npc/guard.tscn)
+├── Player (shared/scenes/player/player.tscn)   FirstPersonPlayer + PlayerNoise + PlayerInteractor + PlayerFeedback + PlayerStamina + PlayerInventory (the last two off unless the level sets use_stamina / use_inventory: the Expanded Library does)
+├── Guards                               PatrolRoute/PatrolPoint markers + Guard instances (shared/scenes/npc/guard.tscn)
 ├── Gameplay                             ObjectiveManager, triggers, AccessCard, ExitDoor, CheckpointManager, Checkpoints
 │                                        (Expanded Library: also AccessDoor card / one-way doors)
 ├── StealthDirector                      overall stealth status, catching, level reset
@@ -115,14 +117,14 @@ scenes/level/library_graybox.tscn        the Library Tutorial
 
 | Folder | Contents |
 |---|---|
-| `scripts/player/` | `FirstPersonPlayer` (movement, crouch, look, respawn), `PlayerNoise` (footstep noise), `PlayerInteractor` (E-key ray) |
-| `scripts/npc/` | `Guard` (navigation, movement, perception snapshot), `GuardVision`, `GuardHearing`, `PatrolRoute`, `PatrolPoint` |
-| `scripts/npc/ai/` | `GuardStateMachine` with `PatrolState`, `InvestigateState`, `ChaseState`; `GuardPerception` |
-| `scripts/systems/` | `StealthDirector`, `HidingSpot`, objectives, checkpoints, interaction, noise, debug overlays |
-| `scripts/game/` | `GameFlow`, `GameStateMachine`, `LevelCatalog` (the maps the menu offers) |
-| `scripts/ui/` | `MainMenu`, `StealthHud`, `ObjectiveHud`, `GameMenus`, `MenuStyle` |
-| `scripts/presentation/` | `AudioDirector`, `SoundBank`, `PlayerFeedback`, `GuardPresentation` (model animation), `AmbientEmitter` |
-| `scripts/level/` | `ShelfBooks` (generated book MultiMeshes) |
+| `shared/scripts/player/` | `FirstPersonPlayer` (movement, crouch, look, respawn), `PlayerNoise` (footstep noise), `PlayerInteractor` (E-key ray) |
+| `shared/scripts/npc/` | `Guard` (navigation, movement, perception snapshot), `GuardVision`, `GuardHearing`, `PatrolRoute`, `PatrolPoint` |
+| `shared/scripts/npc/ai/` | `GuardStateMachine` with `PatrolState`, `InvestigateState`, `ChaseState`; `GuardPerception` |
+| `shared/scripts/systems/` | `StealthDirector`, `HidingSpot`, objectives, checkpoints, interaction, noise, debug overlays |
+| `shared/scripts/game/` | `GameFlow`, `GameStateMachine`, `LevelCatalog` (the maps the menu offers) |
+| `shared/scripts/ui/` | `MainMenu`, `StealthHud`, `ObjectiveHud`, `GameMenus`, `MenuStyle` |
+| `shared/scripts/presentation/` | `AudioDirector`, `SoundBank`, `PlayerFeedback`, `GuardPresentation` (model animation), `AmbientEmitter` |
+| `shared/scripts/level/` | `ShelfBooks` (generated book MultiMeshes) |
 | `tests/` | the automated test suite |
 | `tools/` | level, benchmark, capture, QA and CI tools (excluded from the export) |
 
@@ -134,7 +136,7 @@ scenes/level/library_graybox.tscn        the Library Tutorial
 
 ## AI states
 
-Each guard runs an explicit state machine (`scripts/npc/ai/guard_state_machine.gd`) with three states. The tutorial has three guards; the Expanded Library has six, with the same scene and AI.
+Each guard runs an explicit state machine (`shared/scripts/npc/ai/guard_state_machine.gd`) with three states. The tutorial has three guards; the Expanded Library has six, with the same scene and AI.
 
 | State | Behaviour |
 |---|---|
@@ -163,7 +165,7 @@ Any other transition (for example CHASE → PATROL) is rejected.
 
 ## The game
 
-The library level (`scenes/level/library_graybox.tscn`; the file name is kept from the graybox so references stay stable) is one small low-poly university library:
+The library level (`maps/tutorial/scenes/library_graybox.tscn`; the file name is kept from the graybox so references stay stable) is one small low-poly university library:
 
 - **Entrance:** spawn, with a red rug, plants and a notice board.
 - **Main Library Room:** four tall bookcases on the west side; on the east, a **Reading Area** with tables, green lamps, low 1.2 m bookcases (crouch cover) and the circulation desk with a globe. A wall clock on the north wall faces the entrance.
@@ -172,7 +174,7 @@ The library level (`scenes/level/library_graybox.tscn`; the file name is kept fr
 - **Hallway East** with a **study alcove** carrel.
 - **Exit Area**, guarded, with crates, a rack and the exit door.
 
-There are two routes to the card (west via Hallway West, east via Hallway East and the back corridor) and two ways from the card to the exit. Green EXIT signs mark both escape routes. How the level got here, with measurements and before/after pictures for each version, is in `docs/level/LEVEL_LOG.md`.
+There are two routes to the card (west via Hallway West, east via Hallway East and the back corridor) and two ways from the card to the exit. Green EXIT signs mark both escape routes. How the level got here, with measurements and before/after pictures for each version, is in `maps/tutorial/docs/level/LEVEL_LOG.md`.
 
 Three **guards** (dark blue) patrol the main room, the restricted stacks and the exit area (GuardEast is the exit warden). Each walks its own looping route with `NavigationAgent3D` and pauses at every patrol point. Guards **see**: each has a 90° vision cone reaching 14 m, blocked by walls and shelves. While a guard can see you, its detection meter (0–100) fills: fast up close, slowly at long range. Once you're out of sight it drains again. At 30 the guard becomes SUSPICIOUS, at 100 ALERTED. It remembers where it last saw you, and nothing else. Each guard runs an explicit state machine with three states:
 
@@ -248,8 +250,8 @@ Press **F3** to show the navigation mesh (cyan), each guard's current path (yell
 - **Stealth audio:** short stings when a guard notices you, starts investigating, starts a chase or loses you; tension music while you are seen or investigated, chase music during a chase.
 - **UI:** detection meter under the status banner, key-cap use prompt, objective progress ("OBJECTIVE 2/5") with a flash on change, pause menu and button sounds, caught screen with vignette and respawn countdown, victory screen with stats.
 - Volumes are on four buses (`default_bus_layout.tres`): Music, SFX, Ambience, UI.
-- All sounds are generated by `tools/generate_audio.gd` (no external assets). Regenerate them with `godot --headless --path . --script res://tools/generate_audio.gd`; the four loops are set to loop in their `.import` files.
-- `tools/capture_presentation.gd` renders the guard poses and HUD screenshots in `docs/presentation/`.
+- All sounds are generated by `tools/generate_audio.gd` (no external shared/assets). Regenerate them with `godot --headless --path . --script res://tools/generate_audio.gd`; the four loops are set to loop in their `.import` files.
+- `maps/tutorial/tools/capture_presentation.gd` renders the guard poses and HUD screenshots in `docs/presentation/`.
 
 ## Testing
 
@@ -323,20 +325,20 @@ godot --headless --path . --script res://tools/map_flow.gd  # both maps selected
 - `tests/vision_tests.gd` — Phase 5 checks in a purpose-built arena: FOV and range maths, a player straight ahead is seen and the meter fills in the expected time, the meter holds then drains after losing sight, the last known position never updates while hidden, walls and tall shelves block sight but a low table doesn't, players outside the cone or out of range are not seen, far players fill the meter slowly, thresholds are configurable, and the debug cone stops at walls. In the library: every guard has vision, and no guard sees the spawn during a full patrol loop.
 - `tests/navigation_tests.gd` — Phase 3 checks: every room exists, navigation covers open floor and none of the walls or furniture, nothing is baked outside the rooms or on furniture, every floor edge is walled, paths reach every room without crossing walls, a `NavigationAgent3D` probe walks from the entrance to the exit, the debug overlay draws the navmesh, and the saved navmesh matches a fresh bake.
 
-- `tests/expanded_graybox_tests.gd` — Expanded Library graybox: scene structure, doorway and stair dimensions, navmesh on both floors, the visual dressing (no collision in it, one box collider per solid piece, no decorative mesh within 0.15 m of the walkable space), every planned location reachable, each stair on its own, planned gates and two approaches (rebaked with blockers), and a real-input walk of the main and alternative routes.
-- `tests/expanded_ai_tests.gd` — Expanded Library navigation and guards: both floors baked and sealed, every patrol point clear of doorways and stairs, all six guards completing their loops together with nothing stuck, vision (walls, shelves, the slab, the balcony railing), hearing (open, through a wall, through the slab), chase and loss of contact, a chase up a stair and back, head-on crossings in a door and on a stair, and one guard touring every gate and stair.
-- `tests/expanded_layout_expansion_tests.gd` — Expanded Library expansion layout (Phase 2): the seven zones, every new area reachable and the outside, the drain beyond its grate and the space under the floors sealed; the stacks' five routes; the new doorways clear (2 m × 2.6 m) and both service stairs (width, slope, headroom); the real player walking down the west service stair, along the tunnel and up the east service stair; a guard touring every new area; zone D still behind the staff card through the basement.
-- `tests/expanded_mechanics_tests.gd` — Expanded Library expansion stamina and inventory (Phase 3): the stamina rules at 7–144 Hz and uneven frame times; a real-input sprint at 30, 60 and 120 physics ticks (5 s, same distance); no drain walking, standing, crouching, hiding, using things or being seen; respawn refills; three slots, the fourth item and the card refused with full hands; tools and cards never used up; one distraction per successful throw (one noise, a guard investigates), none for a failed throw; documents in the journal once each; leave, take back and swap at storage shelves only, with item totals unchanged; card doors check the carried card; three catches restore slots, shelves and pickups exactly with no duplicates; the tutorial without stamina, inventory or item HUD.
-- `tests/expanded_puzzle_tests.gd` — Expanded Library expansion puzzles, journal and objectives (Phase 4): the objective graph (prerequisites exist, no cycle, no mandatory → optional edge, the archive / vault / manuscript gated, nothing gives a code away); ObjectiveManager graph mode (parallel and optional objectives, consistent restore, hidden objectives) with linear mode unchanged; two full valid routes with real input (loading dock without optional objectives; storm drain via the pump); invalid sequences (archive without card, vault by hand, manuscript early, keypad unpowered, breakers behind the cover, wrong breakers and codes with alarms, lockout and retry, exits early, pump stall); the optional locker; puzzles following checkpoints with the journal and discoveries kept and everything still solvable.
-- `tests/expanded_security_tests.gd` — Expanded Library expansion security (Phase 5): the expanded rules on the Expanded Library's seven guards only (tutorial and guard scene unchanged); guard states (noise, sight, chase, lost contact, search, patrol); a thrown distraction drawing a guard to where it landed; hiding entered unseen hides, entered seen does not, a searching guard checks the spot and finds the player; alarm attention (detection ×1.6, searches ×1.5, never a capture); cameras (meter slower crouched and far away, alarm at the player's position, HUD, guards investigate; off = dark, guards unaffected); all 8 circuit combinations power only their own devices; the service reboot and its 30 s lock; the dock needing the manuscript and service power, the storm drain power-free, no softlock; circuits following checkpoints; a chase up the east service stair and back; the basement guard's loop.
-- `tests/expanded_escape_tests.gd` — Expanded Library expansion escapes and checkpoints (Phase 6): each of the three routes played on a fresh level with real input where it matters (walking, looking, E): the main entrance lockdown, badge reader (refusal without the badge, interrupted and full override, the lobby camera's alarm), the dock shutter (no power, jammed release, tool kit, OPEN, power off/on), the hidden panel (no prompt until the plan is read, latch, jammed grate, pump); every route refuses without the manuscript; the other routes stay closed throughout; the route is recorded on the win screen. Checkpoints: the capture before any checkpoint, the caught screen, respawn position and facing, stamina, detection, items, objectives, puzzles, circuits, exits, the hidden panel, the journal, HUD, 5 captures without duplicates, routes opened before or after the checkpoint, still finishing afterwards; guards back at their stored spots on PATROL, the clearance rule.
-- `tests/expanded_hud_tests.gd` — Expanded Library expansion HUD and accessibility (Phase 7): settings (defaults, bad values, saved and loaded back, applied to the interface size and the Master bus, the menu and pause panels); the HUD reading the game (stamina bar and EXHAUSTED, slots, checklist, journal of clues and documents only); WAYS OUT showing only learned routes and requirements, the hidden passage only after its plan; exit messages naming only known requirements; journal, ways out and power after a capture; captions (alarm, distraction, switch, stingers, guard footsteps, direction and floor, out of earshot, off); layout at 1280×720, 1920×1080, 1024×768 and 2560×1440 at every interface size (on screen, no overlaps, every journal entry reachable with J); the completion screen (route, time, optional objectives); the tutorial HUD with captions and Settings.
-- `tests/expanded_e2e_tests.gd` (with `tests/e2e_walker.gd`) — Expanded Library expansion end to end (Phase 8): the map played from the porch to an escape, walked with real input (the move keys along a navigation path, E, F, the slot keys; no teleporting): a mandatory-only run out by the loading dock (wrong breakers and a wrong code recovered, the dock refused without the manuscript, the back gate refused from the staff stair, a tour of every area and stair with the manuscript); every optional objective and their effects, out by the main entrance, with a capture in the middle (inventory, objectives and puzzles as stored, journal kept); the hidden passage with the circuits switched in another order; distractions thrown at a guard on PATROL, during INVESTIGATE and during CHASE; the tutorial replayed afterwards. A refused player stays at the exit's threshold.
-- `tests/expanded_polish_tests.gd` — Expanded Library expansion polish and performance (Phase 9): the mechanism sounds (a dial click, a wrong-code buzz, a solved chime, an item pickup chime but none when refused, the panel cover and switch clunks, thrown items and the badge reader through their captions, played at the mechanism); every decorative box has no collision and is a floor decal, above head height or off the navmesh, at least 0.6 m from anything the player uses or hides in; the new signs exist; the storm drain's state label sits below the wall sign; the tutorial has no mechanism sounds. Follow-up fixes: no buzz on a pump stall; the tunnel niche and balcony nook hiding spots are walkable; the maintenance bay checkpoint saves and respawns facing its door; the Staff Offices respawn is in Office 1; no mesh is reached by more than 8 lights.
-- `tests/expanded_baseline_tests.gd` — Expanded Library expansion baseline: the expansion sub-scene is instanced exactly once (after `Gameplay`, not moved) and only in the Expanded Library; outside it, the collision geometry, batched decoration (door frames included), guards, routes and mission nodes match the baseline digests of commit `7d73492`; the two maps loaded alternately each keep their own systems, guards and objectives and leave nothing behind.
-- `tests/expanded_mission_tests.gd` — Expanded Library mission: the five objectives played with real input (walking, looking, E) from a fresh start to the win screen; every bypass refused (card doors without the card, one-way doors from the wrong side, the manuscript before the card, the exit before the shortcut) and closed doors blocking the walking player and a guard's sight; the back gate opened before the manuscript; captures before and right after the card, after the manuscript and after the shortcut, five repeated captures, level guards reset, no checkpoint during a chase; after every respawn the mission state equals the checkpoint's snapshot and items, doors, objectives, exit and HUD agree.
-- Balance tools (development only): `tools/expanded/coverage_map.gd` (where guards can see, heat maps, route exposure), `tools/expanded/playtest_bot.gd` (an automated playtester, updated in expansion Phase 8 to the current mission and its four routes: dock, main, passage, full; it plays through the real player), `tools/expanded/summarize_playtests.py`. See `docs/expanded/phase-5-balance.md`; human playtests: `docs/expanded/PLAYTEST_PROTOCOL.md`.
-- Visual-pass tools (development only): `tools/expanded/capture_views.gd` (the same player views on any build), `tools/expanded/light_report.gd` (lights against the Compatibility renderer's limits, light on the guards' routes), `tools/expanded/profile_expanded.gd` (rendering profile, with diagnostics), `tools/expanded/collision_fingerprint.gd` (every collider, guard and patrol point; diff two builds). See `docs/expanded/phase-6-visual-polish.md`.
+- `maps/library/tests/expanded_graybox_tests.gd` — Expanded Library graybox: scene structure, doorway and stair dimensions, navmesh on both floors, the visual dressing (no collision in it, one box collider per solid piece, no decorative mesh within 0.15 m of the walkable space), every planned location reachable, each stair on its own, planned gates and two approaches (rebaked with blockers), and a real-input walk of the main and alternative routes.
+- `maps/library/tests/expanded_ai_tests.gd` — Expanded Library navigation and guards: both floors baked and sealed, every patrol point clear of doorways and stairs, all six guards completing their loops together with nothing stuck, vision (walls, shelves, the slab, the balcony railing), hearing (open, through a wall, through the slab), chase and loss of contact, a chase up a stair and back, head-on crossings in a door and on a stair, and one guard touring every gate and stair.
+- `maps/library/tests/expanded_layout_expansion_tests.gd` — Expanded Library expansion layout (Phase 2): the seven zones, every new area reachable and the outside, the drain beyond its grate and the space under the floors sealed; the stacks' five routes; the new doorways clear (2 m × 2.6 m) and both service stairs (width, slope, headroom); the real player walking down the west service stair, along the tunnel and up the east service stair; a guard touring every new area; zone D still behind the staff card through the basement.
+- `maps/library/tests/expanded_mechanics_tests.gd` — Expanded Library expansion stamina and inventory (Phase 3): the stamina rules at 7–144 Hz and uneven frame times; a real-input sprint at 30, 60 and 120 physics ticks (5 s, same distance); no drain walking, standing, crouching, hiding, using things or being seen; respawn refills; three slots, the fourth item and the card refused with full hands; tools and cards never used up; one distraction per successful throw (one noise, a guard investigates), none for a failed throw; documents in the journal once each; leave, take back and swap at storage shelves only, with item totals unchanged; card doors check the carried card; three catches restore slots, shelves and pickups exactly with no duplicates; the tutorial without stamina, inventory or item HUD.
+- `maps/library/tests/expanded_puzzle_tests.gd` — Expanded Library expansion puzzles, journal and objectives (Phase 4): the objective graph (prerequisites exist, no cycle, no mandatory → optional edge, the archive / vault / manuscript gated, nothing gives a code away); ObjectiveManager graph mode (parallel and optional objectives, consistent restore, hidden objectives) with linear mode unchanged; two full valid routes with real input (loading dock without optional objectives; storm drain via the pump); invalid sequences (archive without card, vault by hand, manuscript early, keypad unpowered, breakers behind the cover, wrong breakers and codes with alarms, lockout and retry, exits early, pump stall); the optional locker; puzzles following checkpoints with the journal and discoveries kept and everything still solvable.
+- `maps/library/tests/expanded_security_tests.gd` — Expanded Library expansion security (Phase 5): the expanded rules on the Expanded Library's seven guards only (tutorial and guard scene unchanged); guard states (noise, sight, chase, lost contact, search, patrol); a thrown distraction drawing a guard to where it landed; hiding entered unseen hides, entered seen does not, a searching guard checks the spot and finds the player; alarm attention (detection ×1.6, searches ×1.5, never a capture); cameras (meter slower crouched and far away, alarm at the player's position, HUD, guards investigate; off = dark, guards unaffected); all 8 circuit combinations power only their own devices; the service reboot and its 30 s lock; the dock needing the manuscript and service power, the storm drain power-free, no softlock; circuits following checkpoints; a chase up the east service stair and back; the basement guard's loop.
+- `maps/library/tests/expanded_escape_tests.gd` — Expanded Library expansion escapes and checkpoints (Phase 6): each of the three routes played on a fresh level with real input where it matters (walking, looking, E): the main entrance lockdown, badge reader (refusal without the badge, interrupted and full override, the lobby camera's alarm), the dock shutter (no power, jammed release, tool kit, OPEN, power off/on), the hidden panel (no prompt until the plan is read, latch, jammed grate, pump); every route refuses without the manuscript; the other routes stay closed throughout; the route is recorded on the win screen. Checkpoints: the capture before any checkpoint, the caught screen, respawn position and facing, stamina, detection, items, objectives, puzzles, circuits, exits, the hidden panel, the journal, HUD, 5 captures without duplicates, routes opened before or after the checkpoint, still finishing afterwards; guards back at their stored spots on PATROL, the clearance rule.
+- `maps/library/tests/expanded_hud_tests.gd` — Expanded Library expansion HUD and accessibility (Phase 7): settings (defaults, bad values, saved and loaded back, applied to the interface size and the Master bus, the menu and pause panels); the HUD reading the game (stamina bar and EXHAUSTED, slots, checklist, journal of clues and documents only); WAYS OUT showing only learned routes and requirements, the hidden passage only after its plan; exit messages naming only known requirements; journal, ways out and power after a capture; captions (alarm, distraction, switch, stingers, guard footsteps, direction and floor, out of earshot, off); layout at 1280×720, 1920×1080, 1024×768 and 2560×1440 at every interface size (on screen, no overlaps, every journal entry reachable with J); the completion screen (route, time, optional objectives); the tutorial HUD with captions and Settings.
+- `maps/library/tests/expanded_e2e_tests.gd` (with `tests/e2e_walker.gd`) — Expanded Library expansion end to end (Phase 8): the map played from the porch to an escape, walked with real input (the move keys along a navigation path, E, F, the slot keys; no teleporting): a mandatory-only run out by the loading dock (wrong breakers and a wrong code recovered, the dock refused without the manuscript, the back gate refused from the staff stair, a tour of every area and stair with the manuscript); every optional objective and their effects, out by the main entrance, with a capture in the middle (inventory, objectives and puzzles as stored, journal kept); the hidden passage with the circuits switched in another order; distractions thrown at a guard on PATROL, during INVESTIGATE and during CHASE; the tutorial replayed afterwards. A refused player stays at the exit's threshold.
+- `maps/library/tests/expanded_polish_tests.gd` — Expanded Library expansion polish and performance (Phase 9): the mechanism sounds (a dial click, a wrong-code buzz, a solved chime, an item pickup chime but none when refused, the panel cover and switch clunks, thrown items and the badge reader through their captions, played at the mechanism); every decorative box has no collision and is a floor decal, above head height or off the navmesh, at least 0.6 m from anything the player uses or hides in; the new signs exist; the storm drain's state label sits below the wall sign; the tutorial has no mechanism sounds. Follow-up fixes: no buzz on a pump stall; the tunnel niche and balcony nook hiding spots are walkable; the maintenance bay checkpoint saves and respawns facing its door; the Staff Offices respawn is in Office 1; no mesh is reached by more than 8 lights.
+- `maps/library/tests/expanded_baseline_tests.gd` — Expanded Library expansion baseline: the expansion sub-scene is instanced exactly once (after `Gameplay`, not moved) and only in the Expanded Library; outside it, the collision geometry, batched decoration (door frames included), guards, routes and mission nodes match the baseline digests of commit `7d73492`; the two maps loaded alternately each keep their own systems, guards and objectives and leave nothing behind.
+- `maps/library/tests/expanded_mission_tests.gd` — Expanded Library mission: the five objectives played with real input (walking, looking, E) from a fresh start to the win screen; every bypass refused (card doors without the card, one-way doors from the wrong side, the manuscript before the card, the exit before the shortcut) and closed doors blocking the walking player and a guard's sight; the back gate opened before the manuscript; captures before and right after the card, after the manuscript and after the shortcut, five repeated captures, level guards reset, no checkpoint during a chase; after every respawn the mission state equals the checkpoint's snapshot and items, doors, objectives, exit and HUD agree.
+- Balance tools (development only): `maps/library/tools/coverage_map.gd` (where guards can see, heat maps, route exposure), `maps/library/tools/playtest_bot.gd` (an automated playtester, updated in expansion Phase 8 to the current mission and its four routes: dock, main, passage, full; it plays through the real player), `maps/library/tools/summarize_playtests.py`. See `maps/library/docs/phase-5-balance.md`; human playtests: `maps/library/docs/PLAYTEST_PROTOCOL.md`.
+- Visual-pass tools (development only): `maps/library/tools/capture_views.gd` (the same player views on any build), `maps/library/tools/light_report.gd` (lights against the Compatibility renderer's limits, light on the guards' routes), `maps/library/tools/profile_expanded.gd` (rendering profile, with diagnostics), `maps/library/tools/collision_fingerprint.gd` (every collider, guard and patrol point; diff two builds). See `maps/library/docs/phase-6-visual-polish.md`.
 - `tests/map_selection_tests.gd` — map selection: the catalog, one menu button per map with keyboard navigation, each button loading its map once, and for each map (loaded twice) one of each system, Restart → same map, Main menu → menu, signal connections made once, everything freed on leaving.
 
 **Before a release:** work through `docs/qa/REGRESSION_CHECKLIST.md`: the automated part, plus the manual checks on Windows.
@@ -404,17 +406,17 @@ godot --path . --resolution 1280x720 --script res://tools/benchmark.gd -- --leve
 
 ## Level-design version history
 
-The Expanded Library has its own log, with the commit of each version on `Development` (v0 `cce1e9a`, v1 `3896e7c`, v2 `8dd2d63`, v3 and v4 together `484761d`): **[`docs/expanded/LEVEL_LOG.md`](docs/expanded/LEVEL_LOG.md)** (design in [`docs/expanded/LAYOUT.md`](docs/expanded/LAYOUT.md)). The tutorial's history:
+The Expanded Library has its own log, with the commit of each version on `Development` (v0 `cce1e9a`, v1 `3896e7c`, v2 `8dd2d63`, v3 and v4 together `484761d`): **[`maps/library/docs/LEVEL_LOG.md`](maps/library/docs/LEVEL_LOG.md)** (design in [`maps/library/docs/LAYOUT.md`](maps/library/docs/LAYOUT.md)). The tutorial's history:
 
-The level went through five measured versions, each recorded as an evidence folder (all five landed in git as one commit, `3320e45`). The full log, with what changed, why, the metrics and before/after pictures, is in **[`docs/level/LEVEL_LOG.md`](docs/level/LEVEL_LOG.md)**.
+The level went through five measured versions, each recorded as an evidence folder (all five landed in git as one commit, `3320e45`). The full log, with what changed, why, the metrics and before/after pictures, is in **[`maps/tutorial/docs/level/LEVEL_LOG.md`](maps/tutorial/docs/level/LEVEL_LOG.md)**.
 
 | Version | What changed | Evidence |
 |---|---|---|
-| v0 | baseline: the Phase 10 graybox measured with the new level tools | `docs/level/v0/` |
-| v1 | cover and sightline pass: low bookcases, catalogue cabinet, Hallway East study alcove and carrel, book carts, exit-area crates and rack | `docs/level/v1/` (+ `compare.md`) |
-| v2 | GuardEast's patrol becomes an exit-area warden (6 candidate routes measured, B2 chosen) | `docs/level/v2/` (+ `experiments/`) |
-| v3 | readability: doors, room / RESTRICTED / EXIT signs, landmarks, card spotlight (visual only; metrics identical) | `docs/level/v3/` |
-| v4 | low-poly art: palette, lighting, books, ceilings, chairs, plants, windows, posters, rugs | `docs/level/v4/`, `docs/level/before_after/` |
+| v0 | baseline: the Phase 10 graybox measured with the new level tools | `maps/tutorial/docs/level/v0/` |
+| v1 | cover and sightline pass: low bookcases, catalogue cabinet, Hallway East study alcove and carrel, book carts, exit-area crates and rack | `maps/tutorial/docs/level/v1/` (+ `compare.md`) |
+| v2 | GuardEast's patrol becomes an exit-area warden (6 candidate routes measured, B2 chosen) | `maps/tutorial/docs/level/v2/` (+ `experiments/`) |
+| v3 | readability: doors, room / RESTRICTED / EXIT signs, landmarks, card spotlight (visual only; metrics identical) | `maps/tutorial/docs/level/v3/` |
+| v4 | low-poly art: palette, lighting, books, ceilings, chairs, plants, windows, posters, rugs | `maps/tutorial/docs/level/v4/`, `maps/tutorial/docs/level/before_after/` |
 
 **Measured from v0 to v4:**
 - Floor within 1.5 m of cover rose from 33% to 42%.
@@ -434,7 +436,7 @@ The level went through five measured versions, each recorded as an evidence fold
 - The CI-built Windows executable was launched on Windows and played from the main menu into the level; a full manual playthrough of the checklist's Part 2 has not been recorded yet.
 - The audio has not been judged by ear.
 - The scripted playthroughs don't judge stealth difficulty; that needs human play.
-- **Release 1.1.0:** the suite, the flow runs and the export pass on Linux (the development VM, and CI Build #5 on `484761d`). Not yet done on Windows for this release: launching the exported build, choosing both maps in it, playing the Expanded Library to the end, and the frame-rate benchmark. No human has played the Expanded Library yet, so its 20–30 minute target is unconfirmed (the automated playtester's runs are in `docs/expanded/v3/` and `v4/playtests/`).
+- **Release 1.1.0:** the suite, the flow runs and the export pass on Linux (the development VM, and CI Build #5 on `484761d`). Not yet done on Windows for this release: launching the exported build, choosing both maps in it, playing the Expanded Library to the end, and the frame-rate benchmark. No human has played the Expanded Library yet, so its 20–30 minute target is unconfirmed (the automated playtester's runs are in `maps/library/docs/v3/` and `v4/playtests/`).
 
 **Level:**
 - The scene file is still named `library_graybox.tscn` (kept so references stay stable).
@@ -442,7 +444,7 @@ The level went through five measured versions, each recorded as an evidence fold
 - Decoration (chairs, signs, books) has no collision; plants do.
 - Windows are emissive panels.
 - Only two checkpoints; none on the east route after the card.
-- Expanded Library: its door-frame fix (z-fighting) was made in the scene file only; rebuilding the scene with `tools/expanded/build_expanded_graybox.gd` would bring the old frames back.
+- Expanded Library: its door-frame fix (z-fighting) was made in the scene file only; rebuilding the scene with `maps/library/tools/build_expanded_graybox.gd` would bring the old frames back.
 
 **AI:**
 - Guards sharing one patrol route can block each other at a narrow spot for about 5 s before skipping ahead. Both maps have one guard per route; the benchmark's stress scenario adds guards to shared routes and shows it (`docs/performance/release_1_1/`).
@@ -464,9 +466,9 @@ The level went through five measured versions, each recorded as an evidence fold
 
 ### Adding or changing a guard patrol
 
-1. Add a `PatrolRoute` node (script `scripts/npc/patrol_route.gd`) under `Guards`. Untick **Loop** if the guard should stop at the last point.
-2. Add `Marker3D` children with `scripts/npc/patrol_point.gd` attached, in the order to visit them, on walkable floor. Set **Wait Time** per point (-1 uses the guard's default).
-3. Instance `scenes/npc/guard.tscn` under `Guards` and set its **Patrol Route** to the new route. Several guards can share one route.
+1. Add a `PatrolRoute` node (script `shared/scripts/npc/patrol_route.gd`) under `Guards`. Untick **Loop** if the guard should stop at the last point.
+2. Add `Marker3D` children with `shared/scripts/npc/patrol_point.gd` attached, in the order to visit them, on walkable floor. Set **Wait Time** per point (-1 uses the guard's default).
+3. Instance `shared/scenes/npc/guard.tscn` under `Guards` and set its **Patrol Route** to the new route. Several guards can share one route.
 
 The tests check that every patrol point in the library is on the navigation mesh and reachable.
 
@@ -475,9 +477,9 @@ The tests check that every patrol point in the library is on the navigation mesh
 Measure the level and record a version (run on the commit you want to record):
 
 ```
-godot --path . --script res://tools/level_report.gd -- --out=docs/level/v5 --version=v5
-godot --path . --resolution 1280x720 --script res://tools/capture_views.gd -- --out=docs/level/v5/views
-godot --headless --path . --script res://tools/level_compare.gd -- --before=docs/level/v4 --after=docs/level/v5
+godot --path . --script res://maps/tutorial/tools/level_report.gd -- --out=maps/tutorial/docs/level/v5 --version=v5
+godot --path . --resolution 1280x720 --script res://maps/tutorial/tools/capture_views.gd -- --out=maps/tutorial/docs/level/v5/views
+godot --headless --path . --script res://maps/tutorial/tools/level_compare.gd -- --before=maps/tutorial/docs/level/v4 --after=maps/tutorial/docs/level/v5
 ```
 
 What each one produces:
@@ -494,10 +496,10 @@ What each one produces:
 
 ### Rebaking navigation after changing the level
 
-Navigation is baked from the level's static collision into `scenes/level/library_navmesh.tres`. After moving walls, shelves or furniture, rebake using either of these:
+Navigation is baked from the level's static collision into `maps/tutorial/resources/library_navmesh.tres`. After moving walls, shelves or furniture, rebake using either of these:
 
 - **Editor:** select `NavigationRegion3D` in the library scene, click **Bake NavigationMesh** in the toolbar, then save (Ctrl+S).
-- **Command line:** `godot --headless --path . --script res://tools/bake_navigation.gd`
+- **Command line:** `godot --headless --path . --script res://maps/tutorial/tools/bake_navigation.gd`
 
 If you forget to rebake, the tests fail with "The saved navigation mesh is out of date".
 
@@ -514,7 +516,7 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 - `docs/phase-9-objectives-and-checkpoints.md`
 - `docs/phase-10-game-flow.md`
 - `docs/phase-11-final-level.md`
-- `docs/level/LEVEL_LOG.md` (level-design versions v0–v4 with evidence)
+- `maps/tutorial/docs/level/LEVEL_LOG.md` (level-design versions v0–v4 with evidence)
 - `docs/phase-12-presentation.md`
 - `docs/phase-13-performance.md` (benchmark, measurements, optimisation; evidence in `docs/performance/`)
 - `docs/phase-14-qa.md` (final QA pass; checklist and evidence in `docs/qa/`)
@@ -522,8 +524,8 @@ If you forget to rebake, the tests fail with "The saved navigation mesh is out o
 - `docs/phase-15-build-pipeline.md`
 - `docs/release-notes/v1.0.0.md`
 - `docs/release-notes/v1.1.0.md`
-- `docs/expanded/expansion/` (Expanded Library expansion: Phase 1 baseline and integration point)
-- `docs/expanded/phase-7-release.md` (release 1.1.0: final QA, performance, build; acceptance)
+- `maps/library/docs/expansion/` (Expanded Library expansion: Phase 1 baseline and integration point)
+- `maps/library/docs/phase-7-release.md` (release 1.1.0: final QA, performance, build; acceptance)
 - `docs/performance/release_1_1/README.md` (both maps benchmarked)
 - **[`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md)** (final MVP report and release validation)
-- Expanded Library: `docs/expanded/phase-0-audit.md`, `docs/expanded/LAYOUT.md`, `docs/expanded/phase-1-graybox.md`, `docs/expanded/phase-2-map-selection.md`, `docs/expanded/phase-3-navigation-and-guards.md`, `docs/expanded/phase-4-mission.md`, `docs/expanded/phase-5-balance.md`, `docs/expanded/phase-6-visual-polish.md`, `docs/expanded/PLAYTEST_PROTOCOL.md`, `docs/expanded/LEVEL_LOG.md`
+- Expanded Library: `maps/library/docs/phase-0-audit.md`, `maps/library/docs/LAYOUT.md`, `maps/library/docs/phase-1-graybox.md`, `maps/library/docs/phase-2-map-selection.md`, `maps/library/docs/phase-3-navigation-and-guards.md`, `maps/library/docs/phase-4-mission.md`, `maps/library/docs/phase-5-balance.md`, `maps/library/docs/phase-6-visual-polish.md`, `maps/library/docs/PLAYTEST_PROTOCOL.md`, `maps/library/docs/LEVEL_LOG.md`

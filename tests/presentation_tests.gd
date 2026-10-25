@@ -13,8 +13,8 @@ extends RefCounted
 ##   - presentation never changes gameplay: the guard model has no collision,
 ##     the guard's collision capsule and speeds are unchanged
 
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
-const GUARD_SCENE := "res://scenes/npc/guard.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
+const GUARD_SCENE := "res://shared/scenes/npc/guard.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 const S := StealthDirector.Status
 

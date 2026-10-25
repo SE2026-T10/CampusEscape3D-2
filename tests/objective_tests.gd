@@ -12,8 +12,8 @@ extends RefCounted
 ## The flow tests remove the level's guards and use one test guard to catch
 ## the player when needed, so they don't depend on patrol timing.
 
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
-const GUARD_SCENE := "res://scenes/npc/guard.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
+const GUARD_SCENE := "res://shared/scenes/npc/guard.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 const S := StealthDirector.Status
 ## Standing spots used to interact.

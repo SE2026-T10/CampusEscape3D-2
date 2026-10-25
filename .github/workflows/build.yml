@@ -1,6 +1,6 @@
 # Campus Escape 3D — automated build.
 #
-#   push to Development or main, pull request to them, manual run:
+#   push to Development, main or twp, pull request to Development/main, manual run:
 #       validate → tests → Windows x64 export → build uploaded as an artifact
 #   push of a version tag (v1.0.0, …):
 #       the same, then a GitHub Release with the zipped build attached
@@ -15,7 +15,7 @@ name: Build
 
 on:
   push:
-    branches: [Development, main]
+    branches: [Development, main, twp]
     tags: ["v*.*.*"]
   pull_request:
     branches: [Development, main]

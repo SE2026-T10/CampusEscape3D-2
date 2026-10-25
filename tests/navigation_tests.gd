@@ -7,8 +7,8 @@ extends RefCounted
 ## obstacle. The tests keep working as the layout changes. They check
 ## the requirements rather than exact polygon counts.
 
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
-const PROBE_SCENE := "res://scenes/npc/navigation_probe.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
+const PROBE_SCENE := "res://shared/scenes/npc/navigation_probe.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 const REGION := "NavigationRegion3D"
 const AREAS := ["Entrance", "MainRoom", "ReadingArea", "MainStacks", "HallwayWest",
@@ -99,7 +99,7 @@ func _collect_geometry(region: NavigationRegion3D) -> void:
 
 func _check_navmesh_saved_and_current(region: NavigationRegion3D) -> void:
 	var saved := region.navigation_mesh
-	_expect(saved.resource_path == "res://scenes/level/library_navmesh.tres",
+	_expect(saved.resource_path == "res://maps/tutorial/resources/library_navmesh.tres",
 		"The navigation mesh should be saved in its own file (library_navmesh.tres).")
 	_expect(saved.get_polygon_count() > 0, "The saved navigation mesh is empty. Bake it.")
 	_expect(saved.geometry_parsed_geometry_type == NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS,
@@ -120,7 +120,7 @@ func _check_navmesh_saved_and_current(region: NavigationRegion3D) -> void:
 		saved.get_polygon_count(), saved_area, fresh.get_polygon_count(), fresh_area])
 	_expect(absf(saved_area - fresh_area) <= 0.01 * maxf(fresh_area, 1.0),
 		"The saved navigation mesh is out of date (%.1f m² saved vs %.1f m² from the current level). " % [saved_area, fresh_area]
-		+ "Rebake: select NavigationRegion3D → Bake NavigationMesh, or run tools/bake_navigation.gd.")
+		+ "Rebake: select NavigationRegion3D → Bake NavigationMesh, or run maps/tutorial/tools/bake_navigation.gd.")
 
 
 func _check_navmesh_inside_floors(nav_mesh: NavigationMesh) -> void:

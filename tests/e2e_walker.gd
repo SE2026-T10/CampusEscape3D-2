@@ -1,7 +1,7 @@
 extends RefCounted
 
 ## Expansion Phase 8: walks the player through a level with real input, for the
-## end-to-end tests (tests/expanded_e2e_tests.gd). It follows a NavigationServer
+## end-to-end tests (maps/library/tests/expanded_e2e_tests.gd). It follows a NavigationServer
 ## path with the move keys (turning the player toward the next path point, as a
 ## player turns the mouse), uses things with the interact key when the
 ## PlayerInteractor focuses them, and turns code dials one press at a time. It

@@ -6,9 +6,9 @@ extends RefCounted
 ## tall shelf) with the real guard and player scenes, so distances and angles
 ## are exact. A final check loads the library itself.
 
-const GUARD_SCENE := "res://scenes/npc/guard.tscn"
-const PLAYER_SCENE := "res://scenes/player/player.tscn"
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
+const GUARD_SCENE := "res://shared/scenes/npc/guard.tscn"
+const PLAYER_SCENE := "res://shared/scenes/player/player.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 const TIME_SCALE := 4.0
 

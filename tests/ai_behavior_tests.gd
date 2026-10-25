@@ -4,8 +4,8 @@ extends RefCounted
 ## vision and navigation. Runs the full PATROL → INVESTIGATE → CHASE →
 ## INVESTIGATE → PATROL cycle, then a noise investigation.
 
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
-const GUARD_SCENE := "res://scenes/npc/guard.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
+const GUARD_SCENE := "res://shared/scenes/npc/guard.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 const TIME_SCALE := 4.0
 ## Guard post in the open middle of the main room, facing south (+Z).

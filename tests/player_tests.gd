@@ -4,8 +4,8 @@ extends RefCounted
 ## Logic checks call the player's functions directly; movement checks load
 ## the real library level, hold InputMap actions and step real physics frames.
 
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
-const PLAYER_SCENE := "res://scenes/player/player.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
+const PLAYER_SCENE := "res://shared/scenes/player/player.tscn"
 const SPEED_TOLERANCE := 0.1
 const TEST_AREA := "NavigationRegion3D/PlayerTestArea"
 const PLAYER_RADIUS := 0.35

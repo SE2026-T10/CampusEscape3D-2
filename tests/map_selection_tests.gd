@@ -12,7 +12,7 @@ extends RefCounted
 ## Scene changes are stubbed here (a real change would end the test runner);
 ## tools/map_flow.gd repeats the transitions with real scene changes.
 
-const MAIN_MENU := "res://scenes/ui/main_menu.tscn"
+const MAIN_MENU := "res://shared/scenes/ui/main_menu.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 const LEVEL_SYSTEMS := ["game_flow", "stealth_director", "noise_system", "audio_director", "player"]
 const MISSION_SYSTEMS := ["objective_manager", "checkpoint_manager"]

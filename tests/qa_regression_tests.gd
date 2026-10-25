@@ -8,7 +8,7 @@ extends RefCounted
 ##   QA-2  The benchmark started some extra guards on exactly the same spot as
 ##         the level's own guards (13+ guards), so they blocked each other.
 
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 
 var failures: Array[String] = []
