@@ -14,6 +14,81 @@ It has two maps, chosen from the main menu:
 
 Built in Godot with GDScript, for Windows desktop. The current version is **1.1.0** (`application/config/version` in `project.godot`).
 
+## Cấu trúc thư mục và cách tổ chức file
+
+Project được tổ chức để 5 thành viên có thể phát triển 5 map độc lập trong cùng một game. Người chơi chọn map từ menu; các map có thể mang bối cảnh khác nhau như thư viện, ngân hàng, bảo tàng hoặc cơ sở tình báo. AI NPC, điều khiển nhân vật, tương tác và HUD dùng chung; bố cục, nhiệm vụ và cơ chế đặc trưng nằm trong thư mục của từng map.
+
+### Cây thư mục chính
+
+```text
+CampusEscape3D-2/
+├── shared/                         # Thành phần dùng chung giữa các map
+│   ├── scenes/                     # Scene player, NPC, props và giao diện
+│   ├── scripts/                    # Điều khiển, AI, tương tác, HUD, game flow
+│   └── assets/                     # Âm thanh, model, texture, vật liệu dùng chung
+├── features/                       # Các cơ chế có thể lựa chọn sử dụng
+│   ├── inventory/                  # Vật phẩm, nhặt và sử dụng đồ
+│   ├── stamina/                    # Thể lực khi chạy
+│   ├── objectives/                 # Nhiệm vụ, điều kiện mở cửa và thoát
+│   ├── checkpoints/                # Điểm hồi sinh và khôi phục trạng thái
+│   ├── puzzles/                    # Mật mã, nguồn điện và cơ chế giải đố
+│   └── security/                   # Camera và các thiết bị an ninh
+├── maps/                           # Nội dung riêng của từng map
+│   ├── tutorial/                   # Tutorial hiện có, dùng để tham khảo và test
+│   ├── library/                    # Map thư viện mở rộng hiện có
+│   ├── bank/                       # Khung ví dụ cho map ngân hàng
+│   ├── museum/                     # Khung ví dụ cho map bảo tàng
+│   └── intelligence/               # Khung cho map cơ sở tình báo
+├── templates/map/                  # Khung thư mục để bắt đầu một map mới
+├── tests/                          # Test dùng chung và runner tích hợp các map
+├── tools/                          # Công cụ CI, benchmark, kiểm tra chuyển map
+├── docs/                           # Kiến trúc, hướng dẫn build, báo cáo chung
+├── .github/workflows/              # Workflow kiểm thử và build tự động
+├── project.godot                   # Cấu hình project Godot
+└── export_presets.cfg              # Cấu hình xuất bản game
+```
+
+Hiện chỉ có **Library Tutorial** và **Expanded Library** là hai map chơi được trong menu. `bank/` và `museum/` là khung ví dụ, chưa phải phân công chính thức; `intelligence/` mới chuẩn bị cấu trúc và ý tưởng. Các map còn lại được thêm khi nhóm chốt bối cảnh. Tutorial được giữ làm mẫu và kiểm thử, không mặc định tính là một trong năm map của nhóm.
+
+### Phân chia nội dung dùng chung và nội dung riêng
+
+| Vị trí | Nội dung đặt tại đây | Ví dụ |
+|---|---|---|
+| `shared/` | Thành phần được nhiều map sử dụng | Player, guard AI, tương tác bằng phím E, HUD, menu, âm thanh chung |
+| `features/` | Cơ chế tái sử dụng mà map lựa chọn và cấu hình | Inventory, stamina, nhiệm vụ, checkpoint, puzzle, camera |
+| `maps/<map_id>/` | Tài nguyên và logic đặc trưng của một map | Bố cục phòng, tuyến tuần tra, navmesh, nhiệm vụ, vật phẩm và cơ chế riêng |
+| `tests/`, `tools/`, `docs/` ở gốc | Kiểm thử, công cụ và tài liệu áp dụng cho toàn project | Runner test, kiểm tra chuyển map, CI, hướng dẫn build |
+
+Ví dụ: logic đường thoát, badge reader và bến hàng của thư viện nằm trong `maps/library/scripts/`; dữ liệu tuần tra được bố trí trong scene của map, còn AI xử lý tuần tra nằm trong `shared/scripts/npc/`. Map mới sử dụng scene player/NPC chung thay vì sao chép thành một bộ điều khiển và AI khác.
+
+`features/` hiện là các cơ chế bật/tắt hoặc cấu hình theo map, chưa phải các plugin có thể xóa tùy ý khỏi project. Các dữ liệu nhiệm vụ, vật phẩm và thông báo mặc định cần được cấu hình phù hợp với map mới.
+
+### Cấu trúc bên trong một map
+
+Mỗi map có cùng khung thư mục `maps/<map_id>/`:
+
+| Thư mục | File và nội dung |
+|---|---|
+| `scenes/` | Scene chính của map và các scene con riêng (`.tscn`) |
+| `scripts/` | Logic nhiệm vụ, cơ chế và điều phối riêng (`.gd` cùng `.gd.uid`) |
+| `assets/` | Model, ảnh, vật liệu, âm thanh chỉ dùng trong map |
+| `resources/` | Navmesh và dữ liệu cấu hình của map (`.tres`...) |
+| `tests/` | Kiểm thử hành vi và điều kiện hoàn thành của map |
+| `tools/` | Công cụ dựng map, bake navmesh, chụp ảnh hoặc đo đạc riêng |
+| `docs/` | Cốt truyện, thiết kế, ảnh và kết quả kiểm thử; có `.gdignore` để Godot bỏ qua |
+
+Mỗi map có một scene chính làm điểm vào. `expanded_library_expansion.tscn` là scene con của map thư viện, không phải một map độc lập. Khi rời map, các node hệ thống thuộc scene đó được giải phóng để lần chọn map tiếp theo bắt đầu riêng biệt.
+
+### Bắt đầu làm một map mới
+
+1. Sao chép nội dung `templates/map/` sang `maps/<map_id>/`, bổ sung README mô tả bối cảnh, nhiệm vụ và phạm vi. Không sao chép `templates/.gdignore` vào gốc map mới; giữ `.gdignore` trong `docs/`.
+2. Tạo scene chính trong `scenes/`, bố trí môi trường, collision, navmesh và tuyến tuần tra. Sử dụng `shared/scenes/player/player.tscn` và `shared/scenes/npc/guard.tscn` cho nhân vật và NPC.
+3. Thêm các hệ thống cần dùng từ `features/`, cấu hình mục tiêu và điều kiện thắng/thua của map. Logic đặc trưng đặt trong `scripts/`. Nếu cần trạng thái HUD riêng, triển khai `MapHudProvider` để cung cấp dữ liệu cho HUD chung.
+4. Khi scene chơi được, đăng ký `{id, title, scene, description}` trong [`shared/scripts/game/level_catalog.gd`](shared/scripts/game/level_catalog.gd) để menu hiển thị map.
+5. Viết test trong `maps/<map_id>/tests/` và đăng ký suite vào [`tests/test_scene.gd`](tests/test_scene.gd). Chỉ đặt file trong thư mục chưa làm test hành vi tự chạy. Kiểm tra thêm việc restart, thoát về menu và chuyển sang map khác.
+
+Chi tiết về cấu hình nhiệm vụ, giao diện HUD và lệnh kiểm tra: [Hướng dẫn làm việc theo map](docs/architecture/MAP_LAYOUT.md). Kết quả kiểm tra lần tổ chức lại: [VALIDATION.md](docs/architecture/VALIDATION.md).
+
 ## Godot version
 
 - **Engine:** Godot **4.7.2 Stable**, official build (`4.7.2.stable.official.ed1daf0bf`). Other versions are not supported. The test suite and the build pipeline both check the exact version.
@@ -70,15 +145,15 @@ The full build and release guide is **[`docs/BUILD.md`](docs/BUILD.md)**.
 ```
 export GODOT="$(bash tools/ci/setup_godot.sh | tail -n 1)"   # downloads Godot 4.7.2 + Windows templates, checksums verified
 bash tools/ci/validate.sh        # exact Godot version, clean import, every script compiles, version numbers
-bash tools/ci/run_tests.sh       # full test suite + game-flow run (about 4 minutes)
+bash tools/ci/run_tests.sh       # full test suite + game-flow and map-selection runs
 bash tools/ci/export_windows.sh  # → dist/CampusEscape3D-<version>-windows-x64.zip
 ```
 
 ## Automated build
 
 GitHub Actions (`.github/workflows/build.yml`) runs on:
-- every push to `Development` or `main`;
-- every pull request into them;
+- every push to `Development`, `main` or `twp`;
+- every pull request into `Development` or `main`;
 - version tags `vX.Y.Z`;
 - a manual **Run workflow**.
 
@@ -120,13 +195,16 @@ maps/tutorial/scenes/library_graybox.tscn        the Library Tutorial
 | `shared/scripts/player/` | `FirstPersonPlayer` (movement, crouch, look, respawn), `PlayerNoise` (footstep noise), `PlayerInteractor` (E-key ray) |
 | `shared/scripts/npc/` | `Guard` (navigation, movement, perception snapshot), `GuardVision`, `GuardHearing`, `PatrolRoute`, `PatrolPoint` |
 | `shared/scripts/npc/ai/` | `GuardStateMachine` with `PatrolState`, `InvestigateState`, `ChaseState`; `GuardPerception` |
-| `shared/scripts/systems/` | `StealthDirector`, `HidingSpot`, objectives, checkpoints, interaction, noise, debug overlays |
+| `shared/scripts/stealth/` | `StealthDirector`, `HidingSpot` |
+| `shared/scripts/interaction/`, `shared/scripts/noise/`, `shared/scripts/debug/` | shared interaction, noise events and debug overlays |
+| `features/` | optional inventory, stamina, objectives, checkpoints, puzzles and security systems |
 | `shared/scripts/game/` | `GameFlow`, `GameStateMachine`, `LevelCatalog` (the maps the menu offers) |
 | `shared/scripts/ui/` | `MainMenu`, `StealthHud`, `ObjectiveHud`, `GameMenus`, `MenuStyle` |
 | `shared/scripts/presentation/` | `AudioDirector`, `SoundBank`, `PlayerFeedback`, `GuardPresentation` (model animation), `AmbientEmitter` |
 | `shared/scripts/level/` | `ShelfBooks` (generated book MultiMeshes) |
-| `tests/` | the automated test suite |
-| `tools/` | level, benchmark, capture, QA and CI tools (excluded from the export) |
+| `maps/<map_id>/` | map-specific scenes, scripts, assets, resources, tests, tools and documentation |
+| `tests/` | shared tests and the runner that registers map-specific suites |
+| `tools/` | shared benchmark, QA, map-flow and CI tools; map-specific tools live in `maps/<map_id>/tools/` (tools are excluded from the export) |
 
 **Physics layers:**
 1. world
