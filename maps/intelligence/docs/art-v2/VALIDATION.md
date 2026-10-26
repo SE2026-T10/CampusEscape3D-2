@@ -28,7 +28,7 @@ Hai tuyến tiếp cận, hai điểm tập kết, tương tác, checkpoint và 
 | Luồng tutorial | [15 kiểm tra, bốn lượt nạp đạt](logs/qa-flow.log) |
 | Chọn/restart/rời map | [76 kiểm tra, 18 lượt nạp, ba chu kỳ đạt](logs/map-flow.log); node/orphan không tăng |
 | Xuất gói | [Xuất PCK thành công](logs/export.log), [nạp menu và ba map từ thư mục trống](logs/pack.log); có lightmap/model lính, loại test/tool/tài liệu khỏi gói |
-| Nguồn tài nguyên | [39 file gốc xác minh MD5; 54 file phát hành xác minh SHA-256](logs/asset-verification.log); [nguồn và giấy phép](../../assets/CREDITS.md) |
+| Nguồn tài nguyên | [39 file gốc xác minh MD5; 55 file phát hành xác minh SHA-256](logs/asset-verification.log); [nguồn và giấy phép](../../assets/CREDITS.md) |
 
 Suite chung chạy headless với `--fixed-fps 60` để tăng tốc mô phỏng; không dùng kết quả đó làm phép đo FPS. Nó có tám cảnh báo chủ động từ fixture kiểm tra Guard thiếu tuyến/navmesh hoặc bị kẹt, không có lỗi script/resource. Các lượt mỹ thuật, đi bộ, tuần tra 90 giây, QA flow, map flow và đọc PCK chạy headless mặc định, kết thúc không có lỗi/cảnh báo runtime. Sau suite chung chỉ điều chỉnh trình bày, bố trí đạo cụ nhỏ và lời radio; các lượt kiểm tra scene thực tế phía sau dùng bản mỹ thuật cuối.
 
