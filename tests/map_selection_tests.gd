@@ -20,6 +20,7 @@ const MISSION_SYSTEMS := ["objective_manager", "checkpoint_manager"]
 const NAV_PROBE := {
 	&"library_tutorial": Vector3(0, 0, 18),
 	&"expanded_library": Vector3(0, 0.05, 32),
+	&"intelligence_k17": Vector3(-16, 0.05, 27),
 }
 
 var failures: Array[String] = []
@@ -30,6 +31,7 @@ func run(host: Node) -> Array[String]:
 	_host = host
 	_check_catalog()
 	await _check_menu()
+	await _check_scaled_menu()
 	for level in LevelCatalog.LEVELS:
 		var first := await _check_level(level)
 		var second := await _check_level(level)
@@ -75,14 +77,16 @@ func _check_menu() -> void:
 		_expect(menu.expanded_button == menu.level_buttons[LevelCatalog.EXPANDED] and menu.expanded_button.text == "Expanded Library",
 			"expanded_button must be the Expanded Library button.")
 		_expect(menu.start_button.has_focus(), "The Library Tutorial button should have keyboard focus.")
-		# Keyboard: Down walks tutorial → expanded → Settings → Quit, Up walks back
-		# (Settings since expansion Phase 7).
-		var down := menu.start_button.find_valid_focus_neighbor(SIDE_BOTTOM)
-		_expect(down == menu.expanded_button and menu.expanded_button.find_valid_focus_neighbor(SIDE_BOTTOM) == menu.settings_button
-			and menu.settings_button.find_valid_focus_neighbor(SIDE_BOTTOM) == menu.quit_button
-			and menu.quit_button.find_valid_focus_neighbor(SIDE_TOP) == menu.settings_button
-			and menu.settings_button.find_valid_focus_neighbor(SIDE_TOP) == menu.expanded_button,
-			"Up/Down must move between the map buttons, Settings and Quit.")
+		# Derive keyboard navigation from the catalog, including newly added maps.
+		var ordered: Array[Button] = []
+		for entry in LevelCatalog.LEVELS:
+			ordered.append(menu.level_buttons[entry.id])
+		ordered.append(menu.settings_button)
+		ordered.append(menu.quit_button)
+		for i in range(ordered.size() - 1):
+			_expect(ordered[i].find_valid_focus_neighbor(SIDE_BOTTOM) == ordered[i + 1]
+				and ordered[i + 1].find_valid_focus_neighbor(SIDE_TOP) == ordered[i],
+				"Up/Down must visit each catalog map, Settings and Quit in order.")
 		var button: Button = menu.level_buttons[level.id]
 		button.pressed.emit()
 		button.pressed.emit()
@@ -99,6 +103,43 @@ func _check_menu() -> void:
 	_expect(menu.get_meta("quits")[0] == 1, "Quit should quit the game.")
 	await _close(menu)
 	print("  [maps] menu: %d map buttons in catalog order, Library Tutorial focused, Up/Down reach every button, each button loads its map once, Quit quits" % LevelCatalog.LEVELS.size())
+
+
+func _check_scaled_menu() -> void:
+	var tree := _host.get_tree()
+	var old_size := tree.root.size
+	var old_scale := GameSettings.hud_scale
+	for window_size in [Vector2i(1280, 720), Vector2i(1024, 768)]:
+		tree.root.size = window_size
+		for scale in GameSettings.HUD_SCALES:
+			GameSettings.hud_scale = scale
+			var menu := await _open_menu()
+			var scroll := menu.get_node("MapScroll") as ScrollContainer
+			var buttons: Array[Button] = []
+			for entry in LevelCatalog.LEVELS:
+				buttons.append(menu.level_buttons[entry.id])
+			buttons.append(menu.settings_button)
+			buttons.append(menu.quit_button)
+			for button in buttons:
+				button.grab_focus()
+				await _frames(4)
+				var view := menu.get_viewport_rect().intersection(scroll.get_global_rect())
+				_expect(view.encloses(button.get_global_rect().grow(-0.5)),
+					"Menu focus must reveal %s at %s, scale %.2f (view %s; button %s)." % [
+						button.text, window_size, scale, view, button.get_global_rect()])
+			# A live scale change must also reveal the currently focused button.
+			GameSettings.hud_scale = 0.9 if scale == 1.25 else 1.25
+			GameSettings.apply(tree)
+			await _frames(6)
+			var changed_view := menu.get_viewport_rect().intersection(scroll.get_global_rect())
+			_expect(changed_view.encloses(menu.quit_button.get_global_rect().grow(-0.5)),
+				"Changing UI scale while Quit has focus must keep it reachable.")
+			await _close(menu)
+	GameSettings.hud_scale = old_scale
+	tree.root.size = old_size
+	GameSettings.apply(tree)
+	await _frames(3)
+	print("  [maps] scroll/focus: all map buttons, Settings and Quit reachable at 2 window sizes x 4 UI scales")
 
 
 func _open_menu() -> MainMenu:

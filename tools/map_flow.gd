@@ -3,8 +3,7 @@ extends SceneTree
 ## QA run of map selection with real scene changes, repeated (the automated
 ## tests stub scene changes, because changing scene would end the test runner).
 ## Starting at the main menu, three times over:
-##   Library Tutorial → Esc → Restart → Esc → Main menu →
-##   Expanded Library → Esc → Restart → Esc → Main menu
+##   every catalog map → Esc → Restart → Esc → Main menu
 ## then Quit. After every scene change it checks:
 ##   - the right scene is loaded (a new instance; Restart reloads the same map)
 ##   - the previous scene and its systems are freed (no stale references)
@@ -52,12 +51,11 @@ func _run() -> void:
 	_check(scene is MainMenu, "The game opens at the main menu.")
 	_check_menu(scene, 0)
 	await _shot("main_menu")
-	var tutorial := LevelCatalog.scene_of(LevelCatalog.TUTORIAL)
-	var expanded := LevelCatalog.scene_of(LevelCatalog.EXPANDED)
 	for cycle in CYCLES:
-		for path in [tutorial, expanded]:
+		for entry in LevelCatalog.LEVELS:
+			var path: String = entry.scene
 			var menu := current_scene as MainMenu
-			var button: Button = menu.start_button if path == tutorial else menu.expanded_button
+			var button: Button = menu.level_buttons[entry.id]
 			var title: String = LevelCatalog.get_level(LevelCatalog.id_of_scene(path)).title
 			# Select the map.
 			var before: WeakRef = weakref(current_scene)
@@ -93,10 +91,10 @@ func _run() -> void:
 				"Cycle %d: %s → Main menu: back at the menu, the level freed." % [cycle + 1, title])
 			_check_menu(back, cycle + 1)
 	# No growth across cycles on the menu.
-	var first: Dictionary = _menu_counts[2]   # back from the first Expanded Library visit
+	var first: Dictionary = _menu_counts[LevelCatalog.LEVELS.size()]   # back from the first full catalog cycle
 	var last: Dictionary = _menu_counts[_menu_counts.size() - 1]
 	_check(last.nodes <= first.nodes and last.orphans <= first.orphans and last.root_children == first.root_children,
-		"No leftovers from cycle 1 to cycle %d (menu after the Expanded Library): nodes %d → %d, orphan nodes %d → %d, root children %d → %d." % [
+		"No leftovers from cycle 1 to cycle %d (menu after the full catalog cycle): nodes %d → %d, orphan nodes %d → %d, root children %d → %d." % [
 			CYCLES, first.nodes, last.nodes, first.orphans, last.orphans, first.root_children, last.root_children])
 	# Quit from the menu (stubbed, so the result can be printed first).
 	var menu_end := current_scene as MainMenu

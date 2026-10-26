@@ -4,16 +4,17 @@
 
 ## Giới thiệu dự án
 
-Dự án được tổ chức theo các bản đồ độc lập. Mã dùng chung cho nhân vật, NPC và giao diện nằm trong `shared/`; các cơ chế tùy chọn nằm trong `features/`. Mỗi bản đồ quản lý cảnh, mã xử lý, tài nguyên, kiểm thử và công cụ của mình trong `maps/<map_id>/`. Xem [Hướng dẫn làm việc theo bản đồ](docs/architecture/MAP_LAYOUT.md) để biết cấu trúc, giao diện mở rộng HUD và lệnh kiểm tra. Các thư mục ngân hàng, bảo tàng và tình báo hiện là khung làm việc; menu vẫn chỉ có hai bản đồ chơi được.
+Dự án được tổ chức theo các bản đồ độc lập. Mã dùng chung cho nhân vật, NPC và giao diện nằm trong `shared/`; các cơ chế tùy chọn nằm trong `features/`. Mỗi bản đồ quản lý cảnh, mã xử lý, tài nguyên, kiểm thử và công cụ của mình trong `maps/<map_id>/`. Xem [Hướng dẫn làm việc theo bản đồ](docs/architecture/MAP_LAYOUT.md) để biết cấu trúc, giao diện mở rộng HUD và lệnh kiểm tra. Ngân hàng và bảo tàng đang là khung làm việc; menu có Library Tutorial, Expanded Library và bản dựng V1 của map tình báo K17.
 
 Ngày 26/10/2026, cấu trúc này được đồng bộ với `main` tại commit `504ce2e`, gồm mô hình, hoạt ảnh cơ cấu, đồ vật va chạm và navmesh mới của thư viện. Phạm vi và kết quả kiểm tra được ghi trong [biên bản đồng bộ với main](docs/architecture/MAIN_SYNC.md).
 
 Campus Escape 3D là trò chơi hành động lén lút 3D góc nhìn thứ nhất, sử dụng phong cách đồ họa ít đa giác. Hai bản đồ hiện có lấy bối cảnh thư viện đại học vào ban đêm. Người chơi thâm nhập, lấy vật phẩm mục tiêu rồi trốn thoát, tránh các bảo vệ có khả năng tuần tra, nhìn, nghe, điều tra và truy đuổi.
 
-Người chơi chọn một trong hai bản đồ từ menu chính:
+Người chơi chọn một trong ba bản đồ từ menu chính:
 
 - **Library Tutorial** — thư viện hướng dẫn, thuộc phiên bản sản phẩm tối thiểu (MVP): một tầng, ba bảo vệ; lấy thẻ ra vào trong khu Restricted Stacks rồi trốn thoát.
 - **Expanded Library** — thư viện mở rộng: hai tầng và một tầng hầm, bảy bảo vệ, tám nhiệm vụ bắt buộc, ba nhiệm vụ tùy chọn và ba đường thoát. Mục tiêu về thời gian hoàn thành vẫn cần được xác nhận bằng người chơi thử.
+- **K17 — 120 giây cuối (V1)** — cơ sở tình báo quân sự dựng bằng khối đơn giản, bốn NPC dùng chung, giấy thông hành, checkpoint và cuộc rút lui 120 giây qua sân hoặc hành lang bảo trì. [Phạm vi và cách chạy V1](maps/intelligence/README.md).
 
 Trò chơi được phát triển bằng Godot và GDScript, dành cho máy tính Windows. Phiên bản hiện tại là **1.2.0**, khai báo tại `application/config/version` trong `project.godot`. Tên bản đồ, nhãn giao diện và định danh kỹ thuật được giữ nguyên để đối chiếu với trò chơi và mã nguồn.
 
@@ -41,7 +42,7 @@ CampusEscape3D-2/
 │   ├── library/                    # Bản đồ thư viện mở rộng hiện có
 │   ├── bank/                       # Khung ví dụ cho bản đồ ngân hàng
 │   ├── museum/                     # Khung ví dụ cho bản đồ bảo tàng
-│   └── intelligence/               # Khung cho bản đồ cơ sở tình báo
+│   └── intelligence/               # Map K17 V1: scene, nhiệm vụ và kiểm thử
 ├── templates/map/                  # Khung thư mục để bắt đầu bản đồ mới
 ├── tests/                          # Kiểm thử chung và bộ chạy kiểm thử các bản đồ
 ├── tools/                          # Công cụ CI, đo hiệu năng, kiểm tra chuyển bản đồ
@@ -51,7 +52,7 @@ CampusEscape3D-2/
 └── export_presets.cfg              # Cấu hình xuất bản trò chơi
 ```
 
-Hiện chỉ có **Library Tutorial** và **Expanded Library** là hai bản đồ chơi được trong menu. `bank/` và `museum/` là khung ví dụ, chưa phải phân công chính thức; `intelligence/` mới chuẩn bị cấu trúc và ý tưởng. Các bản đồ còn lại được thêm khi nhóm chốt bối cảnh. Bản đồ hướng dẫn được giữ làm mẫu và kiểm thử, không mặc định tính là một trong năm bản đồ của nhóm.
+Hiện có **Library Tutorial**, **Expanded Library** và **K17 V1** chơi được từ menu. `bank/` và `museum/` là khung ví dụ, chưa phải phân công chính thức; `intelligence/` chứa bản dựng V1 của cơ sở tình báo. Các bản đồ còn lại được thêm khi nhóm chốt bối cảnh. Bản đồ hướng dẫn được giữ làm mẫu và kiểm thử, không mặc định tính là một trong năm bản đồ của nhóm.
 
 ### Phân chia nội dung dùng chung và nội dung riêng
 
@@ -119,7 +120,7 @@ Chi tiết về cấu hình nhiệm vụ, giao diện HUD và lệnh kiểm tra:
   - **Lối bảo trì bí mật:** nằm ở tầng hầm và dẫn ra cống thoát nước.
 
   Người chơi đi qua lối thoát để thắng; màn hình kết quả ghi lại đường đã dùng. Các câu đố tùy chọn gồm máy bơm, tủ an ninh và đường tắt qua cổng sau khu lưu trữ. Bốn camera trên mạch `SURVEILLANCE` phát báo động khi phát hiện người chơi, khiến bảo vệ đến kiểm tra. Báo động không kết thúc lượt chơi ngay. Công tắc trong phòng điện điều khiển camera và nguồn điện bến hàng; bật nguồn bến hàng sẽ khởi động lại camera. Bảo vệ kiểm tra các chỗ ẩn gần nơi tìm kiếm; chỗ ẩn chỉ có tác dụng nếu không ai thấy người chơi đi vào. Chạy nhanh tiêu hao thể lực. Người chơi mang tối đa ba vật phẩm và có nhật ký lưu tài liệu, manh mối. HUD hiển thị `WAYS OUT` cho các đường thoát và điều kiện đã khám phá, trạng thái điện sau khi xem bảng công tắc và điểm hồi sinh gần nhất.
-- **Cài đặt (`Settings`):** có trong menu chính và menu tạm dừng của cả hai bản đồ. Hỗ trợ cỡ giao diện 90/100/110/125 %, âm lượng tổng và phụ đề âm thanh. Phụ đề bật mặc định, hiển thị tiếng báo động, bước chân, bộ đàm, kính vỡ và công tắc kèm mũi tên chỉ hướng ở góc dưới trái. Cấu hình lưu tại `user://settings.cfg`.
+- **Cài đặt (`Settings`):** có trong menu chính và menu tạm dừng của các bản đồ. Hỗ trợ cỡ giao diện 90/100/110/125 %, âm lượng tổng và phụ đề âm thanh. Phụ đề bật mặc định, hiển thị tiếng báo động, bước chân, bộ đàm, kính vỡ và công tắc kèm mũi tên chỉ hướng ở góc dưới trái. Cấu hình lưu tại `user://settings.cfg`.
 - **Chạy thẳng một cảnh khi phát triển:** mở `maps/tutorial/scenes/library_graybox.tscn` hoặc `maps/library/scenes/expanded_library.tscn`, nhấn **F6**.
 - **Bản đã đóng gói:** chạy `CampusEscape3D.exe`.
 
@@ -354,7 +355,7 @@ Nhấn **F3** để hiển thị lưới điều hướng màu lam, đường đ
 godot --headless --path . --editor --quit          # Lần đầu: nhập tài nguyên của dự án
 godot --headless --path . res://tests/test_scene.tscn
 godot --headless --path . --script res://tools/qa_flow.gd   # Luồng trò chơi với chuyển cảnh thật
-godot --headless --path . --script res://tools/map_flow.gd  # Chọn, chơi lại và rời cả hai bản đồ, lặp 3 lần
+godot --headless --path . --script res://tools/map_flow.gd  # Chọn, chơi lại và rời mọi bản đồ trong catalog, lặp 3 lần
 ```
 
 - **Mã thoát:** `0` khi tất cả kiểm tra thành công, `1` khi có lỗi và liệt kê từng lỗi. Các kiểm thử di chuyển, điều hướng và cảm nhận chạy qua các nhịp vật lý thật nên có thể kéo dài hàng chục phút; lần kiểm tra trên Windows ngày 25/10/2026 mất khoảng 25 phút.
@@ -525,7 +526,7 @@ Bản đồ hướng dẫn trải qua năm phiên bản có số đo, mỗi phi�
 
 **Phạm vi:**
 
-- Hiện có hai bản đồ chơi được: bản hướng dẫn và thư viện mở rộng. Các bản đồ khác mới có khung thư mục.
+- Menu có bản hướng dẫn, thư viện mở rộng và K17 V1. K17 hiện tập trung vòng nhiệm vụ hoàn chỉnh; cảm biến, giữ E, radio gây nhiễu và cửa phong tỏa theo lịch sẽ được bổ sung sau.
 - Chưa có lưu tiến trình lượt chơi ra đĩa.
 - Menu đã có cỡ giao diện, âm lượng và phụ đề âm thanh; chưa có đầy đủ tùy chỉnh độ nhạy chuột hoặc độ phân giải.
 - Thoát ứng dụng từ menu chính.

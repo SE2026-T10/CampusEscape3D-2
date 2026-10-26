@@ -43,7 +43,18 @@ func _ready() -> void:
 	background.color = Color(0.05, 0.07, 0.1)
 	background.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(background)
-	var box := MenuStyle.centred_panel(self)
+	# More maps and larger interface settings must not hide the last buttons.
+	var scroll := ScrollContainer.new()
+	scroll.name = "MapScroll"
+	scroll.follow_focus = true
+	scroll.resized.connect(_reveal_focused_button.call_deferred)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	add_child(scroll)
+	scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var box := MenuStyle.centred_panel(scroll)
+	var centre := box.get_parent().get_parent() as CenterContainer
+	centre.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	centre.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	box.add_child(MenuStyle.title("CAMPUS ESCAPE 3D", 54, MenuStyle.ACCENT))
 	box.add_child(MenuStyle.label("Choose an independent mission. Stay unseen, finish your objective, and escape.", 18))
 	box.add_child(HSeparator.new())
@@ -74,6 +85,18 @@ func _ready() -> void:
 	add_child(settings_panel)
 	settings_panel.closed.connect(func(): settings_button.grab_focus())
 	start_button.grab_focus()
+
+
+func _reveal_focused_button() -> void:
+	# Container minimum sizes settle after the viewport scale changes.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_inside_tree():
+		return
+	var focus := get_viewport().gui_get_focus_owner()
+	var scroll := get_node_or_null("MapScroll") as ScrollContainer
+	if focus and scroll and scroll.is_ancestor_of(focus):
+		scroll.ensure_control_visible(focus)
 
 
 func open_settings() -> void:

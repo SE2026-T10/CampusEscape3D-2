@@ -13,7 +13,9 @@ func _init() -> void:
 func _run() -> void:
 	var failures: Array[String] = []
 	for forbidden in ["tests/test_scene.tscn", "tools/ci/check_pack.gd",
-			"maps/library/tests/expanded_hud_tests.gd", "maps/library/tools/expanded_layout.gd"]:
+			"maps/library/tests/expanded_hud_tests.gd", "maps/library/tools/expanded_layout.gd",
+			"maps/intelligence/tests/k17_mission_tests.gd", "maps/intelligence/tools/build_k17.gd",
+			"ci-logs/check-catalog.gd", "ci-logs/capture-menu.gd"]:
 		if FileAccess.file_exists("res://" + forbidden) or FileAccess.file_exists("res://" + forbidden + ".remap"):
 			failures.append("Development-only file in exported pack: " + forbidden)
 	var scenes: Array[String] = [ProjectSettings.get_setting("application/run/main_scene")]

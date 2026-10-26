@@ -8,12 +8,15 @@ extends RefCounted
 
 const TUTORIAL := &"library_tutorial"
 const EXPANDED := &"expanded_library"
+const INTELLIGENCE := &"intelligence_k17"
 
 const LEVELS := [
 	{"id": TUTORIAL, "title": "Library Tutorial", "scene": "res://maps/tutorial/scenes/library_graybox.tscn",
 		"description": "The original library: one floor, one access card. Learn the ropes."},
 	{"id": EXPANDED, "title": "Expanded Library", "scene": "res://maps/library/scenes/expanded_library.tscn",
 		"description": "Two floors and a basement, seven guards, puzzles and three ways out. Retrieve the rare manuscript."},
+	{"id": INTELLIGENCE, "title": "K17 — 120 giây cuối (V1)", "scene": "res://maps/intelligence/scenes/intelligence_k17.tscn",
+		"description": "Lấy Mật lệnh 04, rút khỏi K17 trong 120 giây. Bản dựng V1."},
 ]
 
 
