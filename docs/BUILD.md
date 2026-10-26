@@ -12,7 +12,7 @@ The current directory layout is documented in [Working on a map](architecture/MA
 | Godot download | `Godot_v4.7.2-stable_linux.x86_64.zip` from `github.com/godotengine/godot-builds` releases, checked against the release's `SHA512-SUMS.txt` | `tools/ci/setup_godot.sh` |
 | Export templates | `Godot_v4.7.2-stable_export_templates.tpz` from the same release, same checksum check; only the Windows x64 templates are kept | `tools/ci/setup_godot.sh` |
 | Export preset | "Windows Desktop": x86_64, release, `.pck` next to the `.exe`; root/map tests and tools, map docs and templates excluded | `export_presets.cfg` |
-| Game version | `application/config/version` (now `1.1.0`), with the preset's file and product versions at `1.1.0.0` | `project.godot`, `export_presets.cfg`; checked by `tools/ci/validate.sh` |
+| Game version | `application/config/version` (now `1.2.0`), with the preset's file and product versions at `1.2.0.0` | `project.godot`, `export_presets.cfg`; checked by `tools/ci/validate.sh` |
 | CI runner | `ubuntu-24.04` | workflow |
 
 No secrets are needed or stored. The release step uses the workflow's own short-lived `GITHUB_TOKEN`.
