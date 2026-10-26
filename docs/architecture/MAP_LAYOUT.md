@@ -2,6 +2,8 @@
 
 Nhóm phát triển các map độc lập trong cùng một project Godot. Người chơi chọn map từ menu; các map không cần nối tiếp nhau. Mỗi thành viên phụ trách nội dung và kiểm thử của map riêng, cùng sử dụng AI NPC, điều khiển, tương tác và HUD.
 
+Cấu trúc hiện tại đã tích hợp bản cập nhật `main` tại `504ce2e`, gồm phần hoàn thiện thư viện và navmesh 1.244 đa giác. Xem [biên bản đồng bộ](MAIN_SYNC.md) để đối chiếu nội dung nguồn và kết quả kiểm tra mới.
+
 ## Cấu trúc hiện hành
 
 ```text
@@ -81,7 +83,7 @@ HUD vẫn lấy mục tiêu từ `ObjectiveManager`, lời nhắc từ `PlayerIn
 
 ## Kiểm tra và build
 
-Kết quả kiểm tra của lần tổ chức lại được ghi trong [VALIDATION.md](VALIDATION.md).
+Kết quả lần tổ chức lại ban đầu được ghi trong [VALIDATION.md](VALIDATION.md); lần cập nhật từ `main` ngày 26/10/2026 được ghi riêng trong [MAIN_SYNC.md](MAIN_SYNC.md).
 
 ```text
 godot --headless --path . --editor --quit
@@ -100,4 +102,10 @@ Mỗi người chủ yếu sửa `maps/<map_id>/`. Thay đổi `shared/`, `featu
 
 Các log, JSON, CSV, screenshot và báo cáo phase cũ là bằng chứng lịch sử. Một số câu lệnh/đường dẫn ghi trong chúng thuộc bố cục trước đây; dùng hướng dẫn hiện hành này và `docs/BUILD.md` để chạy project. File `path-migration.json` ghi đường dẫn cũ → mới và checksum trước di chuyển. Sắp xếp thư mục không thay đổi tác giả hoặc kết quả kiểm thử lịch sử.
 
-`python tools/ci/check_layout.py --verify-migration` kiểm chứng một lần việc chuyển đủ file và giữ nguyên dữ liệu nhị phân, UID, navmesh. Manifest là ảnh chụp tại thời điểm tổ chức lại; sau này chỉnh sửa map hoặc bake navmesh có thể làm checksum khác. CI thường chỉ chạy `check_layout.py` để kiểm tra đường dẫn và ranh giới mã dùng chung, cho phép các map tiếp tục phát triển.
+`path-migration.json` là ảnh chụp của lần tổ chức lại ban đầu tại `3e11644`; `path-migration-main.json` ghi dữ liệu nguồn của lần cập nhật từ `main` tại `504ce2e`. Kiểm chứng lần cập nhật mới bằng:
+
+```text
+python tools/ci/check_layout.py --verify-migration --migration-manifest docs/architecture/path-migration-main.json
+```
+
+Lệnh này kiểm tra đủ file và checksum của dữ liệu nhị phân, UID, navmesh theo ảnh chụp đã chọn. Chỉnh sửa map hoặc tạo lại navmesh về sau có thể làm checksum khác. CI thường chỉ chạy `check_layout.py` để kiểm tra đường dẫn và ranh giới mã dùng chung, cho phép các map tiếp tục phát triển.

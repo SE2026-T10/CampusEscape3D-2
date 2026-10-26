@@ -292,9 +292,9 @@ Added in expansion Phase 4 (report [`expansion/phase-4-puzzles.md`](expansion/ph
 |---|---|
 | Electrical panel cover, breaker panel | electrical room, on the cabinets (41, 1.35, −27) |
 | Vault keypad, Vault Door | archive stacks beside the vault doorway (27.8, 5.85, −19.3); door at (28, 4.5, −21) |
-| Pump crank, valves, START | pump room, south wall (z −14.3) |
-| Storm drain exit | in front of the grate (0, BF, −35.8) |
-| Security locker (+ bottle, patrol notes) | Office 1, west wall (−5.8, 5.85, −21.4) |
+| Pump crank, valves, START | pump room, south wall (z −14.3): crank (−3.4), valves V3 · V2 · V1 (−1.6 · 0 · 1.6) on a manifold, START on the pump starter (3.2) with its lamps and screen (polish) |
+| Storm drain exit | in front of the grate (0, BF, −35.8); the grate is a barred grille that slides up into the ceiling once the culvert is drained (polish) |
+| Security locker (+ bottle, patrol notes) | Office 1, west wall: the locker at (−5.6, 5.4, −22.4), its combination lock on the door (−5.3, 5.75, −22.55); the bottle on the middle shelf, the patrol notes in the upper compartment (polish; before: a keypad on the wall at (−5.8, 5.85, −21.4)) |
 | Wiring chart · archivist's memo · night rota · lobby plaque | Book Processing north wall · Office 3 east wall · Office 2 east wall · lobby west wall |
 
 
@@ -319,9 +319,13 @@ Added in expansion Phase 6 (report [`expansion/phase-6-escapes.md`](expansion/ph
 |---|---|
 | Main entrance exit: lockdown panel · trigger | the existing entrance opening (0, 1.5, 28), 4 m wide · the porch side (z 28.25–29.45) |
 | Badge reader · lobby camera | lobby wall east of the doors (2.9, 1.3, 27.8) · on the lobby's east wall (11.35, 3.4, 26.6), looking west along the entrance wall at the reader (fixed, 30°, 9.3 m) |
-| Security master badge | in the Office 1 security locker (−5.0, 4.5, −21.7), revealed when it opens |
-| Dock shutter release · shutter control · trigger | service corridor east wall (35.83, 1.1, 21.4) · (35.83, 1.3, 26.4) · just past the dock door (x 36.05–36.75) |
-| Maintenance panel (hidden) | the tunnel's north gap opposite the pump room door (0, −4, −27), full height |
+| Security master badge | on the Office 1 security locker's middle shelf (−5.6, 5.41, −22.2), revealed when it opens |
+| Dock shutter release · shutter control · trigger | service corridor east wall (35.83, 1.1, 21.4) · (35.83, 1.3, 26.4) · just past the dock door (x 36.05–36.75); polish: a MANUAL RELEASE box, a push-button station, a roller shutter that rolls up |
+| Reading hall props (polish, solid) | wall bookcases west (z −13.4…−4.7, 0.7…9.4), east (z −13.4…1.8, 6.2…9.4), north (x −7.6…−4.4, −1.6…1.6, 4.4…7.6), south (x −11.4…−3.2, 4.4…11.4), 0.45 m deep · newspaper rack (x 3.2–4.2, z 9.4–9.85) · globe (x −11.3…−10.7, z 8.8–9.4); the main entrance has glass doors and a lockdown grille, G4 swings open (polish) |
+| Book Processing props (polish, solid) | sorting shelves: west (x 17.15–17.75, z −27.5…−19.5), south (x 17.6–23.6, z −6.75…−6.15) · returns island (x 25.4–26.1, z −18.6…−15.4) · trolleys (x 18.6–19.1, z −13…−12; x 32–32.5, z −22.5…−21.5) · pallet (x 29–30.2, z −8…−6.8); the electrical door (36, 0, −23) swings open into the electrical room |
+| Storage room props (polish, solid) | wall shelving: north (x 17.4–24.4, z −5.85…−5.25), west (x 17.15–17.75, z 4.5–11.4), south (x 24.5–29.5, z 11.25–11.85) · book trolley (x 35.4–35.85, z 9.5–10.5); the racks (Rack57–60) unchanged, dressed as shelving A1–A4 |
+| Loading dock props (polish, solid) | pallet rack (x 29.5–35, z 12.15–13.35) · book boxes (x 24.2–25.6 and 30–31.4, z 26.5–27.8) · wrapped pallets (x 31–32.2, z 15.4–16.6; x 31.6–32.8, z 26.4–27.6) · roll cages (x 17.4–19.2, z 12.4–13.1) · forklift (x 17.4–19.6, z 26.4–27.7) · bollards (35.55, 22.2 / 25.8) |
+| Maintenance panel (hidden) | the tunnel's north gap opposite the pump room door (0, −4, −27), full height; once found, a steel hatch with its latch on the right-hand edge (polish) |
 | Culvert access plan | maintenance bay, south wall (−23.5, −2.6, −17.17) |
 | Storm drain trigger | past the grate (0, −2.8, −38.6) |
 

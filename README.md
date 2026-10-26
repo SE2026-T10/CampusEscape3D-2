@@ -6,6 +6,8 @@
 
 Dự án được tổ chức theo các bản đồ độc lập. Mã dùng chung cho nhân vật, NPC và giao diện nằm trong `shared/`; các cơ chế tùy chọn nằm trong `features/`. Mỗi bản đồ quản lý cảnh, mã xử lý, tài nguyên, kiểm thử và công cụ của mình trong `maps/<map_id>/`. Xem [Hướng dẫn làm việc theo bản đồ](docs/architecture/MAP_LAYOUT.md) để biết cấu trúc, giao diện mở rộng HUD và lệnh kiểm tra. Các thư mục ngân hàng, bảo tàng và tình báo hiện là khung làm việc; menu vẫn chỉ có hai bản đồ chơi được.
 
+Ngày 26/10/2026, cấu trúc này được đồng bộ với `main` tại commit `504ce2e`, gồm mô hình, hoạt ảnh cơ cấu, đồ vật va chạm và navmesh mới của thư viện. Phạm vi và kết quả kiểm tra được ghi trong [biên bản đồng bộ với main](docs/architecture/MAIN_SYNC.md).
+
 Campus Escape 3D là trò chơi hành động lén lút 3D góc nhìn thứ nhất, sử dụng phong cách đồ họa ít đa giác. Hai bản đồ hiện có lấy bối cảnh thư viện đại học vào ban đêm. Người chơi thâm nhập, lấy vật phẩm mục tiêu rồi trốn thoát, tránh các bảo vệ có khả năng tuần tra, nhìn, nghe, điều tra và truy đuổi.
 
 Người chơi chọn một trong hai bản đồ từ menu chính:
@@ -536,6 +538,7 @@ Bản đồ hướng dẫn trải qua năm phiên bản có số đo, mỗi phi�
 - Các lượt chơi bằng chương trình không đánh giá được độ khó lén lút; cần người chơi thật.
 - **Báo cáo phát hành 1.1.0:** bộ kiểm thử, luồng và xuất bản qua trên Linux, gồm máy ảo và CI lần #5 tại `484761d`. Báo cáo đó chưa ghi nhận việc mở bản xuất Windows, chọn cả hai bản đồ, chơi hết thư viện mở rộng và đo FPS cho phiên bản này. Mục tiêu hoàn thành 20–30 phút chưa được xác nhận bằng người chơi; kết quả của chương trình chơi thử nằm tại `maps/library/docs/v3/` và `v4/playtests/`.
 - **Kiểm tra sau tổ chức thư mục ngày 25/10/2026:** bộ kiểm thử cơ chế chơi đầy đủ, kiểm tra chuyển bản đồ và tải gói PCK đã qua trên Windows; xem [biên bản kiểm tra](docs/architecture/VALIDATION.md). Kết quả này không thay thế việc chơi thủ công hoặc đo FPS.
+- **Đồng bộ với main ngày 26/10/2026:** theo dõi kết quả riêng trong [MAIN_SYNC.md](docs/architecture/MAIN_SYNC.md); các số đo lịch sử không được dùng làm kết quả cho lần đồng bộ này.
 
 **Bản đồ:**
 
@@ -609,6 +612,7 @@ Nếu quên tạo lại, kiểm thử báo `The saved navigation mesh is out of 
 
 - [Tổ chức và làm việc theo bản đồ](docs/architecture/MAP_LAYOUT.md).
 - [Kết quả kiểm tra sau khi tổ chức lại](docs/architecture/VALIDATION.md).
+- [Đồng bộ cấu trúc với main mới nhất](docs/architecture/MAIN_SYNC.md).
 - `docs/phase-1-setup.md` — thiết lập dự án.
 - `docs/phase-2-first-person-player.md` — nhân vật góc nhìn thứ nhất.
 - `docs/phase-3-library-navigation.md` — điều hướng trong thư viện.

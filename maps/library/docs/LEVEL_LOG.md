@@ -409,3 +409,159 @@ No geometry, navmesh, guard placement or route changed.
 **Scene changes:** `expanded_library.tscn` patched by `tools/expanded/expansion/fixes_x7.gd` (batches, prop layers, Staff Offices respawn; collision and guards unchanged); `expanded_library_expansion.tscn` rebuilt (niche walls and floor, nook cover, two hiding spots, the bay checkpoint); navmesh rebaked (1031 polygons, was 1020).
 
 **Evidence:** report [`expansion/phase-9-followup-fixes.md`](expansion/phase-9-followup-fixes.md).
+
+## Expansion — electrical room redesign (polish, 2026-10-22, approved by the owner)
+
+**What:** looks only; the puzzle, the security system, positions, collision and interaction boxes are unchanged except the panel cover, which now fits the new panel.
+- The cabinets became three grey-green electrical cabinets (door seams, handles, vents, plinth, top trim, status lamps).
+- The breaker panel has a light steel frame, a backplate, a rail, a cable duct with the breakers' name plates, a copper bar and tidy black wiring, and a status screen above it. Its cover is a grey plate with four screws and a yellow warning sticker.
+- A1–A4 are circuit breaker modules (toggle lever, green / red window, ON / OFF). MAIN is a wide main breaker at the rail's right end: its lever stays up with power on and snaps down with the breakers on a trip.
+- SURVEILLANCE and SERVICE EXIT are rotary isolators (yellow plate, red handle up for ON and left for OFF, a name plate, a green / red lamp that blinks amber while the switch is locked after a reboot). The floating switch-board label is gone.
+- A clipped black cable bundle runs from the panel to the ceiling tray, and a conduit from each switch to the wall conduits.
+- Levers and handles snap in 0.15 s. The styles are optional (`PuzzleControl.style`, `BreakerPanel.panel_style`); the keypads, valves and pump keep their look.
+
+**Scene changes:** `expanded_library_expansion.tscn` rebuilt (`Gameplay/Mission/ElectricalDressing`, the panel's `Display`, the cover's screws and sticker, the cabinets' look). Navmesh unchanged.
+
+## Expansion — code locks redesign (polish, 2026-10-22, approved by the owner)
+
+**What:** codes, tries, lockout, alarm and power rules unchanged.
+- **Vault keypad** (archive): an electronic keypad in a steel housing.
+  - The screen shows the four digits in green and the status line.
+  - Each digit has a ▲ key under it (same interaction box as before); ENTER is a green key.
+  - Three amber try lamps go out one per wrong code; a status lamp is red while locked and green when solved.
+  - Without power, the screen and lamps are dark and only the NO POWER lamp glows.
+- **Security locker** (Office 1): a grey steel locker with a door, handle, hinges, vents and a SECURITY plate.
+  - The combination lock (three wheels that roll a step per E, a lever as ENTER that springs back) is on the door.
+  - The right code swings the door open 100° with the lock on it; a checkpoint restore opens or shuts it at once.
+  - The door has no collision (navmesh unchanged).
+- **Moved (approved):**
+  - the locker's lock, from the wall to the door, about 1.1 m: (−5.83, 5.85, −21.4) → (−5.3, 5.75, −22.55);
+  - the badge and bottle onto the locker's middle shelf;
+  - the patrol notes into its upper compartment.
+- **Tests:** stand spots updated in `expanded_e2e_tests`, `expanded_puzzle_tests` and the playtest bot.
+- **Wall text:** the floating status text is gone; each lock shows it on its own screen or tag.
+
+**Scene changes:** `expanded_library_expansion.tscn` rebuilt (`VaultKeypadHousing`, `LockerCabinet`, `LockerDoor`, the locks' `Display`s). Navmesh unchanged.
+
+## Expansion — pump room and storm drain redesign (polish, 2026-10-22, approved by the owner)
+
+**What:** looks and animation only. The puzzle, the clue, the controls' positions and interaction boxes, the collision and the route are unchanged.
+- **Pump unit** (inside the PumpMachine cover's collision box, which no longer draws a box):
+  - a concrete plinth and base frame;
+  - a blue motor with cooling fins, a fan cowl and a rating plate, and a yellow coupling guard;
+  - the grey pump casing, with the suction pipe up to the east header and the discharge pipe (with a red valve) to the west header, flanged and bolted;
+  - a pressure gauge facing the controls: its needle rises when the pump runs, kicks and falls on a stall. The motor hums (a slight shake) while it runs.
+- **Valves:** red handwheels on a pipe manifold along the south wall, turning a quarter turn per use. An indicator flag on each bonnet lies along the pipe for OPEN (green) and across it for SHUT (red); a tag below shows V1 / V2 / V3 and the state. While the crank is seized a wheel only jerks.
+- **START:** the green lever of the pump starter. It springs back after a stall and stays down while the pump runs. Beside it: a STALL lamp and a RUN lamp, and the starter's screen with the status (PUMP OFF · CRANK SEIZED / READY / STALLED · CHECK VALVES until a valve turns / RUNNING · CULVERT DRAINED). The floating status text is gone.
+- **Crank:** a rusted handwheel on a gearbox, chained with a padlock and tagged SEIZED. Freeing it with the tool kit takes the chain and tag off and turns the wheel once.
+- **Maintenance panel:** hidden as before. Once found, it is a grey steel hatch with a frame, ribs and rivets, hinges, a latch on the right-hand edge, a MAINTENANCE · CULVERT ACCESS stencil and a hazard kick plate (no more green slab).
+- **Storm drain:**
+  - The grate is a barred grille between steel guide channels, under a lintel with a ceiling slot, with water streaks on the floor in front.
+  - When the pump starts, the grate's collision is cleared at once (as before) and the grille slides up into the slot (1.5 s).
+  - Shallow water covers the drain floor and drains away in 6 s.
+  - GRATE JAMMED is a tag on the grille, no longer floating, and goes once the drain is open.
+  - A checkpoint restore sets the grille, the water, the lever and the gauge at once.
+- **Note:** the pump unit is lower than its cover's collision (floor to ceiling, as before, so nothing is baked on top of it): there is an invisible wall above the motor, as there was a visible one.
+
+**Scene changes:** `expanded_library_expansion.tscn` rebuilt (`Gameplay/Mission/PumpUnit`, `PumpPanelDressing`, `StormDrainGrille`, `DrainDressing`, `CulvertWater`, the crank's model, the pump's `Display`, `MaintenancePanel/Panel/Hatch`; the PumpMachine cover and the grate body without their meshes). Collision and navmesh unchanged.
+
+## Expansion — loading dock redesign (polish, 2026-10-23, approved by the owner)
+
+**What:** the escape rules (free the release with the tool kit, SERVICE EXIT power, OPEN), the release's and control's positions and interaction boxes, and the exit's trigger and barrier are unchanged.
+- **Roller shutter:** galvanised slats, a bottom bar with a rubber seal, guide rails, a coil box with a motor and a LOADING BAY 1 plate, and a green EXIT sign above it. OPEN clears the shutter's collision at once (as before) while the curtain rolls up into the coil box in 2.5 s; it rolls down again if SERVICE EXIT goes off. A checkpoint restore sets it at once.
+- **Shutter release:** a yellow MANUAL RELEASE box with a red pull handle, wedged by a rusty bolt and tagged JAMMED. Freed with the tool kit: the bolt and tag go and the handle drops.
+- **Shutter control:** a yellow push-button station with the status on its screen (NO POWER / RELEASE JAMMED / READY / OPEN), a POWER lamp (lit while SERVICE EXIT is on), the green ▲ OPEN button and, for show, ▼ CLOSE and a red STOP.
+- **Original level scene (approved patch):** `tools/expanded/expansion/fixes_x8.gd` hides the red shutter panel's mesh, the glowing green header over the door and the exit's floating sign (`ExitDoor.show_sign`). The panel's and the header's collision are unchanged; the expansion draws the wall over the door.
+- **Dock room:**
+  - Floor: a yellow bay box and a LOADING BAY 1 stencil in front of the shutter. Yellow-and-black bollards (solid) on the wall piers either side.
+  - **Solid props** (like the crates; navmesh rebaked, 1031 → 1054 polygons):
+    - a pallet rack along the north wall east of the storage door;
+    - two pallets of book boxes on the south wall;
+    - two shrink-wrapped pallets, east of the crates and by the south wall;
+    - two roll cages of returned books in the north-west corner;
+    - a parked forklift in the south-west corner.
+  - They stay off the service guard's route across the dock, at least 1.2 m from the release, the control, the doorway and the hiding spot, and out of the dock camera's view of its target.
+  - **Decor** (no collision): the forklift's forks, boxes on two crates, two pallets stood against the west wall, a hand truck and a pallet jack against the south wall.
+- **Outside** (seen once the shutter is up; no collision, nobody walks out there): a night yard with a concrete apron, the dock leveller and bumpers, a brick face and a canopy round the door, a parked CITY LIBRARY DELIVERIES van, bay lines, a kerb, a fence and a streetlight. It has its own render layer (32) and light, so it adds no light to the dock.
+
+**Scene changes:** `expanded_library.tscn` patched by `fixes_x8.gd` (three visibility lines); `expanded_library_expansion.tscn` rebuilt (`Geometry/D_LoadingDock`, `Dressing/DockDecor`, `Gameplay/Escape/ShutterCurtain`, `DockShutterFrame`, `DockShutterStation`, `DockYard`, the release's model, the control's `Display`; `DockShutterBackplate` removed); navmesh rebaked (1054 polygons).
+
+## Expansion — storage room redesign (polish, 2026-10-23, approved by the owner)
+
+**What:** the racks' and the S2 staff stair's collision, the guard's route, the checkpoint and the hiding spot are unchanged.
+- **Racks** (Rack57–60): double-sided steel shelving inside each rack's 2 m collider:
+  - blue uprights, orange beams, three shelves each side and a mesh back panel down the middle;
+  - archive boxes, cardboard boxes and rows of books;
+  - aisle tags A1–A4 on both ends.
+- **S2 staff stair:**
+  - grey steel with safety-yellow nosing (the same strips as before);
+  - the side walls galvanised, with yellow caps as the rail;
+  - a wire-mesh storage cage under it, with a padlocked door and boxes behind;
+  - a STAFF STAIR S2 ↑ ARCHIVE sign on its side wall at the foot.
+  - A separate handrail tube inside the stair was dropped: it would be decoration in the stair's walkway, which the level's dressing rule forbids.
+- **Solid props** (navmesh rebaked, 1054 → 1057 polygons):
+  - wall shelving of archive boxes along the north wall (west of the processing door), the west wall (south of the west door) and the south wall (east of the dock door), 0.6 m deep;
+  - a book trolley against the east wall.
+  - All stay off the service guard's route and at least 1.2 m from the doors, the checkpoint, the hiding spot and the stair foot.
+- **Details:**
+  - two hanging aisle signs above head height;
+  - yellow walkway lines along the cross aisle and from the dock door;
+  - a step ladder against the north wall;
+  - STORAGE · STAFF ONLY signs outside the three doors.
+- **Original level scene (approved patch):** `tools/expanded/expansion/fixes_x9.gd` removes the racks' old boxes (40) from the ground floor's batches, recolours the stair's boxes and hides its cream nosing. Collision is unchanged.
+
+**Scene changes:** `expanded_library.tscn` patched by `fixes_x9.gd`; `expanded_library_expansion.tscn` rebuilt (`Geometry/D_Storage`, `Dressing/StorageDecor`, three signs); navmesh rebaked (1057 polygons).
+
+## Expansion — Book Processing redesign (polish, 2026-10-23, approved by the owner)
+
+**What:** the electrical room door's rules (the staff card), its panel's collision, the tables' collision, the wiring chart's place and the routes are unchanged. The room has no guard.
+- **Electrical room door:**
+  - two grey steel leaves with wired-glass vision panels, kick plates, push handles and hinges;
+  - a DANGER · HIGH VOLTAGE / AUTHORISED STAFF ONLY plate and a warning sticker;
+  - a steel frame and a card reader.
+  - The reader's LED and a light strip over the door show what the red/green tint showed: green when the player could open it from where they are, red otherwise. The door itself stays grey.
+  - It swings open into the electrical room (0.6 s) while the panel's collision clears at once. A checkpoint restore shuts or opens it at once.
+  - `AccessDoor` gained optional `leaf_paths`, `leaf_open_angles` and `status_light_paths`; the other doors are unchanged.
+- **Workstations** on the four tables: a cataloguing PC, a keyboard and mouse, a barcode scanner, a label printer, tape, and stacks of books being processed.
+- **Noticeboard:** a cork board with staff notices round the wiring chart, which keeps its place and hit area.
+- **Solid props** (navmesh rebaked, 1057 → 1077 polygons):
+  - sorting shelves of books on the west wall (north of the west door) and the south wall (west of the storage door);
+  - a returns island with pigeonholes A–X in the middle;
+  - two book trolleys and a NEW ARRIVALS pallet.
+  - All are at least 1.2 m from the three doors, the wiring chart and the tables, with paths between the doors.
+- **Wall details:** a clock, HANDLE WITH CARE and NEW ARRIVALS posters, and a fire extinguisher beside the electrical door.
+
+**Scene changes:** `expanded_library_expansion.tscn` rebuilt (`Geometry/D_Processing`, `Dressing/ProcessingDecor`, the electrical door's leaves, frame, reader and strip); navmesh rebaked (1077 polygons). The level's own scene is not touched.
+
+## Expansion — lobby and reading hall redesign (polish, 2026-10-23, approved by the owner)
+
+**What:** unchanged:
+- every existing collider, the hiding spots, the guards' routes and the lobby camera;
+- the main entrance's rules, barrier and timing;
+- the G4 door's rules.
+
+**Lobby** (no new collision):
+- **Main entrance:**
+  - wooden glass double doors, standing open on the porch;
+  - a steel security grille that drops when the night lockdown starts and rolls up (2 s) when the exit opens (the badge override), set at once on a checkpoint restore;
+  - the entrance sign on a LOCKDOWN light box over the doors instead of floating;
+  - a steel housing and screen panel for the badge reader.
+  - The exit's panel keeps its collision but draws nothing. `ExitDoor` gained optional `curtain_path` / `curtain_lift` / `curtain_time` / `curtain_top`.
+- **Circulation desk:** panelled front, a raised ledge with a RETURNS slot, a second PC, a date stamp and ink pad, and a hanging INFORMATION · LOANS sign.
+- **S1 main stair:** recoloured as a wooden stair with a red carpet, brass caps and brass nosing (the same strips), with moulded panels and a STORE cupboard on its open side.
+- **G4 staff door:** wooden double leaves with glazed panels, brass and a STAFF ONLY plate, a frame, a card reader and a light strip (red/green, as the electrical door's). It swings into the service corridor.
+- **Details:** a library map ("YOU ARE HERE") and a WHAT'S ON board on the north wall, taller plants in the two planters, an entrance mat, and WELCOME TO / CAMPUS LIBRARY banners either side of the clock.
+- **Original level scene (approved patch):** `tools/expanded/expansion/fixes_x10.gd` recolours the S1 stair's boxes, hides its cream nosing, and points G4 (`leaf_paths`, `status_light_paths`) at the expansion's leaves. No collision changes.
+
+**Reading hall:**
+- **Tables:** a green banker's lamp, an open book, a notebook and a pencil on each of the six tables.
+- **Centre bookcase:** a NEW BOOKS sign and face-out books on stands.
+- **Solid props** (navmesh rebaked, 1077 → 1082 polygons):
+  - nine wall bookcases (0.45 m deep, 2.6 m tall) between the doorways;
+  - a newspaper rack and a globe.
+  - All stay clear of every doorway (study doors, the stacks arch, SC1, the lobby doors), the connector guard's route and the reading-table hiding spot.
+- **Details:** QUIET PLEASE signs and framed pictures above the bookcases.
+
+**Scene changes:** `expanded_library.tscn` patched by `fixes_x10.gd`; `expanded_library_expansion.tscn` rebuilt (`Dressing/LobbyDecor`, `Dressing/HallDecor`, `Geometry/C_ReadingHall`, `Gameplay/Escape/MainEntranceDressing`, `BadgeReaderHousing`, `Gameplay/LobbyStaffDoorDressing`); navmesh rebaked (1082 polygons).
+
+**Test change:** `expanded_polish_tests` G: the seized-valve check now samples the wheel each frame for 0.25 s instead of once at 0.03 s. With the heavier scene, frame times can exceed the 0.18 s jerk, so a single sample missed it.

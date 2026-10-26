@@ -14,6 +14,9 @@ ROOT = Path(__file__).resolve().parents[2]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--verify-migration', action='store_true',
                     help='Audit the original move against its historical manifest (one-time check).')
+parser.add_argument('--migration-manifest', type=Path,
+                    default=Path('docs/architecture/path-migration.json'),
+                    help='Project-relative migration snapshot to audit with --verify-migration.')
 args = parser.parse_args()
 errors = []
 checked = 0
@@ -66,7 +69,7 @@ else:
     check_target(project, main[1])
 
 if args.verify_migration:
-    manifest = json.loads((ROOT / 'docs/architecture/path-migration.json').read_text(encoding='utf-8'))
+    manifest = json.loads((ROOT / args.migration_manifest).read_text(encoding='utf-8'))
     for entry in manifest['files']:
         destination = ROOT / entry['to']
         if not destination.is_file():

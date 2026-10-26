@@ -40,6 +40,24 @@ extends Node3D
 		draw_distance = value
 		if _instance:
 			_instance.visibility_range_end = value
+## Bay width (metres) along the bookcase: > 0 adds an upright between bays, which the
+## books keep clear of, and lets `sparse` thin out whole bays. 0 (the default, what the
+## tutorial uses) gives one continuous run of books per shelf, exactly as before.
+@export var bay := 0.0:
+	set(value):
+		bay = value
+		_rebuild()
+## With `bay` > 0: the share of shelf bays (0…1) that are half empty, their last book
+## leaning on the others. Chosen from `book_seed` too, so the layout stays stable.
+@export_range(0.0, 1.0) var sparse := 0.0:
+	set(value):
+		sparse = value
+		_rebuild()
+## Colour of the shelf boards and uprights.
+@export var board_colour := Color(0.28, 0.18, 0.1):
+	set(value):
+		board_colour = value
+		_rebuild()
 
 const PALETTE := [Color(0.55, 0.14, 0.12), Color(0.16, 0.32, 0.22), Color(0.17, 0.25, 0.42), Color(0.62, 0.47, 0.2),
 	Color(0.4, 0.25, 0.15), Color(0.7, 0.62, 0.48), Color(0.3, 0.14, 0.28), Color(0.12, 0.12, 0.14), Color(0.48, 0.18, 0.1)]
@@ -97,11 +115,14 @@ func compute_layout() -> Array:
 	var transforms: Array[Transform3D] = []
 	var colours: Array[Color] = []
 	var row_h := size.y / rows
+	if bay > 0.0:
+		_layout_bays(transforms, colours, rng, along_x, length, depth, row_h)
+		return [transforms, colours]
 	for side in [-1.0, 1.0]:
 		for r in rows:
 			var floor_y := -size.y / 2.0 + r * row_h
 			# Board along the face.
-			_add(transforms, colours, along_x, Vector3(length, 0.035, 0.08), 0.0, floor_y + 0.0175, side * (depth / 2.0 - 0.02), BOARD)
+			_add(transforms, colours, along_x, Vector3(length, 0.035, 0.08), 0.0, floor_y + 0.0175, side * (depth / 2.0 - 0.02), board_colour)
 			var t := -length / 2.0 + 0.04
 			while t < length / 2.0 - 0.06:
 				var w := rng.randf_range(0.045, 0.1)
@@ -114,6 +135,60 @@ func compute_layout() -> Array:
 				_add(transforms, colours, along_x, Vector3(w, h, d), t + w / 2.0, floor_y + 0.035 + h / 2.0, side * (depth / 2.0 - d / 2.0 + 0.025), colour)
 				t += w + 0.004
 	return [transforms, colours]
+
+
+## The bay layout (`bay` > 0): uprights between bays, books per bay, some bays half
+## empty with their last book leaning on the others.
+func _layout_bays(transforms: Array[Transform3D], colours: Array[Color], rng: RandomNumberGenerator,
+		along_x: bool, length: float, depth: float, row_h: float) -> void:
+	var bays := maxi(1, roundi(length / bay))
+	var w_bay := length / bays
+	const POST := 0.035
+	for i in bays + 1:
+		var at := -length / 2.0 + i * w_bay
+		at = clampf(at, -length / 2.0 + POST / 2.0, length / 2.0 - POST / 2.0)
+		_add(transforms, colours, along_x, Vector3(POST, size.y, depth + 0.05), at, 0.0, 0.0, board_colour)
+	for side in [-1.0, 1.0]:
+		for r in rows:
+			var floor_y := -size.y / 2.0 + r * row_h
+			_add(transforms, colours, along_x, Vector3(length, 0.035, 0.08), 0.0, floor_y + 0.0175, side * (depth / 2.0 - 0.02), board_colour)
+			for b in bays:
+				var x0 := -length / 2.0 + b * w_bay + POST / 2.0 + 0.01
+				var x1 := x0 + w_bay - POST - 0.02
+				var thin := rng.randf() < sparse
+				var stop := x1 - 0.06
+				if thin:
+					stop = x0 + (x1 - x0) * rng.randf_range(0.3, 0.6)
+				var t := x0
+				var last_h := row_h * 0.7
+				while t < stop:
+					var w := rng.randf_range(0.045, 0.1)
+					if t + w > x1:
+						break
+					if not thin and rng.randf() < 0.06:
+						t += w * 2.0
+						continue
+					var h := row_h * rng.randf_range(0.55, 0.82)
+					var d := rng.randf_range(0.16, 0.22)
+					var colour: Color = PALETTE[rng.randi() % PALETTE.size()].lightened(rng.randf_range(-0.08, 0.12))
+					_add(transforms, colours, along_x, Vector3(w, h, d), t + w / 2.0, floor_y + 0.035 + h / 2.0, side * (depth / 2.0 - d / 2.0 + 0.025), colour)
+					t += w + 0.004
+					last_h = h
+				if thin and t < x1 - 0.2:
+					# A book leaning on the last one: tilted about the shelf's depth axis.
+					var w := 0.05
+					var h := minf(last_h, row_h * 0.7)
+					var tilt := 0.32
+					var base := t + 0.01 + h * sin(tilt) / 2.0 + w / 2.0
+					var colour: Color = PALETTE[rng.randi() % PALETTE.size()]
+					var scale := Vector3(w, h, 0.18) if along_x else Vector3(0.18, h, w)
+					# Its top towards the bay's books (towards −along) on either axis.
+					var basis := Basis(Vector3.FORWARD if along_x else Vector3.RIGHT, -tilt) * Basis.from_scale(scale)
+					var y := floor_y + 0.035 + h * cos(tilt) / 2.0 + w * sin(tilt) / 2.0
+					var across: float = side * (depth / 2.0 - 0.09 + 0.025)
+					var origin := Vector3(base, y, across) if along_x else Vector3(across, y, base)
+					transforms.append(Transform3D(basis, origin))
+					colours.append(colour)
 
 
 func _add(transforms: Array[Transform3D], colours: Array[Color], along_x: bool, box: Vector3, along: float, y: float, across: float, colour: Color) -> void:

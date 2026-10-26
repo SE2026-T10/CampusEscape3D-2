@@ -26,6 +26,16 @@ extends Interactable
 @export var display_text := ""
 ## False while it is not there yet (e.g. inside a locked locker; CodeLock reveals it).
 @export var available := true
+## A floating "!" over it until it is read (in the journal), then never again: it checks
+## the journal, so it stays gone after a catch (the journal is kept). Off by default.
+@export var show_marker := false
+## Where the "!" floats, from the node (it bobs and pulses around this point).
+@export var marker_offset := Vector3(0, 0.8, 0)
+## The "!"'s size (Label3D pixel size; 0.004 is about 0.38 m tall).
+@export var marker_pixel_size := 0.004
+
+var _marker: Label3D
+var _marker_time := 0.0
 
 
 func _ready() -> void:
@@ -39,6 +49,8 @@ func _ready() -> void:
 		box.size = Vector3(0.5, 0.6, 0.3)
 		shape.shape = box
 		add_child(shape)
+	if show_marker:
+		_build_marker()
 	set_available(available)
 
 
@@ -46,6 +58,49 @@ func set_available(on: bool) -> void:
 	available = on
 	visible = on
 	enabled = on
+	_refresh_marker()
+
+
+## True once this document is in the player's journal.
+func is_read() -> bool:
+	var inventory := PlayerInventory.find(self)
+	return inventory != null and inventory.has_document(document_id)
+
+
+func _build_marker() -> void:
+	_marker = Label3D.new()
+	_marker.name = "Marker"
+	_marker.text = "!"
+	_marker.font_size = 96
+	_marker.pixel_size = marker_pixel_size
+	_marker.outline_size = 18
+	_marker.modulate = Color(1.0, 0.82, 0.1)
+	_marker.outline_modulate = Color(0.12, 0.08, 0.0)
+	_marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	_marker.position = marker_offset
+	add_child(_marker)
+
+
+## Shows the "!" while it is there and unread; processes only while it shows.
+func _refresh_marker() -> void:
+	if _marker == null:
+		return
+	var on := available and not (is_inside_tree() and is_read())
+	_marker.visible = on
+	set_process(on)
+
+
+func _process(delta: float) -> void:
+	if _marker == null or not _marker.visible:
+		set_process(false)
+		return
+	if is_read():   # read elsewhere (e.g. restored with the journal)
+		_refresh_marker()
+		return
+	_marker_time += delta
+	_marker.position = marker_offset + Vector3(0, sin(_marker_time * 2.4) * 0.05, 0)
+	var pulse := 1.0 + 0.08 * sin(_marker_time * 4.8)
+	_marker.scale = Vector3.ONE * pulse
 
 
 func get_prompt(_by: Node) -> String:
@@ -67,6 +122,7 @@ func _on_interact(_by: Node) -> bool:
 		if objectives:
 			objectives.discover(discovers_objective)
 	inventory.open_document(document_id)
+	_refresh_marker()
 	return true
 
 

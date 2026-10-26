@@ -64,12 +64,12 @@ const DOC := "Expansion/Gameplay/Documents/"
 const ESC := "Expansion/Gameplay/Escape/"
 # Stand points (on the floor, in reach), as maps/library/tests/expanded_e2e_tests.gd.
 const IN_LOBBY := Vector3(0, 0, 20)
-const AT_PLAQUE := Vector3(-10.6, 0, 20)
+const AT_PLAQUE := Vector3(7.0, 0, 11.2)   # in front of the lobby cornerstone (polish)
 const AT_CARD := Vector3(4.9, U, -23.0)
 const AT_MEMO := Vector3(10.6, U, -20.0)
 const AT_ROTA := Vector3(4.6, U, -17.0)
-const AT_LOCKER := Vector3(-4.7, U, -21.4)
-const AT_BADGE := Vector3(-4.2, U, -21.7)
+const AT_LOCKER := Vector3(-4.5, U, -22.55)   # polish: the lock is on the locker's door
+const AT_BADGE := Vector3(-4.5, U, -22.35)
 const G2_WEST := Vector3(10.6, U, -11)
 const AT_KEYPAD := Vector3(26.7, U, -19.3)
 const IN_VAULT := Vector3(32, U, -23.6)
