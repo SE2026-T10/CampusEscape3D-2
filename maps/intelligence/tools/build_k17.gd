@@ -9,6 +9,8 @@ const PLAYER := preload("res://shared/scenes/player/player.tscn")
 const GUARD := preload("res://shared/scenes/npc/guard.tscn")
 const Art := preload("res://maps/intelligence/tools/k17_art_builder.gd")
 const ART_SCENE := BASE + "scenes/environment/k17_environment.tscn"
+const SecurityBuilder := preload("res://maps/intelligence/tools/k17_security_builder.gd")
+const SECURITY_SCENE := BASE + "scenes/k17_security.tscn"
 const WALL := Color(0.32, 0.37, 0.36)
 const METAL := Color(0.16, 0.22, 0.22)
 const CRATE := Color(0.34, 0.32, 0.19)
@@ -25,7 +27,7 @@ func _init() -> void:
 func _build() -> void:
 	level = Node3D.new()
 	level.name = "IntelligenceK17"
-	level.set_meta("map_version", "v2-art")
+	level.set_meta("map_version", "v2-security")
 	var region := NavigationRegion3D.new()
 	region.name = "NavigationRegion3D"
 	var nav := NavigationMesh.new()
@@ -43,13 +45,19 @@ func _build() -> void:
 		return
 	root.add_child(level)
 	region.bake_navigation_mesh(false)
+	# Walking links, controlled by the physical gates, bridge these baked cuts.
+	for node in region.get_children():
+		if str(node.name).begins_with("NavigationGateCut"): node.free()
 	if nav.get_polygon_count() == 0 or ResourceSaver.save(nav, NAV, ResourceSaver.FLAG_CHANGE_PATH) != OK:
 		push_error("K17: navigation bake/save failed")
 		quit(1)
 		return
 	root.remove_child(level)
 	_actors()
-	_gameplay()
+	if not _gameplay():
+		level.free()
+		quit(1)
+		return
 	_systems()
 	var packed := PackedScene.new()
 	if packed.pack(level) != OK or ResourceSaver.save(packed, SCENE) != OK:
@@ -68,6 +76,12 @@ func _geometry(parent: Node) -> void:
 	_box(parent,"VehicleBarrier",Vector3(0,.6,23.6),Vector3(6.6,1.2,.5),METAL)
 	for z in [17.8,19.0]:
 		_box(parent,"FuelDrum"+str(z),Vector3(-22,.55,z),Vector3(.83,1.1,.83),METAL)
+	for x in [-16.0,16.0]:
+		_box(parent,"NavigationGateCut"+str(x),Vector3(x,1.5,22),Vector3(5.0,3.0,1.6),METAL)
+	_box(parent,"LatchHousing",Vector3(18.9,1.2,5),Vector3(.35,.8,1),METAL)
+	for z in [-12.0,-16.4]:
+		for x in [8.35,11.65]:
+			_box(parent,"SensorPost"+str(Vector2(x,z)),Vector3(x,1.2,z),Vector3(.12,2.4,.12),METAL)
 	# Compound boundary and interior walls: all static colliders are baked.
 	_box(parent, "BoundaryWest", Vector3(-24, 1.6, 1), Vector3(0.4, 3.2, 60), METAL)
 	_box(parent, "BoundaryEast", Vector3(24, 1.6, 1), Vector3(0.4, 3.2, 60), METAL)
@@ -96,6 +110,7 @@ func _geometry(parent: Node) -> void:
 		_box(parent, "ArchiveRackLeft" + str(z), Vector3(-8, 1.2, z), Vector3(5.5, 2.4, 1.2), METAL)
 		_box(parent, "ArchiveRackRight" + str(z), Vector3(3, 1.2, z), Vector3(5.5, 2.4, 1.2), METAL)
 	_box(parent, "CheckpointCover", Vector3(8, 1.2, -2.7), Vector3(3.8, 2.4, 1.0), METAL)
+	_box(parent, "CheckpointSideCover", Vector3(6.4,1.2,-5.5), Vector3(.6,2.4,4.0), METAL)
 	_box(parent, "Terminal", Vector3(5, 0.65, 11.5), Vector3(3, 1.3, 1.2), METAL)
 	for pos in [Vector3(-8, 0.65, 17), Vector3(2, 0.65, 19), Vector3(11, 0.65, 16.5), Vector3(-17, 0.65, 11)]:
 		_box(parent, "SupplyCrate" + str(pos), pos, Vector3(2.8, 1.3, 1.5), CRATE)
@@ -180,7 +195,7 @@ func _actors() -> void:
 		guard.set_meta("appearance", "k17_military")
 
 
-func _gameplay() -> void:
+func _gameplay() -> bool:
 	var gameplay := _group(level, "Gameplay")
 	var objectives := ObjectiveManager.new()
 	objectives.name = "ObjectiveManager"
@@ -237,6 +252,15 @@ func _gameplay() -> void:
 		zone.set("route_id", &"courtyard" if i == 0 else &"maintenance")
 		zone.set("route_name", "Sân tiếp vận" if i == 0 else "Hành lang bảo trì")
 		_shape(zone, Vector3(3.8, 2, 3.8))
+	var security := SecurityBuilder.new().build()
+	var packed_security := PackedScene.new()
+	if packed_security.pack(security) != OK or ResourceSaver.save(packed_security,SECURITY_SCENE) != OK:
+		security.free()
+		push_error("K17: security overlay could not be saved")
+		return false
+	security.free()
+	_add(gameplay,(load(SECURITY_SCENE) as PackedScene).instantiate())
+	return true
 
 
 func _systems() -> void:
@@ -267,6 +291,7 @@ func _pickup(parent: Node, node_name: String, id: StringName, pos: Vector3, prom
 	item.prompt = prompt
 	item.waiting_prompt = waiting
 	item.spin_speed = 0.0
+	if id == Mission.FILE: item.hold_duration = 3.5
 	_add(parent, item)
 	_shape(item, Vector3(0.8, 0.5, 0.8))
 	var model := _group(item, "Model")

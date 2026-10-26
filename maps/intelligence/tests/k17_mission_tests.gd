@@ -159,7 +159,12 @@ func _use(path: String, stand: Vector3) -> void:
 	await _frames(3)
 	var interactor := player.get_node("Interactor") as PlayerInteractor
 	_expect(interactor.focused == target, "Interaction ray reaches " + path)
+	var duration := target.get_hold_duration(player)
+	if duration > 0.0: Input.action_press("interact")
 	_expect(interactor.try_interact(), "Interaction succeeds for " + path)
+	if duration > 0.0:
+		await _frames(ceili(duration * Engine.physics_ticks_per_second)+2)
+		Input.action_release("interact")
 	await _frames(2)
 
 

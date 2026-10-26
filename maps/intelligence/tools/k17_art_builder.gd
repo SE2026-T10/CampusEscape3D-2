@@ -46,6 +46,8 @@ func build(collision_root: Node3D) -> Node3D:
 		var pos: Vector3 = body.position
 		var size: Vector3 = shape.size
 		var title := str(body.name)
+		if title.begins_with("NavigationGateCut") or title.begins_with("SensorPost") or title in ["LatchHousing","CheckpointSideCover"]:
+			continue # The security overlay supplies these visuals; cuts are bake-only.
 		if title == "Ground":
 			_box("YardFoundation", pos, size, asphalt)
 		elif title.begins_with("Fence"):

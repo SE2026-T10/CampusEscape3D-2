@@ -3,7 +3,7 @@
 #   1. the full test suite (tests/test_scene.tscn): must exit 0 and print
 #      "All tests passed", with no script errors
 #   2. the game-flow QA run with real scene changes (tools/qa_flow.gd)
-#   3. the map-selection run: both maps selected, restarted and left, three
+#   3. the map-selection run: every catalog map selected, restarted and left, three
 #      times over, with real scene changes (tools/map_flow.gd); no errors or
 #      warnings allowed in its output
 # Run tools/ci/validate.sh first (it imports the project). Logs go to ci-logs/.
@@ -20,8 +20,8 @@ grep -E "^All tests passed|^Tests FAILED|^  \[" ci-logs/tests.log || true
 if [ "$status" -ne 0 ] || ! grep -q "^All tests passed" ci-logs/tests.log; then
   echo "::error::Test suite failed (exit $status)"; grep -E "FAIL|SCRIPT ERROR" ci-logs/tests.log || tail -n 60 ci-logs/tests.log; exit 1
 fi
-if grep -q "SCRIPT ERROR" ci-logs/tests.log; then
-  echo "::error::Script errors during the test run"; grep -A3 "SCRIPT ERROR" ci-logs/tests.log; exit 1
+if grep -qE "SCRIPT ERROR|^ERROR" ci-logs/tests.log; then
+  echo "::error::Engine or script errors during the test run"; grep -E -A3 "SCRIPT ERROR|^ERROR" ci-logs/tests.log; exit 1
 fi
 
 echo "Running the game-flow QA run"

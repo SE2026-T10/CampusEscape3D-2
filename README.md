@@ -14,7 +14,7 @@ Người chơi chọn một trong ba bản đồ từ menu chính:
 
 - **Library Tutorial** — thư viện hướng dẫn, thuộc phiên bản sản phẩm tối thiểu (MVP): một tầng, ba bảo vệ; lấy thẻ ra vào trong khu Restricted Stacks rồi trốn thoát.
 - **Expanded Library** — thư viện mở rộng: hai tầng và một tầng hầm, bảy bảo vệ, tám nhiệm vụ bắt buộc, ba nhiệm vụ tùy chọn và ba đường thoát. Mục tiêu về thời gian hoàn thành vẫn cần được xác nhận bằng người chơi thử.
-- **K17 — 120 giây cuối** — cơ sở tình báo quân sự với vật liệu bê tông/kim loại, hành lang kiểm soát, ánh sáng bake và bốn lính dùng AI chung. Lấy giấy thông hành, lưu checkpoint, thu hồi hồ sơ và rút lui trong 120 giây qua sân hoặc hành lang bảo trì. [Cách chơi, mỹ thuật và kiểm tra](maps/intelligence/README.md).
+- **K17 — 120 giây cuối** — cơ sở tình báo quân sự với ánh sáng bake và bốn lính dùng AI chung. Vượt cảm biến theo nhịp, giữ E mở niêm phong hồ sơ, hẹn radio gây nhiễu và rút lui trong 120 giây trước các mốc phong tỏa. Có thể chuẩn bị cửa hậu để mở nhanh khi cần đổi tuyến. [Cách chơi, mỹ thuật và kiểm tra](maps/intelligence/README.md).
 
 Trò chơi được phát triển bằng Godot và GDScript, dành cho máy tính Windows. Phiên bản hiện tại là **1.2.0**, khai báo tại `application/config/version` trong `project.godot`. Tên bản đồ, nhãn giao diện và định danh kỹ thuật được giữ nguyên để đối chiếu với trò chơi và mã nguồn.
 

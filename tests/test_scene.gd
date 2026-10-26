@@ -42,6 +42,9 @@ const ExpandedHudTests := preload("res://maps/library/tests/expanded_hud_tests.g
 const ExpandedE2ETests := preload("res://maps/library/tests/expanded_e2e_tests.gd")
 const ExpandedPolishTests := preload("res://maps/library/tests/expanded_polish_tests.gd")
 const K17MissionTests := preload("res://maps/intelligence/tests/k17_mission_tests.gd")
+const HoldInteractionTests := preload("res://tests/hold_interaction_tests.gd")
+const K17SecurityTests := preload("res://maps/intelligence/tests/k17_security_tests.gd")
+const TestUtils := preload("res://tests/test_utils.gd")
 const MAIN_MENU_SCENE := "res://shared/scenes/ui/main_menu.tscn"
 const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
 const REQUIRED_DIRS := [
@@ -95,6 +98,9 @@ func _ready() -> void:
 	_failures.append_array(await ExpandedPolishTests.new().run(self))
 	_failures.append_array(await ExpandedBaselineTests.new().run(self))
 	_failures.append_array(await K17MissionTests.new().run(self))
+	_failures.append_array(await HoldInteractionTests.new().run(self))
+	_failures.append_array(await K17SecurityTests.new().run(self))
+	await TestUtils.settle_async_audio(get_tree())
 
 	if _failures.is_empty():
 		print("All tests passed (Phase 1 setup, Phase 2 player, Phase 3 navigation, Phase 4 guards, Phase 5 vision, Phase 6 AI, Phase 7 hearing, Phase 8 stealth loop, Phase 9 objectives, Phase 10 game flow, Phase 11 level design, Phase 12 presentation, Phase 13 performance, Phase 14 QA, Expanded Library graybox, map selection, Expanded Library guards, Expanded Library mission, Expanded Library expansion layout, Expanded Library expansion stamina and inventory, Expanded Library expansion puzzles, Expanded Library expansion security, Expanded Library expansion escapes and checkpoints, Expanded Library expansion HUD and accessibility, Expanded Library expansion end to end, Expanded Library expansion polish and performance, Expanded Library expansion baseline).")

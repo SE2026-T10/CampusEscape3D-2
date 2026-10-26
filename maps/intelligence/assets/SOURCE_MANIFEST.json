@@ -254,6 +254,21 @@
   ],
   "shipped_files": [
     {
+      "path": "audio/gate_motor.wav",
+      "bytes": 39734,
+      "sha256": "1cd4c037c54f36d3ec8b22177c4c9c9c56fa9739c0b5e5032a7a539467fa8404"
+    },
+    {
+      "path": "audio/radio.wav",
+      "bytes": 70604,
+      "sha256": "1319204f500d20b5f14f70f776efbc83031b7f8ca5f38e9fc15d36d8aa9c54b7"
+    },
+    {
+      "path": "audio/relay.wav",
+      "bytes": 13274,
+      "sha256": "7c460f5ad828ad571c8c5dafc6a322021a39d826453e7604a635ff089a73f225"
+    },
+    {
       "path": "models/archive_rack.glb",
       "bytes": 1064932,
       "sha256": "2accb3899d6a4b997d74980c31dc604613851a1ed794fbfcde88b321ef0996bb"
@@ -449,14 +464,14 @@
       "sha256": "1aa5ce99f58a625c71d48cfc3e68b65ca85ccb00f39e045c0a928608a0ea25ed"
     },
     {
-      "path": "textures/asphalt_02/Rough.jpg",
-      "bytes": 544032,
-      "sha256": "70ba3edc65525eb4dc366cf010ca7ae0bd34e0251ff0225c2dad627a873d0712"
-    },
-    {
       "path": "textures/asphalt_02/nor_gl.jpg",
       "bytes": 1240122,
       "sha256": "42a1c381b53204e83a982db2864479a30bc127bbdeebb1006f8ee51bff099df3"
+    },
+    {
+      "path": "textures/asphalt_02/Rough.jpg",
+      "bytes": 544032,
+      "sha256": "70ba3edc65525eb4dc366cf010ca7ae0bd34e0251ff0225c2dad627a873d0712"
     },
     {
       "path": "textures/concrete_floor_02/Diffuse.jpg",
@@ -464,14 +479,14 @@
       "sha256": "6db84a6d87dc50508b9d134d6fbd2b7e876b8081a5f43a118a249ca18de73af5"
     },
     {
-      "path": "textures/concrete_floor_02/Rough.jpg",
-      "bytes": 318550,
-      "sha256": "c7f026a611b7859903c61ec7fd4574944157223e9e7796413dd6e2a66eaeac7a"
-    },
-    {
       "path": "textures/concrete_floor_02/nor_gl.jpg",
       "bytes": 192757,
       "sha256": "fcda391b57a816d646ae15544688be53790478da5cd48dbe514b3c6901415e61"
+    },
+    {
+      "path": "textures/concrete_floor_02/Rough.jpg",
+      "bytes": 318550,
+      "sha256": "c7f026a611b7859903c61ec7fd4574944157223e9e7796413dd6e2a66eaeac7a"
     },
     {
       "path": "textures/concrete_wall_001/Diffuse.jpg",
@@ -479,14 +494,14 @@
       "sha256": "c3c936da86d57997d9fc4022371c3798c8d438aeecb8f41546104da6d3947c02"
     },
     {
-      "path": "textures/concrete_wall_001/Rough.jpg",
-      "bytes": 156479,
-      "sha256": "d0964c690a8de99fb4f6657e0d3474eea9f9f293d080f4e5c871a55857d9448b"
-    },
-    {
       "path": "textures/concrete_wall_001/nor_gl.jpg",
       "bytes": 179270,
       "sha256": "6f10711d123c8dff26375555196eae9e16d874c137acdacd44d1ba90168b6d46"
+    },
+    {
+      "path": "textures/concrete_wall_001/Rough.jpg",
+      "bytes": 156479,
+      "sha256": "d0964c690a8de99fb4f6657e0d3474eea9f9f293d080f4e5c871a55857d9448b"
     },
     {
       "path": "textures/corrugated_iron/Diffuse.jpg",
@@ -499,14 +514,14 @@
       "sha256": "9891bffb56bc778aa71568e7d050f4cd0c4b7a90e31b8e57340dec50255f6f70"
     },
     {
-      "path": "textures/corrugated_iron/Rough.jpg",
-      "bytes": 455677,
-      "sha256": "1addcfc0210fc101f9f12c8e4dbd7a7d2642a5ef76699a8a485f00b5476af357"
-    },
-    {
       "path": "textures/corrugated_iron/nor_gl.jpg",
       "bytes": 755185,
       "sha256": "e98b839ae681ba929eb80f07348c70d0731b48239abe69268effab18420cd271"
+    },
+    {
+      "path": "textures/corrugated_iron/Rough.jpg",
+      "bytes": 455677,
+      "sha256": "1addcfc0210fc101f9f12c8e4dbd7a7d2642a5ef76699a8a485f00b5476af357"
     },
     {
       "path": "textures/rusty_metal_04/Diffuse.jpg",
@@ -519,14 +534,14 @@
       "sha256": "090689c9cc3d30f4d1a89dd1160fb85cec04d3492f75695bdc83bbb80b6ad30f"
     },
     {
-      "path": "textures/rusty_metal_04/Rough.jpg",
-      "bytes": 686008,
-      "sha256": "02c2fe5dfd5f4f7a692659261b8c99e103f33fb1a4c363c3e763542fae32d4fe"
-    },
-    {
       "path": "textures/rusty_metal_04/nor_gl.jpg",
       "bytes": 896980,
       "sha256": "9c432bee334e65e73ff0b20676dd3f0efbed3f91d261a13dc03b9c8c1a4f4eec"
+    },
+    {
+      "path": "textures/rusty_metal_04/Rough.jpg",
+      "bytes": 686008,
+      "sha256": "02c2fe5dfd5f4f7a692659261b8c99e103f33fb1a4c363c3e763542fae32d4fe"
     }
   ]
 }

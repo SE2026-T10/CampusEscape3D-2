@@ -26,3 +26,9 @@ Các model còn lại do công cụ `tools/build_art_models.py` dựng bằng Bl
 Lính K17 dùng model phân khớp tự dựng, gắn vào các khớp animation của Guard dùng chung. Đây là nhân vật phong cách đơn giản có quân phục/mũ/trang bị, không phải model người quét ảnh hoặc nhân vật AAA có skeleton/retarget mới. AI và bộ điều khiển vẫn là phần dùng chung.
 
 Kiến trúc, biển cố định, khung cửa, mái, vạch sơn và bố trí ánh sáng được dựng trong `tools/k17_art_builder.gd`. Lightmap được bake bằng Godot; các ảnh báo cáo được chụp từ scene thực tế.
+
+## Âm thanh và lớp an ninh tự tạo
+
+`audio/relay.wav`, `audio/radio.wav`, `audio/gate_motor.wav` được tổng hợp bằng `tools/build_security_audio.py`: sóng sin, noise có seed cố định và envelope, mono PCM 16-bit 22050 Hz. Không chứa sample tải ngoài hoặc giọng nói của người thật. Có thể tái tạo bằng Python chuẩn, không cần thư viện bổ sung.
+
+Khung cảm biến, bảng điều khiển, loa PA, chỉ báo và các cổng động được lắp bởi `tools/k17_security_builder.gd`, tái sử dụng model cửa tự dựng. Không thêm nguồn asset thương mại trong đợt cơ chế an ninh.

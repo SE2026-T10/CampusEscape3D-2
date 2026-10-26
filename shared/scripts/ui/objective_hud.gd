@@ -41,6 +41,7 @@ var _list: RichTextLabel
 var _prompt: Label
 var _prompt_box: PanelContainer
 var _prompt_key: Label
+var _hold_bar: ProgressBar
 var _prompt_alpha := 0.0
 var _header: Label
 var _message: Label
@@ -602,6 +603,11 @@ func _build_panel() -> void:
 
 func _update_prompt(delta: float) -> void:
 	var text := get_prompt_text()
+	var player := get_tree().get_first_node_in_group("player")
+	var interactor := player.get_node_or_null("Interactor") as PlayerInteractor if player else null
+	_hold_bar.visible = interactor != null and interactor.hold_target != null
+	if _hold_bar.visible:
+		_hold_bar.value = interactor.get_hold_progress() * 100.0
 	if text != "":
 		var parts := split_prompt(text)
 		_set_text(_prompt_key, parts[0])
@@ -636,9 +642,17 @@ func _build_prompt() -> void:
 	_prompt_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_prompt_box.modulate.a = 0.0
 	centre.add_child(_prompt_box)
+	var prompt_column := VBoxContainer.new()
+	_prompt_box.add_child(prompt_column)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
-	_prompt_box.add_child(row)
+	prompt_column.add_child(row)
+	_hold_bar = ProgressBar.new()
+	_hold_bar.custom_minimum_size = Vector2(220, 7)
+	_hold_bar.show_percentage = false
+	_hold_bar.visible = false
+	_hold_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	prompt_column.add_child(_hold_bar)
 	var cap := PanelContainer.new()
 	var cap_style := StyleBoxFlat.new()
 	cap_style.bg_color = Color(0.92, 0.92, 0.88)
