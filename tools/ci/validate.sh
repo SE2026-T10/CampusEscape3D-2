@@ -3,7 +3,8 @@
 #   1. the engine is exactly Godot 4.7.2 stable (official)
 #   2. the project imports with no script or resource errors
 #   3. every script compiles (tools/ci/check_scripts.gd)
-#   4. the project version is set, the Windows preset's file and product
+#   4. runtime resource paths and the map-specific HUD/exit contract work
+#   5. the project version is set, the Windows preset's file and product
 #      versions match it (X.Y.Z.0), and on a tag build the tag is vX.Y.Z
 # Exits non-zero on the first failure. Logs go to ci-logs/.
 set -euo pipefail
@@ -28,6 +29,17 @@ echo "Compiling every script"
 timeout 300 "$GODOT" --headless --path . --script res://tools/ci/check_scripts.gd > ci-logs/check_scripts.log 2>&1 || {
   echo "::error::A script does not compile"; cat ci-logs/check_scripts.log; exit 1; }
 grep "CHECK SCRIPTS PASSED" ci-logs/check_scripts.log
+
+echo "Checking map layout and runtime resource paths"
+python3 tools/ci/check_layout.py
+
+echo "Checking map-specific HUD and exit integration"
+timeout 120 "$GODOT" --headless --path . --script res://tools/ci/check_map_contract.gd > ci-logs/map_contract.log 2>&1 || {
+  echo "::error::Map integration contract failed"; cat ci-logs/map_contract.log; exit 1; }
+grep "MAP CONTRACT PASSED" ci-logs/map_contract.log
+if grep -qE "SCRIPT ERROR|^ERROR|^WARNING" ci-logs/map_contract.log; then
+  echo "::error::Errors or warnings in map integration contract"; cat ci-logs/map_contract.log; exit 1
+fi
 
 project_version="$(sed -n 's/^config\/version="\(.*\)"/\1/p' project.godot)"
 if [ -z "$project_version" ]; then echo "::error::application/config/version is not set in project.godot"; exit 1; fi

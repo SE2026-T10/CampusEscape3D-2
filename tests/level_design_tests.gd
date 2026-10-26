@@ -13,7 +13,7 @@ extends RefCounted
 ##     ceilings have no collision; ceilings sit on render layer 2
 ##   - books are generated the same way every time
 
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 const HALLWAY_WEST := Rect2(-12, -14, 3, 8)
 const HALLWAY_EAST := Rect2(21, -18, 3, 20)

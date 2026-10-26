@@ -5,7 +5,7 @@ extends RefCounted
 ##     shadows, with 2 cascades, and the directional shadow atlas is 2048
 ##   - the benchmark tool's scenarios and statistics are what the docs say
 
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
 const Benchmark := preload("res://tools/benchmark.gd")
 
 var failures: Array[String] = []

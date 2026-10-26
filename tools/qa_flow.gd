@@ -12,7 +12,7 @@ extends SceneTree
 ##
 ## Prints "QA FLOW PASSED" or the failed steps, and exits 0 / 1.
 
-const MAIN_MENU := "res://scenes/ui/main_menu.tscn"
+const MAIN_MENU := "res://shared/scenes/ui/main_menu.tscn"
 const G := GameStateMachine.State
 
 var _out := ""

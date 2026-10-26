@@ -27,17 +27,30 @@ head -c 2 build/CampusEscape3D.exe | grep -q "MZ" || { echo "::error::The execut
 # Both maps and what they load: the menu and its map catalog, each level with
 # its navmesh, the shared characters and props, and the Expanded Library's own
 # scripts (card / one-way doors, batched decoration, books).
-for needed in project.binary scenes/ui/main_menu.tscn.remap scripts/game/level_catalog.gd \
-              scenes/level/library_graybox.tscn.remap scenes/level/library_navmesh.tres \
-              scenes/level/expanded_library.tscn.remap scenes/level/expanded_library_navmesh.tres \
-              scenes/level/expanded_library_expansion.tscn.remap \
-              scenes/npc/guard.tscn.remap scenes/player/player.tscn.remap \
-              scenes/props/ceiling_light.tscn scenes/props/chair.tscn \
-              scripts/systems/objectives/access_door.gd scripts/level/batched_boxes.gd scripts/level/shelf_books.gd; do
+for needed in project.binary shared/scenes/ui/main_menu.tscn.remap shared/scripts/game/level_catalog.gd \
+              maps/tutorial/scenes/library_graybox.tscn.remap maps/tutorial/resources/library_navmesh.tres \
+              maps/library/scenes/expanded_library.tscn.remap maps/library/resources/expanded_library_navmesh.tres \
+              maps/library/scenes/expanded_library_expansion.tscn.remap \
+              shared/scenes/npc/guard.tscn.remap shared/scenes/player/player.tscn.remap \
+              shared/scenes/props/ceiling_light.tscn shared/scenes/props/chair.tscn \
+              features/objectives/access_door.gd shared/scripts/level/batched_boxes.gd shared/scripts/level/shelf_books.gd; do
   grep -aq "$needed" build/CampusEscape3D.pck || { echo "::error::$needed is missing from the pack"; exit 1; }
 done
 if grep -aqE "(^|[^a-z_])(tests|tools)/[a-z_]+\.gd" build/CampusEscape3D.pck; then
   echo "::error::Tests or tools were exported into the pack"; exit 1
+fi
+
+# Exercise the exported resource namespace, so missing dependencies cannot be
+# hidden by files still present in the source checkout. Unload before quitting
+# to let the AudioServer release its streams cleanly.
+pack_file="$(pwd)/build/CampusEscape3D.pck"
+pack_checker="$(pwd)/tools/ci/check_pack.gd"
+pack_check_dir="$(mktemp -d)"
+trap 'rm -rf "$pack_check_dir"' EXIT
+(cd "$pack_check_dir" && timeout 120 "$GODOT" --headless --main-pack "$pack_file" --script "$pack_checker") > ci-logs/pack-check.log 2>&1 || {
+  echo "::error::Exported pack did not load"; cat ci-logs/pack-check.log; exit 1; }
+if ! grep -q "PACK CHECK PASSED" ci-logs/pack-check.log || grep -qE "SCRIPT ERROR|^ERROR|^WARNING" ci-logs/pack-check.log; then
+  echo "::error::Exported pack reported errors"; cat ci-logs/pack-check.log; exit 1
 fi
 
 {

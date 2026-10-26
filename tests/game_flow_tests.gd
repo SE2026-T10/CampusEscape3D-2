@@ -10,9 +10,9 @@ extends RefCounted
 ##     mouse mode per state, no duplicate transitions
 ## Scene changes are recorded instead of performed, so the test runner stays loaded.
 
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
-const MAIN_MENU_SCENE := "res://scenes/ui/main_menu.tscn"
-const GUARD_SCENE := "res://scenes/npc/guard.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
+const MAIN_MENU_SCENE := "res://shared/scenes/ui/main_menu.tscn"
+const GUARD_SCENE := "res://shared/scenes/npc/guard.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 const G := GameStateMachine.State
 

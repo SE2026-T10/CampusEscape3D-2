@@ -54,7 +54,7 @@ extends SceneTree
 ## because it is stuck, it is recorded in summary.json (stuck_events).
 ## Nothing here changes the game itself.
 
-const GUARD := "res://scenes/npc/guard.tscn"
+const GUARD := "res://shared/scenes/npc/guard.tscn"
 const PHYSICS_HZ := 60.0
 const U := 4.5   # the Expanded Library's upper floor
 ## Per map: the scene, guard counts per scenario, the camera loop (points on
@@ -62,7 +62,7 @@ const U := 4.5   # the Expanded Library's upper floor
 ## noise points (a RUN noise at the next one every NOISE_EVERY seconds).
 const LEVELS := {
 	"tutorial": {
-		"scene": "res://scenes/level/library_graybox.tscn",
+		"scene": "res://maps/tutorial/scenes/library_graybox.tscn",
 		"scenarios": {"normal": 3, "several": 8, "stress": 24},
 		"speed": 3.0,
 		"camera": [Vector3(0, 0, 19), Vector3(0, 0, 8), Vector3(-6, 0, 2), Vector3(-10.5, 0, -6), Vector3(-10.5, 0, -14),
@@ -71,7 +71,7 @@ const LEVELS := {
 		"noise": [Vector3(6, 0, 4), Vector3(-6, 0, -2), Vector3(-9, 0, -20),
 			Vector3(10, 0, -22.5), Vector3(22.5, 0, -10), Vector3(2, 0, -4)]},
 	"expanded": {
-		"scene": "res://scenes/level/expanded_library.tscn",
+		"scene": "res://maps/library/scenes/expanded_library.tscn",
 		"scenarios": {"normal": 7, "several": 12, "stress": 24},
 		"speed": 6.0,
 		# The main route (layout ROUTES), the shortcut out, and back through the lobby.
