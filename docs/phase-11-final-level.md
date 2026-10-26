@@ -1,6 +1,6 @@
 # Phase 11 — Final Level
 
-The graybox library is now the final playable level: one small, low-poly university library, built up over four measured design passes. The full design history, with what changed, why, the numbers and before/after pictures for each version, is in **[`docs/level/LEVEL_LOG.md`](level/LEVEL_LOG.md)**. This page summarises it.
+The graybox library is now the final playable level: one small, low-poly university library, built up over four measured design passes. The full design history, with what changed, why, the numbers and before/after pictures for each version, is in **[`docs/level/LEVEL_LOG.md`](../maps/tutorial/docs/level/LEVEL_LOG.md)**. This page summarises it.
 
 ## Level-design versions (Git history)
 

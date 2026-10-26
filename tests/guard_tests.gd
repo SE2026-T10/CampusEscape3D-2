@@ -6,8 +6,8 @@ extends RefCounted
 ## full patrol loop takes seconds instead of a minute. Each physics step then
 ## moves a guard at most 0.2 m, well below the 0.3 m wall thickness.
 
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
-const GUARD_SCENE := "res://scenes/npc/guard.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
+const GUARD_SCENE := "res://shared/scenes/npc/guard.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 const TIME_SCALE := 6.0
 const WAIT_TOLERANCE := 0.15     # seconds of simulated time

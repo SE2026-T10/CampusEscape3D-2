@@ -16,11 +16,11 @@ extends SceneTree
 ##     (first objectives completed, access doors opened) is gone afterwards
 ##
 ##   godot --headless --path . --script res://tools/map_flow.gd
-##   godot --path . --resolution 1280x720 --script res://tools/map_flow.gd -- --out=docs/expanded/phase2
+##   godot --path . --resolution 1280x720 --script res://tools/map_flow.gd -- --out=maps/library/docs/phase2
 ##
 ## Prints "MAP FLOW PASSED" or the failed steps, and exits 0 / 1.
 
-const MAIN_MENU := "res://scenes/ui/main_menu.tscn"
+const MAIN_MENU := "res://shared/scenes/ui/main_menu.tscn"
 const CYCLES := 3
 const G := GameStateMachine.State
 ## Groups of the level-wide systems: exactly one in every level, none on the menu.

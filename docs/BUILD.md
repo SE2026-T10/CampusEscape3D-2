@@ -2,6 +2,8 @@
 
 This page covers how Campus Escape 3D is validated, tested and built, both locally and by GitHub Actions, and how to make a release.
 
+The current directory layout is documented in [Working on a map](architecture/MAP_LAYOUT.md). Runtime code is under `shared/`, `features/` and `maps/`. Validation also checks resource paths and the map-specific HUD contract. Export excludes test/tool/docs folders within maps and the template workspace.
+
 ## What's pinned
 
 | Thing | Value | Where |
@@ -20,9 +22,9 @@ No secrets are needed or stored. The release step uses the workflow's own short-
 | Script | What it does | Fails when |
 |---|---|---|
 | `tools/ci/setup_godot.sh` | downloads Godot and the export templates, verifies their SHA-512 checksums, installs the templates; prints the Godot path | a download fails or a checksum doesn't match |
-| `tools/ci/validate.sh` | checks the exact Godot version, imports the project, compiles every script (`tools/ci/check_scripts.gd`), checks the version numbers (and the tag, on a tag build) | wrong Godot; import errors; a script doesn't compile; versions don't match |
+| `tools/ci/validate.sh` | checks the exact Godot version, imports the project, compiles every script, validates map paths and the HUD integration contract, then checks version numbers | wrong Godot; import/compile/path/contract errors; versions don't match |
 | `tools/ci/run_tests.sh` | runs the full test suite (`tests/test_scene.tscn`), the game-flow run (`tools/qa_flow.gd`) and the map-selection run (`tools/map_flow.gd`), both with real scene changes, headless | the suite doesn't exit 0 or print "All tests passed"; any script error; a flow run doesn't pass; any error or warning in the map-selection run |
-| `tools/ci/export_windows.sh` | exports the Windows x64 release build and zips it as `dist/CampusEscape3D-<version>-windows-x64.zip` | export fails or logs an error; no `.exe` or `.pck`; the `.exe` isn't a Windows program; something either map needs is missing from the pack (the menu and `LevelCatalog`, both level scenes and both navmeshes, the player and guard, the Expanded Library's props and its door, decoration and book scripts); tests or tools ended up in it |
+| `tools/ci/export_windows.sh` | exports the Windows x64 release build and zips it as `dist/CampusEscape3D-<version>-windows-x64.zip` | export fails or logs an error; no `.exe` or `.pck`; the `.exe` isn't a Windows program; something either map needs is missing from the pack (the menu and `LevelCatalog`, both level shared/scenes and both navmeshes, the player and guard, the Expanded Library's props and its door, decoration and book scripts); tests or tools ended up in it |
 
 Logs go to `ci-logs/`, and the build goes to `build/` and `dist/`. Git ignores all three folders.
 
@@ -86,11 +88,11 @@ The `.exe` and `.pck` aren't byte-for-byte identical between builds, because the
 
 ## Release 1.1.0: both maps
 
-The project is at version `1.1.0` (the Expanded Library added to the tutorial), and the release notes are in `docs/release-notes/v1.1.0.md`. The release check is in `docs/expanded/phase-7-release.md`.
+The project is at version `1.1.0` (the Expanded Library added to the tutorial), and the release notes are in `docs/release-notes/v1.1.0.md`. The release check is in `maps/library/docs/phase-7-release.md`.
 
 To publish (the maintainer; nothing here pushes on its own):
 1. Commit the release changes on `Development` and push.
-2. Wait for the **Build** workflow to pass on that commit, then download the artifact `CampusEscape3D-1.1.0-windows-x64` and run the Windows checks still open in `docs/expanded/phase-7-release.md` (launch, both maps, the benchmark).
+2. Wait for the **Build** workflow to pass on that commit, then download the artifact `CampusEscape3D-1.1.0-windows-x64` and run the Windows checks still open in `maps/library/docs/phase-7-release.md` (launch, both maps, the benchmark).
 3. Tag the commit:
    ```
    git tag -a v1.1.0 -m "Campus Escape 3D 1.1.0 (Expanded Library)"

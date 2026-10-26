@@ -377,7 +377,7 @@ func test_no_shared_state_between_machines() -> void:
 	a.tick(_confirmed(), 0.1)
 	_expect(a.current == GuardStateMachine.CHASE and b.current == GuardStateMachine.PATROL, "Two guards' state machines must be independent.")
 	# The AI scripts must not use static (shared) variables.
-	for file in DirAccess.get_files_at("res://scripts/npc/ai"):
+	for file in DirAccess.get_files_at("res://shared/scripts/npc/ai"):
 		if file.ends_with(".gd"):
-			var source := FileAccess.get_file_as_string("res://scripts/npc/ai/" + file)
+			var source := FileAccess.get_file_as_string("res://shared/scripts/npc/ai/" + file)
 			_expect(not source.contains("static var"), "%s uses a static variable (hidden shared state)." % file)

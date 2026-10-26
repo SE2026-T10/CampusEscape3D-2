@@ -13,7 +13,7 @@ extends RefCounted
 ##    screen shows, and the player respawns at the checkpoint they touched with
 ##    every guard back on patrol and the music off.
 
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 const S := StealthDirector.Status
 const G := GameStateMachine.State

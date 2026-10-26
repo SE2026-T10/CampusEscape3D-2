@@ -4,8 +4,8 @@ extends RefCounted
 ## being caught and reset, escaping, and the HUD. Runs in the real library
 ## with one controlled test guard (the level's own guards are removed).
 
-const LIBRARY_SCENE := "res://scenes/level/library_graybox.tscn"
-const GUARD_SCENE := "res://scenes/npc/guard.tscn"
+const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
+const GUARD_SCENE := "res://shared/scenes/npc/guard.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
 const S := StealthDirector.Status
 const SPAWN := Vector3(0, 0.05, 21)
