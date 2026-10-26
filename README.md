@@ -15,7 +15,7 @@ Người chơi chọn một trong hai bản đồ từ menu chính:
 - **Library Tutorial** — thư viện hướng dẫn, thuộc phiên bản sản phẩm tối thiểu (MVP): một tầng, ba bảo vệ; lấy thẻ ra vào trong khu Restricted Stacks rồi trốn thoát.
 - **Expanded Library** — thư viện mở rộng: hai tầng và một tầng hầm, bảy bảo vệ, tám nhiệm vụ bắt buộc, ba nhiệm vụ tùy chọn và ba đường thoát. Mục tiêu về thời gian hoàn thành vẫn cần được xác nhận bằng người chơi thử.
 
-Trò chơi được phát triển bằng Godot và GDScript, dành cho máy tính Windows. Phiên bản hiện tại là **1.1.0**, khai báo tại `application/config/version` trong `project.godot`. Tên bản đồ, nhãn giao diện và định danh kỹ thuật được giữ nguyên để đối chiếu với trò chơi và mã nguồn.
+Trò chơi được phát triển bằng Godot và GDScript, dành cho máy tính Windows. Phiên bản hiện tại là **1.2.0**, khai báo tại `application/config/version` trong `project.godot`. Tên bản đồ, nhãn giao diện và định danh kỹ thuật được giữ nguyên để đối chiếu với trò chơi và mã nguồn.
 
 ## Cấu trúc thư mục và cách tổ chức tệp
 
@@ -92,7 +92,7 @@ Mỗi bản đồ có một cảnh chính làm điểm vào. `expanded_library_e
 
 Chi tiết về cấu hình nhiệm vụ, giao diện HUD và lệnh kiểm tra: [Hướng dẫn làm việc theo bản đồ](docs/architecture/MAP_LAYOUT.md). Kết quả kiểm tra lần tổ chức lại: [VALIDATION.md](docs/architecture/VALIDATION.md).
 
-Built in Godot with GDScript, for Windows desktop. The current version is **1.2.0** (`application/config/version` in `project.godot`).
+## Phiên bản Godot
 
 - **Bộ máy phát triển:** Godot **4.7.2 Stable**, bản chính thức (`4.7.2.stable.official.ed1daf0bf`). Các phiên bản khác chưa được hỗ trợ. Bộ kiểm thử và quy trình đóng gói đều kiểm tra đúng phiên bản này.
 - **Ngôn ngữ lập trình:** GDScript.
