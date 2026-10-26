@@ -8,13 +8,13 @@ Dự án được tổ chức theo các bản đồ độc lập. Mã dùng chun
 
 Ngày 26/10/2026, cấu trúc này được đồng bộ với `main` tại commit `504ce2e`, gồm mô hình, hoạt ảnh cơ cấu, đồ vật va chạm và navmesh mới của thư viện. Phạm vi và kết quả kiểm tra được ghi trong [biên bản đồng bộ với main](docs/architecture/MAIN_SYNC.md).
 
-Campus Escape 3D là trò chơi hành động lén lút 3D góc nhìn thứ nhất, sử dụng phong cách đồ họa ít đa giác. Hai bản đồ hiện có lấy bối cảnh thư viện đại học vào ban đêm. Người chơi thâm nhập, lấy vật phẩm mục tiêu rồi trốn thoát, tránh các bảo vệ có khả năng tuần tra, nhìn, nghe, điều tra và truy đuổi.
+Campus Escape 3D là trò chơi hành động lén lút 3D góc nhìn thứ nhất, sử dụng phong cách đồ họa ít đa giác. Các bản đồ lấy bối cảnh thư viện đại học vào ban đêm và cơ sở tình báo quân sự K17. Người chơi thâm nhập, lấy vật phẩm mục tiêu rồi trốn thoát, tránh các bảo vệ có khả năng tuần tra, nhìn, nghe, điều tra và truy đuổi.
 
 Người chơi chọn một trong ba bản đồ từ menu chính:
 
 - **Library Tutorial** — thư viện hướng dẫn, thuộc phiên bản sản phẩm tối thiểu (MVP): một tầng, ba bảo vệ; lấy thẻ ra vào trong khu Restricted Stacks rồi trốn thoát.
 - **Expanded Library** — thư viện mở rộng: hai tầng và một tầng hầm, bảy bảo vệ, tám nhiệm vụ bắt buộc, ba nhiệm vụ tùy chọn và ba đường thoát. Mục tiêu về thời gian hoàn thành vẫn cần được xác nhận bằng người chơi thử.
-- **K17 — 120 giây cuối (V1)** — cơ sở tình báo quân sự dựng bằng khối đơn giản, bốn NPC dùng chung, giấy thông hành, checkpoint và cuộc rút lui 120 giây qua sân hoặc hành lang bảo trì. [Phạm vi và cách chạy V1](maps/intelligence/README.md).
+- **K17 — 120 giây cuối** — cơ sở tình báo quân sự với vật liệu bê tông/kim loại, hành lang kiểm soát, ánh sáng bake và bốn lính dùng AI chung. Lấy giấy thông hành, lưu checkpoint, thu hồi hồ sơ và rút lui trong 120 giây qua sân hoặc hành lang bảo trì. [Cách chơi, mỹ thuật và kiểm tra](maps/intelligence/README.md).
 
 Trò chơi được phát triển bằng Godot và GDScript, dành cho máy tính Windows. Phiên bản hiện tại là **1.2.0**, khai báo tại `application/config/version` trong `project.godot`. Tên bản đồ, nhãn giao diện và định danh kỹ thuật được giữ nguyên để đối chiếu với trò chơi và mã nguồn.
 

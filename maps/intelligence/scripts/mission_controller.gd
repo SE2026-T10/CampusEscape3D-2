@@ -10,7 +10,7 @@ const ESCAPE := &"extract_k17"
 const OBJECTIVES := [
 	{"id": ENTER, "title": "Vào cơ sở K17", "hint": "Qua sân tiếp vận hoặc hành lang kỹ thuật.", "done": "Đã vào K17"},
 	{"id": PASS, "title": "Lấy giấy thông hành", "hint": "Trên bàn trong phòng trực phía tây.", "done": "Đã lấy giấy thông hành"},
-	{"id": ARCHIVE, "title": "Đến điểm chuẩn bị", "hint": "Mở cửa khu hồ sơ bằng E, đến ô sáng xanh bên phải.", "done": "Đã lưu checkpoint trước khu hồ sơ"},
+	{"id": ARCHIVE, "title": "Đến điểm chuẩn bị", "hint": "Mở cửa khu hồ sơ bằng E, tìm biển checkpoint bên phải.", "done": "Đã lưu checkpoint trước khu hồ sơ"},
 	{"id": FILE, "title": "Thu hồi Mật lệnh 04", "hint": "Giá hồ sơ ở cuối phòng. Lấy hồ sơ sẽ khởi động 120 giây.", "done": "Đã lấy Mật lệnh 04 — rút lui!"},
 	{"id": ESCAPE, "title": "Đến điểm tập kết", "hint": "Trở ra ngoài qua sân hoặc hành lang bảo trì. Tìm đèn xanh.", "done": "Đã đưa hồ sơ ra khỏi K17"},
 ]
@@ -43,7 +43,7 @@ func _on_objective_completed(id: StringName) -> void:
 		ENTER:
 			radio_message = "Lam: Phòng trực ở phía tây. Lối bảo trì nằm phía đông."
 		PASS:
-			radio_message = "Lam: Dùng giấy thông hành mở cửa khu hồ sơ. Tìm ô chuẩn bị sáng xanh."
+			radio_message = "Lam: Dùng giấy thông hành mở cửa khu hồ sơ. Điểm chuẩn bị ở bên phải, sau tủ che."
 		ARCHIVE:
 			radio_message = "Lam: Nhấc hồ sơ khỏi giá sẽ kích hoạt phong tỏa. Chuẩn bị đường rút."
 		FILE:
@@ -86,8 +86,12 @@ func get_status_lines() -> Array[String]:
 	if has_file:
 		var seconds := ceili(time_left)
 		clock = "%02d:%02d" % [seconds / 60, seconds % 60]
-	return ["CHIẾN DỊCH K17 · V1", "Hồ sơ: " + ("đang mang Mật lệnh 04" if has_file else "chưa thu hồi"),
-		"Phong tỏa: " + clock, "Tập kết: các đèn xanh ngoài hàng rào", "", radio_message]
+	return ["K17 / CHIẾN DỊCH TÌNH BÁO", "Hồ sơ: " + ("đang mang Mật lệnh 04" if has_file else "chưa thu hồi"),
+		"Phong tỏa: " + clock, radio_message]
+
+
+func show_objective_checklist() -> bool:
+	return false
 
 
 func get_result_lines() -> Array[String]:
@@ -114,3 +118,5 @@ func _on_respawned(_checkpoint: Checkpoint) -> void:
 func _set_alarm_lights(active: bool) -> void:
 	for light in get_tree().get_nodes_in_group("k17_alarm_lights"):
 		light.light_color = Color(1.0, 0.18, 0.1) if active else Color(0.55, 0.75, 1.0)
+		if light.has_meta("alarm_only"):
+			light.visible = active

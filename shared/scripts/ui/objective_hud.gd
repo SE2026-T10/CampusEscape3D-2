@@ -528,6 +528,8 @@ func _update_panel(objectives: ObjectiveManager) -> void:
 			text += "[color=#%s]OPTIONAL[/color]\n" % Color(1.0, 0.82, 0.3).to_html(false)
 		text += "[color=#%s]%s[/color]\n" % [colours[objectives.get_state(ids[i])].to_html(false), lines[i]]
 	_set_text(_list, text.strip_edges())
+	var hud_provider := MapHudProvider.find_for(self)
+	_list.visible = hud_provider == null or hud_provider.show_objective_checklist()
 	var status := _status_bbcode() if objectives.is_graph() or MapHudProvider.find_for(self) != null else ""
 	_set_text(_status_text, status.strip_edges())
 	_status_panel.visible = status != "" and not _journal.visible and not objectives.is_finished()

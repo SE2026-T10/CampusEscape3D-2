@@ -15,8 +15,8 @@ const LEVELS := [
 		"description": "The original library: one floor, one access card. Learn the ropes."},
 	{"id": EXPANDED, "title": "Expanded Library", "scene": "res://maps/library/scenes/expanded_library.tscn",
 		"description": "Two floors and a basement, seven guards, puzzles and three ways out. Retrieve the rare manuscript."},
-	{"id": INTELLIGENCE, "title": "K17 — 120 giây cuối (V1)", "scene": "res://maps/intelligence/scenes/intelligence_k17.tscn",
-		"description": "Lấy Mật lệnh 04, rút khỏi K17 trong 120 giây. Bản dựng V1."},
+	{"id": INTELLIGENCE, "title": "K17 — 120 giây cuối", "scene": "res://maps/intelligence/scenes/intelligence_k17.tscn",
+		"description": "Thâm nhập cơ sở tình báo, lấy Mật lệnh 04 rồi rút lui trong 120 giây."},
 ]
 
 

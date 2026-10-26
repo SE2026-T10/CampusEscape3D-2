@@ -1,0 +1,527 @@
+{
+  "source_assets": [
+    {
+      "asset": "asphalt_02",
+      "page": "https://polyhaven.com/a/asphalt_02",
+      "license": "CC0-1.0",
+      "downloaded_files": [
+        {
+          "path": "Diffuse.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_02/asphalt_02_diff_1k.jpg",
+          "md5": "fa19772d4817754c3efab708c651f5a8"
+        },
+        {
+          "path": "nor_gl.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_02/asphalt_02_nor_gl_1k.jpg",
+          "md5": "338da8de636ea36133170578cac82e8e"
+        },
+        {
+          "path": "Rough.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_02/asphalt_02_rough_1k.jpg",
+          "md5": "ec80a2929797c1b3ffc121c4f665585a"
+        }
+      ]
+    },
+    {
+      "asset": "concrete_floor_02",
+      "page": "https://polyhaven.com/a/concrete_floor_02",
+      "license": "CC0-1.0",
+      "downloaded_files": [
+        {
+          "path": "Diffuse.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_floor_02/concrete_floor_02_diff_1k.jpg",
+          "md5": "1cfee53d2f82fa59726ab7ae6a2e8c09"
+        },
+        {
+          "path": "nor_gl.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_floor_02/concrete_floor_02_nor_gl_1k.jpg",
+          "md5": "c2065fd81f571f4e39163ea5661128fb"
+        },
+        {
+          "path": "Rough.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_floor_02/concrete_floor_02_rough_1k.jpg",
+          "md5": "653d60d0db1872a49138455cf31c8326"
+        }
+      ]
+    },
+    {
+      "asset": "concrete_wall_001",
+      "page": "https://polyhaven.com/a/concrete_wall_001",
+      "license": "CC0-1.0",
+      "downloaded_files": [
+        {
+          "path": "Diffuse.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_001/concrete_wall_001_diff_1k.jpg",
+          "md5": "7be71d950acf3cf0d7927e4255a63b38"
+        },
+        {
+          "path": "nor_gl.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_001/concrete_wall_001_nor_gl_1k.jpg",
+          "md5": "8e2d51bd8a45f18b0612a9686992958c"
+        },
+        {
+          "path": "Rough.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_001/concrete_wall_001_rough_1k.jpg",
+          "md5": "63b1c522f6de54a9deb7dd28ce310118"
+        }
+      ]
+    },
+    {
+      "asset": "corrugated_iron",
+      "page": "https://polyhaven.com/a/corrugated_iron",
+      "license": "CC0-1.0",
+      "downloaded_files": [
+        {
+          "path": "Diffuse.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/corrugated_iron/corrugated_iron_diff_1k.jpg",
+          "md5": "fabb629c5ad6f427e6862bb4043564bd"
+        },
+        {
+          "path": "nor_gl.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/corrugated_iron/corrugated_iron_nor_gl_1k.jpg",
+          "md5": "02249d61a2b1839552938f35a20d075a"
+        },
+        {
+          "path": "Rough.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/corrugated_iron/corrugated_iron_rough_1k.jpg",
+          "md5": "7c14b728587586e74be45a67cfe44160"
+        },
+        {
+          "path": "Metal.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/corrugated_iron/corrugated_iron_metal_1k.jpg",
+          "md5": "578870fd91dca17034b46d54e6389edd"
+        }
+      ]
+    },
+    {
+      "asset": "industrial_caged_sconce",
+      "page": "https://polyhaven.com/a/industrial_caged_sconce",
+      "license": "CC0-1.0",
+      "downloaded_files": [
+        {
+          "path": "industrial_caged_sconce.gltf",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/industrial_caged_sconce/industrial_caged_sconce_1k.gltf",
+          "md5": "c4358ee53f130fb87a1600a47ad1e039"
+        },
+        {
+          "path": "textures/industrial_caged_sconce_emissive_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/industrial_caged_sconce/industrial_caged_sconce_emissive_1k.jpg",
+          "md5": "026950d74053e67bfa01a1a5b1a8a532"
+        },
+        {
+          "path": "textures/industrial_caged_sconce_nor_gl_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/industrial_caged_sconce/industrial_caged_sconce_nor_gl_1k.jpg",
+          "md5": "abd7149e930c3fcfc2aa3e1bfb755256"
+        },
+        {
+          "path": "textures/industrial_caged_sconce_diff_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/industrial_caged_sconce/industrial_caged_sconce_diff_1k.jpg",
+          "md5": "b6323d927f287b8f1c8f41436f5873b6"
+        },
+        {
+          "path": "textures/industrial_caged_sconce_arm_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/industrial_caged_sconce/industrial_caged_sconce_arm_1k.jpg",
+          "md5": "9771c281ca915ead29e9893927c10f68"
+        },
+        {
+          "path": "industrial_caged_sconce.bin",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/industrial_caged_sconce/industrial_caged_sconce.bin",
+          "md5": "254aeed8e53de6fa20024b275ee0cc19"
+        }
+      ]
+    },
+    {
+      "asset": "modular_chainlink_fence",
+      "page": "https://polyhaven.com/a/modular_chainlink_fence",
+      "license": "CC0-1.0",
+      "downloaded_files": [
+        {
+          "path": "modular_chainlink_fence.gltf",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/modular_chainlink_fence/modular_chainlink_fence_1k.gltf",
+          "md5": "8c8f0c91cf48ba68fb32178bcbd6351a"
+        },
+        {
+          "path": "modular_chainlink_fence.bin",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/modular_chainlink_fence/modular_chainlink_fence.bin",
+          "md5": "953d32ee509142cf2ceb1e6b278b2430"
+        },
+        {
+          "path": "textures/modular_chainlink_fence_posts_nor_gl_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/modular_chainlink_fence/modular_chainlink_fence_posts_nor_gl_1k.jpg",
+          "md5": "e6b2e0015cef4bb58487f889efae88bf"
+        },
+        {
+          "path": "textures/modular_chainlink_fence_wire_arm_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/modular_chainlink_fence/modular_chainlink_fence_wire_arm_1k.jpg",
+          "md5": "0a53847d3ba9891c9a90c637151684e4"
+        },
+        {
+          "path": "textures/modular_chainlink_fence_wire_nor_gl_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/modular_chainlink_fence/modular_chainlink_fence_wire_nor_gl_1k.jpg",
+          "md5": "bd794c542c0843354e0838ff4e05788b"
+        },
+        {
+          "path": "textures/modular_chainlink_fence_wire_diff_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/modular_chainlink_fence/modular_chainlink_fence_wire_diff_1k.jpg",
+          "md5": "fa424a20c04764d770826c865635b84c"
+        },
+        {
+          "path": "textures/modular_chainlink_fence_posts_arm_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/modular_chainlink_fence/modular_chainlink_fence_posts_arm_1k.jpg",
+          "md5": "839c6fce0c0583e8205b8f9281e853f8"
+        },
+        {
+          "path": "textures/modular_chainlink_fence_posts_diff_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/modular_chainlink_fence/modular_chainlink_fence_posts_diff_1k.jpg",
+          "md5": "f36646ffbf9f952747c3d4535b30c24a"
+        }
+      ]
+    },
+    {
+      "asset": "modular_industrial_pipes_01",
+      "page": "https://polyhaven.com/a/modular_industrial_pipes_01",
+      "license": "CC0-1.0",
+      "downloaded_files": [
+        {
+          "path": "modular_industrial_pipes_01.gltf",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/modular_industrial_pipes_01/modular_industrial_pipes_01_1k.gltf",
+          "md5": "cb30fdf4d471374ba439bfd5a0c8105d"
+        },
+        {
+          "path": "textures/modular_industrial_pipes_01_group02_arm_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/modular_industrial_pipes_01/modular_industrial_pipes_01_group02_arm_1k.jpg",
+          "md5": "088f90ba0d60c13ff0d6fc43cf734372"
+        },
+        {
+          "path": "textures/modular_industrial_pipes_01_group01_diff_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/modular_industrial_pipes_01/modular_industrial_pipes_01_group01_diff_1k.jpg",
+          "md5": "28678434837d64476cb8d75d0314166e"
+        },
+        {
+          "path": "textures/modular_industrial_pipes_01_group02_nor_gl_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/modular_industrial_pipes_01/modular_industrial_pipes_01_group02_nor_gl_1k.jpg",
+          "md5": "282735667b3cd6e2d0ef058f2c260740"
+        },
+        {
+          "path": "modular_industrial_pipes_01.bin",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/modular_industrial_pipes_01/modular_industrial_pipes_01.bin",
+          "md5": "a18d063dc719e19b9c20d2f8c0a8bec4"
+        },
+        {
+          "path": "textures/modular_industrial_pipes_01_group01_nor_gl_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/modular_industrial_pipes_01/modular_industrial_pipes_01_group01_nor_gl_1k.jpg",
+          "md5": "a5d4deb3ea6772c0af1275edeab7dc94"
+        },
+        {
+          "path": "textures/modular_industrial_pipes_01_group01_arm_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/modular_industrial_pipes_01/modular_industrial_pipes_01_group01_arm_1k.jpg",
+          "md5": "2ab8f10dc9ca832af70cd48183281f97"
+        },
+        {
+          "path": "textures/modular_industrial_pipes_01_group02_diff_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/modular_industrial_pipes_01/modular_industrial_pipes_01_group02_diff_1k.jpg",
+          "md5": "d3d951f471cfcd15e89cedcd43d28606"
+        }
+      ]
+    },
+    {
+      "asset": "rusty_metal_04",
+      "page": "https://polyhaven.com/a/rusty_metal_04",
+      "license": "CC0-1.0",
+      "downloaded_files": [
+        {
+          "path": "Diffuse.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rusty_metal_04/rusty_metal_04_diff_1k.jpg",
+          "md5": "91832efd8e5896387e2af18a5b49b895"
+        },
+        {
+          "path": "nor_gl.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rusty_metal_04/rusty_metal_04_nor_gl_1k.jpg",
+          "md5": "25f7f28b3546391532a5567b86e65aeb"
+        },
+        {
+          "path": "Rough.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rusty_metal_04/rusty_metal_04_rough_1k.jpg",
+          "md5": "177da306d0543cc56c2df6b51e3d5a8b"
+        },
+        {
+          "path": "Metal.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rusty_metal_04/rusty_metal_04_metal_1k.jpg",
+          "md5": "83e8f5bfd2cf1e44faa252afecf688a3"
+        }
+      ]
+    }
+  ],
+  "shipped_files": [
+    {
+      "path": "models/archive_rack.glb",
+      "bytes": 1064932,
+      "sha256": "2accb3899d6a4b997d74980c31dc604613851a1ed794fbfcde88b321ef0996bb"
+    },
+    {
+      "path": "models/archive_table.glb",
+      "bytes": 110528,
+      "sha256": "167a6aafc3053a1a237039c04822888a16b406cdd98fc9493417811ba9f47478"
+    },
+    {
+      "path": "models/blast_door.glb",
+      "bytes": 145544,
+      "sha256": "11be35cb55e076b98fd5a40424f227787e41cd3b94c32a19a3da6ae922ddbf44"
+    },
+    {
+      "path": "models/caged_lamp.glb",
+      "bytes": 2341228,
+      "sha256": "311d3ae3aa9c762fc33bd2c603c8a8f05d5f3771d154701622eaba1b23d57c5d"
+    },
+    {
+      "path": "models/caged_lamp_industrial_caged_sconce_arm_1k.jpg",
+      "bytes": 770330,
+      "sha256": "e26d1438541367d9899a56d77d5e1852dc3035222abb431bba780b721fbc7cbe"
+    },
+    {
+      "path": "models/caged_lamp_industrial_caged_sconce_diff_1k.jpg",
+      "bytes": 621431,
+      "sha256": "3f6e0006d15a49e144a98b679d4ba1d0af52bb578f01c5ecd4b663837a4ac08c"
+    },
+    {
+      "path": "models/caged_lamp_industrial_caged_sconce_emissive_1k.jpg",
+      "bytes": 49946,
+      "sha256": "0cedf24e7ca8589b3598101ed571e8db51ae4985b45d46326adc7acd5d3ba82d"
+    },
+    {
+      "path": "models/caged_lamp_industrial_caged_sconce_nor_gl_1k.jpg",
+      "bytes": 715927,
+      "sha256": "7253ba8d4bcca20479a8bf18e2e2b3fb47b319f5339f40eaffba3677d9886314"
+    },
+    {
+      "path": "models/command_board.glb",
+      "bytes": 62368,
+      "sha256": "dc94d574b45155ed751f38ffcbec03a27ea367641568b987accd4e507a57c102"
+    },
+    {
+      "path": "models/comms_console.glb",
+      "bytes": 394412,
+      "sha256": "85e51206a4c028e81372924c213a71d984fee75287bc70ce9ad641e220d8dcbe"
+    },
+    {
+      "path": "models/fence_panel.glb",
+      "bytes": 4673656,
+      "sha256": "5d02fcc68932309590d0fa80bd20d4651b098ad67fccf13eca881948967119f7"
+    },
+    {
+      "path": "models/fence_panel_modular_chainlink_fence_posts_arm_1k.jpg",
+      "bytes": 839858,
+      "sha256": "1694ecc2746ddaa93951ea5d2f2b830f544adf929f7ac9fae855f8b8fdfbad50"
+    },
+    {
+      "path": "models/fence_panel_modular_chainlink_fence_posts_diff_1k.jpg",
+      "bytes": 707116,
+      "sha256": "ec273fedef04fbcac26460b996beeeceeff3f91c1bea73ed2c6db1d0fdb30b73"
+    },
+    {
+      "path": "models/fence_panel_modular_chainlink_fence_posts_nor_gl_1k.jpg",
+      "bytes": 505743,
+      "sha256": "b43b8214c90a55bb84222d2a27430b31080d68dc14879632b86dbd316cb5f060"
+    },
+    {
+      "path": "models/fence_panel_modular_chainlink_fence_wire_arm_1k.jpg",
+      "bytes": 694743,
+      "sha256": "88af8364890b0645cd730eca11b30e6cd1c7578ad3aa1f012bb84915b9be5a03"
+    },
+    {
+      "path": "models/fence_panel_modular_chainlink_fence_wire_nor_gl_1k.jpg",
+      "bytes": 664165,
+      "sha256": "5cbf280f80e948de2422f0bb2fe2223a3b6f8e6fc75f54b00cd8d3e070938230"
+    },
+    {
+      "path": "models/field_desk.glb",
+      "bytes": 233188,
+      "sha256": "51c9204a3bf3a19ff75fffc6c8d41562bc130b177c17670a5f75d23560d90e9e"
+    },
+    {
+      "path": "models/floodlight.glb",
+      "bytes": 69016,
+      "sha256": "8a4131ee049eadf6c19f0b65ef71a23fd3d1e2ded54b0ac9e9da70cf7488b987"
+    },
+    {
+      "path": "models/fuel_drum.glb",
+      "bytes": 57124,
+      "sha256": "b4dd353bea526477582b56937014d0584795b5394a3772ac51186ea34112f25c"
+    },
+    {
+      "path": "models/locker.glb",
+      "bytes": 142348,
+      "sha256": "9149291ad9954bae6dd5311bba0ee99becfe37aa5a4f57e3495958f62eb4339f"
+    },
+    {
+      "path": "models/pipe_straight.glb",
+      "bytes": 2121192,
+      "sha256": "3db97fe16b9e613cc450e4439ffc0bf3994006e2d251fccac79456ccb851fa46"
+    },
+    {
+      "path": "models/pipe_straight_modular_industrial_pipes_01_group01_arm_1k.jpg",
+      "bytes": 860825,
+      "sha256": "7fff7d4604491eeb7531ad5f7520517015c72ec7316d1e865d62f23f976dfed6"
+    },
+    {
+      "path": "models/pipe_straight_modular_industrial_pipes_01_group01_diff_1k.jpg",
+      "bytes": 553576,
+      "sha256": "c0233f66b18e3374dfbbb8c8078a41f6571a0809d3eb14dd9d3c332265cfde7b"
+    },
+    {
+      "path": "models/pipe_straight_modular_industrial_pipes_01_group01_nor_gl_1k.jpg",
+      "bytes": 674568,
+      "sha256": "ed4728fde567efe420e3a6e1bdc4238b26c2782218737c7e2de88eeca1e91fb2"
+    },
+    {
+      "path": "models/pipe_valve.glb",
+      "bytes": 2127852,
+      "sha256": "d854b3946d0048f18e8dd3a0707c5e7376adb383abfba94e3280f0016676e1b0"
+    },
+    {
+      "path": "models/pipe_valve_modular_industrial_pipes_01_group01_arm_1k.jpg",
+      "bytes": 860825,
+      "sha256": "7fff7d4604491eeb7531ad5f7520517015c72ec7316d1e865d62f23f976dfed6"
+    },
+    {
+      "path": "models/pipe_valve_modular_industrial_pipes_01_group01_diff_1k.jpg",
+      "bytes": 553576,
+      "sha256": "c0233f66b18e3374dfbbb8c8078a41f6571a0809d3eb14dd9d3c332265cfde7b"
+    },
+    {
+      "path": "models/pipe_valve_modular_industrial_pipes_01_group01_nor_gl_1k.jpg",
+      "bytes": 674568,
+      "sha256": "ed4728fde567efe420e3a6e1bdc4238b26c2782218737c7e2de88eeca1e91fb2"
+    },
+    {
+      "path": "models/sandbags.glb",
+      "bytes": 122068,
+      "sha256": "02ff98513bab0fe504c5228fb229748f26d34bc7fb4656fe4399e5f2b164f777"
+    },
+    {
+      "path": "models/soldier_arm.glb",
+      "bytes": 42436,
+      "sha256": "97f10142826b3cba020939167462b7a8cb725899baa478288bceebc4bb57bb19"
+    },
+    {
+      "path": "models/soldier_boot.glb",
+      "bytes": 69000,
+      "sha256": "0d99af36831805dba85b8bb29ebabb371697494fc42c692da01e05ee03194edf"
+    },
+    {
+      "path": "models/soldier_hand.glb",
+      "bytes": 14680,
+      "sha256": "90b548d68c8827604977c42a4649223a1c916eb5701fb6e060bb9608fee4f11a"
+    },
+    {
+      "path": "models/soldier_head.glb",
+      "bytes": 130240,
+      "sha256": "151273b21681ff81833084011e777e4b7fb84b32a83ef46228e0fe0f9a4fc0aa"
+    },
+    {
+      "path": "models/soldier_leg.glb",
+      "bytes": 40892,
+      "sha256": "251d65f4427dfcb39185ba46a8aeff6b5b03d1df020d56f96710131948fad2d8"
+    },
+    {
+      "path": "models/soldier_pelvis.glb",
+      "bytes": 14680,
+      "sha256": "eea3f28ab392b7daa30e3c2eb3a444d2fdfaf727302192f4b0af26a84507faf6"
+    },
+    {
+      "path": "models/soldier_torso.glb",
+      "bytes": 177300,
+      "sha256": "1834954b53194618f7a1a1510de5910b8e6da0ff0915eda10769c921fe298273"
+    },
+    {
+      "path": "models/supply_crate.glb",
+      "bytes": 217216,
+      "sha256": "4b1d0d48965bbd5c204a393f066796c3e55812919b3a872615ef5085603c3864"
+    },
+    {
+      "path": "textures/asphalt_02/Diffuse.jpg",
+      "bytes": 731707,
+      "sha256": "1aa5ce99f58a625c71d48cfc3e68b65ca85ccb00f39e045c0a928608a0ea25ed"
+    },
+    {
+      "path": "textures/asphalt_02/nor_gl.jpg",
+      "bytes": 1240122,
+      "sha256": "42a1c381b53204e83a982db2864479a30bc127bbdeebb1006f8ee51bff099df3"
+    },
+    {
+      "path": "textures/asphalt_02/Rough.jpg",
+      "bytes": 544032,
+      "sha256": "70ba3edc65525eb4dc366cf010ca7ae0bd34e0251ff0225c2dad627a873d0712"
+    },
+    {
+      "path": "textures/concrete_floor_02/Diffuse.jpg",
+      "bytes": 776097,
+      "sha256": "6db84a6d87dc50508b9d134d6fbd2b7e876b8081a5f43a118a249ca18de73af5"
+    },
+    {
+      "path": "textures/concrete_floor_02/nor_gl.jpg",
+      "bytes": 192757,
+      "sha256": "fcda391b57a816d646ae15544688be53790478da5cd48dbe514b3c6901415e61"
+    },
+    {
+      "path": "textures/concrete_floor_02/Rough.jpg",
+      "bytes": 318550,
+      "sha256": "c7f026a611b7859903c61ec7fd4574944157223e9e7796413dd6e2a66eaeac7a"
+    },
+    {
+      "path": "textures/concrete_wall_001/Diffuse.jpg",
+      "bytes": 79320,
+      "sha256": "c3c936da86d57997d9fc4022371c3798c8d438aeecb8f41546104da6d3947c02"
+    },
+    {
+      "path": "textures/concrete_wall_001/nor_gl.jpg",
+      "bytes": 179270,
+      "sha256": "6f10711d123c8dff26375555196eae9e16d874c137acdacd44d1ba90168b6d46"
+    },
+    {
+      "path": "textures/concrete_wall_001/Rough.jpg",
+      "bytes": 156479,
+      "sha256": "d0964c690a8de99fb4f6657e0d3474eea9f9f293d080f4e5c871a55857d9448b"
+    },
+    {
+      "path": "textures/corrugated_iron/Diffuse.jpg",
+      "bytes": 719557,
+      "sha256": "7f3649dd0d056a55a910146f09b1d5298370696a90f511a255fb4c5715bb4b58"
+    },
+    {
+      "path": "textures/corrugated_iron/Metal.jpg",
+      "bytes": 251113,
+      "sha256": "9891bffb56bc778aa71568e7d050f4cd0c4b7a90e31b8e57340dec50255f6f70"
+    },
+    {
+      "path": "textures/corrugated_iron/nor_gl.jpg",
+      "bytes": 755185,
+      "sha256": "e98b839ae681ba929eb80f07348c70d0731b48239abe69268effab18420cd271"
+    },
+    {
+      "path": "textures/corrugated_iron/Rough.jpg",
+      "bytes": 455677,
+      "sha256": "1addcfc0210fc101f9f12c8e4dbd7a7d2642a5ef76699a8a485f00b5476af357"
+    },
+    {
+      "path": "textures/rusty_metal_04/Diffuse.jpg",
+      "bytes": 938338,
+      "sha256": "37c6757c5b6b2229f61423c7e5013f970e4dafb48070d35f53ed6d08958ed288"
+    },
+    {
+      "path": "textures/rusty_metal_04/Metal.jpg",
+      "bytes": 887365,
+      "sha256": "090689c9cc3d30f4d1a89dd1160fb85cec04d3492f75695bdc83bbb80b6ad30f"
+    },
+    {
+      "path": "textures/rusty_metal_04/nor_gl.jpg",
+      "bytes": 896980,
+      "sha256": "9c432bee334e65e73ff0b20676dd3f0efbed3f91d261a13dc03b9c8c1a4f4eec"
+    },
+    {
+      "path": "textures/rusty_metal_04/Rough.jpg",
+      "bytes": 686008,
+      "sha256": "02c2fe5dfd5f4f7a692659261b8c99e103f33fb1a4c363c3e763542fae32d4fe"
+    }
+  ]
+}

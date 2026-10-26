@@ -7,6 +7,8 @@ const NAV := BASE + "resources/k17_navmesh.tres"
 const Mission := preload("res://maps/intelligence/scripts/mission_controller.gd")
 const PLAYER := preload("res://shared/scenes/player/player.tscn")
 const GUARD := preload("res://shared/scenes/npc/guard.tscn")
+const Art := preload("res://maps/intelligence/tools/k17_art_builder.gd")
+const ART_SCENE := BASE + "scenes/environment/k17_environment.tscn"
 const WALL := Color(0.32, 0.37, 0.36)
 const METAL := Color(0.16, 0.22, 0.22)
 const CRATE := Color(0.34, 0.32, 0.19)
@@ -23,19 +25,22 @@ func _init() -> void:
 func _build() -> void:
 	level = Node3D.new()
 	level.name = "IntelligenceK17"
-	level.set_meta("map_version", "v1")
+	level.set_meta("map_version", "v2-art")
 	var region := NavigationRegion3D.new()
 	region.name = "NavigationRegion3D"
 	var nav := NavigationMesh.new()
 	nav.geometry_parsed_geometry_type = NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS
-	nav.geometry_collision_mask = 1
+	nav.geometry_collision_mask = 17
 	nav.agent_height = 2.0
 	nav.agent_radius = 0.5
 	nav.region_min_size = 2.0
 	region.navigation_mesh = nav
 	_add(level, region)
 	_geometry(region)
-	_environment()
+	if not _build_environment(region):
+		level.free()
+		quit(1)
+		return
 	root.add_child(level)
 	region.bake_navigation_mesh(false)
 	if nav.get_polygon_count() == 0 or ResourceSaver.save(nav, NAV, ResourceSaver.FLAG_CHANGE_PATH) != OK:
@@ -51,13 +56,18 @@ func _build() -> void:
 		push_error("K17: scene save failed")
 		quit(1)
 		return
-	print("K17 BUILT: ", nav.get_polygon_count(), " navmesh polygons, 4 shared guards, 2 approaches/exits")
+	print("K17 BUILT: ", nav.get_polygon_count(), " navmesh polygons, 4 military appearances on shared guards, 2 approaches/exits")
 	level.free()
 	quit(0)
 
 
 func _geometry(parent: Node) -> void:
 	_box(parent, "Ground", Vector3(0, -0.2, 1), Vector3(48, 0.4, 60), Color(0.20, 0.24, 0.22))
+	# A real sight blocker beside (not inside) the west rally point protects the spawn.
+	_box(parent, "EntryCover", Vector3(-13.2, 1.1, 25.1), Vector3(1.6, 2.2, 2.0), CRATE)
+	_box(parent,"VehicleBarrier",Vector3(0,.6,23.6),Vector3(6.6,1.2,.5),METAL)
+	for z in [17.8,19.0]:
+		_box(parent,"FuelDrum"+str(z),Vector3(-22,.55,z),Vector3(.83,1.1,.83),METAL)
 	# Compound boundary and interior walls: all static colliders are baked.
 	_box(parent, "BoundaryWest", Vector3(-24, 1.6, 1), Vector3(0.4, 3.2, 60), METAL)
 	_box(parent, "BoundaryEast", Vector3(24, 1.6, 1), Vector3(0.4, 3.2, 60), METAL)
@@ -71,6 +81,12 @@ func _geometry(parent: Node) -> void:
 	_wall_v(parent, "East", 20, -24, 14, [])
 	_wall_v(parent, "GuardRoomPartition", -4, 0, 14, [Vector2(5.2, 8.8)])
 	_wall_v(parent, "ServicePartition", 12, 0, 14, [Vector2(5.2, 8.8)])
+	# Separate communications bay, controlled corridor and archive service aisles.
+	_wall_h(parent,"CommsSouth",9.5,-4,12,[Vector2(-1.8,1.8)])
+	_wall_h(parent,"CommsNorth",4.7,-4,12,[Vector2(2.2,5.8)])
+	_wall_v(parent,"ArchiveServiceWall",12,-24,0,[])
+	_wall_v(parent,"ArchiveEastAisle",8,-24,-8,[Vector2(-22,-18)])
+	_wall_v(parent,"ArchiveWestBay",-12,-24,0,[Vector2(-21,-17),Vector2(-7,-3)])
 	# Guard room desk, communications consoles and archive racks.
 	_box(parent, "PassDesk", Vector3(-12, 0.4, 4), Vector3(2.8, 0.8, 1.2), METAL)
 	_box(parent, "ArchiveDesk", Vector3(4, 0.45, -20), Vector3(2.4, 0.9, 1.2), METAL)
@@ -80,7 +96,7 @@ func _geometry(parent: Node) -> void:
 		_box(parent, "ArchiveRackLeft" + str(z), Vector3(-8, 1.2, z), Vector3(5.5, 2.4, 1.2), METAL)
 		_box(parent, "ArchiveRackRight" + str(z), Vector3(3, 1.2, z), Vector3(5.5, 2.4, 1.2), METAL)
 	_box(parent, "CheckpointCover", Vector3(8, 1.2, -2.7), Vector3(3.8, 2.4, 1.0), METAL)
-	_box(parent, "Terminal", Vector3(5, 0.65, 8), Vector3(3, 1.3, 1.2), METAL)
+	_box(parent, "Terminal", Vector3(5, 0.65, 11.5), Vector3(3, 1.3, 1.2), METAL)
 	for pos in [Vector3(-8, 0.65, 17), Vector3(2, 0.65, 19), Vector3(11, 0.65, 16.5), Vector3(-17, 0.65, 11)]:
 		_box(parent, "SupplyCrate" + str(pos), pos, Vector3(2.8, 1.3, 1.5), CRATE)
 	for z in [3.0, 10.0]:
@@ -104,35 +120,36 @@ func _geometry(parent: Node) -> void:
 		_paint(parent, "ExtractionPost" + str(x), Vector3(x + 1.6, 1, 27), Vector3(0.15, 2, 0.15), CYAN)
 
 
-func _environment() -> void:
-	var world := WorldEnvironment.new()
-	world.name = "WorldEnvironment"
-	var env := Environment.new()
-	env.background_mode = Environment.BG_COLOR
-	env.background_color = Color(0.055, 0.085, 0.12)
-	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color(0.63, 0.72, 0.82)
-	env.ambient_light_energy = 0.65
-	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	world.environment = env
-	_add(level, world)
-	var moon := DirectionalLight3D.new()
-	moon.name = "Moon"
-	moon.rotation_degrees = Vector3(-55, -30, 0)
-	moon.light_color = Color(0.65, 0.76, 0.9)
-	moon.light_energy = 0.8
-	moon.shadow_enabled = true
-	_add(level, moon)
-	_light(level, "YardLamp", Vector3(0, 6, 18), Color(1, 0.82, 0.54), 28, 2)
-	_light(level, "GuardRoomLamp", Vector3(-12, 3, 7), Color(1, 0.85, 0.62), 14, 1.2)
-	_light(level, "CommsLamp", Vector3(5, 3, 7), Color(0.65, 0.85, 1), 14, 1.2)
-	_light(level, "ArchiveLamp", Vector3(0, 4, -12), Color(0.55, 0.75, 1), 25, 1.5, true)
+func _build_environment(region: NavigationRegion3D) -> bool:
+	# Navigation/collision remain explicit. Art has its own editable scene and UVs.
+	for node in region.find_children("*", "VisualInstance3D", true, false):
+		node.visible = false
+	for node in region.find_children("*", "Light3D", true, false):
+		node.visible = false
+	for node in region.get_children():
+		if node is StaticBody3D and str(node.name).begins_with("Fence"):
+			node.collision_layer = 16 # Movement barrier; shared sight_mask 3 sees through wire.
+	# Preserve hand edits AND baked lightmaps on a normal gameplay/nav rebuild.
+	# Art regeneration is an explicit authoring operation and requires another bake.
+	if not FileAccess.file_exists(ART_SCENE) or "--rebuild-art" in OS.get_cmdline_user_args():
+		var art := Art.new().build(region)
+		var packed := PackedScene.new()
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(ART_SCENE.get_base_dir()))
+		if packed.pack(art) != OK or ResourceSaver.save(packed, ART_SCENE) != OK:
+			push_error("K17: environment scene could not be saved")
+			art.free()
+			return false
+		art.free()
+	var instance := (load(ART_SCENE) as PackedScene).instantiate()
+	_add(level, instance)
+	return true
 
 
 func _actors() -> void:
 	var player := PLAYER.instantiate() as FirstPersonPlayer
 	player.name = "Player"
 	player.position = Vector3(-16, 0.05, 27)
+	player.collision_mask |= 16
 	_add(level, player)
 	var routes := _group(level, "PatrolRoutes")
 	var guards := _group(level, "Guards")
@@ -158,7 +175,9 @@ func _actors() -> void:
 		guard.rotation.y = -PI / 2.0
 		guard.patrol_route = route
 		guard.checkpoint_snapshot = true
+		guard.collision_mask |= 16
 		_add(guards, guard)
+		guard.set_meta("appearance", "k17_military")
 
 
 func _gameplay() -> void:
@@ -179,7 +198,7 @@ func _gameplay() -> void:
 		trigger.objective_id = Mission.ENTER
 		_add(gameplay, trigger)
 		_shape(trigger, Vector3(5, 2, 3))
-	_pickup(gameplay, "AccessPass", Mission.PASS, Vector3(-12, 1.1, 4), "Lấy giấy thông hành", "Vào cơ sở trước", GOLD, Vector3(0.4, 0.035, 0.26))
+	_pickup(gameplay, "AccessPass", Mission.PASS, Vector3(-12, 0.84, 4), "Lấy giấy thông hành", "Vào cơ sở trước", Color("c1b893"), Vector3(0.4, 0.035, 0.26))
 	_pickup(gameplay, "IntelligenceFile", Mission.FILE, Vector3(4, 1.15, -20), "Lấy Mật lệnh 04 — bắt đầu 120 giây", "Đến ô checkpoint trước khi thu hồi hồ sơ", Color(0.8, 0.25, 0.12), Vector3(0.5, 0.08, 0.35))
 	var door := AccessDoor.new()
 	door.name = "ArchiveDoor"
@@ -190,7 +209,18 @@ func _gameplay() -> void:
 	door.key_name = "giấy thông hành"
 	_add(gameplay, door)
 	_shape(door, Vector3(3.6, 2.4, 1.0))
-	_box(door, "Panel", Vector3.ZERO, Vector3(3.5, 2.4, 0.2), METAL)
+	var panel := _box(door, "Panel", Vector3.ZERO, Vector3(3.5, 2.4, 0.2), METAL)
+	panel.get_node("Mesh").free()
+	var hinge := Node3D.new()
+	hinge.name = "DoorHinge"
+	hinge.position.x = -1.72
+	_add(panel,hinge)
+	var door_art := (load(BASE+"assets/models/blast_door.glb") as PackedScene).instantiate()
+	door_art.position.x = 1.72
+	door_art.rotation.y = PI
+	_add(hinge, door_art)
+	door.leaf_paths = [NodePath("Panel/DoorHinge")]
+	door.leaf_open_angles = PackedFloat32Array([90.0])
 	var cp := _script(gameplay, "ArchiveCheckpoint", Area3D.new(), BASE + "scripts/mission_checkpoint.gd") as Checkpoint
 	cp.position = Vector3(8, 1, -6)
 	cp.checkpoint_name = "Điểm chuẩn bị K17"
@@ -200,7 +230,7 @@ func _gameplay() -> void:
 	spawn.position = Vector3(0, -0.95, 0)
 	spawn.rotation.y = PI / 2
 	_add(cp, spawn)
-	_paint(cp, "Pad", Vector3(0, -0.97, 0), Vector3(2.4, 0.02, 2.4), CYAN)
+	# Ground markings, sign and radio position live in the environment scene.
 	for i in 2:
 		var zone := _script(gameplay, "Extraction%d" % i, Area3D.new(), BASE + "scripts/extraction_zone.gd") as Area3D
 		zone.position = Vector3(-16 if i == 0 else 16, 1, 27)
@@ -218,6 +248,7 @@ func _systems() -> void:
 		["GameFlow", Node.new(), "res://shared/scripts/game/game_flow.gd"],
 		["GameMenus", CanvasLayer.new(), "res://shared/scripts/ui/game_menus.gd"],
 		["AudioDirector", Node.new(), "res://shared/scripts/presentation/audio_director.gd"],
+		["MilitaryAppearance", Node.new(), BASE+"scripts/military_appearance.gd"],
 	]:
 		var node := _script(level, entry[0], entry[1], entry[2])
 		if node is GameMenus:
@@ -240,7 +271,16 @@ func _pickup(parent: Node, node_name: String, id: StringName, pos: Vector3, prom
 	_shape(item, Vector3(0.8, 0.5, 0.8))
 	var model := _group(item, "Model")
 	_paint(model, "Mesh", Vector3.ZERO, size, colour)
-	_label(model, "Label", "GIẤY THÔNG HÀNH" if id == Mission.PASS else "MẬT LỆNH 04", Vector3(0, 0.45, 0), colour)
+	var stencil := Label3D.new()
+	stencil.name = "DocumentStamp"
+	stencil.text = "K17 / PASS" if id == Mission.PASS else "MẬT LỆNH 04"
+	stencil.position.y = size.y/2+.002
+	stencil.rotation.x = -PI/2
+	stencil.font_size = 24
+	stencil.pixel_size = .0010
+	stencil.outline_size = 0
+	stencil.modulate = Color("1e2829")
+	_add(model, stencil)
 
 
 func _wall_h(parent: Node, prefix: String, z: float, left: float, right: float, gaps: Array, colour := WALL, height := 3.2) -> void:

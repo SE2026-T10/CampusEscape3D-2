@@ -1,0 +1,29 @@
+[remap]
+
+importer="2d_array_texture"
+type="CompressedTexture2DArray"
+uid="uid://fkkftfqvlw0a"
+path.bptc="res://.godot/imported/k17_lightmap.exr-5f3c1d587b0222d2c83a54ab3777c042.bptc.ctexarray"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://maps/intelligence/resources/k17_lightmap.exr"
+dest_files=["res://.godot/imported/k17_lightmap.exr-5f3c1d587b0222d2c83a54ab3777c042.bptc.ctexarray"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
+compress/hdr_compression=1
+compress/channel_pack=1
+mipmaps/generate=false
+mipmaps/limit=-1
+slices/horizontal=1
+slices/vertical=4

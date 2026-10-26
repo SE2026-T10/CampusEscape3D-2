@@ -46,4 +46,11 @@ fi
 if grep -qE "SCRIPT ERROR|^ERROR|^WARNING" ci-logs/map_flow.log; then
   echo "::error::Errors or warnings during the map-selection run"; grep -E -A2 "SCRIPT ERROR|^ERROR|^WARNING" ci-logs/map_flow.log; exit 1
 fi
+
+echo "Checking K17 art, shared HUD opt-in and sight-transparent barriers"
+timeout 120 "$GODOT" --headless --path . --script res://maps/intelligence/tools/check_art.gd > ci-logs/k17_art.log 2>&1 || {
+  echo "::error::K17 art integration failed"; cat ci-logs/k17_art.log; exit 1; }
+if ! grep -qE "^K17 ART CHECKS: [0-9]+ checks; 0 failures" ci-logs/k17_art.log || grep -qE "SCRIPT ERROR|^ERROR|^WARNING" ci-logs/k17_art.log; then
+  echo "::error::K17 art integration has failures or resource warnings"; cat ci-logs/k17_art.log; exit 1
+fi
 echo "TESTS PASSED"

@@ -1,0 +1,7 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 581.15 - Compatibility - Using Device: NVIDIA - Quadro P1000
+
+K17 LIVE RENDER {"draw_calls":3832.0,"frames":497,"median_fps":109.974705817662,"median_ms":9.093,"p95_ms":14.847,"primitives":846796.0,"video_memory_bytes":345395969.0,"view":"yard"}
+K17 LIVE RENDER {"draw_calls":2165.0,"frames":658,"median_fps":134.336378291241,"median_ms":7.444,"p95_ms":10.153,"primitives":432712.0,"video_memory_bytes":354897373.0,"view":"corridor"}
+K17 LIVE RENDER {"draw_calls":484.0,"frames":847,"median_fps":178.316690442225,"median_ms":5.608,"p95_ms":8.664,"primitives":218498.0,"video_memory_bytes":354897453.0,"view":"archive"}
+K17 LIVE RENDER {"draw_calls":496.0,"frames":849,"median_fps":175.162024873008,"median_ms":5.709,"p95_ms":7.808,"primitives":228108.0,"video_memory_bytes":354896845.0,"view":"alarm"}
