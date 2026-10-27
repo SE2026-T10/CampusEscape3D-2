@@ -1,0 +1,410 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3200" height="1840" viewBox="0 0 3200 1840">
+<title>Bảo tàng — bản thiết kế mặt bằng hai tầng</title>
+<desc>Map game hư cấu. Kích thước ngoài 36 x 30 m; sân trong 12 x 12 m; hành lang 3 m. Tầng 1 và tầng 2 cùng hướng bắc.</desc>
+<rect x='0' y='0' width='3200' height='1840' fill='#101D2B' stroke='none' stroke-width='1'/>
+<text x='80' y='60' font-family='Segoe UI,Arial,sans-serif' font-size='23' font-weight='700' text-anchor='start' dominant-baseline='central' fill='#6ED6CB'>CAMPUS ESCAPE 3D  /  MUSEUM CONCEPT 01</text>
+<text x='80' y='124' font-family='Segoe UI,Arial,sans-serif' font-size='58' font-weight='700' text-anchor='start' dominant-baseline='central' fill='#EFF5F6'>ĐÊM Ở BẢO TÀNG</text>
+<text x='82' y='184' font-family='Segoe UI,Arial,sans-serif' font-size='27' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#91A8B9'>Mặt bằng chơi thử  •  Hai tầng quanh sân trong  •  Ba tác phẩm chính  •  Một đường thoát bằng dây</text>
+<text x='3115' y='112' font-family='Segoe UI,Arial,sans-serif' font-size='42' font-weight='700' text-anchor='end' dominant-baseline='central' fill='#EFF5F6'>36 × 30 m</text>
+<text x='3115' y='165' font-family='Segoe UI,Arial,sans-serif' font-size='23' font-weight='400' text-anchor='end' dominant-baseline='central' fill='#91A8B9'>Sân 12 × 12 m  /  Hành lang 3 m</text>
+<rect x='70' y='240' width='1470' height='1195' fill='#172839' stroke='none' stroke-width='1'/>
+<text x='100' y='285' font-family='Segoe UI,Arial,sans-serif' font-size='32' font-weight='700' text-anchor='start' dominant-baseline='central' fill='#EFF5F6'>01  TẦNG 1</text>
+<text x='350' y='287' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#91A8B9'>Cao độ +0,00 m · Xâm nhập &amp; tìm chìa khóa</text>
+<polyline points='175,345 1327,345' fill='none' stroke='#6C8496' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='175,337 175,353' fill='none' stroke='#6C8496' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1327,337 1327,353' fill='none' stroke='#6C8496' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round' />
+<rect x='700' y='327' width='102' height='33' fill='#172839' stroke='none' stroke-width='1'/>
+<text x='751' y='343' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#91A8B9'>36 m</text>
+<polyline points='137,375 137,1335' fill='none' stroke='#6C8496' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round' />
+<text x='110' y='855' font-family='Segoe UI,Arial,sans-serif' font-size='18' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#91A8B9'>30 m</text>
+<polyline points='1415,408 1415,351' fill='none' stroke='#A5BBC8' stroke-width='3' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1405,365 1415,345 1425,365' fill='none' stroke='#A5BBC8' stroke-width='3' stroke-linejoin='round' stroke-linecap='round' />
+<text x='1415' y='328' font-family='Segoe UI,Arial,sans-serif' font-size='18' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#91A8B9'>BẮC</text>
+<rect x='175' y='375' width='1152' height='960' fill='#ECE9DF' stroke='none' stroke-width='1'/>
+<rect x='175' y='375' width='864' height='192' fill='#E9DFCD' stroke='none' stroke-width='1'/>
+<rect x='1039' y='375' width='288' height='192' fill='#DAE3E7' stroke='none' stroke-width='1'/>
+<rect x='175' y='567' width='288' height='576' fill='#D6DFDB' stroke='none' stroke-width='1'/>
+<rect x='1039' y='567' width='288' height='384' fill='#DAE2E4' stroke='none' stroke-width='1'/>
+<rect x='175' y='1143' width='288' height='192' fill='#DAE3E7' stroke='none' stroke-width='1'/>
+<rect x='463' y='1143' width='576' height='192' fill='#E4DED4' stroke='none' stroke-width='1'/>
+<rect x='1039' y='951' width='288' height='192' fill='#D9E0DE' stroke='none' stroke-width='1'/>
+<rect x='1039' y='1143' width='288' height='192' fill='#D8E0E2' stroke='none' stroke-width='1'/>
+<rect x='559' y='663' width='384' height='384' fill='#B8CBB8' stroke='none' stroke-width='1'/>
+<rect x='591' y='695' width='320' height='320' fill='#CCD8C3' stroke='none' stroke-width='1'/>
+<rect x='736.6' y='663' width='28.8' height='384' fill='#E6DEC8' stroke='none' stroke-width='1'/>
+<rect x='559' y='840.6' width='384' height='28.8' fill='#E6DEC8' stroke='none' stroke-width='1'/>
+<circle cx='751' cy='855' r='63' fill='#9DBCB8' stroke='#E2E7D7' stroke-width='9'/>
+<circle cx='751' cy='855' r='20' fill='#C6D6CB' stroke='none' stroke-width='2'/>
+<circle cx='623' cy='727' r='24' fill='#719785' stroke='#90AB96' stroke-width='6'/>
+<circle cx='879' cy='727' r='24' fill='#719785' stroke='#90AB96' stroke-width='6'/>
+<circle cx='623' cy='983' r='24' fill='#719785' stroke='#90AB96' stroke-width='6'/>
+<circle cx='879' cy='983' r='24' fill='#719785' stroke='#90AB96' stroke-width='6'/>
+<polyline points='559,663 943,663' fill='none' stroke='#758F8F' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='559,663 559,1047' fill='none' stroke='#758F8F' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='943,663 943,1047' fill='none' stroke='#758F8F' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='559,1047 719,1047' fill='none' stroke='#758F8F' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='783,1047 943,1047' fill='none' stroke='#758F8F' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='175,375 1327,375' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='175,375 175,1335' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1327,375 1327,1335' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='175,1335 719,1335' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='783,1335 1327,1335' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='175,567 623,567' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='687,567 879,567' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='943,567 1327,567' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='629.4,567 629.4,608.6' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='629.4,608.6 667.8,608.6' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='885.4,567 885.4,608.6' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='885.4,608.6 923.8,608.6' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='1039,375 1039,439' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1039,503 1039,567' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1039,445.4 1080.6,445.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1080.6,445.4 1080.6,483.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='463,567 463,637.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='463,688.6 463,957.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='463,1008.6 463,1143' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='463,637.4 504.6,637.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='504.6,637.4 504.6,675.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='463,957.4 504.6,957.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='504.6,957.4 504.6,995.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='1039,567 1039,669.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1039,720.6 1039,829.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1039,669.4 1080.6,669.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1080.6,669.4 1080.6,707.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='1039,880.6 1039,1021.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1039,1072.6 1039,1213.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1039,1264.6 1039,1335' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1039,829.4 1080.6,829.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1080.6,829.4 1080.6,867.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='1039,1021.4 1080.6,1021.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1080.6,1021.4 1080.6,1059.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='1039,1213.4 1080.6,1213.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1080.6,1213.4 1080.6,1251.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='1039,951 1327,951' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1039,1143 1327,1143' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='175,1143 712.6,1143' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='789.4,1143 1039,1143' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='725.4,1143 725.4,1184.6' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='725.4,1184.6 763.8,1184.6' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='463,1143 463,1213.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='463,1264.6 463,1335' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='463,1213.4 504.6,1213.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='504.6,1213.4 504.6,1251.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<rect x='207' y='1187.8' width='217.6' height='89.6' fill='#C5D0D6' stroke='#718694' stroke-width='2'/>
+<polyline points='207,1187.8 207,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='224.92,1187.8 224.92,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='242.84,1187.8 242.84,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='260.76,1187.8 260.76,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='278.68,1187.8 278.68,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='296.6,1187.8 296.6,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='314.52,1187.8 314.52,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='332.44,1187.8 332.44,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='350.36,1187.8 350.36,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='368.28,1187.8 368.28,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='386.2,1187.8 386.2,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='404.12,1187.8 404.12,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='223,1232.6 405.4,1232.6' fill='none' stroke='#354A59' stroke-width='2.5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='383,1219.8 405.4,1232.6 383,1245.4' fill='none' stroke='#354A59' stroke-width='2.5' stroke-linejoin='round' stroke-linecap='round' />
+<text x='319' y='1163.8' font-family='Segoe UI,Arial,sans-serif' font-size='21' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>THANG A</text>
+<text x='319' y='1301.4' font-family='Segoe UI,Arial,sans-serif' font-size='18' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#354A59'>LÊN T2</text>
+<rect x='1071' y='419.8' width='217.6' height='89.6' fill='#C5D0D6' stroke='#718694' stroke-width='2'/>
+<polyline points='1071,419.8 1071,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1088.92,419.8 1088.92,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1106.84,419.8 1106.84,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1124.76,419.8 1124.76,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1142.68,419.8 1142.68,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1160.6,419.8 1160.6,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1178.52,419.8 1178.52,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1196.44,419.8 1196.44,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1214.36,419.8 1214.36,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1232.28,419.8 1232.28,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1250.2,419.8 1250.2,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1268.12,419.8 1268.12,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1087,464.6 1269.4,464.6' fill='none' stroke='#354A59' stroke-width='2.5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1247,451.8 1269.4,464.6 1247,477.4' fill='none' stroke='#354A59' stroke-width='2.5' stroke-linejoin='round' stroke-linecap='round' />
+<text x='1183' y='395.8' font-family='Segoe UI,Arial,sans-serif' font-size='21' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>THANG B</text>
+<text x='1183' y='533.4' font-family='Segoe UI,Arial,sans-serif' font-size='18' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#354A59'>LÊN T2</text>
+<rect x='277.4' y='695' width='73.6' height='96' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='283.8' y='701.4' width='60.8' height='83.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='277.4' y='887' width='73.6' height='96' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='283.8' y='893.4' width='60.8' height='83.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='463' y='442.2' width='108.8' height='48' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='469.4' y='448.6' width='96' height='35.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='827.8' y='442.2' width='108.8' height='48' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='834.2' y='448.6' width='96' height='35.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='1135' y='695' width='96' height='64' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='1141.4' y='701.4' width='83.2' height='51.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='1103' y='999' width='54.4' height='96' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='1109.4' y='1005.4' width='41.6' height='83.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='1231' y='999' width='54.4' height='96' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='1237.4' y='1005.4' width='41.6' height='83.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='1103' y='1175' width='89.6' height='38.4' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='1109.4' y='1181.4' width='76.8' height='25.6' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<polyline points='399,663 511,663 511,1095 751,1095 751,1239 559,1239 751,1239 751,1095 511,1095 511,983 399,983 399,663' fill='none' stroke='#B7464C' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='12 8'/>
+<circle cx='399' cy='855' r='20' fill='#B7464C' stroke='#EFF5F6' stroke-width='2'/>
+<text x='399' y='855' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>G1</text>
+<polyline points='751,1367 751,1296.6 831,1296.6 831,1184.6 751,1184.6 751,1095 991,1095 991,855 1103,855 1183,855 1183,791' fill='none' stroke='#007F88' stroke-width='5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='991,855 991,615 655,615 655,499.8 984.6,499.8 984.6,471 1103,471' fill='none' stroke='#007F88' stroke-width='3' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='9 6'/>
+<polyline points='751,1296.6 511,1296.6 511,1239 424.6,1239' fill='none' stroke='#007F88' stroke-width='3' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='9 6'/>
+<polyline points='745.24,1328.6 751,1319 756.76,1328.6' fill='none' stroke='#007F88' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='901.4,1089.24 911,1095 901.4,1100.76' fill='none' stroke='#007F88' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='985.24,928.6 991,919 996.76,928.6' fill='none' stroke='#007F88' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<circle cx='1183' cy='791' r='21' fill='#E9A928' stroke='#EFF5F6' stroke-width='2'/>
+<text x='1183' y='791' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>K</text>
+<circle cx='751' cy='1357.4' r='21' fill='#6FD4C4' stroke='#EFF5F6' stroke-width='2'/>
+<text x='751' y='1357.4' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>S</text>
+<circle cx='1423' cy='1239' r='21' fill='#6FD4C4' stroke='#EFF5F6' stroke-width='2'/>
+<text x='1423' y='1239' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>L</text>
+<polyline points='1359,1239 1455,1239' fill='none' stroke='#6FD4C4' stroke-width='3' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='9 6'/>
+<text x='1423' y='1280.6' font-family='Segoe UI,Arial,sans-serif' font-size='17' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#B6C9D3'>SÂN NGOÀI</text>
+<text x='1423' y='1306.2' font-family='Segoe UI,Arial,sans-serif' font-size='15' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#91A8B9'>Điểm đáp dây</text>
+<text x='584.6' y='399' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>PHÒNG TRƯNG BÀY LỊCH SỬ</text>
+<text x='319' y='599' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>PHÒNG</text>
+<text x='319' y='624.6' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>ĐIÊU KHẮC</text>
+<text x='1183' y='595.8' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>NHÂN VIÊN</text>
+<text x='1183' y='621.4' font-family='Segoe UI,Arial,sans-serif' font-size='17' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#5D7480'>Chìa khóa phòng B</text>
+<text x='1183' y='973.4' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>KHO PHỤ</text>
+<text x='1183' y='1307.8' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>PHÒNG DỊCH VỤ</text>
+<text x='744.6' y='1309.4' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>SẢNH CHÍNH</text>
+<text x='751' y='762.2' font-family='Segoe UI,Arial,sans-serif' font-size='30' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#36584C'>SÂN TRONG</text>
+<text x='751' y='794.2' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#36584C'>12 × 12 m</text>
+<text x='751' y='925.4' font-family='Segoe UI,Arial,sans-serif' font-size='18' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#36584C'>Có thể đi vào</text>
+<text x='751' y='1399' font-family='Segoe UI,Arial,sans-serif' font-size='21' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#6FD4C4'>LỐI VÀO</text>
+<text x='751' y='1074.2' font-family='Segoe UI,Arial,sans-serif' font-size='16' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#607B83'>HÀNH LANG VÒNG · RỘNG 3 m</text>
+<text x='100' y='1390' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#91A8B9'>G1: điêu khắc + hành lang + sảnh</text>
+<rect x='1660' y='240' width='1470' height='1195' fill='#172839' stroke='none' stroke-width='1'/>
+<text x='1690' y='285' font-family='Segoe UI,Arial,sans-serif' font-size='32' font-weight='700' text-anchor='start' dominant-baseline='central' fill='#EFF5F6'>02  TẦNG 2</text>
+<text x='1940' y='287' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#91A8B9'>Cao độ +4,50 m · Lấy tác phẩm &amp; thoát</text>
+<polyline points='1765,345 2917,345' fill='none' stroke='#6C8496' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1765,337 1765,353' fill='none' stroke='#6C8496' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2917,337 2917,353' fill='none' stroke='#6C8496' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round' />
+<rect x='2290' y='327' width='102' height='33' fill='#172839' stroke='none' stroke-width='1'/>
+<text x='2341' y='343' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#91A8B9'>36 m</text>
+<polyline points='1727,375 1727,1335' fill='none' stroke='#6C8496' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round' />
+<text x='1700' y='855' font-family='Segoe UI,Arial,sans-serif' font-size='18' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#91A8B9'>30 m</text>
+<polyline points='3005,408 3005,351' fill='none' stroke='#A5BBC8' stroke-width='3' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2995,365 3005,345 3015,365' fill='none' stroke='#A5BBC8' stroke-width='3' stroke-linejoin='round' stroke-linecap='round' />
+<text x='3005' y='328' font-family='Segoe UI,Arial,sans-serif' font-size='18' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#91A8B9'>BẮC</text>
+<rect x='1765' y='375' width='1152' height='960' fill='#ECE9DF' stroke='none' stroke-width='1'/>
+<rect x='1765' y='375' width='864' height='192' fill='#E9DFCD' stroke='none' stroke-width='1'/>
+<rect x='2629' y='375' width='288' height='192' fill='#DAE3E7' stroke='none' stroke-width='1'/>
+<rect x='1765' y='567' width='288' height='576' fill='#D6DFDB' stroke='none' stroke-width='1'/>
+<rect x='2629' y='567' width='288' height='384' fill='#E5DBCB' stroke='none' stroke-width='1'/>
+<rect x='1765' y='1143' width='288' height='192' fill='#DAE3E7' stroke='none' stroke-width='1'/>
+<rect x='2053' y='1143' width='576' height='192' fill='#E4DED4' stroke='none' stroke-width='1'/>
+<rect x='2629' y='951' width='288' height='384' fill='#D9E0DE' stroke='none' stroke-width='1'/>
+<rect x='2149' y='663' width='384' height='384' fill='#273E4D' stroke='none' stroke-width='1'/>
+<rect x='2181' y='695' width='320' height='320' fill='#314C59' stroke='none' stroke-width='1'/>
+<circle cx='2341' cy='855' r='63' fill='#3C5C66' stroke='#54727A' stroke-width='3'/>
+<polyline points='2165,663 2165,671' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2165,1039 2165,1047' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2197,663 2197,671' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2197,1039 2197,1047' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2229,663 2229,671' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2229,1039 2229,1047' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2261,663 2261,671' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2261,1039 2261,1047' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2293,663 2293,671' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2293,1039 2293,1047' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2325,663 2325,671' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2325,1039 2325,1047' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2357,663 2357,671' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2357,1039 2357,1047' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2389,663 2389,671' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2389,1039 2389,1047' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2421,663 2421,671' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2421,1039 2421,1047' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2453,663 2453,671' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2453,1039 2453,1047' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2485,663 2485,671' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2485,1039 2485,1047' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2517,663 2517,671' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2517,1039 2517,1047' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,679 2157,679' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2525,679 2533,679' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,711 2157,711' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2525,711 2533,711' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,743 2157,743' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2525,743 2533,743' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,775 2157,775' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2525,775 2533,775' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,807 2157,807' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2525,807 2533,807' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,839 2157,839' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2525,839 2533,839' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,871 2157,871' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2525,871 2533,871' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,903 2157,903' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2525,903 2533,903' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,935 2157,935' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2525,935 2533,935' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,967 2157,967' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2525,967 2533,967' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,999 2157,999' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2525,999 2533,999' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,1031 2157,1031' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2525,1031 2533,1031' fill='none' stroke='#8CA7AD' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,663 2533,663' fill='none' stroke='#758F8F' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,663 2149,1047' fill='none' stroke='#758F8F' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2533,663 2533,1047' fill='none' stroke='#758F8F' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2149,1047 2533,1047' fill='none' stroke='#8CA7AD' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1765,375 2917,375' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1765,375 1765,1335' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2917,375 2917,1213.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2917,1264.6 2917,1335' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2917,1213.4 2917,1264.6' fill='none' stroke='#5BADA9' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1765,1335 2917,1335' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1765,567 2213,567' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2277,567 2469,567' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2533,567 2917,567' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2219.4,567 2219.4,608.6' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2219.4,608.6 2257.8,608.6' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='2475.4,567 2475.4,608.6' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2475.4,608.6 2513.8,608.6' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='2629,375 2629,439' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2629,503 2629,567' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2629,445.4 2670.6,445.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2670.6,445.4 2670.6,483.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='2053,567 2053,637.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2053,688.6 2053,957.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2053,1008.6 2053,1143' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2053,637.4 2094.6,637.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2094.6,637.4 2094.6,675.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='2053,957.4 2094.6,957.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2094.6,957.4 2094.6,995.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='2629,567 2629,669.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2629,720.6 2629,951' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2629,669.4 2670.6,669.4' fill='none' stroke='#AD7A16' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2670.6,669.4 2670.6,707.8' fill='none' stroke='#AD7A16' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<circle cx='2629' cy='695' r='13' fill='#D7B75D' stroke='#EFF5F6' stroke-width='2'/>
+<text x='2629' y='695' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>K</text>
+<polyline points='2629,951 2629,1213.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2629,1264.6 2629,1335' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2629,1213.4 2670.6,1213.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2670.6,1213.4 2670.6,1251.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='2629,951 2763.4,951' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2814.6,951 2917,951' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2763.4,951 2763.4,992.6' fill='none' stroke='#AD7A16' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2763.4,992.6 2801.8,992.6' fill='none' stroke='#AD7A16' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<circle cx='2789' cy='951' r='13' fill='#D7B75D' stroke='#EFF5F6' stroke-width='2'/>
+<text x='2789' y='951' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>↓</text>
+<polyline points='1765,1143 2302.6,1143' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2379.4,1143 2629,1143' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2315.4,1143 2315.4,1184.6' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2315.4,1184.6 2353.8,1184.6' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<polyline points='2053,1143 2053,1213.4' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2053,1264.6 2053,1335' fill='none' stroke='#354A59' stroke-width='7' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2053,1213.4 2094.6,1213.4' fill='none' stroke='#8A9EA6' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2094.6,1213.4 2094.6,1251.8' fill='none' stroke='#8A9EA6' stroke-width='1' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='3 2'/>
+<rect x='1797' y='1187.8' width='217.6' height='89.6' fill='#C5D0D6' stroke='#718694' stroke-width='2'/>
+<polyline points='1797,1187.8 1797,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1814.92,1187.8 1814.92,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1832.84,1187.8 1832.84,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1850.76,1187.8 1850.76,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1868.68,1187.8 1868.68,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1886.6,1187.8 1886.6,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1904.52,1187.8 1904.52,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1922.44,1187.8 1922.44,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1940.36,1187.8 1940.36,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1958.28,1187.8 1958.28,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1976.2,1187.8 1976.2,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1994.12,1187.8 1994.12,1277.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1813,1232.6 1995.4,1232.6' fill='none' stroke='#354A59' stroke-width='2.5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1973,1219.8 1995.4,1232.6 1973,1245.4' fill='none' stroke='#354A59' stroke-width='2.5' stroke-linejoin='round' stroke-linecap='round' />
+<text x='1909' y='1163.8' font-family='Segoe UI,Arial,sans-serif' font-size='21' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>THANG A</text>
+<text x='1909' y='1301.4' font-family='Segoe UI,Arial,sans-serif' font-size='18' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#354A59'>XUỐNG T1</text>
+<rect x='2661' y='419.8' width='217.6' height='89.6' fill='#C5D0D6' stroke='#718694' stroke-width='2'/>
+<polyline points='2661,419.8 2661,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2678.92,419.8 2678.92,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2696.84,419.8 2696.84,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2714.76,419.8 2714.76,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2732.68,419.8 2732.68,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2750.6,419.8 2750.6,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2768.52,419.8 2768.52,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2786.44,419.8 2786.44,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2804.36,419.8 2804.36,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2822.28,419.8 2822.28,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2840.2,419.8 2840.2,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2858.12,419.8 2858.12,509.4' fill='none' stroke='#8296A1' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2677,464.6 2859.4,464.6' fill='none' stroke='#354A59' stroke-width='2.5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2837,451.8 2859.4,464.6 2837,477.4' fill='none' stroke='#354A59' stroke-width='2.5' stroke-linejoin='round' stroke-linecap='round' />
+<text x='2773' y='395.8' font-family='Segoe UI,Arial,sans-serif' font-size='21' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>THANG B</text>
+<text x='2773' y='533.4' font-family='Segoe UI,Arial,sans-serif' font-size='18' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#354A59'>XUỐNG T1</text>
+<rect x='1867.4' y='695' width='73.6' height='96' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='1873.8' y='701.4' width='60.8' height='83.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='1867.4' y='887' width='73.6' height='96' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='1873.8' y='893.4' width='60.8' height='83.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='2053' y='442.2' width='108.8' height='48' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='2059.4' y='448.6' width='96' height='35.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='2417.8' y='442.2' width='108.8' height='48' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='2424.2' y='448.6' width='96' height='35.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='2731.4' y='711' width='80' height='96' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='2737.8' y='717.4' width='67.2' height='83.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='2686.6' y='1021.4' width='64' height='96' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='2693' y='1027.8' width='51.2' height='83.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<rect x='2827.4' y='1021.4' width='57.6' height='96' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<rect x='2833.8' y='1027.8' width='44.8' height='83.2' fill='#B8C5BD' stroke='none' stroke-width='1'/>
+<polyline points='1989,983 1989,663 2101,663 2101,615 2245,615 2245,531.8 2501,531.8 2501,615 2101,615 2101,983 1989,983' fill='none' stroke='#B7464C' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='12 8'/>
+<circle cx='1989' cy='855' r='20' fill='#B7464C' stroke='#EFF5F6' stroke-width='2'/>
+<text x='1989' y='855' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>G2</text>
+<polyline points='2677,643.8 2859.4,643.8 2859.4,880.6 2677,880.6 2677,643.8' fill='none' stroke='#B7464C' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='12 8'/>
+<circle cx='2859.4' cy='839' r='20' fill='#B7464C' stroke='#EFF5F6' stroke-width='2'/>
+<text x='2859.4' y='839' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>G3</text>
+<polyline points='2014.6,1239 2165,1239 2165,1181.4 2341,1181.4 2341,1095 2101,1095 2101,983 1966.6,983 1966.6,1040.6 1813,1040.6 1813,759' fill='none' stroke='#007F88' stroke-width='5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='1813,759 1813,643.8 2053,663 2101,663 2101,615 2245,615 2245,410.2 2341,410.2' fill='none' stroke='#007F88' stroke-width='5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2341,410.2 2571.4,410.2 2571.4,522.2 2501,522.2 2501,615 2581,615 2581,695 2661,695 2661,669.4 2885,669.4 2885,695' fill='none' stroke='#007F88' stroke-width='5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2885,695 2885,919 2789,919 2789,1111 2789,1239 2917,1239 2997,1239' fill='none' stroke='#007F88' stroke-width='5' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2341,1239 2629,1239 2757,1239' fill='none' stroke='#007F88' stroke-width='3' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='9 6'/>
+<polyline points='1807.24,832.6 1813,823 1818.76,832.6' fill='none' stroke='#007F88' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2575.24,650.2 2581,659.8 2586.76,650.2' fill='none' stroke='#007F88' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2783.24,1175 2789,1184.6 2794.76,1175' fill='none' stroke='#007F88' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<polyline points='2875.4,1233.24 2885,1239 2875.4,1244.76' fill='none' stroke='#007F88' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' />
+<circle cx='1813' cy='759' r='23' fill='#E9A928' stroke='#EFF5F6' stroke-width='2'/>
+<text x='1813' y='759' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>T1</text>
+<circle cx='2885' cy='695' r='23' fill='#E9A928' stroke='#EFF5F6' stroke-width='2'/>
+<text x='2885' y='695' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>T2</text>
+<circle cx='2341' cy='410.2' r='23' fill='#E9A928' stroke='#EFF5F6' stroke-width='2'/>
+<text x='2341' y='410.2' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>T3</text>
+<circle cx='2789' cy='1111' r='21' fill='#E9A928' stroke='#EFF5F6' stroke-width='2'/>
+<text x='2789' y='1111' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>R</text>
+<circle cx='2917' cy='1239' r='22' fill='#6FD4C4' stroke='#EFF5F6' stroke-width='2'/>
+<text x='2917' y='1239' font-family='Segoe UI,Arial,sans-serif' font-size='20' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#101D2B'>E</text>
+<text x='3013' y='1197.4' font-family='Segoe UI,Arial,sans-serif' font-size='19' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#6FD4C4'>DÂY</text>
+<text x='3013' y='1223' font-family='Segoe UI,Arial,sans-serif' font-size='15' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#B6C9D3'>xuống sân ngoài</text>
+<text x='1963.4' y='400.6' font-family='Segoe UI,Arial,sans-serif' font-size='23' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>PHÒNG TRANH C</text>
+<text x='1909' y='595.8' font-family='Segoe UI,Arial,sans-serif' font-size='23' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>PHÒNG A</text>
+<text x='2773' y='595.8' font-family='Segoe UI,Arial,sans-serif' font-size='23' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>PHÒNG B</text>
+<text x='2773' y='618.2' font-family='Segoe UI,Arial,sans-serif' font-size='17' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#7D671D'>Mở bằng chìa K</text>
+<text x='2773' y='983' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>KHO PHỤC CHẾ</text>
+<text x='2773' y='933.4' font-family='Segoe UI,Arial,sans-serif' font-size='15' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#805F23'>Đường tắt: mở từ B</text>
+<text x='2341' y='1307.8' font-family='Segoe UI,Arial,sans-serif' font-size='21' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#354A59'>PHÒNG ĐỆM PHÍA NAM</text>
+<text x='2341' y='771.8' font-family='Segoe UI,Arial,sans-serif' font-size='25' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='#D3E3E4'>KHOẢNG THÔNG TẦNG</text>
+<text x='2341' y='807' font-family='Segoe UI,Arial,sans-serif' font-size='21' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#A7C3C9'>Nhìn xuống sân tầng 1</text>
+<text x='2341' y='925.4' font-family='Segoe UI,Arial,sans-serif' font-size='19' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#A7C3C9'>Lan can quanh mép</text>
+<text x='2341' y='957.4' font-family='Segoe UI,Arial,sans-serif' font-size='19' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#A7C3C9'>Không có sàn tại đây</text>
+<text x='2341' y='1074.2' font-family='Segoe UI,Arial,sans-serif' font-size='16' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#607B83'>HÀNH LANG VÒNG · RỘNG 3 m</text>
+<text x='1690' y='1390' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#91A8B9'>G2: tây + bắc  /  G3: bên trong phòng B</text>
+<polyline points='80,1480 3120,1480' fill='none' stroke='#324B5B' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' />
+<text x='80' y='1528' font-family='Segoe UI,Arial,sans-serif' font-size='23' font-weight='700' text-anchor='start' dominant-baseline='central' fill='#EFF5F6'>KÝ HIỆU &amp; QUY TẮC</text>
+<polyline points='80,1580 150,1580' fill='none' stroke='#007F88' stroke-width='6' stroke-linejoin='round' stroke-linecap='round' />
+<text x='170' y='1580' font-family='Segoe UI,Arial,sans-serif' font-size='24' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#EFF5F6'>Tuyến chơi gợi ý</text>
+<polyline points='485,1580 555,1580' fill='none' stroke='#007F88' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='12 8'/>
+<text x='575' y='1580' font-family='Segoe UI,Arial,sans-serif' font-size='24' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#EFF5F6'>Lối phụ / chuẩn bị thoát sớm</text>
+<polyline points='1050,1580 1120,1580' fill='none' stroke='#B7464C' stroke-width='5' stroke-linejoin='round' stroke-linecap='round' stroke-dasharray='15 10'/>
+<text x='1140' y='1580' font-family='Segoe UI,Arial,sans-serif' font-size='24' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#EFF5F6'>Tuyến tuần tra</text>
+<circle cx='1480' cy='1580' r='18' fill='#E9A928' stroke='none' stroke-width='2'/>
+<text x='1515' y='1580' font-family='Segoe UI,Arial,sans-serif' font-size='24' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#EFF5F6'>T1–T3: tác phẩm  ·  K: chìa  ·  R: dây</text>
+<circle cx='2180' cy='1580' r='18' fill='#6FD4C4' stroke='none' stroke-width='2'/>
+<text x='2215' y='1580' font-family='Segoe UI,Arial,sans-serif' font-size='24' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#EFF5F6'>S: bắt đầu  ·  E: thoát  ·  L: điểm đáp</text>
+<rect x='80' y='1625' width='70' height='32' fill='#9BAAA8' stroke='#6A7F80' stroke-width='2'/>
+<text x='170' y='1641' font-family='Segoe UI,Arial,sans-serif' font-size='24' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#EFF5F6'>Bệ đặc / vật che tầm nhìn</text>
+<text x='690' y='1641' font-family='Segoe UI,Arial,sans-serif' font-size='24' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#EFF5F6'>A ↔ A, B ↔ B: cầu thang nối hai tầng</text>
+<text x='1415' y='1641' font-family='Segoe UI,Arial,sans-serif' font-size='24' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#91A8B9'>Cửa B → phục chế: mở từ phía B; kho phục chế còn có lối phía nam.</text>
+<text x='80' y='1725' font-family='Segoe UI,Arial,sans-serif' font-size='21' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#9FB5C1'>BẢN THIẾT KẾ HƯ CẤU LẤY CẢM HỨNG TỪ GARDNER — KHÔNG PHẢI MẶT BẰNG BẢO TÀNG THẬT.</text>
+<text x='80' y='1768' font-family='Segoe UI,Arial,sans-serif' font-size='22' font-weight='400' text-anchor='start' dominant-baseline='central' fill='#7893A4'>Tường, ô cửa và kích thước trên sơ đồ là cơ sở dựng blockout; tuyến màu chỉ diễn tả luồng chơi.</text>
+<rect x='2650' y='1725' width='160' height='14' fill='#E5EDF0' stroke='none' stroke-width='1'/>
+<rect x='2810' y='1725' width='160' height='14' fill='#718B9C' stroke='none' stroke-width='1'/>
+<text x='2650' y='1764' font-family='Segoe UI,Arial,sans-serif' font-size='19' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#91A8B9'>0</text>
+<text x='2810' y='1764' font-family='Segoe UI,Arial,sans-serif' font-size='19' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#91A8B9'>5</text>
+<text x='2970' y='1764' font-family='Segoe UI,Arial,sans-serif' font-size='19' font-weight='400' text-anchor='middle' dominant-baseline='central' fill='#91A8B9'>10 m</text>
+</svg>
