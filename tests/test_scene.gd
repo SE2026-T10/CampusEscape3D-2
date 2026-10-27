@@ -45,6 +45,7 @@ const K17MissionTests := preload("res://maps/intelligence/tests/k17_mission_test
 const HoldInteractionTests := preload("res://tests/hold_interaction_tests.gd")
 const K17SecurityTests := preload("res://maps/intelligence/tests/k17_security_tests.gd")
 const K17TestModeTests := preload("res://maps/intelligence/tests/k17_test_mode_tests.gd")
+const K17ExpansionTests := preload("res://maps/intelligence/tests/k17_expansion_tests.gd")
 const TestUtils := preload("res://tests/test_utils.gd")
 const MAIN_MENU_SCENE := "res://shared/scenes/ui/main_menu.tscn"
 const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
@@ -102,6 +103,7 @@ func _ready() -> void:
 	_failures.append_array(await HoldInteractionTests.new().run(self))
 	_failures.append_array(await K17SecurityTests.new().run(self))
 	_failures.append_array(await K17TestModeTests.new().run(self))
+	_failures.append_array(await K17ExpansionTests.new().run(self))
 	await TestUtils.settle_async_audio(get_tree())
 
 	if _failures.is_empty():

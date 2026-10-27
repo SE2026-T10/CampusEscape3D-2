@@ -1,6 +1,7 @@
 extends RefCounted
 ## Generates the editable gameplay overlay, leaving the baked environment untouched.
 const BASE := "res://maps/intelligence/"
+const L := preload("res://maps/intelligence/resources/layout/k17_layout.gd")
 var scene: Node3D
 
 func build() -> Node3D:
@@ -17,9 +18,9 @@ func build() -> Node3D:
 	cover.scale = Vector3(4.0/5.5,1,.5)
 	_add(scene,cover)
 	for mesh in cover.find_children("*","GeometryInstance3D",true,false): mesh.gi_mode = GeometryInstance3D.GI_MODE_DYNAMIC
-	for i in 2: _sensor(i,Vector3(10,1.2,-12.0-i*4.4))
-	_gate("CourtyardGate",Vector3(-16,1.1,22),0)
-	_gate("MaintenanceGate",Vector3(16,1.1,22),1)
+	for i in 2: _sensor(i,L.SENSORS[i])
+	_gate("CourtyardGate",L.GATES[0],0)
+	_gate("MaintenanceGate",L.GATES[1],1)
 	var radio := _script("Radio",Area3D.new(),"radio_distraction.gd") as Interactable
 	radio.position = Vector3(3.6,1.15,11.5)
 	_shape(radio,Vector3(.6,.8,1.0))
@@ -34,7 +35,7 @@ func build() -> Node3D:
 	_box(radio,"IndoorSpeaker",Vector3(4.4,1.6,-9.3),Vector3(.7,.35,.3),Color("222d28"))
 	_box(radio,"SpeakerBracket",Vector3(4.4,1.86,-9.3),Vector3(.08,.3,.08),Color("222d28"))
 	var latch := _script("PreparedLatch",Area3D.new(),"prepared_latch.gd") as Interactable
-	latch.position = Vector3(18.9,1.2,5)
+	latch.position = L.LATCH
 	_shape(latch,Vector3(.5,1,1.1))
 	_box(latch,"Housing",Vector3.ZERO,Vector3(.35,.8,1),Color("414c36"))
 	_box(latch,"Switch",Vector3(-.22,0,0),Vector3(.15,.3,.16),Color("c5a651"))
@@ -86,6 +87,7 @@ func _gate(title: String,position: Vector3,route: int) -> void:
 	_shape(safety,Vector3(4.3,2.8,1.3))
 	var leaf := Node3D.new()
 	leaf.name = "Leaf"
+	leaf.set_script(load(BASE+"scripts/dynamic_geometry.gd"))
 	_add(gate,leaf)
 	var model := (load(BASE+"assets/models/blast_door.glb") as PackedScene).instantiate() as Node3D
 	model.scale = Vector3(1.16,.91,1)

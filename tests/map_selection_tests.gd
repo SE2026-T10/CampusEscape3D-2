@@ -20,7 +20,7 @@ const MISSION_SYSTEMS := ["objective_manager", "checkpoint_manager"]
 const NAV_PROBE := {
 	&"library_tutorial": Vector3(0, 0, 18),
 	&"expanded_library": Vector3(0, 0.05, 32),
-	&"intelligence_k17": Vector3(-16, 0.05, 27),
+	&"intelligence_k17": Vector3(-36, 0.05, 51),
 }
 
 var failures: Array[String] = []

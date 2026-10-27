@@ -1,7 +1,9 @@
 extends SceneTree
 
-## Build V1 from shared actors and map-local geometry; runtime needs no tools.
+## Build V3 from shared actors and map-local geometry; runtime needs no tools.
 const BASE := "res://maps/intelligence/"
+const Layout := preload("res://maps/intelligence/resources/layout/k17_layout.gd")
+const Expansion := preload("res://maps/intelligence/tools/k17_expansion_builder.gd")
 const SCENE := BASE + "scenes/intelligence_k17.tscn"
 const NAV := BASE + "resources/k17_navmesh.tres"
 const Mission := preload("res://maps/intelligence/scripts/mission_controller.gd")
@@ -27,7 +29,7 @@ func _init() -> void:
 func _build() -> void:
 	level = Node3D.new()
 	level.name = "IntelligenceK17"
-	level.set_meta("map_version", "v2-security")
+	level.set_meta("map_version", "v3-compound")
 	var region := NavigationRegion3D.new()
 	region.name = "NavigationRegion3D"
 	var nav := NavigationMesh.new()
@@ -39,6 +41,9 @@ func _build() -> void:
 	region.navigation_mesh = nav
 	_add(level, region)
 	_geometry(region)
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(BASE+"scenes/sectors"))
+	var expansion:=Expansion.new()
+	expansion.build(self,region)
 	if not _build_environment(region):
 		level.free()
 		quit(1)
@@ -46,8 +51,12 @@ func _build() -> void:
 	root.add_child(level)
 	region.bake_navigation_mesh(false)
 	# Walking links, controlled by the physical gates, bridge these baked cuts.
-	for node in region.get_children():
-		if str(node.name).begins_with("NavigationGateCut"): node.free()
+	for node in region.find_children("*","StaticBody3D",true,false):
+		if str(node.name).begins_with("NavigationGateCut") or node.has_meta("bake_cut"): node.free()
+	if not expansion.save_sectors():
+		level.free()
+		quit(1)
+		return
 	if nav.get_polygon_count() == 0 or ResourceSaver.save(nav, NAV, ResourceSaver.FLAG_CHANGE_PATH) != OK:
 		push_error("K17: navigation bake/save failed")
 		quit(1)
@@ -59,12 +68,14 @@ func _build() -> void:
 		quit(1)
 		return
 	_systems()
+	var data_path:=BASE+"resources/k17_v3_lightmap.lmbake"
+	if FileAccess.file_exists(data_path): level.get_node("LightmapGI").light_data=load(data_path)
 	var packed := PackedScene.new()
 	if packed.pack(level) != OK or ResourceSaver.save(packed, SCENE) != OK:
 		push_error("K17: scene save failed")
 		quit(1)
 		return
-	print("K17 BUILT: ", nav.get_polygon_count(), " navmesh polygons, 4 military appearances on shared guards, 2 approaches/exits")
+	print("K17 BUILT V3: ", nav.get_polygon_count(), " navmesh polygons; 96x108m; B1; 6 guards + 4 reinforcements")
 	level.free()
 	quit(0)
 
@@ -90,8 +101,8 @@ func _geometry(parent: Node) -> void:
 	_wall_h(parent, "Fence", 22, -24, 24, [Vector2(-18, -14), Vector2(14, 18)], METAL, 2.1)
 	_wall_h(parent, "Front", 14, -20, 20, [Vector2(-13.8, -10.2), Vector2(14.2, 17.8)])
 	_wall_h(parent, "ArchiveFront", 0, -20, 20, [Vector2(2.2, 5.8)])
-	_wall_h(parent, "North", -24, -20, 20, [])
-	_wall_v(parent, "West", -20, -24, 14, [])
+	_wall_h(parent, "North", -24, -20, 20, [Vector2(2,6)])
+	_wall_v(parent, "West", -20, -24, 14, [Vector2(5.2,8.8)])
 	_wall_v(parent, "East", 20, -24, 14, [])
 	_wall_v(parent, "GuardRoomPartition", -4, 0, 14, [Vector2(5.2, 8.8)])
 	_wall_v(parent, "ServicePartition", 12, 0, 14, [Vector2(5.2, 8.8)])
@@ -138,9 +149,9 @@ func _geometry(parent: Node) -> void:
 func _build_environment(region: NavigationRegion3D) -> bool:
 	# Navigation/collision remain explicit. Art has its own editable scene and UVs.
 	for node in region.find_children("*", "VisualInstance3D", true, false):
-		node.visible = false
+		if not region.get_node("Sectors").is_ancestor_of(node): node.visible = false
 	for node in region.find_children("*", "Light3D", true, false):
-		node.visible = false
+		if not region.get_node("Sectors").is_ancestor_of(node): node.visible = false
 	for node in region.get_children():
 		if node is StaticBody3D and str(node.name).begins_with("Fence"):
 			node.collision_layer = 16 # Movement barrier; shared sight_mask 3 sees through wire.
@@ -157,23 +168,22 @@ func _build_environment(region: NavigationRegion3D) -> bool:
 		art.free()
 	var instance := (load(ART_SCENE) as PackedScene).instantiate()
 	_add(level, instance)
+	var lightmap:=instance.get_node("LightmapGI") as LightmapGI
+	lightmap.owner=null
+	instance.remove_child(lightmap)
+	_add(level,lightmap)
 	return true
 
 
 func _actors() -> void:
 	var player := PLAYER.instantiate() as FirstPersonPlayer
 	player.name = "Player"
-	player.position = Vector3(-16, 0.05, 27)
+	player.position = Layout.SPAWN
 	player.collision_mask |= 16
 	_add(level, player)
 	var routes := _group(level, "PatrolRoutes")
 	var guards := _group(level, "Guards")
-	var points := [
-		[Vector3(-8, 0.05, 18), Vector3(8, 0.05, 18), Vector3(8, 0.05, 20), Vector3(-8, 0.05, 20)],
-		[Vector3(-16, 0.05, 4), Vector3(-8, 0.05, 4), Vector3(-8, 0.05, 10), Vector3(-16, 0.05, 10)],
-		[Vector3(1, 0.05, 3), Vector3(9, 0.05, 3), Vector3(9, 0.05, 10), Vector3(1, 0.05, 10)],
-		[Vector3(-15, 0.05, -19), Vector3(-15, 0.05, -5), Vector3(-1, 0.05, -5), Vector3(-1, 0.05, -19)],
-	]
+	var points := Layout.PATROLS
 	for i in points.size():
 		var route := PatrolRoute.new()
 		route.name = "Route%d" % (i + 1)
@@ -193,6 +203,8 @@ func _actors() -> void:
 		guard.collision_mask |= 16
 		_add(guards, guard)
 		guard.set_meta("appearance", "k17_military")
+		for mesh in guard.find_children("*","GeometryInstance3D",true,false): mesh.gi_mode=GeometryInstance3D.GI_MODE_DYNAMIC
+		_script(guard,"LightingPolicy",Node.new(),BASE+"scripts/dynamic_geometry.gd")
 
 
 func _gameplay() -> bool:
@@ -206,15 +218,16 @@ func _gameplay() -> bool:
 	_add(gameplay, objectives)
 	_script(gameplay, "CheckpointManager", Node.new(), "res://features/checkpoints/checkpoint_manager.gd")
 	_script(gameplay, "Mission", Node.new(), BASE + "scripts/mission_controller.gd")
-	for x in [-12.0, 16.0]:
+	for x in [-36.0, 36.0]:
 		var trigger := ObjectiveTrigger.new()
 		trigger.name = "EnterTrigger" + str(x)
-		trigger.position = Vector3(x, 1, 11)
+		trigger.position = Vector3(x, 1, 42)
 		trigger.objective_id = Mission.ENTER
 		_add(gameplay, trigger)
 		_shape(trigger, Vector3(5, 2, 3))
-	_pickup(gameplay, "AccessPass", Mission.PASS, Vector3(-12, 0.84, 4), "Lấy giấy thông hành", "Vào cơ sở trước", Color("c1b893"), Vector3(0.4, 0.035, 0.26))
-	_pickup(gameplay, "IntelligenceFile", Mission.FILE, Vector3(4, 1.15, -20), "Lấy Mật lệnh 04 — bắt đầu 120 giây", "Đến ô checkpoint trước khi thu hồi hồ sơ", Color(0.8, 0.25, 0.12), Vector3(0.5, 0.08, 0.35))
+	_pickup(gameplay, "AccessPass", Mission.PASS, Layout.PASS, "Lấy giấy thông hành", "Vào cơ sở trước", Color("c1b893"), Vector3(0.4, 0.035, 0.26))
+	_pickup(gameplay, "VaultCode", Mission.CODE, Layout.CODE, "Thu hồi sơ đồ và mã kho mật", "Cần giấy thông hành", Color("c1b893"), Vector3(.4,.04,.28))
+	_pickup(gameplay, "IntelligenceFile", Mission.FILE, Layout.FILE, "Lấy Mật lệnh 04 — bắt đầu 120 giây", "Đến checkpoint khu mật trước khi thu hồi", Color(0.8, 0.25, 0.12), Vector3(0.5, 0.08, 0.35))
 	var door := AccessDoor.new()
 	door.name = "ArchiveDoor"
 	door.position = Vector3(4, 1.2, 0)
@@ -228,6 +241,7 @@ func _gameplay() -> bool:
 	panel.get_node("Mesh").free()
 	var hinge := Node3D.new()
 	hinge.name = "DoorHinge"
+	hinge.set_script(load(BASE+"scripts/dynamic_geometry.gd"))
 	hinge.position.x = -1.72
 	_add(panel,hinge)
 	var door_art := (load(BASE+"assets/models/blast_door.glb") as PackedScene).instantiate()
@@ -237,7 +251,7 @@ func _gameplay() -> bool:
 	door.leaf_paths = [NodePath("Panel/DoorHinge")]
 	door.leaf_open_angles = PackedFloat32Array([90.0])
 	var cp := _script(gameplay, "ArchiveCheckpoint", Area3D.new(), BASE + "scripts/mission_checkpoint.gd") as Checkpoint
-	cp.position = Vector3(8, 1, -6)
+	cp.position = Layout.PREP+Vector3(0,.95,0)
 	cp.checkpoint_name = "Điểm chuẩn bị K17"
 	_shape(cp, Vector3(3.2, 2, 3.2))
 	var spawn := Marker3D.new()
@@ -245,10 +259,23 @@ func _gameplay() -> bool:
 	spawn.position = Vector3(0, -0.95, 0)
 	spawn.rotation.y = PI / 2
 	_add(cp, spawn)
+	var forward := _script(gameplay,"ForwardCheckpoint",Area3D.new(),BASE+"scripts/mission_checkpoint.gd") as Checkpoint
+	forward.position=Vector3(0,1,13)
+	forward.checkpoint_name="Khu thông tin"
+	forward.set("complete_archive",false)
+	_shape(forward,Vector3(2.2,2,2.0))
+	var forward_spawn:=Marker3D.new()
+	forward_spawn.name="Spawn"
+	forward_spawn.position=Vector3(0,-.95,0)
+	_add(forward,forward_spawn)
+	_controlled_door(gameplay,"VaultDoor",Vector3(4,1.2,-24),Mission.CODE,"mã kho mật")
+	_controlled_door(gameplay,"DispatchDoor",Vector3(-18,1.2,35),Mission.FILE,"lệnh điều động")
+	var shortcut := _controlled_door(gameplay,"MaintenanceShortcut",Vector3(10,-2.8,-38),Mission.FILE,"Mật lệnh 04")
+	shortcut.rotation.y=PI/2
 	# Ground markings, sign and radio position live in the environment scene.
 	for i in 2:
 		var zone := _script(gameplay, "Extraction%d" % i, Area3D.new(), BASE + "scripts/extraction_zone.gd") as Area3D
-		zone.position = Vector3(-16 if i == 0 else 16, 1, 27)
+		zone.position = Layout.EXITS[i]
 		zone.set("route_id", &"courtyard" if i == 0 else &"maintenance")
 		zone.set("route_name", "Sân tiếp vận" if i == 0 else "Hành lang bảo trì")
 		_shape(zone, Vector3(3.8, 2, 3.8))
@@ -260,7 +287,33 @@ func _gameplay() -> bool:
 		return false
 	security.free()
 	_add(gameplay,(load(SECURITY_SCENE) as PackedScene).instantiate())
+	_script(gameplay,"Reinforcements",Node.new(),BASE+"scripts/reinforcements.gd")
 	return true
+
+
+func _controlled_door(parent: Node,title: String,pos: Vector3,key: StringName,key_title: String) -> AccessDoor:
+	var door:=AccessDoor.new()
+	door.name=title
+	door.position=pos
+	door.key_objective_id=key
+	door.key_name=key_title
+	door.door_name="cửa kho mật" if title=="VaultDoor" else "lối tắt bảo trì"
+	door.prompt="Mở "+door.door_name
+	_add(parent,door)
+	_shape(door,Vector3(4,2.4,1))
+	var panel:=_box(door,"Panel",Vector3.ZERO,Vector3(3.95,2.4,.25),METAL)
+	panel.get_node("Mesh").free()
+	var hinge:=_group(panel,"DoorHinge")
+	hinge.set_script(load(BASE+"scripts/dynamic_geometry.gd"))
+	hinge.position.x=-1.97
+	var model: Node3D=(load(BASE+"assets/models/blast_door.glb") as PackedScene).instantiate()
+	model.position.x=1.97
+	model.scale.x=1.13
+	_add(hinge,model)
+	for mesh in model.find_children("*","GeometryInstance3D",true,false): mesh.gi_mode=GeometryInstance3D.GI_MODE_DYNAMIC
+	door.leaf_paths=[NodePath("Panel/DoorHinge")]
+	door.leaf_open_angles=PackedFloat32Array([90])
+	return door
 
 
 func _systems() -> void:
@@ -298,7 +351,7 @@ func _pickup(parent: Node, node_name: String, id: StringName, pos: Vector3, prom
 	_paint(model, "Mesh", Vector3.ZERO, size, colour)
 	var stencil := Label3D.new()
 	stencil.name = "DocumentStamp"
-	stencil.text = "K17 / PASS" if id == Mission.PASS else "MẬT LỆNH 04"
+	stencil.text = "GIẤY THÔNG HÀNH" if id == Mission.PASS else "SƠ ĐỒ / MÃ KHO" if id==Mission.CODE else "MẬT LỆNH 04"
 	stencil.position.y = size.y/2+.002
 	stencil.rotation.x = -PI/2
 	stencil.font_size = 24
@@ -404,5 +457,5 @@ func _group(parent: Node, node_name: String) -> Node3D:
 
 
 func _add(parent: Node, node: Node) -> void:
-	parent.add_child(node)
+	parent.add_child(node,true)
 	node.owner = level

@@ -11,13 +11,16 @@ const PARTS := {
 
 func _ready() -> void:
 	for guard in get_parent().get_node("Guards").get_children():
-		for mesh in guard.get_node("Model").find_children("*","MeshInstance3D",true,false):
-			mesh.visible = false
-		for path in PARTS:
-			var original := guard.get_node(path) as Node3D
-			var part := (load(BASE+PARTS[path]+".glb") as PackedScene).instantiate() as Node3D
-			part.name = "Military"+str(original.name)
-			part.position = original.position
-			original.get_parent().add_child(part)
-			for mesh in part.find_children("*","GeometryInstance3D",true,false):
-				mesh.gi_mode = GeometryInstance3D.GI_MODE_DYNAMIC
+		apply(guard)
+
+static func apply(guard: Node3D) -> void:
+	if guard.has_meta("military_applied"): return
+	guard.set_meta("military_applied",true)
+	for mesh in guard.get_node("Model").find_children("*","MeshInstance3D",true,false): mesh.visible=false
+	for path in PARTS:
+		var original:=guard.get_node(path) as Node3D
+		var part: Node3D=(load(BASE+PARTS[path]+".glb") as PackedScene).instantiate()
+		part.name="Military"+str(original.name)
+		part.position=original.position
+		original.get_parent().add_child(part)
+		for mesh in part.find_children("*","GeometryInstance3D",true,false): mesh.gi_mode=GeometryInstance3D.GI_MODE_DYNAMIC

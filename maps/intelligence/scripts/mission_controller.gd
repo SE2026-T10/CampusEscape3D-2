@@ -4,21 +4,23 @@ extends MapHudProvider
 ## Scene-local mission state. AI, player, interaction and HUD stay shared.
 const ENTER := &"enter_k17"
 const PASS := &"take_pass"
+const CODE := &"take_vault_code"
 const ARCHIVE := &"reach_archive"
 const FILE := &"take_intelligence"
 const ESCAPE := &"extract_k17"
 const OBJECTIVES := [
 	{"id": ENTER, "title": "Vào cơ sở K17", "hint": "Qua sân tiếp vận hoặc hành lang kỹ thuật.", "done": "Đã vào K17"},
 	{"id": PASS, "title": "Lấy giấy thông hành", "hint": "Trên bàn trong phòng trực phía tây.", "done": "Đã lấy giấy thông hành"},
-	{"id": ARCHIVE, "title": "Đến điểm chuẩn bị", "hint": "Mở cửa khu hồ sơ bằng E, tìm biển checkpoint bên phải.", "done": "Đã lưu checkpoint trước khu hồ sơ"},
-	{"id": FILE, "title": "Thu hồi Mật lệnh 04", "hint": "Chờ đèn cảm biến xanh. Giữ E mở niêm phong hồ sơ ở cuối phòng.", "done": "Đã lấy Mật lệnh 04 — rút lui!"},
+	{"id": CODE, "title": "Thu hồi mã kho mật", "hint": "Tìm sơ đồ và mã kho trên bàn vô tuyến ở khối chỉ huy.", "done": "Đã xác định kho mật B1"},
+	{"id": ARCHIVE, "title": "Đến checkpoint khu mật", "hint": "Qua cửa khu hồ sơ; đi hành lang phải tới checkpoint, rồi mở cửa cầu thang B1.", "done": "Đã lưu checkpoint trước kho mật"},
+	{"id": FILE, "title": "Thu hồi Mật lệnh 04", "hint": "Xuống cầu thang B1, chờ đèn cảm biến xanh. Giữ E mở niêm phong ở cuối kho.", "done": "Đã lấy Mật lệnh 04 — rút lui!"},
 	{"id": ESCAPE, "title": "Đến điểm tập kết", "hint": "Trở ra ngoài qua sân hoặc hành lang bảo trì. Tìm đèn xanh.", "done": "Đã đưa hồ sơ ra khỏi K17"},
 ]
 
 @export_range(1.0, 600.0) var escape_duration := 120.0
-@export var courtyard_warning_at := 50.0
-@export var courtyard_close_at := 65.0
-@export var reinforcement_at := 85.0
+@export var courtyard_warning_at := 70.0
+@export var courtyard_close_at := 90.0
+@export var reinforcement_at := 100.0
 var has_file := false
 var time_left := 120.0
 var escaped := false
@@ -56,7 +58,9 @@ func _on_objective_completed(id: StringName) -> void:
 		ENTER:
 			queue_radio("Lam: Phòng trực ở phía tây. Bảng chốt trong khu kỹ thuật giúp mở nhanh cửa hậu.",1,"entered")
 		PASS:
-			queue_radio("Lam: Dùng giấy thông hành mở cửa khu hồ sơ. Điểm chuẩn bị ở bên phải, sau tủ che.",2,"pass")
+			queue_radio("Lam: Vào khối chỉ huy. Lấy sơ đồ và mã kho ở bàn vô tuyến trước khi xuống B1.",2,"pass")
+		CODE:
+			queue_radio("Lam: Hồ sơ ở kho B1. Checkpoint cuối ở hành lang phải của khu phân loại; cửa hậu có thể chuẩn bị tại trạm điện.",3,"code")
 		ARCHIVE:
 			queue_radio("Lam: Xanh là được qua, vàng báo sắp quét. Qua từng dải rồi giữ E mở niêm phong.",2,"archive")
 		FILE:
@@ -127,7 +131,7 @@ func get_status_lines() -> Array[String]:
 		clock = "%02d:%02d" % [seconds / 60, seconds % 60]
 	var title := "K17 / TEST MAP — KHÔNG LÍNH GÁC" if is_test_mode() else "K17 / CHIẾN DỊCH TÌNH BÁO"
 	return [title, "Hồ sơ: " + ("đang mang Mật lệnh 04" if has_file else "chưa thu hồi"),
-		"Phong tỏa: " + clock,
+		"Phong tỏa: " + clock + _reinforcement_status(),
 		"Cổng sân: " + ("sắp đóng" if lockdown_warned and not lockdown_closed else _gate_status("CourtyardGate")),
 		"Cửa hậu: " + _gate_status("MaintenanceGate") + (" · đã chuẩn bị" if backdoor_prepared else " · khóa cơ 8 giây"), radio_message]
 
@@ -138,15 +142,22 @@ func show_objective_checklist() -> bool:
 
 func get_result_lines() -> Array[String]:
 	var objectives := ObjectiveManager.find(self)
+	var team:=get_parent().get_node_or_null("Reinforcements")
+	var dispatched: int=int(team.get("spawned_count")) if team else 0
 	var summary := "TEST MAP · Đã đưa hồ sơ ra khỏi K17." if is_test_mode() else "Mật lệnh 04 đã được đưa ra khỏi K17."
 	return [summary, "Còn lại: %d giây · Hết giờ: %d lần" % [ceili(time_left), timeouts],
 		"Đường rút: " + objectives.escape_route_name,
 		"Cảm biến: %d lần · Radio: %d lần" % [sensor_trips,radio_uses],
-		"Chuẩn bị cửa hậu: " + ("có" if backdoor_prepared else "không")]
+		"Cửa hậu: " + ("đã chuẩn bị" if backdoor_prepared else "chưa chuẩn bị")+" · Tiếp viện: %d/4"%dispatched]
 
 
 func is_test_mode() -> bool:
 	return owner != null and owner.is_in_group("k17_no_guards")
+
+
+func _reinforcement_status() -> String:
+	var team:=get_parent().get_node_or_null("Reinforcements")
+	return " · tiếp viện %d/4"%team.get("spawned_count") if team and has_file and not is_test_mode() else ""
 
 
 func get_checkpoint_state() -> Dictionary:

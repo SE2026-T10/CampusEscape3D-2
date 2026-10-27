@@ -33,14 +33,14 @@ func run(parent: Node) -> Array[String]:
 	await _take_file()
 	# Do not overwrite the pre-file snapshot when walking back across it.
 	var before := checkpoints.saved_state.duplicate(true)
-	player.global_position = Vector3(8, 0.05, -6)
+	player.global_position = Vector3(8, 0.05, -20)
 	await _frames(3)
 	_expect(checkpoints.saved_state == before, "Returning during extraction never overwrites the checkpoint.")
 	director._catch(level.get_node("Guards/Guard1"))
 	await _frames(12)
 	_check_restored("Caught with file")
 	await _take_file()
-	player.global_position = Vector3(-16, 0.05, 27)
+	player.global_position = Vector3(-36, 0.05, 51)
 	await _frames(3)
 	_expect(flow.state == G.WIN and mission.escaped, "Courtyard extraction with a live deadline wins.")
 	_expect(objectives.escape_route == &"courtyard", "Courtyard extraction records its route.")
@@ -59,7 +59,7 @@ func run(parent: Node) -> Array[String]:
 	_expect(flow.retry_checkpoint(), "A deadline failure can retry the checkpoint.")
 	await _frames(3)
 	await _take_file()
-	player.global_position = Vector3(16, 0.05, 27)
+	player.global_position = Vector3(36, 0.05, 51)
 	await _frames(3)
 	_expect(flow.state == G.WIN and objectives.escape_route == &"maintenance", "Maintenance extraction is independently playable.")
 	await _unload()
@@ -69,7 +69,7 @@ func run(parent: Node) -> Array[String]:
 
 func _load() -> void:
 	level = (load(SCENE) as PackedScene).instantiate()
-	var ready := await TestUtils.add_level_and_wait_for_navigation(host, level, Vector3(-16, 0.05, 27))
+	var ready := await TestUtils.add_level_and_wait_for_navigation(host, level, Vector3(-36, 0.05, 51))
 	_expect(ready, "K17 navigation becomes ready.")
 	await _frames(3)
 	player = level.get_node("Player") as FirstPersonPlayer
@@ -81,12 +81,13 @@ func _load() -> void:
 	# Mission unit/integration checks isolate actor decisions; the movement QA
 	# tool separately exercises both routes with the real player controller.
 	player.set_physics_process(false)
+	level.get_node("Gameplay/Reinforcements").process_mode = Node.PROCESS_MODE_DISABLED
 	for guard in level.get_node("Guards").get_children():
 		guard.process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func _check_layout() -> void:
-	_expect(level.get_node("Guards").get_child_count() == 4, "Four shared guards are placed.")
+	_expect(level.get_node("Guards").get_child_count() == 6, "Six shared guards are placed.")
 	_expect(player.scene_file_path == "res://shared/scenes/player/player.tscn", "Player remains an instance of the shared scene.")
 	var map: RID = level.get_world_3d().navigation_map
 	for guard in level.get_node("Guards").get_children():
@@ -96,27 +97,33 @@ func _check_layout() -> void:
 		for i in points.size():
 			var path := NavigationServer3D.map_get_path(map, points[i].global_position, points[(i + 1) % points.size()].global_position, true)
 			_expect(not path.is_empty() and path[-1].distance_to(points[(i + 1) % points.size()].global_position) < 1.0, "Every patrol segment has a navigable path.")
-	for target in [Vector3(-12, 0.05, 5.5), Vector3(8, 0.05, -6), Vector3(4, 0.05, -18.5), Vector3(16, 0.05, 27)]:
+	for target in [Vector3(-12, 0.05, 5.5), Vector3(8, 0.05, -20), Vector3(0, -3.95, -45.5), Vector3(36, 0.05, 51)]:
 		var path := NavigationServer3D.map_get_path(map, player.global_position, target, true)
 		_expect(not path.is_empty() and path[-1].distance_to(target) < 1.0, "Mission locations and both exits are connected to navigation.")
 
 
 func _prepare_file() -> void:
-	player.global_position = Vector3(-12, 0.05, 11)
+	player.global_position = Vector3(-36, 0.05, 42)
 	await _frames(3)
 	_expect(objectives.current() == M.PASS, "Entering activates the pass objective.")
-	await _use("Gameplay/AccessPass", Vector3(-12, 0.05, 5.6))
+	await _use("Gameplay/AccessPass", Vector3(-36, 0.05, 5.6))
 	_expect(objectives.is_completed(M.PASS), "Pass is collected through the shared interactor ray.")
+	await _use("Gameplay/VaultCode", Vector3(6.2, 0.05, 10.2))
+	_expect(objectives.is_completed(M.CODE), "The radio-desk document grants the vault code.")
 	await _use("Gameplay/ArchiveDoor", Vector3(4, 0.05, 1.6))
 	_expect(level.get_node("Gameplay/ArchiveDoor").is_open, "Pass opens the controlled archive door.")
-	player.global_position = Vector3(8, 0.05, -6)
+	player.global_position = Vector3(8, 0.05, -20)
 	await _frames(4)
 	_expect(checkpoints.active != null and objectives.current() == M.FILE, "Preparation area saves progress before taking the file.")
 	_expect(not mission.has_file and mission.time_left == mission.escape_duration, "Pre-file clock is inactive.")
 
 
 func _take_file() -> void:
-	await _use("Gameplay/IntelligenceFile", Vector3(4, 0.05, -18.5))
+	# Actor reset re-enables shared guards. This suite isolates mission state;
+	# separate patrol and walking runs exercise their actual decisions.
+	for guard in level.get_node("Guards").get_children(): guard.process_mode=Node.PROCESS_MODE_DISABLED
+	await _use("Gameplay/VaultDoor", Vector3(4, 0.05, -22.5))
+	await _use("Gameplay/IntelligenceFile", Vector3(0, -3.95, -45.5))
 	_expect(mission.has_file and objectives.current() == M.ESCAPE, "File pickup starts extraction.")
 	_expect(mission.time_left > 119.0 and mission.time_left <= 120.0, "Exactly one 120-second deadline starts on pickup.")
 	var remaining := mission.time_left
@@ -149,7 +156,7 @@ func _check_restored(label: String) -> void:
 	_expect(objectives.current() == M.FILE and objectives.is_completed(M.PASS), label + ": pass retained, file objective active.")
 	_expect(level.get_node("Gameplay/IntelligenceFile").visible and not level.get_node("Gameplay/AccessPass").visible, label + ": correct pickups are visible.")
 	_expect(level.get_node("Gameplay/ArchiveDoor").is_open, label + ": door matches the checkpoint snapshot.")
-	_expect(player.global_position.distance_to(Vector3(8, 0.05, -6)) < 0.2, label + ": correct respawn position.")
+	_expect(player.global_position.distance_to(Vector3(8, 0.05, -20)) < 0.2, label + ": correct respawn position.")
 
 
 func _use(path: String, stand: Vector3) -> void:

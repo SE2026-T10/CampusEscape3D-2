@@ -32,3 +32,7 @@ Kiến trúc, biển cố định, khung cửa, mái, vạch sơn và bố trí 
 `audio/relay.wav`, `audio/radio.wav`, `audio/gate_motor.wav` được tổng hợp bằng `tools/build_security_audio.py`: sóng sin, noise có seed cố định và envelope, mono PCM 16-bit 22050 Hz. Không chứa sample tải ngoài hoặc giọng nói của người thật. Có thể tái tạo bằng Python chuẩn, không cần thư viện bổ sung.
 
 Khung cảm biến, bảng điều khiển, loa PA, chỉ báo và các cổng động được lắp bởi `tools/k17_security_builder.gd`, tái sử dụng model cửa tự dựng. Không thêm nguồn asset thương mại trong đợt cơ chế an ninh.
+
+## Tổ hợp mở rộng V3
+
+Tám sector, hai cầu thang xuống B1, nhà xe, xe tải quân dụng phong cách đơn giản, máy phát, biển gắn khung và chi tiết tường được dựng bằng `tools/k17_expansion_builder.gd`. Các phần này là hình học do project sinh, kết hợp model và vật liệu đã ghi nguồn ở trên; không lấy thêm model xe hoặc bộ asset thương mại. Lightmap V3 được bake cho cả tổ hợp; cảnh vệ và cửa chuyển động dùng ánh sáng động/probe, không bake thành bóng đứng yên.

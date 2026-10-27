@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+K17 MISSION CHECKS: 136 checks; 0 failures
+HOLD INTERACTION CHECKS: 19 checks; 0 failures
+K17 SECURITY CHECKS: 45 checks; 0 failures
+K17 TEST MODE CHECKS: 38 checks; 0 failures
+[K17 dispatch] wave=1 actor=Reinforcement0 origin=(-18.0, 0.0, 39.5)
+[K17 dispatch] wave=1 actor=Reinforcement1 origin=(22.0, 0.0, -18.0)
+[K17 dispatch] wave=2 actor=Reinforcement2 origin=(-42.0, 0.0, 42.0)
+[K17 dispatch] wave=2 actor=Reinforcement3 origin=(44.0, 0.0, -18.0)
+K17 EXPANSION CHECKS: 40 checks; 0 failures
+K17 TESTS PASSED

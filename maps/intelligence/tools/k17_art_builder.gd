@@ -1,6 +1,7 @@
 extends RefCounted
 ## Authoring helper. Ships a separate, editable environment scene, never runs in game.
 const BASE := "res://maps/intelligence/"
+const L := preload("res://maps/intelligence/resources/layout/k17_layout.gd")
 const MODEL := BASE + "assets/models/"
 var scene: Node3D
 var concrete: StandardMaterial3D
@@ -19,7 +20,7 @@ var models := {}
 func build(collision_root: Node3D) -> Node3D:
 	scene = Node3D.new()
 	scene.name = "K17Environment"
-	scene.set_meta("art_version", "v2")
+	scene.set_meta("art_version", "v3")
 	concrete = _pbr("concrete_wall_001", 0.42)
 	floor_mat = _pbr("concrete_floor_02", 0.45)
 	floor_mat.roughness_texture = null
@@ -154,7 +155,7 @@ func _interior() -> void:
 	_sign("02 / THÔNG TIN LIÊN LẠC\nKÊNH LIÊN LẠC MÃ HÓA", Vector3(5,2.35,13.7), 3.4,.55,PI)
 	_sign("03 / KHU HỒ SƠ MẬT\nCHỈ DÀNH CHO NGƯỜI CÓ PHẬN SỰ", Vector3(4,2.85,4.96), 4,.44)
 	_sign("BẢO TRÌ / LỐI RA PHÍA ĐÔNG", Vector3(16,2.75,13.7), 3.2,.35)
-	_sign("MẬT LỆNH 04\nTÀI LIỆU TỐI MẬT", Vector3(4,2.3,-23.65), 2.1,.5)
+	_sign("KHO MẬT B1 ↓\nMÃ KHO BẮT BUỘC", Vector3(8,2.3,-23.65), 2.1,.5)
 	# Small details stay against existing solids, clear of all tested routes.
 	for x in [-16.0,-8.0,0.0,8.0,16.0]:
 		_model("caged_lamp",Vector3(x,2.35,-23.65))
@@ -175,12 +176,12 @@ func _interior() -> void:
 			var valve := _model("pipe_valve",Vector3(x,1.7,z))
 			valve.rotation.y = PI/2
 	# Extraction signals and checkpoint become physical set dressing, not floating text.
-	for x in [-16.0,16.0]:
+	for x in [-36.0,36.0]:
 		for side in [-1.0,1.0]:
-			_box("ExtractionMark",Vector3(x+side*1.65,.018,27),Vector3(.10,.012,3.5),yellow)
-			_cylinder("BeaconPost",Vector3(x+side*1.75,.55,27),.055,1.1,steel)
-			_box("Beacon",Vector3(x+side*1.75,1.12,27),Vector3(.13,.16,.13),lit)
-		_sign("ĐIỂM TẬP KẾT\n" + ("PHÍA TÂY" if x<0 else "PHÍA ĐÔNG"),Vector3(x,1.3,29.8),1.2,.48)
+			_box("ExtractionMark",Vector3(x+side*1.65,.018,51),Vector3(.10,.012,3.5),yellow)
+			_cylinder("BeaconPost",Vector3(x+side*1.75,.55,51),.055,1.1,steel)
+			_box("Beacon",Vector3(x+side*1.75,1.12,51),Vector3(.13,.16,.13),lit)
+		_sign("ĐIỂM TẬP KẾT\n" + ("PHÍA TÂY" if x<0 else "PHÍA ĐÔNG"),Vector3(x,1.3,53.8),1.2,.48)
 	for x in [6.95,9.05]:
 		_box("CheckpointFloorMark",Vector3(x,.024,-6),Vector3(.08,.008,2.4),yellow)
 	_sign("ĐIỂM CHUẨN BỊ\nCHECKPOINT / K17",Vector3(8,1.9,-3.26),1.7,.48,PI)

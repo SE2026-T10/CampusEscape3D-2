@@ -16,7 +16,7 @@ const LEVELS := [
 	{"id": EXPANDED, "title": "Expanded Library", "scene": "res://maps/library/scenes/expanded_library.tscn",
 		"description": "Two floors and a basement, seven guards, puzzles and three ways out. Retrieve the rare manuscript."},
 	{"id": INTELLIGENCE, "title": "K17 — 120 giây cuối", "scene": "res://maps/intelligence/scenes/intelligence_k17.tscn",
-		"description": "Thâm nhập cơ sở tình báo, lấy Mật lệnh 04 rồi rút lui trong 120 giây.",
+		"description": "Tổ hợp tình báo mở rộng, kho mật B1 và cảnh vệ tiếp viện trong 120 giây rút lui.",
 		"test_scene": "res://maps/intelligence/scenes/intelligence_k17_test.tscn",
 		"test_title": "K17 — Test map không lính gác",
 		"test_description": "Tự do kiểm tra đường đi và tương tác. Cảm biến, checkpoint và đồng hồ vẫn hoạt động."},

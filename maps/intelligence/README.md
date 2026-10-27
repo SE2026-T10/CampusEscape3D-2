@@ -1,96 +1,81 @@
 # K17 — 120 giây cuối
 
-Người phụ trách: Nguyễn Đình Phiên. Một người lính thâm nhập cơ sở tình báo trong chiến tranh hư cấu, thu hồi Mật lệnh 04 rồi mang hồ sơ về điểm tập kết.
+Map độc lập của Nguyễn Đình Phiên: An đột nhập cơ sở tình báo trong chiến tranh hư cấu, thu hồi **Mật lệnh 04** rồi thoát trước khi cơ sở phong tỏa. [Cốt truyện gốc](https://docs.google.com/document/d/1JnYON8pKSkMLtzYODPYOhB-96hSxaVUOpCYgm020JS8/edit).
 
-[Cốt truyện gốc](https://docs.google.com/document/d/1JnYON8pKSkMLtzYODPYOhB-96hSxaVUOpCYgm020JS8/edit). Vòng nhiệm vụ V1 đã có đợt nâng cấp mỹ thuật: kiến trúc bê tông/olive, hàng rào lưới thép, hành lang kiểm soát, trần, đồ nội thất, hình ảnh lính và ánh sáng bake. Xem [nguồn asset](assets/CREDITS.md), [kiểm tra mỹ thuật](docs/art-v2/VALIDATION.md) và [bằng chứng V1 trước nâng cấp](docs/v1/VALIDATION.md).
+Bản V3 mở khuôn viên từ 48 × 60 m lên **96 × 108 m**, gồm tám khu chức năng, kho mật **B1**, hai cầu thang, hai đường vào và hai điểm tập kết ngoài hàng rào. Có **sáu lính thường trực**, tối đa **bốn cảnh vệ tiếp viện** khi lấy hồ sơ. Dùng AI, điều khiển, tương tác và HUD chung của nhóm.
 
-## Chơi bản mở rộng
+## Mở và tự chơi
 
-Dùng Godot **4.7.2 official**, mở `project.godot`, chạy project và chọn **K17 — 120 giây cuối** trong menu. Có thể mở trực tiếp `scenes/intelligence_k17.tscn` và nhấn F6.
+Mở `project.godot` bằng **Godot 4.7.2 official**, nhấn F5 rồi chọn **K17 — 120 giây cuối**. Hoặc mở `scenes/intelligence_k17.tscn`, nhấn F6.
 
 ```text
 godot --path . res://maps/intelligence/scenes/intelligence_k17.tscn
 ```
 
-WASD di chuyển, chuột nhìn, Shift chạy, C/Ctrl cúi, E tương tác, Esc/P tạm dừng. F3 bật/tắt thông tin gỡ lỗi trong bản phát triển.
+WASD di chuyển, chuột nhìn, Shift chạy, C/Ctrl cúi, E/giữ E tương tác, Esc/P tạm dừng, F3 bật thông tin gỡ lỗi. Không cần nhảy hoặc leo dây.
 
-### Test map không lính gác
+**Test không lính:** chọn **K17 — Test map không lính gác** trong menu hoặc chạy `scenes/intelligence_k17_test.tscn`. Đây là cùng bản đồ và nhiệm vụ; cảm biến, cửa, checkpoint và đồng hồ vẫn chạy. Cả lính thường trực lẫn tiếp viện đều được tắt. HUD và kết quả ghi rõ lượt test. Restart/thử lại giữ đúng chế độ; về menu chọn bản thường để chơi có lính.
 
-Trong menu, chọn **K17 — Test map không lính gác**. Bạn tự điều khiển để kiểm tra đường đi, va chạm, đồ vật và hai lối thoát. Chế độ này loại toàn bộ bốn lính, gồm cả collider và bộ phận nhìn/nghe. HUD ghi rõ **TEST MAP — KHÔNG LÍNH GÁC** và màn kết quả cũng đánh dấu lượt test.
+## Đi nhiệm vụ
 
-Cảm biến, radio, giữ E, checkpoint, cửa phong tỏa và đồng hồ 120 giây vẫn hoạt động. Pause, thử lại checkpoint và chơi lại từ đầu đều giữ chế độ test. Muốn chơi có lính, về menu và chọn **K17 — 120 giây cuối**.
+1. Từ vành đai, vào qua sân/nhà xe phía tây hoặc đường hậu cần phía đông. Quan sát biển khu vực và các tuyến tuần tra.
+2. Lấy **giấy thông hành** trên bàn phòng trực phía tây, qua nhà xe. Phòng trực có cửa trước và cửa phía khối nhà trung tâm.
+3. Vào **khối chỉ huy/vô tuyến**, lấy **sơ đồ và mã kho** trên bàn liên lạc. Phía sau vách che trong phòng vô tuyến có checkpoint đầu tiên.
+4. Có thể ghé **trạm điện phía đông**, giữ E **2,5 giây** ở bảng **CHỐT CỬA HẬU**. Khi rút lui, cửa hậu đã chuẩn bị mở ngay; nếu chưa chuẩn bị phải giữ E tám giây.
+5. Dùng thẻ mở cửa khu phân loại hồ sơ. Đi hành lang bên phải đến **checkpoint trước kho mật**, rồi mở cửa xuống **B1** bằng mã kho đã lấy.
+6. Qua hai dải cảm biến: **xanh được qua, vàng sắp quét, đỏ dừng lại**. Có vùng chờ giữa các dải. Đến bàn hồ sơ và giữ E **3,5 giây** để mở niêm phong. Thanh tiến trình hủy khi nhả E, nhìn lệch, rời tầm hoặc pause.
+7. Khi lấy xong hồ sơ, đồng hồ **120 giây** bắt đầu. Chọn đường rút và mang tài liệu vào vùng đèn xanh ngoài hàng rào để thắng.
 
-Có thể mở `scenes/intelligence_k17_test.tscn` rồi nhấn F6 hoặc chạy:
+**Rút qua sân:** quay lại cầu thang chính, qua khối giữa và ra sân. Có thể dùng lối kỹ thuật ra sân để tránh phòng trực; dùng xe, kiện hàng và mép sân để tránh chốt tiếp viện. Cổng chính sẽ đóng theo lịch.
 
-```text
-godot --path . res://maps/intelligence/scenes/intelligence_k17_test.tscn
-```
+**Rút bảo trì:** từ kho B1, mở cửa phía đông bằng hồ sơ, đi hành lang ngầm rồi lên cầu thang thứ hai. Qua các vách kiểm soát của tuyến dịch vụ/xưởng để đến cửa hậu phía đông. Tuyến này có chỗ che và vẫn dùng được sau khi cổng chính khóa.
 
-Scene test kế thừa map chính nên nhận các cập nhật bố cục/mỹ thuật và lần dựng lại từ builder; không sao chép nội dung map.
+Radio ở phòng vô tuyến hẹn tiếng rè sau **bốn giây**, phát từ hai loa có vị trí thật và hồi sau 20 giây. Chỉ lính nghe được mới điều tra. Lính đã truy đuổi tiếp tục theo luật AI chung, không tự quên người chơi vì radio.
 
-### Trình tự nhiệm vụ
+## Báo động và tiếp viện
 
-1. Vào cơ sở qua sân phía tây hoặc lối kỹ thuật phía đông.
-2. Đến bàn trong phòng trực phía tây và lấy giấy thông hành bằng E.
-3. Mở cửa gia cường khu hồ sơ bằng E. Vòng qua tủ che bên phải, tìm vạch sơn và biển checkpoint.
-4. Vượt hai dải cảm biến ở hành lang hồ sơ: **xanh được qua, vàng sắp quét, đỏ dừng lại**. Dừng giữa hai dải để quan sát nhịp tiếp theo.
-5. Nhìn vào Mật lệnh 04, **giữ E 3,5 giây** để mở niêm phong. Thanh tiến trình xuất hiện dưới lời nhắc; nhả E, nhìn lệch, rời tầm, pause hoặc bị bắt sẽ hủy thao tác. Đồng hồ 120 giây bắt đầu khi lấy xong.
-6. Rút qua sân phía tây trước khi cổng đóng, hoặc tới cửa hậu phía đông và giữ E 8 giây mở khóa cơ. Nếu đã chuẩn bị chốt trước đó, cửa hậu mở ngay bằng E.
-7. Mang hồ sơ đến vùng đèn xanh bên ngoài hàng rào để hoàn thành.
+| Sau khi lấy hồ sơ | Sự kiện |
+|---|---|
+| T+0 | Đèn đỏ/còi báo động, cửa hậu khóa cơ, bắt đầu 120 giây |
+| T+10 | Hai cảnh vệ từ chốt phản ứng/khu bắc; tổng tối đa tám lính |
+| T+45 | Hai cảnh vệ từ chốt vận tải/hậu cần; tổng tối đa mười lính |
+| T+70 | Cảnh báo sắp đóng cổng chính |
+| T+90 | Cổng chính nhận lệnh đóng; cửa hậu vẫn mở được bằng chốt cơ |
+| T+100 | Loa nhắc tăng kiểm soát chốt đông |
+| T+120 | Thất bại nếu chưa đưa hồ sơ tới tập kết |
 
-Bàn radio ở khu thông tin có bộ hẹn bốn giây; hai loa gắn trong hành lang và ngoài sân phát tiếng rè tại vị trí thật, thu hút lính nghe được. Radio hồi sau 20 giây từ lúc hẹn. Lính đang truy đuổi vẫn theo luật AI chung.
+Tiếp viện dùng Guard và hình ảnh quân sự chung với lính hiện có. Cảnh vệ nhận tuyến kiểm tra từ chốt; nhìn/nghe mới cung cấp thông tin về người chơi. Điểm vào đang bị người chơi chiếm hoặc nhìn trực tiếp sẽ được hoãn có giới hạn. Không sinh lính vô hạn. Báo động cảm biến trước khi lấy hồ sơ không tự gọi hai đợt tiếp viện.
 
-Trước khi lấy hồ sơ, có thể tới bảng **CHỐT CỬA HẬU** trên vách phía đông khu kỹ thuật và giữ E 2,5 giây để chuẩn bị mở nhanh. Nên làm trước khi lưu checkpoint; việc chuẩn bị tham gia cùng snapshot nhiệm vụ.
+Cửa chờ người đứng ở ngưỡng tối đa ba giây rồi hủy lần đóng nếu vẫn bị cản. Người đã qua cổng có thể tiếp tục tới tập kết. Pause dừng lịch. Bắt/hết giờ rồi thử lại sẽ khôi phục checkpoint, xóa tiếp viện của lượt cũ, hủy thao tác/sự kiện đang chờ và cho phép hai đợt chạy lại sau lần lấy hồ sơ tiếp theo. Không ghi đè checkpoint trong chặng rút lui.
 
-Lịch phong tỏa tính từ lúc nhấc hồ sơ: cửa hậu khóa cơ ngay; giây **50** loa cảnh báo; giây **65** cổng sân nhận lệnh đóng; giây **85** loa chốt phía đông gọi kiểm soát. Cổng có vùng kiểm tra người đứng ở ngưỡng: chờ tối đa ba giây rồi hủy lần đóng nếu còn bị cản. Các mốc khác vẫn tiếp tục. Nếu đã qua cổng trước khi đóng, vẫn có thể vào vùng tập kết bên ngoài.
+## Cấu trúc và dựng lại
 
-Bị bắt sẽ quay về checkpoint đã kích hoạt; trước checkpoint sẽ trở về điểm đầu. Hết giờ hiện màn thất bại với nút thử lại checkpoint, chơi lại từ đầu và về menu. Khôi phục trước phòng hồ sơ giữ giấy thông hành/cửa đã mở, trả hồ sơ về giá và đưa đồng hồ về trạng thái chưa chạy. Đi qua checkpoint trong lúc rút lui không ghi đè lần lưu này.
+- `scenes/intelligence_k17.tscn`: map chính; `intelligence_k17_test.tscn` kế thừa để test không lính.
+- `scenes/sectors/`: tám scene được instance vào map: vành đai, nhà xe, phòng trực, chỉ huy, trạm điện, phân loại, kho mật và tuyến dịch vụ.
+- `scenes/environment/k17_environment.tscn`: mỹ thuật lõi giữa; `k17_security.tscn`: cảm biến, radio, chốt và cổng động.
+- `resources/layout/k17_layout.gd`: vị trí nhiệm vụ, điểm tập kết, tuần tra và các tuyến điều động.
+- `tools/k17_expansion_builder.gd`: kiến trúc/va chạm/mỹ thuật các khu mở rộng; `build_k17.gd`: ghép map, nhiệm vụ và bake navmesh.
+- `scripts/reinforcements.gd`: điều phối hai đợt tiếp viện, kiểm tra điểm vào, ngoại hình và dọn actor khi thử lại.
+- `resources/k17_v3_lightmap.*`: ánh sáng bake cho toàn bộ map, do `LightmapGI` ở root quản lý.
 
-## Phạm vi đã có
+Builder sinh lại các sector và gameplay từ mã nguồn; sửa builder/dữ liệu bố cục trước khi chạy để giữ thay đổi qua lần dựng tiếp theo. Lần dựng thường giữ scene mỹ thuật lõi và lightmap đã có. Dùng `-- --rebuild-art` khi chủ động muốn sinh lại mỹ thuật lõi. Thay vị trí, hình học hoặc mesh tĩnh cần **bake lại ánh sáng**, đồng thời kiểm tra collider/navmesh/link.
 
-- Một tầng, sân tiếp vận, phòng trực, khu thông tin, khu hồ sơ và lối kỹ thuật/bảo trì.
-- Hai tuyến tiếp cận, hai điểm tập kết, bốn NPC với tuyến tuần tra riêng và navmesh đã bake.
-- Player, tương tác E, AI nhìn/nghe và HUD đều dùng phần chung; `features/` cung cấp nhiệm vụ, giấy thông hành, cửa và checkpoint.
-- Trạng thái hồ sơ và đồng hồ thuộc `mission_controller.gd`; HUD nhận dữ liệu qua `MapHudProvider`.
-- Pause dừng đồng hồ; hết giờ không tăng số lần bị lính bắt; thắng ghi nhận đường rút và số giây còn lại.
-
-Đã bổ sung giữ E/thanh tiến trình dùng chung theo tùy chọn, cảm biến, radio, chốt chuẩn bị cửa hậu, lịch phong tỏa, lời radio theo ưu tiên và ba âm thanh tự tổng hợp. Các đồ vật cũ giữ thời gian tương tác bằng 0. Cổng dùng collider và walking link đồng bộ trên navmesh đã cắt tại ngưỡng, không để NPC lên đường đi xuyên cổng đã khóa. Xem [báo cáo bản mở rộng](docs/security-v2/VALIDATION.md).
-
-Đồng hồ 120 giây và lịch cửa là thông số thử nghiệm; chưa được cân bằng thành độ khó cuối hoặc xác nhận thời lượng 10–15 phút bằng người chơi. Độ tối của hình ảnh chưa làm thay đổi luật nhìn/nghe NPC. Thoại hiện thể hiện bằng chữ; chưa có giọng lồng tiếng hoặc bộ chiến đấu.
-
-## Dựng lại và kiểm tra
-
-`build_k17.gd` tạo scene gameplay và navmesh từ bố cục collision. Lần dựng bình thường **giữ nguyên** scene môi trường và lightmap đã bake. Có thể chỉnh mỹ thuật trực tiếp trong `scenes/environment/k17_environment.tscn`.
-
-Chỉ khi muốn sinh lại môi trường từ bộ module, dùng `-- --rebuild-art`; thao tác này ghi đè scene môi trường và cần bake lại ánh sáng. Các tool không chạy khi chơi game.
-
-`scenes/k17_security.tscn` là lớp gameplay được builder sinh riêng, chứa cảm biến, loa, chốt và hai cổng động. Chỉnh thông số hoặc vị trí trong script/builder tương ứng khi muốn giữ chúng qua lần dựng lại. Các mesh và đèn bake trong `environment/` được giữ nguyên.
+Bake: khởi động editor với `--rendering-method mobile`, mở **map chính**, chọn `LightmapGI` ở root, Bake Lightmaps và lưu `resources/k17_v3_lightmap.lmbake`, rồi lưu scene. Có thể dùng EditorScript `tools/bake_lightmaps.gd`. Khi chơi vẫn dùng Compatibility như các map khác; không cần cài plugin.
 
 ```text
 godot --headless --path . --script res://maps/intelligence/tools/build_k17.gd
-godot --headless --path . --editor --quit
 godot --headless --path . --script res://maps/intelligence/tools/check_k17.gd
 godot --headless --path . --script res://maps/intelligence/tools/check_art.gd
-godot --headless --path . --script res://maps/intelligence/tools/playthrough_k17.gd
+godot --headless --path . --script res://maps/intelligence/tools/playthrough_k17.gd -- --crouch --prepare --sprint-yard
+godot --headless --path . --script res://maps/intelligence/tools/playthrough_k17.gd -- --live-guards --crouch --prepare --radio --wait-radio --sprint-yard --settle-before-file --yard-flank
 godot --headless --path . --script res://maps/intelligence/tools/guard_soak_k17.gd
+godot --headless --path . --script res://maps/intelligence/tools/guard_soak_k17.gd -- --reinforced
 ```
 
-Tái tạo model: Python chạy `tools/fetch_art_assets.py --cache <thư_mục_ngoài_project>` để lấy bản gốc và xác minh MD5; Blender 4.5+ chạy `--background --python tools/build_art_models.py -- --cache <thư_mục_đó>`. Các đường dẫn trong ví dụ là tương đối với thư mục map; nếu chạy từ root project hãy thêm `maps/intelligence/`.
+Tool đi bộ dùng điều khiển và giữ E thật, không dịch chuyển giữa waypoint. Mặc định chạy scene không lính để kiểm tra hình học; `--live-guards` giữ nhận thức/AI và tiếp viện thật. `--entry=maintenance` kiểm tra hướng vào hậu cần; `--route=courtyard|maintenance` chọn đường rút; bỏ `--prepare` để kiểm tra mở cửa hậu tám giây. `--yard-flank` chọn đường vòng sân và dùng radio trước lúc lấy hồ sơ. Soak tiếp viện kiểm tra riêng tuyến đường với nhận thức nhìn tạm dừng; E2E có lính kiểm tra đầy đủ nhìn/nghe/truy đuổi.
 
-Import model tĩnh với **Meshes → Light Baking → Static Lightmaps** (giá trị 2), texel size 0.2; giữ tắt mesh compression theo các tệp `.glb.import` đã lưu. Hình ảnh lính chuyển động dùng thiết lập riêng, không bake vào môi trường.
+Khi chạy QA có render trong nền, thêm `--background` để tool tự tiếp tục nếu cửa sổ mất focus. Thao tác giữ E bị hủy do pause được thử lại bằng một lần giữ mới. Tùy chọn này chỉ thuộc tool QA; bản chơi thường vẫn pause khi mất focus.
 
-Bake ánh sáng: mở editor với `--rendering-method mobile` trên GPU có RenderingDevice, mở `scenes/environment/k17_environment.tscn`, chọn `LightmapGI`, nhấn **Bake Lightmaps**, lưu `resources/k17_lightmap.lmbake` và lưu scene. Có thể chạy EditorScript `tools/bake_lightmaps.gd` bằng Ctrl+Shift+X trong editor Godot 4.7. Project phát hành vẫn dùng Compatibility; không cần đổi renderer trong `project.godot`.
+`preview_expansion.gd` chụp các góc dàn sẵn để xem mỹ thuật, không thay bằng chứng thắng. `benchmark_expansion.gd` đo renderer theo đồng hồ thực tại các góc cố định với sáu/mười NPC; không dùng `--headless` hoặc `--fixed-fps` cho benchmark.
 
-`preview_art.gd` chụp các góc cố định, tắt quyết định NPC chỉ trong lượt chụp; `benchmark_art.gd` đo frame time theo thời gian thực với cả bốn NPC hoạt động, tắt bắt và giữ camera đứng yên để so sánh. Không dùng số đo headless/fixed-fps làm FPS đồ họa.
-
-`playthrough_k17.gd` dùng bộ điều khiển và tương tác thật để kiểm tra va chạm của cả hai tuyến, chủ động tắt NPC chỉ trong lượt QA này. `guard_soak_k17.gd` kiểm tra riêng bốn NPC đang hoạt động trong scene thật. Scene nhiệm vụ bình thường giữ đủ bốn NPC; scene test riêng không có NPC.
-
-Tool đi bộ có các tùy chọn `--live-guards`, `--crouch`, `--radio`, `--wait-radio`, `--prepare`, `--sprint-yard`, `--settle-before-file`, `--yard-flank`, `--route=courtyard|maintenance` và `--entry=courtyard|maintenance`. Nó biết dừng trước dải cảm biến để đợi xanh; vẫn dùng di chuyển, tương tác và thời gian giữ thật. `--wait-radio` đợi tám giây sau khi hẹn để lính có thời gian phản ứng; `--settle-before-file` đợi trạng thái yên ba giây ở checkpoint có vật che; `--yard-flank` dùng hành lang kỹ thuật rồi đi dọc sân tới cổng phía tây. Các tùy chọn này chỉ dành cho QA, không sửa AI hoặc điều kiện thắng. Một tuyến cố định bị bắt không tự chứng minh lỗi gameplay; log ghi trạng thái, số lần bị bắt và các công cụ đã dùng.
-
-```text
-godot --headless --path . --script res://maps/intelligence/tools/playthrough_k17.gd -- --live-guards --crouch --radio --wait-radio --prepare --sprint-yard --settle-before-file --yard-flank --entry=courtyard
-```
-
-`capture_security.gd` chụp các trạng thái được dàn sẵn của cảm biến, giữ E, radio và cửa phong tỏa bằng renderer thật. Không dùng lượt chụp thay bằng chứng hoàn thành E2E. Suite giữ E kiểm tra hủy và tương thích mặc định; suite an ninh kiểm tra ray cảm biến, lịch hẹn, snapshot và khả năng đi qua từng trạng thái cổng.
-
-Suite nhiệm vụ được đăng ký trong `tests/test_scene.gd`; `tools/map_flow.gd` kiểm tra việc chọn, restart và rời cả ba map. Build/export dùng quy trình chung. Không có phụ thuộc runtime vào scene hay script của thư viện.
+Xem [kiểm tra V3](docs/expansion-v3/VALIDATION.md), [nguồn tài nguyên miễn phí](assets/CREDITS.md), [bản an ninh V2](docs/security-v2/VALIDATION.md). Bản mở rộng vẫn dùng nhân vật/đạo cụ phong cách đơn giản. Mục tiêu 10–15 phút lần đầu và độ khó cuối cần chơi thử với người chưa biết map; chưa có chiến đấu, bắn súng, leo dây hoặc xe lái được. Độ sáng render chưa làm thay đổi luật nhìn/nghe NPC.

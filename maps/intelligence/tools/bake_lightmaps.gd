@@ -8,7 +8,7 @@ func _run() -> void:
 		push_error("K17 bake needs an editor started with --rendering-method mobile (the project stays Compatibility).")
 		return
 	await _frames(100)
-	EditorInterface.open_scene_from_path("res://maps/intelligence/scenes/environment/k17_environment.tscn")
+	EditorInterface.open_scene_from_path("res://maps/intelligence/scenes/intelligence_k17.tscn")
 	await _frames(70)
 	var scene := EditorInterface.get_edited_scene_root()
 	if scene == null:
@@ -35,7 +35,7 @@ func _run() -> void:
 	for node in _all_nodes(EditorInterface.get_base_control().get_tree().root):
 		if node is EditorFileDialog and node.visible:
 			print("K17 BAKE: selecting lightmap resource")
-			node.file_selected.emit("res://maps/intelligence/resources/k17_lightmap.lmbake")
+			node.file_selected.emit("res://maps/intelligence/resources/k17_v3_lightmap.lmbake")
 			node.hide()
 	await _frames(40)
 	print("K17 BAKE DATA ",lightmap.light_data)
