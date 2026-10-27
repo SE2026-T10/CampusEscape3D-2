@@ -34,9 +34,17 @@ func _run() -> void:
 		_expect(current_scene.get_node("Guards").get_child_count()==(0 if test_mode else 10),"Packed final actor count")
 		for guard in current_scene.get_node("Guards").get_children():
 			_expect(guard.has_node("Model/Hips/Torso/MilitaryChest"),"Packed military appearance, including late actors")
+		var device:=current_scene.get_node("Gameplay/Sabotage")
+		_expect(device.plant(),"Packed sabotage target accepts a valid post-file placement")
+		_expect(current_scene.get_node("Gameplay/Sabotage/Target").hold_duration==5,"Packed target keeps five-second interaction")
+		_expect(mission.try_extract(&"maintenance","Bảo trì"),"Packed armed extraction starts")
+		await _frames(250)
+		_expect(GameFlow.find(current_scene).state==GameStateMachine.State.WIN and device.detonated and device.detonations==1,"Packed finale/audio/effects complete exactly once")
+		_expect(ObjectiveManager.find(current_scene).is_completed(K17MissionController.SABOTAGE),"Packed sabotage objective completes")
 		StealthDirector.find(current_scene).reset_level()
 		await _frames(10)
 		_expect(team.spawned_count==0,"Packed restore clears reinforcements")
+		_expect(not device.armed and not device.detonated,"Packed restore clears sabotage")
 		print("[K17 pack] test_mode=",test_mode," sectors=8 dispatch/restore verified")
 		current_scene.queue_free()
 		await _frames(40)
@@ -46,7 +54,7 @@ func _run() -> void:
 		OS.delay_msec(50)
 		await process_frame
 	for failure in failures: printerr(failure)
-	print("K17 V4 PACK PASSED" if failures.is_empty() else "K17 V4 PACK FAILED")
+	print("K17 V5 PACK PASSED" if failures.is_empty() else "K17 V5 PACK FAILED")
 	quit(0 if failures.is_empty() else 1)
 func _expect(ok: bool,message: String) -> void:
 	if not ok: failures.append(message)

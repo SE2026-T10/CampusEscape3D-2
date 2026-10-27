@@ -8,6 +8,8 @@ Bản V4 giữ khuôn viên **96 × 108 m**, tám khu chức năng, kho mật **
 
 Đợt [sửa điểm nối và gá đỡ](docs/attachments-v4/VALIDATION.md) nối lại các co ống theo đúng miệng nối, làm liền tuyến máng dây B1 và bổ sung gá, cột hoặc ty treo cho bảng biển. Bảng trên giá hồ sơ có thanh ngang đỡ; bảng điều khiển trạm điện và keypad có tủ/chân đỡ.
 
+**V5 — Phá hoại tùy chọn:** sau khi lấy hồ sơ, có thể đặt thiết bị tại tủ tình báo dự phòng trong xưởng phía đông, cạnh bàn dụng cụ. Giữ E **5 giây** ở mặt tủ rồi rút trong cùng **120 giây**. Khi đã tới tập kết an toàn, cảnh phá hủy chạy khoảng bốn giây rồi hiện kết quả; Enter bỏ qua cảnh, Esc/P tạm dừng. Bỏ qua phá hoại vẫn thắng bình thường. Xem [kế hoạch](docs/sabotage-v5/PLAN.md) và [kết quả kiểm thử V5](docs/sabotage-v5/VALIDATION.md).
+
 ## Mở và tự chơi
 
 Mở `project.godot` bằng **Godot 4.7.2 official**, nhấn F5 rồi chọn **K17 — 120 giây cuối**. Hoặc mở `scenes/intelligence_k17.tscn`, nhấn F6.
@@ -30,7 +32,9 @@ WASD di chuyển, chuột nhìn, Shift chạy, C/Ctrl cúi, E/giữ E tương t�
 6. Qua hai dải cảm biến: **xanh được qua, vàng sắp quét, đỏ dừng lại**. Có vùng chờ giữa các dải. Đến bàn hồ sơ và giữ E **3,5 giây** để mở niêm phong. Thanh tiến trình hủy khi nhả E, nhìn lệch, rời tầm hoặc pause.
 7. Khi lấy xong hồ sơ, đồng hồ **120 giây** bắt đầu. Chọn đường rút và mang tài liệu vào vùng đèn xanh ngoài hàng rào để thắng.
 
-Có **bảy mục tiêu bắt buộc**, gồm thêm việc giải mã kho, và hai mục tiêu chuẩn bị tùy chọn. Túi ba ô đủ cho giấy thông hành và hai chai rỗng có sẵn trong map. Hồ sơ và ghi chú không chiếm ô. Chai chỉ mất khi ném thành công; thẻ không bị tiêu hao. Nhật ký giữ kiến thức sau khi bị bắt; đồ mang theo, nguồn điện, cửa và tiến độ trở về checkpoint.
+Có **bảy mục tiêu bắt buộc** và **ba mục tiêu tùy chọn**: chuẩn bị cửa hậu, ngắt camera chính và phá hoại cụm tình báo. Thiết bị phá hoại được cấp sẵn, không chiếm ô đồ và chỉ tiêu hao khi giữ E hoàn tất; nhả E, nhìn lệch, rời tầm hoặc pause sẽ hủy thao tác. Chỉ đặt sau khi có hồ sơ; đặt xong vẫn chưa được tính phá hoại thành công cho đến khi thoát và kích hoạt. Bị bắt/hết giờ rồi thử lại sẽ trả thiết bị và tủ về trạng thái trước khi lấy hồ sơ.
+
+Túi ba ô đủ cho giấy thông hành và hai chai rỗng có sẵn trong map. Hồ sơ và ghi chú không chiếm ô. Chai chỉ mất khi ném thành công; thẻ không bị tiêu hao. Nhật ký giữ kiến thức sau khi bị bắt; đồ mang theo, nguồn điện, cửa và tiến độ trở về checkpoint. Ghi chú nguồn điện có hướng dẫn vị trí và luật phá hoại để xem lại bằng J.
 
 **Rút qua sân:** quay lại cầu thang chính, qua khối giữa và ra sân. Có thể dùng lối kỹ thuật ra sân để tránh phòng trực; dùng xe, kiện hàng và mép sân để tránh chốt tiếp viện. Cổng chính sẽ đóng theo lịch.
 
@@ -71,6 +75,11 @@ Cửa chờ người đứng ở ngưỡng tối đa ba giây rồi hủy lần 
 - `tools/k17_room_dressing.gd`: nội thất theo công năng, hốc vật che và giá camera; được ghép trước khi bake navmesh/gom mesh/bake ánh sáng.
 - `tools/k17_attachment_builder.gd`: gá tường, cột và ty treo cho biển; `check_attachments.gd` kiểm tra điểm tựa trên hình học thật trước khi gom mesh và kiểm tra các đầu nối ống/máng dây.
 - `scripts/reinforcements.gd`: điều phối hai đợt tiếp viện, kiểm tra điểm vào, ngoại hình và dọn actor khi thử lại.
+- `resources/layout/k17_sabotage.gd`, `tools/k17_sabotage_builder.gd`: vị trí tủ/điểm đứng, góc kết thúc và nguồn dựng cụm thiết bị V5; navmesh dùng cùng footprint với collider thật.
+- `scenes/props/k17_sabotage_target.tscn`: tủ có điểm tựa, thiết bị đã đặt và mô hình hư hại; các mesh thay trạng thái không gom/bake vào sector.
+- `scripts/sabotage_controller.gd`, `sabotage_target.gd`: điều kiện đặt, giữ E dùng chung, tiêu hao một lần, trạng thái hư hại và checkpoint.
+- `scripts/extraction_finale.gd`, `scenes/effects/k17_sabotage_finale.tscn`: góc máy, hiệu ứng/âm thanh, pause, bỏ qua và dọn cảnh. `mission_controller.gd` xác nhận thoát trước, dừng gameplay, chốt số liệu rồi hoàn thành nhiệm vụ sau cảnh; có đường hoàn tất dự phòng nếu phần trình bày lỗi.
+- `scripts/game_menus.gd`: menu riêng K17, kết quả tiếng Việt và thời gian chụp tại tập kết, không cộng thời lượng cảnh phá hủy.
 - `resources/layout/k17_v4.gd`: cấu hình AI, chỗ nấp, camera, tài liệu, keypad và vật ném.
 - `scripts/security_alarm.gd`, `power_network.gd`: nối phong tỏa với AI và lịch nguồn dự phòng riêng K17.
 - `scripts/hiding_spot.gd`, `security_camera.gd`, `stealth_director.gd`: lớp bổ sung riêng K17 kiểm tra nấp theo vật che/hướng nhìn và phản ánh camera lên HUD; giữ mã dùng chung của các map khác.
@@ -87,6 +96,7 @@ godot --headless --path . --script res://maps/intelligence/tools/build_k17.gd
 godot --headless --path . --script res://maps/intelligence/tools/check_k17.gd
 godot --headless --path . --script res://maps/intelligence/tools/check_art.gd
 godot --headless --path . --script res://maps/intelligence/tools/check_attachments.gd
+godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/check_sabotage.gd
 godot --headless --path . --script res://maps/intelligence/tools/playthrough_k17.gd -- --crouch --prepare --sprint-yard
 godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/playthrough_k17.gd -- --live-guards --crouch --prepare --camera-off --radio --wait-radio --sprint-exfil --settle-before-file --yard-flank --watch-patrol --stage-delay=6 --route=courtyard --utilities-north
 godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/playthrough_k17.gd -- --live-guards --crouch --prepare --camera-off --radio --wait-radio --sprint-yard --settle-before-file --yard-flank --watch-patrol --stage-delay=6 --route=maintenance --utilities-north
@@ -98,6 +108,14 @@ godot --path . --script res://maps/intelligence/tools/benchmark_v4.gd
 ```
 
 Tool đi bộ dùng điều khiển và giữ E thật, không dịch chuyển giữa waypoint. Mặc định chạy scene không lính để kiểm tra hình học; `--live-guards` giữ nhận thức/AI và tiếp viện thật. `--entry=maintenance` kiểm tra hướng vào hậu cần; `--route=courtyard|maintenance` chọn đường rút; bỏ `--prepare` để kiểm tra mở cửa hậu tám giây. `--yard-flank` chọn đường vòng sân và dùng radio trước lúc lấy hồ sơ. Soak tiếp viện kiểm tra riêng tuyến đường với nhận thức nhìn tạm dừng; E2E có lính kiểm tra đầy đủ nhìn/nghe/truy đuổi.
+
+Thêm `--sabotage` để tool rẽ vào tủ, giữ E thật và chờ kết quả phá hoại. Tuyến bảo trì là tuyến khuyến nghị; đi chậm vòng qua xưởng rồi quay ra sân có thể gặp cổng đã đóng ở T+90. Đường sân vẫn nhận kết thúc phá hoại nếu tới kịp. Tool `--watch-patrol` quan sát thêm từ checkpoint trước khi tới keypad; không đổi tốc độ, tầm nhìn hay lịch lính.
+
+```text
+godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/playthrough_k17.gd -- --sabotage --live-guards --crouch --prepare --camera-off --radio --wait-radio --sprint-yard --settle-before-file --yard-flank --watch-patrol --route=maintenance --utilities-north
+```
+
+`preview_sabotage.gd` dựng trạng thái để chụp tủ/hai góc kết thúc, không phải bằng chứng đi nhiệm vụ. `benchmark_sabotage.gd` đo frame time renderer thật của cảnh kết; chạy có cửa sổ, không thêm `--headless` hoặc `--fixed-fps`. Dựng lại map xong cần khởi động lại lượt chơi để tải scene mới.
 
 Khi chạy QA có render trong nền, thêm `--background` để tool tự tiếp tục nếu cửa sổ mất focus. Thao tác giữ E bị hủy do pause được thử lại bằng một lần giữ mới. Tùy chọn này chỉ thuộc tool QA; bản chơi thường vẫn pause khi mất focus.
 

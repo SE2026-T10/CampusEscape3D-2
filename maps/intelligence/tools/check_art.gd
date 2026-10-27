@@ -22,13 +22,18 @@ func _run() -> void:
 		for path in ["Model/Hips/Torso/MilitaryChest","Model/Hips/Torso/Head/MilitaryFace","Model/Hips/LegL/MilitaryShoe"]:
 			_expect(guard.has_node(path),"Military appearance is attached to animated joint: "+path)
 	var env := level.get_node("K17Environment")
+	var equipment := level.get_node("Gameplay/Sabotage")
+	var equipment_meshes := equipment.find_children("*","MeshInstance3D",true,false)
+	_expect(equipment_meshes.all(func(mesh): return mesh.gi_mode==GeometryInstance3D.GI_MODE_DYNAMIC),"Replaceable sabotage meshes never bake intact shadows into the room")
+	_expect(equipment_meshes.size()<25,"Equipment is batched independently per visual state")
+	_expect(equipment.get_node("Intact").visible and not equipment.get_node("Damaged").visible,"Fresh map shows intact equipment only")
 	_expect(level.get_node("LightmapGI").light_data != null,"Baked lighting is shipped")
 	var baked:=level.get_node("LightmapGI").light_data as LightmapGIData
 	if baked:
 		var moving_paths: Array[String]=[]
 		for i in baked.get_user_count():
 			var path:=str(baked.get_user_path(i))
-			if "/Guards/" in path or "/DoorHinge/" in path or "/Cameras/" in path or "/VaultKeypad/" in path or "/CourtyardGate/Leaf/" in path or "/MaintenanceGate/Leaf/" in path:
+			if "/Guards/" in path or "/DoorHinge/" in path or "/Cameras/" in path or "/VaultKeypad/" in path or "/CourtyardGate/Leaf/" in path or "/MaintenanceGate/Leaf/" in path or "/Sabotage/" in path:
 				moving_paths.append(path)
 		_expect(baked.get_user_count()>100,"Lightmap contains the authored compound geometry")
 		_expect(moving_paths.is_empty(),"Moving guards and door leaves are excluded from baked shadows: "+str(moving_paths))

@@ -11,6 +11,8 @@ const FILE := &"take_intelligence"
 const ESCAPE := &"extract_k17"
 const PREPARED := &"prepare_backdoor"
 const CAMERAS_OFF := &"disable_cameras"
+const SABOTAGE := &"sabotage_k17"
+const SabotageConfig := preload("res://maps/intelligence/resources/layout/k17_sabotage.gd")
 const OBJECTIVES := [
 	{"id": ENTER, "requires": [], "title": "Vào cơ sở K17", "hint": "Qua sân tiếp vận hoặc hành lang kỹ thuật.", "done": "Đã vào K17"},
 	{"id": PASS, "requires": [ENTER], "title": "Lấy giấy thông hành", "hint": "Trên bàn phòng trực phía tây. Có thể tìm chỉ dẫn trước.", "done": "Đã mang giấy thông hành"},
@@ -21,6 +23,7 @@ const OBJECTIVES := [
 	{"id": ESCAPE, "requires": [FILE], "title": "Đến điểm tập kết", "hint": "Trở ra ngoài qua sân hoặc bảo trì. Tìm đèn xanh trước khi hết giờ.", "done": "Đã đưa hồ sơ ra khỏi K17"},
 	{"id": PREPARED, "requires": [ENTER], "optional":true,"title":"Chuẩn bị cửa hậu","hint":"Chốt cơ trong trạm điện.","done":"Cửa hậu đã được chuẩn bị"},
 	{"id": CAMERAS_OFF,"requires": [ENTER],"optional":true,"title":"Ngắt nguồn camera chính","hint":"Công tắc ở trạm điện.","done":"Đã ngắt camera trước khi lấy hồ sơ"},
+	{"id": SABOTAGE,"requires": [FILE],"optional":true,"title":"Phá hủy cụm tình báo dự phòng","hint":"Tùy chọn: sau hồ sơ, giữ E 5 giây tại tủ trong xưởng phía đông rồi rút trước khi hết 120 giây. Kích hoạt sau khi thoát.","done":"Đã phá hủy cụm tình báo dự phòng"},
 ]
 
 @export_range(1.0, 600.0) var escape_duration := 120.0
@@ -42,6 +45,11 @@ var _dialogue_left := 5.0
 var _dialogue_priority := 0
 var _dialogue_queue: Array[Dictionary] = []
 var _dialogue_keys: Array[String] = []
+var run_id := 0
+var extraction_play_time := 0.0
+var finale_pending := false
+var _finale_left := 0.0
+var _result_complete := false
 
 
 func _ready() -> void:
@@ -80,6 +88,7 @@ func _on_objective_completed(id: StringName) -> void:
 			_dialogue_left = 0.0
 			_dialogue_priority = -1
 			queue_radio("Lam: Niêm phong đã bị phá! Cửa hậu đang khóa cơ, cổng sân đóng sau %d giây."%ceili(courtyard_close_at),6,"file")
+			queue_radio("Lam: Tùy chọn: đặt thiết bị ở tủ tình báo trong xưởng phía đông. Đồng hồ vẫn chạy; chỉ kích hoạt khi đã về tập kết!",3,"sabotage_offer")
 			_set_alarm_lights(true)
 			var back_gate := get_security_node("MaintenanceGate")
 			if back_gate: back_gate.call("request_close")
@@ -91,6 +100,11 @@ func _on_objective_completed(id: StringName) -> void:
 func _physics_process(delta: float) -> void:
 	var flow := GameFlow.find(self)
 	if flow == null or flow.state != GameStateMachine.State.PLAYING:
+		return
+	if flow.is_leaving(): return
+	if finale_pending:
+		_finale_left -= delta
+		if _finale_left <= 0.0: complete_finale(run_id)
 		return
 	_update_dialogue(delta)
 	if not has_file or escaped: return
@@ -121,15 +135,61 @@ func _physics_process(delta: float) -> void:
 func try_extract(route: StringName, title: String) -> bool:
 	var flow := GameFlow.find(self)
 	var objectives := ObjectiveManager.find(self)
-	if flow == null or flow.state != GameStateMachine.State.PLAYING or not has_file or escaped or time_left <= 0.0:
+	if flow == null or flow.state != GameStateMachine.State.PLAYING or flow.is_leaving() or not has_file or escaped or time_left <= 0.0:
 		return false
+	var director := StealthDirector.find(self)
+	if director == null or director.status == StealthDirector.Status.CAUGHT: return false
 	if objectives.current() != ESCAPE:
 		return false
 	escaped = true
+	extraction_play_time = flow.play_time
+	var player := get_tree().get_first_node_in_group("player")
+	if player: player.get_node("Interactor").cancel_hold()
 	objectives.record_escape_route(route, title)
-	StealthDirector.find(self).finish_level()
-	objectives.complete(ESCAPE)
+	director.finish_level()
+	_freeze_security(true)
+	var sabotage := get_parent().get_node_or_null("Sabotage")
+	if sabotage and sabotage.armed:
+		finale_pending = true
+		_finale_left = SabotageConfig.FINALE_WATCHDOG
+		var finale := get_parent().get_node_or_null("ExtractionFinale")
+		if finale == null or not finale.start(route, run_id): complete_finale(run_id)
+	else:
+		_finish_result()
 	return true
+
+
+func detonate_sabotage(token: int) -> bool:
+	var flow := GameFlow.find(self)
+	if token != run_id or not escaped or not finale_pending or flow == null or flow.is_leaving() or flow.state != GameStateMachine.State.PLAYING: return false
+	var sabotage := get_parent().get_node_or_null("Sabotage")
+	if sabotage == null: return false
+	if not sabotage.detonated and not sabotage.detonate(): return false
+	ObjectiveManager.find(self).try_complete(SABOTAGE)
+	return true
+
+
+func complete_finale(token: int) -> void:
+	var flow := GameFlow.find(self)
+	if token != run_id or not escaped or not finale_pending or flow == null or flow.is_leaving() or flow.state != GameStateMachine.State.PLAYING: return
+	detonate_sabotage(token)
+	finale_pending = false
+	var finale := get_parent().get_node_or_null("ExtractionFinale")
+	if finale: finale.cancel()
+	_finish_result()
+
+
+func _finish_result() -> void:
+	if _result_complete: return
+	_result_complete = true
+	ObjectiveManager.find(self).try_complete(ESCAPE)
+
+
+func _freeze_security(frozen: bool) -> void:
+	# Stop pending radio/sensor/camera events, not just the actors frozen by the director.
+	for path in ["Security", "Cameras"]:
+		var node := get_parent().get_node_or_null(path)
+		if node: node.process_mode = Node.PROCESS_MODE_DISABLED if frozen else Node.PROCESS_MODE_INHERIT
 
 
 func get_status_lines() -> Array[String]:
@@ -141,11 +201,15 @@ func get_status_lines() -> Array[String]:
 	var power:=get_parent().get_node_or_null("PowerNetwork")
 	var source: String="dự phòng" if power and power.get("backup_active") else "nguồn chính"
 	var cameras: String="BẬT" if power and power.is_powered(&"surveillance") else "TẮT"
-	return [title, "Hồ sơ: " + ("đang mang Mật lệnh 04" if has_file else "chưa thu hồi"),
+	var sabotage := get_parent().get_node_or_null("Sabotage")
+	var lines: Array[String] = [title, "Hồ sơ: " + ("đang mang Mật lệnh 04" if has_file else "chưa thu hồi"),
 		"Phong tỏa: " + clock + _reinforcement_status(),
 		"Camera: "+cameras+" · "+source,
 		"Cổng sân: " + ("sắp đóng" if lockdown_warned and not lockdown_closed else _gate_status("CourtyardGate")),
-		"Cửa hậu: " + _gate_status("MaintenanceGate") + (" · đã chuẩn bị" if backdoor_prepared else " · khóa cơ 8 giây"), radio_message]
+		"Cửa hậu: " + _gate_status("MaintenanceGate") + (" · đã chuẩn bị" if backdoor_prepared else " · khóa cơ 8 giây")]
+	if sabotage: lines.append("Phá hoại: " + sabotage.status_text())
+	lines.append(radio_message)
+	return lines
 
 
 func show_objective_checklist() -> bool:
@@ -157,7 +221,10 @@ func get_result_lines() -> Array[String]:
 	var team:=get_parent().get_node_or_null("Reinforcements")
 	var dispatched: int=int(team.get("spawned_count")) if team else 0
 	var summary := "TEST MAP · Đã đưa hồ sơ ra khỏi K17." if is_test_mode() else "Mật lệnh 04 đã được đưa ra khỏi K17."
-	return [summary, "Còn lại: %d giây · Hết giờ: %d lần" % [ceili(time_left), timeouts],
+	var sabotage := get_parent().get_node_or_null("Sabotage")
+	var destroyed: bool = sabotage != null and sabotage.detonated
+	if destroyed: summary = ("TEST MAP · " if is_test_mode() else "") + "Mật lệnh 04 an toàn; cụm tình báo dự phòng đã bị phá hủy."
+	return [summary, "Phá hoại: " + ("hoàn tất" if destroyed else "chưa thực hiện · tùy chọn"), "Còn lại: %d giây · Hết giờ: %d lần" % [ceili(time_left), timeouts],
 		"Đường rút: " + objectives.escape_route_name,
 		"Cảm biến: %d lần · Radio: %d lần" % [sensor_trips,radio_uses],
 		"Cửa hậu: " + ("đã chuẩn bị" if backdoor_prepared else "chưa chuẩn bị")+" · Tiếp viện: %d/4"%dispatched]
@@ -178,6 +245,14 @@ func get_checkpoint_state() -> Dictionary:
 
 
 func restore_checkpoint_state(saved: Dictionary) -> void:
+	run_id += 1
+	finale_pending = false
+	_result_complete = false
+	extraction_play_time = 0.0
+	_finale_left = 0.0
+	var finale := get_parent().get_node_or_null("ExtractionFinale")
+	if finale: finale.cancel()
+	_freeze_security(false)
 	has_file = bool(saved.get("has_file", false))
 	time_left = float(saved.get("time_left", escape_duration))
 	escaped = bool(saved.get("escaped", false))

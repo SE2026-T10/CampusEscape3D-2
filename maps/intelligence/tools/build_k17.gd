@@ -1,11 +1,12 @@
 extends SceneTree
 
-## Build V4 from shared actors and map-local geometry; runtime needs no tools.
+## Build V5 from shared actors and map-local geometry; runtime needs no tools.
 const BASE := "res://maps/intelligence/"
 const Layout := preload("res://maps/intelligence/resources/layout/k17_layout.gd")
 const Expansion := preload("res://maps/intelligence/tools/k17_expansion_builder.gd")
 const V4 := preload("res://maps/intelligence/resources/layout/k17_v4.gd")
 const V4Builder := preload("res://maps/intelligence/tools/k17_v4_builder.gd")
+const SabotageBuilder := preload("res://maps/intelligence/tools/k17_sabotage_builder.gd")
 const SCENE := BASE + "scenes/intelligence_k17.tscn"
 const NAV := BASE + "resources/k17_navmesh.tres"
 const Mission := preload("res://maps/intelligence/scripts/mission_controller.gd")
@@ -31,7 +32,7 @@ func _init() -> void:
 func _build() -> void:
 	level = Node3D.new()
 	level.name = "IntelligenceK17"
-	level.set_meta("map_version", "v4-infiltration")
+	level.set_meta("map_version", "v5-sabotage")
 	var region := NavigationRegion3D.new()
 	region.name = "NavigationRegion3D"
 	var nav := NavigationMesh.new()
@@ -46,6 +47,7 @@ func _build() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(BASE+"scenes/sectors"))
 	var expansion:=Expansion.new()
 	expansion.build(self,region)
+	SabotageBuilder.new().navigation(self,region)
 	if not _build_environment(region):
 		level.free()
 		quit(1)
@@ -77,7 +79,7 @@ func _build() -> void:
 		push_error("K17: scene save failed")
 		quit(1)
 		return
-	print("K17 BUILT V4: ", nav.get_polygon_count(), " navmesh polygons; 96x108m; B1; 6 guards + 4 reinforcements")
+	print("K17 BUILT V5: ", nav.get_polygon_count(), " navmesh polygons; optional sabotage; 6 guards + 4 reinforcements")
 	level.free()
 	quit(0)
 
@@ -300,7 +302,7 @@ func _gameplay() -> bool:
 	_add(gameplay,(load(SECURITY_SCENE) as PackedScene).instantiate())
 	_script(gameplay,"Reinforcements",Node.new(),BASE+"scripts/reinforcements.gd")
 	V4Builder.new().build(self,gameplay)
-	return true
+	return SabotageBuilder.new().build(self,gameplay)
 
 
 func _controlled_door(parent: Node,title: String,pos: Vector3,key: StringName,key_title: String) -> AccessDoor:
@@ -335,7 +337,7 @@ func _systems() -> void:
 		["StealthHud", CanvasLayer.new(), "res://shared/scripts/ui/stealth_hud.gd"],
 		["ObjectiveHud", CanvasLayer.new(), BASE+"scripts/objective_hud.gd"],
 		["GameFlow", Node.new(), "res://shared/scripts/game/game_flow.gd"],
-		["GameMenus", CanvasLayer.new(), "res://shared/scripts/ui/game_menus.gd"],
+		["GameMenus", CanvasLayer.new(), BASE+"scripts/game_menus.gd"],
 		["AudioDirector", Node.new(), "res://shared/scripts/presentation/audio_director.gd"],
 		["MilitaryAppearance", Node.new(), BASE+"scripts/military_appearance.gd"],
 	]:

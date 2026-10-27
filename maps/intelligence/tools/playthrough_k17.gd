@@ -30,6 +30,7 @@ var camera_off := false
 var watch_patrol := false
 var walk_exfil := false
 var sprint_exfil := false
+var sabotage := false
 
 
 func _init() -> void:
@@ -38,6 +39,7 @@ func _init() -> void:
 
 func _run() -> void:
 	for arg in OS.get_cmdline_user_args():
+		if arg == "--sabotage": sabotage=true
 		if arg == "--camera-off": camera_off=true
 		if arg == "--watch-patrol": watch_patrol=true
 		if arg == "--walk-exfil": walk_exfil=true
@@ -81,6 +83,15 @@ func _run() -> void:
 				if quiet>=180 or flow.state!=GameStateMachine.State.PLAYING: break
 				await physics_frame
 		if stage_delay>0: await _frames(ceili(stage_delay*60))
+		if watch_patrol and live_guards and not _route_failed:
+			# Observe from the real checkpoint recess before exposing the keypad/stair.
+			# A navmesh rebuild can change patrol phase; a fixed sleep cannot prove safety.
+			var archive_guard:=level.get_node("Guards/Guard5") as Guard
+			var waited:=0
+			while waited<3600 and flow.state==GameStateMachine.State.PLAYING and not (archive_guard.position.x< -13 and archive_guard.velocity.x< -.2):
+				await _frames(1)
+				waited+=1
+			print("[K17 watch] keypad clearance waited=",waited/60.0," position=",archive_guard.position)
 		await _use("Gameplay/DutyTable")
 		await _route([Vector3(7,0,-20),Vector3(7,0,-23),Vector3(5.35,0,-22)])
 		await _keypad()
@@ -90,10 +101,15 @@ func _run() -> void:
 		await _shot(route+"_02_file")
 		if not mission.has_file: failures.append("Document not acquired: "+route)
 		await _escape(route)
+		if sabotage and not _route_failed:
+			for i in 400:
+				if flow.state!=GameStateMachine.State.PLAYING: break
+				await _frames(1)
 		await _frames(10)
 		var director:=StealthDirector.find(level)
 		if flow.state!=GameStateMachine.State.WIN: failures.append("Extraction failed: "+route)
-		print("[K17 walking V4] route=",route," remaining=",snappedf(mission.time_left,.1)," state=",flow.state," catches=",director.catches," sensors=",mission.sensor_trips," reinforcements=",level.get_node("Gameplay/Reinforcements").spawned_count)
+		if sabotage and not ObjectiveManager.find(level).is_completed(K17MissionController.SABOTAGE): failures.append("Sabotage not completed: "+route)
+		print("[K17 walking V5] route=",route," sabotage=",sabotage," remaining=",snappedf(mission.time_left,.1)," state=",flow.state," catches=",director.catches," sensors=",mission.sensor_trips," reinforcements=",level.get_node("Gameplay/Reinforcements").spawned_count)
 		await _frames(50)
 		await _shot(route+"_03_victory")
 		Input.action_release("crouch")
@@ -180,12 +196,22 @@ func _utilities() -> void:
 
 
 func _escape(route: String) -> void:
-	if route=="maintenance":
+	if route=="maintenance" or sabotage:
 		await _route([Vector3(8,-4,-48.5),Vector3(8.2,-4,-38)])
 		await _use("Gameplay/MaintenanceShortcut")
-		await _route([Vector3(12,-4,-38),Vector3(30,-4,-38),Vector3(30,0,-23),Vector3(42,0,-23),Vector3(42,0,-9),Vector3(36,0,-4),Vector3(36,0,1),Vector3(42,0,1),Vector3(42,0,4),Vector3(42,0,8),Vector3(32.2,0,9),Vector3(32.2,0,15),Vector3(36,0,18),Vector3(26,0,21),Vector3(26,0,28),Vector3(36,0,42),Vector3(36,0,44.35)])
-		await _use("Gameplay/Security/MaintenanceGate")
-		await _route([Vector3(36,0,51)])
+		await _route([Vector3(12,-4,-38),Vector3(30,-4,-38),Vector3(30,0,-23),Vector3(42,0,-23),Vector3(42,0,-9),Vector3(36,0,-4),Vector3(36,0,1),Vector3(42,0,1),Vector3(42,0,4),Vector3(42,0,8),Vector3(32.2,0,9),Vector3(32.2,0,15)])
+		if sabotage:
+			await _route([Vector3(35,0,15.25),preload("res://maps/intelligence/resources/layout/k17_sabotage.gd").STAND])
+			await _use("Gameplay/Sabotage/Target")
+			if not level.get_node("Gameplay/Sabotage").armed: failures.append("Device not planted by real hold")
+			await _shot(route+"_02b_armed")
+		await _route([Vector3(36,0,18)])
+		if route=="maintenance":
+			await _route([Vector3(26,0,21),Vector3(26,0,28),Vector3(36,0,42),Vector3(36,0,44.35)])
+			await _use("Gameplay/Security/MaintenanceGate")
+			await _route([Vector3(36,0,51)])
+		else:
+			await _route([Vector3(26,0,21),Vector3(16,0,21),Vector3(16,0,44),Vector3(-36,0,44),Vector3(-36,0,51)])
 	else:
 		await _route([Vector3(4,-4,-48.5),Vector3(4,-4,-35)])
 		if watch_patrol and live_guards:
@@ -237,7 +263,8 @@ func _walk(target: Vector3) -> bool:
 		if flow.state != GameStateMachine.State.PLAYING:
 			break
 		var delta := Vector2(target.x - player.global_position.x, target.z - player.global_position.z)
-		if delta.length() < 0.38 and absf(player.global_position.y-target.y)<.65:
+		var arrival_radius := .20 if sprint_exfil and mission.has_file else .38
+		if delta.length() < arrival_radius and absf(player.global_position.y-target.y)<.65:
 			arrived = true
 			break
 		player.rotation.y = atan2(-delta.x, -delta.y)
@@ -248,6 +275,8 @@ func _walk(target: Vector3) -> bool:
 		if sprint_yard and mission.has_file and player.global_position.z >= 14.0:
 			Input.action_release("crouch")
 			Input.action_press("sprint")
+		# Brake before corners rather than overshooting into the next doorway/post.
+		if delta.length() < 1.6: Input.action_release("sprint")
 		if _should_wait_for_sensor(target):
 			Input.action_release("move_forward")
 			await physics_frame
