@@ -1,7 +1,7 @@
 class_name GameFlow
 extends Node
 
-## Runs the game-level state machine (PLAYING / CAUGHT / PAUSED / WIN) for a
+## Runs the game-level state machine (PLAYING / CAUGHT / PAUSED / WIN / FAILED) for a
 ## level, and everything that depends on it:
 ##   - pausing: the whole scene tree pauses (guards, navigation, physics, noise,
 ##     timers), except this node and the menus, which run with PROCESS_MODE_ALWAYS
@@ -22,6 +22,8 @@ const MAIN_MENU_SCENE := "res://shared/scenes/ui/main_menu.tscn"
 var machine := GameStateMachine.new()
 ## Seconds spent in PLAYING (not paused, not on the caught screen).
 var play_time := 0.0
+## A map may end an attempt without pretending that a guard caught the player.
+var failure_reason := ""
 ## The mouse mode this node last set (Input.mouse_mode can't be read back in a headless run).
 var applied_mouse_mode: Input.MouseMode = Input.MOUSE_MODE_VISIBLE
 ## How scenes are changed. Tests replace it to record requests instead.
@@ -89,6 +91,26 @@ func pause() -> bool:
 	return machine.request(GameStateMachine.State.PAUSED)
 
 
+## Maps call this for a terminal mission failure (for example, a deadline).
+func fail(reason: String) -> bool:
+	if state != GameStateMachine.State.PLAYING or is_leaving():
+		return false
+	failure_reason = reason
+	return machine.request(GameStateMachine.State.FAILED)
+
+
+func retry_checkpoint() -> bool:
+	if state != GameStateMachine.State.FAILED or is_leaving():
+		return false
+	var director := StealthDirector.find(self)
+	if director == null or CheckpointManager.find(self) == null:
+		return false
+	failure_reason = ""
+	# The same reset path restores actor positions, mission state and objectives.
+	director.reset_level()
+	return state == GameStateMachine.State.PLAYING
+
+
 func resume() -> bool:
 	return state == GameStateMachine.State.PAUSED and machine.request(GameStateMachine.State.PLAYING)
 
@@ -122,7 +144,7 @@ func _on_player_caught(_by: Node) -> void:
 
 
 func _on_level_reset() -> void:
-	if state == GameStateMachine.State.CAUGHT:
+	if state in [GameStateMachine.State.CAUGHT, GameStateMachine.State.FAILED]:
 		machine.request(GameStateMachine.State.PLAYING)
 
 
@@ -131,13 +153,13 @@ func _on_level_completed() -> void:
 
 
 func _on_machine_state_changed(from: GameStateMachine.State, to: GameStateMachine.State) -> void:
-	get_tree().paused = to == GameStateMachine.State.PAUSED
+	get_tree().paused = to in [GameStateMachine.State.PAUSED, GameStateMachine.State.FAILED]
 	_apply_mouse(mouse_mode_for(to))
 	state_changed.emit(from, to)
 
 
 static func mouse_mode_for(game_state: GameStateMachine.State) -> Input.MouseMode:
-	if game_state == GameStateMachine.State.PAUSED or game_state == GameStateMachine.State.WIN:
+	if game_state in [GameStateMachine.State.PAUSED, GameStateMachine.State.WIN, GameStateMachine.State.FAILED]:
 		return Input.MOUSE_MODE_VISIBLE
 	return Input.MOUSE_MODE_CAPTURED
 

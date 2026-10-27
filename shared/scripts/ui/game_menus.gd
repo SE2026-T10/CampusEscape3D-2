@@ -4,6 +4,7 @@ extends CanvasLayer
 ## The in-level menus, shown according to GameFlow's state:
 ##   - PAUSED: "PAUSED" with Resume / Restart level / Main menu, and the controls
 ##   - WIN: "ESCAPED" with the time and catches, Play again / Main menu
+##   - FAILED: a reason and Retry checkpoint / Restart / Main menu
 ## Runs while the tree is paused (PROCESS_MODE_ALWAYS). Keyboard works too:
 ## the first button has focus, and Enter or Space presses it.
 ## Panels fade in; the win title pops in. Buttons click and tick on hover
@@ -13,6 +14,9 @@ var pause_panel: Control
 ## The line under "ESCAPED" on the win screen (the Expanded Library sets its own).
 @export var win_message := "You got out of the library with the access card."
 
+var failure_panel: Control
+var retry_checkpoint_button: Button
+var _failure_reason: Label
 var win_panel: Control
 var resume_button: Button
 var restart_button: Button
@@ -69,6 +73,14 @@ func _ready() -> void:
 	win_box.add_child(_win_objectives)
 	play_again_button = _add_button(win_box, "Play again", func(): _flow().restart())
 	win_menu_button = _add_button(win_box, "Main menu", func(): _flow().go_to_main_menu())
+	failure_panel = _overlay(Color(0.13, 0.025, 0.035, 0.92))
+	var failure_box := MenuStyle.centred_panel(failure_panel)
+	failure_box.add_child(MenuStyle.title("NHIỆM VỤ THẤT BẠI", 42, Color(1.0, 0.45, 0.35)))
+	_failure_reason = MenuStyle.label("", 20)
+	failure_box.add_child(_failure_reason)
+	retry_checkpoint_button = _add_button(failure_box, "Thử lại checkpoint", func(): _flow().retry_checkpoint())
+	_add_button(failure_box, "Chơi lại từ đầu", func(): _flow().restart())
+	_add_button(failure_box, "Về menu", func(): _flow().go_to_main_menu())
 	settings_panel = SettingsPanel.new()
 	add_child(settings_panel)
 	settings_panel.closed.connect(func(): settings_button.grab_focus())
@@ -98,9 +110,17 @@ func refresh() -> void:
 	var flow := _flow()
 	var game_state := flow.state if flow else GameStateMachine.State.PLAYING
 	var was_paused := pause_panel.visible
+	var was_failed := failure_panel.visible
 	var was_won := win_panel.visible
 	pause_panel.visible = game_state == GameStateMachine.State.PAUSED
 	win_panel.visible = game_state == GameStateMachine.State.WIN
+	failure_panel.visible = game_state == GameStateMachine.State.FAILED
+	if failure_panel.visible:
+		_failure_reason.text = flow.failure_reason
+		retry_checkpoint_button.disabled = CheckpointManager.find(self) == null
+		if not was_failed:
+			retry_checkpoint_button.grab_focus()
+			_fade_in(failure_panel, 0.2)
 	if settings_panel and not pause_panel.visible:
 		settings_panel.visible = false
 	if pause_panel.visible:
@@ -158,7 +178,12 @@ func get_win_text() -> String:
 	var flow := _flow()
 	var director := StealthDirector.find(self)
 	var catches := director.catches if director else 0
-	return "Time %s  ·  caught %d time%s" % [format_time(flow.play_time if flow else 0.0), catches, "" if catches == 1 else "s"]
+	var text := "Time %s  ·  caught %d time%s" % [format_time(flow.play_time if flow else 0.0), catches, "" if catches == 1 else "s"]
+	var provider := MapHudProvider.find_for(self)
+	if provider:
+		for line in provider.get_result_lines():
+			text += "\n" + line
+	return text
 
 
 static func format_time(seconds: float) -> String:

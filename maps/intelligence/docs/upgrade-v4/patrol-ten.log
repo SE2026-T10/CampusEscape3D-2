@@ -1,0 +1,17 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[K17 dispatch] wave=1 actor=Reinforcement0 origin=(-18.0, 0.0, 39.5)
+[K17 dispatch] wave=1 actor=Reinforcement1 origin=(22.0, 0.0, -18.0)
+[K17 dispatch] wave=2 actor=Reinforcement2 origin=(-42.0, 0.0, 42.0)
+[K17 dispatch] wave=2 actor=Reinforcement3 origin=(44.0, 0.0, -18.0)
+  [K17 patrol] { "name": &"Guard1", "reached": 12, "stuck": 0, "missed": 0 }
+  [K17 patrol] { "name": &"Guard2", "reached": 14, "stuck": 0, "missed": 0 }
+  [K17 patrol] { "name": &"Guard3", "reached": 11, "stuck": 0, "missed": 0 }
+  [K17 patrol] { "name": &"Guard4", "reached": 11, "stuck": 0, "missed": 0 }
+  [K17 patrol] { "name": &"Guard5", "reached": 10, "stuck": 0, "missed": 0 }
+  [K17 patrol] { "name": &"Guard6", "reached": 18, "stuck": 0, "missed": 0 }
+  [K17 patrol] { "name": &"Reinforcement0", "reached": 11, "stuck": 0, "missed": 0 }
+  [K17 patrol] { "name": &"Reinforcement1", "reached": 7, "stuck": 0, "missed": 0 }
+  [K17 patrol] { "name": &"Reinforcement2", "reached": 11, "stuck": 0, "missed": 0 }
+  [K17 patrol] { "name": &"Reinforcement3", "reached": 8, "stuck": 0, "missed": 0 }
+K17 PATROL PASSED (90 simulated seconds, 10 live NPCs)

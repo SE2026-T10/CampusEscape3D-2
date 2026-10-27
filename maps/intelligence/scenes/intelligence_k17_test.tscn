@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://maps/intelligence/scenes/intelligence_k17.tscn" id="1_map"]
+[ext_resource type="Script" path="res://maps/intelligence/scripts/test_mode.gd" id="2_mode"]
+
+[node name="IntelligenceK17Test" instance=ExtResource("1_map")]
+script = ExtResource("2_mode")

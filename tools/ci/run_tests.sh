@@ -3,7 +3,7 @@
 #   1. the full test suite (tests/test_scene.tscn): must exit 0 and print
 #      "All tests passed", with no script errors
 #   2. the game-flow QA run with real scene changes (tools/qa_flow.gd)
-#   3. the map-selection run: both maps selected, restarted and left, three
+#   3. the map-selection run: every catalog map selected, restarted and left, three
 #      times over, with real scene changes (tools/map_flow.gd); no errors or
 #      warnings allowed in its output
 # Run tools/ci/validate.sh first (it imports the project). Logs go to ci-logs/.
@@ -20,8 +20,8 @@ grep -E "^All tests passed|^Tests FAILED|^  \[" ci-logs/tests.log || true
 if [ "$status" -ne 0 ] || ! grep -q "^All tests passed" ci-logs/tests.log; then
   echo "::error::Test suite failed (exit $status)"; grep -E "FAIL|SCRIPT ERROR" ci-logs/tests.log || tail -n 60 ci-logs/tests.log; exit 1
 fi
-if grep -q "SCRIPT ERROR" ci-logs/tests.log; then
-  echo "::error::Script errors during the test run"; grep -A3 "SCRIPT ERROR" ci-logs/tests.log; exit 1
+if grep -qE "SCRIPT ERROR|^ERROR" ci-logs/tests.log; then
+  echo "::error::Engine or script errors during the test run"; grep -E -A3 "SCRIPT ERROR|^ERROR" ci-logs/tests.log; exit 1
 fi
 
 echo "Running the game-flow QA run"
@@ -45,5 +45,12 @@ if [ "$status" -ne 0 ] || ! grep -q "MAP FLOW PASSED" ci-logs/map_flow.log; then
 fi
 if grep -qE "SCRIPT ERROR|^ERROR|^WARNING" ci-logs/map_flow.log; then
   echo "::error::Errors or warnings during the map-selection run"; grep -E -A2 "SCRIPT ERROR|^ERROR|^WARNING" ci-logs/map_flow.log; exit 1
+fi
+
+echo "Checking K17 art, shared HUD opt-in and sight-transparent barriers"
+timeout 120 "$GODOT" --headless --path . --script res://maps/intelligence/tools/check_art.gd > ci-logs/k17_art.log 2>&1 || {
+  echo "::error::K17 art integration failed"; cat ci-logs/k17_art.log; exit 1; }
+if ! grep -qE "^K17 ART CHECKS: [0-9]+ checks; 0 failures" ci-logs/k17_art.log || grep -qE "SCRIPT ERROR|^ERROR|^WARNING" ci-logs/k17_art.log; then
+  echo "::error::K17 art integration has failures or resource warnings"; cat ci-logs/k17_art.log; exit 1
 fi
 echo "TESTS PASSED"

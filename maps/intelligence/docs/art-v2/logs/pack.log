@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PACK EXCLUSIONS PASSED: tests, tools and map documentation omitted
+PACK LOADED res://shared/scenes/ui/main_menu.tscn
+PACK LOADED res://maps/tutorial/scenes/library_graybox.tscn
+PACK LOADED res://maps/library/scenes/expanded_library.tscn
+PACK LOADED res://maps/intelligence/scenes/intelligence_k17.tscn
+K17 ART PACK PASSED: menu and 3 maps; baked lighting and military meshes available

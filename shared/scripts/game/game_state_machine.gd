@@ -11,19 +11,21 @@ extends RefCounted
 
 signal state_changed(from: State, to: State)
 
-enum State { PLAYING, CAUGHT, PAUSED, WIN }
+enum State { PLAYING, CAUGHT, PAUSED, WIN, FAILED }
 
 ## Which states each state may go to.
 ##   PLAYING → CAUGHT (a guard caught the player), PAUSED, WIN (escaped)
 ##   CAUGHT  → PLAYING (respawned at the checkpoint)
 ##   PAUSED  → PLAYING (resumed)
 ##   WIN     → nothing: restarting loads the level again, with a fresh machine
+## FAILED freezes a mission until the player retries its checkpoint or leaves.
 ## Pausing during the short CAUGHT screen is not allowed.
 const ALLOWED := {
-	State.PLAYING: [State.CAUGHT, State.PAUSED, State.WIN],
+	State.PLAYING: [State.CAUGHT, State.PAUSED, State.WIN, State.FAILED],
 	State.CAUGHT: [State.PLAYING],
 	State.PAUSED: [State.PLAYING],
 	State.WIN: [],
+	State.FAILED: [State.PLAYING],
 }
 
 var current: State = State.PLAYING

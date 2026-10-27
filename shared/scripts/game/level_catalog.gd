@@ -8,12 +8,18 @@ extends RefCounted
 
 const TUTORIAL := &"library_tutorial"
 const EXPANDED := &"expanded_library"
+const INTELLIGENCE := &"intelligence_k17"
 
 const LEVELS := [
 	{"id": TUTORIAL, "title": "Library Tutorial", "scene": "res://maps/tutorial/scenes/library_graybox.tscn",
 		"description": "The original library: one floor, one access card. Learn the ropes."},
 	{"id": EXPANDED, "title": "Expanded Library", "scene": "res://maps/library/scenes/expanded_library.tscn",
 		"description": "Two floors and a basement, seven guards, puzzles and three ways out. Retrieve the rare manuscript."},
+	{"id": INTELLIGENCE, "title": "K17 — 120 giây cuối", "scene": "res://maps/intelligence/scenes/intelligence_k17.tscn",
+		"description": "Tổ hợp tình báo mở rộng, kho mật B1 và cảnh vệ tiếp viện trong 120 giây rút lui.",
+		"test_scene": "res://maps/intelligence/scenes/intelligence_k17_test.tscn",
+		"test_title": "K17 — Test map không lính gác",
+		"test_description": "Tự do kiểm tra đường đi và tương tác. Cảm biến, checkpoint và đồng hồ vẫn hoạt động."},
 ]
 
 
@@ -28,6 +34,11 @@ static func get_level(id: StringName) -> Dictionary:
 ## The scene path of `id`, or "" if there is none.
 static func scene_of(id: StringName) -> String:
 	return get_level(id).get("scene", "")
+
+
+## An optional playable test variant of a map; empty for maps without one.
+static func test_scene_of(id: StringName) -> String:
+	return get_level(id).get("test_scene", "")
 
 
 ## The id of the map whose scene is `path`, or &"" if it is not in the catalog.

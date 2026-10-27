@@ -11,7 +11,7 @@ shared/                 scene, script và tài nguyên dùng chung
 features/               inventory, stamina, nhiệm vụ, checkpoint, puzzle, security
 maps/tutorial/          map tutorial hiện có và công cụ đo bản đồ
 maps/library/           map thư viện, expansion, logic, test, công cụ và tài liệu
-maps/intelligence/      chỗ chuẩn bị cho map tình báo của Nguyễn Đình Phiên
+maps/intelligence/      map tình báo K17 V1 của Nguyễn Đình Phiên
 maps/bank/              ví dụ thư mục cho map mới, chưa có nội dung chơi
 maps/museum/            ví dụ thư mục cho map mới, chưa có nội dung chơi
 templates/map/          khung thư mục để sao chép khi bắt đầu một map
@@ -20,7 +20,7 @@ tools/                  CI, benchmark và kiểm tra scene lifecycle
 docs/                   hướng dẫn chung và bằng chứng lịch sử
 ```
 
-`bank` và `museum` chưa được phân công cho thành viên và chưa đăng ký trong menu. `intelligence` hiện chỉ có khung làm việc và ghi chú ý tưởng. Tutorial được giữ làm mẫu và phục vụ kiểm thử, không mặc định thay thế một trong năm map của nhóm.
+`bank` và `museum` chưa được phân công cho thành viên và chưa đăng ký trong menu. `intelligence` đã có V1 chơi được: bốn NPC dùng chung, giấy thông hành, checkpoint, hồ sơ và đếm ngược rút lui. Xem [README K17](../../maps/intelligence/README.md). Tutorial được giữ làm mẫu và phục vụ kiểm thử, không mặc định thay thế một trong năm map của nhóm.
 
 ## Phạm vi dùng chung
 
@@ -78,6 +78,7 @@ Các hàm tùy chọn:
 - `get_status_lines()`: dữ liệu văn bản cho trạng thái riêng của map.
 - `get_status_bbcode(accent, done, todo)`: định dạng panel; mặc định dùng các dòng văn bản trên.
 - `get_exit_hint(exit)`: lý do chưa thể rời map; trả chuỗi rỗng để dùng thông báo đã cấu hình tại cửa.
+- `get_result_lines()`: các dòng tổng kết bổ sung vào màn thắng chung; mặc định rỗng.
 
 HUD vẫn lấy mục tiêu từ `ObjectiveManager`, lời nhắc từ `PlayerInteractor`, kết quả từ `GameFlow`/`GameMenus`. Trong map thư viện, `EscapeRoutes` cung cấp WAYS OUT, POWER và thông báo từ chối; HUD chung không tham chiếu trực tiếp lớp riêng này. Map mới có thể cung cấp trạng thái khác mà không sửa HUD thư viện.
 

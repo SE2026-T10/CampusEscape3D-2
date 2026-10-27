@@ -1,0 +1,771 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://maps/intelligence/scripts/security_presentation.gd" id="1_g4ig3"]
+[ext_resource type="Script" path="res://maps/intelligence/scripts/security_alarm.gd" id="2_tqwuy"]
+[ext_resource type="PackedScene" path="res://maps/intelligence/assets/models/archive_rack.glb" id="3_ymgli"]
+[ext_resource type="Script" path="res://maps/intelligence/scripts/sensor_lane.gd" id="4_krvw1"]
+[ext_resource type="AudioStream" path="res://maps/intelligence/assets/audio/relay.wav" id="5_14tae"]
+[ext_resource type="Script" path="res://maps/intelligence/scripts/lockdown_gate.gd" id="6_43sk3"]
+[ext_resource type="Script" path="res://maps/intelligence/scripts/dynamic_geometry.gd" id="7_j5kh5"]
+[ext_resource type="PackedScene" path="res://maps/intelligence/assets/models/blast_door.glb" id="8_eooqf"]
+[ext_resource type="AudioStream" path="res://maps/intelligence/assets/audio/gate_motor.wav" id="9_45n8h"]
+[ext_resource type="Script" path="res://maps/intelligence/scripts/radio_distraction.gd" id="10_1bi12"]
+[ext_resource type="AudioStream" path="res://maps/intelligence/assets/audio/radio.wav" id="11_42dsp"]
+[ext_resource type="Script" path="res://maps/intelligence/scripts/prepared_latch.gd" id="12_ss070"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_owmwj"]
+size = Vector3(3.6, 2.4, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4e5a8"]
+resource_local_to_scene = true
+albedo_color = Color(0.9254902, 0.34117648, 0.27450982, 1)
+roughness = 0.65
+emission_enabled = true
+emission = Color(0.9254902, 0.34117648, 0.27450982, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_3x8g3"]
+size = Vector3(3.35, 0.018, 0.025)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l3c0w"]
+resource_local_to_scene = true
+albedo_color = Color(0.9254902, 0.34117648, 0.27450982, 1)
+roughness = 0.65
+emission_enabled = true
+emission = Color(0.9254902, 0.34117648, 0.27450982, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_x65li"]
+size = Vector3(3.35, 0.018, 0.025)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wkyt7"]
+resource_local_to_scene = true
+albedo_color = Color(0.9254902, 0.34117648, 0.27450982, 1)
+roughness = 0.65
+emission_enabled = true
+emission = Color(0.9254902, 0.34117648, 0.27450982, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_nbjam"]
+size = Vector3(3.35, 0.018, 0.025)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m617a"]
+resource_local_to_scene = true
+albedo_color = Color(0.9254902, 0.34117648, 0.27450982, 1)
+roughness = 0.65
+emission_enabled = true
+emission = Color(0.9254902, 0.34117648, 0.27450982, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_lgt8b"]
+size = Vector3(3.35, 0.018, 0.025)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8u3ll"]
+resource_local_to_scene = true
+albedo_color = Color(0.1882353, 0.23529412, 0.20784314, 1)
+roughness = 0.65
+emission = Color(0.1882353, 0.23529412, 0.20784314, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_qit0g"]
+size = Vector3(0.12, 2.4, 0.12)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0iaci"]
+resource_local_to_scene = true
+albedo_color = Color(0.1882353, 0.23529412, 0.20784314, 1)
+roughness = 0.65
+emission = Color(0.1882353, 0.23529412, 0.20784314, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_cc2r3"]
+size = Vector3(0.12, 2.4, 0.12)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_15isq"]
+resource_local_to_scene = true
+albedo_color = Color(0.33333334, 0.83137256, 0.5921569, 1)
+roughness = 0.65
+emission_enabled = true
+emission = Color(0.33333334, 0.83137256, 0.5921569, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_0vuec"]
+size = Vector3(0.16, 0.18, 0.16)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bvyxi"]
+resource_local_to_scene = true
+albedo_color = Color(0.15294118, 0.20784314, 0.17254902, 1)
+roughness = 0.65
+emission = Color(0.15294118, 0.20784314, 0.17254902, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_vd132"]
+size = Vector3(3.5, 0.32, 0.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l16v5"]
+size = Vector3(3.6, 2.4, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p2xmi"]
+resource_local_to_scene = true
+albedo_color = Color(0.9254902, 0.34117648, 0.27450982, 1)
+roughness = 0.65
+emission_enabled = true
+emission = Color(0.9254902, 0.34117648, 0.27450982, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_t33h3"]
+size = Vector3(3.35, 0.018, 0.025)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mlcl5"]
+resource_local_to_scene = true
+albedo_color = Color(0.9254902, 0.34117648, 0.27450982, 1)
+roughness = 0.65
+emission_enabled = true
+emission = Color(0.9254902, 0.34117648, 0.27450982, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_mcrno"]
+size = Vector3(3.35, 0.018, 0.025)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jgwu2"]
+resource_local_to_scene = true
+albedo_color = Color(0.9254902, 0.34117648, 0.27450982, 1)
+roughness = 0.65
+emission_enabled = true
+emission = Color(0.9254902, 0.34117648, 0.27450982, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_jwqhu"]
+size = Vector3(3.35, 0.018, 0.025)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vn7i2"]
+resource_local_to_scene = true
+albedo_color = Color(0.9254902, 0.34117648, 0.27450982, 1)
+roughness = 0.65
+emission_enabled = true
+emission = Color(0.9254902, 0.34117648, 0.27450982, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_d6u06"]
+size = Vector3(3.35, 0.018, 0.025)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a8y24"]
+resource_local_to_scene = true
+albedo_color = Color(0.1882353, 0.23529412, 0.20784314, 1)
+roughness = 0.65
+emission = Color(0.1882353, 0.23529412, 0.20784314, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_8gngg"]
+size = Vector3(0.12, 2.4, 0.12)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e3cmb"]
+resource_local_to_scene = true
+albedo_color = Color(0.1882353, 0.23529412, 0.20784314, 1)
+roughness = 0.65
+emission = Color(0.1882353, 0.23529412, 0.20784314, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_nojch"]
+size = Vector3(0.12, 2.4, 0.12)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_doovr"]
+resource_local_to_scene = true
+albedo_color = Color(0.33333334, 0.83137256, 0.5921569, 1)
+roughness = 0.65
+emission_enabled = true
+emission = Color(0.33333334, 0.83137256, 0.5921569, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_ju5p7"]
+size = Vector3(0.16, 0.18, 0.16)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hbqty"]
+resource_local_to_scene = true
+albedo_color = Color(0.15294118, 0.20784314, 0.17254902, 1)
+roughness = 0.65
+emission = Color(0.15294118, 0.20784314, 0.17254902, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_x2hdx"]
+size = Vector3(3.5, 0.32, 0.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5tw16"]
+size = Vector3(4.2, 2.4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vlyqv"]
+size = Vector3(4.1, 2.2, 0.28)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xmoep"]
+size = Vector3(4.3, 2.8, 1.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_or8et"]
+resource_local_to_scene = true
+albedo_color = Color(0.38431373, 0.7254902, 0.59607846, 1)
+roughness = 0.65
+emission_enabled = true
+emission = Color(0.38431373, 0.7254902, 0.59607846, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_62qvr"]
+size = Vector3(0.22, 0.2, 0.16)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1t0mg"]
+resource_local_to_scene = true
+albedo_color = Color(0.15294118, 0.20784314, 0.17254902, 1)
+roughness = 0.65
+emission = Color(0.15294118, 0.20784314, 0.17254902, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_4bjrn"]
+size = Vector3(5.8, 0.44, 0.35)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pd5o6"]
+size = Vector3(4.2, 2.4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xkw7y"]
+size = Vector3(4.1, 2.2, 0.28)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_88cnf"]
+size = Vector3(4.3, 2.8, 1.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dcy77"]
+resource_local_to_scene = true
+albedo_color = Color(0.38431373, 0.7254902, 0.59607846, 1)
+roughness = 0.65
+emission_enabled = true
+emission = Color(0.38431373, 0.7254902, 0.59607846, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_8wvc1"]
+size = Vector3(0.22, 0.2, 0.16)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fwion"]
+resource_local_to_scene = true
+albedo_color = Color(0.15294118, 0.20784314, 0.17254902, 1)
+roughness = 0.65
+emission = Color(0.15294118, 0.20784314, 0.17254902, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_6xdhr"]
+size = Vector3(5.8, 0.44, 0.35)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_aurkq"]
+size = Vector3(0.6, 0.8, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2p2un"]
+resource_local_to_scene = true
+albedo_color = Color(0.14901961, 0.21960784, 0.18431373, 1)
+roughness = 0.65
+emission = Color(0.14901961, 0.21960784, 0.18431373, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_rjuoi"]
+size = Vector3(0.16, 0.25, 0.45)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5daoq"]
+resource_local_to_scene = true
+albedo_color = Color(0.14901961, 0.21960784, 0.18431373, 1)
+roughness = 0.65
+emission = Color(0.14901961, 0.21960784, 0.18431373, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_non1g"]
+size = Vector3(0.16, 0.38, 1.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5o67w"]
+resource_local_to_scene = true
+albedo_color = Color(0.14901961, 0.21960784, 0.18431373, 1)
+roughness = 0.65
+emission = Color(0.14901961, 0.21960784, 0.18431373, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_b0sxt"]
+size = Vector3(0.08, 0.35, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y5for"]
+resource_local_to_scene = true
+albedo_color = Color(0.13333334, 0.1764706, 0.15686275, 1)
+roughness = 0.65
+emission = Color(0.13333334, 0.1764706, 0.15686275, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_8gvkj"]
+size = Vector3(0.7, 0.35, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k0scb"]
+resource_local_to_scene = true
+albedo_color = Color(0.13333334, 0.1764706, 0.15686275, 1)
+roughness = 0.65
+emission = Color(0.13333334, 0.1764706, 0.15686275, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_f7lnd"]
+size = Vector3(0.7, 0.35, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4v368"]
+resource_local_to_scene = true
+albedo_color = Color(0.13333334, 0.1764706, 0.15686275, 1)
+roughness = 0.65
+emission = Color(0.13333334, 0.1764706, 0.15686275, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_dsdea"]
+size = Vector3(0.08, 0.3, 0.08)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rqf12"]
+size = Vector3(0.5, 1, 1.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xnm5m"]
+resource_local_to_scene = true
+albedo_color = Color(0.25490198, 0.29803923, 0.21176471, 1)
+roughness = 0.65
+emission = Color(0.25490198, 0.29803923, 0.21176471, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_7ci4j"]
+size = Vector3(0.35, 0.8, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l3b7a"]
+resource_local_to_scene = true
+albedo_color = Color(0.77254903, 0.6509804, 0.31764707, 1)
+roughness = 0.65
+emission = Color(0.77254903, 0.6509804, 0.31764707, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_bo2cq"]
+size = Vector3(0.15, 0.3, 0.16)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aeauh"]
+resource_local_to_scene = true
+albedo_color = Color(0.14901961, 0.21960784, 0.18431373, 1)
+roughness = 0.65
+emission = Color(0.14901961, 0.21960784, 0.18431373, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_vb7m8"]
+size = Vector3(0.42, 0.46, 1.35)
+
+[node name="Security" type="Node3D" unique_id=1847201796]
+script = ExtResource("1_g4ig3")
+
+[node name="Alarm" type="Node3D" parent="." unique_id=2043339627]
+script = ExtResource("2_tqwuy")
+
+[node name="CheckpointSideCover" type="Node3D" parent="." unique_id=1238163032 instance=ExtResource("3_ymgli")]
+transform = Transform3D(-3.17901e-08, 0, 0.5, 0, 1, 0, -0.72727275, 0, -2.1855694e-08, 6.4, 1.2, -5.5)
+
+[node name="Sensor0" type="Node3D" parent="." unique_id=1918232110]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -2.8, -38)
+script = ExtResource("4_krvw1")
+
+[node name="Detection" type="Area3D" parent="Sensor0" unique_id=2045211163]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+
+[node name="Shape" type="CollisionShape3D" parent="Sensor0/Detection" unique_id=2109100989]
+shape = SubResource("BoxShape3D_owmwj")
+
+[node name="Beams" type="Node3D" parent="Sensor0" unique_id=1859984946]
+
+[node name="Beam" type="MeshInstance3D" parent="Sensor0/Beams" unique_id=349243989]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.92, 0)
+material_override = SubResource("StandardMaterial3D_4e5a8")
+gi_mode = 2
+mesh = SubResource("BoxMesh_3x8g3")
+
+[node name="Beam2" type="MeshInstance3D" parent="Sensor0/Beams" unique_id=1767614072]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+material_override = SubResource("StandardMaterial3D_l3c0w")
+gi_mode = 2
+mesh = SubResource("BoxMesh_x65li")
+
+[node name="Beam3" type="MeshInstance3D" parent="Sensor0/Beams" unique_id=1482545879]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+material_override = SubResource("StandardMaterial3D_wkyt7")
+gi_mode = 2
+mesh = SubResource("BoxMesh_nbjam")
+
+[node name="Beam4" type="MeshInstance3D" parent="Sensor0/Beams" unique_id=1599371927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = SubResource("StandardMaterial3D_m617a")
+gi_mode = 2
+mesh = SubResource("BoxMesh_lgt8b")
+
+[node name="EmitterPost" type="MeshInstance3D" parent="Sensor0" unique_id=84587770]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65, 0, 0)
+material_override = SubResource("StandardMaterial3D_8u3ll")
+gi_mode = 2
+mesh = SubResource("BoxMesh_qit0g")
+
+[node name="EmitterPost2" type="MeshInstance3D" parent="Sensor0" unique_id=228641179]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.65, 0, 0)
+material_override = SubResource("StandardMaterial3D_0iaci")
+gi_mode = 2
+mesh = SubResource("BoxMesh_cc2r3")
+
+[node name="Indicator" type="MeshInstance3D" parent="Sensor0" unique_id=1791025311]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62, 1, 0.12)
+material_override = SubResource("StandardMaterial3D_15isq")
+gi_mode = 2
+mesh = SubResource("BoxMesh_0vuec")
+
+[node name="Header" type="MeshInstance3D" parent="Sensor0" unique_id=1471387187]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+material_override = SubResource("StandardMaterial3D_bvyxi")
+gi_mode = 2
+mesh = SubResource("BoxMesh_vd132")
+
+[node name="Status" type="Label3D" parent="Sensor0" unique_id=385557057]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.12)
+pixel_size = 0.004
+double_sided = false
+modulate = Color(0.8745098, 0.8745098, 0.73333335, 1)
+text = "CẢM BIẾN"
+font_size = 28
+outline_size = 2
+
+[node name="StatusBack" type="Label3D" parent="Sensor0" unique_id=1502523432]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.25, -0.12)
+pixel_size = 0.004
+double_sided = false
+modulate = Color(0.8745098, 0.8745098, 0.73333335, 1)
+text = "CẢM BIẾN"
+font_size = 28
+outline_size = 2
+
+[node name="Relay" type="AudioStreamPlayer3D" parent="Sensor0" unique_id=494123831]
+stream = ExtResource("5_14tae")
+volume_db = -12.0
+max_distance = 8.0
+bus = &"SFX"
+
+[node name="Sensor1" type="Node3D" parent="." unique_id=1649941879]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -2.8, -42.4)
+script = ExtResource("4_krvw1")
+phase_offset = 4.0
+
+[node name="Detection" type="Area3D" parent="Sensor1" unique_id=38541868]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+
+[node name="Shape" type="CollisionShape3D" parent="Sensor1/Detection" unique_id=1669312627]
+shape = SubResource("BoxShape3D_l16v5")
+
+[node name="Beams" type="Node3D" parent="Sensor1" unique_id=1774653352]
+
+[node name="Beam" type="MeshInstance3D" parent="Sensor1/Beams" unique_id=1758556006]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.92, 0)
+material_override = SubResource("StandardMaterial3D_p2xmi")
+gi_mode = 2
+mesh = SubResource("BoxMesh_t33h3")
+
+[node name="Beam2" type="MeshInstance3D" parent="Sensor1/Beams" unique_id=890619000]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+material_override = SubResource("StandardMaterial3D_mlcl5")
+gi_mode = 2
+mesh = SubResource("BoxMesh_mcrno")
+
+[node name="Beam3" type="MeshInstance3D" parent="Sensor1/Beams" unique_id=1471609001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+material_override = SubResource("StandardMaterial3D_jgwu2")
+gi_mode = 2
+mesh = SubResource("BoxMesh_jwqhu")
+
+[node name="Beam4" type="MeshInstance3D" parent="Sensor1/Beams" unique_id=1443270224]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = SubResource("StandardMaterial3D_vn7i2")
+gi_mode = 2
+mesh = SubResource("BoxMesh_d6u06")
+
+[node name="EmitterPost" type="MeshInstance3D" parent="Sensor1" unique_id=1065389184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65, 0, 0)
+material_override = SubResource("StandardMaterial3D_a8y24")
+gi_mode = 2
+mesh = SubResource("BoxMesh_8gngg")
+
+[node name="EmitterPost2" type="MeshInstance3D" parent="Sensor1" unique_id=2028871418]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.65, 0, 0)
+material_override = SubResource("StandardMaterial3D_e3cmb")
+gi_mode = 2
+mesh = SubResource("BoxMesh_nojch")
+
+[node name="Indicator" type="MeshInstance3D" parent="Sensor1" unique_id=270002089]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62, 1, 0.12)
+material_override = SubResource("StandardMaterial3D_doovr")
+gi_mode = 2
+mesh = SubResource("BoxMesh_ju5p7")
+
+[node name="Header" type="MeshInstance3D" parent="Sensor1" unique_id=1517189032]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+material_override = SubResource("StandardMaterial3D_hbqty")
+gi_mode = 2
+mesh = SubResource("BoxMesh_x2hdx")
+
+[node name="Status" type="Label3D" parent="Sensor1" unique_id=1514222439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.12)
+pixel_size = 0.004
+double_sided = false
+modulate = Color(0.8745098, 0.8745098, 0.73333335, 1)
+text = "CẢM BIẾN"
+font_size = 28
+outline_size = 2
+
+[node name="StatusBack" type="Label3D" parent="Sensor1" unique_id=841350702]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.25, -0.12)
+pixel_size = 0.004
+double_sided = false
+modulate = Color(0.8745098, 0.8745098, 0.73333335, 1)
+text = "CẢM BIẾN"
+font_size = 28
+outline_size = 2
+
+[node name="Relay" type="AudioStreamPlayer3D" parent="Sensor1" unique_id=211046231]
+stream = ExtResource("5_14tae")
+volume_db = -12.0
+max_distance = 8.0
+bus = &"SFX"
+
+[node name="CourtyardGate" type="Area3D" parent="." unique_id=294489747]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 1.1, 46)
+script = ExtResource("6_43sk3")
+
+[node name="Shape" type="CollisionShape3D" parent="CourtyardGate" unique_id=1298002994]
+shape = SubResource("BoxShape3D_5tw16")
+
+[node name="Panel" type="StaticBody3D" parent="CourtyardGate" unique_id=2079224052]
+collision_layer = 0
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="CourtyardGate/Panel" unique_id=1727238002]
+shape = SubResource("BoxShape3D_vlyqv")
+
+[node name="Safety" type="Area3D" parent="CourtyardGate" unique_id=1352461938]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+
+[node name="Shape" type="CollisionShape3D" parent="CourtyardGate/Safety" unique_id=180821362]
+shape = SubResource("BoxShape3D_xmoep")
+
+[node name="Leaf" type="Node3D" parent="CourtyardGate" unique_id=14012069]
+script = ExtResource("7_j5kh5")
+
+[node name="blast_door2" type="Node3D" parent="CourtyardGate/Leaf" unique_id=1862020479 instance=ExtResource("8_eooqf")]
+transform = Transform3D(1.16, 0, 0, 0, 0.91, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Indicator" type="MeshInstance3D" parent="CourtyardGate" unique_id=48933007]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7, 1.3, 0.35)
+material_override = SubResource("StandardMaterial3D_or8et")
+gi_mode = 2
+mesh = SubResource("BoxMesh_62qvr")
+
+[node name="GateNoticeHeader" type="MeshInstance3D" parent="CourtyardGate" unique_id=1601686088]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.27, 0)
+material_override = SubResource("StandardMaterial3D_1t0mg")
+gi_mode = 2
+mesh = SubResource("BoxMesh_4bjrn")
+
+[node name="Plate" type="Label3D" parent="CourtyardGate" unique_id=1281015071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.27, 0.18)
+pixel_size = 0.0035
+double_sided = false
+modulate = Color(0.8745098, 0.8745098, 0.73333335, 1)
+text = "CỔNG SÂN / PHONG TỎA"
+font_size = 28
+outline_size = 2
+
+[node name="PlateBack" type="Label3D" parent="CourtyardGate" unique_id=1931073951]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.27, -0.18)
+pixel_size = 0.0035
+double_sided = false
+modulate = Color(0.8745098, 0.8745098, 0.73333335, 1)
+text = "CỔNG SÂN / PHONG TỎA"
+font_size = 28
+outline_size = 2
+
+[node name="WalkingLink" type="NavigationLink3D" parent="CourtyardGate" unique_id=359666845]
+start_position = Vector3(0, -1, -2)
+end_position = Vector3(0, -1, 2)
+
+[node name="Motor" type="AudioStreamPlayer3D" parent="CourtyardGate" unique_id=1925302954]
+stream = ExtResource("9_45n8h")
+volume_db = -12.0
+max_distance = 18.0
+bus = &"SFX"
+
+[node name="MaintenanceGate" type="Area3D" parent="." unique_id=636452495]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 1.1, 46)
+script = ExtResource("6_43sk3")
+route = 1
+
+[node name="Shape" type="CollisionShape3D" parent="MaintenanceGate" unique_id=2147313153]
+shape = SubResource("BoxShape3D_pd5o6")
+
+[node name="Panel" type="StaticBody3D" parent="MaintenanceGate" unique_id=452687972]
+collision_layer = 0
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="MaintenanceGate/Panel" unique_id=1940988889]
+shape = SubResource("BoxShape3D_xkw7y")
+
+[node name="Safety" type="Area3D" parent="MaintenanceGate" unique_id=174249336]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+
+[node name="Shape" type="CollisionShape3D" parent="MaintenanceGate/Safety" unique_id=58132344]
+shape = SubResource("BoxShape3D_88cnf")
+
+[node name="Leaf" type="Node3D" parent="MaintenanceGate" unique_id=1715868646]
+script = ExtResource("7_j5kh5")
+
+[node name="blast_door2" type="Node3D" parent="MaintenanceGate/Leaf" unique_id=947738411 instance=ExtResource("8_eooqf")]
+transform = Transform3D(1.16, 0, 0, 0, 0.91, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Indicator" type="MeshInstance3D" parent="MaintenanceGate" unique_id=1188839758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7, 1.3, 0.35)
+material_override = SubResource("StandardMaterial3D_dcy77")
+gi_mode = 2
+mesh = SubResource("BoxMesh_8wvc1")
+
+[node name="GateNoticeHeader" type="MeshInstance3D" parent="MaintenanceGate" unique_id=1591834910]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.27, 0)
+material_override = SubResource("StandardMaterial3D_fwion")
+gi_mode = 2
+mesh = SubResource("BoxMesh_6xdhr")
+
+[node name="Plate" type="Label3D" parent="MaintenanceGate" unique_id=1418624468]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.27, 0.18)
+pixel_size = 0.0035
+double_sided = false
+modulate = Color(0.8745098, 0.8745098, 0.73333335, 1)
+text = "CỬA HẬU / KHÓA CƠ"
+font_size = 28
+outline_size = 2
+
+[node name="PlateBack" type="Label3D" parent="MaintenanceGate" unique_id=1346753301]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.27, -0.18)
+pixel_size = 0.0035
+double_sided = false
+modulate = Color(0.8745098, 0.8745098, 0.73333335, 1)
+text = "CỬA HẬU / KHÓA CƠ"
+font_size = 28
+outline_size = 2
+
+[node name="WalkingLink" type="NavigationLink3D" parent="MaintenanceGate" unique_id=1261103867]
+start_position = Vector3(0, -1, -2)
+end_position = Vector3(0, -1, 2)
+
+[node name="Motor" type="AudioStreamPlayer3D" parent="MaintenanceGate" unique_id=1092752603]
+stream = ExtResource("9_45n8h")
+volume_db = -12.0
+max_distance = 18.0
+bus = &"SFX"
+
+[node name="Radio" type="Area3D" parent="." unique_id=2048228723]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 1.15, 11.5)
+script = ExtResource("10_1bi12")
+
+[node name="Shape" type="CollisionShape3D" parent="Radio" unique_id=1523127232]
+shape = SubResource("BoxShape3D_aurkq")
+
+[node name="Timer" type="MeshInstance3D" parent="Radio" unique_id=531294150]
+material_override = SubResource("StandardMaterial3D_2p2un")
+gi_mode = 2
+mesh = SubResource("BoxMesh_rjuoi")
+
+[node name="RadioNoticeBackplate" type="MeshInstance3D" parent="Radio" unique_id=1359281051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
+material_override = SubResource("StandardMaterial3D_5daoq")
+gi_mode = 2
+mesh = SubResource("BoxMesh_non1g")
+
+[node name="RadioNoticeStem" type="MeshInstance3D" parent="Radio" unique_id=1654814962]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0)
+material_override = SubResource("StandardMaterial3D_5o67w")
+gi_mode = 2
+mesh = SubResource("BoxMesh_b0sxt")
+
+[node name="Plate" type="Label3D" parent="Radio" unique_id=1995873245]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.09, 0.28, 0)
+pixel_size = 0.003
+double_sided = false
+modulate = Color(0.8745098, 0.8745098, 0.73333335, 1)
+text = "RADIO / HẸN 4 GIÂY
+[E] GÂY NHIỄU QUA LOA"
+font_size = 28
+outline_size = 2
+
+[node name="Static" type="AudioStreamPlayer3D" parent="Radio" unique_id=69727817]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.4, 2.05, 4.5)
+stream = ExtResource("11_42dsp")
+volume_db = -12.0
+max_distance = 36.0
+bus = &"SFX"
+
+[node name="YardSpeaker" type="MeshInstance3D" parent="Radio" unique_id=1939901188]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.4, 2.05, 4.5)
+material_override = SubResource("StandardMaterial3D_y5for")
+gi_mode = 2
+mesh = SubResource("BoxMesh_8gvkj")
+
+[node name="IndoorStatic" type="AudioStreamPlayer3D" parent="Radio" unique_id=1864652919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 0.45, 1)
+stream = ExtResource("11_42dsp")
+volume_db = -12.0
+max_distance = 24.0
+bus = &"SFX"
+
+[node name="IndoorSpeaker" type="MeshInstance3D" parent="Radio" unique_id=1644333757]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 0.45, 1)
+material_override = SubResource("StandardMaterial3D_k0scb")
+gi_mode = 2
+mesh = SubResource("BoxMesh_f7lnd")
+
+[node name="SpeakerBracket" type="MeshInstance3D" parent="Radio" unique_id=1374415902]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 0.71, 1)
+material_override = SubResource("StandardMaterial3D_4v368")
+gi_mode = 2
+mesh = SubResource("BoxMesh_dsdea")
+
+[node name="PreparedLatch" type="Area3D" parent="." unique_id=73302696]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.9, 1.2, 5)
+script = ExtResource("12_ss070")
+
+[node name="Shape" type="CollisionShape3D" parent="PreparedLatch" unique_id=1361975481]
+shape = SubResource("BoxShape3D_rqf12")
+
+[node name="Housing" type="MeshInstance3D" parent="PreparedLatch" unique_id=1255228584]
+material_override = SubResource("StandardMaterial3D_xnm5m")
+gi_mode = 2
+mesh = SubResource("BoxMesh_7ci4j")
+
+[node name="Switch" type="MeshInstance3D" parent="PreparedLatch" unique_id=46971105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22, 0, 0)
+material_override = SubResource("StandardMaterial3D_l3b7a")
+gi_mode = 2
+mesh = SubResource("BoxMesh_bo2cq")
+
+[node name="LatchNoticeBackplate" type="MeshInstance3D" parent="PreparedLatch" unique_id=1657479102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, 0.65, 0)
+material_override = SubResource("StandardMaterial3D_aeauh")
+gi_mode = 2
+mesh = SubResource("BoxMesh_vb7m8")
+
+[node name="Plate" type="Label3D" parent="PreparedLatch" unique_id=1959746984]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.2, 0.65, 0)
+pixel_size = 0.003
+double_sided = false
+modulate = Color(0.8745098, 0.8745098, 0.73333335, 1)
+text = "CHỐT CỬA HẬU
+CHUẨN BỊ TRƯỚC BÁO ĐỘNG"
+font_size = 28
+outline_size = 2
+
+[node name="Latch" type="AudioStreamPlayer3D" parent="PreparedLatch" unique_id=760193089]
+stream = ExtResource("5_14tae")
+volume_db = -12.0
+max_distance = 10.0
+bus = &"SFX"
