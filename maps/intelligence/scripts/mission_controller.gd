@@ -125,7 +125,8 @@ func get_status_lines() -> Array[String]:
 	if has_file:
 		var seconds := ceili(time_left)
 		clock = "%02d:%02d" % [seconds / 60, seconds % 60]
-	return ["K17 / CHIẾN DỊCH TÌNH BÁO", "Hồ sơ: " + ("đang mang Mật lệnh 04" if has_file else "chưa thu hồi"),
+	var title := "K17 / TEST MAP — KHÔNG LÍNH GÁC" if is_test_mode() else "K17 / CHIẾN DỊCH TÌNH BÁO"
+	return [title, "Hồ sơ: " + ("đang mang Mật lệnh 04" if has_file else "chưa thu hồi"),
 		"Phong tỏa: " + clock,
 		"Cổng sân: " + ("sắp đóng" if lockdown_warned and not lockdown_closed else _gate_status("CourtyardGate")),
 		"Cửa hậu: " + _gate_status("MaintenanceGate") + (" · đã chuẩn bị" if backdoor_prepared else " · khóa cơ 8 giây"), radio_message]
@@ -137,10 +138,15 @@ func show_objective_checklist() -> bool:
 
 func get_result_lines() -> Array[String]:
 	var objectives := ObjectiveManager.find(self)
-	return ["Mật lệnh 04 đã được đưa ra khỏi K17.", "Còn lại: %d giây · Hết giờ: %d lần" % [ceili(time_left), timeouts],
+	var summary := "TEST MAP · Đã đưa hồ sơ ra khỏi K17." if is_test_mode() else "Mật lệnh 04 đã được đưa ra khỏi K17."
+	return [summary, "Còn lại: %d giây · Hết giờ: %d lần" % [ceili(time_left), timeouts],
 		"Đường rút: " + objectives.escape_route_name,
 		"Cảm biến: %d lần · Radio: %d lần" % [sensor_trips,radio_uses],
 		"Chuẩn bị cửa hậu: " + ("có" if backdoor_prepared else "không")]
+
+
+func is_test_mode() -> bool:
+	return owner != null and owner.is_in_group("k17_no_guards")
 
 
 func get_checkpoint_state() -> Dictionary:

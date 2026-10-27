@@ -22,6 +22,8 @@ var settings_button: Button
 var settings_panel: SettingsPanel
 ## Map id → its button, for every map in the catalog.
 var level_buttons := {}
+## Optional map test variants, kept next to their normal map buttons.
+var test_buttons := {}
 ## How the level is loaded and how the game quits. Tests replace these.
 var change_scene: Callable
 var quit_game: Callable
@@ -68,6 +70,14 @@ func _ready() -> void:
 		description.modulate = Color(1, 1, 1, 0.7)
 		box.add_child(description)
 		level_buttons[id] = button
+		if level.get("test_scene", "") != "":
+			var test_button := MenuStyle.button(level.test_title)
+			test_button.pressed.connect(func(): start_test_level(id))
+			box.add_child(test_button)
+			var test_description := MenuStyle.label(level.test_description, 14)
+			test_description.modulate = Color(1, 1, 1, 0.7)
+			box.add_child(test_description)
+			test_buttons[id] = test_button
 	start_button = level_buttons[LevelCatalog.TUTORIAL]
 	expanded_button = level_buttons[LevelCatalog.EXPANDED]
 	box.add_child(HSeparator.new())
@@ -111,7 +121,15 @@ func start_game() -> bool:
 ## Loads the map `id` from the catalog. Returns false if it is unknown or a map
 ## was already requested (a second press while the scene changes is ignored).
 func start_level(id: StringName) -> bool:
-	var path := LevelCatalog.scene_of(id)
+	return _start_scene(LevelCatalog.scene_of(id))
+
+
+## Test mode is encoded by its scene, so Restart never loses the selection.
+func start_test_level(id: StringName) -> bool:
+	return _start_scene(LevelCatalog.test_scene_of(id))
+
+
+func _start_scene(path: String) -> bool:
 	if path == "" or not scene_requests.is_empty():
 		return false
 	scene_requests.append(path)

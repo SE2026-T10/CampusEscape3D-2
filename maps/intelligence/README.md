@@ -14,6 +14,22 @@ godot --path . res://maps/intelligence/scenes/intelligence_k17.tscn
 
 WASD di chuyển, chuột nhìn, Shift chạy, C/Ctrl cúi, E tương tác, Esc/P tạm dừng. F3 bật/tắt thông tin gỡ lỗi trong bản phát triển.
 
+### Test map không lính gác
+
+Trong menu, chọn **K17 — Test map không lính gác**. Bạn tự điều khiển để kiểm tra đường đi, va chạm, đồ vật và hai lối thoát. Chế độ này loại toàn bộ bốn lính, gồm cả collider và bộ phận nhìn/nghe. HUD ghi rõ **TEST MAP — KHÔNG LÍNH GÁC** và màn kết quả cũng đánh dấu lượt test.
+
+Cảm biến, radio, giữ E, checkpoint, cửa phong tỏa và đồng hồ 120 giây vẫn hoạt động. Pause, thử lại checkpoint và chơi lại từ đầu đều giữ chế độ test. Muốn chơi có lính, về menu và chọn **K17 — 120 giây cuối**.
+
+Có thể mở `scenes/intelligence_k17_test.tscn` rồi nhấn F6 hoặc chạy:
+
+```text
+godot --path . res://maps/intelligence/scenes/intelligence_k17_test.tscn
+```
+
+Scene test kế thừa map chính nên nhận các cập nhật bố cục/mỹ thuật và lần dựng lại từ builder; không sao chép nội dung map.
+
+### Trình tự nhiệm vụ
+
 1. Vào cơ sở qua sân phía tây hoặc lối kỹ thuật phía đông.
 2. Đến bàn trong phòng trực phía tây và lấy giấy thông hành bằng E.
 3. Mở cửa gia cường khu hồ sơ bằng E. Vòng qua tủ che bên phải, tìm vạch sơn và biển checkpoint.
@@ -67,7 +83,7 @@ Bake ánh sáng: mở editor với `--rendering-method mobile` trên GPU có Ren
 
 `preview_art.gd` chụp các góc cố định, tắt quyết định NPC chỉ trong lượt chụp; `benchmark_art.gd` đo frame time theo thời gian thực với cả bốn NPC hoạt động, tắt bắt và giữ camera đứng yên để so sánh. Không dùng số đo headless/fixed-fps làm FPS đồ họa.
 
-`playthrough_k17.gd` dùng bộ điều khiển và tương tác thật để kiểm tra va chạm của cả hai tuyến, chủ động tắt NPC chỉ trong lượt QA này. `guard_soak_k17.gd` kiểm tra riêng bốn NPC đang hoạt động trong scene thật. Scene phát hành luôn giữ NPC hoạt động.
+`playthrough_k17.gd` dùng bộ điều khiển và tương tác thật để kiểm tra va chạm của cả hai tuyến, chủ động tắt NPC chỉ trong lượt QA này. `guard_soak_k17.gd` kiểm tra riêng bốn NPC đang hoạt động trong scene thật. Scene nhiệm vụ bình thường giữ đủ bốn NPC; scene test riêng không có NPC.
 
 Tool đi bộ có các tùy chọn `--live-guards`, `--crouch`, `--radio`, `--wait-radio`, `--prepare`, `--sprint-yard`, `--settle-before-file`, `--yard-flank`, `--route=courtyard|maintenance` và `--entry=courtyard|maintenance`. Nó biết dừng trước dải cảm biến để đợi xanh; vẫn dùng di chuyển, tương tác và thời gian giữ thật. `--wait-radio` đợi tám giây sau khi hẹn để lính có thời gian phản ứng; `--settle-before-file` đợi trạng thái yên ba giây ở checkpoint có vật che; `--yard-flank` dùng hành lang kỹ thuật rồi đi dọc sân tới cổng phía tây. Các tùy chọn này chỉ dành cho QA, không sửa AI hoặc điều kiện thắng. Một tuyến cố định bị bắt không tự chứng minh lỗi gameplay; log ghi trạng thái, số lần bị bắt và các công cụ đã dùng.
 

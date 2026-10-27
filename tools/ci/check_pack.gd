@@ -21,6 +21,8 @@ func _run() -> void:
 	var scenes: Array[String] = [ProjectSettings.get_setting("application/run/main_scene")]
 	for entry in Catalog.LEVELS:
 		scenes.append(entry.scene)
+		if entry.get("test_scene", "") != "":
+			scenes.append(entry.test_scene)
 	for scene_path in scenes:
 		var packed := load(scene_path) as PackedScene
 		if packed == null:
@@ -37,6 +39,11 @@ func _run() -> void:
 		packed = null
 		for i in 30:
 			await process_frame
+	# Accelerated runs may outpace the audio server's asynchronous release of
+	# stopped WAV playback. Allow its real-time worker to finish before exit.
+	for i in 4:
+		OS.delay_msec(50)
+		await process_frame
 	for failure in failures:
 		printerr(failure)
 	if failures.is_empty():

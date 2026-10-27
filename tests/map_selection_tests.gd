@@ -58,10 +58,13 @@ func _check_catalog() -> void:
 		unique[level.id] = true
 		_expect(level.title != "" and level.description != "", "Map %s needs a title and a description." % level.id)
 		_expect(load(level.scene) is PackedScene, "Map %s: its scene %s must load." % [level.id, level.scene])
+		if level.get("test_scene", "") != "":
+			_expect(load(level.test_scene) is PackedScene, "Map %s: its test scene must load." % level.id)
 		_expect(LevelCatalog.id_of_scene(level.scene) == level.id, "Map %s: id_of_scene must find it again." % level.id)
 	_expect(unique.size() == LevelCatalog.LEVELS.size(), "Map ids must be unique.")
 	_expect(LevelCatalog.scene_of(LevelCatalog.TUTORIAL) == MainMenu.LEVEL_SCENE, "The tutorial entry must be the scene the menu always started.")
 	_expect(LevelCatalog.scene_of(&"no_such_map") == "", "An unknown map has no scene.")
+	_expect(LevelCatalog.test_scene_of(&"no_such_map") == "" and LevelCatalog.test_scene_of(LevelCatalog.TUTORIAL) == "", "Unknown maps and maps without a test variant have no test scene.")
 	print("  [maps] catalog: %s, tutorial first" % [ids])
 
 
@@ -81,23 +84,35 @@ func _check_menu() -> void:
 		var ordered: Array[Button] = []
 		for entry in LevelCatalog.LEVELS:
 			ordered.append(menu.level_buttons[entry.id])
+			if menu.test_buttons.has(entry.id): ordered.append(menu.test_buttons[entry.id])
 		ordered.append(menu.settings_button)
 		ordered.append(menu.quit_button)
 		for i in range(ordered.size() - 1):
 			_expect(ordered[i].find_valid_focus_neighbor(SIDE_BOTTOM) == ordered[i + 1]
 				and ordered[i + 1].find_valid_focus_neighbor(SIDE_TOP) == ordered[i],
-				"Up/Down must visit each catalog map, Settings and Quit in order.")
+				"Up/Down must visit each catalog map, test variant, Settings and Quit in order.")
 		var button: Button = menu.level_buttons[level.id]
 		button.pressed.emit()
 		button.pressed.emit()
 		menu.start_button.pressed.emit()
+		for test_button in menu.test_buttons.values(): test_button.pressed.emit()
 		_expect(requests == [level.scene], "%s should request %s once, even with more presses (got %s)." % [level.title, level.scene, requests])
 		_expect(not _host.get_tree().paused, "The menu must not leave the game paused.")
 		await _close(menu)
+	for level in LevelCatalog.LEVELS:
+		if level.get("test_scene", "") == "": continue
+		var test_menu := await _open_menu()
+		var test_requests: Array = test_menu.get_meta("requests")
+		test_menu.test_buttons[level.id].pressed.emit()
+		test_menu.test_buttons[level.id].pressed.emit()
+		test_menu.level_buttons[level.id].pressed.emit()
+		_expect(test_requests == [level.test_scene], "A test button loads its variant once and cannot switch modes during the scene change.")
+		await _close(test_menu)
 	# The old entry point still starts the tutorial, unknown maps are refused, Quit still quits.
 	var menu := await _open_menu()
 	var requests: Array = menu.get_meta("requests")
 	_expect(not menu.start_level(&"no_such_map") and requests.is_empty(), "An unknown map must not load anything.")
+	_expect(not menu.start_test_level(&"no_such_map") and not menu.start_test_level(LevelCatalog.TUTORIAL) and requests.is_empty(), "A missing test variant must not load anything.")
 	_expect(menu.start_game() and requests == [MainMenu.LEVEL_SCENE], "start_game() must still start the tutorial.")
 	menu.quit_button.pressed.emit()
 	_expect(menu.get_meta("quits")[0] == 1, "Quit should quit the game.")
@@ -118,6 +133,7 @@ func _check_scaled_menu() -> void:
 			var buttons: Array[Button] = []
 			for entry in LevelCatalog.LEVELS:
 				buttons.append(menu.level_buttons[entry.id])
+				if menu.test_buttons.has(entry.id): buttons.append(menu.test_buttons[entry.id])
 			buttons.append(menu.settings_button)
 			buttons.append(menu.quit_button)
 			for button in buttons:
