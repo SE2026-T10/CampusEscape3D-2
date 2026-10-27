@@ -1,0 +1,9 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[K17 keypad] entry=4827 powered=true progress={ &"enter_k17": 2, &"take_pass": 2, &"take_vault_code": 2, &"reach_archive": 2, &"open_vault": 1, &"take_intelligence": 0, &"extract_k17": 0, &"prepare_backdoor": 1, &"disable_cameras": 1 }
+[K17 dispatch] wave=1 actor=Reinforcement0 origin=(-18.0, 0.0, 39.5)
+[K17 dispatch] wave=1 actor=Reinforcement1 origin=(22.0, 0.0, -18.0)
+[K17 dispatch] wave=2 actor=Reinforcement2 origin=(-42.0, 0.0, 42.0)
+[K17 dispatch] wave=2 actor=Reinforcement3 origin=(44.0, 0.0, -18.0)
+[K17 walking V4] route=maintenance remaining=33.8 state=3 catches=0 sensors=0 reinforcements=4
+K17 WALKING PASSED (59 waypoints, 1 routes; NPC active=true)

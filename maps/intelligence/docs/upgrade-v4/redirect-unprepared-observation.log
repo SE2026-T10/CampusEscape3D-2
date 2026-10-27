@@ -1,0 +1,19 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[K17 dispatch] wave=1 actor=Reinforcement0 origin=(-18.0, 0.0, 39.5)
+[K17 dispatch] wave=1 actor=Reinforcement1 origin=(22.0, 0.0, -18.0)
+[K17 dispatch] wave=2 actor=Reinforcement2 origin=(-42.0, 0.0, 42.0)
+[K17 dispatch] wave=2 actor=Reinforcement3 origin=(44.0, 0.0, -18.0)
+[K17 blocked collider] /root/IntelligenceK17/NavigationRegion3D/Sectors/perimeter/GroundSouth normal=(0.0, 1.0, 0.0)
+K17 REDIRECT T+70.0 from=(4,0,7) main_gate_correct=true cameras_on=true actors=6 prepared=false remaining=120.0 catches=1 state=0
+[K17 dispatch] wave=1 actor=Reinforcement0 origin=(-18.0, 0.0, 39.5)
+[K17 dispatch] wave=1 actor=Reinforcement1 origin=(22.0, 0.0, -18.0)
+[K17 dispatch] wave=2 actor=Reinforcement2 origin=(-42.0, 0.0, 42.0)
+[K17 dispatch] wave=2 actor=Reinforcement3 origin=(44.0, 0.0, -18.0)
+[K17 blocked collider] /root/IntelligenceK17/NavigationRegion3D/Sectors/perimeter/GroundSouth normal=(0.0, 1.0, 0.0)
+K17 REDIRECT T+90.0 from=(4,0,7) main_gate_correct=true cameras_on=true actors=6 prepared=false remaining=120.0 catches=1 state=0
+Blocked walking toward (36.0, 0.0, 51.0) (actual (-34.72524, 0.000391, 51.0), state 0)
+Late maintenance redirect failed at T+70.0
+Blocked walking toward (36.0, 0.0, 51.0) (actual (-34.72524, 0.000391, 51.0), state 0)
+Late maintenance redirect failed at T+90.0
+K17 REDIRECT FAILED
