@@ -1,6 +1,6 @@
 extends SceneTree
 ## Staged viewpoints for art review, not evidence of completing the mission.
-var output:="res://ci-logs/k17-v3-preview"
+var output:="res://ci-logs/k17-v4-preview"
 func _init() -> void: _run.call_deferred()
 func _run() -> void:
 	for arg in OS.get_cmdline_user_args():
@@ -16,8 +16,10 @@ func _run() -> void:
 	current_scene.add_child(camera)
 	camera.make_current()
 	for hud in ["ObjectiveHud","StealthHud"]: current_scene.get_node(hud).visible=false
+	PlayerInventory.find(current_scene).add(ItemCatalog.STAFF_CARD)
 	for id in [K17MissionController.ENTER,K17MissionController.PASS,K17MissionController.CODE,K17MissionController.ARCHIVE]: ObjectiveManager.find(current_scene).complete(id)
-	current_scene.get_node("Gameplay/VaultDoor").open()
+	current_scene.get_node("Gameplay/VaultKeypad").set_entry(preload("res://maps/intelligence/resources/layout/k17_v4.gd").VAULT_CODE)
+	current_scene.get_node("Gameplay/VaultKeypad").submit()
 	var views:=[
 		["01_compound",Vector3(-43,28,52),Vector3(0,0,0)],
 		["02_motor_pool",Vector3(-36,1.6,43),Vector3(-36,1.6,28)],
@@ -26,6 +28,8 @@ func _run() -> void:
 		["05_vault",Vector3(8,-2.4,-48),Vector3(0,-2.7,-40)],
 		["06_utilities",Vector3(36,1.6,21),Vector3(36,1.6,4)],
 		["07_service_stairs",Vector3(30,-2.4,-36),Vector3(30,1,-24)],
+		["08_power_console",Vector3(40.7,1.65,2.4),Vector3(43,1.6,3.2)],
+		["09_keypad",Vector3(5.35,1.65,-21.7),Vector3(5.35,1.55,-23.45)],
 	]
 	for v in views:
 		camera.position=v[1]
@@ -33,10 +37,14 @@ func _run() -> void:
 		await _frames(20)
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(ProjectSettings.globalize_path(output.path_join(v[0]+".png")))
-		print("K17 V3 VIEW ",v[0])
+		print("K17 V4 VIEW ",v[0])
 	current_scene.queue_free()
 	await _frames(40)
 	await preload("res://tests/test_utils.gd").settle_async_audio(self)
 	quit()
 func _frames(count: int) -> void:
-	for i in count: await process_frame
+	for i in count:
+		if is_instance_valid(current_scene):
+			var flow:=GameFlow.find(current_scene)
+			if flow and flow.state==GameStateMachine.State.PAUSED: flow.resume()
+		await process_frame

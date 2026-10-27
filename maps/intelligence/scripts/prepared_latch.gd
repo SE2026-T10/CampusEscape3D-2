@@ -19,6 +19,7 @@ func get_prompt(_by: Node) -> String:
 func _on_interact(_by: Node) -> bool:
 	var mission := MapHudProvider.find_for(self) as K17MissionController
 	mission.backdoor_prepared = true
+	ObjectiveManager.find(self).try_complete(K17MissionController.PREPARED)
 	mission.queue_radio("Lam: Chốt cửa hậu đã chuẩn bị. Khi báo động, em có thể mở ngay tại cổng phía đông.",2,"prepared")
 	$Latch.play()
 	return true

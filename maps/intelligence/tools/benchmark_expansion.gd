@@ -23,7 +23,7 @@ func _run() -> void:
 		if alert:
 			player.global_position=L.PREP
 			player.camera.look_at(Vector3(8,1,-30))
-			for id in [K17MissionController.ENTER,K17MissionController.PASS,K17MissionController.CODE,K17MissionController.ARCHIVE,K17MissionController.FILE]: ObjectiveManager.find(current_scene).complete(id)
+			for id in [K17MissionController.ENTER,K17MissionController.PASS,K17MissionController.CODE,K17MissionController.ARCHIVE,K17MissionController.VAULT,K17MissionController.FILE]: ObjectiveManager.find(current_scene).complete(id)
 			var team:=current_scene.get_node("Gameplay/Reinforcements")
 			mission.time_left=110
 			team._physics_process(0)

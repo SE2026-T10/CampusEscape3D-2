@@ -71,6 +71,8 @@ var _prompt_colour := Color(0, 0, 0, 0)
 const JOURNAL_BOTTOM_CLEARANCE := 250.0
 ## Carried slot size, in pixels.
 const SLOT_SIZE := Vector2(184, 44)
+## Scene-local wording; other maps keep the default controls hint.
+@export var inventory_hint_format := "1–3 select  ·  F use / throw  ·  J journal (%d)"
 
 
 func _ready() -> void:
@@ -350,7 +352,7 @@ func _draw_slots() -> void:
 		_slots.draw_string(font, rect.position + Vector2(30, 27), label, HORIZONTAL_ALIGNMENT_LEFT, SLOT_SIZE.x - 36, font_size,
 			Color.WHITE if id != &"" else Color(1, 1, 1, 0.4))
 		_slots.draw_string(font, rect.position + Vector2(4, 12), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1, 1, 1, 0.6))
-	var hint := "1–3 select  ·  F use / throw  ·  J journal (%d)" % inventory.documents.size()
+	var hint := inventory_hint_format % inventory.documents.size()
 	_slots.draw_string_outline(font, Vector2(0, SLOT_SIZE.y + 20), hint, HORIZONTAL_ALIGNMENT_CENTER, _slots.size.x, 13, 4, Color.BLACK)
 	_slots.draw_string(font, Vector2(0, SLOT_SIZE.y + 20), hint, HORIZONTAL_ALIGNMENT_CENTER, _slots.size.x, 13, Color(1, 1, 1, 0.75))
 

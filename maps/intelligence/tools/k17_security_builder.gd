@@ -8,7 +8,7 @@ func build() -> Node3D:
 	scene = Node3D.new()
 	scene.name = "Security"
 	scene.set_script(load(BASE+"scripts/security_presentation.gd"))
-	var alarm := SecurityAlarm.new()
+	var alarm := preload("res://maps/intelligence/scripts/security_alarm.gd").new()
 	alarm.name = "Alarm"
 	_add(scene,alarm)
 	var cover := (load(BASE+"assets/models/archive_rack.glb") as PackedScene).instantiate() as Node3D
@@ -31,9 +31,11 @@ func build() -> Node3D:
 	radio.get_node("Static").position = Vector3(18.4,2.05,4.5)
 	_box(radio,"YardSpeaker",Vector3(18.4,2.05,4.5),Vector3(.7,.35,.3),Color("222d28"))
 	_audio(radio,"IndoorStatic","radio",24)
-	radio.get_node("IndoorStatic").position = Vector3(4.4,1.6,-9.3)
-	_box(radio,"IndoorSpeaker",Vector3(4.4,1.6,-9.3),Vector3(.7,.35,.3),Color("222d28"))
-	_box(radio,"SpeakerBracket",Vector3(4.4,1.86,-9.3),Vector3(.08,.3,.08),Color("222d28"))
+	# Radio positions are relative to the console: the indoor speaker draws
+	# attention into the communications bay, away from the archive threshold.
+	radio.get_node("IndoorStatic").position = Vector3(6.4,.45,1)
+	_box(radio,"IndoorSpeaker",Vector3(6.4,.45,1),Vector3(.7,.35,.3),Color("222d28"))
+	_box(radio,"SpeakerBracket",Vector3(6.4,.71,1),Vector3(.08,.3,.08),Color("222d28"))
 	var latch := _script("PreparedLatch",Area3D.new(),"prepared_latch.gd") as Interactable
 	latch.position = L.LATCH
 	_shape(latch,Vector3(.5,1,1.1))

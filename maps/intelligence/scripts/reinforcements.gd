@@ -81,6 +81,7 @@ func _spawn(index: int,pos: Vector3) -> void:
 	guard.patrol_route=route
 	guard.collision_mask|=16
 	guard.checkpoint_snapshot=false
+	preload("res://maps/intelligence/resources/layout/k17_v4.gd").configure_guard(guard)
 	get_parent().get_parent().get_node("Guards").add_child(guard)
 	Appearance.apply(guard)
 	_actors.append(guard)

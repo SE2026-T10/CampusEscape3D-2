@@ -36,3 +36,9 @@ Khung cảm biến, bảng điều khiển, loa PA, chỉ báo và các cổng �
 ## Tổ hợp mở rộng V3
 
 Tám sector, hai cầu thang xuống B1, nhà xe, xe tải quân dụng phong cách đơn giản, máy phát, biển gắn khung và chi tiết tường được dựng bằng `tools/k17_expansion_builder.gd`. Các phần này là hình học do project sinh, kết hợp model và vật liệu đã ghi nguồn ở trên; không lấy thêm model xe hoặc bộ asset thương mại. Lightmap V3 được bake cho cả tổ hợp; cảnh vệ và cửa chuyển động dùng ánh sáng động/probe, không bake thành bóng đứng yên.
+
+## Nâng cấp thâm nhập V4
+
+Camera, công tắc, keypad, tài liệu và chai rỗng tái sử dụng hình học/cơ chế do project dựng trong `features/`. Tủ điều khiển, đường cáp, biển kho và dấu chỗ nấp do `scripts/equipment_presentation.gd` cùng `tools/k17_v4_builder.gd` sinh. Không tải thêm asset hoặc mua gói thương mại.
+
+`tools/k17_static_merge.gd` gom các khối tĩnh sẵn có theo vật liệu và ô không gian, tạo UV2 để bake lại `resources/k17_v4_lightmap.*`. Collider giữ riêng; camera quay, phím khóa, vật nhặt và cửa chuyển động dùng ánh sáng động. Âm khởi động nguồn dự phòng dùng `mech_clunk` trong hệ thống âm thanh chung.

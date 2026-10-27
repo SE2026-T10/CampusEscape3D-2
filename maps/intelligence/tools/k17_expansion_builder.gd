@@ -126,6 +126,7 @@ func build(builder: SceneTree, region: Node3D) -> void:
 
 func save_sectors() -> bool:
 	for child in sectors.get_children():
+		preload("res://maps/intelligence/tools/k17_static_merge.gd").new().merge(child)
 		var packed := PackedScene.new()
 		_set_owner(child,child)
 		var path:=BASE+"scenes/sectors/"+str(child.name)+".tscn"

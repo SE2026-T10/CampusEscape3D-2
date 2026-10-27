@@ -17,7 +17,7 @@ func _run() -> void:
 		player.camera.look_at(Vector3(8,1,-30))
 		var mission:=current_scene.get_node("Gameplay/Mission") as K17MissionController
 		mission.set_physics_process(false)
-		for id in [K17MissionController.ENTER,K17MissionController.PASS,K17MissionController.CODE,K17MissionController.ARCHIVE,K17MissionController.FILE]: ObjectiveManager.find(current_scene).complete(id)
+		for id in [K17MissionController.ENTER,K17MissionController.PASS,K17MissionController.CODE,K17MissionController.ARCHIVE,K17MissionController.VAULT,K17MissionController.FILE]: ObjectiveManager.find(current_scene).complete(id)
 		var team:=current_scene.get_node("Gameplay/Reinforcements")
 		mission.time_left=110
 		team._physics_process(0)
@@ -32,8 +32,10 @@ func _run() -> void:
 			guard.reset_to_start()
 	var counters: Array[Dictionary] = []
 	for guard in guards:
-		var counter := {"name": guard.name, "reached": 0, "stuck": 0}
-		guard.patrol_point_reached.connect(func(_index): counter.reached += 1)
+		var counter := {"name": guard.name, "reached": 0, "stuck": 0,"missed":0}
+		guard.patrol_point_reached.connect(func(index):
+			counter.reached += 1
+			if guard.global_position.distance_to(guard.patrol_route.get_point_position(index))>1.5: counter.missed+=1)
 		guard.got_stuck.connect(func(_index): counter.stuck += 1)
 		counters.append(counter)
 	for i in 5400:
@@ -41,7 +43,7 @@ func _run() -> void:
 	var ok := GameFlow.find(current_scene).state == GameStateMachine.State.PLAYING
 	for counter in counters:
 		print("  [K17 patrol] ", counter)
-		ok = ok and counter.reached >= 4 and counter.stuck == 0
+		ok = ok and counter.reached >= 4 and counter.stuck == 0 and counter.missed==0
 	print("K17 PATROL PASSED (90 simulated seconds, %d live NPCs)"%guards.size() if ok else "K17 PATROL FAILED")
 	current_scene.queue_free()
 	for i in 40:

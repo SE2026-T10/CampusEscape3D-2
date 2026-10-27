@@ -1,9 +1,11 @@
 extends SceneTree
 
-## Build V3 from shared actors and map-local geometry; runtime needs no tools.
+## Build V4 from shared actors and map-local geometry; runtime needs no tools.
 const BASE := "res://maps/intelligence/"
 const Layout := preload("res://maps/intelligence/resources/layout/k17_layout.gd")
 const Expansion := preload("res://maps/intelligence/tools/k17_expansion_builder.gd")
+const V4 := preload("res://maps/intelligence/resources/layout/k17_v4.gd")
+const V4Builder := preload("res://maps/intelligence/tools/k17_v4_builder.gd")
 const SCENE := BASE + "scenes/intelligence_k17.tscn"
 const NAV := BASE + "resources/k17_navmesh.tres"
 const Mission := preload("res://maps/intelligence/scripts/mission_controller.gd")
@@ -29,7 +31,7 @@ func _init() -> void:
 func _build() -> void:
 	level = Node3D.new()
 	level.name = "IntelligenceK17"
-	level.set_meta("map_version", "v3-compound")
+	level.set_meta("map_version", "v4-infiltration")
 	var region := NavigationRegion3D.new()
 	region.name = "NavigationRegion3D"
 	var nav := NavigationMesh.new()
@@ -68,14 +70,14 @@ func _build() -> void:
 		quit(1)
 		return
 	_systems()
-	var data_path:=BASE+"resources/k17_v3_lightmap.lmbake"
+	var data_path:=BASE+"resources/k17_v4_lightmap.lmbake"
 	if FileAccess.file_exists(data_path): level.get_node("LightmapGI").light_data=load(data_path)
 	var packed := PackedScene.new()
 	if packed.pack(level) != OK or ResourceSaver.save(packed, SCENE) != OK:
 		push_error("K17: scene save failed")
 		quit(1)
 		return
-	print("K17 BUILT V3: ", nav.get_polygon_count(), " navmesh polygons; 96x108m; B1; 6 guards + 4 reinforcements")
+	print("K17 BUILT V4: ", nav.get_polygon_count(), " navmesh polygons; 96x108m; B1; 6 guards + 4 reinforcements")
 	level.free()
 	quit(0)
 
@@ -167,6 +169,12 @@ func _build_environment(region: NavigationRegion3D) -> bool:
 			return false
 		art.free()
 	var instance := (load(ART_SCENE) as PackedScene).instantiate()
+	if "--optimize-art" in OS.get_cmdline_user_args():
+		preload("res://maps/intelligence/tools/k17_static_merge.gd").new().merge(instance)
+		var optimized:=PackedScene.new()
+		if optimized.pack(instance)!=OK or ResourceSaver.save(optimized,ART_SCENE)!=OK:
+			instance.free()
+			return false
 	_add(level, instance)
 	var lightmap:=instance.get_node("LightmapGI") as LightmapGI
 	lightmap.owner=null
@@ -180,6 +188,8 @@ func _actors() -> void:
 	player.name = "Player"
 	player.position = Layout.SPAWN
 	player.collision_mask |= 16
+	player.use_inventory = true
+	player.get_node("Inventory").set_script(load(BASE+"scripts/inventory.gd"))
 	_add(level, player)
 	var routes := _group(level, "PatrolRoutes")
 	var guards := _group(level, "Guards")
@@ -200,6 +210,7 @@ func _actors() -> void:
 		guard.rotation.y = -PI / 2.0
 		guard.patrol_route = route
 		guard.checkpoint_snapshot = true
+		V4.configure_guard(guard)
 		guard.collision_mask |= 16
 		_add(guards, guard)
 		guard.set_meta("appearance", "k17_military")
@@ -226,7 +237,6 @@ func _gameplay() -> bool:
 		_add(gameplay, trigger)
 		_shape(trigger, Vector3(5, 2, 3))
 	_pickup(gameplay, "AccessPass", Mission.PASS, Layout.PASS, "Lấy giấy thông hành", "Vào cơ sở trước", Color("c1b893"), Vector3(0.4, 0.035, 0.26))
-	_pickup(gameplay, "VaultCode", Mission.CODE, Layout.CODE, "Thu hồi sơ đồ và mã kho mật", "Cần giấy thông hành", Color("c1b893"), Vector3(.4,.04,.28))
 	_pickup(gameplay, "IntelligenceFile", Mission.FILE, Layout.FILE, "Lấy Mật lệnh 04 — bắt đầu 120 giây", "Đến checkpoint khu mật trước khi thu hồi", Color(0.8, 0.25, 0.12), Vector3(0.5, 0.08, 0.35))
 	var door := AccessDoor.new()
 	door.name = "ArchiveDoor"
@@ -234,6 +244,7 @@ func _gameplay() -> bool:
 	door.door_name = "cửa khu hồ sơ"
 	door.prompt = "Mở cửa khu hồ sơ"
 	door.key_objective_id = Mission.PASS
+	door.key_item = ItemCatalog.STAFF_CARD
 	door.key_name = "giấy thông hành"
 	_add(gameplay, door)
 	_shape(door, Vector3(3.6, 2.4, 1.0))
@@ -268,7 +279,7 @@ func _gameplay() -> bool:
 	forward_spawn.name="Spawn"
 	forward_spawn.position=Vector3(0,-.95,0)
 	_add(forward,forward_spawn)
-	_controlled_door(gameplay,"VaultDoor",Vector3(4,1.2,-24),Mission.CODE,"mã kho mật")
+	_controlled_door(gameplay,"VaultDoor",Vector3(4,1.2,-24),Mission.VAULT,"xác nhận mã tại keypad bên cạnh")
 	_controlled_door(gameplay,"DispatchDoor",Vector3(-18,1.2,35),Mission.FILE,"lệnh điều động")
 	var shortcut := _controlled_door(gameplay,"MaintenanceShortcut",Vector3(10,-2.8,-38),Mission.FILE,"Mật lệnh 04")
 	shortcut.rotation.y=PI/2
@@ -288,6 +299,7 @@ func _gameplay() -> bool:
 	security.free()
 	_add(gameplay,(load(SECURITY_SCENE) as PackedScene).instantiate())
 	_script(gameplay,"Reinforcements",Node.new(),BASE+"scripts/reinforcements.gd")
+	V4Builder.new().build(self,gameplay)
 	return true
 
 
@@ -321,7 +333,7 @@ func _systems() -> void:
 		["StealthDirector", Node.new(), "res://shared/scripts/stealth/stealth_director.gd"],
 		["NoiseSystem", Node3D.new(), "res://shared/scripts/noise/noise_system.gd"],
 		["StealthHud", CanvasLayer.new(), "res://shared/scripts/ui/stealth_hud.gd"],
-		["ObjectiveHud", CanvasLayer.new(), "res://shared/scripts/ui/objective_hud.gd"],
+		["ObjectiveHud", CanvasLayer.new(), BASE+"scripts/objective_hud.gd"],
 		["GameFlow", Node.new(), "res://shared/scripts/game/game_flow.gd"],
 		["GameMenus", CanvasLayer.new(), "res://shared/scripts/ui/game_menus.gd"],
 		["AudioDirector", Node.new(), "res://shared/scripts/presentation/audio_director.gd"],
@@ -330,6 +342,8 @@ func _systems() -> void:
 		var node := _script(level, entry[0], entry[1], entry[2])
 		if node is GameMenus:
 			node.win_message = "An đã đưa Mật lệnh 04 ra khỏi cơ sở K17."
+		if node is ObjectiveHud:
+			node.inventory_hint_format="1–3 chọn ô · F ném chai · J nhật ký (%d)"
 
 	var debug := _script(level, "NavigationDebug", Node3D.new(), "res://shared/scripts/debug/navigation_debug.gd")
 	debug.set("region", level.get_node("NavigationRegion3D"))
@@ -344,6 +358,7 @@ func _pickup(parent: Node, node_name: String, id: StringName, pos: Vector3, prom
 	item.prompt = prompt
 	item.waiting_prompt = waiting
 	item.spin_speed = 0.0
+	if id == Mission.PASS: item.grants_item = ItemCatalog.STAFF_CARD
 	if id == Mission.FILE: item.hold_duration = 3.5
 	_add(parent, item)
 	_shape(item, Vector3(0.8, 0.5, 0.8))

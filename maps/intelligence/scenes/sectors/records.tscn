@@ -29,40 +29,41 @@ lightmap_size_hint = Vector2i(22, 29)
 add_uv2 = true
 size = Vector3(3.6, 0.52, 0.045)
 
-[node name="records" type="Node3D" unique_id=1976989046]
+[node name="records" type="Node3D" unique_id=1498842262]
+metadata/static_merge = Vector2i(0, 0)
 
-[node name="CheckpointCover" type="StaticBody3D" parent="." unique_id=1499191256]
+[node name="CheckpointCover" type="StaticBody3D" parent="." unique_id=807918794]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.25, -18)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="CheckpointCover" unique_id=153688356]
+[node name="Mesh" type="MeshInstance3D" parent="CheckpointCover" unique_id=989233797]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_2y8nh")
 
-[node name="Shape" type="CollisionShape3D" parent="CheckpointCover" unique_id=51634580]
+[node name="Shape" type="CollisionShape3D" parent="CheckpointCover" unique_id=717890097]
 shape = SubResource("BoxShape3D_wvf8h")
 
-[node name="CheckpointSide" type="StaticBody3D" parent="." unique_id=398111186]
+[node name="CheckpointSide" type="StaticBody3D" parent="." unique_id=1948122012]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.1, 1.25, -20)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="CheckpointSide" unique_id=53577877]
+[node name="Mesh" type="MeshInstance3D" parent="CheckpointSide" unique_id=1491193663]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_2v3tx")
 
-[node name="Shape" type="CollisionShape3D" parent="CheckpointSide" unique_id=732437630]
+[node name="Shape" type="CollisionShape3D" parent="CheckpointSide" unique_id=795775101]
 shape = SubResource("BoxShape3D_cggml")
 
-[node name="Node3D" type="Node3D" parent="." unique_id=1691811085]
+[node name="Node3D" type="Node3D" parent="." unique_id=448903653]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 8, 2.25, -18.45)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=674325654]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=2124717167]
 material_override = SubResource("StandardMaterial3D_d4ngi")
 mesh = SubResource("BoxMesh_evdrj")
 
-[node name="Label3D" type="Label3D" parent="Node3D" unique_id=1012550937]
+[node name="Label3D" type="Label3D" parent="Node3D" unique_id=1928650203]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.029)
 pixel_size = 0.0028
 double_sided = false

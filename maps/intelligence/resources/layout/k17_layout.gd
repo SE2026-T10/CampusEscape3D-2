@@ -20,7 +20,7 @@ const PATROLS := [
 ]
 const REINFORCEMENT_ROUTES := [
 	[Vector3(-18,0,39.5),Vector3(-18,0,18),Vector3(-12,0,18),Vector3(-12,0,11),Vector3(-12,0,7)],
-	[Vector3(22,0,-18),Vector3(22,0,-26),Vector3(14,0,-26),Vector3(14,0,-22),Vector3(4,0,-22),Vector3(4,-4,-35),Vector3(7,-4,-45)],
+	[Vector3(22,0,-18),Vector3(22,0,18),Vector3(16,0,18),Vector3(16,0,7),Vector3(4,0,7),Vector3(4,-4,-35),Vector3(7,-4,-45)],
 	[Vector3(-42,0,42),Vector3(-36,0,42),Vector3(-24,0,42),Vector3(-24,0,24)],
 	[Vector3(44,0,-18),Vector3(36,0,-18),Vector3(36,0,-6),Vector3(26,0,-6),Vector3(26,0,24),Vector3(36,0,40)],
 ]

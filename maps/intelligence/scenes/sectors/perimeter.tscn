@@ -328,334 +328,335 @@ size = Vector3(0.14, 6, 0.14)
 [sub_resource type="BoxShape3D" id="BoxShape3D_k7xmd"]
 size = Vector3(0.14, 6, 0.14)
 
-[node name="perimeter" type="Node3D" unique_id=1387599938]
+[node name="perimeter" type="Node3D" unique_id=449703540]
+metadata/static_merge = Vector2i(0, 0)
 
-[node name="GroundSouth" type="StaticBody3D" parent="." unique_id=1306222585]
+[node name="GroundSouth" type="StaticBody3D" parent="." unique_id=1773133907]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 15.5)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="GroundSouth" unique_id=95687665]
+[node name="Mesh" type="MeshInstance3D" parent="GroundSouth" unique_id=2012574867]
 material_override = SubResource("StandardMaterial3D_ihmbk")
 mesh = SubResource("BoxMesh_xkfa5")
 
-[node name="Shape" type="CollisionShape3D" parent="GroundSouth" unique_id=84403646]
+[node name="Shape" type="CollisionShape3D" parent="GroundSouth" unique_id=1537986925]
 shape = SubResource("BoxShape3D_sxe04")
 
-[node name="GroundNorth" type="StaticBody3D" parent="." unique_id=988106602]
+[node name="GroundNorth" type="StaticBody3D" parent="." unique_id=763824092]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, -43.5)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="GroundNorth" unique_id=2126541082]
+[node name="Mesh" type="MeshInstance3D" parent="GroundNorth" unique_id=1660527479]
 material_override = SubResource("StandardMaterial3D_ihmbk")
 mesh = SubResource("BoxMesh_3u5sv")
 
-[node name="Shape" type="CollisionShape3D" parent="GroundNorth" unique_id=353228966]
+[node name="Shape" type="CollisionShape3D" parent="GroundNorth" unique_id=382463992]
 shape = SubResource("BoxShape3D_dv6xj")
 
-[node name="GroundStairs" type="StaticBody3D" parent="." unique_id=103437309]
+[node name="GroundStairs" type="StaticBody3D" parent="." unique_id=82482368]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, -0.2, -29)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="GroundStairs" unique_id=1746642716]
+[node name="Mesh" type="MeshInstance3D" parent="GroundStairs" unique_id=557529211]
 material_override = SubResource("StandardMaterial3D_ihmbk")
 mesh = SubResource("BoxMesh_j02y3")
 
-[node name="Shape" type="CollisionShape3D" parent="GroundStairs" unique_id=1663725023]
+[node name="Shape" type="CollisionShape3D" parent="GroundStairs" unique_id=492994422]
 shape = SubResource("BoxShape3D_vuw6v")
 
-[node name="GroundStairs2" type="StaticBody3D" parent="." unique_id=1512607021]
+[node name="GroundStairs2" type="StaticBody3D" parent="." unique_id=1539570505]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, -0.2, -29)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="GroundStairs2" unique_id=475518120]
+[node name="Mesh" type="MeshInstance3D" parent="GroundStairs2" unique_id=1023811516]
 material_override = SubResource("StandardMaterial3D_ihmbk")
 mesh = SubResource("BoxMesh_s3u2m")
 
-[node name="Shape" type="CollisionShape3D" parent="GroundStairs2" unique_id=680767922]
+[node name="Shape" type="CollisionShape3D" parent="GroundStairs2" unique_id=338740120]
 shape = SubResource("BoxShape3D_234bu")
 
-[node name="GroundStairs3" type="StaticBody3D" parent="." unique_id=243002044]
+[node name="GroundStairs3" type="StaticBody3D" parent="." unique_id=229134671]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, -0.2, -29)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="GroundStairs3" unique_id=968585688]
+[node name="Mesh" type="MeshInstance3D" parent="GroundStairs3" unique_id=1284427287]
 material_override = SubResource("StandardMaterial3D_ihmbk")
 mesh = SubResource("BoxMesh_sl4rn")
 
-[node name="Shape" type="CollisionShape3D" parent="GroundStairs3" unique_id=1528402900]
+[node name="Shape" type="CollisionShape3D" parent="GroundStairs3" unique_id=1913745768]
 shape = SubResource("BoxShape3D_i3ij8")
 
-[node name="BoundarySide" type="StaticBody3D" parent="." unique_id=1310930756]
+[node name="BoundarySide" type="StaticBody3D" parent="." unique_id=1996808689]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 2, 1)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="BoundarySide" unique_id=2143824228]
+[node name="Mesh" type="MeshInstance3D" parent="BoundarySide" unique_id=2040827566]
 material_override = SubResource("StandardMaterial3D_pfi63")
 mesh = SubResource("BoxMesh_8pj2i")
 
-[node name="Shape" type="CollisionShape3D" parent="BoundarySide" unique_id=774166518]
+[node name="Shape" type="CollisionShape3D" parent="BoundarySide" unique_id=1425442186]
 shape = SubResource("BoxShape3D_5roq2")
 
-[node name="BoundarySide2" type="StaticBody3D" parent="." unique_id=2831663]
+[node name="BoundarySide2" type="StaticBody3D" parent="." unique_id=705120727]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 2, 1)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="BoundarySide2" unique_id=513581062]
+[node name="Mesh" type="MeshInstance3D" parent="BoundarySide2" unique_id=158737317]
 material_override = SubResource("StandardMaterial3D_pfi63")
 mesh = SubResource("BoxMesh_yh44i")
 
-[node name="Shape" type="CollisionShape3D" parent="BoundarySide2" unique_id=673208195]
+[node name="Shape" type="CollisionShape3D" parent="BoundarySide2" unique_id=842728842]
 shape = SubResource("BoxShape3D_nl10k")
 
-[node name="BoundaryEnd" type="StaticBody3D" parent="." unique_id=1303632805]
+[node name="BoundaryEnd" type="StaticBody3D" parent="." unique_id=1975429698]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -53)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="BoundaryEnd" unique_id=1764655588]
+[node name="Mesh" type="MeshInstance3D" parent="BoundaryEnd" unique_id=426699778]
 material_override = SubResource("StandardMaterial3D_pfi63")
 mesh = SubResource("BoxMesh_bgqti")
 
-[node name="Shape" type="CollisionShape3D" parent="BoundaryEnd" unique_id=111893462]
+[node name="Shape" type="CollisionShape3D" parent="BoundaryEnd" unique_id=1027815422]
 shape = SubResource("BoxShape3D_fes6i")
 
-[node name="BoundaryEnd2" type="StaticBody3D" parent="." unique_id=697550770]
+[node name="BoundaryEnd2" type="StaticBody3D" parent="." unique_id=1406057786]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 55)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="BoundaryEnd2" unique_id=338463179]
+[node name="Mesh" type="MeshInstance3D" parent="BoundaryEnd2" unique_id=937339506]
 material_override = SubResource("StandardMaterial3D_pfi63")
 mesh = SubResource("BoxMesh_eubi0")
 
-[node name="Shape" type="CollisionShape3D" parent="BoundaryEnd2" unique_id=1303477966]
+[node name="Shape" type="CollisionShape3D" parent="BoundaryEnd2" unique_id=1543182000]
 shape = SubResource("BoxShape3D_gm4fk")
 
-[node name="Fence" type="StaticBody3D" parent="." unique_id=410424463]
+[node name="Fence" type="StaticBody3D" parent="." unique_id=1972271399]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.05, 1.05, 46)
 collision_layer = 16
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="Fence" unique_id=1127053796]
+[node name="Mesh" type="MeshInstance3D" parent="Fence" unique_id=1689918114]
 visible = false
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_gxiol")
 
-[node name="Shape" type="CollisionShape3D" parent="Fence" unique_id=2066813330]
+[node name="Shape" type="CollisionShape3D" parent="Fence" unique_id=1067384947]
 shape = SubResource("BoxShape3D_3dno4")
 
 [node name="fence_panel2" type="Node3D" parent="." unique_id=1228639537 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.8620691, 0, 0, 0, 0.91, 0, 0, 0, 1, -47.175, 0, 46)
 
-[node name="fence_panel3" type="Node3D" parent="." unique_id=234978593 instance=ExtResource("3_8s518")]
+[node name="fence_panel3" type="Node3D" parent="." unique_id=700474619 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.8620691, 0, 0, 0, 0.91, 0, 0, 0, 1, -45.525, 0, 46)
 
-[node name="fence_panel4" type="Node3D" parent="." unique_id=749648664 instance=ExtResource("3_8s518")]
+[node name="fence_panel4" type="Node3D" parent="." unique_id=1067232965 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.8620691, 0, 0, 0, 0.91, 0, 0, 0, 1, -43.875, 0, 46)
 
-[node name="fence_panel5" type="Node3D" parent="." unique_id=2126513144 instance=ExtResource("3_8s518")]
+[node name="fence_panel5" type="Node3D" parent="." unique_id=727642437 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.8620691, 0, 0, 0, 0.91, 0, 0, 0, 1, -42.225, 0, 46)
 
-[node name="fence_panel6" type="Node3D" parent="." unique_id=1844428365 instance=ExtResource("3_8s518")]
+[node name="fence_panel6" type="Node3D" parent="." unique_id=547457641 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.8620691, 0, 0, 0, 0.91, 0, 0, 0, 1, -40.574997, 0, 46)
 
-[node name="fence_panel7" type="Node3D" parent="." unique_id=382220485 instance=ExtResource("3_8s518")]
+[node name="fence_panel7" type="Node3D" parent="." unique_id=854463107 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.8620691, 0, 0, 0, 0.91, 0, 0, 0, 1, -38.925, 0, 46)
 
-[node name="Fence2" type="StaticBody3D" parent="." unique_id=147299195]
+[node name="Fence2" type="StaticBody3D" parent="." unique_id=2043930326]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 46)
 collision_layer = 16
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="Fence2" unique_id=411438298]
+[node name="Mesh" type="MeshInstance3D" parent="Fence2" unique_id=1555129588]
 visible = false
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_2fdxa")
 
-[node name="Shape" type="CollisionShape3D" parent="Fence2" unique_id=1032114996]
+[node name="Shape" type="CollisionShape3D" parent="Fence2" unique_id=670003481]
 shape = SubResource("BoxShape3D_yqxju")
 
-[node name="fence_panel8" type="Node3D" parent="." unique_id=1013665679 instance=ExtResource("3_8s518")]
+[node name="fence_panel8" type="Node3D" parent="." unique_id=17076179 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -32.958336, 0, 46)
 
-[node name="fence_panel9" type="Node3D" parent="." unique_id=146415139 instance=ExtResource("3_8s518")]
+[node name="fence_panel9" type="Node3D" parent="." unique_id=1532153666 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -31.075, 0, 46)
 
-[node name="fence_panel10" type="Node3D" parent="." unique_id=24179414 instance=ExtResource("3_8s518")]
+[node name="fence_panel10" type="Node3D" parent="." unique_id=1639843571 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -29.191668, 0, 46)
 
-[node name="fence_panel11" type="Node3D" parent="." unique_id=1266571956 instance=ExtResource("3_8s518")]
+[node name="fence_panel11" type="Node3D" parent="." unique_id=1832825286 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -27.308334, 0, 46)
 
-[node name="fence_panel12" type="Node3D" parent="." unique_id=1012332666 instance=ExtResource("3_8s518")]
+[node name="fence_panel12" type="Node3D" parent="." unique_id=1240003495 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -25.425001, 0, 46)
 
-[node name="fence_panel13" type="Node3D" parent="." unique_id=806880791 instance=ExtResource("3_8s518")]
+[node name="fence_panel13" type="Node3D" parent="." unique_id=1558612609 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -23.541668, 0, 46)
 
-[node name="fence_panel14" type="Node3D" parent="." unique_id=1168301610 instance=ExtResource("3_8s518")]
+[node name="fence_panel14" type="Node3D" parent="." unique_id=304619964 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -21.658335, 0, 46)
 
-[node name="fence_panel15" type="Node3D" parent="." unique_id=1888290368 instance=ExtResource("3_8s518")]
+[node name="fence_panel15" type="Node3D" parent="." unique_id=800229301 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -19.775002, 0, 46)
 
-[node name="fence_panel16" type="Node3D" parent="." unique_id=1725927468 instance=ExtResource("3_8s518")]
+[node name="fence_panel16" type="Node3D" parent="." unique_id=108295622 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -17.891668, 0, 46)
 
-[node name="fence_panel17" type="Node3D" parent="." unique_id=483855212 instance=ExtResource("3_8s518")]
+[node name="fence_panel17" type="Node3D" parent="." unique_id=2030376785 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -16.008333, 0, 46)
 
-[node name="fence_panel18" type="Node3D" parent="." unique_id=1042188017 instance=ExtResource("3_8s518")]
+[node name="fence_panel18" type="Node3D" parent="." unique_id=412164437 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -14.125001, 0, 46)
 
-[node name="fence_panel19" type="Node3D" parent="." unique_id=1401306991 instance=ExtResource("3_8s518")]
+[node name="fence_panel19" type="Node3D" parent="." unique_id=1139288508 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -12.241667, 0, 46)
 
-[node name="fence_panel20" type="Node3D" parent="." unique_id=2078454744 instance=ExtResource("3_8s518")]
+[node name="fence_panel20" type="Node3D" parent="." unique_id=816046681 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -10.358334, 0, 46)
 
-[node name="fence_panel21" type="Node3D" parent="." unique_id=903481450 instance=ExtResource("3_8s518")]
+[node name="fence_panel21" type="Node3D" parent="." unique_id=1243553155 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -8.475, 0, 46)
 
-[node name="fence_panel22" type="Node3D" parent="." unique_id=145353261 instance=ExtResource("3_8s518")]
+[node name="fence_panel22" type="Node3D" parent="." unique_id=195078641 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -6.591667, 0, 46)
 
-[node name="fence_panel23" type="Node3D" parent="." unique_id=1644035619 instance=ExtResource("3_8s518")]
+[node name="fence_panel23" type="Node3D" parent="." unique_id=404907269 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -4.7083335, 0, 46)
 
-[node name="fence_panel24" type="Node3D" parent="." unique_id=824068250 instance=ExtResource("3_8s518")]
+[node name="fence_panel24" type="Node3D" parent="." unique_id=200908265 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -2.825, 0, 46)
 
-[node name="fence_panel25" type="Node3D" parent="." unique_id=208270513 instance=ExtResource("3_8s518")]
+[node name="fence_panel25" type="Node3D" parent="." unique_id=20551439 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, -0.9416667, 0, 46)
 
-[node name="fence_panel26" type="Node3D" parent="." unique_id=809839193 instance=ExtResource("3_8s518")]
+[node name="fence_panel26" type="Node3D" parent="." unique_id=2016145659 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 0.9416667, 0, 46)
 
-[node name="fence_panel27" type="Node3D" parent="." unique_id=1544309389 instance=ExtResource("3_8s518")]
+[node name="fence_panel27" type="Node3D" parent="." unique_id=46819160 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 2.825, 0, 46)
 
-[node name="fence_panel28" type="Node3D" parent="." unique_id=568977570 instance=ExtResource("3_8s518")]
+[node name="fence_panel28" type="Node3D" parent="." unique_id=1585503017 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 4.7083335, 0, 46)
 
-[node name="fence_panel29" type="Node3D" parent="." unique_id=917699487 instance=ExtResource("3_8s518")]
+[node name="fence_panel29" type="Node3D" parent="." unique_id=1901069267 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 6.591667, 0, 46)
 
-[node name="fence_panel30" type="Node3D" parent="." unique_id=342495661 instance=ExtResource("3_8s518")]
+[node name="fence_panel30" type="Node3D" parent="." unique_id=1608054960 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 8.475, 0, 46)
 
-[node name="fence_panel31" type="Node3D" parent="." unique_id=614161380 instance=ExtResource("3_8s518")]
+[node name="fence_panel31" type="Node3D" parent="." unique_id=601586908 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 10.358334, 0, 46)
 
-[node name="fence_panel32" type="Node3D" parent="." unique_id=987266981 instance=ExtResource("3_8s518")]
+[node name="fence_panel32" type="Node3D" parent="." unique_id=1686799649 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 12.241667, 0, 46)
 
-[node name="fence_panel33" type="Node3D" parent="." unique_id=460581656 instance=ExtResource("3_8s518")]
+[node name="fence_panel33" type="Node3D" parent="." unique_id=1151574374 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 14.125001, 0, 46)
 
-[node name="fence_panel34" type="Node3D" parent="." unique_id=688558797 instance=ExtResource("3_8s518")]
+[node name="fence_panel34" type="Node3D" parent="." unique_id=1134617293 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 16.008333, 0, 46)
 
-[node name="fence_panel35" type="Node3D" parent="." unique_id=505738626 instance=ExtResource("3_8s518")]
+[node name="fence_panel35" type="Node3D" parent="." unique_id=315112183 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 17.891668, 0, 46)
 
-[node name="fence_panel36" type="Node3D" parent="." unique_id=1729675578 instance=ExtResource("3_8s518")]
+[node name="fence_panel36" type="Node3D" parent="." unique_id=1399201717 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 19.775002, 0, 46)
 
-[node name="fence_panel37" type="Node3D" parent="." unique_id=353443458 instance=ExtResource("3_8s518")]
+[node name="fence_panel37" type="Node3D" parent="." unique_id=2008884939 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 21.658335, 0, 46)
 
-[node name="fence_panel38" type="Node3D" parent="." unique_id=205191319 instance=ExtResource("3_8s518")]
+[node name="fence_panel38" type="Node3D" parent="." unique_id=740244749 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 23.541668, 0, 46)
 
-[node name="fence_panel39" type="Node3D" parent="." unique_id=1366987283 instance=ExtResource("3_8s518")]
+[node name="fence_panel39" type="Node3D" parent="." unique_id=1148124080 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 25.425001, 0, 46)
 
-[node name="fence_panel40" type="Node3D" parent="." unique_id=1129698305 instance=ExtResource("3_8s518")]
+[node name="fence_panel40" type="Node3D" parent="." unique_id=1869045704 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 27.308334, 0, 46)
 
-[node name="fence_panel41" type="Node3D" parent="." unique_id=501863144 instance=ExtResource("3_8s518")]
+[node name="fence_panel41" type="Node3D" parent="." unique_id=738319547 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 29.191668, 0, 46)
 
-[node name="fence_panel42" type="Node3D" parent="." unique_id=1108464764 instance=ExtResource("3_8s518")]
+[node name="fence_panel42" type="Node3D" parent="." unique_id=722265586 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 31.075, 0, 46)
 
-[node name="fence_panel43" type="Node3D" parent="." unique_id=1741651892 instance=ExtResource("3_8s518")]
+[node name="fence_panel43" type="Node3D" parent="." unique_id=184205308 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.98397774, 0, 0, 0, 0.91, 0, 0, 0, 1, 32.958336, 0, 46)
 
-[node name="Fence3" type="StaticBody3D" parent="." unique_id=1324846928]
+[node name="Fence3" type="StaticBody3D" parent="." unique_id=60992117]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.05, 1.05, 46)
 collision_layer = 16
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="Fence3" unique_id=126325965]
+[node name="Mesh" type="MeshInstance3D" parent="Fence3" unique_id=637611238]
 visible = false
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_s21eb")
 
-[node name="Shape" type="CollisionShape3D" parent="Fence3" unique_id=136112428]
+[node name="Shape" type="CollisionShape3D" parent="Fence3" unique_id=185986525]
 shape = SubResource("BoxShape3D_u28ep")
 
-[node name="fence_panel44" type="Node3D" parent="." unique_id=920056411 instance=ExtResource("3_8s518")]
+[node name="fence_panel44" type="Node3D" parent="." unique_id=1362633466 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.8620691, 0, 0, 0, 0.91, 0, 0, 0, 1, 38.925, 0, 46)
 
-[node name="fence_panel45" type="Node3D" parent="." unique_id=971707685 instance=ExtResource("3_8s518")]
+[node name="fence_panel45" type="Node3D" parent="." unique_id=248659374 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.8620691, 0, 0, 0, 0.91, 0, 0, 0, 1, 40.574997, 0, 46)
 
-[node name="fence_panel46" type="Node3D" parent="." unique_id=492275703 instance=ExtResource("3_8s518")]
+[node name="fence_panel46" type="Node3D" parent="." unique_id=728574583 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.8620691, 0, 0, 0, 0.91, 0, 0, 0, 1, 42.225, 0, 46)
 
-[node name="fence_panel47" type="Node3D" parent="." unique_id=712382640 instance=ExtResource("3_8s518")]
+[node name="fence_panel47" type="Node3D" parent="." unique_id=108993237 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.8620691, 0, 0, 0, 0.91, 0, 0, 0, 1, 43.875, 0, 46)
 
-[node name="fence_panel48" type="Node3D" parent="." unique_id=1327620135 instance=ExtResource("3_8s518")]
+[node name="fence_panel48" type="Node3D" parent="." unique_id=1049952500 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.8620691, 0, 0, 0, 0.91, 0, 0, 0, 1, 45.525, 0, 46)
 
-[node name="fence_panel49" type="Node3D" parent="." unique_id=1762507625 instance=ExtResource("3_8s518")]
+[node name="fence_panel49" type="Node3D" parent="." unique_id=266701739 instance=ExtResource("3_8s518")]
 transform = Transform3D(0.8620691, 0, 0, 0, 0.91, 0, 0, 0, 1, 47.175, 0, 46)
 
-[node name="GatePier" type="StaticBody3D" parent="." unique_id=1046219297]
+[node name="GatePier" type="StaticBody3D" parent="." unique_id=2125277479]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.7, 1.5, 46)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="GatePier" unique_id=80765714]
+[node name="Mesh" type="MeshInstance3D" parent="GatePier" unique_id=878259070]
 material_override = SubResource("StandardMaterial3D_pfi63")
 mesh = SubResource("BoxMesh_44j31")
 
-[node name="Shape" type="CollisionShape3D" parent="GatePier" unique_id=1588753365]
+[node name="Shape" type="CollisionShape3D" parent="GatePier" unique_id=1351515957]
 shape = SubResource("BoxShape3D_6ju1y")
 
-[node name="GatePier2" type="StaticBody3D" parent="." unique_id=2011098529]
+[node name="GatePier2" type="StaticBody3D" parent="." unique_id=890259482]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.3, 1.5, 46)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="GatePier2" unique_id=1376769126]
+[node name="Mesh" type="MeshInstance3D" parent="GatePier2" unique_id=1483018274]
 material_override = SubResource("StandardMaterial3D_pfi63")
 mesh = SubResource("BoxMesh_6i5yx")
 
-[node name="Shape" type="CollisionShape3D" parent="GatePier2" unique_id=1513631849]
+[node name="Shape" type="CollisionShape3D" parent="GatePier2" unique_id=1827877167]
 shape = SubResource("BoxShape3D_epdan")
 
-[node name="Node3D" type="Node3D" parent="." unique_id=1826191646]
+[node name="Node3D" type="Node3D" parent="." unique_id=820682051]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.5, 53.2)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=1207509078]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=104568473]
 material_override = SubResource("StandardMaterial3D_d4ngi")
 mesh = SubResource("BoxMesh_a2xha")
 
-[node name="Label3D" type="Label3D" parent="Node3D" unique_id=641733302]
+[node name="Label3D" type="Label3D" parent="Node3D" unique_id=943119641]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.029)
 pixel_size = 0.0028
 double_sided = false
@@ -664,84 +665,84 @@ PHÍA TÂY"
 font_size = 40
 outline_size = 2
 
-[node name="Beacon" type="StaticBody3D" parent="." unique_id=2078208812]
+[node name="Beacon" type="StaticBody3D" parent="." unique_id=931379876]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.7, 1, 51)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="Beacon" unique_id=138242580]
+[node name="Mesh" type="MeshInstance3D" parent="Beacon" unique_id=340612105]
 material_override = SubResource("StandardMaterial3D_mx8ba")
 mesh = SubResource("BoxMesh_sc6wp")
 
-[node name="Shape" type="CollisionShape3D" parent="Beacon" unique_id=925526450]
+[node name="Shape" type="CollisionShape3D" parent="Beacon" unique_id=17941629]
 shape = SubResource("BoxShape3D_2xvce")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=81686978]
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=2127505812]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.7, 2.5, 51)
 light_color = Color(0.59607846, 0.84313726, 0.72156864, 1)
 light_energy = 1.8
 light_bake_mode = 1
 omni_range = 9.0
 
-[node name="Beacon2" type="StaticBody3D" parent="." unique_id=63080348]
+[node name="Beacon2" type="StaticBody3D" parent="." unique_id=1050201366]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.3, 1, 51)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="Beacon2" unique_id=108365564]
+[node name="Mesh" type="MeshInstance3D" parent="Beacon2" unique_id=89931115]
 material_override = SubResource("StandardMaterial3D_mx8ba")
 mesh = SubResource("BoxMesh_rgeup")
 
-[node name="Shape" type="CollisionShape3D" parent="Beacon2" unique_id=2120703067]
+[node name="Shape" type="CollisionShape3D" parent="Beacon2" unique_id=546814293]
 shape = SubResource("BoxShape3D_18awx")
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=633548493]
+[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=1207634427]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.3, 2.5, 51)
 light_color = Color(0.59607846, 0.84313726, 0.72156864, 1)
 light_energy = 1.8
 light_bake_mode = 1
 omni_range = 9.0
 
-[node name="RouteMark" type="Node3D" parent="." unique_id=1322042695]
+[node name="RouteMark" type="Node3D" parent="." unique_id=1501619655]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.015, 51)
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="RouteMark" unique_id=1238282804]
+[node name="Mesh" type="MeshInstance3D" parent="RouteMark" unique_id=1996078129]
 material_override = SubResource("StandardMaterial3D_hr0ku")
 mesh = SubResource("BoxMesh_3j1y6")
 
-[node name="GatePier3" type="StaticBody3D" parent="." unique_id=1977423192]
+[node name="GatePier3" type="StaticBody3D" parent="." unique_id=949205385]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.3, 1.5, 46)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="GatePier3" unique_id=810562933]
+[node name="Mesh" type="MeshInstance3D" parent="GatePier3" unique_id=887942537]
 material_override = SubResource("StandardMaterial3D_pfi63")
 mesh = SubResource("BoxMesh_j555y")
 
-[node name="Shape" type="CollisionShape3D" parent="GatePier3" unique_id=1255310980]
+[node name="Shape" type="CollisionShape3D" parent="GatePier3" unique_id=911247885]
 shape = SubResource("BoxShape3D_x74m4")
 
-[node name="GatePier4" type="StaticBody3D" parent="." unique_id=1520396318]
+[node name="GatePier4" type="StaticBody3D" parent="." unique_id=1020257556]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.7, 1.5, 46)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="GatePier4" unique_id=236742838]
+[node name="Mesh" type="MeshInstance3D" parent="GatePier4" unique_id=1164300485]
 material_override = SubResource("StandardMaterial3D_pfi63")
 mesh = SubResource("BoxMesh_1v5lq")
 
-[node name="Shape" type="CollisionShape3D" parent="GatePier4" unique_id=850767206]
+[node name="Shape" type="CollisionShape3D" parent="GatePier4" unique_id=147433804]
 shape = SubResource("BoxShape3D_8qsgb")
 
-[node name="Node3D2" type="Node3D" parent="." unique_id=1481937619]
+[node name="Node3D2" type="Node3D" parent="." unique_id=1733922511]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 2.5, 53.2)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D2" unique_id=800444425]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D2" unique_id=20051620]
 material_override = SubResource("StandardMaterial3D_d4ngi")
 mesh = SubResource("BoxMesh_d4cas")
 
-[node name="Label3D" type="Label3D" parent="Node3D2" unique_id=641679100]
+[node name="Label3D" type="Label3D" parent="Node3D2" unique_id=2091422411]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.029)
 pixel_size = 0.0028
 double_sided = false
@@ -750,72 +751,72 @@ PHÍA ĐÔNG"
 font_size = 40
 outline_size = 2
 
-[node name="Beacon3" type="StaticBody3D" parent="." unique_id=267876349]
+[node name="Beacon3" type="StaticBody3D" parent="." unique_id=68716511]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3, 1, 51)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="Beacon3" unique_id=1168507827]
+[node name="Mesh" type="MeshInstance3D" parent="Beacon3" unique_id=578765956]
 material_override = SubResource("StandardMaterial3D_mx8ba")
 mesh = SubResource("BoxMesh_3852i")
 
-[node name="Shape" type="CollisionShape3D" parent="Beacon3" unique_id=1119969630]
+[node name="Shape" type="CollisionShape3D" parent="Beacon3" unique_id=1168699691]
 shape = SubResource("BoxShape3D_60hfd")
 
-[node name="OmniLight3D3" type="OmniLight3D" parent="." unique_id=1087135658]
+[node name="OmniLight3D3" type="OmniLight3D" parent="." unique_id=1881211937]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3, 2.5, 51)
 light_color = Color(0.59607846, 0.84313726, 0.72156864, 1)
 light_energy = 1.8
 light_bake_mode = 1
 omni_range = 9.0
 
-[node name="Beacon4" type="StaticBody3D" parent="." unique_id=480451094]
+[node name="Beacon4" type="StaticBody3D" parent="." unique_id=1626476070]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.7, 1, 51)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="Beacon4" unique_id=1775590847]
+[node name="Mesh" type="MeshInstance3D" parent="Beacon4" unique_id=638354860]
 material_override = SubResource("StandardMaterial3D_mx8ba")
 mesh = SubResource("BoxMesh_n7hai")
 
-[node name="Shape" type="CollisionShape3D" parent="Beacon4" unique_id=976251437]
+[node name="Shape" type="CollisionShape3D" parent="Beacon4" unique_id=1347647616]
 shape = SubResource("BoxShape3D_tpniy")
 
-[node name="OmniLight3D4" type="OmniLight3D" parent="." unique_id=86792788]
+[node name="OmniLight3D4" type="OmniLight3D" parent="." unique_id=214574463]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.7, 2.5, 51)
 light_color = Color(0.59607846, 0.84313726, 0.72156864, 1)
 light_energy = 1.8
 light_bake_mode = 1
 omni_range = 9.0
 
-[node name="RouteMark2" type="Node3D" parent="." unique_id=1248090068]
+[node name="RouteMark2" type="Node3D" parent="." unique_id=1749945672]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0.015, 51)
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="RouteMark2" unique_id=1994207186]
+[node name="Mesh" type="MeshInstance3D" parent="RouteMark2" unique_id=1727919242]
 material_override = SubResource("StandardMaterial3D_hr0ku")
 mesh = SubResource("BoxMesh_6e8om")
 
-[node name="SpawnCover" type="StaticBody3D" parent="." unique_id=2109171425]
+[node name="SpawnCover" type="StaticBody3D" parent="." unique_id=1073096695]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 1.4, 50)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="SpawnCover" unique_id=1709923869]
+[node name="Mesh" type="MeshInstance3D" parent="SpawnCover" unique_id=264905185]
 material_override = SubResource("StandardMaterial3D_hs3nu")
 mesh = SubResource("BoxMesh_6xiam")
 
-[node name="Shape" type="CollisionShape3D" parent="SpawnCover" unique_id=1474360890]
+[node name="Shape" type="CollisionShape3D" parent="SpawnCover" unique_id=496405390]
 shape = SubResource("BoxShape3D_upmmx")
 
-[node name="Node3D3" type="Node3D" parent="." unique_id=2019148333]
+[node name="Node3D3" type="Node3D" parent="." unique_id=876875231]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2.4, 48)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D3" unique_id=1428359980]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D3" unique_id=26263037]
 material_override = SubResource("StandardMaterial3D_d4ngi")
 mesh = SubResource("BoxMesh_tie26")
 
-[node name="Label3D" type="Label3D" parent="Node3D3" unique_id=1972804026]
+[node name="Label3D" type="Label3D" parent="Node3D3" unique_id=1960815747]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.029)
 pixel_size = 0.0028
 double_sided = false
@@ -824,264 +825,264 @@ SÂN ←   BẢO TRÌ →"
 font_size = 40
 outline_size = 2
 
-[node name="FloodlightPole" type="StaticBody3D" parent="." unique_id=925611038]
+[node name="FloodlightPole" type="StaticBody3D" parent="." unique_id=330226824]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 3, 42)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole" unique_id=1159716277]
+[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole" unique_id=1801800182]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_qkq40")
 
-[node name="Shape" type="CollisionShape3D" parent="FloodlightPole" unique_id=1416104406]
+[node name="Shape" type="CollisionShape3D" parent="FloodlightPole" unique_id=146566668]
 shape = SubResource("BoxShape3D_5vex7")
 
 [node name="floodlight2" type="Node3D" parent="." unique_id=1225046086 instance=ExtResource("4_iiyi2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 5.9, 42)
 
-[node name="OmniLight3D5" type="OmniLight3D" parent="." unique_id=1999676369]
+[node name="OmniLight3D5" type="OmniLight3D" parent="." unique_id=850409466]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 5.6, 42)
 light_color = Color(0.7372549, 0.7921569, 0.7529412, 1)
 light_energy = 2.2
 light_bake_mode = 1
 omni_range = 17.0
 
-[node name="FloodlightPole2" type="StaticBody3D" parent="." unique_id=1204324251]
+[node name="FloodlightPole2" type="StaticBody3D" parent="." unique_id=2056362843]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 3, 20)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole2" unique_id=808819583]
+[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole2" unique_id=1257694811]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_pkklt")
 
-[node name="Shape" type="CollisionShape3D" parent="FloodlightPole2" unique_id=531189893]
+[node name="Shape" type="CollisionShape3D" parent="FloodlightPole2" unique_id=1667285571]
 shape = SubResource("BoxShape3D_sok50")
 
-[node name="floodlight3" type="Node3D" parent="." unique_id=2076303017 instance=ExtResource("4_iiyi2")]
+[node name="floodlight3" type="Node3D" parent="." unique_id=1160776500 instance=ExtResource("4_iiyi2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 5.9, 20)
 
-[node name="OmniLight3D6" type="OmniLight3D" parent="." unique_id=207866010]
+[node name="OmniLight3D6" type="OmniLight3D" parent="." unique_id=1698512888]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 5.6, 20)
 light_color = Color(0.7372549, 0.7921569, 0.7529412, 1)
 light_energy = 2.2
 light_bake_mode = 1
 omni_range = 17.0
 
-[node name="FloodlightPole3" type="StaticBody3D" parent="." unique_id=582807578]
+[node name="FloodlightPole3" type="StaticBody3D" parent="." unique_id=853582181]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 3, -20)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole3" unique_id=832976340]
+[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole3" unique_id=1236850065]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_hfpp0")
 
-[node name="Shape" type="CollisionShape3D" parent="FloodlightPole3" unique_id=670746351]
+[node name="Shape" type="CollisionShape3D" parent="FloodlightPole3" unique_id=1370076897]
 shape = SubResource("BoxShape3D_yvi6b")
 
-[node name="floodlight4" type="Node3D" parent="." unique_id=345313413 instance=ExtResource("4_iiyi2")]
+[node name="floodlight4" type="Node3D" parent="." unique_id=637724917 instance=ExtResource("4_iiyi2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 5.9, -20)
 
-[node name="OmniLight3D7" type="OmniLight3D" parent="." unique_id=1949706117]
+[node name="OmniLight3D7" type="OmniLight3D" parent="." unique_id=1754208714]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 5.6, -20)
 light_color = Color(0.7372549, 0.7921569, 0.7529412, 1)
 light_energy = 2.2
 light_bake_mode = 1
 omni_range = 17.0
 
-[node name="FloodlightPole4" type="StaticBody3D" parent="." unique_id=585600783]
+[node name="FloodlightPole4" type="StaticBody3D" parent="." unique_id=435153528]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3, 42)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole4" unique_id=775627509]
+[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole4" unique_id=1408704559]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_kdb7q")
 
-[node name="Shape" type="CollisionShape3D" parent="FloodlightPole4" unique_id=615035724]
+[node name="Shape" type="CollisionShape3D" parent="FloodlightPole4" unique_id=260540627]
 shape = SubResource("BoxShape3D_fdo4p")
 
-[node name="floodlight5" type="Node3D" parent="." unique_id=1085933079 instance=ExtResource("4_iiyi2")]
+[node name="floodlight5" type="Node3D" parent="." unique_id=1247842833 instance=ExtResource("4_iiyi2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 5.9, 42)
 
-[node name="OmniLight3D8" type="OmniLight3D" parent="." unique_id=865325690]
+[node name="OmniLight3D8" type="OmniLight3D" parent="." unique_id=500631556]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 5.6, 42)
 light_color = Color(0.7372549, 0.7921569, 0.7529412, 1)
 light_energy = 2.2
 light_bake_mode = 1
 omni_range = 17.0
 
-[node name="FloodlightPole5" type="StaticBody3D" parent="." unique_id=531282344]
+[node name="FloodlightPole5" type="StaticBody3D" parent="." unique_id=775443443]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3, 20)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole5" unique_id=1376118204]
+[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole5" unique_id=1559445700]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_0qwou")
 
-[node name="Shape" type="CollisionShape3D" parent="FloodlightPole5" unique_id=1845734850]
+[node name="Shape" type="CollisionShape3D" parent="FloodlightPole5" unique_id=1706794628]
 shape = SubResource("BoxShape3D_w21f4")
 
-[node name="floodlight6" type="Node3D" parent="." unique_id=1352202955 instance=ExtResource("4_iiyi2")]
+[node name="floodlight6" type="Node3D" parent="." unique_id=615468374 instance=ExtResource("4_iiyi2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 5.9, 20)
 
-[node name="OmniLight3D9" type="OmniLight3D" parent="." unique_id=613845080]
+[node name="OmniLight3D9" type="OmniLight3D" parent="." unique_id=1722931830]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 5.6, 20)
 light_color = Color(0.7372549, 0.7921569, 0.7529412, 1)
 light_energy = 2.2
 light_bake_mode = 1
 omni_range = 17.0
 
-[node name="FloodlightPole6" type="StaticBody3D" parent="." unique_id=1765260119]
+[node name="FloodlightPole6" type="StaticBody3D" parent="." unique_id=1643431313]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3, -20)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole6" unique_id=1581071837]
+[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole6" unique_id=1032492672]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_wdwot")
 
-[node name="Shape" type="CollisionShape3D" parent="FloodlightPole6" unique_id=1266904081]
+[node name="Shape" type="CollisionShape3D" parent="FloodlightPole6" unique_id=405888417]
 shape = SubResource("BoxShape3D_he86g")
 
-[node name="floodlight7" type="Node3D" parent="." unique_id=370844870 instance=ExtResource("4_iiyi2")]
+[node name="floodlight7" type="Node3D" parent="." unique_id=824763629 instance=ExtResource("4_iiyi2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 5.9, -20)
 
-[node name="OmniLight3D10" type="OmniLight3D" parent="." unique_id=26253139]
+[node name="OmniLight3D10" type="OmniLight3D" parent="." unique_id=458008876]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 5.6, -20)
 light_color = Color(0.7372549, 0.7921569, 0.7529412, 1)
 light_energy = 2.2
 light_bake_mode = 1
 omni_range = 17.0
 
-[node name="FloodlightPole7" type="StaticBody3D" parent="." unique_id=622112751]
+[node name="FloodlightPole7" type="StaticBody3D" parent="." unique_id=1384854460]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3, 42)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole7" unique_id=925368346]
+[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole7" unique_id=419037634]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_3vl37")
 
-[node name="Shape" type="CollisionShape3D" parent="FloodlightPole7" unique_id=114890827]
+[node name="Shape" type="CollisionShape3D" parent="FloodlightPole7" unique_id=559445438]
 shape = SubResource("BoxShape3D_n7mxv")
 
-[node name="floodlight8" type="Node3D" parent="." unique_id=677400351 instance=ExtResource("4_iiyi2")]
+[node name="floodlight8" type="Node3D" parent="." unique_id=1518037996 instance=ExtResource("4_iiyi2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 5.9, 42)
 
-[node name="OmniLight3D11" type="OmniLight3D" parent="." unique_id=2034046381]
+[node name="OmniLight3D11" type="OmniLight3D" parent="." unique_id=1200271968]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 5.6, 42)
 light_color = Color(0.7372549, 0.7921569, 0.7529412, 1)
 light_energy = 2.2
 light_bake_mode = 1
 omni_range = 17.0
 
-[node name="FloodlightPole8" type="StaticBody3D" parent="." unique_id=852858736]
+[node name="FloodlightPole8" type="StaticBody3D" parent="." unique_id=518979938]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3, 20)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole8" unique_id=830138255]
+[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole8" unique_id=1675857374]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_m3nqb")
 
-[node name="Shape" type="CollisionShape3D" parent="FloodlightPole8" unique_id=2023898186]
+[node name="Shape" type="CollisionShape3D" parent="FloodlightPole8" unique_id=2055717938]
 shape = SubResource("BoxShape3D_v523l")
 
-[node name="floodlight9" type="Node3D" parent="." unique_id=697023895 instance=ExtResource("4_iiyi2")]
+[node name="floodlight9" type="Node3D" parent="." unique_id=1885351149 instance=ExtResource("4_iiyi2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 5.9, 20)
 
-[node name="OmniLight3D12" type="OmniLight3D" parent="." unique_id=284603568]
+[node name="OmniLight3D12" type="OmniLight3D" parent="." unique_id=174014564]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 5.6, 20)
 light_color = Color(0.7372549, 0.7921569, 0.7529412, 1)
 light_energy = 2.2
 light_bake_mode = 1
 omni_range = 17.0
 
-[node name="FloodlightPole9" type="StaticBody3D" parent="." unique_id=121706210]
+[node name="FloodlightPole9" type="StaticBody3D" parent="." unique_id=1830599346]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3, -20)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole9" unique_id=1125554393]
+[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole9" unique_id=1905718106]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_f5t51")
 
-[node name="Shape" type="CollisionShape3D" parent="FloodlightPole9" unique_id=2100815021]
+[node name="Shape" type="CollisionShape3D" parent="FloodlightPole9" unique_id=1492066046]
 shape = SubResource("BoxShape3D_xr0pw")
 
-[node name="floodlight10" type="Node3D" parent="." unique_id=1898322295 instance=ExtResource("4_iiyi2")]
+[node name="floodlight10" type="Node3D" parent="." unique_id=1699654085 instance=ExtResource("4_iiyi2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 5.9, -20)
 
-[node name="OmniLight3D13" type="OmniLight3D" parent="." unique_id=1301062233]
+[node name="OmniLight3D13" type="OmniLight3D" parent="." unique_id=575135842]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 5.6, -20)
 light_color = Color(0.7372549, 0.7921569, 0.7529412, 1)
 light_energy = 2.2
 light_bake_mode = 1
 omni_range = 17.0
 
-[node name="FloodlightPole10" type="StaticBody3D" parent="." unique_id=1208128112]
+[node name="FloodlightPole10" type="StaticBody3D" parent="." unique_id=254528956]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 3, 42)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole10" unique_id=1469083796]
+[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole10" unique_id=440339785]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_x12so")
 
-[node name="Shape" type="CollisionShape3D" parent="FloodlightPole10" unique_id=982795956]
+[node name="Shape" type="CollisionShape3D" parent="FloodlightPole10" unique_id=894239025]
 shape = SubResource("BoxShape3D_t8di6")
 
-[node name="floodlight11" type="Node3D" parent="." unique_id=1173032979 instance=ExtResource("4_iiyi2")]
+[node name="floodlight11" type="Node3D" parent="." unique_id=1370428795 instance=ExtResource("4_iiyi2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 5.9, 42)
 
-[node name="OmniLight3D14" type="OmniLight3D" parent="." unique_id=1257028627]
+[node name="OmniLight3D14" type="OmniLight3D" parent="." unique_id=2122630709]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 5.6, 42)
 light_color = Color(0.7372549, 0.7921569, 0.7529412, 1)
 light_energy = 2.2
 light_bake_mode = 1
 omni_range = 17.0
 
-[node name="FloodlightPole11" type="StaticBody3D" parent="." unique_id=357028006]
+[node name="FloodlightPole11" type="StaticBody3D" parent="." unique_id=1590927858]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 3, 20)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole11" unique_id=533838402]
+[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole11" unique_id=174173186]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_5wpu1")
 
-[node name="Shape" type="CollisionShape3D" parent="FloodlightPole11" unique_id=1852272101]
+[node name="Shape" type="CollisionShape3D" parent="FloodlightPole11" unique_id=1095231720]
 shape = SubResource("BoxShape3D_5uodr")
 
-[node name="floodlight12" type="Node3D" parent="." unique_id=927241955 instance=ExtResource("4_iiyi2")]
+[node name="floodlight12" type="Node3D" parent="." unique_id=1319633889 instance=ExtResource("4_iiyi2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 5.9, 20)
 
-[node name="OmniLight3D15" type="OmniLight3D" parent="." unique_id=287130666]
+[node name="OmniLight3D15" type="OmniLight3D" parent="." unique_id=631297811]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 5.6, 20)
 light_color = Color(0.7372549, 0.7921569, 0.7529412, 1)
 light_energy = 2.2
 light_bake_mode = 1
 omni_range = 17.0
 
-[node name="FloodlightPole12" type="StaticBody3D" parent="." unique_id=1565955685]
+[node name="FloodlightPole12" type="StaticBody3D" parent="." unique_id=484433543]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 3, -20)
 collision_mask = 0
 metadata/expansion = true
 
-[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole12" unique_id=2100720292]
+[node name="Mesh" type="MeshInstance3D" parent="FloodlightPole12" unique_id=1108838515]
 material_override = SubResource("StandardMaterial3D_abqj1")
 mesh = SubResource("BoxMesh_jwice")
 
-[node name="Shape" type="CollisionShape3D" parent="FloodlightPole12" unique_id=1452975899]
+[node name="Shape" type="CollisionShape3D" parent="FloodlightPole12" unique_id=325396062]
 shape = SubResource("BoxShape3D_k7xmd")
 
-[node name="floodlight13" type="Node3D" parent="." unique_id=1348003398 instance=ExtResource("4_iiyi2")]
+[node name="floodlight13" type="Node3D" parent="." unique_id=1328067394 instance=ExtResource("4_iiyi2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 5.9, -20)
 
-[node name="OmniLight3D16" type="OmniLight3D" parent="." unique_id=580697344]
+[node name="OmniLight3D16" type="OmniLight3D" parent="." unique_id=231690023]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 5.6, -20)
 light_color = Color(0.7372549, 0.7921569, 0.7529412, 1)
 light_energy = 2.2

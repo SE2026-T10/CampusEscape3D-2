@@ -19,11 +19,17 @@ func _run() -> void:
 		_expect(current_scene.get_node("LightmapGI").light_data!=null,"Packed full-compound lightmap")
 		_expect(current_scene.get_node("Guards").get_child_count()==(0 if test_mode else 6),"Packed initial actor count")
 		_expect(current_scene.get_node("Gameplay/IntelligenceFile").position.y< -2,"Packed B1 document")
-		for id in [K17MissionController.ENTER,K17MissionController.PASS,K17MissionController.CODE,K17MissionController.ARCHIVE,K17MissionController.FILE]: ObjectiveManager.find(current_scene).complete(id)
+		_expect(ObjectiveManager.find(current_scene).is_graph() and ObjectiveManager.find(current_scene).get_mandatory_ids().size()==7,"Packed seven-objective graph")
+		_expect(PlayerInventory.find(current_scene).enabled,"Packed inventory is enabled")
+		_expect(get_nodes_in_group("security_cameras").size()==3 and get_nodes_in_group("hiding_spots").size()==7,"Packed cameras and cover areas")
+		_expect(current_scene.get_node("Gameplay/VaultKeypad") is CodeLock,"Packed interactive keypad")
+		for id in [K17MissionController.ENTER,K17MissionController.PASS,K17MissionController.CODE,K17MissionController.ARCHIVE,K17MissionController.VAULT,K17MissionController.FILE]: ObjectiveManager.find(current_scene).complete(id)
 		mission.time_left=110
 		team._physics_process(0)
 		mission.time_left=75
 		team._physics_process(0)
+		current_scene.get_node("Gameplay/PowerNetwork")._physics_process(0)
+		_expect(current_scene.get_node("Gameplay/PowerNetwork").backup_active,"Packed backup follows extraction clock")
 		_expect(team.spawned_count==(0 if test_mode else 4),"Packed dispatch honours mode")
 		_expect(current_scene.get_node("Guards").get_child_count()==(0 if test_mode else 10),"Packed final actor count")
 		for guard in current_scene.get_node("Guards").get_children():
@@ -40,7 +46,7 @@ func _run() -> void:
 		OS.delay_msec(50)
 		await process_frame
 	for failure in failures: printerr(failure)
-	print("K17 V3 PACK PASSED" if failures.is_empty() else "K17 V3 PACK FAILED")
+	print("K17 V4 PACK PASSED" if failures.is_empty() else "K17 V4 PACK FAILED")
 	quit(0 if failures.is_empty() else 1)
 func _expect(ok: bool,message: String) -> void:
 	if not ok: failures.append(message)

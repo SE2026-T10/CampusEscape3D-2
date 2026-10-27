@@ -32,6 +32,7 @@ func run(parent: Node) -> Array[String]:
 	player.camera.look_at(Vector3(8,1.6,-30))
 	await _frames(5)
 	_expect(CheckpointManager.find(level).active==level.get_node("Gameplay/ArchiveCheckpoint"),"The final safe checkpoint is active before dispatch.")
+	objectives.complete(M.VAULT)
 	objectives.complete(M.FILE)
 	mission.time_left=111
 	team._physics_process(0)
@@ -72,7 +73,7 @@ func run(parent: Node) -> Array[String]:
 	await _load(true)
 	mission=level.get_node("Gameplay/Mission")
 	team=level.get_node("Gameplay/Reinforcements")
-	for id in [M.ENTER,M.PASS,M.CODE,M.ARCHIVE,M.FILE]: ObjectiveManager.find(level).complete(id)
+	for id in [M.ENTER,M.PASS,M.CODE,M.ARCHIVE,M.VAULT,M.FILE]: ObjectiveManager.find(level).complete(id)
 	mission.time_left=60
 	team._physics_process(100)
 	await _frames(5)

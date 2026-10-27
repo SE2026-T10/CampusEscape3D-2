@@ -1,7 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://maps/intelligence/scripts/security_presentation.gd" id="1_g4ig3"]
-[ext_resource type="Script" path="res://features/puzzles/security_alarm.gd" id="2_tqwuy"]
+[ext_resource type="Script" path="res://maps/intelligence/scripts/security_alarm.gd" id="2_tqwuy"]
 [ext_resource type="PackedScene" path="res://maps/intelligence/assets/models/archive_rack.glb" id="3_ymgli"]
 [ext_resource type="Script" path="res://maps/intelligence/scripts/sensor_lane.gd" id="4_krvw1"]
 [ext_resource type="AudioStream" path="res://maps/intelligence/assets/audio/relay.wav" id="5_14tae"]
@@ -295,78 +295,78 @@ emission_energy_multiplier = 0.0
 [sub_resource type="BoxMesh" id="BoxMesh_k0scb"]
 size = Vector3(0.15, 0.3, 0.16)
 
-[node name="Security" type="Node3D" unique_id=1166388362]
+[node name="Security" type="Node3D" unique_id=1980558707]
 script = ExtResource("1_g4ig3")
 
-[node name="Alarm" type="Node3D" parent="." unique_id=177501252]
+[node name="Alarm" type="Node3D" parent="." unique_id=220760533]
 script = ExtResource("2_tqwuy")
 
 [node name="CheckpointSideCover" type="Node3D" parent="." unique_id=1238163032 instance=ExtResource("3_ymgli")]
 transform = Transform3D(-3.17901e-08, 0, 0.5, 0, 1, 0, -0.72727275, 0, -2.1855694e-08, 6.4, 1.2, -5.5)
 
-[node name="Sensor0" type="Node3D" parent="." unique_id=353348668]
+[node name="Sensor0" type="Node3D" parent="." unique_id=1377454285]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -2.8, -38)
 script = ExtResource("4_krvw1")
 
-[node name="Detection" type="Area3D" parent="Sensor0" unique_id=648714945]
+[node name="Detection" type="Area3D" parent="Sensor0" unique_id=1333190756]
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 
-[node name="Shape" type="CollisionShape3D" parent="Sensor0/Detection" unique_id=14337630]
+[node name="Shape" type="CollisionShape3D" parent="Sensor0/Detection" unique_id=513482043]
 shape = SubResource("BoxShape3D_owmwj")
 
-[node name="Beams" type="Node3D" parent="Sensor0" unique_id=2117831529]
+[node name="Beams" type="Node3D" parent="Sensor0" unique_id=1682483797]
 
-[node name="Beam" type="MeshInstance3D" parent="Sensor0/Beams" unique_id=1233575271]
+[node name="Beam" type="MeshInstance3D" parent="Sensor0/Beams" unique_id=2119039656]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.92, 0)
 material_override = SubResource("StandardMaterial3D_4e5a8")
 gi_mode = 2
 mesh = SubResource("BoxMesh_3x8g3")
 
-[node name="Beam2" type="MeshInstance3D" parent="Sensor0/Beams" unique_id=748449507]
+[node name="Beam2" type="MeshInstance3D" parent="Sensor0/Beams" unique_id=1819146871]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
 material_override = SubResource("StandardMaterial3D_l3c0w")
 gi_mode = 2
 mesh = SubResource("BoxMesh_x65li")
 
-[node name="Beam3" type="MeshInstance3D" parent="Sensor0/Beams" unique_id=1385792249]
+[node name="Beam3" type="MeshInstance3D" parent="Sensor0/Beams" unique_id=644268103]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 material_override = SubResource("StandardMaterial3D_wkyt7")
 gi_mode = 2
 mesh = SubResource("BoxMesh_nbjam")
 
-[node name="Beam4" type="MeshInstance3D" parent="Sensor0/Beams" unique_id=1849282880]
+[node name="Beam4" type="MeshInstance3D" parent="Sensor0/Beams" unique_id=932574703]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 material_override = SubResource("StandardMaterial3D_m617a")
 gi_mode = 2
 mesh = SubResource("BoxMesh_lgt8b")
 
-[node name="EmitterPost" type="MeshInstance3D" parent="Sensor0" unique_id=1812858635]
+[node name="EmitterPost" type="MeshInstance3D" parent="Sensor0" unique_id=1813651229]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65, 0, 0)
 material_override = SubResource("StandardMaterial3D_8u3ll")
 gi_mode = 2
 mesh = SubResource("BoxMesh_qit0g")
 
-[node name="EmitterPost2" type="MeshInstance3D" parent="Sensor0" unique_id=924740378]
+[node name="EmitterPost2" type="MeshInstance3D" parent="Sensor0" unique_id=14305862]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.65, 0, 0)
 material_override = SubResource("StandardMaterial3D_0iaci")
 gi_mode = 2
 mesh = SubResource("BoxMesh_cc2r3")
 
-[node name="Indicator" type="MeshInstance3D" parent="Sensor0" unique_id=1850988261]
+[node name="Indicator" type="MeshInstance3D" parent="Sensor0" unique_id=837333224]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62, 1, 0.12)
 material_override = SubResource("StandardMaterial3D_15isq")
 gi_mode = 2
 mesh = SubResource("BoxMesh_0vuec")
 
-[node name="Header" type="MeshInstance3D" parent="Sensor0" unique_id=1206503999]
+[node name="Header" type="MeshInstance3D" parent="Sensor0" unique_id=1098393012]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 material_override = SubResource("StandardMaterial3D_bvyxi")
 gi_mode = 2
 mesh = SubResource("BoxMesh_vd132")
 
-[node name="Status" type="Label3D" parent="Sensor0" unique_id=1904265346]
+[node name="Status" type="Label3D" parent="Sensor0" unique_id=13296584]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.12)
 pixel_size = 0.004
 double_sided = false
@@ -375,7 +375,7 @@ text = "CẢM BIẾN"
 font_size = 28
 outline_size = 2
 
-[node name="StatusBack" type="Label3D" parent="Sensor0" unique_id=1495007971]
+[node name="StatusBack" type="Label3D" parent="Sensor0" unique_id=1703051752]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.25, -0.12)
 pixel_size = 0.004
 double_sided = false
@@ -384,76 +384,76 @@ text = "CẢM BIẾN"
 font_size = 28
 outline_size = 2
 
-[node name="Relay" type="AudioStreamPlayer3D" parent="Sensor0" unique_id=487285605]
+[node name="Relay" type="AudioStreamPlayer3D" parent="Sensor0" unique_id=1676343828]
 stream = ExtResource("5_14tae")
 volume_db = -12.0
 max_distance = 8.0
 bus = &"SFX"
 
-[node name="Sensor1" type="Node3D" parent="." unique_id=1162498468]
+[node name="Sensor1" type="Node3D" parent="." unique_id=1469915538]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -2.8, -42.4)
 script = ExtResource("4_krvw1")
 phase_offset = 4.0
 
-[node name="Detection" type="Area3D" parent="Sensor1" unique_id=1917574464]
+[node name="Detection" type="Area3D" parent="Sensor1" unique_id=1541965729]
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 
-[node name="Shape" type="CollisionShape3D" parent="Sensor1/Detection" unique_id=24261980]
+[node name="Shape" type="CollisionShape3D" parent="Sensor1/Detection" unique_id=1701560859]
 shape = SubResource("BoxShape3D_l16v5")
 
-[node name="Beams" type="Node3D" parent="Sensor1" unique_id=34596107]
+[node name="Beams" type="Node3D" parent="Sensor1" unique_id=1623498204]
 
-[node name="Beam" type="MeshInstance3D" parent="Sensor1/Beams" unique_id=1554453559]
+[node name="Beam" type="MeshInstance3D" parent="Sensor1/Beams" unique_id=177390501]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.92, 0)
 material_override = SubResource("StandardMaterial3D_p2xmi")
 gi_mode = 2
 mesh = SubResource("BoxMesh_t33h3")
 
-[node name="Beam2" type="MeshInstance3D" parent="Sensor1/Beams" unique_id=594997837]
+[node name="Beam2" type="MeshInstance3D" parent="Sensor1/Beams" unique_id=2072313898]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
 material_override = SubResource("StandardMaterial3D_mlcl5")
 gi_mode = 2
 mesh = SubResource("BoxMesh_mcrno")
 
-[node name="Beam3" type="MeshInstance3D" parent="Sensor1/Beams" unique_id=1056505459]
+[node name="Beam3" type="MeshInstance3D" parent="Sensor1/Beams" unique_id=183934988]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 material_override = SubResource("StandardMaterial3D_jgwu2")
 gi_mode = 2
 mesh = SubResource("BoxMesh_jwqhu")
 
-[node name="Beam4" type="MeshInstance3D" parent="Sensor1/Beams" unique_id=1346651105]
+[node name="Beam4" type="MeshInstance3D" parent="Sensor1/Beams" unique_id=774660543]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 material_override = SubResource("StandardMaterial3D_vn7i2")
 gi_mode = 2
 mesh = SubResource("BoxMesh_d6u06")
 
-[node name="EmitterPost" type="MeshInstance3D" parent="Sensor1" unique_id=521317871]
+[node name="EmitterPost" type="MeshInstance3D" parent="Sensor1" unique_id=403940982]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65, 0, 0)
 material_override = SubResource("StandardMaterial3D_a8y24")
 gi_mode = 2
 mesh = SubResource("BoxMesh_8gngg")
 
-[node name="EmitterPost2" type="MeshInstance3D" parent="Sensor1" unique_id=1965953178]
+[node name="EmitterPost2" type="MeshInstance3D" parent="Sensor1" unique_id=304594961]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.65, 0, 0)
 material_override = SubResource("StandardMaterial3D_e3cmb")
 gi_mode = 2
 mesh = SubResource("BoxMesh_nojch")
 
-[node name="Indicator" type="MeshInstance3D" parent="Sensor1" unique_id=743861321]
+[node name="Indicator" type="MeshInstance3D" parent="Sensor1" unique_id=1969464794]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62, 1, 0.12)
 material_override = SubResource("StandardMaterial3D_doovr")
 gi_mode = 2
 mesh = SubResource("BoxMesh_ju5p7")
 
-[node name="Header" type="MeshInstance3D" parent="Sensor1" unique_id=608493945]
+[node name="Header" type="MeshInstance3D" parent="Sensor1" unique_id=374870740]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 material_override = SubResource("StandardMaterial3D_hbqty")
 gi_mode = 2
 mesh = SubResource("BoxMesh_x2hdx")
 
-[node name="Status" type="Label3D" parent="Sensor1" unique_id=1181141993]
+[node name="Status" type="Label3D" parent="Sensor1" unique_id=1658745094]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.12)
 pixel_size = 0.004
 double_sided = false
@@ -462,7 +462,7 @@ text = "CẢM BIẾN"
 font_size = 28
 outline_size = 2
 
-[node name="StatusBack" type="Label3D" parent="Sensor1" unique_id=1063257792]
+[node name="StatusBack" type="Label3D" parent="Sensor1" unique_id=690247313]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.25, -0.12)
 pixel_size = 0.004
 double_sided = false
@@ -471,47 +471,47 @@ text = "CẢM BIẾN"
 font_size = 28
 outline_size = 2
 
-[node name="Relay" type="AudioStreamPlayer3D" parent="Sensor1" unique_id=417357732]
+[node name="Relay" type="AudioStreamPlayer3D" parent="Sensor1" unique_id=1418840341]
 stream = ExtResource("5_14tae")
 volume_db = -12.0
 max_distance = 8.0
 bus = &"SFX"
 
-[node name="CourtyardGate" type="Area3D" parent="." unique_id=613214457]
+[node name="CourtyardGate" type="Area3D" parent="." unique_id=2056470960]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 1.1, 46)
 script = ExtResource("6_43sk3")
 
-[node name="Shape" type="CollisionShape3D" parent="CourtyardGate" unique_id=1024576990]
+[node name="Shape" type="CollisionShape3D" parent="CourtyardGate" unique_id=1927308485]
 shape = SubResource("BoxShape3D_5tw16")
 
-[node name="Panel" type="StaticBody3D" parent="CourtyardGate" unique_id=1364107008]
+[node name="Panel" type="StaticBody3D" parent="CourtyardGate" unique_id=2046095146]
 collision_layer = 0
 collision_mask = 0
 
-[node name="Shape" type="CollisionShape3D" parent="CourtyardGate/Panel" unique_id=43716453]
+[node name="Shape" type="CollisionShape3D" parent="CourtyardGate/Panel" unique_id=527544151]
 shape = SubResource("BoxShape3D_vlyqv")
 
-[node name="Safety" type="Area3D" parent="CourtyardGate" unique_id=349763610]
+[node name="Safety" type="Area3D" parent="CourtyardGate" unique_id=1478496674]
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 
-[node name="Shape" type="CollisionShape3D" parent="CourtyardGate/Safety" unique_id=1378021079]
+[node name="Shape" type="CollisionShape3D" parent="CourtyardGate/Safety" unique_id=1796054271]
 shape = SubResource("BoxShape3D_xmoep")
 
-[node name="Leaf" type="Node3D" parent="CourtyardGate" unique_id=2037523771]
+[node name="Leaf" type="Node3D" parent="CourtyardGate" unique_id=1481917492]
 script = ExtResource("7_j5kh5")
 
 [node name="blast_door2" type="Node3D" parent="CourtyardGate/Leaf" unique_id=1862020479 instance=ExtResource("8_eooqf")]
 transform = Transform3D(1.16, 0, 0, 0, 0.91, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="Indicator" type="MeshInstance3D" parent="CourtyardGate" unique_id=15357879]
+[node name="Indicator" type="MeshInstance3D" parent="CourtyardGate" unique_id=1576289017]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7, 1.3, 0.35)
 material_override = SubResource("StandardMaterial3D_or8et")
 gi_mode = 2
 mesh = SubResource("BoxMesh_62qvr")
 
-[node name="Plate" type="Label3D" parent="CourtyardGate" unique_id=1433817470]
+[node name="Plate" type="Label3D" parent="CourtyardGate" unique_id=1021247241]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.27, 0.18)
 pixel_size = 0.0035
 double_sided = false
@@ -520,7 +520,7 @@ text = "CỔNG SÂN / PHONG TỎA"
 font_size = 28
 outline_size = 2
 
-[node name="PlateBack" type="Label3D" parent="CourtyardGate" unique_id=968532512]
+[node name="PlateBack" type="Label3D" parent="CourtyardGate" unique_id=652942270]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.27, -0.18)
 pixel_size = 0.0035
 double_sided = false
@@ -529,52 +529,52 @@ text = "CỔNG SÂN / PHONG TỎA"
 font_size = 28
 outline_size = 2
 
-[node name="WalkingLink" type="NavigationLink3D" parent="CourtyardGate" unique_id=2135161592]
+[node name="WalkingLink" type="NavigationLink3D" parent="CourtyardGate" unique_id=300801950]
 start_position = Vector3(0, -1, -2)
 end_position = Vector3(0, -1, 2)
 
-[node name="Motor" type="AudioStreamPlayer3D" parent="CourtyardGate" unique_id=506339861]
+[node name="Motor" type="AudioStreamPlayer3D" parent="CourtyardGate" unique_id=833948175]
 stream = ExtResource("9_45n8h")
 volume_db = -12.0
 max_distance = 18.0
 bus = &"SFX"
 
-[node name="MaintenanceGate" type="Area3D" parent="." unique_id=1381929756]
+[node name="MaintenanceGate" type="Area3D" parent="." unique_id=170674387]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 1.1, 46)
 script = ExtResource("6_43sk3")
 route = 1
 
-[node name="Shape" type="CollisionShape3D" parent="MaintenanceGate" unique_id=937387917]
+[node name="Shape" type="CollisionShape3D" parent="MaintenanceGate" unique_id=633493699]
 shape = SubResource("BoxShape3D_1t0mg")
 
-[node name="Panel" type="StaticBody3D" parent="MaintenanceGate" unique_id=1789906440]
+[node name="Panel" type="StaticBody3D" parent="MaintenanceGate" unique_id=1844764824]
 collision_layer = 0
 collision_mask = 0
 
-[node name="Shape" type="CollisionShape3D" parent="MaintenanceGate/Panel" unique_id=423980153]
+[node name="Shape" type="CollisionShape3D" parent="MaintenanceGate/Panel" unique_id=205366747]
 shape = SubResource("BoxShape3D_4bjrn")
 
-[node name="Safety" type="Area3D" parent="MaintenanceGate" unique_id=1641836535]
+[node name="Safety" type="Area3D" parent="MaintenanceGate" unique_id=1510419425]
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 
-[node name="Shape" type="CollisionShape3D" parent="MaintenanceGate/Safety" unique_id=1414336981]
+[node name="Shape" type="CollisionShape3D" parent="MaintenanceGate/Safety" unique_id=1903099371]
 shape = SubResource("BoxShape3D_pd5o6")
 
-[node name="Leaf" type="Node3D" parent="MaintenanceGate" unique_id=738996278]
+[node name="Leaf" type="Node3D" parent="MaintenanceGate" unique_id=1215049856]
 script = ExtResource("7_j5kh5")
 
-[node name="blast_door2" type="Node3D" parent="MaintenanceGate/Leaf" unique_id=1800037916 instance=ExtResource("8_eooqf")]
+[node name="blast_door2" type="Node3D" parent="MaintenanceGate/Leaf" unique_id=358474382 instance=ExtResource("8_eooqf")]
 transform = Transform3D(1.16, 0, 0, 0, 0.91, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="Indicator" type="MeshInstance3D" parent="MaintenanceGate" unique_id=1804838002]
+[node name="Indicator" type="MeshInstance3D" parent="MaintenanceGate" unique_id=1282320498]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7, 1.3, 0.35)
 material_override = SubResource("StandardMaterial3D_xkw7y")
 gi_mode = 2
 mesh = SubResource("BoxMesh_88cnf")
 
-[node name="Plate" type="Label3D" parent="MaintenanceGate" unique_id=1378614174]
+[node name="Plate" type="Label3D" parent="MaintenanceGate" unique_id=1320687599]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.27, 0.18)
 pixel_size = 0.0035
 double_sided = false
@@ -583,7 +583,7 @@ text = "CỬA HẬU / KHÓA CƠ"
 font_size = 28
 outline_size = 2
 
-[node name="PlateBack" type="Label3D" parent="MaintenanceGate" unique_id=484324334]
+[node name="PlateBack" type="Label3D" parent="MaintenanceGate" unique_id=480619285]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.27, -0.18)
 pixel_size = 0.0035
 double_sided = false
@@ -592,29 +592,29 @@ text = "CỬA HẬU / KHÓA CƠ"
 font_size = 28
 outline_size = 2
 
-[node name="WalkingLink" type="NavigationLink3D" parent="MaintenanceGate" unique_id=810989218]
+[node name="WalkingLink" type="NavigationLink3D" parent="MaintenanceGate" unique_id=1316305846]
 start_position = Vector3(0, -1, -2)
 end_position = Vector3(0, -1, 2)
 
-[node name="Motor" type="AudioStreamPlayer3D" parent="MaintenanceGate" unique_id=1052660621]
+[node name="Motor" type="AudioStreamPlayer3D" parent="MaintenanceGate" unique_id=270455473]
 stream = ExtResource("9_45n8h")
 volume_db = -12.0
 max_distance = 18.0
 bus = &"SFX"
 
-[node name="Radio" type="Area3D" parent="." unique_id=930763204]
+[node name="Radio" type="Area3D" parent="." unique_id=460321666]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 1.15, 11.5)
 script = ExtResource("10_1bi12")
 
-[node name="Shape" type="CollisionShape3D" parent="Radio" unique_id=1285374037]
+[node name="Shape" type="CollisionShape3D" parent="Radio" unique_id=2140955902]
 shape = SubResource("BoxShape3D_dcy77")
 
-[node name="Timer" type="MeshInstance3D" parent="Radio" unique_id=1197281787]
+[node name="Timer" type="MeshInstance3D" parent="Radio" unique_id=242260913]
 material_override = SubResource("StandardMaterial3D_8wvc1")
 gi_mode = 2
 mesh = SubResource("BoxMesh_fwion")
 
-[node name="Plate" type="Label3D" parent="Radio" unique_id=894453401]
+[node name="Plate" type="Label3D" parent="Radio" unique_id=933389730]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.09, 0.28, 0)
 pixel_size = 0.003
 double_sided = false
@@ -624,57 +624,57 @@ text = "RADIO / HẸN 4 GIÂY
 font_size = 28
 outline_size = 2
 
-[node name="Static" type="AudioStreamPlayer3D" parent="Radio" unique_id=1465089718]
+[node name="Static" type="AudioStreamPlayer3D" parent="Radio" unique_id=1125907598]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.4, 2.05, 4.5)
 stream = ExtResource("11_42dsp")
 volume_db = -12.0
 max_distance = 36.0
 bus = &"SFX"
 
-[node name="YardSpeaker" type="MeshInstance3D" parent="Radio" unique_id=1193484091]
+[node name="YardSpeaker" type="MeshInstance3D" parent="Radio" unique_id=291612385]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.4, 2.05, 4.5)
 material_override = SubResource("StandardMaterial3D_6xdhr")
 gi_mode = 2
 mesh = SubResource("BoxMesh_aurkq")
 
-[node name="IndoorStatic" type="AudioStreamPlayer3D" parent="Radio" unique_id=1709748634]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4, 1.6, -9.3)
+[node name="IndoorStatic" type="AudioStreamPlayer3D" parent="Radio" unique_id=1104373718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 0.45, 1)
 stream = ExtResource("11_42dsp")
 volume_db = -12.0
 max_distance = 24.0
 bus = &"SFX"
 
-[node name="IndoorSpeaker" type="MeshInstance3D" parent="Radio" unique_id=1118665737]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4, 1.6, -9.3)
+[node name="IndoorSpeaker" type="MeshInstance3D" parent="Radio" unique_id=975079917]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 0.45, 1)
 material_override = SubResource("StandardMaterial3D_2p2un")
 gi_mode = 2
 mesh = SubResource("BoxMesh_rjuoi")
 
-[node name="SpeakerBracket" type="MeshInstance3D" parent="Radio" unique_id=623409580]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4, 1.86, -9.3)
+[node name="SpeakerBracket" type="MeshInstance3D" parent="Radio" unique_id=1628670969]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 0.71, 1)
 material_override = SubResource("StandardMaterial3D_5daoq")
 gi_mode = 2
 mesh = SubResource("BoxMesh_non1g")
 
-[node name="PreparedLatch" type="Area3D" parent="." unique_id=1262359320]
+[node name="PreparedLatch" type="Area3D" parent="." unique_id=1507217247]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.9, 1.2, 5)
 script = ExtResource("12_ss070")
 
-[node name="Shape" type="CollisionShape3D" parent="PreparedLatch" unique_id=383475216]
+[node name="Shape" type="CollisionShape3D" parent="PreparedLatch" unique_id=698169515]
 shape = SubResource("BoxShape3D_5o67w")
 
-[node name="Housing" type="MeshInstance3D" parent="PreparedLatch" unique_id=525973128]
+[node name="Housing" type="MeshInstance3D" parent="PreparedLatch" unique_id=260205042]
 material_override = SubResource("StandardMaterial3D_b0sxt")
 gi_mode = 2
 mesh = SubResource("BoxMesh_y5for")
 
-[node name="Switch" type="MeshInstance3D" parent="PreparedLatch" unique_id=538178778]
+[node name="Switch" type="MeshInstance3D" parent="PreparedLatch" unique_id=1855872649]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22, 0, 0)
 material_override = SubResource("StandardMaterial3D_8gvkj")
 gi_mode = 2
 mesh = SubResource("BoxMesh_k0scb")
 
-[node name="Plate" type="Label3D" parent="PreparedLatch" unique_id=1148006970]
+[node name="Plate" type="Label3D" parent="PreparedLatch" unique_id=172426667]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.2, 0.65, 0)
 pixel_size = 0.003
 double_sided = false
@@ -684,7 +684,7 @@ CHUẨN BỊ TRƯỚC BÁO ĐỘNG"
 font_size = 28
 outline_size = 2
 
-[node name="Latch" type="AudioStreamPlayer3D" parent="PreparedLatch" unique_id=331354385]
+[node name="Latch" type="AudioStreamPlayer3D" parent="PreparedLatch" unique_id=405630675]
 stream = ExtResource("5_14tae")
 volume_db = -12.0
 max_distance = 10.0

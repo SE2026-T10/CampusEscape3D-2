@@ -35,7 +35,7 @@ func _run() -> void:
 	for node in _all_nodes(EditorInterface.get_base_control().get_tree().root):
 		if node is EditorFileDialog and node.visible:
 			print("K17 BAKE: selecting lightmap resource")
-			node.file_selected.emit("res://maps/intelligence/resources/k17_v3_lightmap.lmbake")
+			node.file_selected.emit("res://maps/intelligence/resources/k17_v4_lightmap.lmbake")
 			node.hide()
 	await _frames(40)
 	print("K17 BAKE DATA ",lightmap.light_data)

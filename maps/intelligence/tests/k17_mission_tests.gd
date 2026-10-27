@@ -114,15 +114,19 @@ func _prepare_file() -> void:
 	_expect(level.get_node("Gameplay/ArchiveDoor").is_open, "Pass opens the controlled archive door.")
 	player.global_position = Vector3(8, 0.05, -20)
 	await _frames(4)
-	_expect(checkpoints.active != null and objectives.current() == M.FILE, "Preparation area saves progress before taking the file.")
+	_expect(checkpoints.active != null and objectives.current() == M.VAULT, "Preparation area saves progress before taking the file.")
 	_expect(not mission.has_file and mission.time_left == mission.escape_duration, "Pre-file clock is inactive.")
+	var keypad := level.get_node("Gameplay/VaultKeypad") as CodeLock
+	keypad.set_entry(preload("res://maps/intelligence/resources/layout/k17_v4.gd").VAULT_CODE)
+	keypad.submit()
+	await _frames(4)
 
 
 func _take_file() -> void:
 	# Actor reset re-enables shared guards. This suite isolates mission state;
 	# separate patrol and walking runs exercise their actual decisions.
 	for guard in level.get_node("Guards").get_children(): guard.process_mode=Node.PROCESS_MODE_DISABLED
-	await _use("Gameplay/VaultDoor", Vector3(4, 0.05, -22.5))
+	_expect(level.get_node("Gameplay/VaultDoor").is_open,"Solved keypad opens the real vault door")
 	await _use("Gameplay/IntelligenceFile", Vector3(0, -3.95, -45.5))
 	_expect(mission.has_file and objectives.current() == M.ESCAPE, "File pickup starts extraction.")
 	_expect(mission.time_left > 119.0 and mission.time_left <= 120.0, "Exactly one 120-second deadline starts on pickup.")

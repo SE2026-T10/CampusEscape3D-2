@@ -105,7 +105,7 @@ func run(parent: Node) -> Array[String]:
 	var closed_path := NavigationServer3D.map_get_path(map,start,finish,true)
 	_expect(closed_path.is_empty() or closed_path[-1].distance_to(finish) > 1.0,"Baked navmesh cannot silently route through closed gates")
 	var objectives := ObjectiveManager.find(level)
-	for id in [M.ENTER,M.PASS,M.CODE,M.ARCHIVE,M.FILE]: objectives.complete(id)
+	for id in [M.ENTER,M.PASS,M.CODE,M.ARCHIVE,M.VAULT,M.FILE]: objectives.complete(id)
 	await _use(back,Vector3(36,.05,44.35))
 	_expect(not back.is_closed and back.get_node("WalkingLink").enabled,"Actual unprepared eight-second hold opens the backdoor")
 	await _frames(6)
@@ -147,6 +147,7 @@ func run(parent: Node) -> Array[String]:
 	var checkpoint := CheckpointManager.find(level)
 	_expect(checkpoint.active != null,"Pre-file checkpoint activates normally")
 	var sensor_phase: float = checkpoint.saved_state[String(checkpoint.get_path_to(sensor))].phase
+	objectives.complete(M.VAULT)
 	objectives.complete(M.FILE)
 	radio.cooldown_left = 0.0
 	radio.interact(player)
