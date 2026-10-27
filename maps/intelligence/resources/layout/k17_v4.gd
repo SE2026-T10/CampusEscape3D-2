@@ -16,13 +16,19 @@ const NOTES := [
 ]
 const BOTTLES := [Vector3(-35,.86,4),Vector3(5,.05,12.7)]
 const HIDING := {
-	"MotorPool": Vector3(-42.5,0,35.5),
-	"GuardPost": Vector3(-40,0,-4.8),
+	"MotorPool": Vector3(-41,0,24.9),
+	"GuardPost": Vector3(-43,0,-6.3),
 	"RadioBay": Vector3(0,0,13),
 	"Utilities": Vector3(41.2,0,5),
 	"Records": Vector3(8,0,-20),
-	"Vault": Vector3(-1.3,-4,-46),
-	"Service": Vector3(26,0,37),
+	"Vault": Vector3(-7.5,-4,-47.2),
+	"Service": Vector3(25.8,0,37.3),
+}
+const HIDING_SIZE := {
+	"MotorPool":Vector3(1.3,1.25,.7),"GuardPost":Vector3(.8,1.25,1.2),
+	"RadioBay":Vector3(1.3,1.25,1.1),"Utilities":Vector3(.8,1.25,.6),
+	"Records":Vector3(1.1,1.25,1.1),"Vault":Vector3(1,1.25,1.1),
+	"Service":Vector3(.7,1.25,1.2),
 }
 
 static func configure_guard(guard: Guard) -> void:

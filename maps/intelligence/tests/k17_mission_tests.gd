@@ -96,7 +96,7 @@ func _check_layout() -> void:
 		var points := route.get_children()
 		for i in points.size():
 			var path := NavigationServer3D.map_get_path(map, points[i].global_position, points[(i + 1) % points.size()].global_position, true)
-			_expect(not path.is_empty() and path[-1].distance_to(points[(i + 1) % points.size()].global_position) < 1.0, "Every patrol segment has a navigable path.")
+			_expect(not path.is_empty() and path[-1].distance_to(points[(i + 1) % points.size()].global_position) < 1.0, "Every patrol segment has a navigable path: %s / %s -> %s (end %s)" % [guard.name,points[i].global_position,points[(i+1)%points.size()].global_position,path[-1] if not path.is_empty() else Vector3.INF])
 	for target in [Vector3(-12, 0.05, 5.5), Vector3(8, 0.05, -20), Vector3(0, -3.95, -45.5), Vector3(36, 0.05, 51)]:
 		var path := NavigationServer3D.map_get_path(map, player.global_position, target, true)
 		_expect(not path.is_empty() and path[-1].distance_to(target) < 1.0, "Mission locations and both exits are connected to navigation.")

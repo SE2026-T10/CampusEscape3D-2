@@ -32,6 +32,18 @@ func _run() -> void:
 				moving_paths.append(path)
 		_expect(baked.get_user_count()>100,"Lightmap contains the authored compound geometry")
 		_expect(moving_paths.is_empty(),"Moving guards and door leaves are excluded from baked shadows: "+str(moving_paths))
+		var missing: Array[String]=[]
+		for i in baked.get_user_count():
+			var path:=baked.get_user_path(i)
+			if level.get_node("LightmapGI").get_node_or_null(path)==null: missing.append(str(path))
+		_expect(missing.is_empty(),"Every baked mesh still exists in the shipped scene: "+str(missing))
+	for camera in get_nodes_in_group("security_cameras"):
+		_expect(not camera._cone.visible,"K17 camera keeps perception without a floating translucent cone")
+		_expect(camera.get_children().filter(func(child): return child is Label3D and child.visible).is_empty(),"Camera labels are physical equipment signs, not floating billboards")
+	var sectors:=level.get_node("NavigationRegion3D/Sectors")
+	_expect(sectors.get_node("command").has_node("CameraCeilingPlate") and sectors.get_node("records").has_node("CameraCeilingPlate"),"Both indoor cameras have ceiling support")
+	_expect(sectors.get_node("service_route").has_node("CameraMast") and sectors.get_node("service_route").has_node("CameraMastBase"),"Outdoor camera has a grounded mast and base")
+	_expect(not sectors.get_node("guard_post/PassDesk/Mesh").visible and not sectors.get_node("secure_vault/FileDesk/Mesh").visible,"Detailed desks are not hidden under solid placeholder cubes")
 	_expect(env.get_node("Roof").mesh != null,"Closed interior roof is present")
 	for sign in env.find_children("*","Label3D",true,false):
 		_expect(sign.billboard == BaseMaterial3D.BILLBOARD_DISABLED,"Environmental signs are fixed to architecture")

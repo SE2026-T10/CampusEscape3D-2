@@ -111,7 +111,7 @@ func _geometry(parent: Node) -> void:
 	# Separate communications bay, controlled corridor and archive service aisles.
 	_wall_h(parent,"CommsSouth",9.5,-4,12,[Vector2(-1.8,1.8)])
 	_wall_h(parent,"CommsNorth",4.7,-4,12,[Vector2(2.2,5.8)])
-	_wall_v(parent,"ArchiveServiceWall",12,-24,0,[])
+	_wall_v(parent,"ArchiveServiceWall",12,-24,0,[Vector2(-7,-3)])
 	_wall_v(parent,"ArchiveEastAisle",8,-24,-8,[Vector2(-22,-18)])
 	_wall_v(parent,"ArchiveWestBay",-12,-24,0,[Vector2(-21,-17),Vector2(-7,-3)])
 	# Guard room desk, communications consoles and archive racks.
@@ -330,7 +330,7 @@ func _controlled_door(parent: Node,title: String,pos: Vector3,key: StringName,ke
 
 func _systems() -> void:
 	for entry in [
-		["StealthDirector", Node.new(), "res://shared/scripts/stealth/stealth_director.gd"],
+		["StealthDirector", Node.new(), BASE+"scripts/stealth_director.gd"],
 		["NoiseSystem", Node3D.new(), "res://shared/scripts/noise/noise_system.gd"],
 		["StealthHud", CanvasLayer.new(), "res://shared/scripts/ui/stealth_hud.gd"],
 		["ObjectiveHud", CanvasLayer.new(), BASE+"scripts/objective_hud.gd"],

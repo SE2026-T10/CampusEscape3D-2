@@ -5,7 +5,7 @@ func _run() -> void:
 	var cases: Array=[
 		["yard_early_reaction",Vector3(-28,.05,44),Vector3(-41,.05,44),[Vector3(16,0,44)]],
 		["west_flank_early_reaction",Vector3(-25,.05,-20),Vector3(-25,.05,-33),[Vector3(-25,0,21),Vector3(16,0,21)]],
-		["radio_cover",Vector3(3,.05,10),Vector3(-3,.05,10),[Vector3(3,0,13),Vector3(1.2,0,13)],"RadioBay",Vector3(0,0,13),true],
+		["radio_cover",Vector3(3,.05,10),Vector3(9,.05,10),[Vector3(0,0,10.7),Vector3(-2.5,0,10.7),Vector3(-2.5,0,13),Vector3(-1.3,0,13)],"RadioBay",Vector3(0,0,13),true],
 		# Seen entry grants no concealment here: the physical divider must
 		# break line of sight while the guard is still within detection range.
 		["vault_wall_cover",Vector3(2.5,-3.95,-48.7),Vector3(-9.5,-3.95,-48.7),[Vector3(-1.3,-4,-48.7),Vector3(-1.7,-4,-46.9)],"Vault",Vector3(-1.7,-4,-46.0),false],

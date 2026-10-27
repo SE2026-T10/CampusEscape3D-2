@@ -50,10 +50,10 @@ func build(builder: SceneTree, region: Node3D) -> void:
 	for p in [Vector3(-20,.65,30),Vector3(-12,.65,38),Vector3(12,.65,34),Vector3(28,.65,40)]: _crate(p)
 	_select("guard_post")
 	_room(Vector3(-36,0,3),Vector2(16,22),[Vector2(-38,-34)],[],[Vector2(5,9)])
-	_box("PassDesk",Vector3(-36,.4,4),Vector3(2.8,.8,1.2),"steel")
+	_box("PassDesk",Vector3(-36,.4,4),Vector3(2.8,.8,1.2),"steel").get_node("Mesh").visible=false
 	_model("field_desk",Vector3(-36,.4,4),PI)
 	for x in [-41.0,-30.0]:
-		_box("Locker",Vector3(x,1.1,-6.5),Vector3(2,2.2,1),"olive")
+		_box("Locker",Vector3(x,1.1,-6.5),Vector3(2,2.2,1),"olive").get_node("Mesh").visible=false
 		_model("locker",Vector3(x,1.1,-6.5),PI)
 	_model("command_board",Vector3(-36,1.6,-7.7),PI)
 	_sign("03 / PHÒNG TRỰC\nGIẤY THÔNG HÀNH",Vector3(-36,2.6,14.3),0)
@@ -99,7 +99,7 @@ func build(builder: SceneTree, region: Node3D) -> void:
 	for x in [-6.0,-2.0]:
 		_box("ArchiveRack",Vector3(x,-2.8,-40),Vector3(1,2.4,7),"steel")
 		for z in [-42.0,-39.0]: _model("archive_rack",Vector3(x,-2.8,z),PI/2,Vector3(.55,1,.7))
-	_box("FileDesk",Vector3(0,-3.55,-47),Vector3(2.4,.9,1.2),"steel")
+	_box("FileDesk",Vector3(0,-3.55,-47),Vector3(2.4,.9,1.2),"steel").get_node("Mesh").visible=false
 	_box("FileSideCover",Vector3(-2.5,-2.75,-46),Vector3(.5,2.5,4),"steel")
 	_model("archive_table",Vector3(0,-3.55,-47))
 	# A partial divider channels the two sensor strips without blocking retreat.
@@ -123,6 +123,7 @@ func build(builder: SceneTree, region: Node3D) -> void:
 	_sign("CẢNH VỆ HẬU CẦN",Vector3(44,2,-18.4),0)
 	# The actor does not need jumps; short markings lead to the east stairs.
 	for z in range(-20,44,4): _stripe(Vector3(30,.016,z),Vector3(.15,.02,1.4))
+	preload("res://maps/intelligence/tools/k17_room_dressing.gd").new().build(self)
 
 func save_sectors() -> bool:
 	for child in sectors.get_children():
@@ -139,7 +140,8 @@ func save_sectors() -> bool:
 	return true
 
 func _select(title: String) -> void:
-	sector=b._group(sectors,title)
+	sector=sectors.get_node_or_null(NodePath(title))
+	if sector==null: sector=b._group(sectors,title)
 
 func _set_owner(node: Node,owner_node: Node) -> void:
 	for child in node.get_children():
@@ -181,8 +183,8 @@ func _material(id: String) -> StandardMaterial3D:
 		m.albedo_texture=load(BASE+"assets/textures/"+source+"/Diffuse.jpg")
 		m.uv1_triplanar=true
 		m.uv1_scale=Vector3.ONE*.4
-	else: m.albedo_color={"olive":Color("434c32"),"steel":Color("273236"),"beacon":Color("5bbdae"),"stripe":Color("c2a44f"),"sign":Color("141d23")}.get(id,Color("b9c2be"))
-	if id=="beacon":
+	else: m.albedo_color={"olive":Color("434c32"),"steel":Color("273236"),"beacon":Color("5bbdae"),"lamp":Color("d1dec7"),"stripe":Color("c2a44f"),"sign":Color("141d23"),"paper":Color("b8b29a"),"red":Color("802d23")}.get(id,Color("b9c2be"))
+	if id in ["beacon","lamp"]:
 		m.emission_enabled=true
 		m.emission=m.albedo_color
 	materials[id]=m
@@ -196,7 +198,7 @@ func _room(center: Vector3,size: Vector2,front: Array,back: Array,east: Array=[]
 	_box("Roof",center+Vector3(0,3.4,0),Vector3(size.x+.4,.25,size.y+.4),"wall")
 	_box("FloorFinish",center+Vector3(0,.008,0),Vector3(size.x,.016,size.y),"floor",false)
 	for z in [center.z-size.y*.25,center.z+size.y*.25]:
-		_box("CeilingFixture",Vector3(center.x,3.12,z),Vector3(2,.08,.25),"beacon",false)
+		_box("CeilingFixture",Vector3(center.x,3.12,z),Vector3(2,.08,.25),"lamp",false)
 		_light(Vector3(center.x,2.8,z),15,2)
 
 func _wall_h(z: float,low: float,high: float,gaps: Array,y:=0.0,height:=3.2) -> void:

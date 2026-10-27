@@ -34,8 +34,10 @@ func run(parent: Node) -> Array[String]:
 	await _frames(5)
 	_expect(spot.is_concealing(),"Unseen crouched entry conceals")
 	var guard := level.get_node("Guards/Guard3") as Guard
-	guard.global_position=player.global_position+Vector3(4,0,0)
-	_expect(spot.conceals_from(guard),"Distant searching guard cannot automatically reveal cover")
+	guard.global_position=player.global_position+Vector3(0,0,-4)
+	_expect(spot.conceals_from(guard),"Physical radio partition blocks a guard behind it")
+	guard.global_position=player.global_position+Vector3(-2.5,0,0)
+	_expect(not spot.conceals_from(guard),"Entering a marked area never hides an open side from a guard")
 	guard.global_position=player.global_position+Vector3(1,0,0)
 	_expect(not spot.conceals_from(guard),"Guard checking nearby finds the player")
 	spot.entered_unseen=false
@@ -53,6 +55,7 @@ func run(parent: Node) -> Array[String]:
 	_expect(alarm.is_active() and NoiseSystem.find(level).emitted_count==noises,"Persistent alert emits no omniscient noise")
 	mission.has_file=false
 	_expect(not alarm.is_active(),"Pre-file restore ends persistent alert")
+	await _directional_cover(player)
 	await _power_and_camera(player,mission)
 	await _knowledge_and_inventory(player)
 	await _hud_layout(player)
@@ -60,6 +63,50 @@ func run(parent: Node) -> Array[String]:
 	await _frames(40)
 	print("K17 V4 CHECKS: %d checks; %d failures"%[checks,failures.size()])
 	return failures
+
+func _directional_cover(player: FirstPersonPlayer) -> void:
+	for camera in host.get_tree().get_nodes_in_group("security_cameras"): camera.set_physics_process(false)
+	var guard:=level.get_node("Guards/Guard3") as Guard
+	var saved:=guard.transform
+	var exposed:=0
+	for spot in host.get_tree().get_nodes_in_group("hiding_spots"):
+		player.global_position=spot.global_position-Vector3(0,.65,0)
+		player.set_crouching(true)
+		await _frames(4)
+		spot.entered_unseen=true
+		_expect(spot.contains_player() and spot.is_concealing(),"Cover centre is inside a physical recess: "+str(spot.name))
+		for direction in [Vector3.LEFT,Vector3.RIGHT,Vector3.FORWARD,Vector3.BACK,Vector3(1,0,1).normalized(),Vector3(-1,0,1).normalized()]:
+			guard.global_position=player.global_position+direction*4
+			guard.rotation.y=atan2(direction.x,direction.z)
+			await _frames(2)
+			guard.vision.reset()
+			guard.vision._physics_process(.2)
+			if guard.vision._check_sight():
+				exposed+=1
+				_expect(guard.vision.can_see_target and not spot.conceals_from(guard),"Open view still detects player inside cover: "+str(spot.name)+" / "+str(direction))
+	_expect(exposed>0,"At least one real open-side sight line exercised")
+	var radio:=level.get_node("Gameplay/HidingSpots/RadioBay") as HidingSpot
+	player.global_position=V4.HIDING.RadioBay+Vector3(0,.05,0)
+	await _frames(4)
+	radio.entered_unseen=true
+	var camera:=level.get_node("Gameplay/Cameras/Command") as SecurityCamera
+	var camera_pose:=camera.transform
+	camera.global_position=player.global_position+Vector3(-2.5,2.0,0)
+	camera._head.look_at(player.global_position+Vector3(0,.5,0))
+	_expect(radio.is_concealing() and camera.can_see(player),"Camera looking through an open side is never blinded by a hiding area")
+	var flags:=StealthDirector.find(level).gather_flags(player,[])
+	_expect(flags.seen and not flags.hidden,"HUD never says HIDDEN while a powered camera has a clear view")
+	camera.transform=camera_pose
+	camera._head.rotation_degrees=Vector3(-camera.pitch_degrees,0,0)
+	guard.transform=saved
+	var radio_position:=radio.global_position
+	radio.global_position=Vector3(0,.7,40)
+	player.global_position=Vector3(0,.05,40)
+	await _frames(4)
+	radio.entered_unseen=true
+	_expect(not radio.contains_player() and not radio.is_concealing(),"A misplaced hiding area on an open road grants no cover")
+	radio.global_position=radio_position
+	player.set_crouching(false)
 
 func _power_and_camera(player: FirstPersonPlayer,mission: K17MissionController) -> void:
 	var power: PowerNetwork=level.get_node("Gameplay/PowerNetwork")

@@ -5,14 +5,11 @@ const BASE := "res://maps/intelligence/"
 func build(b: SceneTree, gameplay: Node3D) -> void:
 	var spots: Node3D = b._group(gameplay,"HidingSpots")
 	for title in V4.HIDING:
-		var spot := HidingSpot.new()
+		var spot := preload("res://maps/intelligence/scripts/hiding_spot.gd").new()
 		spot.name = title
 		spot.position = V4.HIDING[title]+Vector3(0,.7,0)
 		b._add(spots,spot)
-		b._shape(spot,Vector3(1.3,1.4,1.3))
-		# Small floor markers sit on existing cover; no artificial invisible walls.
-		var mark: MeshInstance3D = b._paint(spot,"CoverMark",Vector3(0,-.68,0),Vector3(.65,.015,.65),Color("405745"))
-		mark.gi_mode = GeometryInstance3D.GI_MODE_DYNAMIC
+		b._shape(spot,V4.HIDING_SIZE[title])
 	var power: PowerNetwork = preload("res://maps/intelligence/scripts/power_network.gd").new()
 	power.name="PowerNetwork"
 	b._add(gameplay,power)

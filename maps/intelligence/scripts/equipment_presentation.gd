@@ -15,8 +15,6 @@ func _ready() -> void:
 	_label("KIỂM SOÁT KHO / B1",Vector3(5.35,2.04,-23.46),0)
 	_box(Vector3(18.9,1.55,3),Vector3(.05,1.1,1.7),Color("293c32"))
 	_label("K17 / PHÂN KHU\nCHỈ HUY · HỒ SƠ · KHO B1",Vector3(18.86,1.6,3),-PI/2)
-	for spot in get_tree().get_nodes_in_group("hiding_spots"):
-		_label("CÚI / CHỖ NẤP",spot.global_position+Vector3(0,.45,0),0,.0015)
 
 func _process(_delta: float) -> void:
 	var power:=PowerNetwork.find(self)

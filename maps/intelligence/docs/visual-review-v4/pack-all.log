@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  [pack] loaded res://shared/scenes/ui/main_menu.tscn
+  [pack] loaded res://maps/tutorial/scenes/library_graybox.tscn
+  [pack] loaded res://maps/library/scenes/expanded_library.tscn
+  [pack] loaded res://maps/intelligence/scenes/intelligence_k17.tscn
+  [pack] loaded res://maps/intelligence/scenes/intelligence_k17_test.tscn
+PACK CHECK PASSED (5 scenes; development files excluded)

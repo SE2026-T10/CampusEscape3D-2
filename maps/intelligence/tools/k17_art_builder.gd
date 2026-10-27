@@ -20,7 +20,7 @@ var models := {}
 func build(collision_root: Node3D) -> Node3D:
 	scene = Node3D.new()
 	scene.name = "K17Environment"
-	scene.set_meta("art_version", "v3")
+	scene.set_meta("art_version", "v4-room-dressing")
 	concrete = _pbr("concrete_wall_001", 0.42)
 	floor_mat = _pbr("concrete_floor_02", 0.45)
 	floor_mat.roughness_texture = null
@@ -142,18 +142,22 @@ func _interior() -> void:
 	for x in [-12.0, 16.0]:
 		_frame(Vector3(x,0,14), 3.6)
 	_frame(Vector3(4,0,0), 3.6)
+	var records_frame:=_group("RecordsSortingFrame")
+	records_frame.position=Vector3(12,0,-5)
+	records_frame.rotation.y=PI/2
+	_frame(Vector3.ZERO,4,records_frame)
 	for x in [-4.0,12.0]:
 		var f := _group("CrossCorridorFrame")
 		f.position = Vector3(x,0,7)
 		f.rotation.y = PI/2
 		_frame(Vector3.ZERO,3.6,f)
 	_sign("K17 / CƠ SỞ TÌNH BÁO\nKHU VỰC KIỂM SOÁT  ·  CẤM PHẬN SỰ", Vector3(-12,2.85,14.27), 5.5, .48)
-	_sign("01 / PHÒNG TRỰC\nKIỂM SOÁT RA VÀO", Vector3(-12,2.35,.29), 2.5,.54)
+	_sign("04 / PHÒNG TÁC CHIẾN\nPHÂN TÍCH / ĐIỀU PHỐI", Vector3(-12,2.35,.29), 2.5,.54)
 	_model("command_board",Vector3(-12,1.45,.32),PI)
 	_frame(Vector3(4,0,4.7),3.6)
 	_frame(Vector3(0,0,9.5),3.6)
-	_sign("02 / THÔNG TIN LIÊN LẠC\nKÊNH LIÊN LẠC MÃ HÓA", Vector3(5,2.35,13.7), 3.4,.55,PI)
-	_sign("03 / KHU HỒ SƠ MẬT\nCHỈ DÀNH CHO NGƯỜI CÓ PHẬN SỰ", Vector3(4,2.85,4.96), 4,.44)
+	_sign("04 / THÔNG TIN LIÊN LẠC\nKÊNH LIÊN LẠC MÃ HÓA", Vector3(5,2.35,13.7), 3.4,.55,PI)
+	_sign("06 / KHU HỒ SƠ MẬT\nCHỈ DÀNH CHO NGƯỜI CÓ PHẬN SỰ", Vector3(4,2.85,4.96), 4,.44)
 	_sign("BẢO TRÌ / LỐI RA PHÍA ĐÔNG", Vector3(16,2.75,13.7), 3.2,.35)
 	_sign("KHO MẬT B1 ↓\nMÃ KHO BẮT BUỘC", Vector3(8,2.3,-23.65), 2.1,.5)
 	# Small details stay against existing solids, clear of all tested routes.

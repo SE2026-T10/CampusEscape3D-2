@@ -20,7 +20,7 @@ func run(parent: Node) -> Array[String]:
 	_expect(L.SIZE==Vector2(96,108),"The compound uses the expanded 96 by 108 metre bounds.")
 	_expect(level.get_node("Gameplay/IntelligenceFile").global_position.y< -2,"The real mission document is in B1.")
 	var map:=level.get_world_3d().navigation_map
-	for point in [Vector3(-36,0,5),Vector3(36,0,7),Vector3(4,-4,-35),Vector3(0,-4,-48.5),Vector3(30,-4,-38),Vector3(30,0,-23)]:
+	for point in [Vector3(-36,0,5),Vector3(36,0,7),Vector3(4,-4,-35),Vector3(0,-4,-48.5),Vector3(30,-4,-38),Vector3(30,0,-23),Vector3(17,0,-5),Vector3(17,0,-16)]:
 		var path:=NavigationServer3D.map_get_path(map,L.SPAWN,point,true)
 		_expect(not path.is_empty() and path[-1].distance_to(point)<1,"Navigation reaches expanded sector/stair "+str(point))
 	mission.record_sensor_trip(L.SENSORS[0])

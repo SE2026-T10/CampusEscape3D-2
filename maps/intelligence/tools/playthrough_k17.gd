@@ -66,6 +66,9 @@ func _run() -> void:
 		player=level.get_node("Player")
 		mission=level.get_node("Gameplay/Mission")
 		flow=GameFlow.find(level)
+		if OS.get_cmdline_user_args().has("--trace-guard"):
+			var traced:=level.get_node("Guards/Guard3") as Guard
+			traced.ai_state_changed.connect(func(from,to,why): print("[K17 Guard3] ",from," -> ",to," ",why," guard=",traced.position," player=",player.position))
 		StealthDirector.find(level).player_caught.connect(func(by): print("[K17 caught] ",by.name," player=",player.global_position))
 		if flow.state==GameStateMachine.State.PAUSED: flow.resume()
 		if crouched: Input.action_press("crouch")
@@ -74,7 +77,7 @@ func _run() -> void:
 		if settle_before_file and not _route_failed:
 			var quiet:=0
 			for i in 3600:
-				quiet=quiet+1 if StealthDirector.find(level).status==StealthDirector.Status.NONE else 0
+				quiet=quiet+1 if StealthDirector.find(level).status in [StealthDirector.Status.NONE,StealthDirector.Status.HIDDEN] else 0
 				if quiet>=180 or flow.state!=GameStateMachine.State.PLAYING: break
 				await physics_frame
 		if stage_delay>0: await _frames(ceili(stage_delay*60))
@@ -117,21 +120,31 @@ func _approach() -> void:
 		await _route([Vector3(16,0,7),Vector3(0,0,7),Vector3(0,0,10.7),Vector3(6.2,0,10.2)])
 	else:
 		# Read from the west edge of the desk, outside the camera's scan cone.
-		await _route([Vector3(-36,0,8.2),Vector3(-26,0,8.2),Vector3(-26,0,7),Vector3(-12,0,7),Vector3(0,0,7),Vector3(0,0,10.7),Vector3(-2.5,0,10.7),Vector3(-2.5,0,13),Vector3(0,0,13),Vector3(2.3,0,13),Vector3(4.2,0,12.3)])
+		await _route([Vector3(-36,0,8.2),Vector3(-26,0,8.2),Vector3(-26,0,7),Vector3(-12,0,7),Vector3(0,0,7),Vector3(0,0,10.7),Vector3(2.3,0,10.7),Vector3(2.3,0,13),Vector3(4.2,0,12.3)])
 	await _use("Gameplay/VaultCode")
 	if camera_off: await _route([Vector3(0,0,10.7),Vector3(-2.5,0,10.7),Vector3(-2.5,0,13),Vector3(0,0,13)])
-	else: await _route([Vector3(4.2,0,13),Vector3(2.3,0,13),Vector3(0,0,13)])
+	else: await _route([Vector3(4.2,0,13),Vector3(2.3,0,13),Vector3(2.3,0,10.7),Vector3(-2.5,0,10.7),Vector3(-2.5,0,13),Vector3(0,0,13)])
 	if live_guards and not _route_failed:
 		var quiet:=0
 		for i in 3600:
-			quiet=quiet+1 if StealthDirector.find(level).status==StealthDirector.Status.NONE else 0
+			quiet=quiet+1 if StealthDirector.find(level).status in [StealthDirector.Status.NONE,StealthDirector.Status.HIDDEN] else 0
 			if quiet>=180 or flow.state!=GameStateMachine.State.PLAYING: break
 			await physics_frame
 	if use_radio:
-		await _route([Vector3(2.3,0,13),Vector3(2.3,0,11.5)])
+		await _route([Vector3(-2.5,0,13),Vector3(-2.5,0,10.7),Vector3(2.3,0,10.7),Vector3(2.3,0,11.5)])
 		await _use("Gameplay/Security/Radio")
-		await _route([Vector3(2.3,0,13),Vector3(0,0,13)])
-		if wait_for_radio: await _frames(480)
+		await _route([Vector3(2.3,0,10.7),Vector3(0,0,10.7),Vector3(-2.5,0,10.7),Vector3(-2.5,0,13),Vector3(0,0,13)])
+		if wait_for_radio and not watch_patrol: await _frames(480)
+		if watch_patrol and live_guards:
+			# Observe the guard reaching the radio bay instead of assuming the
+			# same eight-second window after every furniture/navmesh change.
+			var comms_guard:=level.get_node("Guards/Guard3") as Guard
+			var archive_guard:=level.get_node("Guards/Guard5") as Guard
+			var waited:=0
+			while waited<3600 and not (comms_guard.position.z>9.5 and comms_guard.position.x>6 and archive_guard.position.x< -9 and (archive_guard.velocity.x<-.2 or archive_guard.position.x< -13)):
+				await _frames(1)
+				waited+=1
+			print("[K17 watch] communications guard clearance waited=",waited/60.0," position=",comms_guard.position)
 	await _route([Vector3(-2.5,0,13),Vector3(-2.5,0,10.7),Vector3(0,0,10.7),Vector3(0,0,7)])
 	if prepare_backdoor and not camera_off:
 		await _route([Vector3(16,0,7),Vector3(16,0,18),Vector3(26,0,21),Vector3(36,0,21),Vector3(36,0,18),Vector3(32.2,0,15),Vector3(32.2,0,9),Vector3(42,0,8),Vector3(42,0,5),Vector3(41.2,0,5)])
@@ -144,13 +157,26 @@ func _approach() -> void:
 
 
 func _utilities() -> void:
-	await _route([Vector3(26,0,21),Vector3(36,0,21),Vector3(36,0,18),Vector3(32.2,0,15),Vector3(32.2,0,9),Vector3(42,0,8),Vector3(42,0,5),Vector3(41.2,0,5)])
+	var north:=OS.get_cmdline_user_args().has("--utilities-north")
+	if north:
+		await _route([Vector3(26,0,21),Vector3(26,0,-5),Vector3(36,0,-5)])
+		if live_guards:
+			var utility_guard:=level.get_node("Guards/Guard4") as Guard
+			var waited:=0
+			while waited<3600 and not (utility_guard.position.z>12 and (utility_guard.velocity.x<-.2 or utility_guard.position.x<36)):
+				await _frames(1)
+				waited+=1
+			print("[K17 watch] utility north clearance waited=",waited/60.0)
+		await _route([Vector3(36,0,1),Vector3(42,0,1),Vector3(42,0,4),Vector3(41.2,0,5)])
+	else:
+		await _route([Vector3(26,0,21),Vector3(36,0,21),Vector3(36,0,18),Vector3(32.2,0,15),Vector3(32.2,0,9),Vector3(42,0,8),Vector3(42,0,5),Vector3(41.2,0,5)])
 	if prepare_backdoor: await _use("Gameplay/Security/PreparedLatch")
 	await _route([Vector3(41.2,0,3.2)])
 	await _use("Gameplay/CameraSwitch")
 	await _route([Vector3(41.2,0,1.7)])
 	await _use("Gameplay/PowerMemo")
-	await _route([Vector3(41.2,0,5),Vector3(42,0,5),Vector3(42,0,8),Vector3(32.2,0,9),Vector3(32.2,0,15),Vector3(36,0,18),Vector3(36,0,21),Vector3(26,0,21),Vector3(16,0,18)])
+	if north: await _route([Vector3(41.2,0,5),Vector3(42,0,4),Vector3(42,0,1),Vector3(36,0,1),Vector3(36,0,-5),Vector3(26,0,-5),Vector3(26,0,21),Vector3(16,0,18)])
+	else: await _route([Vector3(41.2,0,5),Vector3(42,0,5),Vector3(42,0,8),Vector3(32.2,0,9),Vector3(32.2,0,15),Vector3(36,0,18),Vector3(36,0,21),Vector3(26,0,21),Vector3(16,0,18)])
 
 
 func _escape(route: String) -> void:
@@ -176,8 +202,8 @@ func _escape(route: String) -> void:
 			if wait_for_radio: await _frames(480)
 			await _route([Vector3(0,0,10.7),Vector3(0,0,7)])
 		if yard_flank:
-			await _route([Vector3(16,0,7),Vector3(16,0,18),Vector3(16,0,31.5)])
-			await _route([Vector3(-24,0,31.5),Vector3(-24,0,44),Vector3(-36,0,44),Vector3(-36,0,51)])
+			await _route([Vector3(16,0,7),Vector3(16,0,18),Vector3(16,0,44)])
+			await _route([Vector3(-24,0,44),Vector3(-36,0,44),Vector3(-36,0,51)])
 		else:
 			await _route([Vector3(-12,0,7),Vector3(-12,0,18),Vector3(-16,0,22),Vector3(-20,0,26),Vector3(-24,0,26),Vector3(-24,0,42),Vector3(-36,0,42),Vector3(-36,0,51)])
 
