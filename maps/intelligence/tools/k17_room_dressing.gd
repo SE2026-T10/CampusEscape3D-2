@@ -34,18 +34,21 @@ func _command() -> void:
 		_chair(Vector3(x,0,12),0)
 		_box("MapRoute",Vector3(x,.866,10.5),Vector3(.05,.005,.8),"red")
 	_cabinet(Vector3(-18.6,0,2),"LỆNH / TÁC CHIẾN",0)
-	_board(Vector3(-4.35,1.8,2.6),-PI/2,"TÁC CHIẾN\nKHU BẮC · KHU ĐÔNG · TIẾP VẬN")
+	_board(Vector3(-4.235,1.8,2.6),-PI/2,"TÁC CHIẾN\nKHU BẮC · KHU ĐÔNG · TIẾP VẬN")
 	# The south command alcove has no through-route; a staffed-looking
 	# communications station fits here without narrowing the x=4 doorway.
 	_desk(Vector3(9.3,0,1.1),"TIẾP NHẬN ĐIỆN TÍN",PI)
 	_chair(Vector3(7,0,1.1),PI/2)
-	_board(Vector3(.2,1.65,.27),0,"04 / CHỈ HUY\nĐIỆN TÍN ĐẾN · LỆNH ĐÃ DUYỆT")
+	_board(Vector3(.2,1.65,.235),0,"04 / CHỈ HUY\nĐIỆN TÍN ĐẾN · LỆNH ĐÃ DUYỆT")
 	_cabinet(Vector3(-2.4,0,2),"TÀI LIỆU CA TRỰC",0)
 	# Additional radio equipment is against the end wall, away from the
 	# interactive console and its two approach points.
 	_rack(Vector3(10.8,0,12.6),Vector2(1,.65),"VÔ TUYẾN / DỰ PHÒNG",0)
 	_box("RadioCoverReturn",Vector3(1.2,.7,13.1),Vector3(.3,1.4,1.2),"olive",true)
-	_cable(Vector3(10.9,2.7,13.7),Vector3(10.9,2.7,9.8))
+	_cable(Vector3(10.9,2.7,13.78),Vector3(10.9,2.7,9.72))
+	_cable(Vector3(10.9,2.2,12.6),Vector3(10.9,2.7,12.6))
+	for z in [9.72,13.78]: _box("RadioConduitJunction",Vector3(10.9,2.7,z),Vector3(.2,.2,.16),"steel")
+	for z in [11.0,13.0]: _cable(Vector3(10.9,2.7,z),Vector3(10.9,3.2,z))
 	# Finite dispatch post had only a roof, walls and an empty floor.
 	_table(Vector3(-18,0,41.9),Vector2(3.4,1.1))
 	_bench(Vector3(-18,0,39.9),0)
@@ -63,7 +66,7 @@ func _records() -> void:
 	_cabinet(Vector3(17.8,0,-19.5),"HỒ SƠ NIÊM PHONG",0)
 	_rack(Vector3(17.8,0,-12),Vector2(2.8,.7),"PHÂN LOẠI / CHỜ CHUYỂN",0)
 	_board(Vector3(-11.75,1.8,-13),PI/2,"06 / PHÂN LOẠI\nĐĂNG KÝ · ĐỐI CHIẾU · LƯU KHO")
-	_board(Vector3(11.75,2.05,-5.4),-PI/2,"KHU MẬT B1 ↑\nCHỈ NGƯỜI CÓ GIẤY THÔNG HÀNH")
+	_board(Vector3(11.765,2.05,-8.25),-PI/2,"KHU MẬT B1 ↑\nCHỈ NGƯỜI CÓ GIẤY THÔNG HÀNH")
 	for z in [-10.0,-20.0]:
 		_box("SortingFixture",Vector3(16,3.14,z),Vector3(1.6,.08,.22),"lamp")
 		e._light(Vector3(16,2.85,z),8,.9)
@@ -74,7 +77,7 @@ func _utilities() -> void:
 	# and a workshop. Keep the alternating doors and the latch reachable.
 	_rack(Vector3(30,0,2.3),Vector2(1.1,.85),"TỦ PHÂN PHỐI / 01",0)
 	_rack(Vector3(32,0,2.3),Vector2(1.1,.85),"TỦ PHÂN PHỐI / 02",0)
-	_board(Vector3(35,1.8,.23),0,"SƠ ĐỒ NGUỒN\nNGUỒN CHÍNH → CAMERA\nDỰ PHÒNG → TỰ KHỞI ĐỘNG")
+	_board(Vector3(30.5,1.8,.235),0,"SƠ ĐỒ NGUỒN\nNGUỒN CHÍNH → CAMERA\nDỰ PHÒNG → TỰ KHỞI ĐỘNG")
 	for x in [30.0,42.0]:
 		for z in [9.2,10.1,11,11.9,12.8]:
 			_box("GeneratorRib",Vector3(x,1.1,z),Vector3(2.55,.08,.1),"steel")
@@ -82,8 +85,12 @@ func _utilities() -> void:
 		_box("GeneratorPanel",Vector3(x,1.1,8.96),Vector3(1.5,.65,.03),"sign")
 		_box("GeneratorGauge",Vector3(x,1.15,8.93),Vector3(.36,.22,.02),"paper")
 		_box("GeneratorStatus",Vector3(x+.55,1.15,8.92),Vector3(.1,.12,.02),"beacon")
-		_cable(Vector3(x,1.8,11),Vector3(x,2.65,11))
+		_cable(Vector3(x,1.6,11),Vector3(x,2.65,11))
 		_cable(Vector3(x,2.65,11),Vector3(x,2.65,6.2))
+		_box("GeneratorConduitJunction",Vector3(x,2.65,6.21),Vector3(.2,.25,.14),"steel")
+		for z in [8.0,11.0]: _cable(Vector3(x,2.65,z),Vector3(x,3.275,z))
+	for z in [1.25,3.25,5.25]:
+		_box("PanelCabinetSeam",Vector3(42.942,1.25,z),Vector3(.012,2.25,.025),"steel")
 	_box("GeneratorFixture",Vector3(36,3.14,9),Vector3(1.8,.08,.25),"lamp")
 	e._light(Vector3(36,2.85,9),8,1.2)
 	_table(Vector3(41.5,0,16.7),Vector2(3.8,1))
@@ -114,6 +121,8 @@ func _service() -> void:
 	_chest(Vector3(46.6,0,18),"VẬN CHUYỂN / K17")
 	for z in [30.0,33.0]: _chest(Vector3(46.5,0,z),"HÀNG CHỜ XUẤT")
 	for y in [.7,1.0]: _cable(Vector3(24.22,y,26),Vector3(24.22,y,42))
+	for z in [26.0,42.0]: _box("ServiceConduitJunction",Vector3(24.22,.85,z),Vector3(.16,.5,.25),"steel")
+	for z in [30.0,34.0,38.0]: _box("ServiceConduitClamp",Vector3(24.2,.85,z),Vector3(.1,.48,.08),"steel")
 	_board(Vector3(24.23,1.85,40.5),PI/2,"08 / TIẾP VẬN\nCỬA HẬU → ĐÈN TẬP KẾT")
 	_board(Vector3(24.23,1.85,-18),PI/2,"HÀNH LANG KỸ THUẬT\nB1 ↓  ·  TRẠM ĐIỆN →")
 	# Service post gets equipment on its outside face, not an empty room.
@@ -130,9 +139,14 @@ func _vault() -> void:
 	_box("SealedCargoSide",Vector3(-9,-3.3,-47.3),Vector3(.8,1.4,3.4),"olive",true)
 	_board(Vector3(-7.5,-3.2,-46.43),PI,"HỒ SƠ / CHỜ ĐỐI CHIẾU")
 	_board(Vector3(9.76,-2.15,-44.2),-PI/2,"B1 / KHO NIÊM PHONG\nCẤP QUYỀN TẠI TẦNG TRỆT")
-	for x in [14,22,29]:
-		_cable(Vector3(x,-1.15,-41.75),Vector3(x+3,-1.15,-41.75))
-		_box("ReturnFixture",Vector3(x,-.2,-38),Vector3(1.4,.08,.2),"lamp")
+	_cable(Vector3(10.12,-1.15,-41.78),Vector3(33.85,-1.15,-41.78))
+	for x in [12.0,22.0,33.0]: _box("ReturnConduitJunction",Vector3(x,-1.15,-41.78),Vector3(.2,.25,.12),"steel")
+	for x in [14.0,18.0,26.0,30.0]: _box("ReturnConduitClamp",Vector3(x,-1.15,-41.8),Vector3(.08,.12,.1),"steel")
+	for x in [14.0,22.0,29.0]:
+		_cable(Vector3(x,-1.15,-41.78),Vector3(x,-.5,-41.78))
+		_cable(Vector3(x,-.5,-41.78),Vector3(x,-.5,-38))
+		_box("ReturnFixture",Vector3(x,-.45,-38),Vector3(1.4,.08,.2),"lamp")
+		_box("ReturnFixtureAnchor",Vector3(x,-.405,-38),Vector3(.3,.02,.25),"steel")
 	_board(Vector3(20,-2.1,-41.76),0,"TUYẾN BẢO TRÌ →\nCẦU THANG PHÍA ĐÔNG")
 
 func _camera_mounts() -> void:
@@ -149,6 +163,7 @@ func _camera_mounts() -> void:
 			_box("CameraMastBase",Vector3(rear.x,.08,rear.z),Vector3(.48,.16,.48),"steel")
 			_box("CameraMast",Vector3(rear.x,1.55,rear.z),Vector3(.12,3.1,.12),"steel")
 			_box("CameraJunction",rear+Vector3(0,-.35,0),Vector3(.26,.25,.14),"olive")
+			_box("CameraSignRail",Vector3(rear.x,rear.y-.8,rear.z+.02),Vector3(1.45,.08,.08),"steel")
 			_board(Vector3(rear.x,rear.y-.8,rear.z+.08),0,"GIÁM SÁT\nCHỐT ĐÔNG")
 		else:
 			_box("CameraCeilingPlate",Vector3(rear.x,3.19,rear.z),Vector3(.3,.08,.3),"steel")
@@ -159,7 +174,8 @@ func _box(title: String,p: Vector3,size: Vector3,material: String,solid:=false) 
 	return e._box(title,p,size,material,solid)
 
 func _cable(a: Vector3,b: Vector3) -> void:
-	_box("Conduit",(a+b)*.5,Vector3(maxf(absf(a.x-b.x),.055),maxf(absf(a.y-b.y),.055),maxf(absf(a.z-b.z),.055)),"steel")
+	var conduit:=_box("Conduit",(a+b)*.5,Vector3(maxf(absf(a.x-b.x),.055),maxf(absf(a.y-b.y),.055),maxf(absf(a.z-b.z),.055)),"steel")
+	conduit.set_meta("conduit_endpoints",PackedVector3Array([a,b]))
 
 func _table(p: Vector3,size: Vector2) -> void:
 	var body:=_box("WorkTable",p+Vector3(0,.4,0),Vector3(size.x,.8,size.y),"steel",true)
@@ -185,7 +201,7 @@ func _desk(p: Vector3,title: String,angle: float) -> void:
 	var body:=_box("CommsDesk",p+Vector3(0,.55,0),Vector3(3,1.1,1.2),"olive",true)
 	body.get_node("Mesh").visible=false
 	e._model("comms_console",p+Vector3(0,.55,0),angle)
-	_board(p+Vector3(0,2.0,-.85),0,title)
+	_board(p+Vector3(0,2.0,-.865),0,title)
 
 func _cabinet(p: Vector3,title: String,angle: float) -> void:
 	var sideways:=absf(sin(angle))>.5
@@ -195,19 +211,32 @@ func _cabinet(p: Vector3,title: String,angle: float) -> void:
 	_board(p+Vector3(0,1.8,0)+Basis(Vector3.UP,angle)*Vector3(0,0,.57),angle,title)
 
 func _rack(p: Vector3,size: Vector2,title: String,angle: float) -> void:
+	# Local coordinates keep the shelf front, notices and wall-facing back
+	# consistent when a long rack is rotated against a side wall.
+	var previous: Node3D=e.sector
+	var rack:=Node3D.new()
+	rack.name="DressedRack"
+	rack.position=p
+	rack.rotation.y=angle
+	e.b._add(previous,rack)
+	e.sector=rack
+	if absf(sin(angle))>.5: size=Vector2(size.y,size.x)
+	p=Vector3.ZERO
 	var body:=_box("StorageRack",p+Vector3(0,1.1,0),Vector3(size.x,2.2,size.y),"olive",true)
 	body.get_node("Mesh").visible=false
 	for x in [-size.x*.46,size.x*.46]:
 		for z in [-size.y*.45,size.y*.45]: _box("RackUpright",p+Vector3(x,1.1,z),Vector3(.06,2.2,.06),"steel")
 	_box("RackBack",p+Vector3(0,1.1,-size.y*.48),Vector3(size.x,2.2,.035),"olive")
 	var face: float=size.y*.5+.016
+	_box("RackNoticeRail",p+Vector3(0,1.92,size.y*.5-.02),Vector3(size.x,.12,.08),"steel")
 	for y in [.45,1.0,1.55,2.08]:
 		_box("RackShelf",p+Vector3(0,y,0),Vector3(size.x,.06,size.y),"steel")
 		for i in 4:
 			var box_p:=p+Vector3((i-1.5)*size.x*.21,y+.2,0)
 			_box("RecordBox",box_p,Vector3(size.x*.17,.32,size.y*.8),"paper" if i%2 else "olive")
 			_box("RecordTag",box_p+Vector3(0,0,size.y*.405),Vector3(size.x*.1,.065,.008),"sign")
-	_board(p+Vector3(0,1.92,face+.05),0,title)
+	_board(p+Vector3(0,1.92,face+.05),0,title,minf(1.65,size.x*.9))
+	e.sector=previous
 
 func _files(p: Vector3) -> void:
 	for i in 3: _box("FileStack",p+Vector3(0,i*.045,0),Vector3(.5,.035,.38),"paper" if i%2 else "olive")
@@ -218,7 +247,7 @@ func _chest(p: Vector3,title: String) -> void:
 	for x in [-.5,.5]: _box("ChestLatch",p+Vector3(x,.65,.52),Vector3(.12,.2,.04),"steel")
 	_board(p+Vector3(0,.4,.53),0,title)
 
-func _board(p: Vector3,angle: float,text: String) -> void:
+func _board(p: Vector3,angle: float,text: String,width:=1.65) -> void:
 	var n:=Node3D.new()
 	n.name="EquipmentNotice"
 	n.position=p
@@ -226,7 +255,7 @@ func _board(p: Vector3,angle: float,text: String) -> void:
 	e.b._add(e.sector,n)
 	var plate:=MeshInstance3D.new()
 	var box:=BoxMesh.new()
-	box.size=Vector3(1.65,.52,.035)
+	box.size=Vector3(width,.52,.035)
 	box.add_uv2=true
 	plate.mesh=box
 	plate.material_override=e._material("sign")
@@ -237,11 +266,12 @@ func _board(p: Vector3,angle: float,text: String) -> void:
 	label.font_size=30
 	var longest:=1
 	for line in text.split("\n"): longest=maxi(longest,line.length())
-	label.pixel_size=minf(.0032,1.5/(longest*18.0))
+	label.pixel_size=minf(.0032,(width-.15)/(longest*18.0))
 	label.position.z=.025
 	label.outline_size=0
 	label.modulate=Color("d2ccb2")
 	e.b._add(n,label)
+	preload("res://maps/intelligence/tools/k17_attachment_builder.gd").mount(n,Vector2(width,.52),"wall",.08)
 
 func _extinguisher(p: Vector3) -> void:
 	_box("Extinguisher",p,Vector3(.2,.55,.2),"red")

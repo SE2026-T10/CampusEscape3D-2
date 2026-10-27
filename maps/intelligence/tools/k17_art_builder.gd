@@ -20,7 +20,7 @@ var models := {}
 func build(collision_root: Node3D) -> Node3D:
 	scene = Node3D.new()
 	scene.name = "K17Environment"
-	scene.set_meta("art_version", "v4-room-dressing")
+	scene.set_meta("art_version", "v4-mounted-services")
 	concrete = _pbr("concrete_wall_001", 0.42)
 	floor_mat = _pbr("concrete_floor_02", 0.45)
 	floor_mat.roughness_texture = null
@@ -134,10 +134,7 @@ func _interior() -> void:
 		_box("CeilingBeam", Vector3(0,3.14,z), Vector3(40,.16,.16), olive)
 	for x in [-19.75,19.75]:
 		_box("CeilingCableTray", Vector3(x,2.86,-5), Vector3(.25,.1,37), steel)
-		for j in 9:
-			var pipe := _model("pipe_straight", Vector3(x,2.70,11 - j*4.0))
-			pipe.rotation.x = PI/2
-			pipe.scale.y = 4.0/.859
+	_service_pipes()
 	# Full framed openings, with a lintel above the player's and guards' headroom.
 	for x in [-12.0, 16.0]:
 		_frame(Vector3(x,0,14), 3.6)
@@ -152,14 +149,14 @@ func _interior() -> void:
 		f.rotation.y = PI/2
 		_frame(Vector3.ZERO,3.6,f)
 	_sign("K17 / CƠ SỞ TÌNH BÁO\nKHU VỰC KIỂM SOÁT  ·  CẤM PHẬN SỰ", Vector3(-12,2.85,14.27), 5.5, .48)
-	_sign("04 / PHÒNG TÁC CHIẾN\nPHÂN TÍCH / ĐIỀU PHỐI", Vector3(-12,2.35,.29), 2.5,.54)
-	_model("command_board",Vector3(-12,1.45,.32),PI)
+	_sign("04 / PHÒNG TÁC CHIẾN\nPHÂN TÍCH / ĐIỀU PHỐI", Vector3(-12,2.35,.235), 2.5,.54)
+	_model("command_board",Vector3(-12,1.45,.235),0)
 	_frame(Vector3(4,0,4.7),3.6)
 	_frame(Vector3(0,0,9.5),3.6)
-	_sign("04 / THÔNG TIN LIÊN LẠC\nKÊNH LIÊN LẠC MÃ HÓA", Vector3(5,2.35,13.7), 3.4,.55,PI)
+	_sign("04 / THÔNG TIN LIÊN LẠC\nKÊNH LIÊN LẠC MÃ HÓA", Vector3(5,2.35,13.765), 3.4,.55,PI)
 	_sign("06 / KHU HỒ SƠ MẬT\nCHỈ DÀNH CHO NGƯỜI CÓ PHẬN SỰ", Vector3(4,2.85,4.96), 4,.44)
-	_sign("BẢO TRÌ / LỐI RA PHÍA ĐÔNG", Vector3(16,2.75,13.7), 3.2,.35)
-	_sign("KHO MẬT B1 ↓\nMÃ KHO BẮT BUỘC", Vector3(8,2.3,-23.65), 2.1,.5)
+	_sign("BẢO TRÌ / LỐI RA PHÍA ĐÔNG", Vector3(16,2.75,13.7), 3.2,.35,PI)
+	_sign("KHO MẬT B1 ↓\nMÃ KHO BẮT BUỘC", Vector3(8,2.3,-23.765), 2.1,.5)
 	# Small details stay against existing solids, clear of all tested routes.
 	for x in [-16.0,-8.0,0.0,8.0,16.0]:
 		_model("caged_lamp",Vector3(x,2.35,-23.65))
@@ -175,19 +172,15 @@ func _interior() -> void:
 	# Maintenance floor stripe and physical direction marks.
 	for z in range(1,14,2):
 		_box("MaintenanceStripe", Vector3(16,.031,z),Vector3(.12,.006,1.2),yellow)
-	for x in [-18.5,18.5]:
-		for z in [2.0,10.0]:
-			var valve := _model("pipe_valve",Vector3(x,1.7,z))
-			valve.rotation.y = PI/2
 	# Extraction signals and checkpoint become physical set dressing, not floating text.
 	for x in [-36.0,36.0]:
 		for side in [-1.0,1.0]:
 			_box("ExtractionMark",Vector3(x+side*1.65,.018,51),Vector3(.10,.012,3.5),yellow)
 			_cylinder("BeaconPost",Vector3(x+side*1.75,.55,51),.055,1.1,steel)
 			_box("Beacon",Vector3(x+side*1.75,1.12,51),Vector3(.13,.16,.13),lit)
-		_sign("ĐIỂM TẬP KẾT\n" + ("PHÍA TÂY" if x<0 else "PHÍA ĐÔNG"),Vector3(x,1.3,53.8),1.2,.48)
 	for x in [6.95,9.05]:
 		_box("CheckpointFloorMark",Vector3(x,.024,-6),Vector3(.08,.008,2.4),yellow)
+	_box("CheckpointNoticeRail",Vector3(8,1.9,-3.18),Vector3(3.8,.12,.12),steel)
 	_sign("ĐIỂM CHUẨN BỊ\nCHECKPOINT / K17",Vector3(8,1.9,-3.26),1.7,.48,PI)
 
 
@@ -204,8 +197,9 @@ func _yard() -> void:
 		_box("GatePier",Vector3(x,1.4,22),Vector3(.55,2.8,.55),concrete)
 		_box("GatePierCap",Vector3(x,2.85,22),Vector3(.7,.12,.7),steel)
 		_box("GateLamp",Vector3(x,2.94,22),Vector3(.26,.12,.26),lit)
-	_sign("K17\nKHU VỰC QUÂN SỰ",Vector3(0,1.6,22.12),3,.85)
+	_sign("K17\nKHU VỰC QUÂN SỰ",Vector3(0,1.6,22.12),3,.85,0,"post",.02)
 	for x in [-16.0,16.0]:
+		_box("GateSignCrossbar",Vector3(x,2.8,22),Vector3(5.8,.14,.18),steel)
 		_sign("CỔNG KIỂM SOÁT\nXUẤT TRÌNH GIẤY THÔNG HÀNH",Vector3(x,2.8,22),3.6,.50)
 	# Bollards and supply details are placed inside the existing cover footprints.
 	for p in [Vector3(-8,.75,17),Vector3(2,.75,19),Vector3(11,.75,16.5)]:
@@ -222,6 +216,7 @@ func _yard() -> void:
 	for y in [3.5,5.5,7.5]:
 		_box("RadioAntenna",Vector3(-18,y,-22),Vector3(2.8,.05,.05),steel)
 	_cylinder("AntennaMast",Vector3(-18,5,-22),.045,5.5,steel)
+	_box("AntennaRoofBase",Vector3(-18,3.28,-22),Vector3(.5,.16,.5),steel)
 	for x in [-18.0,18.0]:
 		for z in [16.0,20.0]:
 			_box("DrainGrating",Vector3(x,.017,z),Vector3(1.2,.01,.34),drain_mat)
@@ -321,6 +316,55 @@ func _fixture(pos: Vector3) -> void:
 	_box("FluorescentDiffuser",pos-Vector3(0,.05,0),Vector3(1.35,.03,.14),lit)
 
 
+func _service_pipes() -> void:
+	# Each main has wall terminations, actual pipe-to-valve joints and brackets.
+	for side in [-1.0,1.0]:
+		var x: float=side*19.55
+		for j in 9:
+			_pipe_between(Vector3(x,2.7,13-j*4.0),Vector3(x,2.7,9-j*4.0))
+		for z in [13.0,-23.0]:
+			_pipe_between(Vector3(x,2.7,z),Vector3(side*19.9,2.7,z))
+			_pipe_joint(Vector3(x,2.7,z))
+		for z in [11.0,7.0,3.0,-1.0,-5.0,-9.0,-13.0,-17.0,-21.0]:
+			_box("PipeWallBracket",Vector3(side*19.75,2.7,z),Vector3(.3,.1,.12),steel)
+			_box("PipeWallAnchor",Vector3(side*19.84,2.7,z),Vector3(.08,.28,.25),steel)
+			_box("TrayHanger",Vector3(side*19.75,3.02,z),Vector3(.08,.4,.08),steel)
+		for z in [2.0,10.0]:
+			# The legacy pipe_valve asset is a 90-degree elbow. Its flange
+			# centres differ from the AABB centre; aim the side port into the wall.
+			var angle: float=0 if side<0 else PI
+			var turn:=Basis(Vector3.UP,angle)
+			var p:=Vector3(x,1.7,z)-turn*Vector3(.108523,0,0)
+			var elbow:=_model("pipe_valve",p,angle)
+			elbow.set_meta("elbow_ports",PackedVector3Array([p+turn*Vector3(.108523,.222299,0),p+turn*Vector3(-.21207,-.11875,0)]))
+			_pipe_between(Vector3(x,2.7,z),Vector3(x,1.92,z))
+			_pipe_joint(Vector3(x,2.7,z))
+			_box("ValveWallBracket",Vector3(side*19.75,1.7,z),Vector3(.3,.1,.12),steel)
+
+
+func _pipe_between(a: Vector3,b: Vector3) -> void:
+	var pipe:=_model("pipe_straight",(a+b)*.5)
+	pipe.quaternion=Quaternion(Vector3.UP,(b-a).normalized())
+	pipe.scale=Vector3(1,a.distance_to(b)/.859062,1)
+	pipe.set_meta("pipe_endpoints",PackedVector3Array([a,b]))
+
+
+func _pipe_joint(p: Vector3) -> void:
+	var mesh:=MeshInstance3D.new()
+	mesh.name="PipeElbowJoint"
+	mesh.position=p
+	var sphere:=SphereMesh.new()
+	sphere.radius=.105
+	sphere.height=.21
+	sphere.radial_segments=12
+	sphere.rings=6
+	sphere.add_uv2=true
+	mesh.mesh=sphere
+	mesh.material_override=steel
+	mesh.gi_mode=GeometryInstance3D.GI_MODE_STATIC
+	_add(scene,mesh)
+
+
 func _frame(pos: Vector3,width: float,parent: Node3D = null) -> void:
 	if parent == null:
 		parent = scene
@@ -332,7 +376,7 @@ func _frame(pos: Vector3,width: float,parent: Node3D = null) -> void:
 		_box("SafetyPaint",pos+Vector3(x,.3,.245),Vector3(.12,.6,.01),yellow,parent)
 
 
-func _sign(text: String,pos: Vector3,width: float,height: float,angle := 0.0) -> void:
+func _sign(text: String,pos: Vector3,width: float,height: float,angle := 0.0,mount_mode:="wall",anchor:=.09) -> void:
 	var node := _group("FixedSign")
 	node.position = pos
 	node.rotation.y = angle
@@ -351,6 +395,7 @@ func _sign(text: String,pos: Vector3,width: float,height: float,angle := 0.0) ->
 	label.position.z = .025
 	label.no_depth_test = false
 	_add(node,label)
+	preload("res://maps/intelligence/tools/k17_attachment_builder.gd").mount(node,Vector2(width,height),mount_mode,anchor)
 
 
 func _model(id: String,pos: Vector3,angle := 0.0) -> Node3D:

@@ -25,6 +25,8 @@ func build() -> Node3D:
 	radio.position = Vector3(3.6,1.15,11.5)
 	_shape(radio,Vector3(.6,.8,1.0))
 	_box(radio,"Timer",Vector3.ZERO,Vector3(.16,.25,.45),Color("26382f"))
+	_box(radio,"RadioNoticeBackplate",Vector3(0,.28,0),Vector3(.16,.38,1.25),Color("26382f"))
+	_box(radio,"RadioNoticeStem",Vector3(0,.12,0),Vector3(.08,.35,.08),Color("26382f"))
 	_label(radio,"Plate","RADIO / HẸN 4 GIÂY\n[E] GÂY NHIỄU QUA LOA",Vector3(-.09,.28,0),Vector3(0,-90,0),.003)
 	_audio(radio,"Static","radio",36)
 	# The console drives a visible PA speaker on the yard facade.
@@ -41,6 +43,7 @@ func build() -> Node3D:
 	_shape(latch,Vector3(.5,1,1.1))
 	_box(latch,"Housing",Vector3.ZERO,Vector3(.35,.8,1),Color("414c36"))
 	_box(latch,"Switch",Vector3(-.22,0,0),Vector3(.15,.3,.16),Color("c5a651"))
+	_box(latch,"LatchNoticeBackplate",Vector3(.02,.65,0),Vector3(.42,.46,1.35),Color("26382f"))
 	_label(latch,"Plate","CHỐT CỬA HẬU\nCHUẨN BỊ TRƯỚC BÁO ĐỘNG",Vector3(-.2,.65,0),Vector3(0,-90,0),.003)
 	_audio(latch,"Latch","relay",10)
 	return scene
@@ -96,6 +99,7 @@ func _gate(title: String,position: Vector3,route: int) -> void:
 	_add(leaf,model)
 	for mesh in model.find_children("*","GeometryInstance3D",true,false): mesh.gi_mode = GeometryInstance3D.GI_MODE_DYNAMIC
 	_box(gate,"Indicator",Vector3(2.7,1.3,.35),Vector3(.22,.2,.16),Color("62b998"),true)
+	_box(gate,"GateNoticeHeader",Vector3(0,1.27,0),Vector3(5.8,.44,.35),Color("27352c"))
 	var text := "CỔNG SÂN / PHONG TỎA" if route == 0 else "CỬA HẬU / KHÓA CƠ"
 	_label(gate,"Plate",text,Vector3(0,1.27,.18),Vector3.ZERO,.0035)
 	_label(gate,"PlateBack",text,Vector3(0,1.27,-.18),Vector3(0,180,0),.0035)

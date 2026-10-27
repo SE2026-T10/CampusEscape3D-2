@@ -6,6 +6,8 @@ Bản V4 giữ khuôn viên **96 × 108 m**, tám khu chức năng, kho mật **
 
 Đợt rà soát sau V4 bổ sung nội thất theo công năng, giá đỡ camera và sửa bảy điểm nấp. Camera trong nhà gắn trần, camera ngoài trời có cột/chân đế; phòng tác chiến, phân loại, trạm điện và xưởng có trang thiết bị. Khu phân loại phía đông đã có cửa thông nội bộ. Xem [ảnh và kiểm tra bản rà soát](docs/visual-review-v4/VALIDATION.md).
 
+Đợt [sửa điểm nối và gá đỡ](docs/attachments-v4/VALIDATION.md) nối lại các co ống theo đúng miệng nối, làm liền tuyến máng dây B1 và bổ sung gá, cột hoặc ty treo cho bảng biển. Bảng trên giá hồ sơ có thanh ngang đỡ; bảng điều khiển trạm điện và keypad có tủ/chân đỡ.
+
 ## Mở và tự chơi
 
 Mở `project.godot` bằng **Godot 4.7.2 official**, nhấn F5 rồi chọn **K17 — 120 giây cuối**. Hoặc mở `scenes/intelligence_k17.tscn`, nhấn F6.
@@ -67,6 +69,7 @@ Cửa chờ người đứng ở ngưỡng tối đa ba giây rồi hủy lần 
 - `resources/layout/k17_layout.gd`: vị trí nhiệm vụ, điểm tập kết, tuần tra và các tuyến điều động.
 - `tools/k17_expansion_builder.gd`: kiến trúc/va chạm/mỹ thuật các khu mở rộng; `build_k17.gd`: ghép map, nhiệm vụ và bake navmesh.
 - `tools/k17_room_dressing.gd`: nội thất theo công năng, hốc vật che và giá camera; được ghép trước khi bake navmesh/gom mesh/bake ánh sáng.
+- `tools/k17_attachment_builder.gd`: gá tường, cột và ty treo cho biển; `check_attachments.gd` kiểm tra điểm tựa trên hình học thật trước khi gom mesh và kiểm tra các đầu nối ống/máng dây.
 - `scripts/reinforcements.gd`: điều phối hai đợt tiếp viện, kiểm tra điểm vào, ngoại hình và dọn actor khi thử lại.
 - `resources/layout/k17_v4.gd`: cấu hình AI, chỗ nấp, camera, tài liệu, keypad và vật ném.
 - `scripts/security_alarm.gd`, `power_network.gd`: nối phong tỏa với AI và lịch nguồn dự phòng riêng K17.
@@ -83,6 +86,7 @@ Bake: khởi động editor với `--rendering-method mobile`, mở **map chính
 godot --headless --path . --script res://maps/intelligence/tools/build_k17.gd
 godot --headless --path . --script res://maps/intelligence/tools/check_k17.gd
 godot --headless --path . --script res://maps/intelligence/tools/check_art.gd
+godot --headless --path . --script res://maps/intelligence/tools/check_attachments.gd
 godot --headless --path . --script res://maps/intelligence/tools/playthrough_k17.gd -- --crouch --prepare --sprint-yard
 godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/playthrough_k17.gd -- --live-guards --crouch --prepare --camera-off --radio --wait-radio --sprint-exfil --settle-before-file --yard-flank --watch-patrol --stage-delay=6 --route=courtyard --utilities-north
 godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/playthrough_k17.gd -- --live-guards --crouch --prepare --camera-off --radio --wait-radio --sprint-yard --settle-before-file --yard-flank --watch-patrol --stage-delay=6 --route=maintenance --utilities-north

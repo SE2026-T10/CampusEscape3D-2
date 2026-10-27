@@ -31,13 +31,13 @@ func build(builder: SceneTree, region: Node3D) -> void:
 		cut.get_node("Mesh").visible=false
 		cut.set_meta("bake_cut",true)
 		for side in [-2.7,2.7]: _box("GatePier",Vector3(x+side,1.5,46),Vector3(.6,3,.6),"wall")
-		_sign("ĐIỂM TẬP KẾT\n"+("PHÍA TÂY" if x<0 else "PHÍA ĐÔNG"),Vector3(x,2.5,53.2),0)
+		_sign("ĐIỂM TẬP KẾT\n"+("PHÍA TÂY" if x<0 else "PHÍA ĐÔNG"),Vector3(x,2.5,53.2),PI,"post",.02)
 		for side in [-1.7,1.7]:
 			_box("Beacon",Vector3(x+side,1,51),Vector3(.15,2,.15),"beacon")
 			_light(Vector3(x+side,2.5,51),9,1.8,true)
 		_stripe(Vector3(x,.015,51),Vector3(3.8,.02,3.8))
 	_box("SpawnCover",Vector3(-32,1.4,50),Vector3(2,2.8,3),"olive")
-	_sign("VÀNH ĐAI K17\nSÂN ←   BẢO TRÌ →",Vector3(-30,2.4,48),0)
+	_sign("VÀNH ĐAI K17\nSÂN ←   BẢO TRÌ →",Vector3(-30,2.4,48),0,"post",.02)
 	for x in [-44.0,-20.0,20.0,44.0]:
 		for z in [42.0,20.0,-20.0]:
 			_box("FloodlightPole",Vector3(x,3,z),Vector3(.14,6,.14),"steel")
@@ -45,7 +45,7 @@ func build(builder: SceneTree, region: Node3D) -> void:
 			_light(Vector3(x,5.6,z),17,2.2)
 	_select("motor_pool")
 	_room(Vector3(-36,0,32),Vector2(16,16),[Vector2(-38,-34)],[Vector2(-38,-34)])
-	_sign("02 / SÂN TIẾP VẬN\nNHÀ XE · KHO VẬN",Vector3(-36,2.5,40.25),0)
+	_sign("02 / SÂN TIẾP VẬN\nNHÀ XE · KHO VẬN",Vector3(-36,2.5,40.1),0,"ceiling",3.275)
 	for p in [Vector3(-41,0,29),Vector3(-30.5,0,35)]: _truck(p)
 	for p in [Vector3(-20,.65,30),Vector3(-12,.65,38),Vector3(12,.65,34),Vector3(28,.65,40)]: _crate(p)
 	_select("guard_post")
@@ -55,14 +55,14 @@ func build(builder: SceneTree, region: Node3D) -> void:
 	for x in [-41.0,-30.0]:
 		_box("Locker",Vector3(x,1.1,-6.5),Vector3(2,2.2,1),"olive").get_node("Mesh").visible=false
 		_model("locker",Vector3(x,1.1,-6.5),PI)
-	_model("command_board",Vector3(-36,1.6,-7.7),PI)
-	_sign("03 / PHÒNG TRỰC\nGIẤY THÔNG HÀNH",Vector3(-36,2.6,14.3),0)
+	_model("command_board",Vector3(-36,1.6,-7.765),0)
+	_sign("03 / PHÒNG TRỰC\nGIẤY THÔNG HÀNH",Vector3(-36,2.6,14.1),0,"ceiling",3.275)
 	_select("command")
 	_box("RadioCheckpointCover",Vector3(0,1.3,11.5),Vector3(3.5,2.6,.5),"olive")
 	# Clear wall connection between the west annex and the original core.
-	_sign("04 / CHỈ HUY – VÔ TUYẾN\nMÃ KHO Ở BÀN LIÊN LẠC",Vector3(-25,2.4,9),0)
+	_sign("04 / CHỈ HUY – VÔ TUYẾN\nMÃ KHO Ở BÀN LIÊN LẠC",Vector3(-20.235,2.4,2.6),-PI/2)
 	_room(Vector3(-18,0,39),Vector2(6,8),[],[Vector2(-19.8,-16.2)])
-	_sign("ĐỘI PHẢN ỨNG\nCHỐT TIẾP VIỆN A",Vector3(-18,2.7,34.75),PI)
+	_sign("ĐỘI PHẢN ỨNG\nCHỐT TIẾP VIỆN A",Vector3(-18,2.7,34.9),PI,"ceiling",3.275)
 	_select("utilities")
 	_room(Vector3(36,0,9),Vector2(16,18),[Vector2(34,38)],[Vector2(34,38)])
 	_wall_h(6,28,44,[Vector2(39,43)])
@@ -72,11 +72,12 @@ func build(builder: SceneTree, region: Node3D) -> void:
 		for z in [9.5,10.5,11.5,12.5]: _box("CoolingVent",Vector3(x,1.63,z),Vector3(2.1,.05,.07),"steel",false)
 	_box("LatchHousing",L.LATCH,Vector3(.35,.8,1),"olive")
 	_box("LatchCover",Vector3(40,1.2,5),Vector3(.4,2.4,3.2),"steel")
-	_sign("05 / TRẠM ĐIỆN – XƯỞNG\nCHUẨN BỊ CỬA HẬU →",Vector3(36,2.5,18.3),0)
+	_sign("05 / TRẠM ĐIỆN – XƯỞNG\nCHUẨN BỊ CỬA HẬU →",Vector3(36,2.5,18.1),0,"ceiling",3.275)
+	_box("ServicePanelCabinet",Vector3(43.4,1.25,3.25),Vector3(.9,2.5,4.8),"olive")
 	_select("records")
 	_box("CheckpointCover",Vector3(8,1.25,-18),Vector3(3.7,2.5,.7),"steel")
 	_box("CheckpointSide",Vector3(6.1,1.25,-20),Vector3(.5,2.5,4.4),"steel")
-	_sign("06 / PHÂN LOẠI HỒ SƠ\nCHECKPOINT TRƯỚC KHO MẬT",Vector3(8,2.25,-18.45),PI)
+	_sign("06 / PHÂN LOẠI HỒ SƠ\nCHECKPOINT TRƯỚC KHO MẬT",Vector3(8,2.25,-18.41),PI)
 	_select("secure_vault")
 	_wall_v(-4,-34,-24,[])
 	_wall_v(12,-34,-24,[])
@@ -107,10 +108,10 @@ func build(builder: SceneTree, region: Node3D) -> void:
 	_wall_v(6.2,-46,-34,[],-4,3.3)
 	for s in L.SENSORS:
 		for x in [-1.65,1.65]: _box("SensorPost",s+Vector3(x,0,0),Vector3(.12,2.4,.12),"steel")
-	_sign("07 / KHO MẬT B1\nMẬT LỆNH 04 – NIÊM PHONG",Vector3(0,-1.6,-49.7),0)
+	_sign("07 / KHO MẬT B1\nMẬT LỆNH 04 – NIÊM PHONG",Vector3(0,-1.6,-49.765),0)
 	for p in [Vector3(0,-1.2,-46),Vector3(4,-1.2,-36),Vector3(22,-1.2,-38)]: _light(p,12,2)
-	_sign("B1 / KHO MẬT\nMÃ KHO BẮT BUỘC",Vector3(4,2.6,-23.6),0)
-	_sign("LỐI RÚT BẢO TRÌ →",Vector3(8,-1.7,-41),0)
+	_sign("B1 / KHO MẬT\nMÃ KHO BẮT BUỘC",Vector3(4,2.6,-23.6),0,"ceiling",3.2)
+	_sign("LỐI RÚT BẢO TRÌ →",Vector3(8,-1.7,-41),PI,"ceiling",-.4)
 	_select("service_route")
 	_wall_v(24,-24,46,[Vector2(18,22)])
 	_wall_h(-12,24,48,[Vector2(40,44)])
@@ -118,9 +119,9 @@ func build(builder: SceneTree, region: Node3D) -> void:
 	for z in [-18.0,-2.0,25.0,37.0]:
 		_box("ServiceCover",Vector3(24,1.2,z),Vector3(2,2.4,4),"olive")
 		_model("supply_crate",Vector3(24,.65,z))
-	_sign("08 / HÀNH LANG DỊCH VỤ\nCỬA HẬU ↓",Vector3(30,2.3,-22),0)
+	_sign("08 / HÀNH LANG DỊCH VỤ\nCỬA HẬU ↓",Vector3(30,2.3,-23.95),0,"ceiling",2.9)
 	_box("ResponsePost",Vector3(44,1.4,-20),Vector3(3,2.8,3),"wall")
-	_sign("CẢNH VỆ HẬU CẦN",Vector3(44,2,-18.4),0)
+	_sign("CẢNH VỆ HẬU CẦN",Vector3(44,2,-18.44),0)
 	# The actor does not need jumps; short markings lead to the east stairs.
 	for z in range(-20,44,4): _stripe(Vector3(30,.016,z),Vector3(.15,.02,1.4))
 	preload("res://maps/intelligence/tools/k17_room_dressing.gd").new().build(self)
@@ -285,8 +286,9 @@ func _fence(left: float,right: float,z: float) -> void:
 	var step: float=(right-left)/count
 	for i in count: _model("fence_panel",Vector3(left+(i+.5)*step,0,z),0,Vector3(step/1.914,.91,1))
 
-func _sign(text: String,pos: Vector3,angle: float) -> void:
+func _sign(text: String,pos: Vector3,angle: float,mount_mode:="wall",anchor:=.08) -> void:
 	var mount:=Node3D.new()
+	mount.name="SectorSign"
 	mount.position=pos
 	mount.rotation.y=angle
 	b._add(sector,mount)
@@ -306,6 +308,7 @@ func _sign(text: String,pos: Vector3,angle: float) -> void:
 	label.double_sided=false
 	label.outline_size=2
 	b._add(mount,label)
+	preload("res://maps/intelligence/tools/k17_attachment_builder.gd").mount(mount,Vector2(3.6,.52),mount_mode,anchor)
 
 func _stripe(pos: Vector3,size: Vector3) -> void:
 	_box("RouteMark",pos,size,"stripe",false)

@@ -1,10 +1,12 @@
 extends SceneTree
 ## Staged viewpoints for art review, not evidence of completing the mission.
 var output:="res://ci-logs/k17-v4-preview"
+var selected_views: PackedStringArray=[]
 func _init() -> void: _run.call_deferred()
 func _run() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--out="): output=arg.trim_prefix("--out=")
+		if arg.begins_with("--views="): selected_views=arg.trim_prefix("--views=").split(",")
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(output))
 	change_scene_to_file("res://maps/intelligence/scenes/intelligence_k17_test.tscn")
 	await _frames(30)
@@ -53,8 +55,19 @@ func _run() -> void:
 		["30_cover_records",Vector3(10.5,1.2,-20),Vector3(8,.7,-20)],
 		["31_cover_vault",Vector3(-5,-2.8,-48.6),Vector3(-7.5,-3.2,-47.2)],
 		["32_cover_service",Vector3(26,1.4,40),Vector3(25.8,.8,37.3)],
+		["33_pipe_main",Vector3(-17.8,1.6,12),Vector3(-19.55,2.7,-4)],
+		["34_valve_west",Vector3(-17.6,1.6,9),Vector3(-19.55,1.7,10)],
+		["35_valve_east",Vector3(17.2,1.6,9),Vector3(19.55,1.7,10)],
+		["36_return_conduit",Vector3(12,-2.4,-37),Vector3(27,-1.15,-41.78)],
+		["37_guard_sign_mount",Vector3(-36,1.6,18),Vector3(-36,2.6,14.1)],
+		["38_extraction_sign",Vector3(-36,1.6,50),Vector3(-36,2.5,53.2)],
+		["39_service_panel_bank",Vector3(40.7,1.6,2.1),Vector3(43,1.6,3.3)],
+		["40_vault_sign_mount",Vector3(8,-2.4,-45),Vector3(8,-1.7,-41)],
+		["41_wiring_board",Vector3(33,1.6,1),Vector3(30.5,1.8,.235)],
+		["42_rack_notice_rail",Vector3(-16,1.6,-11),Vector3(-18.8,1.92,-12)],
 	]
 	for v in views:
+		if not selected_views.is_empty() and v[0] not in selected_views: continue
 		camera.position=v[1]
 		camera.look_at(v[2])
 		await _frames(20)
