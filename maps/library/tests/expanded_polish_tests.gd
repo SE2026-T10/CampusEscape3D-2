@@ -74,7 +74,8 @@ extends RefCounted
 ##      door draws its wooden leaves (the level's door points at them) and
 ##      swings open, at once on a restore; the S1 stair's nosing is redrawn in
 ##      brass strip for strip and its carpet is the level's ramp recoloured; the
-##      reading hall's eleven solid props keep clear of every doorway, the
+##      reading hall's 24 solid props (11, plus the Kenney polish's 11 chair rows
+##      and 2 plants) keep clear of every doorway, the
 ##      connector guard's route and the reading-table hiding spot, with paths
 ##      from the lobby doors to every exit of the hall; the decor has no collision.
 ##   C. Readability: the storm drain's state label no longer overlaps the
@@ -974,7 +975,7 @@ func _check_lobby_hall() -> void:
 		if body is StaticBody3D:
 			var size: Vector3 = ((body.get_node("Shape") as CollisionShape3D).shape as BoxShape3D).size
 			props.append([body.name, AABB(body.global_position - size / 2.0, size)])
-	_expect(props.size() == 11, "11 solid reading hall props (found %d)." % props.size())
+	_expect(props.size() == 24, "24 solid reading hall props (found %d)." % props.size())
 	# Doorways as [x0, z0, x1, z1] on the floor, grown 0.3 m into the room.
 	var doorways := [[-10.3, -14.3, -7.7, -13.0], [-4.3, -14.3, -1.7, -13.0], [1.7, -14.3, 4.3, -13.0], [7.7, -14.3, 10.3, -13.0],
 		[-12.3, -3.8, -11.0, -0.2], [11.0, 2.7, 12.3, 5.3], [-2.3, 9.0, 2.3, 10.3]]
