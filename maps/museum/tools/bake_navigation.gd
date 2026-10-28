@@ -14,6 +14,7 @@ func _initialize() -> void:
 func _bake() -> void:
 	var level := (load(SCENE) as PackedScene).instantiate()
 	# Bake only the region's static geometry; actors and HUD must not run.
+	level.set_script(null)
 	for child in level.get_children():
 		if not child is NavigationRegion3D:
 			level.remove_child(child)

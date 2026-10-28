@@ -1,6 +1,6 @@
 # Từ lần đầu mở Godot đến demo map bảo tàng
 
-Hướng dẫn dành riêng cho Campus Escape 3D, map `museum`, nhánh `hgmanh-work`. Các thao tác dưới đây là công việc cần thực hiện; bộ concept hiện chỉ có bản vẽ và ảnh tham khảo, chưa có scene bảo tàng chơi được. Ví dụ code trong tài liệu là mã khởi đầu để bạn tạo ở các bước tương ứng, chưa phải tính năng đã tích hợp và chạy thử.
+Hướng dẫn dành riêng cho Campus Escape 3D, map `museum`, nhánh `hgmanh-work`. Ngày 28/10/2026, phòng demo mốc A–C đã có scene chơi được: `res://maps/museum/scenes/museum.tscn`. Xem [bước 5 đã triển khai](../step-05-demo.md) để biết cách chạy, vị trí vật phẩm và logic hiện tại. Các ví dụ code bên dưới là bản khởi đầu để học; bản triển khai trong `maps/museum/scripts/` còn giữ màn hình bị bắt trước khi tải lại map, kiểm tra tầm nhìn trực tiếp khi thoát và đóng băng actor khi thắng.
 
 ## 1. Đích đến của từng bản
 

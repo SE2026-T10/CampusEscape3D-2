@@ -4,7 +4,12 @@ Người phụ trách: **hgmanh**. Nhánh phát triển: **`hgmanh-work`**.
 
 Map ID: **`museum`**. Thư mục làm việc: `maps/museum/`.
 Nhánh được tạo từ `main` tại commit `13807bd` ngày 27/10/2026.
-Hiện đây là khung phát triển, chưa có scene chơi được và chưa đăng ký trong menu.
+Hiện có phòng demo chơi được tại `res://maps/museum/scenes/museum.tscn`:
+ba tác phẩm, dây, điểm thoát, một bảo vệ tuần tra và HUD nhiệm vụ.
+Mở scene rồi nhấn **F6** để thử riêng; map chưa đăng ký trong menu chung.
+
+Chi tiết: [Bước 4 — bảo vệ tuần tra](docs/step-04-patrol.md),
+[Bước 5 — nhiệm vụ, thắng và thua](docs/step-05-demo.md).
 
 ## Thư mục làm việc
 
@@ -19,8 +24,8 @@ Hiện đây là khung phát triển, chưa có scene chơi được và chưa �
 ## Bắt đầu phát triển
 
 1. Mở project Godot tại `D:\IT\SE_GAME_3D`.
-2. Tạo scene chính `res://maps/museum/scenes/museum.tscn` với node gốc `Node3D`.
-3. Dựng môi trường, collision và NavigationRegion3D/NavMesh riêng của bảo tàng.
+2. Mở scene chính `res://maps/museum/scenes/museum.tscn` với node gốc `Museum`.
+3. Mở rộng môi trường, collision và NavigationRegion3D/NavMesh riêng của bảo tàng.
 4. Sử dụng player/NPC từ `shared/scenes/player/player.tscn` và
    `shared/scenes/npc/guard.tscn`; lựa chọn các cơ chế phù hợp trong `features/`.
 5. Cấu hình các hệ thống scene-local cần dùng (GameFlow, nhiệm vụ, checkpoint,
