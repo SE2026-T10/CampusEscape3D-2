@@ -19,7 +19,7 @@ const OBJECTIVES := [
 	{"id": CODE, "requires": [ENTER], "title": "Đọc chỉ dẫn kho mật", "hint": "Bàn vô tuyến ở khối chỉ huy. J xem lại tài liệu đã đọc.", "done": "Đã lưu chỉ dẫn kho B1"},
 	{"id": ARCHIVE, "requires": [PASS,CODE], "title": "Đến checkpoint khu mật", "hint": "Qua cửa hồ sơ, đi hành lang phải đến điểm chuẩn bị.", "done": "Đã lưu checkpoint trước kho mật"},
 	{"id": VAULT, "requires": [ARCHIVE], "title": "Giải mã cửa kho B1", "hint": "Đối chiếu bảng ca trực tại checkpoint với chỉ dẫn trong nhật ký. E đổi chữ số và xác nhận.", "done": "Đã mở kho mật B1"},
-	{"id": FILE, "requires": [VAULT], "title": "Thu hồi Mật lệnh 04", "hint": "Xuống B1, chờ đèn cảm biến xanh. Giữ E mở niêm phong cuối kho.", "done": "Đã lấy Mật lệnh 04 — rút lui!"},
+	{"id": FILE, "requires": [VAULT], "title": "Thu hồi Mật lệnh 04", "hint": "Qua cảm biến tới hốc B1. Dùng màn chiếu đánh lừa chốt, tránh tuần tra bên hông, tới phòng hồ sơ.", "done": "Đã lấy Mật lệnh 04 — rút lui!"},
 	{"id": ESCAPE, "requires": [FILE], "title": "Đến điểm tập kết", "hint": "Trở ra ngoài qua sân hoặc bảo trì. Tìm đèn xanh trước khi hết giờ.", "done": "Đã đưa hồ sơ ra khỏi K17"},
 	{"id": PREPARED, "requires": [ENTER], "optional":true,"title":"Chuẩn bị cửa hậu","hint":"Chốt cơ trong trạm điện.","done":"Cửa hậu đã được chuẩn bị"},
 	{"id": CAMERAS_OFF,"requires": [ENTER],"optional":true,"title":"Ngắt nguồn camera chính","hint":"Công tắc ở trạm điện.","done":"Đã ngắt camera trước khi lấy hồ sơ"},
@@ -40,7 +40,7 @@ var radio_uses := 0
 var lockdown_warned := false
 var lockdown_closed := false
 var reinforcement_sent := false
-var radio_message := "Lam: Vào phòng trực lấy giấy thông hành. Ghi nhớ đường về điểm tập kết."
+var radio_message := "Lam: Thu hồi Mật lệnh 04 ở B1. Bộ màn chiếu cấp sẵn dùng tại hốc hiệu chỉnh. Chuẩn bị đường rút; phá niêm phong mới bắt đầu hai phút."
 var _dialogue_left := 5.0
 var _dialogue_priority := 0
 var _dialogue_queue: Array[Dictionary] = []
@@ -78,7 +78,7 @@ func _on_objective_completed(id: StringName) -> void:
 		ARCHIVE:
 			queue_radio("Lam: Đọc bảng ca trực bên cạnh, đối chiếu với chỉ dẫn rồi nhập mã tại cửa kho.",2,"archive")
 		VAULT:
-			queue_radio("Lam: Kho đã mở. Qua cảm biến lúc xanh; lấy hồ sơ sẽ gọi tiếp viện và nguồn dự phòng sau 15 giây.",3,"vault")
+			queue_radio("Lam: Kho đã mở. Qua cảm biến lúc xanh, tới hốc hiệu chỉnh B1. Màn chiếu chỉ che hướng chốt chính; nghe tuần tra bên hông. Lấy hồ sơ mới bắt đầu hai phút.",3,"vault")
 		FILE:
 			if has_file:
 				return
@@ -197,7 +197,7 @@ func get_status_lines() -> Array[String]:
 	if has_file:
 		var seconds := ceili(time_left)
 		clock = "%02d:%02d" % [seconds / 60, seconds % 60]
-	var title := "K17 / TEST MAP — KHÔNG LÍNH GÁC" if is_test_mode() else "K17 / CHIẾN DỊCH TÌNH BÁO"
+	var title := "K17 V6 / TEST MAP — KHÔNG LÍNH GÁC" if is_test_mode() else "K17 V6 / CHIẾN DỊCH TÌNH BÁO"
 	var power:=get_parent().get_node_or_null("PowerNetwork")
 	var source: String="dự phòng" if power and power.get("backup_active") else "nguồn chính"
 	var cameras: String="BẬT" if power and power.is_powered(&"surveillance") else "TẮT"
@@ -268,7 +268,7 @@ func restore_checkpoint_state(saved: Dictionary) -> void:
 
 
 func _on_respawned(_checkpoint: Checkpoint) -> void:
-	queue_radio("Lam: Thử lại. Hồ sơ vẫn ở trên giá, cảm biến trở về nhịp đã lưu.",9,"retry")
+	queue_radio("Lam: Thử lại. Hồ sơ vẫn niêm phong; màn trở về hốc chuẩn bị, cảm biến về nhịp đã lưu.",9,"retry")
 	var player := get_tree().get_first_node_in_group("player")
 	if player: player.get_node("Interactor").cancel_hold()
 

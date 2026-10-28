@@ -134,11 +134,8 @@ func _service() -> void:
 
 func _vault() -> void:
 	e._select("secure_vault")
-	for x in [-8.4,8.4]: _cabinet(Vector3(x,-4,-35),"K17 / HỒ SƠ MẬT",PI)
-	_box("SealedCargoFront",Vector3(-7.5,-3.3,-45.8),Vector3(3,1.4,1.2),"olive",true)
-	_box("SealedCargoSide",Vector3(-9,-3.3,-47.3),Vector3(.8,1.4,3.4),"olive",true)
-	_board(Vector3(-7.5,-3.2,-46.43),PI,"HỒ SƠ / CHỜ ĐỐI CHIẾU")
-	_board(Vector3(9.76,-2.15,-44.2),-PI/2,"B1 / KHO NIÊM PHONG\nCẤP QUYỀN TẠI TẦNG TRỆT")
+	# V6 archive furniture is authored with the new projection geometry.
+	_board(Vector3(9.76,-2.15,-44.2),-PI/2,"B1 / KHO NIÊM PHONG\nLỐI BẢO TRÌ MỞ SAU HỒ SƠ")
 	_cable(Vector3(10.12,-1.15,-41.78),Vector3(33.85,-1.15,-41.78))
 	for x in [12.0,22.0,33.0]: _box("ReturnConduitJunction",Vector3(x,-1.15,-41.78),Vector3(.2,.25,.12),"steel")
 	for x in [14.0,18.0,26.0,30.0]: _box("ReturnConduitClamp",Vector3(x,-1.15,-41.8),Vector3(.08,.12,.1),"steel")

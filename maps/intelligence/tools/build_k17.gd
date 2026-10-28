@@ -1,6 +1,6 @@
 extends SceneTree
 
-## Build V5 from shared actors and map-local geometry; runtime needs no tools.
+## Build V6 from shared actors and map-local geometry; runtime needs no tools.
 const BASE := "res://maps/intelligence/"
 const Layout := preload("res://maps/intelligence/resources/layout/k17_layout.gd")
 const Expansion := preload("res://maps/intelligence/tools/k17_expansion_builder.gd")
@@ -10,6 +10,7 @@ const SabotageBuilder := preload("res://maps/intelligence/tools/k17_sabotage_bui
 const SCENE := BASE + "scenes/intelligence_k17.tscn"
 const NAV := BASE + "resources/k17_navmesh.tres"
 const Mission := preload("res://maps/intelligence/scripts/mission_controller.gd")
+const ProjectionConfig := preload("res://maps/intelligence/resources/layout/k17_projection.gd")
 const PLAYER := preload("res://shared/scenes/player/player.tscn")
 const GUARD := preload("res://shared/scenes/npc/guard.tscn")
 const Art := preload("res://maps/intelligence/tools/k17_art_builder.gd")
@@ -32,7 +33,7 @@ func _init() -> void:
 func _build() -> void:
 	level = Node3D.new()
 	level.name = "IntelligenceK17"
-	level.set_meta("map_version", "v5-sabotage")
+	level.set_meta("map_version", ProjectionConfig.VERSION)
 	var region := NavigationRegion3D.new()
 	region.name = "NavigationRegion3D"
 	var nav := NavigationMesh.new()
@@ -76,14 +77,14 @@ func _build() -> void:
 		quit(1)
 		return
 	_systems()
-	var data_path:=BASE+"resources/k17_v4_lightmap.lmbake"
+	var data_path:=BASE+"resources/k17_v6_lightmap.lmbake"
 	if FileAccess.file_exists(data_path): level.get_node("LightmapGI").light_data=load(data_path)
 	var packed := PackedScene.new()
 	if packed.pack(level) != OK or ResourceSaver.save(packed, SCENE) != OK:
 		push_error("K17: scene save failed")
 		quit(1)
 		return
-	print("K17 BUILT V5: ", nav.get_polygon_count(), " navmesh polygons; optional sabotage; 6 guards + 4 reinforcements")
+	print("K17 BUILT V6: ", nav.get_polygon_count(), " navmesh polygons; projection + optional sabotage; 6 guards + 4 reinforcements")
 	level.free()
 	quit(0)
 
@@ -191,6 +192,8 @@ func _build_environment(region: NavigationRegion3D) -> bool:
 
 func _actors() -> void:
 	var player := PLAYER.instantiate() as FirstPersonPlayer
+	player.set_script(load(BASE+"scripts/projection_player.gd"))
+	player.get_node("Interactor").set_script(load(BASE+"scripts/projection_interactor.gd"))
 	player.name = "Player"
 	player.position = Layout.SPAWN
 	player.collision_mask |= 16
@@ -211,9 +214,11 @@ func _actors() -> void:
 			point.wait_time = 2.5
 			_add(route, point)
 		var guard := GUARD.instantiate() as Guard
+		guard.set_script(load(BASE+"scripts/projection_guard.gd"))
+		guard.set("posted",i==5)
 		guard.name = "Guard%d" % (i + 1)
 		guard.position = points[i][0]
-		guard.rotation.y = -PI / 2.0
+		guard.rotation.y = ProjectionConfig.POST_YAW if i==5 else 0.0 if i==3 else -PI/2.0
 		guard.patrol_route = route
 		guard.checkpoint_snapshot = true
 		V4.configure_guard(guard)
@@ -243,7 +248,7 @@ func _gameplay() -> bool:
 		_add(gameplay, trigger)
 		_shape(trigger, Vector3(5, 2, 3))
 	_pickup(gameplay, "AccessPass", Mission.PASS, Layout.PASS, "Lấy giấy thông hành", "Vào cơ sở trước", Color("c1b893"), Vector3(0.4, 0.035, 0.26))
-	_pickup(gameplay, "IntelligenceFile", Mission.FILE, Layout.FILE, "Lấy Mật lệnh 04 — bắt đầu 120 giây", "Đến checkpoint khu mật trước khi thu hồi", Color(0.8, 0.25, 0.12), Vector3(0.5, 0.08, 0.35))
+	_pickup(gameplay, "IntelligenceFile", Mission.FILE, Layout.FILE, "Lấy Mật lệnh 04 — bắt đầu 120 giây", "Mở B1 và tiếp cận phòng hồ sơ trước khi thu hồi", Color(0.8, 0.25, 0.12), Vector3(0.5, 0.08, 0.35))
 	var door := AccessDoor.new()
 	door.name = "ArchiveDoor"
 	door.position = Vector3(4, 1.2, 0)
@@ -289,6 +294,30 @@ func _gameplay() -> bool:
 	_controlled_door(gameplay,"DispatchDoor",Vector3(-18,1.2,35),Mission.FILE,"lệnh điều động")
 	var shortcut := _controlled_door(gameplay,"MaintenanceShortcut",Vector3(10,-2.8,-38),Mission.FILE,"Mật lệnh 04")
 	shortcut.rotation.y=PI/2
+	var file_exit := _controlled_door(gameplay,"FileEscapeDoor",ProjectionConfig.ROOM_EXIT,Mission.FILE,"niêm phong hồ sơ — chỉ mở sau khi lấy")
+	file_exit.door_name="cửa thoát phòng hồ sơ"
+	file_exit.prompt="Mở cửa thoát phòng hồ sơ"
+	var aisle := _controlled_door(gameplay,"ProjectionAisleExit",ProjectionConfig.AISLE_EXIT,Mission.FILE,"niêm phong hồ sơ — đường rút")
+	aisle.rotation.y=PI/2
+	aisle.door_name="cửa ngăn cầu thang"
+	aisle.prompt="Mở cửa ngăn — rút qua sân hoặc bảo trì"
+	var rig := (load(BASE+"scenes/equipment/projection_rig.tscn") as PackedScene).instantiate()
+	rig.position=ProjectionConfig.HOME
+	rig.rotation.y=ProjectionConfig.YAW
+	_add(gameplay,rig)
+	var projection_cp := _script(gameplay,"ProjectionCheckpoint",Area3D.new(),BASE+"scripts/projection_checkpoint.gd") as Checkpoint
+	projection_cp.position=ProjectionConfig.PREP+Vector3(0,.95,0)
+	projection_cp.checkpoint_name="B1 / trước màn chiếu"
+	projection_cp.set("complete_archive",false)
+	_shape(projection_cp,Vector3(2.2,2.0,2.2))
+	var projection_spawn := Marker3D.new()
+	projection_spawn.name="Spawn"
+	projection_spawn.position=Vector3(0,-.95,0)
+	projection_spawn.rotation.y=PI/2
+	_add(projection_cp,projection_spawn)
+	var room_notice := _script(gameplay,"ProjectionRoom",Area3D.new(),BASE+"scripts/projection_room.gd")
+	room_notice.position=Vector3(-11.8,-2.75,-42.15)
+	_shape(room_notice,Vector3(6.8,2.5,6.0))
 	# Ground markings, sign and radio position live in the environment scene.
 	for i in 2:
 		var zone := _script(gameplay, "Extraction%d" % i, Area3D.new(), BASE + "scripts/extraction_zone.gd") as Area3D

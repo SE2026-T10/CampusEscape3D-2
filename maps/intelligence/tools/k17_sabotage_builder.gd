@@ -13,6 +13,14 @@ func navigation(builder: SceneTree, region: Node3D) -> void:
 
 func build(builder: SceneTree, gameplay: Node3D) -> bool:
 	b = builder
+	# Normal map rebuilds preserve the already-authored V5 prop/effect scenes.
+	# Regenerate explicitly when editing this builder, just like environment art.
+	var saved_target := BASE+"scenes/props/k17_sabotage_target.tscn"
+	var saved_finale := BASE+"scenes/effects/k17_sabotage_finale.tscn"
+	if FileAccess.file_exists(saved_target) and FileAccess.file_exists(saved_finale) and not "--rebuild-sabotage" in OS.get_cmdline_user_args():
+		b._add(gameplay,(load(saved_target) as PackedScene).instantiate())
+		b._add(gameplay,(load(saved_finale) as PackedScene).instantiate())
+		return true
 	var rack := Node3D.new()
 	rack.name = "Sabotage"
 	rack.position = C.TARGET

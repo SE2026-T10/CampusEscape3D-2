@@ -19,6 +19,13 @@ func _run() -> void:
 		_expect(current_scene.get_node("LightmapGI").light_data!=null,"Packed full-compound lightmap")
 		_expect(current_scene.get_node("Guards").get_child_count()==(0 if test_mode else 6),"Packed initial actor count")
 		_expect(current_scene.get_node("Gameplay/IntelligenceFile").position.y< -2,"Packed B1 document")
+		var rig:=current_scene.get_node("Gameplay/ProjectionRig") as K17ProjectionRig
+		_expect(current_scene.get_meta("map_version","")=="v6-projection" and rig!=null,"Packed V6 scene and projection class")
+		_expect(rig.has_node("HandleControl") and rig.has_node("PowerControl") and rig.has_node("FoldControl"),"Packed runtime equipment builds all physical controls")
+		_expect(rig.get_node("WheelAudio").stream!=null and rig.get_node("BumpAudio").stream!=null and rig.has_node("HeadsetSignal"),"Packed equipment has spatial mechanical Foley and headset signal")
+		_expect(current_scene.has_node("Gameplay/ProjectionCheckpoint") and current_scene.has_node("Gameplay/FileEscapeDoor") and current_scene.has_node("Gameplay/ProjectionAisleExit"),"Packed B1 checkpoint and both egress controls")
+		_expect(load("res://maps/intelligence/resources/projection_screen.gdshader")!=null,"Packed projection shader is a runtime dependency")
+		_expect(current_scene.get_node("NavigationRegion3D/Sectors/secure_vault/ObservationGlass").collision_layer==16,"Packed observation glass blocks movement while preserving vision")
 		_expect(ObjectiveManager.find(current_scene).is_graph() and ObjectiveManager.find(current_scene).get_mandatory_ids().size()==7,"Packed seven-objective graph")
 		_expect(PlayerInventory.find(current_scene).enabled,"Packed inventory is enabled")
 		_expect(get_nodes_in_group("security_cameras").size()==3 and get_nodes_in_group("hiding_spots").size()==7,"Packed cameras and cover areas")
@@ -52,16 +59,17 @@ func _run() -> void:
 		_expect(team.spawned_count==0,"Packed restore clears reinforcements")
 		_expect(not device.armed and not device.detonated,"Packed restore clears sabotage")
 		_expect(minimap.marker_local.distance_to(player.position)<.001,"Packed checkpoint refreshes minimap position")
+		_expect(not rig.deployed and rig.holder==null and rig.position.distance_to(preload("res://maps/intelligence/resources/layout/k17_projection.gd").HOME)<.001,"Packed retry restores the safe V6 equipment pose")
 		print("[K17 pack] test_mode=",test_mode," sectors=8 dispatch/restore verified")
 		current_scene.queue_free()
 		await _frames(40)
-	for path in ["tools/build_k17.gd","tests/k17_expansion_tests.gd","docs/expansion-v3/VALIDATION.md"]:
+	for path in ["tools/build_k17.gd","tests/k17_expansion_tests.gd","docs/expansion-v3/VALIDATION.md","docs/gameplay-v6/PLAN.md"]:
 		_expect(not FileAccess.file_exists(BASE+path) and not FileAccess.file_exists(BASE+path+".remap"),"Development file excluded: "+path)
 	for i in 4:
 		OS.delay_msec(50)
 		await process_frame
 	for failure in failures: printerr(failure)
-	print("K17 V5 PACK PASSED" if failures.is_empty() else "K17 V5 PACK FAILED")
+	print("K17 V6 PACK PASSED" if failures.is_empty() else "K17 V6 PACK FAILED")
 	quit(0 if failures.is_empty() else 1)
 func _expect(ok: bool,message: String) -> void:
 	if not ok: failures.append(message)

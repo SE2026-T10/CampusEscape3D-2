@@ -12,6 +12,8 @@ Bản V4 giữ khuôn viên **96 × 108 m**, tám khu chức năng, kho mật **
 
 **Keypad và minimap:** cụm nhập mã B1 gắn liền vỏ trên tường bên phải cửa, các phím có mặt đỡ; cánh cửa vẫn hiển thị khi mở. Minimap bên dưới nhiệm vụ lấy vị trí/hướng thật của người chơi, tự chuyển giữa tầng trệt và B1; phím **M** bật/tắt. Cả bản thường và bản không lính dùng cùng tính năng. Xem [kiểm tra và ảnh](docs/keypad-minimap/VALIDATION.md).
 
+**V6 — Màn chiếu đánh lừa thị giác:** B1 có nhánh hành lang mới, một người giữ chốt, tuần tra bên hông, hai hốc đỗ dạng chữ L và phòng hồ sơ riêng. Màn dựng hình hành lang trống từ mắt người giữ chốt; mặt sau/khung lộ hoặc hình lệch khiến lính tới kiểm tra. Cơ thể nhô ra vẫn bị phát hiện bằng AI chung. Giữ sáu lính thường trực: bốn trên mặt đất, hai ở B1; tối đa bốn tiếp viện. Xem [kế hoạch V6](docs/gameplay-v6/PLAN.md) và [kiểm tra V6](docs/gameplay-v6/VALIDATION.md).
+
 ## Mở và tự chơi
 
 Mở `project.godot` bằng **Godot 4.7.2 official**, nhấn F5 rồi chọn **K17 — 120 giây cuối**. Hoặc mở `scenes/intelligence_k17.tscn`, nhấn F6.
@@ -31,8 +33,9 @@ WASD di chuyển, chuột nhìn, Shift chạy, C/Ctrl cúi, E/giữ E tương t�
 3. Đọc **chỉ dẫn kho B1** trên bàn vô tuyến ở khối chỉ huy. Có thể đọc trước khi lấy thẻ. Phía sau vách che có checkpoint đầu tiên, được lưu khi đủ thẻ và chỉ dẫn.
 4. Có thể ghé **trạm điện phía đông**: tắt công tắc nguồn camera, đọc ghi chú dự phòng và giữ E **2,5 giây** ở **CHỐT CỬA HẬU**. Cửa hậu đã chuẩn bị mở ngay khi rút; nếu chưa chuẩn bị phải giữ E tám giây. Hai bước chuẩn bị là mục tiêu tùy chọn.
 5. Mang thẻ để mở cửa khu hồ sơ. Đi hành lang bên phải đến **checkpoint khu mật**, đọc **bảng ca trực** rồi đối chiếu với chỉ dẫn trong J để suy ra bốn chữ số. Đến keypad cạnh cửa B1, E đổi từng số và xác nhận. Sai ba lần khóa tạm 20 giây, sau đó được thử lại; chưa tính 120 giây ở bước này.
-6. Qua hai dải cảm biến: **xanh được qua, vàng sắp quét, đỏ dừng lại**. Có vùng chờ giữa các dải. Đến bàn hồ sơ và giữ E **3,5 giây** để mở niêm phong. Thanh tiến trình hủy khi nhả E, nhìn lệch, rời tầm hoặc pause.
-7. Khi lấy xong hồ sơ, đồng hồ **120 giây** bắt đầu. Chọn đường rút và mang tài liệu vào vùng đèn xanh ngoài hàng rào để thắng.
+6. Qua hai dải cảm biến: **xanh được qua, vàng sắp quét, đỏ dừng lại**. Có vùng chờ giữa các dải. Đi tới hốc hiệu chỉnh B1, lưu checkpoint mới, giữ E **2 giây** tại tay cầm để dựng màn; E lần nữa để nắm. **W/S tiến/lùi, A/D chỉnh ngang theo xe; chuột nhìn tự do, E thả tay từ mọi hướng.** Khi đang nắm, chạy và ném chai chưa dùng được; J hoặc pause sẽ thả tay an toàn. Không cần tìm thiết bị và không tốn ô đồ.
+7. Đẩy màn hướng chốt cuối hành lang. Nếu cần tránh tuần tra, vào lối bên của hốc rồi lùi sâu sau vách để che **cả khung màn lẫn người**; chỉ đứng ở miệng hốc vẫn có thể bị thấy. Chữ báo khớp/gần lệch/lệch **dưới minimap** chỉ nói về hướng chốt chính. Tuần tra nhìn mặt sau hoặc nghe va chạm vẫn điều tra. Bỏ màn tại cuối hành lang, đi vào cửa bên sau góc tường. Qua ô kính cạnh cửa thoát để quan sát tuần tra rồi chọn lúc lấy hồ sơ; kính cho lính nhìn ngược lại được. Tại bàn hồ sơ, giữ E **3,5 giây** mở niêm phong. Thanh tiến trình hủy khi nhả E, nhìn lệch, rời tầm hoặc pause.
+8. Khi lấy xong hồ sơ, đồng hồ **120 giây** bắt đầu. Cửa thoát phía sau phòng hồ sơ mở bằng E; qua hành lang trở lại cửa ngăn cầu thang, chọn hướng sân hoặc bảo trì. Không phải đẩy màn quay về. Mang tài liệu vào vùng đèn xanh ngoài hàng rào để thắng.
 
 Có **bảy mục tiêu bắt buộc** và **ba mục tiêu tùy chọn**: chuẩn bị cửa hậu, ngắt camera chính và phá hoại cụm tình báo. Thiết bị phá hoại được cấp sẵn, không chiếm ô đồ và chỉ tiêu hao khi giữ E hoàn tất; nhả E, nhìn lệch, rời tầm hoặc pause sẽ hủy thao tác. Chỉ đặt sau khi có hồ sơ; đặt xong vẫn chưa được tính phá hoại thành công cho đến khi thoát và kích hoạt. Bị bắt/hết giờ rồi thử lại sẽ trả thiết bị và tủ về trạng thái trước khi lấy hồ sơ.
 

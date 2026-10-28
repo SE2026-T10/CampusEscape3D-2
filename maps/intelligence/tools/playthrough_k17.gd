@@ -5,6 +5,7 @@ extends SceneTree
 ## and the scheduled reinforcement waves. --out=... captures actual milestones.
 const SCENE := "res://maps/intelligence/scenes/intelligence_k17.tscn"
 const Cleanup := preload("res://tests/test_utils.gd")
+const ProjectionConfig := preload("res://maps/intelligence/resources/layout/k17_projection.gd")
 var failures: Array[String] = []
 var out := ""
 var level: Node3D
@@ -35,6 +36,7 @@ var sabotage := false
 
 
 func _init() -> void:
+	if "--background" in OS.get_cmdline_user_args(): root.unfocusable=true
 	_run.call_deferred()
 
 
@@ -69,6 +71,7 @@ func _run() -> void:
 		player=level.get_node("Player")
 		mission=level.get_node("Gameplay/Mission")
 		flow=GameFlow.find(level)
+		if background_play: AudioServer.set_bus_mute(0,true)
 		if OS.get_cmdline_user_args().has("--trace-guard"):
 			var traced:=level.get_node("Guards/Guard3") as Guard
 			traced.ai_state_changed.connect(func(from,to,why): print("[K17 Guard3] ",from," -> ",to," ",why," guard=",traced.position," player=",player.position))
@@ -97,7 +100,7 @@ func _run() -> void:
 		await _route([Vector3(7,0,-20),preload("res://maps/intelligence/resources/layout/k17_navigation.gd").KEYPAD_STAND])
 		await _keypad()
 		await _route([Vector3(7,0,-23),Vector3(4,0,-23),Vector3(4,0,-22.4)])
-		await _route([Vector3(4,-4,-35),Vector3(4,-4,-48.5),Vector3(0,-4,-48.5)])
+		await _projection_infiltration()
 		await _use("Gameplay/IntelligenceFile")
 		await _shot(route+"_02_file")
 		if not mission.has_file: failures.append("Document not acquired: "+route)
@@ -110,7 +113,7 @@ func _run() -> void:
 		var director:=StealthDirector.find(level)
 		if flow.state!=GameStateMachine.State.WIN: failures.append("Extraction failed: "+route)
 		if sabotage and not ObjectiveManager.find(level).is_completed(K17MissionController.SABOTAGE): failures.append("Sabotage not completed: "+route)
-		print("[K17 walking V5] route=",route," sabotage=",sabotage," remaining=",snappedf(mission.time_left,.1)," state=",flow.state," catches=",director.catches," sensors=",mission.sensor_trips," reinforcements=",level.get_node("Gameplay/Reinforcements").spawned_count)
+		print("[K17 walking V6] route=",route," sabotage=",sabotage," remaining=",snappedf(mission.time_left,.1)," state=",flow.state," catches=",director.catches," sensors=",mission.sensor_trips," reinforcements=",level.get_node("Gameplay/Reinforcements").spawned_count)
 		await _frames(50)
 		await _shot(route+"_03_victory")
 		Input.action_release("crouch")
@@ -180,7 +183,7 @@ func _utilities() -> void:
 		if live_guards:
 			var utility_guard:=level.get_node("Guards/Guard4") as Guard
 			var waited:=0
-			while waited<3600 and not (utility_guard.position.z>12 and (utility_guard.velocity.x<-.2 or utility_guard.position.x<36)):
+			while waited<3600 and utility_guard.position.y> -1 and not (utility_guard.position.z>12 and (utility_guard.velocity.x<-.2 or utility_guard.position.x<36)):
 				await _frames(1)
 				waited+=1
 			print("[K17 watch] utility north clearance waited=",waited/60.0)
@@ -196,9 +199,115 @@ func _utilities() -> void:
 	else: await _route([Vector3(41.2,0,5),Vector3(42,0,5),Vector3(42,0,8),Vector3(32.2,0,9),Vector3(32.2,0,15),Vector3(36,0,18),Vector3(36,0,21),Vector3(26,0,21),Vector3(16,0,18)])
 
 
+func _projection_infiltration() -> void:
+	await _route([Vector3(4,-4,-35),Vector3(4,-4,-47),Vector3(4.05,-4,-50.6)])
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--projection-delay="):
+			await _frames(ceili(float(arg.trim_prefix("--projection-delay="))*60))
+	if live_guards: print("[K17 V6 entry phase] patrol=",level.get_node("Guards/Guard4").position)
+	await _use("Gameplay/ProjectionRig/HandleControl")
+	await _use("Gameplay/ProjectionRig/HandleControl")
+	var rig := level.get_node("Gameplay/ProjectionRig") as K17ProjectionRig
+	if rig.holder!=player:
+		failures.append("Actual E input did not grip projection rig")
+		_route_failed=true
+		return
+	for point in [Vector3(3,-4,-47),Vector3(-.4,-4,-47),ProjectionConfig.BAY_ENTRIES[0],ProjectionConfig.BAYS[0]]:
+		await _push_rig(point)
+	await _shot("v6_bay_01")
+	for point in [ProjectionConfig.BAY_ENTRIES[0],Vector3(-.4,-4,-47)]: await _push_rig(point)
+	if live_guards and not _route_failed:
+		# Test strategy observes the physically moving patrol, not a scripted
+		# timer. Cross when it turns back north after checking the side door.
+		var patrol := level.get_node("Guards/Guard4") as Guard
+		var waited := 0
+		while waited<4200 and flow.state==GameStateMachine.State.PLAYING:
+			if patrol.position.z< -41 and patrol.velocity.z>.5: break
+			await _frames(1)
+			waited+=1
+		print("[K17 V6 patrol] crossing waited=",waited/60.0," patrol=",patrol.position)
+	for point in [Vector3(-6.9,-4,-47),ProjectionConfig.BAY_ENTRIES[1],ProjectionConfig.BAYS[1]]: await _push_rig(point)
+	await _shot("v6_bay_02")
+	if live_guards and not _route_failed:
+		var patrol := level.get_node("Guards/Guard4") as Guard
+		var waited := 0
+		# Stay behind the wall until the patrol finishes any inspection and
+		# heads away; never push through a doorway occupied by an NPC.
+		while waited<4200 and flow.state==GameStateMachine.State.PLAYING:
+			if patrol.machine.current==GuardStateMachine.PATROL and patrol.position.z> -38 and patrol.velocity.z>.2: break
+			await _frames(1)
+			waited+=1
+		print("[K17 V6 bay wait] seconds=",waited/60.0," patrol=",patrol.position," state=",patrol.machine.current)
+	for point in [ProjectionConfig.BAY_ENTRIES[1],Vector3(-6.9,-4,-47),ProjectionConfig.DOCK]: await _push_rig(point)
+	var event := InputEventAction.new()
+	event.action="interact"
+	event.pressed=true
+	root.push_input(event)
+	await _frames(2)
+	event=InputEventAction.new()
+	event.action="interact"
+	event.pressed=false
+	root.push_input(event)
+	await _frames(3)
+	if rig.holder!=null:
+		failures.append("E failed to release projection rig before archive entry")
+		_route_failed=true
+	await _route([Vector3(-9.7,-4,-47),Vector3(-9.7,-4,-42.7)])
+	if live_guards and not _route_failed:
+		Input.action_release("crouch")
+		await _route([ProjectionConfig.OBSERVATION])
+		var patrol := level.get_node("Guards/Guard4") as Guard
+		var waited := 0
+		while waited<4200 and flow.state==GameStateMachine.State.PLAYING:
+			player.camera.look_at(patrol.global_position+Vector3(0,1.4,0))
+			var clear := player.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(player.camera.global_position,patrol.global_position+Vector3(0,1.4,0),1,[player.get_rid(),patrol.get_rid()])).is_empty()
+			var state := patrol.machine.get_state(GuardStateMachine.PATROL) as PatrolState
+			if clear and patrol.machine.current==GuardStateMachine.PATROL and state.waiting and state.current_point==0 and state.wait_left>2.1: break
+			await _frames(1)
+			waited+=1
+		print("[K17 V6 observation] waited=",waited/60.0," actual visible patrol=",patrol.position)
+		await _route([Vector3(-9.7,-4,-42.7),Vector3(-13,-4,-42.7)])
+		if crouched: Input.action_press("crouch")
+	else:
+		await _route([Vector3(-13,-4,-42.7)])
+
+func _push_rig(target: Vector3) -> void:
+	if _route_failed: return
+	var rig := level.get_node("Gameplay/ProjectionRig") as K17ProjectionRig
+	var arrived := false
+	for i in 5000:
+		_resume_background()
+		if rig.holder!=player or flow.state!=GameStateMachine.State.PLAYING: break
+		var difference := target-rig.global_position
+		if Vector2(difference.x,difference.z).length()<.055:
+			arrived=true
+			break
+		var local := rig.global_basis.inverse()*difference
+		for action in ["move_forward","move_backward","move_left","move_right"]: Input.action_release(action)
+		if absf(local.x)>.025: Input.action_press("move_right" if local.x>0 else "move_left")
+		if absf(local.z)>.025: Input.action_press("move_backward" if local.z>0 else "move_forward")
+		# Free look exercises the input contract while the rig keeps its heading.
+		player.camera.look_at(Vector3(-5,-2.5,-43.5) if i%240>120 else rig.to_global(Vector3(0,1.5,-3)))
+		await physics_frame
+	for action in ["move_forward","move_backward","move_left","move_right"]: Input.action_release(action)
+	await _frames(3)
+	waypoints+=1
+	_check_minimap()
+	if not arrived:
+		failures.append("Cart blocked toward %s at %s; player=%s state=%s"%[target,rig.global_position,player.global_position,flow.state])
+		_route_failed=true
+	print("[K17 V6 push] target=",target," actual=",rig.global_position," arrived=",arrived," bumps=",rig.bumps)
+
 func _escape(route: String) -> void:
+	await _route([Vector3(-10,-4,-42.7),Vector3(-10,-4,-40.3),Vector3(-12,-4,-40.3)])
+	await _use("Gameplay/FileEscapeDoor")
+	# Use the far wall of the five-metre return lane instead of walking
+	# head-on into the north-wall patrol's body and immediate capture reach.
+	await _route([Vector3(-12,-4,-38),Vector3(.4,-4,-38)])
+	await _use("Gameplay/ProjectionAisleExit")
+	await _route([Vector3(4,-4,-36.5)])
 	if route=="maintenance" or sabotage:
-		await _route([Vector3(8,-4,-48.5),Vector3(8.2,-4,-38)])
+		await _route([Vector3(8.2,-4,-38)])
 		await _use("Gameplay/MaintenanceShortcut")
 		await _route([Vector3(12,-4,-38),Vector3(30,-4,-38),Vector3(30,0,-23),Vector3(42,0,-23),Vector3(42,0,-9),Vector3(36,0,-4),Vector3(36,0,1),Vector3(42,0,1),Vector3(42,0,4),Vector3(42,0,8),Vector3(32.2,0,9),Vector3(32.2,0,15)])
 		if sabotage:
@@ -214,14 +323,9 @@ func _escape(route: String) -> void:
 		else:
 			await _route([Vector3(26,0,21),Vector3(16,0,21),Vector3(16,0,44),Vector3(-36,0,44),Vector3(-36,0,51)])
 	else:
-		await _route([Vector3(4,-4,-48.5),Vector3(4,-4,-35)])
-		if watch_patrol and live_guards:
-			var archive_guard:=level.get_node("Guards/Guard5") as Guard
-			var waited:=0
-			while waited<900 and not (archive_guard.position.x< -9 and (archive_guard.velocity.x< -.2 or archive_guard.position.x< -13)):
-				await _frames(1)
-				waited+=1
-			print("[K17 watch] archive patrol clearance waited=",waited/60.0)
+		await _route([Vector3(4,-4,-35)])
+		# B1 has a live side patrol now. Continue up the stairs immediately;
+		# a ground-patrol observation pause belongs behind ground-floor cover.
 		await _route([Vector3(4,0,-23),Vector3(7,0,-23),Vector3(7,0,-20),Vector3(10.8,0,-20),Vector3(10.8,0,-1),Vector3(4,0,-1),Vector3(4,0,7)])
 		if use_radio and OS.get_cmdline_user_args().has("--repeat-radio"):
 			await _route([Vector3(0,0,7),Vector3(0,0,10.7),Vector3(2.3,0,10.7),Vector3(2.3,0,11.5)])
@@ -265,6 +369,7 @@ func _walk(target: Vector3) -> bool:
 			break
 		var delta := Vector2(target.x - player.global_position.x, target.z - player.global_position.z)
 		var arrival_radius := .20 if sprint_exfil and mission.has_file else .38
+		if target.distance_to(ProjectionConfig.OBSERVATION)<.01: arrival_radius=.06
 		if delta.length() < arrival_radius and absf(player.global_position.y-target.y)<.65:
 			arrived = true
 			break
@@ -277,7 +382,8 @@ func _walk(target: Vector3) -> bool:
 			Input.action_release("crouch")
 			Input.action_press("sprint")
 		# Brake before corners rather than overshooting into the next doorway/post.
-		if delta.length() < 1.6: Input.action_release("sprint")
+		var brake_distance := .55 if sprint_exfil and mission.has_file else 1.6
+		if delta.length() < brake_distance: Input.action_release("sprint")
 		if _should_wait_for_sensor(target):
 			Input.action_release("move_forward")
 			await physics_frame
@@ -285,7 +391,7 @@ func _walk(target: Vector3) -> bool:
 		Input.action_press("move_forward")
 		await physics_frame
 	Input.action_release("move_forward")
-	await _frames(6)
+	await _frames(3 if sprint_exfil and mission.has_file else 6)
 	if not _check_minimap(): return false
 	if not arrived and flow.state != GameStateMachine.State.WIN:
 		for c in player.get_slide_collision_count():

@@ -21,7 +21,7 @@ const HIDING := {
 	"RadioBay": Vector3(0,0,13),
 	"Utilities": Vector3(41.2,0,5),
 	"Records": Vector3(8,0,-20),
-	"Vault": Vector3(-7.5,-4,-47.2),
+	"Vault": Vector3(-3,-4,-50.7),
 	"Service": Vector3(25.8,0,37.3),
 }
 const HIDING_SIZE := {

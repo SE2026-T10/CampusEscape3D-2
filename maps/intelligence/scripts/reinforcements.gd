@@ -76,6 +76,7 @@ func _spawn(index: int,pos: Vector3) -> void:
 		point.wait_time=1.2
 		route.add_child(point)
 	var guard:=GUARD.instantiate() as Guard
+	guard.set_script(preload("res://maps/intelligence/scripts/projection_guard.gd"))
 	guard.name="Reinforcement%d"%index
 	guard.position=pos+Vector3(0,.05,0)
 	guard.patrol_route=route
