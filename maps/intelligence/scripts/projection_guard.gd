@@ -8,9 +8,20 @@ var rig_seen_seconds := 0.0
 var _inspect_cooldown := 0.0
 var _alarm_responded := false
 var _hardware_exposed := false
+var check_left := 0.0
+var natural_left := Config.NATURAL_INTERVAL
+var _clear_left := 0.0
+var _terminal_audio: AudioStreamPlayer3D
 
 func _ready() -> void:
 	if posted: add_to_group("k17_projection_post")
+	_terminal_audio=AudioStreamPlayer3D.new()
+	_terminal_audio.stream=SoundBank.pick("reader_beep")
+	_terminal_audio.volume_db=-18
+	_terminal_audio.max_distance=30
+	add_child(_terminal_audio)
+	_terminal_audio.top_level=true
+	_terminal_audio.global_position=Config.TERMINAL
 	super()
 
 class PostedPatrol extends PatrolState:
@@ -24,8 +35,13 @@ class PostedPatrol extends PatrolState:
 			return
 		actor.stop_moving()
 		scan_time += delta
-		actor.face_yaw(Config.POST_YAW+sin(scan_time*.55)*.10)
+		actor.face_yaw(0.0 if actor.check_left>0 else Config.POST_YAW+sin(scan_time*.55)*.10)
 	func get_debug_text() -> String: return "giữ chốt / quan sát hành lang"
+
+class SidePatrol extends PatrolState:
+	func update(actor,perception: GuardPerception,delta: float) -> void:
+		super(actor,perception,delta)
+		if waiting and actor.global_position.z< -41: actor.face_yaw(0.0)
 
 class EvidenceMachine extends GuardStateMachine:
 	func choose_priority_transition(perception: GuardPerception) -> Dictionary:
@@ -36,17 +52,47 @@ class EvidenceMachine extends GuardStateMachine:
 		return {}
 
 func _create_machine() -> void:
-	machine = EvidenceMachine.new(self,PostedPatrol.new() if posted else PatrolState.new())
+	machine = EvidenceMachine.new(self,PostedPatrol.new() if posted else SidePatrol.new() if str(name)=="Guard4" else PatrolState.new())
 	machine.transitioned.connect(func(from,to,reason): ai_state_changed.emit(from,to,reason))
 
 func _physics_process(delta: float) -> void:
+	if posted:
+		if machine.current!=GuardStateMachine.PATROL: check_left=0
+		check_left=maxf(0,check_left-delta)
+		if machine.current==GuardStateMachine.PATROL and check_left<=0:
+			natural_left-=delta
+			if natural_left<=0: begin_terminal_check(Config.NATURAL_DURATION)
 	_observe_rig(delta)
 	var mission := MapHudProvider.find_for(self) as K17MissionController
 	if posted and mission and mission.has_file and not _alarm_responded and machine.current==GuardStateMachine.PATROL:
 		_alarm_responded = true
 		# The alarm identifies the cabinet, not the player's current coordinates.
 		machine.request_transition(GuardStateMachine.INVESTIGATE,"niêm phong hồ sơ báo động",Config.FILE-Vector3(0,1.15,0))
+		check_left=0
+	_clear_blocked_rig(delta,mission)
 	super(delta)
+
+func can_check_terminal() -> bool:
+	return posted and machine!=null and machine.current==GuardStateMachine.PATROL and check_left<=0 and global_position.distance_to(Config.POST)<.7 and not (vision and vision.can_see_target) and not _hardware_exposed
+
+func begin_terminal_check(duration: float) -> bool:
+	if not can_check_terminal(): return false
+	check_left=duration
+	natural_left=Config.NATURAL_INTERVAL
+	_terminal_audio.play()
+	return true
+
+func _clear_blocked_rig(delta: float,mission: K17MissionController) -> void:
+	if not posted or mission==null or not mission.has_file: return
+	var rig:=get_tree().get_first_node_in_group("k17_projection_rigs")
+	if rig==null or not rig.deployed: return
+	var close:=global_position.distance_to(rig.global_position)<1.9
+	if close and not (vision and vision.can_see_target):
+		_clear_left+=delta
+		if _clear_left>=2.5:
+			rig.clear_by_guard(self)
+			_clear_left=0
+	else: _clear_left=0
 
 func _observe_rig(delta: float) -> void:
 	rig_evidence = false
@@ -90,3 +136,6 @@ func _clear_projection_memory() -> void:
 	_inspect_cooldown = 0.0
 	_alarm_responded = false
 	_hardware_exposed = false
+	check_left=0
+	natural_left=Config.NATURAL_INTERVAL
+	_clear_left=0

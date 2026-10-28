@@ -114,6 +114,15 @@ func _draw() -> void:
 		draw_rect(Rect2(top_left,bottom_right-top_left),Color("c4a75d"),false,1)
 		for z in range(int(area.position.y)+1,int(area.end.y),2):
 			draw_line(project_local(Vector3(area.position.x,0,z)),project_local(Vector3(area.end.x,0,z)),Color("a58d50"),1)
+	if floor_id==1:
+		var config:=preload("res://maps/intelligence/resources/layout/k17_projection.gd")
+		var font:=ThemeDB.fallback_font
+		for entry in [[config.BAYS[0],"1"],[config.BAYS[1],"2"],[config.ROOM_DOOR,"F"]]:
+			var point:=project_local(entry[0])
+			draw_string(font,point+Vector2(-3,3),entry[1],HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("edd392"))
+		for p in [Vector3(4,0,-38),Vector3(4,0,-42.4)]:
+			var point:=project_local(p)
+			draw_line(point-Vector2(4,0),point+Vector2(4,0),Color("e3a85b"),2)
 
 func _label(at: Vector2,font_size: int,colour: Color) -> Label:
 	var label := Label.new()

@@ -22,7 +22,7 @@ const OBJECTIVES := [
 	{"id": FILE, "requires": [VAULT], "title": "Thu hồi Mật lệnh 04", "hint": "Qua cảm biến tới hốc B1. Dùng màn chiếu đánh lừa chốt, tránh tuần tra bên hông, tới phòng hồ sơ.", "done": "Đã lấy Mật lệnh 04 — rút lui!"},
 	{"id": ESCAPE, "requires": [FILE], "title": "Đến điểm tập kết", "hint": "Trở ra ngoài qua sân hoặc bảo trì. Tìm đèn xanh trước khi hết giờ.", "done": "Đã đưa hồ sơ ra khỏi K17"},
 	{"id": PREPARED, "requires": [ENTER], "optional":true,"title":"Chuẩn bị cửa hậu","hint":"Chốt cơ trong trạm điện.","done":"Cửa hậu đã được chuẩn bị"},
-	{"id": CAMERAS_OFF,"requires": [ENTER],"optional":true,"title":"Ngắt nguồn camera chính","hint":"Công tắc ở trạm điện.","done":"Đã ngắt camera trước khi lấy hồ sơ"},
+	{"id": CAMERAS_OFF,"requires": [ENTER],"optional":true,"title":"Ngắt nguồn camera mặt đất","hint":"Công tắc ở trạm điện. CCTV B1 dùng mạch nội bộ riêng.","done":"Đã ngắt camera mặt đất trước hồ sơ"},
 	{"id": SABOTAGE,"requires": [FILE],"optional":true,"title":"Phá hủy cụm tình báo dự phòng","hint":"Tùy chọn: sau hồ sơ, giữ E 5 giây tại tủ trong xưởng phía đông rồi rút trước khi hết 120 giây. Kích hoạt sau khi thoát.","done":"Đã phá hủy cụm tình báo dự phòng"},
 ]
 
@@ -197,14 +197,17 @@ func get_status_lines() -> Array[String]:
 	if has_file:
 		var seconds := ceili(time_left)
 		clock = "%02d:%02d" % [seconds / 60, seconds % 60]
-	var title := "K17 V6 / TEST MAP — KHÔNG LÍNH GÁC" if is_test_mode() else "K17 V6 / CHIẾN DỊCH TÌNH BÁO"
+	var title := "K17 V6 B1 / TEST — KHÔNG LÍNH GÁC" if is_test_mode() else "K17 V6 B1 / CHIẾN DỊCH TÌNH BÁO"
 	var power:=get_parent().get_node_or_null("PowerNetwork")
 	var source: String="dự phòng" if power and power.get("backup_active") else "nguồn chính"
 	var cameras: String="BẬT" if power and power.is_powered(&"surveillance") else "TẮT"
+	var b1:=get_tree().get_first_node_in_group("k17_b1_surveillance")
+	var b1_status: String="đã thu hồi kênh" if b1 and b1.revoked else "đã chiếm kênh" if b1 and b1.hacked else "nguồn nội bộ riêng"
 	var sabotage := get_parent().get_node_or_null("Sabotage")
 	var lines: Array[String] = [title, "Hồ sơ: " + ("đang mang Mật lệnh 04" if has_file else "chưa thu hồi"),
 		"Phong tỏa: " + clock + _reinforcement_status(),
-		"Camera: "+cameras+" · "+source,
+		"Camera mặt đất: "+cameras+" · "+source,
+		"CCTV B1: "+b1_status,
 		"Cổng sân: " + ("sắp đóng" if lockdown_warned and not lockdown_closed else _gate_status("CourtyardGate")),
 		"Cửa hậu: " + _gate_status("MaintenanceGate") + (" · đã chuẩn bị" if backdoor_prepared else " · khóa cơ 8 giây")]
 	if sabotage: lines.append("Phá hoại: " + sabotage.status_text())

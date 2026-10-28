@@ -50,7 +50,7 @@ func run(parent: Node) -> Array[String]:
 	keypad.set_entry(preload("res://maps/intelligence/resources/layout/k17_v4.gd").VAULT_CODE)
 	keypad.submit()
 	await _frames(4)
-	await _use("Gameplay/IntelligenceFile", Vector3(-13, -3.95, -42.7))
+	await _use("Gameplay/IntelligenceFile", Vector3(-19, -3.95, -42.7))
 	_expect(mission.has_file and mission.time_left > 119 and mission.time_left <= 120, "Holding E collects the file and starts the real 120-second deadline.")
 	_expect(level.get_node("Gameplay/Security/MaintenanceGate").is_closed, "The backdoor still locks on document pickup.")
 	mission.time_left = .01
@@ -64,7 +64,7 @@ func run(parent: Node) -> Array[String]:
 	keypad.set_entry(preload("res://maps/intelligence/resources/layout/k17_v4.gd").VAULT_CODE)
 	keypad.submit()
 	await _frames(4)
-	await _use("Gameplay/IntelligenceFile", Vector3(-13, -3.95, -42.7))
+	await _use("Gameplay/IntelligenceFile", Vector3(-19, -3.95, -42.7))
 	player.global_position = Vector3(36, .05, 51)
 	await _frames(3)
 	_expect(flow.state == GameStateMachine.State.WIN and mission.escaped, "The real maintenance extraction can finish a test run.")

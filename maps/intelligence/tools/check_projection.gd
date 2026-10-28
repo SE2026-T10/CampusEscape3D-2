@@ -50,14 +50,14 @@ func _run() -> void:
 	rig.restore_checkpoint_state({})
 	_expect(not rig.deployed and not rig.powered and rig.position.distance_to(C.HOME)<.001,"Restore resets equipment to safe folded home pose")
 	_expect(rig.get_checkpoint_state()=={"equipment_issued":true},"Checkpoint state has no continuously changing pose or clock")
-	var observation_from := C.OBSERVATION+Vector3(0,1.6,0)
-	var observation_to := Vector3(-5,-2.4,-35.7)
+	var observation_from := Vector3(-3,-2.4,-43.2)
+	var observation_to := Vector3(-3,-2.4,-47)
 	var sight := player.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(observation_from,observation_to,1))
 	var solid := player.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(observation_from,observation_to,17))
-	_expect(sight.is_empty(),"Observation pane gives a real view of the north return patrol")
-	_expect(not solid.is_empty() and solid.collider.name=="ObservationGlass","The same transparent pane physically blocks actors")
+	_expect(sight.is_empty(),"Side observation pane gives a real view of the cart corridor")
+	_expect(not solid.is_empty() and str(solid.collider.name).begins_with("SideObservationGlass"),"The same pane physically blocks actors")
 	# Vision fixtures use deliberately positioned actors; these are not E2E.
-	rig.global_position=Vector3(-5,-4,-47)
+	rig.global_position=Vector3(-15,-4,-47)
 	rig._set_deployed(true)
 	rig.powered=true
 	var post := level.get_node("Guards/Guard6") as Guard
@@ -84,8 +84,10 @@ func _run() -> void:
 	_expect(decision.get("to",-1)==GuardStateMachine.INVESTIGATE and decision.get("reason","")=="thiết bị đáng ngờ","Visual evidence feeds the real investigate transition")
 	_expect(post.rig_evidence_position.distance_to(rig.global_position)>1,"Inspection aims outside the solid cart")
 	rig.powered=true
+	rig.global_position=Vector3(-10.2,-4,-47)
+	player.global_position=rig.to_global(C.GRIP_OFFSET)
 	var side := level.get_node("Guards/Guard4") as Guard
-	side.global_position=Vector3(-5,-4,-43.5)
+	side.global_position=Vector3(-10.2,-4,-43.2)
 	side.rotation.y=atan2(-(rig.global_position-side.global_position).x,-(rig.global_position-side.global_position).z)
 	await _frames(2)
 	_expect(rig.hardware_visible_to(side) and not rig.camouflages_observer(side),"Side observer sees suspicious hardware despite active projection")
@@ -100,23 +102,27 @@ func _run() -> void:
 		for p in [bay,rig.to_global(C.GRIP_OFFSET)]:
 			var nav := NavigationServer3D.map_get_closest_point(level.get_world_3d().navigation_map,p)
 			_expect(Vector2(nav.x-p.x,nav.z-p.z).length()<.6,"Bay parking point has walkable navigation: "+str(p))
-	# Test the transition, not only a parked pose: a visible cart corner must
-	# regain valid projection before it emerges from the physical cover.
+	# Transition safety is now an intentional attention decision: the post really turns.
+	post._hardware_exposed=false
+	post.vision.reset()
+	post.machine.request_transition(GuardStateMachine.PATROL,"fixture")
+	_expect(post.begin_terminal_check(C.CALL_DURATION),"Post accepts a legitimate terminal check")
+	post.rotation.y=0
 	for entry in C.BAY_ENTRIES:
 		for sample in 20:
 			rig.position=Vector3(entry.x,-4,lerpf(entry.z,C.HALL_Z,float(sample)/19.0))
 			player.position=rig.to_global(C.GRIP_OFFSET)
 			await _frames(1)
-			_expect(not rig.hardware_visible_to(post) or rig.camouflages_observer(post),"Bay exit preserves main-observer cover at "+str(rig.position))
+			_expect(not rig.hardware_visible_to(post),"Turning to the terminal removes the actual sightline during transition "+str(rig.position))
 			post.vision._physics_process(.05)
-			_expect(not post.vision.can_see_target,"Bay exit physically covers the actual body at "+str(player.position))
+			_expect(not post.vision.can_see_target,"Bay transition does not expose the player to a guard facing away")
 	rig.restore_checkpoint_state({})
 	player.global_position=C.PREP
 	await _frames(4)
 	_expect(CheckpointManager.find(level).active==level.get_node("Gameplay/ProjectionCheckpoint"),"New B1 checkpoint activates only after vault access")
 	objectives.complete(M.FILE)
 	await _frames(2)
-	_expect(not rig.get_node("HandleControl").can_interact(player),"File pickup cannot start cart handling during extraction")
+	_expect(rig.get_node("HandleControl").can_interact(player),"Cart remains movable after file pickup if the escape path needs clearing")
 	_expect(CheckpointManager.find(level).saved_progress.get(M.FILE,-1)!=ObjectiveManager.State.COMPLETED,"Post-file overlap never overwrites pre-file checkpoint")
 	flow.fail("projection fixture")
 	_expect(flow.retry_checkpoint(),"Real failure can retry the B1 checkpoint")
@@ -132,7 +138,7 @@ func _run() -> void:
 	rig=level.get_node("Gameplay/ProjectionRig")
 	_expect(get_nodes_in_group("guards").is_empty(),"No-guard variant contains no hidden calibration NPC")
 	_expect(rig.observer_eye().distance_to(C.POST_EYE)<.001,"No-guard projection has an explicit reference eye")
-	_expect(level.has_node("Gameplay/ProjectionCheckpoint") and level.has_node("Gameplay/FileEscapeDoor"),"No-guard variant inherits all V6 gameplay")
+	_expect(level.has_node("Gameplay/ProjectionCheckpoint") and level.has_node("Gameplay/ArchiveLock") and level.has_node("Gameplay/B1Surveillance"),"No-guard variant inherits all V6 gameplay")
 	current_scene=null
 	level.queue_free()
 	await _frames(20)

@@ -87,7 +87,9 @@ func build(builder: SceneTree, region: Node3D) -> void:
 	preload("res://maps/intelligence/tools/k17_projection_builder.gd").new().build(self)
 	# East return corridor and the second independent stairwell.
 	_box("ReturnFloor",Vector3(22,-4.2,-38),Vector3(24,.4,8),"floor")
-	_wall_h(-42,10,34,[],-4,4)
+	_wall_h(-37,10,28,[],-4,4)
+	_wall_v(28,-42,-37,[],-4,4)
+	_wall_h(-42,28,34,[],-4,4)
 	_wall_h(-34,10,34,[Vector2(28,32)],-4,4)
 	_wall_v(34,-42,-34,[],-4,4)
 	_stair(4)

@@ -7,14 +7,14 @@ func _rig() -> Node3D:
 func can_interact(by: Node) -> bool:
 	var mission := MapHudProvider.find_for(self) as K17MissionController
 	var objectives := ObjectiveManager.find(self)
-	return super(by) and mission != null and objectives != null and objectives.is_completed(K17MissionController.VAULT) and not mission.has_file and _rig().holder == null and (action == "grip" or _rig().deployed)
+	return super(by) and mission != null and objectives != null and objectives.is_completed(K17MissionController.VAULT) and _rig().holder == null and (action == "grip" or _rig().deployed)
 
 func get_prompt(_by: Node) -> String:
 	var mission := MapHudProvider.find_for(self) as K17MissionController
-	if mission and mission.has_file: return "Để thiết bị lại — rút tới tập kết"
+	if mission and mission.has_file and action=="grip": return "Có thể bỏ lại màn — nắm nếu cần dời" if _rig().deployed else "Dựng để dời màn nếu cần — có thể bỏ lại"
 	match action:
 		"power": return "Tắt hình chiếu" if _rig().powered else "Bật hình chiếu"
-		"fold": return "Thu màn — cần khoảng trống, chưa lấy hồ sơ"
+		"fold": return "Thu màn — giải phóng đường đi"
 	return "Nắm tay đẩy — tiến/lùi và quan sát" if _rig().deployed else "Dựng màn và hiệu chỉnh góc chốt gác"
 
 func get_hold_duration(_by: Node) -> float:

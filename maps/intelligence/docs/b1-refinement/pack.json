@@ -1,0 +1,29 @@
+{
+  "engine": "Godot 4.7.2 stable official",
+  "map_version": "v6-b1-refined",
+  "base_commit": "73e59e4",
+  "branch": "feature/twp",
+  "bytes": 62506516,
+  "sha256": "52ad64ab9f40e7f7e590c09e9ffbd904ab783ba7039e320aee41956fb1066974",
+  "preset": "Windows Desktop",
+  "path_local_ignored": "ci-logs/k17-b1/game.pck",
+  "runtime_checks": [
+    "normal",
+    "no_guards",
+    "native_ai_sabotage_walking"
+  ],
+  "native_walking_result": {
+    "remaining_seconds": 59.8,
+    "catches": 0,
+    "sensor_trips": 1,
+    "reinforcements": 4,
+    "waypoints": 130
+  },
+  "excludes": [
+    "tests",
+    "tools",
+    "map_tests",
+    "map_tools",
+    "map_docs"
+  ]
+}

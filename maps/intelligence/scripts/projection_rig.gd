@@ -28,6 +28,7 @@ var _wheel_audio: AudioStreamPlayer3D
 var _bump_audio: AudioStreamPlayer3D
 var _signal_audio: AudioStreamPlayer
 var _last_calibration_valid := false
+var _clearing := false
 
 func _ready() -> void:
 	add_to_group("k17_projection_rigs")
@@ -49,13 +50,13 @@ func _connect_flow() -> void:
 	if _flow: _flow.state_changed.connect(func(_from,_to): release_grip())
 
 func deploy() -> bool:
-	if deployed or not _can_play() or _mission.has_file: return false
+	if deployed or not _can_play(): return false
 	# Check the full raised panel, excluding only our own folded body.
 	var query := PhysicsShapeQueryParameters3D.new()
 	var full := BoxShape3D.new()
-	full.size = Vector3(2.2,2.24,.28)
+	full.size = Vector3(Config.SOLID_WIDTH,Config.SCREEN_HEIGHT-.04,.28)
 	query.shape = full
-	query.transform = global_transform*Transform3D(Basis.IDENTITY,Vector3(0,1.14,0))
+	query.transform = global_transform*Transform3D(Basis.IDENTITY,Vector3(0,Config.SCREEN_HEIGHT/2,0))
 	query.exclude = [get_rid()]
 	query.collision_mask = collision_mask
 	var obstructed := get_world_3d().direct_space_state.intersect_shape(query)
@@ -71,13 +72,13 @@ func deploy() -> bool:
 	return true
 
 func fold() -> bool:
-	if holder!=null or not deployed or not _can_play() or _mission.has_file: return false
+	if holder!=null or not deployed or not _can_play(): return false
 	_set_deployed(false)
 	powered = false
 	return true
 
 func begin_grip(by: Node) -> bool:
-	if not by is FirstPersonPlayer or holder!=null or not deployed or not _can_play() or _mission.has_file: return false
+	if not by is FirstPersonPlayer or holder!=null or not deployed or not _can_play(): return false
 	var actor := by as FirstPersonPlayer
 	var grip := to_global(Config.GRIP_OFFSET)
 	if Vector2(actor.global_position.x-grip.x,actor.global_position.z-grip.z).length()>.8:
@@ -107,6 +108,9 @@ func drive(input: Vector2,delta: float) -> Vector3:
 	var speed := Config.PUSH_SPEED if input.y<=0 else Config.REVERSE_SPEED
 	var local := Vector3(input.x*Config.SIDE_SPEED,0,input.y*speed)
 	var motion := global_basis*local*delta
+	# Real swept guide assistance; only lateral correction when not entering a bay.
+	if absf(input.x)<.05 and absf(global_position.z-Config.HALL_Z)<.07:
+		motion.z=clampf(Config.HALL_Z-global_position.z,-.15*delta,.15*delta)
 	if motion.length_squared()<.0000001:
 		_wheel_audio.stop()
 		return Vector3.ZERO
@@ -127,9 +131,25 @@ func drive(input: Vector2,delta: float) -> Vector3:
 		_emit_noise(.18,3.5,"Bánh xe màn chiếu")
 	return actual/maxf(delta,.001)
 
+func clear_by_guard(guard: Guard) -> bool:
+	if guard==null or guard.global_position.distance_to(global_position)>1.9 or not _mission.has_file: return false
+	release_grip()
+	# Fold in place: guard still collides with the real, knee-high case.
+	_set_deployed(false)
+	powered=false
+	(_shape.shape as BoxShape3D).size=Vector3(.75,.5,1.9)
+	get_node("FoldedCase").scale=Vector3(.75/1.9,1,1.9/.8)
+	_clearing=true
+	_bump_audio.play()
+	return true
+
 func _physics_process(delta: float) -> void:
-	if not _can_play() or (_mission and _mission.has_file): release_grip()
+	if not _can_play(): release_grip()
 	if not _can_play(): return
+	if _clearing:
+		var shift:=clampf(-47.8-global_position.z,-delta*.8,delta*.8)
+		move_and_collide(Vector3(0,0,shift))
+		if absf(global_position.z+47.8)<.03: _clearing=false
 	_noise_clock = maxf(0,_noise_clock-delta)
 	_bump_clock = maxf(0,_bump_clock-delta)
 	if holder and holder.global_position.distance_to(to_global(Config.GRIP_OFFSET))>1.3: release_grip()
@@ -198,7 +218,7 @@ func calibration_valid(eye: Vector3) -> bool:
 		var local_point := to_local(point)
 		var fraction := (-.12-local_eye.z)/(local_point.z-local_eye.z)
 		var on_screen := local_eye.lerp(local_point,fraction)
-		if absf(on_screen.x)>1.1 or on_screen.y<.0 or on_screen.y>2.24: return false
+		if absf(on_screen.x)>Config.SCREEN_SIZE.x/2 or on_screen.y<.0 or on_screen.y>Config.SCREEN_HEIGHT: return false
 	return true
 
 func hardware_points() -> PackedVector3Array:
@@ -239,6 +259,8 @@ func get_checkpoint_state() -> Dictionary:
 
 func restore_checkpoint_state(_saved: Dictionary) -> void:
 	release_grip()
+	collision_layer=1
+	_clearing=false
 	global_position = Config.HOME
 	global_rotation = Vector3(0,Config.YAW,0)
 	_set_deployed(false)
@@ -292,12 +314,14 @@ func _notify(text: String) -> void:
 func _set_deployed(value: bool) -> void:
 	deployed = value
 	_upright.visible = value
-	(_shape.shape as BoxShape3D).size = Vector3(2.2,2.24,.28) if value else Vector3(1.9,.5,.8)
-	_shape.position = Vector3(0,1.12,0) if value else Vector3(0,.25,.2)
+	(_shape.shape as BoxShape3D).size = Vector3(Config.SOLID_WIDTH,Config.SCREEN_HEIGHT-.04,.28) if value else Vector3(1.9,.5,.8)
+	_shape.position = Vector3(0,Config.SCREEN_HEIGHT/2,0) if value else Vector3(0,.25,.2)
 	_handle.position = Vector3(0,1.05,.64) if value else Vector3(0,.55,.64)
 	get_node("PowerControl").enabled=value
 	get_node("FoldControl").enabled=value
 	get_node("FoldedCase").visible = not value
+	get_node("FoldedCase").scale=Vector3.ONE
+	for button in ["FeedControl","CallControl"]: _upright.get_node(button).enabled=value
 
 func _build_model() -> void:
 	_shape = CollisionShape3D.new()
@@ -307,9 +331,9 @@ func _build_model() -> void:
 	_upright = Node3D.new()
 	_upright.name = "Upright"
 	add_child(_upright)
-	_box(_upright,"Backing",Vector3(0,1.12,-.04),Vector3(2.18,2.22,.12),Color("182626"))
-	for x in [-1.04,1.04]: _box(_upright,"Frame",Vector3(x,1.1,.08),Vector3(.10,2.15,.15),Color("43534e"))
-	_box(_upright,"TopRail",Vector3(0,2.17,.08),Vector3(2.16,.09,.15),Color("43534e"))
+	_box(_upright,"Backing",Vector3(0,Config.SCREEN_HEIGHT/2,-.04),Vector3(Config.SOLID_WIDTH,Config.SCREEN_HEIGHT-.04,.12),Color("182626"))
+	for x in [-1.20,1.20]: _box(_upright,"Frame",Vector3(x,1.23,.08),Vector3(.10,2.4,.15),Color("43534e"))
+	_box(_upright,"TopRail",Vector3(0,2.44,.08),Vector3(2.50,.09,.15),Color("43534e"))
 	_box(_upright,"Axle",Vector3(0,.13,.22),Vector3(1.85,.10,.55),Color("141b1b"))
 	for x in [-.82,.82]:
 		var wheel := MeshInstance3D.new()
@@ -340,6 +364,19 @@ func _build_model() -> void:
 	_handle = _control("HandleControl",Vector3(0,.55,.64),Vector3(1.35,.6,.18),"grip")
 	_control("PowerControl",Vector3(.66,1.30,.34),Vector3(.20,.14,.04),"power")
 	_control("FoldControl",Vector3(-.68,1.07,.64),Vector3(.18,.2,.06),"fold")
+	_box(_upright,"FrontCamera",Vector3(0,1.65,-.17),Vector3(.12,.10,.10),Color("131d21"))
+	for entry in [["FeedControl",Vector3(.3,1.3,.34),"feed"],["CallControl",Vector3(-.05,1.3,.34),"call"]]:
+		var button:=preload("res://maps/intelligence/scripts/b1_console.gd").new()
+		button.name=entry[0]
+		button.position=entry[1]
+		button.action=entry[2]
+		var hit:=CollisionShape3D.new()
+		var box:=BoxShape3D.new()
+		box.size=Vector3(.18,.15,.08)
+		hit.shape=box
+		button.add_child(hit)
+		_upright.add_child(button)
+		_box(_upright,str(entry[0])+"Button",entry[1],Vector3(.18,.15,.06),Color("91b7b0"))
 	_box(_upright,"PowerButton",Vector3(.66,1.3,.32),Vector3(.20,.14,.04),Color("b39e5f"))
 	_box(_upright,"FoldSwitch",Vector3(-.68,1.07,.60),Vector3(.18,.2,.1),Color("b39e5f"))
 
@@ -401,7 +438,7 @@ func _build_projection() -> void:
 	var face := MeshInstance3D.new()
 	face.name="ProjectedFace"
 	var quad := QuadMesh.new()
-	quad.size=Vector2(2.2,2.24)
+	quad.size=Config.SCREEN_SIZE
 	face.mesh=quad
 	face.material_override=_image
 	face.position=Config.SCREEN_CENTER

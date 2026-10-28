@@ -19,7 +19,7 @@ func build(b: SceneTree, gameplay: Node3D) -> void:
 	control.rotation.y=-PI/2
 	control.circuit_title="CAMERA / NGUỒN CHÍNH"
 	control.on_text="Camera bật. Lính vẫn tuần tra theo vị trí và tiếng động."
-	control.off_text="Camera đã tắt. Khi phá niêm phong, nguồn dự phòng sẽ khởi động sau 15 giây."
+	control.off_text="Camera mặt đất đã tắt. B1 dùng nguồn nội bộ riêng. Phá niêm phong khởi động dự phòng sau 15 giây."
 	control.style="rotary"
 	b._add(gameplay,control)
 	var cameras: Node3D=b._group(gameplay,"Cameras")

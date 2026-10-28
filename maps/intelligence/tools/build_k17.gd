@@ -292,15 +292,7 @@ func _gameplay() -> bool:
 	_add(forward,forward_spawn)
 	_controlled_door(gameplay,"VaultDoor",Vector3(4,1.2,-24),Mission.VAULT,"xác nhận mã tại keypad bên cạnh")
 	_controlled_door(gameplay,"DispatchDoor",Vector3(-18,1.2,35),Mission.FILE,"lệnh điều động")
-	var shortcut := _controlled_door(gameplay,"MaintenanceShortcut",Vector3(10,-2.8,-38),Mission.FILE,"Mật lệnh 04")
-	shortcut.rotation.y=PI/2
-	var file_exit := _controlled_door(gameplay,"FileEscapeDoor",ProjectionConfig.ROOM_EXIT,Mission.FILE,"niêm phong hồ sơ — chỉ mở sau khi lấy")
-	file_exit.door_name="cửa thoát phòng hồ sơ"
-	file_exit.prompt="Mở cửa thoát phòng hồ sơ"
-	var aisle := _controlled_door(gameplay,"ProjectionAisleExit",ProjectionConfig.AISLE_EXIT,Mission.FILE,"niêm phong hồ sơ — đường rút")
-	aisle.rotation.y=PI/2
-	aisle.door_name="cửa ngăn cầu thang"
-	aisle.prompt="Mở cửa ngăn — rút qua sân hoặc bảo trì"
+	_build_b1_systems(gameplay)
 	var rig := (load(BASE+"scenes/equipment/projection_rig.tscn") as PackedScene).instantiate()
 	rig.position=ProjectionConfig.HOME
 	rig.rotation.y=ProjectionConfig.YAW
@@ -316,7 +308,7 @@ func _gameplay() -> bool:
 	projection_spawn.rotation.y=PI/2
 	_add(projection_cp,projection_spawn)
 	var room_notice := _script(gameplay,"ProjectionRoom",Area3D.new(),BASE+"scripts/projection_room.gd")
-	room_notice.position=Vector3(-11.8,-2.75,-42.15)
+	room_notice.position=Vector3(-17.2,-2.75,-42.15)
 	_shape(room_notice,Vector3(6.8,2.5,6.0))
 	# Ground markings, sign and radio position live in the environment scene.
 	for i in 2:
@@ -337,6 +329,41 @@ func _gameplay() -> bool:
 	V4Builder.new().build(self,gameplay)
 	return SabotageBuilder.new().build(self,gameplay)
 
+
+func _build_b1_systems(gameplay: Node3D) -> void:
+	var surveillance:=_script(gameplay,"B1Surveillance",Node3D.new(),BASE+"scripts/projection_surveillance.gd")
+	var hack:=_script(gameplay,"B1Hack",Area3D.new(),BASE+"scripts/b1_console.gd") as Interactable
+	hack.position=ProjectionConfig.HACK
+	hack.hold_duration=3.0
+	_shape(hack,Vector3(.6,.65,.20))
+	_box(hack,"Panel",Vector3.ZERO,Vector3(.5,.6,.10),METAL)
+	var cctv:=_group(surveillance,"C1")
+	cctv.position=ProjectionConfig.CCTV
+	_paint(cctv,"Housing",Vector3.ZERO,Vector3(.35,.25,.22),METAL)
+	_paint(cctv,"Lens",Vector3(.20,0,0),Vector3(.10,.12,.12),CYAN)
+	_paint(cctv,"Bracket",Vector3(0,.13,0),Vector3(.07,.15,.07),METAL)
+	var lock:=_script(gameplay,"ArchiveLock",Area3D.new(),BASE+"scripts/archive_lock.gd")
+	lock.position=ProjectionConfig.ROOM_LOCK
+	_shape(lock,Vector3(.65,.70,.60))
+	_box(lock,"Reader",Vector3.ZERO,Vector3(.45,.55,.12),METAL)
+	var reader_label:=Label3D.new()
+	reader_label.name="ReaderLabel"
+	reader_label.text="HỒ SƠ\nGIỮ E / 6 GIÂY"
+	reader_label.position=Vector3(0,.05,-.07)
+	reader_label.rotation.y=PI
+	reader_label.pixel_size=.0015
+	reader_label.font_size=20
+	_add(lock,reader_label)
+	var leaf:=_box(lock,"Leaf",ProjectionConfig.ROOM_DOOR-ProjectionConfig.ROOM_LOCK,Vector3(3.0,2.4,.2),METAL)
+	leaf.get_node("Mesh").gi_mode=GeometryInstance3D.GI_MODE_DYNAMIC
+	leaf.set_script(load(BASE+"scripts/dynamic_geometry.gd"))
+	var housing:=_paint(lock,"DoorHousing",ProjectionConfig.ROOM_DOOR-ProjectionConfig.ROOM_LOCK+Vector3(0,2.8,.14),Vector3(3.3,3.2,.48),METAL)
+	housing.gi_mode=GeometryInstance3D.GI_MODE_DYNAMIC
+	var motor:=AudioStreamPlayer3D.new()
+	motor.name="Motor"
+	motor.stream=SoundBank.pick("shutter_rattle")
+	motor.max_distance=14
+	_add(lock,motor)
 
 func _controlled_door(parent: Node,title: String,pos: Vector3,key: StringName,key_title: String) -> AccessDoor:
 	var door:=AccessDoor.new()

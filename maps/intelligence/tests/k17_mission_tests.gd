@@ -97,7 +97,7 @@ func _check_layout() -> void:
 		for i in points.size():
 			var path := NavigationServer3D.map_get_path(map, points[i].global_position, points[(i + 1) % points.size()].global_position, true)
 			_expect(not path.is_empty() and path[-1].distance_to(points[(i + 1) % points.size()].global_position) < 1.0, "Every patrol segment has a navigable path: %s / %s -> %s (end %s)" % [guard.name,points[i].global_position,points[(i+1)%points.size()].global_position,path[-1] if not path.is_empty() else Vector3.INF])
-	for target in [Vector3(-12, 0.05, 5.5), Vector3(8, 0.05, -20), Vector3(-13, -3.95, -42.7), Vector3(36, 0.05, 51)]:
+	for target in [Vector3(-12, 0.05, 5.5), Vector3(8, 0.05, -20), Vector3(-19, -3.95, -42.7), Vector3(36, 0.05, 51)]:
 		var path := NavigationServer3D.map_get_path(map, player.global_position, target, true)
 		_expect(not path.is_empty() and path[-1].distance_to(target) < 1.0, "Mission locations and both exits are connected to navigation.")
 
@@ -127,7 +127,7 @@ func _take_file() -> void:
 	# separate patrol and walking runs exercise their actual decisions.
 	for guard in level.get_node("Guards").get_children(): guard.process_mode=Node.PROCESS_MODE_DISABLED
 	_expect(level.get_node("Gameplay/VaultDoor").is_open,"Solved keypad opens the real vault door")
-	await _use("Gameplay/IntelligenceFile", Vector3(-13, -3.95, -42.7))
+	await _use("Gameplay/IntelligenceFile", Vector3(-19, -3.95, -42.7))
 	_expect(mission.has_file and objectives.current() == M.ESCAPE, "File pickup starts extraction.")
 	_expect(mission.time_left > 119.0 and mission.time_left <= 120.0, "Exactly one 120-second deadline starts on pickup.")
 	var remaining := mission.time_left

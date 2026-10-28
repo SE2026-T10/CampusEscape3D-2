@@ -12,7 +12,7 @@ const VAULT_CODE := "4827"
 const NOTES := [
 	["VaultCode",Vector3(5.9,1.34,11.5),"Chỉ dẫn kho B1","Kho B1 dùng bốn chữ số. Đọc các ô trong bảng ca trực theo thứ tự A → C → B → D. Bảng đối chiếu ở điểm chuẩn bị khu hồ sơ. Thẻ và checkpoint phải hợp lệ trước khi xác nhận mã.",true],
 	["DutyTable",Vector3(8.85,1.4,-18.45),"Bảng ca trực","Đối chiếu ca trực: A = 4; B = 2; C = 8; D = 7. Thứ tự nhập do ban chỉ huy quy định trong chỉ dẫn kho B1. Nhập sai ba lần: khóa tạm 20 giây và báo động cục bộ.",false],
-	["PowerMemo",Vector3(42.85,1.4,1.7),"Nguồn dự phòng và đường rút","Công tắc trạm điện cắt nguồn camera chính. Phá niêm phong hồ sơ khởi động nguồn dự phòng sau 15 giây. Cổng sân đóng ở giây 90. Chuẩn bị chốt cửa hậu để mở nhanh; nếu chưa chuẩn bị phải giữ E tám giây. Lấy tài liệu xong mới bắt đầu 120 giây.\n\nTÙY CHỌN / PHÁ HOẠI: tủ tình báo dự phòng nằm cạnh bàn dụng cụ trong xưởng phía nam trạm điện. Sau khi lấy hồ sơ, giữ E 5 giây tại mặt tủ để đặt thiết bị đã được cấp. Không chiếm ô đồ, không cộng giờ. Thiết bị chỉ kích hoạt khi đã rút tới tập kết an toàn; có thể bỏ qua để ưu tiên hồ sơ.",false],
+	["PowerMemo",Vector3(42.85,1.4,1.7),"Nguồn dự phòng và đường rút","Công tắc trạm điện cắt nguồn camera trên mặt đất; CCTV B1 có nguồn nội bộ riêng và cần chiếm kênh tại điểm chuẩn bị. Phá niêm phong hồ sơ khởi động nguồn dự phòng sau 15 giây. Cổng sân đóng ở giây 90. Chuẩn bị chốt cửa hậu để mở nhanh; nếu chưa chuẩn bị phải giữ E tám giây. Lấy tài liệu xong mới bắt đầu 120 giây.\n\nTÙY CHỌN / PHÁ HOẠI: tủ tình báo dự phòng nằm cạnh bàn dụng cụ trong xưởng phía nam trạm điện. Sau khi lấy hồ sơ, giữ E 5 giây tại mặt tủ để đặt thiết bị đã được cấp. Không chiếm ô đồ, không cộng giờ. Thiết bị chỉ kích hoạt khi đã rút tới tập kết an toàn; có thể bỏ qua để ưu tiên hồ sơ.",false],
 ]
 const BOTTLES := [Vector3(-35,.86,4),Vector3(5,.05,12.7)]
 const HIDING := {
@@ -21,7 +21,7 @@ const HIDING := {
 	"RadioBay": Vector3(0,0,13),
 	"Utilities": Vector3(41.2,0,5),
 	"Records": Vector3(8,0,-20),
-	"Vault": Vector3(-3,-4,-50.7),
+	"Vault": Vector3(-5.8,-4,-51.3),
 	"Service": Vector3(25.8,0,37.3),
 }
 const HIDING_SIZE := {

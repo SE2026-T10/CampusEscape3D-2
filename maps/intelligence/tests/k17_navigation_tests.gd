@@ -106,7 +106,7 @@ func _mount_and_input() -> void:
 func _map_and_actor() -> void:
 	var data:=minimap.layout
 	_expect(data.ground_bounds.is_equal_approx(Rect2(-48,-53,96,108)),"Generated surface bounds match the compound")
-	_expect(data.basement_bounds.is_equal_approx(Rect2(-21,-54.8,57,32.8)),"Generated underground frame includes both stairs")
+	_expect(data.basement_bounds.is_equal_approx(Rect2(-30,-54.8,66,32.8)),"Generated underground frame includes the refined B1 and both stairs")
 	_expect(data.stairs.size()==2 and data.shapes_for(0,"walls").size()>50 and data.shapes_for(1,"walls").size()>10,"Generated plan has actual walls and both stairwells")
 	_expect(not data.shapes_for(0,"floors").any(func(area: Rect2): return area.has_point(Vector2(4,-29))),"Ground plan preserves the stairwell hole")
 	for point in [Vector3(-36,0,51),Vector3(36,0,51),Vector3(-36,0,4),Vector3(8,0,-20),Mount.KEYPAD_STAND,Vector3(4,-4,-35),Vector3(0,-4,-48.5),Vector3(30,-4,-38)]:

@@ -4,6 +4,8 @@ Ngày lập: 28/10/2026. Bản nền đã đối chiếu: `98db7ed`, nhánh `fea
 
 **Trạng thái: đã triển khai V6 trên `feature/twp`; xem [kết quả và số đo thực tế](VALIDATION.md).** Bản dưới giữ kế hoạch trước khi dựng từ [luồng chơi đã thảo luận](PLAY_FLOW_DRAFT.md). Các thông số đề xuất ban đầu được giữ để đối chiếu; thông số sau cân chỉnh, phần bổ sung ô kính quan sát và kết quả nghiệm thu nằm trong báo cáo.
 
+Đợt hoàn thiện B1 sau phản hồi chơi thử đã triển khai theo [B1_REFINEMENT_PLAN.md](B1_REFINEMENT_PLAN.md): cảm biến kín tuyến, hốc/W1/W2, camera và chuyển hướng chú ý, khóa hồ sơ, đẩy màn qua cửa rồi rút ngược. Xem [kết quả B1 mới](../b1-refinement/VALIDATION.md); báo cáo V6 tại thư mục này giữ kết quả của bản trước.
+
 Đây là tài liệu chính cho hướng V6 hiện tại. [SCENARIO.md](SCENARIO.md) giữ bản ý tưởng trước; phòng đầu quét và khu điều phối với hai lệnh lựa chọn trong bản đó chưa thuộc phạm vi triển khai này.
 
 ## 1. Trải nghiệm cần đạt
