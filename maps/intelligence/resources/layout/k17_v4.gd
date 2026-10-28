@@ -7,7 +7,7 @@ const CAMERAS := [
 	["Service",Vector3(27,3,28),Vector3(32,1,37),10.0],
 ]
 const POWER_SWITCH := Vector3(42.9,1.4,3.2)
-const KEYPAD := Vector3(5.35,1.3,-23.45)
+const KEYPAD := preload("res://maps/intelligence/resources/layout/k17_navigation.gd").KEYPAD
 const VAULT_CODE := "4827"
 const NOTES := [
 	["VaultCode",Vector3(5.9,1.34,11.5),"Chỉ dẫn kho B1","Kho B1 dùng bốn chữ số. Đọc các ô trong bảng ca trực theo thứ tự A → C → B → D. Bảng đối chiếu ở điểm chuẩn bị khu hồ sơ. Thẻ và checkpoint phải hợp lệ trước khi xác nhận mã.",true],

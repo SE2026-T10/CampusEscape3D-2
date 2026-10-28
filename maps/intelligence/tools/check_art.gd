@@ -67,10 +67,11 @@ func _run() -> void:
 	var hud := level.get_node("ObjectiveHud") as ObjectiveHud
 	_expect(not hud.get("_list").visible,"Compact checklist is actually hidden")
 	var door := level.get_node("Gameplay/ArchiveDoor") as AccessDoor
-	var leaf := door.get_node("Panel/DoorHinge") as Node3D
+	var leaf := door.get_node("DoorHinge") as Node3D
 	door.open()
 	await _frames(50)
 	_expect(absf(leaf.rotation_degrees.y-90) < 1.0,"Authored door swings clear when opened")
+	_expect(leaf.is_visible_in_tree(),"Open K17 door remains visible on its hinge")
 	door.restore_checkpoint_state({"open":false})
 	_expect(absf(leaf.rotation.y) < .01,"Checkpoint shuts the authored door")
 	provider.call("_set_alarm_lights",true)

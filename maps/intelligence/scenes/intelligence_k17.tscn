@@ -1597,7 +1597,7 @@ door_name = "cửa khu hồ sơ"
 key_objective_id = &"take_pass"
 key_item = &"staff_card"
 key_name = "giấy thông hành"
-leaf_paths = Array[NodePath]([NodePath("Panel/DoorHinge")])
+leaf_paths = Array[NodePath]([NodePath("DoorHinge")])
 leaf_open_angles = PackedFloat32Array(90)
 prompt = "Mở cửa khu hồ sơ"
 
@@ -1610,11 +1610,11 @@ collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/ArchiveDoor/Panel" unique_id=702371204]
 shape = SubResource("BoxShape3D_x5ffc")
 
-[node name="DoorHinge" type="Node3D" parent="Gameplay/ArchiveDoor/Panel" unique_id=497036311]
+[node name="DoorHinge" type="Node3D" parent="Gameplay/ArchiveDoor" unique_id=497036311]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.72, 0, 0)
 script = ExtResource("17_xonbt")
 
-[node name="blast_door2" type="Node3D" parent="Gameplay/ArchiveDoor/Panel/DoorHinge" unique_id=1862020479 instance=ExtResource("24_yy7ta")]
+[node name="blast_door2" type="Node3D" parent="Gameplay/ArchiveDoor/DoorHinge" unique_id=1862020479 instance=ExtResource("24_yy7ta")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1.72, 0, 0)
 
 [node name="ArchiveCheckpoint" type="Area3D" parent="Gameplay" unique_id=929347177]
@@ -1646,7 +1646,7 @@ script = ExtResource("23_e3jqd")
 door_name = "cửa kho mật"
 key_objective_id = &"open_vault"
 key_name = "xác nhận mã tại keypad bên cạnh"
-leaf_paths = Array[NodePath]([NodePath("Panel/DoorHinge")])
+leaf_paths = Array[NodePath]([NodePath("DoorHinge")])
 leaf_open_angles = PackedFloat32Array(90)
 prompt = "Mở cửa kho mật"
 
@@ -1659,11 +1659,11 @@ collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/VaultDoor/Panel" unique_id=922714577]
 shape = SubResource("BoxShape3D_stw0e")
 
-[node name="DoorHinge" type="Node3D" parent="Gameplay/VaultDoor/Panel" unique_id=772422253]
+[node name="DoorHinge" type="Node3D" parent="Gameplay/VaultDoor" unique_id=772422253]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.97, 0, 0)
 script = ExtResource("17_xonbt")
 
-[node name="blast_door2" type="Node3D" parent="Gameplay/VaultDoor/Panel/DoorHinge" unique_id=1384988581 instance=ExtResource("24_yy7ta")]
+[node name="blast_door2" type="Node3D" parent="Gameplay/VaultDoor/DoorHinge" unique_id=1384988581 instance=ExtResource("24_yy7ta")]
 transform = Transform3D(1.13, 0, 0, 0, 1, 0, 0, 0, 1, 1.97, 0, 0)
 
 [node name="DispatchDoor" type="Area3D" parent="Gameplay" unique_id=322818846]
@@ -1672,7 +1672,7 @@ script = ExtResource("23_e3jqd")
 door_name = "lối tắt bảo trì"
 key_objective_id = &"take_intelligence"
 key_name = "lệnh điều động"
-leaf_paths = Array[NodePath]([NodePath("Panel/DoorHinge")])
+leaf_paths = Array[NodePath]([NodePath("DoorHinge")])
 leaf_open_angles = PackedFloat32Array(90)
 prompt = "Mở lối tắt bảo trì"
 
@@ -1685,11 +1685,11 @@ collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/DispatchDoor/Panel" unique_id=1942039303]
 shape = SubResource("BoxShape3D_0qf2n")
 
-[node name="DoorHinge" type="Node3D" parent="Gameplay/DispatchDoor/Panel" unique_id=1907732448]
+[node name="DoorHinge" type="Node3D" parent="Gameplay/DispatchDoor" unique_id=1907732448]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.97, 0, 0)
 script = ExtResource("17_xonbt")
 
-[node name="blast_door2" type="Node3D" parent="Gameplay/DispatchDoor/Panel/DoorHinge" unique_id=1288856572 instance=ExtResource("24_yy7ta")]
+[node name="blast_door2" type="Node3D" parent="Gameplay/DispatchDoor/DoorHinge" unique_id=1288856572 instance=ExtResource("24_yy7ta")]
 transform = Transform3D(1.13, 0, 0, 0, 1, 0, 0, 0, 1, 1.97, 0, 0)
 
 [node name="MaintenanceShortcut" type="Area3D" parent="Gameplay" unique_id=1515907974]
@@ -1698,7 +1698,7 @@ script = ExtResource("23_e3jqd")
 door_name = "lối tắt bảo trì"
 key_objective_id = &"take_intelligence"
 key_name = "Mật lệnh 04"
-leaf_paths = Array[NodePath]([NodePath("Panel/DoorHinge")])
+leaf_paths = Array[NodePath]([NodePath("DoorHinge")])
 leaf_open_angles = PackedFloat32Array(90)
 prompt = "Mở lối tắt bảo trì"
 
@@ -1711,11 +1711,11 @@ collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Gameplay/MaintenanceShortcut/Panel" unique_id=353561767]
 shape = SubResource("BoxShape3D_hwaej")
 
-[node name="DoorHinge" type="Node3D" parent="Gameplay/MaintenanceShortcut/Panel" unique_id=1152128312]
+[node name="DoorHinge" type="Node3D" parent="Gameplay/MaintenanceShortcut" unique_id=1152128312]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.97, 0, 0)
 script = ExtResource("17_xonbt")
 
-[node name="blast_door2" type="Node3D" parent="Gameplay/MaintenanceShortcut/Panel/DoorHinge" unique_id=191549156 instance=ExtResource("24_yy7ta")]
+[node name="blast_door2" type="Node3D" parent="Gameplay/MaintenanceShortcut/DoorHinge" unique_id=191549156 instance=ExtResource("24_yy7ta")]
 transform = Transform3D(1.13, 0, 0, 0, 1, 0, 0, 0, 1, 1.97, 0, 0)
 
 [node name="Extraction0" type="Area3D" parent="Gameplay" unique_id=1265815274]
@@ -1866,7 +1866,7 @@ TÙY CHỌN / PHÁ HOẠI: tủ tình báo dự phòng nằm cạnh bàn dụng 
 show_marker = true
 
 [node name="VaultKeypad" type="Node3D" parent="Gameplay" unique_id=1838575452]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.35, 1.3, -23.45)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.7, 1.3, -23.709)
 script = ExtResource("35_w4fh7")
 code = "4827"
 door_path = NodePath("../VaultDoor")

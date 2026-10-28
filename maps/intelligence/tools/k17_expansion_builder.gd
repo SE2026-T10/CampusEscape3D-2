@@ -157,6 +157,7 @@ func _box(title: String,pos: Vector3,size: Vector3,material: String,collision:=t
 		body.position=pos
 		b._paint(body,"Mesh",Vector3.ZERO,size,Color.WHITE)
 	body.set_meta("expansion",true)
+	if title=="FloorFinish": body.set_meta("minimap_room",true)
 	var mesh:=body.get_node("Mesh") as MeshInstance3D
 	(mesh.mesh as BoxMesh).add_uv2=true
 	mesh.material_override=_material(material)
@@ -220,6 +221,7 @@ func _stair(x: float) -> void:
 	var body:=StaticBody3D.new()
 	body.name="StairRamp"
 	body.set_meta("expansion",true)
+	body.set_meta("minimap_stair",Rect2(x-2,-34,4,10))
 	b._add(sector,body)
 	var points:=PackedVector3Array()
 	for dx in [-2.0,2.0]:

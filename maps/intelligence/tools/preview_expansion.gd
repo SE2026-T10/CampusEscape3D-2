@@ -31,7 +31,7 @@ func _run() -> void:
 		["06_utilities",Vector3(36,1.6,21),Vector3(36,1.6,4)],
 		["07_service_stairs",Vector3(30,-2.4,-36),Vector3(30,1,-24)],
 		["08_power_console",Vector3(40.7,1.65,2.4),Vector3(43,1.6,3.2)],
-		["09_keypad",Vector3(5.35,1.65,-21.7),Vector3(5.35,1.55,-23.45)],
+		["09_keypad",Vector3(6.7,1.65,-21.7),preload("res://maps/intelligence/resources/layout/k17_navigation.gd").KEYPAD+Vector3(0,.2,0)],
 		["10_command_south",Vector3(9,1.6,1.5),Vector3(0,1.4,3)],
 		["11_radio",Vector3(.3,1.6,13.2),Vector3(6,1.6,10.5)],
 		["12_old_guard_room",Vector3(-5.5,1.6,12),Vector3(-13,1.3,2)],

@@ -12,6 +12,7 @@ var player: FirstPersonPlayer
 var mission: K17MissionController
 var flow: GameFlow
 var waypoints := 0
+var minimap_checks := 0
 var live_guards := false
 var crouched := false
 var prepare_backdoor := false
@@ -93,9 +94,9 @@ func _run() -> void:
 				waited+=1
 			print("[K17 watch] keypad clearance waited=",waited/60.0," position=",archive_guard.position)
 		await _use("Gameplay/DutyTable")
-		await _route([Vector3(7,0,-20),Vector3(7,0,-23),Vector3(5.35,0,-22)])
+		await _route([Vector3(7,0,-20),preload("res://maps/intelligence/resources/layout/k17_navigation.gd").KEYPAD_STAND])
 		await _keypad()
-		await _route([Vector3(4,0,-22.4)])
+		await _route([Vector3(7,0,-23),Vector3(4,0,-23),Vector3(4,0,-22.4)])
 		await _route([Vector3(4,-4,-35),Vector3(4,-4,-48.5),Vector3(0,-4,-48.5)])
 		await _use("Gameplay/IntelligenceFile")
 		await _shot(route+"_02_file")
@@ -119,7 +120,7 @@ func _run() -> void:
 		await _frames(40)
 	await Cleanup.settle_async_audio(self)
 	for failure in failures: printerr(failure)
-	print("K17 WALKING PASSED (%d waypoints, %d routes; NPC active=%s)"%[waypoints,routes.size(),str(live_guards)] if failures.is_empty() else "K17 WALKING FAILED")
+	print("K17 WALKING PASSED (%d waypoints, %d routes; NPC active=%s; minimap=%d samples)"%[waypoints,routes.size(),str(live_guards),minimap_checks] if failures.is_empty() else "K17 WALKING FAILED")
 	quit(0 if failures.is_empty() else 1)
 
 
@@ -285,11 +286,25 @@ func _walk(target: Vector3) -> bool:
 		await physics_frame
 	Input.action_release("move_forward")
 	await _frames(6)
+	if not _check_minimap(): return false
 	if not arrived and flow.state != GameStateMachine.State.WIN:
 		for c in player.get_slide_collision_count():
 			var collision:=player.get_slide_collision(c)
 			print("[K17 blocked collider] ",collision.get_collider().get_path()," normal=",collision.get_normal())
 		failures.append("Blocked walking toward %s (actual %s, state %s)" % [target, player.global_position, flow.state])
+		return false
+	return true
+
+
+func _check_minimap() -> bool:
+	var map:=level.get_node("ObjectiveHud/Minimap")
+	var local_position:=level.to_local(player.global_position)
+	var forward:=level.global_basis.inverse()*(-player.global_basis.z)
+	var heading:=atan2(forward.x,-forward.z)
+	var floor_ok: bool=(map.floor_id==1 if local_position.y< -2.5 else map.floor_id==0 if local_position.y> -1.5 else true)
+	minimap_checks+=1
+	if map.marker_local.distance_to(local_position)>.15 or absf(angle_difference(map.marker_heading,heading))>.02 or not floor_ok:
+		failures.append("Minimap disagrees with walking actor at "+str(local_position))
 		return false
 	return true
 

@@ -48,6 +48,10 @@ func _build() -> void:
 	var expansion:=Expansion.new()
 	expansion.build(self,region)
 	SabotageBuilder.new().navigation(self,region)
+	if not preload("res://maps/intelligence/tools/k17_minimap_builder.gd").new().save(region):
+		level.free()
+		quit(1)
+		return
 	if not _build_environment(region):
 		level.free()
 		quit(1)
@@ -256,12 +260,12 @@ func _gameplay() -> bool:
 	hinge.name = "DoorHinge"
 	hinge.set_script(load(BASE+"scripts/dynamic_geometry.gd"))
 	hinge.position.x = -1.72
-	_add(panel,hinge)
+	_add(door,hinge)
 	var door_art := (load(BASE+"assets/models/blast_door.glb") as PackedScene).instantiate()
 	door_art.position.x = 1.72
 	door_art.rotation.y = PI
 	_add(hinge, door_art)
-	door.leaf_paths = [NodePath("Panel/DoorHinge")]
+	door.leaf_paths = [NodePath("DoorHinge")]
 	door.leaf_open_angles = PackedFloat32Array([90.0])
 	var cp := _script(gameplay, "ArchiveCheckpoint", Area3D.new(), BASE + "scripts/mission_checkpoint.gd") as Checkpoint
 	cp.position = Layout.PREP+Vector3(0,.95,0)
@@ -317,7 +321,7 @@ func _controlled_door(parent: Node,title: String,pos: Vector3,key: StringName,ke
 	_shape(door,Vector3(4,2.4,1))
 	var panel:=_box(door,"Panel",Vector3.ZERO,Vector3(3.95,2.4,.25),METAL)
 	panel.get_node("Mesh").free()
-	var hinge:=_group(panel,"DoorHinge")
+	var hinge:=_group(door,"DoorHinge")
 	hinge.set_script(load(BASE+"scripts/dynamic_geometry.gd"))
 	hinge.position.x=-1.97
 	var model: Node3D=(load(BASE+"assets/models/blast_door.glb") as PackedScene).instantiate()
@@ -325,7 +329,7 @@ func _controlled_door(parent: Node,title: String,pos: Vector3,key: StringName,ke
 	model.scale.x=1.13
 	_add(hinge,model)
 	for mesh in model.find_children("*","GeometryInstance3D",true,false): mesh.gi_mode=GeometryInstance3D.GI_MODE_DYNAMIC
-	door.leaf_paths=[NodePath("Panel/DoorHinge")]
+	door.leaf_paths=[NodePath("DoorHinge")]
 	door.leaf_open_angles=PackedFloat32Array([90])
 	return door
 
@@ -415,6 +419,8 @@ func _paint(parent: Node, node_name: String, pos: Vector3, size: Vector3, colour
 	var box := BoxMesh.new()
 	box.size = size
 	mesh.mesh = box
+	if node_name in ["GuardRoomFloor","CommunicationsFloor","ArchiveFloor"]:
+		mesh.set_meta("minimap_room",true)
 	var key := colour.to_html()
 	if not materials.has(key):
 		var material := StandardMaterial3D.new()

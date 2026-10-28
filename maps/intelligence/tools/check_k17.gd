@@ -6,6 +6,7 @@ const ExpansionSuite := preload("res://maps/intelligence/tests/k17_expansion_tes
 const HoldSuite := preload("res://tests/hold_interaction_tests.gd")
 const V4Suite := preload("res://maps/intelligence/tests/k17_v4_tests.gd")
 const SabotageSuite := preload("res://maps/intelligence/tests/k17_sabotage_tests.gd")
+const NavigationSuite := preload("res://maps/intelligence/tests/k17_navigation_tests.gd")
 const Utils := preload("res://tests/test_utils.gd")
 func _init() -> void:
 	_run.call_deferred()
@@ -17,6 +18,7 @@ func _run() -> void:
 	failures.append_array(await ExpansionSuite.new().run(root))
 	failures.append_array(await V4Suite.new().run(root))
 	failures.append_array(await SabotageSuite.new().run(root))
+	failures.append_array(await NavigationSuite.new().run(root))
 	await Utils.settle_async_audio(self)
 	for failure in failures:
 		printerr(failure)

@@ -6,9 +6,11 @@ Bản V4 giữ khuôn viên **96 × 108 m**, tám khu chức năng, kho mật **
 
 Đợt rà soát sau V4 bổ sung nội thất theo công năng, giá đỡ camera và sửa bảy điểm nấp. Camera trong nhà gắn trần, camera ngoài trời có cột/chân đế; phòng tác chiến, phân loại, trạm điện và xưởng có trang thiết bị. Khu phân loại phía đông đã có cửa thông nội bộ. Xem [ảnh và kiểm tra bản rà soát](docs/visual-review-v4/VALIDATION.md).
 
-Đợt [sửa điểm nối và gá đỡ](docs/attachments-v4/VALIDATION.md) nối lại các co ống theo đúng miệng nối, làm liền tuyến máng dây B1 và bổ sung gá, cột hoặc ty treo cho bảng biển. Bảng trên giá hồ sơ có thanh ngang đỡ; bảng điều khiển trạm điện và keypad có tủ/chân đỡ.
+Đợt [sửa điểm nối và gá đỡ](docs/attachments-v4/VALIDATION.md) nối lại các co ống theo đúng miệng nối, làm liền tuyến máng dây B1 và bổ sung gá, cột hoặc ty treo cho bảng biển. Bảng trên giá hồ sơ có thanh ngang đỡ; bảng điều khiển trạm điện có tủ đỡ.
 
 **V5 — Phá hoại tùy chọn:** sau khi lấy hồ sơ, có thể đặt thiết bị tại tủ tình báo dự phòng trong xưởng phía đông, cạnh bàn dụng cụ. Giữ E **5 giây** ở mặt tủ rồi rút trong cùng **120 giây**. Khi đã tới tập kết an toàn, cảnh phá hủy chạy khoảng bốn giây rồi hiện kết quả; Enter bỏ qua cảnh, Esc/P tạm dừng. Bỏ qua phá hoại vẫn thắng bình thường. Xem [kế hoạch](docs/sabotage-v5/PLAN.md) và [kết quả kiểm thử V5](docs/sabotage-v5/VALIDATION.md).
+
+**Keypad và minimap:** cụm nhập mã B1 gắn liền vỏ trên tường bên phải cửa, các phím có mặt đỡ; cánh cửa vẫn hiển thị khi mở. Minimap bên dưới nhiệm vụ lấy vị trí/hướng thật của người chơi, tự chuyển giữa tầng trệt và B1; phím **M** bật/tắt. Cả bản thường và bản không lính dùng cùng tính năng. Xem [kiểm tra và ảnh](docs/keypad-minimap/VALIDATION.md).
 
 ## Mở và tự chơi
 
@@ -18,7 +20,7 @@ Mở `project.godot` bằng **Godot 4.7.2 official**, nhấn F5 rồi chọn **K
 godot --path . res://maps/intelligence/scenes/intelligence_k17.tscn
 ```
 
-WASD di chuyển, chuột nhìn, Shift chạy, C/Ctrl cúi, E/giữ E tương tác, **1–3 chọn ô đồ, F ném chai, J xem nhật ký**, Esc/P tạm dừng, F3 bật thông tin gỡ lỗi. V4 chính chưa bật stamina; đây là đợt thử bổ sung sau khi cân bằng đường rút.
+WASD di chuyển, chuột nhìn, Shift chạy, C/Ctrl cúi, E/giữ E tương tác, **1–3 chọn ô đồ, F ném chai, J xem nhật ký, M bật/tắt minimap**, Esc/P tạm dừng, F3 bật thông tin gỡ lỗi. V4 chính chưa bật stamina; đây là đợt thử bổ sung sau khi cân bằng đường rút.
 
 **Test không lính:** chọn **K17 — Test map không lính gác** trong menu hoặc chạy `scenes/intelligence_k17_test.tscn`. Cùng bản đồ và nhiệm vụ; camera, cảm biến, mã kho, nguồn điện, checkpoint và đồng hồ vẫn chạy. Cả lính thường trực lẫn tiếp viện đều tắt. Restart/thử lại giữ đúng chế độ; về menu chọn bản thường để chơi có lính.
 
@@ -71,6 +73,8 @@ Cửa chờ người đứng ở ngưỡng tối đa ba giây rồi hủy lần 
 - `scenes/sectors/`: tám scene được instance vào map: vành đai, nhà xe, phòng trực, chỉ huy, trạm điện, phân loại, kho mật và tuyến dịch vụ.
 - `scenes/environment/k17_environment.tscn`: mỹ thuật lõi giữa; `k17_security.tscn`: cảm biến, radio, chốt và cổng động.
 - `resources/layout/k17_layout.gd`: vị trí nhiệm vụ, điểm tập kết, tuần tra và các tuyến điều động.
+- `resources/layout/k17_navigation.gd`: vị trí gá keypad và điểm đứng kiểm thử; `vault_keypad.gd` dựng vỏ/phím cùng hệ tọa độ.
+- `tools/k17_minimap_builder.gd`, `resources/k17_minimap_layout.tres`: sinh mặt bằng theo hình học trước khi gộp mesh; `scripts/minimap.gd` và `minimap_marker.gd` vẽ sơ đồ và cập nhật marker từ Player thật.
 - `tools/k17_expansion_builder.gd`: kiến trúc/va chạm/mỹ thuật các khu mở rộng; `build_k17.gd`: ghép map, nhiệm vụ và bake navmesh.
 - `tools/k17_room_dressing.gd`: nội thất theo công năng, hốc vật che và giá camera; được ghép trước khi bake navmesh/gom mesh/bake ánh sáng.
 - `tools/k17_attachment_builder.gd`: gá tường, cột và ty treo cho biển; `check_attachments.gd` kiểm tra điểm tựa trên hình học thật trước khi gom mesh và kiểm tra các đầu nối ống/máng dây.
@@ -96,6 +100,7 @@ godot --headless --path . --script res://maps/intelligence/tools/build_k17.gd
 godot --headless --path . --script res://maps/intelligence/tools/check_k17.gd
 godot --headless --path . --script res://maps/intelligence/tools/check_art.gd
 godot --headless --path . --script res://maps/intelligence/tools/check_attachments.gd
+godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/check_navigation.gd
 godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/check_sabotage.gd
 godot --headless --path . --script res://maps/intelligence/tools/playthrough_k17.gd -- --crouch --prepare --sprint-yard
 godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/playthrough_k17.gd -- --live-guards --crouch --prepare --camera-off --radio --wait-radio --sprint-exfil --settle-before-file --yard-flank --watch-patrol --stage-delay=6 --route=courtyard --utilities-north
