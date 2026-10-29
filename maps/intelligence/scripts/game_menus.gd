@@ -17,7 +17,7 @@ func _ready() -> void:
 		if label.text == "PAUSED": label.text = "TẠM DỪNG"
 
 func get_controls_text() -> String:
-	return "WASD di chuyển · Shift chạy · C/Ctrl cúi · E/giữ E tương tác\n1–3 chọn đồ · F ném chai · J nhật ký · Esc/P tạm dừng"
+	return "WASD di chuyển · Shift chạy · C/Ctrl cúi · E/giữ E tương tác\nV camera B1 · R gọi chốt · M bản đồ · J nhật ký\n1–3 chọn đồ · F ném chai · Esc/P tạm dừng"
 
 func get_win_text() -> String:
 	var m := MapHudProvider.find_for(self) as K17MissionController

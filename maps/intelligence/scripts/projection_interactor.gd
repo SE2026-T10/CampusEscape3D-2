@@ -14,5 +14,8 @@ func find_target() -> Interactable:
 	return super()
 
 func get_prompt_text() -> String:
-	if is_instance_valid(_player.get("projection_rig")): return "[E] Thả tay đẩy · WASD đẩy/lùi · chuột quan sát"
+	if is_instance_valid(_player.get("projection_rig")):
+		var camera:=get_tree().get_first_node_in_group("k17_b1_surveillance")
+		var hint: String="V camera trước/C1" if camera and camera.hacked and not camera.revoked else "Camera: cần chiếm kênh B1" if camera and not camera.revoked else "Camera: mất kết nối"
+		return "[E] Thả tay đẩy · WASD đẩy/lùi · "+hint
 	return super()

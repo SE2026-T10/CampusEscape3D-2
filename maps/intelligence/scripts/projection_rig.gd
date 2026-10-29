@@ -88,6 +88,8 @@ func begin_grip(by: Node) -> bool:
 	holder.set("projection_rig",self)
 	add_collision_exception_with(holder)
 	holder.add_collision_exception_with(self)
+	var surveillance:=get_tree().get_first_node_in_group("k17_b1_surveillance")
+	if surveillance: surveillance.show_front_on_grip()
 	return true
 
 func release_grip() -> void:

@@ -46,7 +46,21 @@ func hack() -> bool:
 	return true
 
 func cycle_feed() -> void:
-	if hacked and not revoked and can_play(): feed_mode=(feed_mode+1)%3
+	if not can_play(): return
+	if revoked:
+		_notify("Camera B1 đã mất kết nối sau báo động hồ sơ.")
+		return
+	if not hacked:
+		_notify("Camera chưa kết nối. Thả tay bằng E, giữ E 3 giây tại bảng CHIẾM KÊNH B1 ở khu chuẩn bị.")
+		return
+	feed_mode=(feed_mode+1)%3
+	if feed_mode==0: _notify("Đã ẩn camera B1 — V để bật lại camera trước.")
+
+func show_front_on_grip() -> void:
+	# Re-gripping after pause/retry should not leave an opaque panel with no view.
+	if hacked and not revoked and can_play() and feed_mode==0:
+		feed_mode=1
+		_tick=0
 
 func post() -> Node:
 	return get_tree().get_first_node_in_group("k17_projection_post")
@@ -79,7 +93,7 @@ func request_call() -> bool:
 	pending=C.CALL_DELAY
 	return true
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_echo() or not can_play(): return
 	var hud:=get_parent().get_parent().get_node_or_null("ObjectiveHud")
 	if hud and hud.is_journal_open(): return
@@ -215,6 +229,8 @@ func restore_checkpoint_state(saved: Dictionary) -> void:
 	calls.clear()
 	clock=0
 	_meter=0
-	feed_mode=0
+	# Rights survive the checkpoint: restore the usable front feed with them.
+	feed_mode=1 if hacked else 0
+	_tick=0
 	if _panel: _panel.hide()
 	if _viewport: _viewport.render_target_update_mode=SubViewport.UPDATE_DISABLED
