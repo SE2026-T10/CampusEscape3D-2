@@ -1,0 +1,17 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[K17 watch] utility north clearance waited=50.25
+[K17 watch] communications guard clearance waited=3.36666666666667 position=(6.002788, 0.00094, 12.74374)
+[K17 watch] keypad clearance waited=30.0666666666667 position=(-13.00986, 0.0, -18.93009)
+[K17 keypad] entry=4827 powered=true progress={ &"enter_k17": 2, &"take_pass": 2, &"take_vault_code": 2, &"reach_archive": 2, &"open_vault": 1, &"take_intelligence": 0, &"extract_k17": 0, &"prepare_backdoor": 2, &"disable_cameras": 2, &"sabotage_k17": 0 }
+[K17 dispatch] wave=1 actor=Reinforcement0 origin=(-18.0, 0.0, 39.5)
+[K17 dispatch] wave=1 actor=Reinforcement1 origin=(22.0, 0.0, -18.0)
+[K17 watch] archive patrol clearance waited=0.0
+[K17 dispatch] wave=2 actor=Reinforcement2 origin=(-42.0, 0.0, 42.0)
+[K17 dispatch] wave=2 actor=Reinforcement3 origin=(44.0, 0.0, -18.0)
+[K17 caught] Reinforcement1 player=(15.72745, 0.000941, 8.525641)
+[K17 blocked collider] /root/IntelligenceK17/NavigationRegion3D/Sectors/perimeter/GroundSouth normal=(0.0, 1.0, 0.0)
+[K17 walking V5] route=courtyard sabotage=false remaining=50.7 state=1 catches=1 sensors=0 reinforcements=4
+Blocked walking toward (16.0, 0.0, 18.0) (actual (15.72745, 0.000941, 8.525641), state 1)
+Extraction failed: courtyard
+K17 WALKING FAILED

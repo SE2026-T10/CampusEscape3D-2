@@ -15,6 +15,8 @@ const LAYER := 8
 @export var prompt := "Interact"
 ## Disabled interactables are ignored by the player's interaction ray.
 @export var enabled := true
+## Zero preserves instant interactions. PlayerInteractor owns hold/cancel input.
+@export_range(0.0, 30.0, 0.1) var hold_duration := 0.0
 
 
 func _ready() -> void:
@@ -31,6 +33,10 @@ func get_prompt(_by: Node) -> String:
 
 func can_interact(_by: Node) -> bool:
 	return enabled
+
+
+func get_hold_duration(_by: Node) -> float:
+	return hold_duration
 
 
 ## Uses the object. Returns true if the interaction succeeded.

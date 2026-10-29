@@ -1,0 +1,38 @@
+{
+	"conditions": "Real wall clock, VSync off. Three staged four-second finales, ten actors frozen at valid extraction. First effect activation included; no fixed-fps/headless. Not a walking E2E or gameplay FPS guarantee.",
+	"device": "Quadro P1000",
+	"renderer": "gl_compatibility",
+	"resolution": "1280x720",
+	"samples": [
+		{
+			"actors": 10,
+			"frames": 368,
+			"max_ms": 102.735,
+			"median_ms": 9.565,
+			"p95_ms": 17.211,
+			"p99_ms": 26.512,
+			"peak_draw_calls": 3350,
+			"repeat": 1
+		},
+		{
+			"actors": 10,
+			"frames": 390,
+			"max_ms": 24.946,
+			"median_ms": 9.403,
+			"p95_ms": 16.331,
+			"p99_ms": 19.841,
+			"peak_draw_calls": 3235,
+			"repeat": 2
+		},
+		{
+			"actors": 10,
+			"frames": 401,
+			"max_ms": 27.313,
+			"median_ms": 9.344,
+			"p95_ms": 13.666,
+			"p99_ms": 17.743,
+			"peak_draw_calls": 3350,
+			"repeat": 3
+		}
+	]
+}

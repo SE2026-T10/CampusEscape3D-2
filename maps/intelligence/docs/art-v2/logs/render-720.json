@@ -1,0 +1,49 @@
+{
+	"conditions": "VSync off. Real wall clock, four active NPCs; stationary camera, capture disabled. Not a full human playthrough.",
+	"device": "Quadro P1000",
+	"npc_count": 4,
+	"renderer": "gl_compatibility",
+	"resolution": "(1280, 720)",
+	"samples": [
+		{
+			"draw_calls": 3832.0,
+			"frames": 509,
+			"median_fps": 114.586914174401,
+			"median_ms": 8.727,
+			"p95_ms": 15.779,
+			"primitives": 785144.0,
+			"video_memory_bytes": 335437227.0,
+			"view": "yard"
+		},
+		{
+			"draw_calls": 2181.0,
+			"frames": 712,
+			"median_fps": 154.70297029703,
+			"median_ms": 6.464,
+			"p95_ms": 10.263,
+			"primitives": 416764.0,
+			"video_memory_bytes": 334844999.0,
+			"view": "corridor"
+		},
+		{
+			"draw_calls": 484.0,
+			"frames": 1235,
+			"median_fps": 256.805341551104,
+			"median_ms": 3.894,
+			"p95_ms": 5.71,
+			"primitives": 215194.0,
+			"video_memory_bytes": 334845079.0,
+			"view": "archive"
+		},
+		{
+			"draw_calls": 489.0,
+			"frames": 1247,
+			"median_fps": 260.756192959583,
+			"median_ms": 3.835,
+			"p95_ms": 5.679,
+			"primitives": 221816.0,
+			"video_memory_bytes": 343365239.0,
+			"view": "alarm"
+		}
+	]
+}

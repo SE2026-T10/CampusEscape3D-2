@@ -1,0 +1,110 @@
+{
+	"conditions": "Six actors frozen. OFF/ON/ON/OFF, 1s warmup + 2.5s sample. One 512x512 projection viewport at 12.5Hz. Frame intervals include CPU and renderer, not an isolated GPU timing or gameplay FPS guarantee.",
+	"device": "Quadro P1000",
+	"feed_conditions": "One actual 480x270 observation viewport at 10Hz; OFF/front/C1/OFF. Six actors frozen. Separate from the projection viewport.",
+	"feed_samples": [
+		{
+			"frames": 465,
+			"median_ms": 4.895,
+			"mode": 0,
+			"p95_ms": 8.623
+		},
+		{
+			"frames": 475,
+			"median_ms": 4.76,
+			"mode": 1,
+			"p95_ms": 9.294
+		},
+		{
+			"frames": 475,
+			"median_ms": 4.835,
+			"mode": 2,
+			"p95_ms": 8.302
+		},
+		{
+			"frames": 507,
+			"median_ms": 4.666,
+			"mode": 0,
+			"p95_ms": 7.053
+		}
+	],
+	"idle_after_file": true,
+	"idle_far_away": true,
+	"idle_paused": true,
+	"renderer": "gl_compatibility",
+	"resolution": "1280x720",
+	"samples": [
+		{
+			"frames": 282,
+			"mean_draw_calls": 1885.45390070922,
+			"median_ms": 8.161,
+			"p95_ms": 13.933,
+			"projection": false,
+			"repeat": 1,
+			"view": "guard_eye"
+		},
+		{
+			"frames": 218,
+			"mean_draw_calls": 1905.04587155963,
+			"median_ms": 10.914,
+			"p95_ms": 18.127,
+			"projection": true,
+			"repeat": 2,
+			"view": "guard_eye"
+		},
+		{
+			"frames": 284,
+			"mean_draw_calls": 1908.90845070423,
+			"median_ms": 8.268,
+			"p95_ms": 13.758,
+			"projection": true,
+			"repeat": 3,
+			"view": "guard_eye"
+		},
+		{
+			"frames": 293,
+			"mean_draw_calls": 1897.73037542662,
+			"median_ms": 8.091,
+			"p95_ms": 12.407,
+			"projection": false,
+			"repeat": 4,
+			"view": "guard_eye"
+		},
+		{
+			"frames": 421,
+			"mean_draw_calls": 644.560570071259,
+			"median_ms": 5.463,
+			"p95_ms": 10.752,
+			"projection": false,
+			"repeat": 1,
+			"view": "operator"
+		},
+		{
+			"frames": 274,
+			"mean_draw_calls": 664.905109489051,
+			"median_ms": 8.345,
+			"p95_ms": 15.406,
+			"projection": true,
+			"repeat": 2,
+			"view": "operator"
+		},
+		{
+			"frames": 394,
+			"mean_draw_calls": 666.083756345178,
+			"median_ms": 6.058,
+			"p95_ms": 9.361,
+			"projection": true,
+			"repeat": 3,
+			"view": "operator"
+		},
+		{
+			"frames": 449,
+			"mean_draw_calls": 636.503340757238,
+			"median_ms": 4.943,
+			"p95_ms": 10.16,
+			"projection": false,
+			"repeat": 4,
+			"view": "operator"
+		}
+	]
+}

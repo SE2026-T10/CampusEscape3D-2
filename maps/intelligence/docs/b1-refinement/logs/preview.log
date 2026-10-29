@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 581.15 - Compatibility - Using Device: NVIDIA - Quadro P1000
+
+[B1 capture] 01_sensors
+[B1 capture] 02_hack_console
+[B1 capture] 03_front_feed
+[B1 capture] 04_c1_feed
+[B1 capture] 05_post_projection
+[B1 capture] 06_bay_1
+[B1 capture] 07_archive_lock
+[B1 capture] 08_archive_open
+[B1 capture] hud_1920x1080_100
+[B1 capture] hud_1920x1080_125
+[B1 capture] hud_1280x720_100
+[B1 capture] hud_1280x720_125
+[B1 capture] hud_1024x768_100
+[B1 capture] hud_1024x768_125
+[B1 capture] 10_w1_hidden_bay
+[B1 capture] 10_w2_hidden_bay
+[B1 capture] 11_c1_actual_view
+[B1 capture] 09_floor_plan
+B1 RENDER CAPTURES COMPLETE / 12 feed/layout checks, 0 overlaps

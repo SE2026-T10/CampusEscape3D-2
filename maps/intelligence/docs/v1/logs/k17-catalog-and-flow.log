@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  [maps] catalog: [&"library_tutorial", &"expanded_library", &"intelligence_k17"], tutorial first
+  [maps] menu: 3 map buttons in catalog order, Library Tutorial focused, Up/Down reach every button, each button loads its map once, Quit quits
+  [maps] scroll/focus: all map buttons, Settings and Quit reachable at 2 window sizes x 4 UI scales
+  [maps] Library Tutorial: one of each system, Restart → library_graybox.tscn, Main menu → menu, connections { "player_caught": 1, "level_reset": 2, "state_changed": 2 }, all freed on leaving (loaded twice)
+  [maps] Expanded Library: one of each system, Restart → expanded_library.tscn, Main menu → menu, connections { "player_caught": 1, "level_reset": 2, "state_changed": 2 }, all freed on leaving (loaded twice)
+  [maps] K17 — 120 giây cuối (V1): one of each system, Restart → intelligence_k17.tscn, Main menu → menu, connections { "player_caught": 1, "level_reset": 2, "state_changed": 2 }, all freed on leaving (loaded twice)
+  [game flow] 3000 random requests over 167 games: 1101 transitions, 1899 refused, 0 duplicate or illegal
+  [game flow] pause/resume by key, button and focus loss: PLAYING → PAUSED → PLAYING → PAUSED → PLAYING → PAUSED → PLAYING
+  [game flow] paused 120 frames: guards, navigation, noise clock, player and timers frozen; guards moved again after resume
+  [game flow] caught → respawn: PLAYING → CAUGHT → PLAYING, pause refused on the caught screen
+  [game flow] victory: WIN once, cursor visible, play again requested ["res://maps/tutorial/scenes/library_graybox.tscn"]
+CATALOG AND GAME FLOW PASSED

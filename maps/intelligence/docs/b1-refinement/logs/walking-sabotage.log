@@ -1,0 +1,32 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[K17 watch] utility north clearance waited=0.0
+[K17 watch] communications guard clearance waited=60.0 position=(2.659204, 0.000942, 4.355786)
+[K17 watch] keypad clearance waited=15.95 position=(-13.00986, 0.0, -18.93009)
+[K17 keypad] entry=4827 powered=true progress={ &"enter_k17": 2, &"take_pass": 2, &"take_vault_code": 2, &"reach_archive": 2, &"open_vault": 1, &"take_intelligence": 0, &"extract_k17": 0, &"prepare_backdoor": 2, &"disable_cameras": 2, &"sabotage_k17": 0 }
+[K17 V6 push] target=(3.0, -4.0, -47.0) actual=(3.0, -4.0, -47.03765) arrived=true seconds=4.0 bumps=0
+[K17 V6 push] target=(0.2, -4.0, -47.0) actual=(0.245801, -4.0, -47.0) arrived=true seconds=3.3 bumps=0
+[B1 timing] window=1 natural=false waited=6.73333333333333 post_left=9.2833333333333 patrol=(-5.729732, -4.0, -36.60027) phase=3
+[K17 V6 push] target=(0.2, -4.0, -50.05) actual=(0.215749, -4.0, -50.00169) arrived=true seconds=3.4 bumps=0
+[K17 V6 push] target=(-2.3, -4.0, -50.05) actual=(-2.250971, -4.0, -50.03351) arrived=true seconds=2.96666666666667 bumps=0
+[B1 timing] window=1 natural=false waited=23.4166666666667 post_left=9.26666666666663 patrol=(-3.008671, -4.0, -37.95011) phase=2
+[K17 V6 push] target=(0.2, -4.0, -50.05) actual=(0.157364, -4.0, -50.03351) arrived=true seconds=2.88333333333333 bumps=0
+[K17 V6 push] target=(0.2, -4.0, -47.0) actual=(0.177398, -4.0, -47.03492) arrived=true seconds=3.38333333333333 bumps=0
+[K17 V6 push] target=(-7.5, -4.0, -47.0) actual=(-7.454318, -4.0, -47.0) arrived=true seconds=9.03333333333333 bumps=0
+[B1 timing] window=2 natural=false waited=75.2666666666667 post_left=9.24999999999996 patrol=(-6.638808, -4.0, -36.54441) phase=0
+[K17 V6 push] target=(-8.8, -4.0, -47.0) actual=(-8.757667, -4.0, -47.0) arrived=true seconds=1.58333333333333 bumps=0
+[K17 V6 push] target=(-8.8, -4.0, -50.05) actual=(-8.777701, -4.0, -50.00609) arrived=true seconds=3.4 bumps=0
+[K17 V6 push] target=(-11.8, -4.0, -50.05) actual=(-11.7586, -4.0, -50.0273) arrived=true seconds=3.56666666666667 bumps=0
+[B1 timing] window=2 natural=false waited=20.7333333333333 post_left=9.2833333333333 patrol=(-10.19045, -4.0, -38.11678) phase=5
+[K17 V6 push] target=(-8.8, -4.0, -50.05) actual=(-8.840237, -4.0, -50.0273) arrived=true seconds=3.48333333333333 bumps=0
+[K17 V6 push] target=(-8.8, -4.0, -47.0) actual=(-8.820202, -4.0, -47.02871) arrived=true seconds=3.38333333333333 bumps=0
+[K17 V6 push] target=(-16.5, -4.0, -47.0) actual=(-16.45194, -4.0, -47.0) arrived=true seconds=9.03333333333333 bumps=0
+[B1 pickup timing] waited=2.95 footsteps leaving W2 at (-10.16644, -4.0, -42.68337)
+[B1 AI] Guard6 0 -> 1 niêm phong hồ sơ báo động guard=(-26.5, -4.0, -47.0) player=(-18.70416, -3.999056, -42.64209)
+[K17 dispatch] wave=1 actor=Reinforcement0 origin=(-18.0, 0.0, 39.5)
+[K17 dispatch] wave=1 actor=Reinforcement1 origin=(22.0, 0.0, -18.0)
+[B1 AI] Guard6 1 -> 0 investigation timed out guard=(-15.49978, -3.999059, -46.04988) player=(12.43362, -3.999056, -35.5)
+[K17 dispatch] wave=2 actor=Reinforcement2 origin=(-42.0, 0.0, 42.0)
+[K17 dispatch] wave=2 actor=Reinforcement3 origin=(44.0, 0.0, -18.0)
+[K17 walking V6] route=maintenance sabotage=true remaining=62.3 state=3 catches=0 sensors=1 reinforcements=4
+K17 WALKING PASSED (130 waypoints, 1 routes; NPC active=true; minimap=130 samples)

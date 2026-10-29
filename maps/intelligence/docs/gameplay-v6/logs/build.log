@@ -1,0 +1,11 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+K17 STATIC MERGE perimeter 11 boxes -> 3 batches
+K17 STATIC MERGE motor_pool 57 boxes -> 9 batches
+K17 STATIC MERGE guard_post 26 boxes -> 6 batches
+K17 STATIC MERGE command 138 boxes -> 18 batches
+K17 STATIC MERGE utilities 185 boxes -> 14 batches
+K17 STATIC MERGE records 206 boxes -> 20 batches
+K17 STATIC MERGE secure_vault 265 boxes -> 36 batches
+K17 STATIC MERGE service_route 85 boxes -> 19 batches
+K17 BUILT V6: 1019 navmesh polygons; projection + optional sabotage; 6 guards + 4 reinforcements

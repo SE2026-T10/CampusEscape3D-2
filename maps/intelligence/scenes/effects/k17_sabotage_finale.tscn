@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://maps/intelligence/scripts/extraction_finale.gd" id="1_113t5"]
+
+[node name="ExtractionFinale" type="Node3D" unique_id=1349928378]
+script = ExtResource("1_113t5")

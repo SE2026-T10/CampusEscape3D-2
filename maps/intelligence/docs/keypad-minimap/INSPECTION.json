@@ -1,0 +1,147 @@
+{
+	"compound_bounds_xz": {
+		"max_x": 48,
+		"max_z": 55,
+		"min_x": -48,
+		"min_z": -53
+	},
+	"door_mount_samples": [
+		{
+			"digit_world": "(5.035, 1.42, -23.45)",
+			"hinge_visible_in_tree": true,
+			"hinge_y_degrees": 0.0,
+			"is_open": false,
+			"keypad_transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (5.35, 1.3, -23.45)]",
+			"keypad_visual_hinge_path": "",
+			"panel_visible": true,
+			"plate_world": "(5.35, 1.53, -23.52)",
+			"sample": "closed"
+		},
+		{
+			"digit_world": "(5.035, 1.42, -23.45)",
+			"hinge_visible_in_tree": false,
+			"hinge_y_degrees": 23.2937147114519,
+			"is_open": true,
+			"keypad_transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (5.35, 1.3, -23.45)]",
+			"keypad_visual_hinge_path": "",
+			"panel_visible": false,
+			"plate_world": "(5.35, 1.53, -23.52)",
+			"sample": "opening_0_1s"
+		},
+		{
+			"digit_world": "(5.035, 1.42, -23.45)",
+			"hinge_visible_in_tree": false,
+			"hinge_y_degrees": 90.0000025044782,
+			"is_open": true,
+			"keypad_transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (5.35, 1.3, -23.45)]",
+			"keypad_visual_hinge_path": "",
+			"panel_visible": false,
+			"plate_world": "(5.35, 1.53, -23.52)",
+			"sample": "open_settled"
+		}
+	],
+	"hud_layouts": [
+		{
+			"journal": "[P: (20.0, 20.0), S: (420.0, 32.0)]",
+			"logical_view": "[P: (0.0, 0.0), S: (1280.0, 720.0)]",
+			"message": "[P: (190.0, 520.0), S: (900.0, 40.0)]",
+			"objectives": "[P: (896.0, 20.0), S: (364.0, 118.0)]",
+			"prompt": "[P: (616.0, 395.0), S: (48.0, 37.0)]",
+			"scale": 1.0,
+			"slots": "[P: (356.0, 624.0), S: (568.0, 70.0)]",
+			"status": "[P: (20.0, 20.0), S: (330.0, 224.0)]",
+			"window_actual": "(1280, 720)",
+			"window_requested": "(1280, 720)"
+		},
+		{
+			"journal": "[P: (20.0, 20.0), S: (420.0, 32.0)]",
+			"logical_view": "[P: (0.0, 0.0), S: (1024.0, 576.0)]",
+			"message": "[P: (62.0, 376.0), S: (900.0, 40.0)]",
+			"objectives": "[P: (640.0, 20.0), S: (364.0, 118.0)]",
+			"prompt": "[P: (488.0, 323.0), S: (48.0, 37.0)]",
+			"scale": 1.25,
+			"slots": "[P: (228.0, 480.0), S: (568.0, 70.0)]",
+			"status": "[P: (20.0, 20.0), S: (330.0, 224.0)]",
+			"window_actual": "(1280, 720)",
+			"window_requested": "(1280, 720)"
+		},
+		{
+			"journal": "[P: (20.0, 20.0), S: (420.0, 32.0)]",
+			"logical_view": "[P: (0.0, 0.0), S: (1280.0, 720.0)]",
+			"message": "[P: (190.0, 520.0), S: (900.0, 40.0)]",
+			"objectives": "[P: (896.0, 20.0), S: (364.0, 118.0)]",
+			"prompt": "[P: (616.0, 395.0), S: (48.0, 37.0)]",
+			"scale": 1.0,
+			"slots": "[P: (356.0, 624.0), S: (568.0, 70.0)]",
+			"status": "[P: (20.0, 20.0), S: (330.0, 224.0)]",
+			"window_actual": "(1024, 768)",
+			"window_requested": "(1024, 768)"
+		},
+		{
+			"journal": "[P: (20.0, 20.0), S: (420.0, 32.0)]",
+			"logical_view": "[P: (0.0, 0.0), S: (1024.0, 576.0)]",
+			"message": "[P: (62.0, 376.0), S: (900.0, 40.0)]",
+			"objectives": "[P: (640.0, 20.0), S: (364.0, 118.0)]",
+			"prompt": "[P: (488.0, 323.0), S: (48.0, 37.0)]",
+			"scale": 1.25,
+			"slots": "[P: (228.0, 480.0), S: (568.0, 70.0)]",
+			"status": "[P: (20.0, 20.0), S: (330.0, 224.0)]",
+			"window_actual": "(1024, 768)",
+			"window_requested": "(1024, 768)"
+		}
+	],
+	"keypad_world": "(5.35, 1.3, -23.45)",
+	"keys": [
+		{
+			"cap_back_z": -23.4465007781982,
+			"center": "(5.035, 1.42, -23.434)",
+			"gap_metres": 0.0485000610351563,
+			"name": "Dial1",
+			"plate_front_z": -23.4950008392334
+		},
+		{
+			"cap_back_z": -23.4465007781982,
+			"center": "(5.245, 1.42, -23.434)",
+			"gap_metres": 0.0485000610351563,
+			"name": "Dial2",
+			"plate_front_z": -23.4950008392334
+		},
+		{
+			"cap_back_z": -23.4465007781982,
+			"center": "(5.455, 1.42, -23.434)",
+			"gap_metres": 0.0485000610351563,
+			"name": "Dial3",
+			"plate_front_z": -23.4950008392334
+		},
+		{
+			"cap_back_z": -23.4465007781982,
+			"center": "(5.665, 1.42, -23.434)",
+			"gap_metres": 0.0485000610351563,
+			"name": "Dial4",
+			"plate_front_z": -23.4950008392334
+		},
+		{
+			"cap_back_z": -23.4465007781982,
+			"center": "(5.35, 1.22, -23.434)",
+			"gap_metres": 0.0485000610351563,
+			"name": "Enter",
+			"plate_front_z": -23.4950008392334
+		}
+	],
+	"plate_bounds_world": "[P: (4.825, 0.98, -23.545), S: (1.05, 1.1, 0.049999)]",
+	"player_spawn_world": "(-36.0, 0.000107, 51.0)",
+	"scope": "Read-only inspection of current loose V5 test scene; no gameplay source changes",
+	"version": "v5-sabotage",
+	"wall_probes": [
+		{
+			"hit_at": "(5.35, 1.4, -23.875)",
+			"hit_path": "/root/IntelligenceK17Test/Gameplay/VaultDoor/Panel",
+			"x": 5.35
+		},
+		{
+			"hit_at": "(6.7, 1.4, -23.825)",
+			"hit_path": "/root/IntelligenceK17Test/NavigationRegion3D/North1",
+			"x": 6.7
+		}
+	]
+}

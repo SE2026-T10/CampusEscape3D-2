@@ -1,0 +1,10 @@
+{
+	"metrics": {
+		"mean_error": 0.0141755253483131,
+		"on_off_change": 0.140760654762072,
+		"pixels": 2254
+	},
+	"passed": true,
+	"region": "[P: (615, 344), S: (49, 46)]",
+	"scope": "Staged images at the same guard eye, actors excluded, no walking claim"
+}

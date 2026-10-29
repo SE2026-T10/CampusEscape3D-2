@@ -1,0 +1,9 @@
+{
+  "artifact": "ci-logs/k17-v6/game.pck",
+  "sha256": "6F5D30905F67635760EB0CFC40F25584AC19853B87F4116564F1653A42EB9993",
+  "bytes": 62463020,
+  "engine": "4.7.2",
+  "renderer": "gl_compatibility",
+  "source_base": "98db7ed",
+  "branch": "feature/twp"
+}
