@@ -1,17 +1,24 @@
 extends Node3D
 
-## Museum-only objectives. All pickups can be collected in any order.
+## Museum-only objectives. Only T2 requires the staff-room key.
 const OBJECTIVES := [
+	{"id": &"take_key", "title": "Tìm chìa K cho phòng B",
+	 "hint": "Phòng nhân viên ở phía đông tầng 1; chìa ở gần (31.5, 13).",
+	 "done": "Đã lấy chìa K — có thể mở cửa phòng B ở tầng 2", "requires": []},
 	{"id": &"take_t1", "title": "Lấy tác phẩm T1",
-	 "hint": "T1 treo trên tường phía tây.", "done": "Đã lấy tác phẩm T1", "requires": []},
+	 "hint": "Phòng tranh A, phía tây tầng 2. Có thể lên bằng thang A hoặc B.",
+	 "done": "Đã lấy tác phẩm T1", "requires": []},
 	{"id": &"take_t2", "title": "Lấy tác phẩm T2",
-	 "hint": "T2 treo trên tường phía đông.", "done": "Đã lấy tác phẩm T2", "requires": []},
+	 "hint": "Dùng chìa K mở phòng B ở phía đông tầng 2; T2 treo trên tường phía đông.",
+	 "done": "Đã lấy tác phẩm T2", "requires": [&"take_key"]},
 	{"id": &"take_t3", "title": "Lấy tác phẩm T3",
-	 "hint": "T3 treo trên tường phía bắc.", "done": "Đã lấy tác phẩm T3", "requires": []},
+	 "hint": "Phòng tranh C, phía bắc tầng 2.", "done": "Đã lấy tác phẩm T3", "requires": []},
 	{"id": &"take_rope", "title": "Tìm dây thoát",
-	 "hint": "Dây nằm gần góc tây nam của phòng.", "done": "Đã lấy dây thoát", "requires": []},
+	 "hint": "Kho phục chế ở góc đông nam tầng 2; có lối vào tự do từ phòng đệm phía nam.",
+	 "done": "Đã lấy dây thoát", "requires": []},
 	{"id": &"escape", "title": "Buộc dây và thoát",
-	 "hint": "Đến điểm màu xanh ở phía nam, sau khi cắt đuôi bảo vệ.", "done": "Đã thoát khỏi bảo tàng!",
+	 "hint": "Cắt đuôi bảo vệ rồi dùng cửa sổ phía đông kho phục chế, tầng 2.",
+	 "done": "Đã thoát khỏi bảo tàng!",
 	 "requires": [&"take_t1", &"take_t2", &"take_t3", &"take_rope"]},
 ]
 

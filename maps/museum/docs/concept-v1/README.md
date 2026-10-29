@@ -53,4 +53,4 @@ Người chơi vẫn có thể trở lại qua cửa khóa đã mở. Kho phục
 
 Mặt bằng PNG/SVG là tham chiếu cho vị trí phòng, cửa và đường đi. Hai ảnh 3D là ảnh concept do imagegen tạo để trao đổi phong cách, không phải screenshot từ Godot hoặc mô hình 3D nhập được. Chi tiết trang trí, số nhân vật minh họa và độ rộng nhìn trong phối cảnh có thể khác bản vẽ; khi dựng map ưu tiên mặt bằng. Khoảng cách tách hai tầng trong ảnh chỉ nhằm trình bày, không phải chiều cao công trình.
 
-Đã kiểm tra trực quan bản vẽ và hai ảnh; đối chiếu khoảng thông tầng, vị trí cầu thang, khóa phòng B, lối vào kho và hướng thoát ra sân ngoài. SVG đã kiểm tra đọc được như XML. Chưa dựng scene hay đo nhịp chơi; kích thước và tuyến tuần tra sẽ được điều chỉnh sau khi chơi thử blockout.
+Đã kiểm tra trực quan bản vẽ và hai ảnh; đối chiếu khoảng thông tầng, vị trí cầu thang, khóa phòng B, lối vào kho và hướng thoát ra sân ngoài. SVG đã kiểm tra đọc được như XML. Ngày 29/10/2026 đã dựng [scene blockout hai tầng và kiểm tra gameplay](../step-06-blockout.md); xem tài liệu này để biết hình học thực tế và ảnh chụp Godot. Nhịp chơi và độ khó vẫn cần người chơi thử đánh giá.

@@ -24,6 +24,12 @@ func _bake() -> void:
 	await process_frame
 	await physics_frame
 	var region := level.get_node("NavigationRegion3D") as NavigationRegion3D
+	# Include closed door panels under this region. Runtime links only bridge
+	# their baked gaps after the corresponding door has actually opened.
+	region.navigation_mesh.agent_height = 1.8
+	region.navigation_mesh.agent_radius = 0.4
+	region.navigation_mesh.agent_max_climb = 0.25
+	region.navigation_mesh.agent_max_slope = 40.0
 	region.bake_navigation_mesh(false)
 	var count := region.navigation_mesh.get_polygon_count()
 	if count == 0:

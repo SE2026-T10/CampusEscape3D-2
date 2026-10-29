@@ -4,11 +4,15 @@ Người phụ trách: **hgmanh**. Nhánh phát triển: **`hgmanh-work`**.
 
 Map ID: **`museum`**. Thư mục làm việc: `maps/museum/`.
 Nhánh được tạo từ `main` tại commit `13807bd` ngày 27/10/2026.
-Hiện có phòng demo chơi được tại `res://maps/museum/scenes/museum.tscn`:
-ba tác phẩm, dây, điểm thoát, một bảo vệ tuần tra và HUD nhiệm vụ.
+Hiện có bản dựng khối hai tầng 36 × 30 m tại `res://maps/museum/scenes/museum.tscn`:
+sân trong thông tầng, hai đường dốc chữ U, ba bảo vệ, chìa K, hai cửa có điều kiện,
+ba tác phẩm, dây, cửa sổ thoát và HUD nhiệm vụ.
 Mở scene rồi nhấn **F6** để thử riêng; map chưa đăng ký trong menu chung.
 
-Chi tiết: [Bước 4 — bảo vệ tuần tra](docs/step-04-patrol.md),
+Hướng dẫn hiện tại: **[Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md)**,
+kèm ảnh chụp Godot và cách chỉnh sàn/dốc/cửa. Bản dựng đã qua 95 kiểm tra riêng của map.
+
+Lịch sử phòng thử: [Bước 4 — bảo vệ tuần tra](docs/step-04-patrol.md),
 [Bước 5 — nhiệm vụ, thắng và thua](docs/step-05-demo.md).
 
 ## Thư mục làm việc
@@ -25,7 +29,9 @@ Chi tiết: [Bước 4 — bảo vệ tuần tra](docs/step-04-patrol.md),
 
 1. Mở project Godot tại `D:\IT\SE_GAME_3D`.
 2. Mở scene chính `res://maps/museum/scenes/museum.tscn` với node gốc `Museum`.
-3. Mở rộng môi trường, collision và NavigationRegion3D/NavMesh riêng của bảo tàng.
+3. Sửa hình học trong scene con `scenes/museum_geometry.tscn`; sau khi đổi collision,
+   bake lại navmesh từ NavigationRegion3D trong scene chính. Builder trong `tools/`
+   chỉ dùng khi muốn tạo lại hình học, sẽ ghi đè chỉnh sửa trực tiếp trong scene con.
 4. Sử dụng player/NPC từ `shared/scenes/player/player.tscn` và
    `shared/scenes/npc/guard.tscn`; lựa chọn các cơ chế phù hợp trong `features/`.
 5. Cấu hình các hệ thống scene-local cần dùng (GameFlow, nhiệm vụ, checkpoint,

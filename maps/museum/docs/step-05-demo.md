@@ -1,5 +1,8 @@
 # Bước 5 — Vòng chơi có nhiệm vụ, thắng và thua
 
+> Đây là ghi chép của phòng thử ngày 28/10/2026. Scene hiện tại đã chuyển sang mặt bằng hai tầng,
+> có thêm K và cửa khóa; dùng [hướng dẫn bước 6](step-06-blockout.md) cho tọa độ và kiểm tra hiện tại.
+
 Mở `res://maps/museum/scenes/museum.tscn`, nhấn **F6**. Scene hiện có ba tác phẩm thử, một hộp đại diện dây, điểm thoát xanh, HUD nhiệm vụ và bảo vệ của bước 4.
 
 ## Cách chơi

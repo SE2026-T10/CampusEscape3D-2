@@ -1,6 +1,6 @@
 # Từ lần đầu mở Godot đến demo map bảo tàng
 
-Hướng dẫn dành riêng cho Campus Escape 3D, map `museum`, nhánh `hgmanh-work`. Ngày 28/10/2026, phòng demo mốc A–C đã có scene chơi được: `res://maps/museum/scenes/museum.tscn`. Xem [bước 5 đã triển khai](../step-05-demo.md) để biết cách chạy, vị trí vật phẩm và logic hiện tại. Các ví dụ code bên dưới là bản khởi đầu để học; bản triển khai trong `maps/museum/scripts/` còn giữ màn hình bị bắt trước khi tải lại map, kiểm tra tầm nhìn trực tiếp khi thoát và đóng băng actor khi thắng.
+Hướng dẫn dành riêng cho Campus Escape 3D, map `museum`, nhánh `hgmanh-work`. Ngày 29/10/2026, scene `res://maps/museum/scenes/museum.tscn` đã mở rộng thành **bản hai tầng mốc D**, thay phòng thử cũ. Xem [bước 6 đã triển khai](../step-06-blockout.md) để chạy F6, kiểm tra tọa độ, sàn/lỗ thang, chìa/cửa và vị trí vật phẩm. Các ví dụ mốc A–C bên dưới vẫn được giữ để học quá trình dựng; bản triển khai hiện tại có thêm K, cửa khóa, ba guard, giữ màn hình bị bắt trước khi tải lại toàn map và đóng băng actor khi thắng.
 
 ## 1. Đích đến của từng bản
 
@@ -249,6 +249,10 @@ func _on_interact(_by: Node) -> bool:
 **Đạt mốc C khi:** chưa lấy đủ đồ thì chưa thoát; lấy tranh theo các thứ tự khác nhau vẫn được; đủ đồ và mất truy đuổi thì thắng; Restart / Play Again trả scene về trạng thái ban đầu; bị bắt cũng khởi động lại đúng map.
 
 ## 6. Mốc D: mở rộng thành mặt bằng hai tầng
+
+**Đã có bản chạy được:** [hướng dẫn và ảnh Godot bước 6](../step-06-blockout.md).
+Bốn dải sàn ở ví dụ 6.1 đã được chia thành tám khối để chừa cả hai lỗ thang;
+không tạo thêm bốn tấm sàn kín chồng lên scene hiện tại.
 
 ### 6.1. Chuyển sang đúng hệ tọa độ
 

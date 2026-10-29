@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://maps/museum/scripts/museum_door.gd" id="1_door"]
+
+[sub_resource type="StandardMaterial3D" id="Material_door"]
+albedo_color = Color(0.3, 0.21, 0.13, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_panel"]
+material = SubResource("Material_door")
+size = Vector3(1.6, 2.8, 0.26)
+
+[sub_resource type="BoxShape3D" id="Shape_panel"]
+size = Vector3(1.6, 2.8, 0.26)
+
+[sub_resource type="BoxShape3D" id="Shape_interaction"]
+size = Vector3(1.6, 2.8, 0.5)
+
+[node name="MuseumDoor" type="Area3D"]
+script = ExtResource("1_door")
+
+[node name="Panel" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.4, 0)
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Panel"]
+mesh = SubResource("Mesh_panel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Panel"]
+shape = SubResource("Shape_panel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.4, 0)
+shape = SubResource("Shape_interaction")
+
+[node name="Passage" type="NavigationLink3D" parent="."]
+enabled = false
+start_position = Vector3(0, 0.45, -1.1)
+end_position = Vector3(0, 0.45, 1.1)

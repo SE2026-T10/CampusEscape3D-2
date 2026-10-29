@@ -1,5 +1,8 @@
 # Bước 4 — Phòng thử có bảo vệ đi tuần
 
+> Ghi chép của phòng thử ban đầu. Scene hiện tại đã mở rộng thành hai tầng và ba bảo vệ;
+> dùng [hướng dẫn bước 6](step-06-blockout.md) cho vị trí và cách bake hiện tại.
+
 Mở `res://maps/museum/scenes/museum.tscn` và nhấn **F6** để chạy riêng map. Dùng WASD, chuột, Shift để chạy, C/Ctrl để cúi và Esc để pause. Restart trong menu tải lại bảo tàng.
 
 ## Cây scene đã bổ sung

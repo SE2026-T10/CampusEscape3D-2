@@ -77,4 +77,4 @@ Builder `build-floorplans.ps1` dùng `System.Drawing` trên Windows, không cầ
 & ([scriptblock]::Create((Get-Content -LiteralPath 'maps/museum/docs/concept-v1/build-floorplans.ps1' -Raw -Encoding UTF8)))
 ```
 
-Ảnh đã kiểm tra trực quan: chữ tiếng Việt, chú giải, thang tỷ lệ, lối vào/thoát, khoảng thông tầng, các cửa khóa và tuyến tuần tra đều hiển thị. SVG đã được kiểm tra cú pháp XML. Đây là tài liệu thiết kế; chưa phải scene Godot chơi được.
+Ảnh đã kiểm tra trực quan: chữ tiếng Việt, chú giải, thang tỷ lệ, lối vào/thoát, khoảng thông tầng, các cửa khóa và tuyến tuần tra đều hiển thị. SVG đã được kiểm tra cú pháp XML. Đây là tài liệu thiết kế. Bản scene hai tầng triển khai ngày 29/10/2026 nằm tại `res://maps/museum/scenes/museum.tscn`; xem [bước 6](../step-06-blockout.md) để đối chiếu sàn chia nhỏ, hai thang chữ U và vị trí tương tác thực tế.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bx6jj6mks1vku"]
+[gd_scene load_steps=29 format=3 uid="uid://bx6jj6mks1vku"]
 
 [ext_resource type="PackedScene" path="res://shared/scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://shared/scripts/game/game_flow.gd" id="2_game_flow"]
@@ -16,6 +16,9 @@
 [ext_resource type="PackedScene" path="res://maps/museum/scenes/painting_demo.tscn" id="14_painting"]
 [ext_resource type="Script" path="res://maps/museum/scripts/demo_pickup.gd" id="15_pickup"]
 [ext_resource type="Script" path="res://maps/museum/scripts/demo_exit.gd" id="16_exit"]
+
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/museum_geometry.tscn" id="17_geometry"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/museum_door.tscn" id="18_door"]
 
 [sub_resource type="Environment" id="Environment_room"]
 background_mode = 1
@@ -44,46 +47,36 @@ size = Vector3(0.9, 1.8, 0.12)
 [sub_resource type="BoxShape3D" id="Shape_exit"]
 size = Vector3(1.1, 2, 0.25)
 
+[sub_resource type="StandardMaterial3D" id="Material_key"]
+albedo_color = Color(0.96, 0.72, 0.15, 1)
+[sub_resource type="BoxMesh" id="Mesh_key"]
+material = SubResource("Material_key")
+size = Vector3(0.45, 0.12, 0.18)
+[sub_resource type="BoxShape3D" id="Shape_key"]
+size = Vector3(0.6, 0.35, 0.35)
+
 [node name="Museum" type="Node3D" unique_id=1010842359]
 script = ExtResource("11_demo")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = ExtResource("5_navigation")
 
-[node name="Geometry" type="Node3D" parent="NavigationRegion3D"]
+[node name="Geometry" parent="NavigationRegion3D" instance=ExtResource("17_geometry")]
 
-[node name="Floor" type="CSGBox3D" parent="NavigationRegion3D/Geometry"]
-position = Vector3(0, -0.15, 0)
-size = Vector3(12, 0.3, 12)
-use_collision = true
+[node name="Doors" type="Node3D" parent="NavigationRegion3D"]
 
-[node name="Wall_North" type="CSGBox3D" parent="NavigationRegion3D/Geometry"]
-position = Vector3(0, 1.5, -6)
-size = Vector3(12, 3, 0.3)
-use_collision = true
+[node name="GalleryB" parent="NavigationRegion3D/Doors" instance=ExtResource("18_door")]
+position = Vector3(27, 4.5, 10)
+rotation = Vector3(0, 1.5707963, 0)
 
-[node name="Wall_South" type="CSGBox3D" parent="NavigationRegion3D/Geometry"]
-position = Vector3(0, 1.5, 6)
-size = Vector3(12, 3, 0.3)
-use_collision = true
-
-[node name="Wall_West" type="CSGBox3D" parent="NavigationRegion3D/Geometry"]
-position = Vector3(-6, 1.5, 0)
-size = Vector3(0.3, 3, 12)
-use_collision = true
-
-[node name="Wall_East" type="CSGBox3D" parent="NavigationRegion3D/Geometry"]
-position = Vector3(6, 1.5, 0)
-size = Vector3(0.3, 3, 12)
-use_collision = true
-
-[node name="CoverPlinth" type="CSGBox3D" parent="NavigationRegion3D/Geometry"]
-position = Vector3(0, 0.6, 0)
-size = Vector3(2, 1.2, 1.2)
-use_collision = true
+[node name="RestorationShortcut" parent="NavigationRegion3D/Doors" instance=ExtResource("18_door")]
+position = Vector3(32, 4.5, 18)
+mode = 1
+door_name = "Cửa kho phục chế"
+open_from = Vector3(0, 0, -1)
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
-position = Vector3(0, 0.1, 4)
+position = Vector3(18, 0.1, 28.5)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 rotation = Vector3(-1.0471976, -0.5235988, 0)
@@ -106,32 +99,151 @@ win_message = "Bạn đã mang đủ ba tác phẩm và thoát khỏi bảo tàn
 [node name="ObjectiveHud" type="CanvasLayer" parent="."]
 script = ExtResource("13_objective_hud")
 
-[node name="PatrolRoute_Test" type="Node3D" parent="."]
+[node name="PatrolRoute_G1" type="Node3D" parent="."]
 script = ExtResource("6_route")
 
-[node name="P1" type="Marker3D" parent="PatrolRoute_Test"]
-position = Vector3(-3, 0.05, -3)
+[node name="P1" type="Marker3D" parent="PatrolRoute_G1"]
+position = Vector3(7, 0.1, 9)
 script = ExtResource("7_point")
-wait_time = 1.5
+wait_time = 0.8
 
-[node name="P2" type="Marker3D" parent="PatrolRoute_Test"]
-position = Vector3(3, 0.05, -3)
+[node name="P2" type="Marker3D" parent="PatrolRoute_G1"]
+position = Vector3(10.5, 0.1, 9)
 script = ExtResource("7_point")
-wait_time = 1.5
+wait_time = 0.8
 
-[node name="P3" type="Marker3D" parent="PatrolRoute_Test"]
-position = Vector3(3, 0.05, 3)
+[node name="P3" type="Marker3D" parent="PatrolRoute_G1"]
+position = Vector3(10.5, 0.1, 22.5)
 script = ExtResource("7_point")
-wait_time = 1.5
+wait_time = 0.8
 
-[node name="P4" type="Marker3D" parent="PatrolRoute_Test"]
-position = Vector3(-3, 0.05, 3)
+[node name="P4" type="Marker3D" parent="PatrolRoute_G1"]
+position = Vector3(18, 0.1, 22.5)
 script = ExtResource("7_point")
-wait_time = 1.5
+wait_time = 0.8
 
-[node name="Guard_Test" parent="." node_paths=PackedStringArray("patrol_route") instance=ExtResource("4_guard")]
-position = Vector3(-3, 0.1, -3)
-patrol_route = NodePath("../PatrolRoute_Test")
+[node name="P5" type="Marker3D" parent="PatrolRoute_G1"]
+position = Vector3(18, 0.1, 27)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P6" type="Marker3D" parent="PatrolRoute_G1"]
+position = Vector3(12, 0.1, 27)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P7" type="Marker3D" parent="PatrolRoute_G1"]
+position = Vector3(18, 0.1, 27)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P8" type="Marker3D" parent="PatrolRoute_G1"]
+position = Vector3(18, 0.1, 22.5)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P9" type="Marker3D" parent="PatrolRoute_G1"]
+position = Vector3(10.5, 0.1, 22.5)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P10" type="Marker3D" parent="PatrolRoute_G1"]
+position = Vector3(10.5, 0.1, 19)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P11" type="Marker3D" parent="PatrolRoute_G1"]
+position = Vector3(7, 0.1, 19)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="Guard_G1" parent="." node_paths=PackedStringArray("patrol_route") instance=ExtResource("4_guard")]
+position = Vector3(7, 0.1, 15)
+patrol_route = NodePath("../PatrolRoute_G1")
+
+[node name="PatrolRoute_G2" type="Node3D" parent="."]
+script = ExtResource("6_route")
+
+[node name="P1" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(7, 4.6, 9)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P2" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(10.5, 4.6, 9)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P3" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(10.5, 4.6, 7.5)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P4" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(15, 4.6, 7.5)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P5" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(15, 4.6, 4.5)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P6" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(23, 4.6, 4.5)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P7" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(23, 4.6, 7.5)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P8" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(10.5, 4.6, 7.5)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P9" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(10.5, 4.6, 19)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P10" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(7, 4.6, 19)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="Guard_G2" parent="." node_paths=PackedStringArray("patrol_route") instance=ExtResource("4_guard")]
+position = Vector3(7, 4.6, 15)
+patrol_route = NodePath("../PatrolRoute_G2")
+
+[node name="PatrolRoute_G3" type="Node3D" parent="."]
+script = ExtResource("6_route")
+
+[node name="P1" type="Marker3D" parent="PatrolRoute_G3"]
+position = Vector3(28.5, 4.6, 8.5)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P2" type="Marker3D" parent="PatrolRoute_G3"]
+position = Vector3(34, 4.6, 8.5)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P3" type="Marker3D" parent="PatrolRoute_G3"]
+position = Vector3(34, 4.6, 16)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P4" type="Marker3D" parent="PatrolRoute_G3"]
+position = Vector3(28.5, 4.6, 16)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="Guard_G3" parent="." node_paths=PackedStringArray("patrol_route") instance=ExtResource("4_guard")]
+position = Vector3(34, 4.6, 12)
+patrol_route = NodePath("../PatrolRoute_G3")
 
 [node name="NoiseSystem" type="Node3D" parent="."]
 script = ExtResource("8_noise")
@@ -145,11 +257,11 @@ script = ExtResource("10_hud")
 [node name="Interactables" type="Node3D" parent="."]
 
 [node name="Painting_T1" parent="Interactables" instance=ExtResource("14_painting")]
-position = Vector3(-5.65, 1.5, 0)
+position = Vector3(1.5, 6, 12)
 rotation = Vector3(0, 1.5707963, 0)
 
 [node name="Painting_T2" parent="Interactables" instance=ExtResource("14_painting")]
-position = Vector3(5.65, 1.5, 0)
+position = Vector3(35, 6, 10)
 rotation = Vector3(0, -1.5707963, 0)
 prompt = "Lấy tác phẩm T2"
 objective_id = &"take_t2"
@@ -158,15 +270,32 @@ objective_id = &"take_t2"
 text = "T2"
 
 [node name="Painting_T3" parent="Interactables" instance=ExtResource("14_painting")]
-position = Vector3(0, 1.5, -5.65)
+position = Vector3(18, 6, 1.1)
 prompt = "Lấy tác phẩm T3"
 objective_id = &"take_t3"
 
 [node name="Label3D" parent="Interactables/Painting_T3" index="2"]
 text = "T3"
 
+[node name="Key" type="Area3D" parent="Interactables"]
+position = Vector3(31.5, 0.9, 13)
+script = ExtResource("15_pickup")
+prompt = "Lấy chìa K — phòng B"
+objective_id = &"take_key"
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactables/Key"]
+mesh = SubResource("Mesh_key")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactables/Key"]
+shape = SubResource("Shape_key")
+[node name="Label3D" type="Label3D" parent="Interactables/Key"]
+position = Vector3(0, 0.5, 0)
+billboard = 1
+text = "K · CHÌA PHÒNG B"
+font_size = 56
+pixel_size = 0.005
+outline_size = 12
+
 [node name="Rope" type="Area3D" parent="Interactables"]
-position = Vector3(-3.8, 0.9, 5.2)
+position = Vector3(32, 5.4, 23)
 script = ExtResource("15_pickup")
 prompt = "Lấy dây thoát"
 objective_id = &"take_rope"
@@ -186,7 +315,8 @@ pixel_size = 0.005
 outline_size = 12
 
 [node name="EscapeWindow" type="Area3D" parent="Interactables"]
-position = Vector3(3.8, 1.1, 5.6)
+position = Vector3(35.65, 5.6, 27)
+rotation = Vector3(0, 1.5707963, 0)
 script = ExtResource("16_exit")
 prompt = "Buộc dây và thoát"
 
