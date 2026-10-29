@@ -115,10 +115,34 @@ const EXPANSION_SCENE := "res://maps/library/scenes/expanded_library_expansion.t
 ##   - Service stair landings polish (approved): no change to the level's scene; the
 ##     navmesh rebaked with the expansion's five solid west landing props (1232 → 1244
 ##     polygons).
-const BASELINE_GEOMETRY_SHA := "3d161e931fe655f4f5c8dbe035674ae2a8dcad7e5688dd83feffaf3a7379eb12"
-const BASELINE_DECORATION_SHA := "b5b52cbc5261245544c28400064fc9b70e6ca88c3bdbaf76b1d935f1335cce2c"
+##   - Staff offices, Kenney furniture polish (approved): no change to the level's scene;
+##     the navmesh rebaked with the expansion's new solid office props (a meeting table,
+##     bookcases, a tea point) and the wider coat racks (1244 → 1246 polygons).
+##   - Lobby, Kenney furniture polish (approved): maps/library/tools/expansion/fixes_x20.gd
+##     removes the circulation desk's monitor screen from the batches (decoration digest
+##     updated; colliders unchanged; Kenney computers in its place); the navmesh rebaked
+##     with the expansion's eleven solid lobby props (a desk chair, a waiting area, benches,
+##     plants, a bin, a coat rack) (1246 → 1256 polygons).
+##   - Reading hall and library chairs, Kenney furniture polish (approved):
+##     maps/library/tools/expansion/fixes_x21.gd hides the reading tables' twelve box chairs
+##     (decoration without collision; the digest is unchanged); the expansion's library
+##     chairs become Kenney chairs everywhere; the navmesh rebaked with the expansion's
+##     eleven solid chair rows at the reading tables and two plants by the hall doors,
+##     and with the lobby's waiting area moved in front of the cornerstone at the owner's
+##     request (1256 → 1272 polygons).
+##   - Lobby layout change (approved): maps/library/tools/expansion/fixes_x23.gd moves the
+##     circulation desk to the north-west planter's place and turns it 180° (its collider
+##     and boxes; collision and decoration digests updated), removes that planter (one
+##     collider fewer: 268 collision objects and shapes) and moves the desk's hiding spot
+##     behind it (13 hiding spots still); the navmesh rebaked (1272 → 1252 polygons).
+##   - Restricted archive, Kenney furniture polish (approved):
+##     maps/library/tools/expansion/fixes_x24.gd hides the two box chairs left at the
+##     archive's reading desk (Chair27, Chair28; decoration without collision; the digest
+##     is unchanged); no navmesh change.
+const BASELINE_GEOMETRY_SHA := "85653d19815a67c5206d7aa975fceb561d88ef673a7da0dfaf7afe3203812e78"
+const BASELINE_DECORATION_SHA := "75c990f1dbd3562574f99b67ac845e28044a4716005fb1e708d13e0dece3e3ff"
 const BASELINE_ACTORS_SHA := "5b21b05f6a85f8092db260a4459314cf7d3fdd9acc10a4d430530fdd5c9ea305"
-const BASELINE_COUNTS := {"collision_objects": 269, "collision_shapes": 269, "batched_nodes": 307,
+const BASELINE_COUNTS := {"collision_objects": 268, "collision_shapes": 268, "batched_nodes": 307,
 	"guards": 6, "patrol_points": 41, "hiding_spots": 13, "access_doors": 4, "checkpoints": 3, "lights": 90}
 ## Expansion Phase 4 (approved): the mission became an objective graph (mission_x3.py).
 ## Before: [enter_library, take_card, take_manuscript, unlock_shortcut, escape].
@@ -128,7 +152,7 @@ const BASELINE_OBJECTIVES := [&"enter_library", &"take_card", &"find_toolkit", &
 const PHASE5_ADDED := [^"Guards/GuardBasement", ^"Guards/P9_Basement"]
 const PHASE5_ADDED_COUNTS := {"guards": 1, "patrol_points": 5}
 const BASELINE_NAVMESH := "res://maps/library/resources/expanded_library_navmesh.tres"
-const BASELINE_NAV_POLYGONS := 1244
+const BASELINE_NAV_POLYGONS := 1252
 
 const SYSTEM_GROUPS := ["game_flow", "stealth_director", "noise_system", "audio_director", "player",
 	"objective_manager", "checkpoint_manager"]
