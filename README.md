@@ -637,3 +637,5 @@ Nếu quên tạo lại, kiểm thử báo `The saved navigation mesh is out of 
 - `docs/performance/release_1_1/README.md` — đo hiệu năng cả hai bản đồ.
 - **[`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md)** — báo cáo MVP cuối cùng và kiểm chứng phát hành.
 - Thiết kế thư viện mở rộng: `maps/library/docs/phase-0-audit.md`, `maps/library/docs/LAYOUT.md`, `maps/library/docs/phase-1-graybox.md`, `maps/library/docs/phase-2-map-selection.md`, `maps/library/docs/phase-3-navigation-and-guards.md`, `maps/library/docs/phase-4-mission.md`, `maps/library/docs/phase-5-balance.md`, `maps/library/docs/phase-6-visual-polish.md`, `maps/library/docs/PLAYTEST_PROTOCOL.md`, `maps/library/docs/LEVEL_LOG.md`.
+
+thêm nội dung
