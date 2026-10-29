@@ -1,0 +1,116 @@
+{
+	"conditions": "Real renderer, VSync off, 10 stationary actors, simulation frozen identically. Each view: OFF/ON/ON/OFF, 1s warm-up then 4s each. Compares minimap overhead only; not a gameplay FPS guarantee.",
+	"device": "Quadro P1000",
+	"renderer": "gl_compatibility",
+	"resolution": "1280x720",
+	"samples": [
+		{
+			"draw_calls": 3769.0,
+			"frames": 288,
+			"median_ms": 12.107,
+			"minimap": false,
+			"p95_ms": 21.627,
+			"repeat": 1,
+			"view": "yard"
+		},
+		{
+			"draw_calls": 3784.0,
+			"frames": 313,
+			"median_ms": 11.946,
+			"minimap": true,
+			"p95_ms": 17.808,
+			"repeat": 2,
+			"view": "yard"
+		},
+		{
+			"draw_calls": 3784.0,
+			"frames": 319,
+			"median_ms": 11.996,
+			"minimap": true,
+			"p95_ms": 16.718,
+			"repeat": 3,
+			"view": "yard"
+		},
+		{
+			"draw_calls": 3769.0,
+			"frames": 309,
+			"median_ms": 12.361,
+			"minimap": false,
+			"p95_ms": 17.229,
+			"repeat": 4,
+			"view": "yard"
+		},
+		{
+			"draw_calls": 803.0,
+			"frames": 808,
+			"median_ms": 4.668,
+			"minimap": false,
+			"p95_ms": 6.948,
+			"repeat": 1,
+			"view": "keypad"
+		},
+		{
+			"draw_calls": 818.0,
+			"frames": 799,
+			"median_ms": 4.793,
+			"minimap": true,
+			"p95_ms": 6.732,
+			"repeat": 2,
+			"view": "keypad"
+		},
+		{
+			"draw_calls": 818.0,
+			"frames": 822,
+			"median_ms": 4.64,
+			"minimap": true,
+			"p95_ms": 6.47,
+			"repeat": 3,
+			"view": "keypad"
+		},
+		{
+			"draw_calls": 803.0,
+			"frames": 843,
+			"median_ms": 4.547,
+			"minimap": false,
+			"p95_ms": 6.342,
+			"repeat": 4,
+			"view": "keypad"
+		},
+		{
+			"draw_calls": 3848.0,
+			"frames": 353,
+			"median_ms": 10.866,
+			"minimap": false,
+			"p95_ms": 14.501,
+			"repeat": 1,
+			"view": "basement"
+		},
+		{
+			"draw_calls": 3863.0,
+			"frames": 352,
+			"median_ms": 10.842,
+			"minimap": true,
+			"p95_ms": 15.399,
+			"repeat": 2,
+			"view": "basement"
+		},
+		{
+			"draw_calls": 3863.0,
+			"frames": 350,
+			"median_ms": 10.925,
+			"minimap": true,
+			"p95_ms": 14.954,
+			"repeat": 3,
+			"view": "basement"
+		},
+		{
+			"draw_calls": 3848.0,
+			"frames": 356,
+			"median_ms": 10.759,
+			"minimap": false,
+			"p95_ms": 15.058,
+			"repeat": 4,
+			"view": "basement"
+		}
+	]
+}

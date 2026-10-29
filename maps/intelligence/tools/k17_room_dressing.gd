@@ -134,20 +134,22 @@ func _service() -> void:
 
 func _vault() -> void:
 	e._select("secure_vault")
-	for x in [-8.4,8.4]: _cabinet(Vector3(x,-4,-35),"K17 / HỒ SƠ MẬT",PI)
-	_box("SealedCargoFront",Vector3(-7.5,-3.3,-45.8),Vector3(3,1.4,1.2),"olive",true)
-	_box("SealedCargoSide",Vector3(-9,-3.3,-47.3),Vector3(.8,1.4,3.4),"olive",true)
-	_board(Vector3(-7.5,-3.2,-46.43),PI,"HỒ SƠ / CHỜ ĐỐI CHIẾU")
-	_board(Vector3(9.76,-2.15,-44.2),-PI/2,"B1 / KHO NIÊM PHONG\nCẤP QUYỀN TẠI TẦNG TRỆT")
-	_cable(Vector3(10.12,-1.15,-41.78),Vector3(33.85,-1.15,-41.78))
-	for x in [12.0,22.0,33.0]: _box("ReturnConduitJunction",Vector3(x,-1.15,-41.78),Vector3(.2,.25,.12),"steel")
-	for x in [14.0,18.0,26.0,30.0]: _box("ReturnConduitClamp",Vector3(x,-1.15,-41.8),Vector3(.08,.12,.1),"steel")
-	for x in [14.0,22.0,29.0]:
-		_cable(Vector3(x,-1.15,-41.78),Vector3(x,-.5,-41.78))
-		_cable(Vector3(x,-.5,-41.78),Vector3(x,-.5,-38))
-		_box("ReturnFixture",Vector3(x,-.45,-38),Vector3(1.4,.08,.2),"lamp")
-		_box("ReturnFixtureAnchor",Vector3(x,-.405,-38),Vector3(.3,.02,.25),"steel")
-	_board(Vector3(20,-2.1,-41.76),0,"TUYẾN BẢO TRÌ →\nCẦU THANG PHÍA ĐÔNG")
+	_board(Vector3(9.76,-2.15,-44.2),-PI/2,"B1 / KHO NIÊM PHONG\nRÚT QUA S2 → S1 → SẢNH")
+	_cable(Vector3(10.12,-1.15,-36.78),Vector3(28.22,-1.15,-36.78))
+	_cable(Vector3(28.22,-1.15,-36.78),Vector3(28.22,-1.15,-41.78))
+	_cable(Vector3(28.22,-1.15,-41.78),Vector3(33.85,-1.15,-41.78))
+	for x in [12.0,22.0,27.8]: _box("ReturnConduitJunction",Vector3(x,-1.15,-36.78),Vector3(.2,.25,.12),"steel")
+	for x in [14.0,18.0,26.0]: _box("ReturnConduitClamp",Vector3(x,-1.15,-36.8),Vector3(.08,.12,.1),"steel")
+	for x in [14.0,22.0]:
+		_cable(Vector3(x,-1.15,-36.78),Vector3(x,-.5,-36.78))
+		_cable(Vector3(x,-.5,-36.78),Vector3(x,-.5,-35.5))
+		_box("ReturnFixture",Vector3(x,-.45,-35.5),Vector3(1.4,.08,.2),"lamp")
+		_box("ReturnFixtureAnchor",Vector3(x,-.405,-35.5),Vector3(.3,.02,.25),"steel")
+	_cable(Vector3(30,-1.15,-41.78),Vector3(30,-.5,-41.78))
+	_cable(Vector3(30,-.5,-41.78),Vector3(30,-.5,-38))
+	_box("ReturnFixture",Vector3(30,-.45,-38),Vector3(1.4,.08,.2),"lamp")
+	_box("ReturnFixtureAnchor",Vector3(30,-.405,-38),Vector3(.3,.02,.25),"steel")
+	_board(Vector3(20,-2.1,-36.76),0,"TUYẾN BẢO TRÌ →\nSẢNH CHUNG TRƯỚC CẢM BIẾN 1")
 
 func _camera_mounts() -> void:
 	# These coordinates join the common camera's rear bracket at local

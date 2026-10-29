@@ -11,16 +11,19 @@ const FILE := &"take_intelligence"
 const ESCAPE := &"extract_k17"
 const PREPARED := &"prepare_backdoor"
 const CAMERAS_OFF := &"disable_cameras"
+const SABOTAGE := &"sabotage_k17"
+const SabotageConfig := preload("res://maps/intelligence/resources/layout/k17_sabotage.gd")
 const OBJECTIVES := [
 	{"id": ENTER, "requires": [], "title": "Vào cơ sở K17", "hint": "Qua sân tiếp vận hoặc hành lang kỹ thuật.", "done": "Đã vào K17"},
 	{"id": PASS, "requires": [ENTER], "title": "Lấy giấy thông hành", "hint": "Trên bàn phòng trực phía tây. Có thể tìm chỉ dẫn trước.", "done": "Đã mang giấy thông hành"},
 	{"id": CODE, "requires": [ENTER], "title": "Đọc chỉ dẫn kho mật", "hint": "Bàn vô tuyến ở khối chỉ huy. J xem lại tài liệu đã đọc.", "done": "Đã lưu chỉ dẫn kho B1"},
 	{"id": ARCHIVE, "requires": [PASS,CODE], "title": "Đến checkpoint khu mật", "hint": "Qua cửa hồ sơ, đi hành lang phải đến điểm chuẩn bị.", "done": "Đã lưu checkpoint trước kho mật"},
 	{"id": VAULT, "requires": [ARCHIVE], "title": "Giải mã cửa kho B1", "hint": "Đối chiếu bảng ca trực tại checkpoint với chỉ dẫn trong nhật ký. E đổi chữ số và xác nhận.", "done": "Đã mở kho mật B1"},
-	{"id": FILE, "requires": [VAULT], "title": "Thu hồi Mật lệnh 04", "hint": "Xuống B1, chờ đèn cảm biến xanh. Giữ E mở niêm phong cuối kho.", "done": "Đã lấy Mật lệnh 04 — rút lui!"},
+	{"id": FILE, "requires": [VAULT], "title": "Thu hồi Mật lệnh 04", "hint": "Qua cảm biến tới hốc B1. Dùng màn chiếu đánh lừa chốt, tránh tuần tra bên hông, tới phòng hồ sơ.", "done": "Đã lấy Mật lệnh 04 — rút lui!"},
 	{"id": ESCAPE, "requires": [FILE], "title": "Đến điểm tập kết", "hint": "Trở ra ngoài qua sân hoặc bảo trì. Tìm đèn xanh trước khi hết giờ.", "done": "Đã đưa hồ sơ ra khỏi K17"},
 	{"id": PREPARED, "requires": [ENTER], "optional":true,"title":"Chuẩn bị cửa hậu","hint":"Chốt cơ trong trạm điện.","done":"Cửa hậu đã được chuẩn bị"},
-	{"id": CAMERAS_OFF,"requires": [ENTER],"optional":true,"title":"Ngắt nguồn camera chính","hint":"Công tắc ở trạm điện.","done":"Đã ngắt camera trước khi lấy hồ sơ"},
+	{"id": CAMERAS_OFF,"requires": [ENTER],"optional":true,"title":"Ngắt nguồn camera mặt đất","hint":"Công tắc ở trạm điện. CCTV B1 dùng mạch nội bộ riêng.","done":"Đã ngắt camera mặt đất trước hồ sơ"},
+	{"id": SABOTAGE,"requires": [FILE],"optional":true,"title":"Phá hủy cụm tình báo dự phòng","hint":"Tùy chọn: sau hồ sơ, giữ E 5 giây tại tủ trong xưởng phía đông rồi rút trước khi hết 120 giây. Kích hoạt sau khi thoát.","done":"Đã phá hủy cụm tình báo dự phòng"},
 ]
 
 @export_range(1.0, 600.0) var escape_duration := 120.0
@@ -37,11 +40,16 @@ var radio_uses := 0
 var lockdown_warned := false
 var lockdown_closed := false
 var reinforcement_sent := false
-var radio_message := "Lam: Vào phòng trực lấy giấy thông hành. Ghi nhớ đường về điểm tập kết."
+var radio_message := "Lam: Thu hồi Mật lệnh 04 ở B1. Bộ màn chiếu cấp sẵn dùng tại hốc hiệu chỉnh. Chuẩn bị đường rút; phá niêm phong mới bắt đầu hai phút."
 var _dialogue_left := 5.0
 var _dialogue_priority := 0
 var _dialogue_queue: Array[Dictionary] = []
 var _dialogue_keys: Array[String] = []
+var run_id := 0
+var extraction_play_time := 0.0
+var finale_pending := false
+var _finale_left := 0.0
+var _result_complete := false
 
 
 func _ready() -> void:
@@ -70,7 +78,7 @@ func _on_objective_completed(id: StringName) -> void:
 		ARCHIVE:
 			queue_radio("Lam: Đọc bảng ca trực bên cạnh, đối chiếu với chỉ dẫn rồi nhập mã tại cửa kho.",2,"archive")
 		VAULT:
-			queue_radio("Lam: Kho đã mở. Qua cảm biến lúc xanh; lấy hồ sơ sẽ gọi tiếp viện và nguồn dự phòng sau 15 giây.",3,"vault")
+			queue_radio("Lam: Kho đã mở. Qua cảm biến lúc xanh, tới hốc hiệu chỉnh B1. Màn chiếu chỉ che hướng chốt chính; nghe tuần tra bên hông. Lấy hồ sơ mới bắt đầu hai phút.",3,"vault")
 		FILE:
 			if has_file:
 				return
@@ -80,6 +88,7 @@ func _on_objective_completed(id: StringName) -> void:
 			_dialogue_left = 0.0
 			_dialogue_priority = -1
 			queue_radio("Lam: Niêm phong đã bị phá! Cửa hậu đang khóa cơ, cổng sân đóng sau %d giây."%ceili(courtyard_close_at),6,"file")
+			queue_radio("Lam: Tùy chọn: đặt thiết bị ở tủ tình báo trong xưởng phía đông. Đồng hồ vẫn chạy; chỉ kích hoạt khi đã về tập kết!",3,"sabotage_offer")
 			_set_alarm_lights(true)
 			var back_gate := get_security_node("MaintenanceGate")
 			if back_gate: back_gate.call("request_close")
@@ -91,6 +100,11 @@ func _on_objective_completed(id: StringName) -> void:
 func _physics_process(delta: float) -> void:
 	var flow := GameFlow.find(self)
 	if flow == null or flow.state != GameStateMachine.State.PLAYING:
+		return
+	if flow.is_leaving(): return
+	if finale_pending:
+		_finale_left -= delta
+		if _finale_left <= 0.0: complete_finale(run_id)
 		return
 	_update_dialogue(delta)
 	if not has_file or escaped: return
@@ -121,15 +135,61 @@ func _physics_process(delta: float) -> void:
 func try_extract(route: StringName, title: String) -> bool:
 	var flow := GameFlow.find(self)
 	var objectives := ObjectiveManager.find(self)
-	if flow == null or flow.state != GameStateMachine.State.PLAYING or not has_file or escaped or time_left <= 0.0:
+	if flow == null or flow.state != GameStateMachine.State.PLAYING or flow.is_leaving() or not has_file or escaped or time_left <= 0.0:
 		return false
+	var director := StealthDirector.find(self)
+	if director == null or director.status == StealthDirector.Status.CAUGHT: return false
 	if objectives.current() != ESCAPE:
 		return false
 	escaped = true
+	extraction_play_time = flow.play_time
+	var player := get_tree().get_first_node_in_group("player")
+	if player: player.get_node("Interactor").cancel_hold()
 	objectives.record_escape_route(route, title)
-	StealthDirector.find(self).finish_level()
-	objectives.complete(ESCAPE)
+	director.finish_level()
+	_freeze_security(true)
+	var sabotage := get_parent().get_node_or_null("Sabotage")
+	if sabotage and sabotage.armed:
+		finale_pending = true
+		_finale_left = SabotageConfig.FINALE_WATCHDOG
+		var finale := get_parent().get_node_or_null("ExtractionFinale")
+		if finale == null or not finale.start(route, run_id): complete_finale(run_id)
+	else:
+		_finish_result()
 	return true
+
+
+func detonate_sabotage(token: int) -> bool:
+	var flow := GameFlow.find(self)
+	if token != run_id or not escaped or not finale_pending or flow == null or flow.is_leaving() or flow.state != GameStateMachine.State.PLAYING: return false
+	var sabotage := get_parent().get_node_or_null("Sabotage")
+	if sabotage == null: return false
+	if not sabotage.detonated and not sabotage.detonate(): return false
+	ObjectiveManager.find(self).try_complete(SABOTAGE)
+	return true
+
+
+func complete_finale(token: int) -> void:
+	var flow := GameFlow.find(self)
+	if token != run_id or not escaped or not finale_pending or flow == null or flow.is_leaving() or flow.state != GameStateMachine.State.PLAYING: return
+	detonate_sabotage(token)
+	finale_pending = false
+	var finale := get_parent().get_node_or_null("ExtractionFinale")
+	if finale: finale.cancel()
+	_finish_result()
+
+
+func _finish_result() -> void:
+	if _result_complete: return
+	_result_complete = true
+	ObjectiveManager.find(self).try_complete(ESCAPE)
+
+
+func _freeze_security(frozen: bool) -> void:
+	# Stop pending radio/sensor/camera events, not just the actors frozen by the director.
+	for path in ["Security", "Cameras"]:
+		var node := get_parent().get_node_or_null(path)
+		if node: node.process_mode = Node.PROCESS_MODE_DISABLED if frozen else Node.PROCESS_MODE_INHERIT
 
 
 func get_status_lines() -> Array[String]:
@@ -137,15 +197,22 @@ func get_status_lines() -> Array[String]:
 	if has_file:
 		var seconds := ceili(time_left)
 		clock = "%02d:%02d" % [seconds / 60, seconds % 60]
-	var title := "K17 / TEST MAP — KHÔNG LÍNH GÁC" if is_test_mode() else "K17 / CHIẾN DỊCH TÌNH BÁO"
+	var title := "K17 V6 B1 / TEST — KHÔNG LÍNH GÁC" if is_test_mode() else "K17 V6 B1 / CHIẾN DỊCH TÌNH BÁO"
 	var power:=get_parent().get_node_or_null("PowerNetwork")
 	var source: String="dự phòng" if power and power.get("backup_active") else "nguồn chính"
 	var cameras: String="BẬT" if power and power.is_powered(&"surveillance") else "TẮT"
-	return [title, "Hồ sơ: " + ("đang mang Mật lệnh 04" if has_file else "chưa thu hồi"),
+	var b1:=get_tree().get_first_node_in_group("k17_b1_surveillance")
+	var b1_status: String="đã thu hồi kênh" if b1 and b1.revoked else "đã chiếm kênh" if b1 and b1.hacked else "nguồn nội bộ riêng"
+	var sabotage := get_parent().get_node_or_null("Sabotage")
+	var lines: Array[String] = [title, "Hồ sơ: " + ("đang mang Mật lệnh 04" if has_file else "chưa thu hồi"),
 		"Phong tỏa: " + clock + _reinforcement_status(),
-		"Camera: "+cameras+" · "+source,
+		"Camera mặt đất: "+cameras+" · "+source,
+		"CCTV B1: "+b1_status,
 		"Cổng sân: " + ("sắp đóng" if lockdown_warned and not lockdown_closed else _gate_status("CourtyardGate")),
-		"Cửa hậu: " + _gate_status("MaintenanceGate") + (" · đã chuẩn bị" if backdoor_prepared else " · khóa cơ 8 giây"), radio_message]
+		"Cửa hậu: " + _gate_status("MaintenanceGate") + (" · đã chuẩn bị" if backdoor_prepared else " · khóa cơ 8 giây")]
+	if sabotage: lines.append("Phá hoại: " + sabotage.status_text())
+	lines.append(radio_message)
+	return lines
 
 
 func show_objective_checklist() -> bool:
@@ -157,7 +224,10 @@ func get_result_lines() -> Array[String]:
 	var team:=get_parent().get_node_or_null("Reinforcements")
 	var dispatched: int=int(team.get("spawned_count")) if team else 0
 	var summary := "TEST MAP · Đã đưa hồ sơ ra khỏi K17." if is_test_mode() else "Mật lệnh 04 đã được đưa ra khỏi K17."
-	return [summary, "Còn lại: %d giây · Hết giờ: %d lần" % [ceili(time_left), timeouts],
+	var sabotage := get_parent().get_node_or_null("Sabotage")
+	var destroyed: bool = sabotage != null and sabotage.detonated
+	if destroyed: summary = ("TEST MAP · " if is_test_mode() else "") + "Mật lệnh 04 an toàn; cụm tình báo dự phòng đã bị phá hủy."
+	return [summary, "Phá hoại: " + ("hoàn tất" if destroyed else "chưa thực hiện · tùy chọn"), "Còn lại: %d giây · Hết giờ: %d lần" % [ceili(time_left), timeouts],
 		"Đường rút: " + objectives.escape_route_name,
 		"Cảm biến: %d lần · Radio: %d lần" % [sensor_trips,radio_uses],
 		"Cửa hậu: " + ("đã chuẩn bị" if backdoor_prepared else "chưa chuẩn bị")+" · Tiếp viện: %d/4"%dispatched]
@@ -178,6 +248,14 @@ func get_checkpoint_state() -> Dictionary:
 
 
 func restore_checkpoint_state(saved: Dictionary) -> void:
+	run_id += 1
+	finale_pending = false
+	_result_complete = false
+	extraction_play_time = 0.0
+	_finale_left = 0.0
+	var finale := get_parent().get_node_or_null("ExtractionFinale")
+	if finale: finale.cancel()
+	_freeze_security(false)
 	has_file = bool(saved.get("has_file", false))
 	time_left = float(saved.get("time_left", escape_duration))
 	escaped = bool(saved.get("escaped", false))
@@ -193,7 +271,7 @@ func restore_checkpoint_state(saved: Dictionary) -> void:
 
 
 func _on_respawned(_checkpoint: Checkpoint) -> void:
-	queue_radio("Lam: Thử lại. Hồ sơ vẫn ở trên giá, cảm biến trở về nhịp đã lưu.",9,"retry")
+	queue_radio("Lam: Thử lại. Hồ sơ vẫn niêm phong; màn trở về hốc chuẩn bị, cảm biến về nhịp đã lưu.",9,"retry")
 	var player := get_tree().get_first_node_in_group("player")
 	if player: player.get_node("Interactor").cancel_hold()
 

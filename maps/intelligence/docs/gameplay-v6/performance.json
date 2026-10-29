@@ -1,0 +1,83 @@
+{
+	"conditions": "Six actors frozen. OFF/ON/ON/OFF, 1s warmup + 2.5s sample. One 512x512 projection viewport at 12.5Hz. Frame intervals include CPU and renderer, not an isolated GPU timing or gameplay FPS guarantee.",
+	"device": "Quadro P1000",
+	"idle_after_file": true,
+	"idle_far_away": true,
+	"idle_paused": true,
+	"renderer": "gl_compatibility",
+	"resolution": "1280x720",
+	"samples": [
+		{
+			"frames": 342,
+			"mean_draw_calls": 1779.78070175439,
+			"median_ms": 7.015,
+			"p95_ms": 10.398,
+			"projection": false,
+			"repeat": 1,
+			"view": "guard_eye"
+		},
+		{
+			"frames": 328,
+			"mean_draw_calls": 1789.75914634146,
+			"median_ms": 7.212,
+			"p95_ms": 11.465,
+			"projection": true,
+			"repeat": 2,
+			"view": "guard_eye"
+		},
+		{
+			"frames": 355,
+			"mean_draw_calls": 1778.34366197183,
+			"median_ms": 6.64,
+			"p95_ms": 9.963,
+			"projection": true,
+			"repeat": 3,
+			"view": "guard_eye"
+		},
+		{
+			"frames": 370,
+			"mean_draw_calls": 1756.75675675676,
+			"median_ms": 6.494,
+			"p95_ms": 8.984,
+			"projection": false,
+			"repeat": 4,
+			"view": "guard_eye"
+		},
+		{
+			"frames": 570,
+			"mean_draw_calls": 618.308771929825,
+			"median_ms": 4.044,
+			"p95_ms": 6.209,
+			"projection": false,
+			"repeat": 1,
+			"view": "operator"
+		},
+		{
+			"frames": 570,
+			"mean_draw_calls": 623.359649122807,
+			"median_ms": 4.128,
+			"p95_ms": 6.097,
+			"projection": true,
+			"repeat": 2,
+			"view": "operator"
+		},
+		{
+			"frames": 587,
+			"mean_draw_calls": 620.565587734242,
+			"median_ms": 4.049,
+			"p95_ms": 5.795,
+			"projection": true,
+			"repeat": 3,
+			"view": "operator"
+		},
+		{
+			"frames": 572,
+			"mean_draw_calls": 617.356643356643,
+			"median_ms": 4.052,
+			"p95_ms": 6.362,
+			"projection": false,
+			"repeat": 4,
+			"view": "operator"
+		}
+	]
+}

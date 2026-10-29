@@ -1,14 +1,16 @@
 extends SceneTree
 
-## Build V4 from shared actors and map-local geometry; runtime needs no tools.
+## Build V6 from shared actors and map-local geometry; runtime needs no tools.
 const BASE := "res://maps/intelligence/"
 const Layout := preload("res://maps/intelligence/resources/layout/k17_layout.gd")
 const Expansion := preload("res://maps/intelligence/tools/k17_expansion_builder.gd")
 const V4 := preload("res://maps/intelligence/resources/layout/k17_v4.gd")
 const V4Builder := preload("res://maps/intelligence/tools/k17_v4_builder.gd")
+const SabotageBuilder := preload("res://maps/intelligence/tools/k17_sabotage_builder.gd")
 const SCENE := BASE + "scenes/intelligence_k17.tscn"
 const NAV := BASE + "resources/k17_navmesh.tres"
 const Mission := preload("res://maps/intelligence/scripts/mission_controller.gd")
+const ProjectionConfig := preload("res://maps/intelligence/resources/layout/k17_projection.gd")
 const PLAYER := preload("res://shared/scenes/player/player.tscn")
 const GUARD := preload("res://shared/scenes/npc/guard.tscn")
 const Art := preload("res://maps/intelligence/tools/k17_art_builder.gd")
@@ -31,7 +33,7 @@ func _init() -> void:
 func _build() -> void:
 	level = Node3D.new()
 	level.name = "IntelligenceK17"
-	level.set_meta("map_version", "v4-infiltration")
+	level.set_meta("map_version", ProjectionConfig.VERSION)
 	var region := NavigationRegion3D.new()
 	region.name = "NavigationRegion3D"
 	var nav := NavigationMesh.new()
@@ -46,6 +48,11 @@ func _build() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(BASE+"scenes/sectors"))
 	var expansion:=Expansion.new()
 	expansion.build(self,region)
+	SabotageBuilder.new().navigation(self,region)
+	if not preload("res://maps/intelligence/tools/k17_minimap_builder.gd").new().save(region):
+		level.free()
+		quit(1)
+		return
 	if not _build_environment(region):
 		level.free()
 		quit(1)
@@ -70,14 +77,14 @@ func _build() -> void:
 		quit(1)
 		return
 	_systems()
-	var data_path:=BASE+"resources/k17_v4_lightmap.lmbake"
+	var data_path:=BASE+"resources/k17_v6_lightmap.lmbake"
 	if FileAccess.file_exists(data_path): level.get_node("LightmapGI").light_data=load(data_path)
 	var packed := PackedScene.new()
 	if packed.pack(level) != OK or ResourceSaver.save(packed, SCENE) != OK:
 		push_error("K17: scene save failed")
 		quit(1)
 		return
-	print("K17 BUILT V4: ", nav.get_polygon_count(), " navmesh polygons; 96x108m; B1; 6 guards + 4 reinforcements")
+	print("K17 BUILT V6: ", nav.get_polygon_count(), " navmesh polygons; projection + optional sabotage; 6 guards + 4 reinforcements")
 	level.free()
 	quit(0)
 
@@ -185,6 +192,8 @@ func _build_environment(region: NavigationRegion3D) -> bool:
 
 func _actors() -> void:
 	var player := PLAYER.instantiate() as FirstPersonPlayer
+	player.set_script(load(BASE+"scripts/projection_player.gd"))
+	player.get_node("Interactor").set_script(load(BASE+"scripts/projection_interactor.gd"))
 	player.name = "Player"
 	player.position = Layout.SPAWN
 	player.collision_mask |= 16
@@ -205,9 +214,11 @@ func _actors() -> void:
 			point.wait_time = 2.5
 			_add(route, point)
 		var guard := GUARD.instantiate() as Guard
+		guard.set_script(load(BASE+"scripts/projection_guard.gd"))
+		guard.set("posted",i==5)
 		guard.name = "Guard%d" % (i + 1)
 		guard.position = points[i][0]
-		guard.rotation.y = -PI / 2.0
+		guard.rotation.y = ProjectionConfig.POST_YAW if i==5 else 0.0 if i==3 else -PI/2.0
 		guard.patrol_route = route
 		guard.checkpoint_snapshot = true
 		V4.configure_guard(guard)
@@ -237,7 +248,7 @@ func _gameplay() -> bool:
 		_add(gameplay, trigger)
 		_shape(trigger, Vector3(5, 2, 3))
 	_pickup(gameplay, "AccessPass", Mission.PASS, Layout.PASS, "Lấy giấy thông hành", "Vào cơ sở trước", Color("c1b893"), Vector3(0.4, 0.035, 0.26))
-	_pickup(gameplay, "IntelligenceFile", Mission.FILE, Layout.FILE, "Lấy Mật lệnh 04 — bắt đầu 120 giây", "Đến checkpoint khu mật trước khi thu hồi", Color(0.8, 0.25, 0.12), Vector3(0.5, 0.08, 0.35))
+	_pickup(gameplay, "IntelligenceFile", Mission.FILE, Layout.FILE, "Lấy Mật lệnh 04 — bắt đầu 120 giây", "Mở B1 và tiếp cận phòng hồ sơ trước khi thu hồi", Color(0.8, 0.25, 0.12), Vector3(0.5, 0.08, 0.35))
 	var door := AccessDoor.new()
 	door.name = "ArchiveDoor"
 	door.position = Vector3(4, 1.2, 0)
@@ -254,12 +265,12 @@ func _gameplay() -> bool:
 	hinge.name = "DoorHinge"
 	hinge.set_script(load(BASE+"scripts/dynamic_geometry.gd"))
 	hinge.position.x = -1.72
-	_add(panel,hinge)
+	_add(door,hinge)
 	var door_art := (load(BASE+"assets/models/blast_door.glb") as PackedScene).instantiate()
 	door_art.position.x = 1.72
 	door_art.rotation.y = PI
 	_add(hinge, door_art)
-	door.leaf_paths = [NodePath("Panel/DoorHinge")]
+	door.leaf_paths = [NodePath("DoorHinge")]
 	door.leaf_open_angles = PackedFloat32Array([90.0])
 	var cp := _script(gameplay, "ArchiveCheckpoint", Area3D.new(), BASE + "scripts/mission_checkpoint.gd") as Checkpoint
 	cp.position = Layout.PREP+Vector3(0,.95,0)
@@ -281,8 +292,24 @@ func _gameplay() -> bool:
 	_add(forward,forward_spawn)
 	_controlled_door(gameplay,"VaultDoor",Vector3(4,1.2,-24),Mission.VAULT,"xác nhận mã tại keypad bên cạnh")
 	_controlled_door(gameplay,"DispatchDoor",Vector3(-18,1.2,35),Mission.FILE,"lệnh điều động")
-	var shortcut := _controlled_door(gameplay,"MaintenanceShortcut",Vector3(10,-2.8,-38),Mission.FILE,"Mật lệnh 04")
-	shortcut.rotation.y=PI/2
+	_build_b1_systems(gameplay)
+	var rig := (load(BASE+"scenes/equipment/projection_rig.tscn") as PackedScene).instantiate()
+	rig.position=ProjectionConfig.HOME
+	rig.rotation.y=ProjectionConfig.YAW
+	_add(gameplay,rig)
+	var projection_cp := _script(gameplay,"ProjectionCheckpoint",Area3D.new(),BASE+"scripts/projection_checkpoint.gd") as Checkpoint
+	projection_cp.position=ProjectionConfig.PREP+Vector3(0,.95,0)
+	projection_cp.checkpoint_name="B1 / trước màn chiếu"
+	projection_cp.set("complete_archive",false)
+	_shape(projection_cp,Vector3(2.2,2.0,2.2))
+	var projection_spawn := Marker3D.new()
+	projection_spawn.name="Spawn"
+	projection_spawn.position=Vector3(0,-.95,0)
+	projection_spawn.rotation.y=PI/2
+	_add(projection_cp,projection_spawn)
+	var room_notice := _script(gameplay,"ProjectionRoom",Area3D.new(),BASE+"scripts/projection_room.gd")
+	room_notice.position=Vector3(-17.2,-2.75,-42.15)
+	_shape(room_notice,Vector3(6.8,2.5,6.0))
 	# Ground markings, sign and radio position live in the environment scene.
 	for i in 2:
 		var zone := _script(gameplay, "Extraction%d" % i, Area3D.new(), BASE + "scripts/extraction_zone.gd") as Area3D
@@ -300,8 +327,43 @@ func _gameplay() -> bool:
 	_add(gameplay,(load(SECURITY_SCENE) as PackedScene).instantiate())
 	_script(gameplay,"Reinforcements",Node.new(),BASE+"scripts/reinforcements.gd")
 	V4Builder.new().build(self,gameplay)
-	return true
+	return SabotageBuilder.new().build(self,gameplay)
 
+
+func _build_b1_systems(gameplay: Node3D) -> void:
+	var surveillance:=_script(gameplay,"B1Surveillance",Node3D.new(),BASE+"scripts/projection_surveillance.gd")
+	var hack:=_script(gameplay,"B1Hack",Area3D.new(),BASE+"scripts/b1_console.gd") as Interactable
+	hack.position=ProjectionConfig.HACK
+	hack.hold_duration=3.0
+	_shape(hack,Vector3(.6,.65,.20))
+	_box(hack,"Panel",Vector3.ZERO,Vector3(.5,.6,.10),METAL)
+	var cctv:=_group(surveillance,"C1")
+	cctv.position=ProjectionConfig.CCTV
+	_paint(cctv,"Housing",Vector3.ZERO,Vector3(.35,.25,.22),METAL)
+	_paint(cctv,"Lens",Vector3(.20,0,0),Vector3(.10,.12,.12),CYAN)
+	_paint(cctv,"Bracket",Vector3(0,.13,0),Vector3(.07,.15,.07),METAL)
+	var lock:=_script(gameplay,"ArchiveLock",Area3D.new(),BASE+"scripts/archive_lock.gd")
+	lock.position=ProjectionConfig.ROOM_LOCK
+	_shape(lock,Vector3(.65,.70,.60))
+	_box(lock,"Reader",Vector3.ZERO,Vector3(.45,.55,.12),METAL)
+	var reader_label:=Label3D.new()
+	reader_label.name="ReaderLabel"
+	reader_label.text="HỒ SƠ\nGIỮ E / 6 GIÂY"
+	reader_label.position=Vector3(0,.05,-.07)
+	reader_label.rotation.y=PI
+	reader_label.pixel_size=.0015
+	reader_label.font_size=20
+	_add(lock,reader_label)
+	var leaf:=_box(lock,"Leaf",ProjectionConfig.ROOM_DOOR-ProjectionConfig.ROOM_LOCK,Vector3(3.0,2.4,.2),METAL)
+	leaf.get_node("Mesh").gi_mode=GeometryInstance3D.GI_MODE_DYNAMIC
+	leaf.set_script(load(BASE+"scripts/dynamic_geometry.gd"))
+	var housing:=_paint(lock,"DoorHousing",ProjectionConfig.ROOM_DOOR-ProjectionConfig.ROOM_LOCK+Vector3(0,2.8,.14),Vector3(3.3,3.2,.48),METAL)
+	housing.gi_mode=GeometryInstance3D.GI_MODE_DYNAMIC
+	var motor:=AudioStreamPlayer3D.new()
+	motor.name="Motor"
+	motor.stream=SoundBank.pick("shutter_rattle")
+	motor.max_distance=14
+	_add(lock,motor)
 
 func _controlled_door(parent: Node,title: String,pos: Vector3,key: StringName,key_title: String) -> AccessDoor:
 	var door:=AccessDoor.new()
@@ -315,7 +377,7 @@ func _controlled_door(parent: Node,title: String,pos: Vector3,key: StringName,ke
 	_shape(door,Vector3(4,2.4,1))
 	var panel:=_box(door,"Panel",Vector3.ZERO,Vector3(3.95,2.4,.25),METAL)
 	panel.get_node("Mesh").free()
-	var hinge:=_group(panel,"DoorHinge")
+	var hinge:=_group(door,"DoorHinge")
 	hinge.set_script(load(BASE+"scripts/dynamic_geometry.gd"))
 	hinge.position.x=-1.97
 	var model: Node3D=(load(BASE+"assets/models/blast_door.glb") as PackedScene).instantiate()
@@ -323,7 +385,7 @@ func _controlled_door(parent: Node,title: String,pos: Vector3,key: StringName,ke
 	model.scale.x=1.13
 	_add(hinge,model)
 	for mesh in model.find_children("*","GeometryInstance3D",true,false): mesh.gi_mode=GeometryInstance3D.GI_MODE_DYNAMIC
-	door.leaf_paths=[NodePath("Panel/DoorHinge")]
+	door.leaf_paths=[NodePath("DoorHinge")]
 	door.leaf_open_angles=PackedFloat32Array([90])
 	return door
 
@@ -335,7 +397,7 @@ func _systems() -> void:
 		["StealthHud", CanvasLayer.new(), "res://shared/scripts/ui/stealth_hud.gd"],
 		["ObjectiveHud", CanvasLayer.new(), BASE+"scripts/objective_hud.gd"],
 		["GameFlow", Node.new(), "res://shared/scripts/game/game_flow.gd"],
-		["GameMenus", CanvasLayer.new(), "res://shared/scripts/ui/game_menus.gd"],
+		["GameMenus", CanvasLayer.new(), BASE+"scripts/game_menus.gd"],
 		["AudioDirector", Node.new(), "res://shared/scripts/presentation/audio_director.gd"],
 		["MilitaryAppearance", Node.new(), BASE+"scripts/military_appearance.gd"],
 	]:
@@ -413,6 +475,8 @@ func _paint(parent: Node, node_name: String, pos: Vector3, size: Vector3, colour
 	var box := BoxMesh.new()
 	box.size = size
 	mesh.mesh = box
+	if node_name in ["GuardRoomFloor","CommunicationsFloor","ArchiveFloor"]:
+		mesh.set_meta("minimap_room",true)
 	var key := colour.to_html()
 	if not materials.has(key):
 		var material := StandardMaterial3D.new()

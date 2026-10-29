@@ -24,7 +24,7 @@ func _connect() -> void:
 func _physics_process(_delta: float) -> void:
 	var mission:=get_parent().get_node("Mission") as K17MissionController
 	var flow:=GameFlow.find(self)
-	if mission.is_test_mode() or not mission.has_file or _cancelled or flow==null or flow.state!=GameStateMachine.State.PLAYING: return
+	if mission.is_test_mode() or not mission.has_file or mission.escaped or _cancelled or flow==null or flow.is_leaving() or flow.state!=GameStateMachine.State.PLAYING: return
 	var elapsed:=mission.escape_duration-mission.time_left
 	for wave in 2:
 		var start: float=wave_times[wave]
@@ -76,6 +76,7 @@ func _spawn(index: int,pos: Vector3) -> void:
 		point.wait_time=1.2
 		route.add_child(point)
 	var guard:=GUARD.instantiate() as Guard
+	guard.set_script(preload("res://maps/intelligence/scripts/projection_guard.gd"))
 	guard.name="Reinforcement%d"%index
 	guard.position=pos+Vector3(0,.05,0)
 	guard.patrol_route=route

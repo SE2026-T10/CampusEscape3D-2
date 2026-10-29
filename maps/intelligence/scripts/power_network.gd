@@ -21,7 +21,7 @@ func set_powered(circuit: StringName,on: bool) -> void:
 func _physics_process(_delta: float) -> void:
 	var mission := get_tree().get_first_node_in_group("k17_mission") as K17MissionController
 	var flow := GameFlow.find(self)
-	if mission == null or flow == null or flow.state != GameStateMachine.State.PLAYING: return
+	if mission == null or mission.escaped or flow == null or flow.is_leaving() or flow.state != GameStateMachine.State.PLAYING: return
 	if mission.has_file and not backup_active and mission.escape_duration-mission.time_left >= backup_at:
 		backup_active = true
 		backup_starts += 1
