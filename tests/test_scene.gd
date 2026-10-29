@@ -30,6 +30,7 @@ const QAPlaythroughTests := preload("res://tests/qa_playthrough_tests.gd")
 const QARegressionTests := preload("res://tests/qa_regression_tests.gd")
 const ExpandedGrayboxTests := preload("res://maps/library/tests/expanded_graybox_tests.gd")
 const MapSelectionTests := preload("res://tests/map_selection_tests.gd")
+const LevelSearchTests := preload("res://tests/level_search_tests.gd")
 const ExpandedAITests := preload("res://maps/library/tests/expanded_ai_tests.gd")
 const ExpandedMissionTests := preload("res://maps/library/tests/expanded_mission_tests.gd")
 const ExpandedBaselineTests := preload("res://maps/library/tests/expanded_baseline_tests.gd")
@@ -66,6 +67,7 @@ func _ready() -> void:
 	_check_library_graybox()
 	# Pure state machine unit tests first: fast, no scene needed.
 	_failures.append_array(AIStateTests.new().run(self))
+	_failures.append_array(LevelSearchTests.new().run(self))   # VT-041: pure data tests, fast
 	_failures.append_array(await PlayerTests.new().run(self))
 	_failures.append_array(await NavigationTests.new().run(self))
 	_failures.append_array(await GuardTests.new().run(self))
