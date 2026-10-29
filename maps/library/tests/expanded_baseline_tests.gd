@@ -135,6 +135,10 @@ const EXPANSION_SCENE := "res://maps/library/scenes/expanded_library_expansion.t
 ##     and boxes; collision and decoration digests updated), removes that planter (one
 ##     collider fewer: 268 collision objects and shapes) and moves the desk's hiding spot
 ##     behind it (13 hiding spots still); the navmesh rebaked (1272 → 1252 polygons).
+##   - Restricted archive, Kenney furniture polish (approved):
+##     maps/library/tools/expansion/fixes_x24.gd hides the two box chairs left at the
+##     archive's reading desk (Chair27, Chair28; decoration without collision; the digest
+##     is unchanged); no navmesh change.
 const BASELINE_GEOMETRY_SHA := "85653d19815a67c5206d7aa975fceb561d88ef673a7da0dfaf7afe3203812e78"
 const BASELINE_DECORATION_SHA := "75c990f1dbd3562574f99b67ac845e28044a4716005fb1e708d13e0dece3e3ff"
 const BASELINE_ACTORS_SHA := "5b21b05f6a85f8092db260a4459314cf7d3fdd9acc10a4d430530fdd5c9ea305"

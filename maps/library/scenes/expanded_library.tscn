@@ -8400,9 +8400,11 @@ visible = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.1, 4.5, -23.06)
 
 [node name="Chair27" parent="Dressing/Props" unique_id=2147309357 instance=ExtResource("19_alyiv")]
+visible = false
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 19, 4.5, -9.94)
 
 [node name="Chair28" parent="Dressing/Props" unique_id=1677243765 instance=ExtResource("19_alyiv")]
+visible = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 4.5, -8.86)
 
 [node name="Windows" type="Node3D" parent="Dressing" unique_id=914862924]
