@@ -66,8 +66,9 @@ extends RefCounted
 ##      the card and green with it; opening clears the panel's collision at once
 ##      while the leaves swing open, a restore shuts or opens them at once; the
 ##      workstation parts sit on the tables; the six solid props stay clear of
-##      the three doors, the wiring chart and the tables, with paths between the
-##      doors; the decor has no collision.
+##      the three doors, the wiring chart and the tables (the Kenney polish's chair
+##      and bin per workstation stand at its user side, clear of the doors and
+##      chart), with paths between the doors; the decor has no collision.
 ##   K. Lobby and reading hall (polish): the main entrance's panel draws nothing
 ##      and its grille drops for the lockdown and rolls up when the exit opens
 ##      (at once on a restore), its sign sits on the light box; the G4 staff
@@ -892,7 +893,8 @@ func _check_processing() -> void:
 	for id in saved_slots:
 		if id != &"":
 			inventory.add(id)
-	# The room: workstations on the tables, solid props clear of doors, chart and tables.
+	# The room: workstations on the tables, solid props clear of doors, chart and tables (but
+	# each workstation's own chair and bin, at its user side).
 	var decor := _level.get_node("Expansion/Dressing/ProcessingDecor")
 	_expect(decor.find_children("*", "CollisionShape3D", true, false).is_empty(), "The processing decor has no collision.")
 	var tables: Array[AABB] = []
@@ -909,7 +911,8 @@ func _check_processing() -> void:
 		if body is StaticBody3D:
 			var size: Vector3 = ((body.get_node("Shape") as CollisionShape3D).shape as BoxShape3D).size
 			props.append([body.name, AABB(body.global_position - size / 2.0, size)])
-	_expect(props.size() == 6, "6 solid processing props (found %d)." % props.size())
+	# 6 room props, and (Kenney polish) each workstation's desk chair and bin.
+	_expect(props.size() == 14, "14 solid processing props (found %d)." % props.size())
 	var keep := {"west door": Vector3(17, 0, -17), "storage door": Vector3(26, 0, -6), "electrical door": Vector3(36, 0, -23), "wiring chart": Vector3(26, 0, -27.85)}
 	for pr in props:
 		var box: AABB = pr[1]
@@ -917,6 +920,11 @@ func _check_processing() -> void:
 			var q: Vector3 = keep[k]
 			var flat := Vector2(clampf(q.x, box.position.x, box.end.x) - q.x, clampf(q.z, box.position.z, box.end.z) - q.z).length()
 			_expect(flat > 1.2, "Processing prop %s is %.2f m from the %s." % [pr[0], flat, k])
+		if String(pr[0]).begins_with("WorkstationChair") or String(pr[0]).begins_with("WorkstationBin"):
+			# A workstation's own chair and bin stand at its table, on the user's (+z) side.
+			var own := tables.filter(func(t: AABB): return box.position.z >= t.end.z and box.position.z - t.end.z < 0.1 and box.position.x < t.end.x + 0.5 and box.end.x > t.position.x)
+			_expect(own.size() == 1, "Processing prop %s stands at its workstation's user side." % pr[0])
+			continue
 		for t in tables:
 			var gap := maxf(maxf(t.position.x - box.end.x, box.position.x - t.end.x), maxf(t.position.z - box.end.z, box.position.z - t.end.z))
 			_expect(gap >= 1.2, "Processing prop %s is %.2f m from a table." % [pr[0], gap])
