@@ -10,7 +10,7 @@ ba tác phẩm, dây, cửa sổ thoát và HUD nhiệm vụ.
 Mở scene rồi nhấn **F6** để thử riêng; map chưa đăng ký trong menu chung.
 
 Hướng dẫn hiện tại: **[Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md)**,
-kèm ảnh chụp Godot và cách chỉnh sàn/dốc/cửa. Bản dựng đã qua 95 kiểm tra riêng của map.
+kèm ảnh chụp Godot và cách chỉnh sàn/dốc/cửa. Bản dựng đã qua 104 kiểm tra riêng của map.
 
 Lịch sử phòng thử: [Bước 4 — bảo vệ tuần tra](docs/step-04-patrol.md),
 [Bước 5 — nhiệm vụ, thắng và thua](docs/step-05-demo.md).

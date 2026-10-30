@@ -67,7 +67,7 @@ A tại X=0…7, Z=24…30; B tại X=29…36, Z=0…6. Chiếu nghỉ và mặt
 | 8 | Ba guard được gán ba route riêng | `Guard_G1/G2/G3` → `PatrolRoute_G1/G2/G3`; cả ba đi ít nhất hai vòng không kẹt |
 | 9 | Bake toàn map và kiểm tra kết nối | `resources/museum_navigation.tres`: 394 polygon; hai thang nối hai tầng, cửa có điều kiện nối sau khi mở |
 
-Lần đối chiếu này đã bake lại navmesh, chạy **45 kiểm tra hình học/di chuyển/tuần tra** và
+Lần đối chiếu riêng mục 6.2 đã bake lại navmesh, chạy **45 kiểm tra hình học/di chuyển/tuần tra** và
 **50 kiểm tra nhiệm vụ/cửa/thắng-thua**, đều đạt. Bản bake cho cùng dữ liệu với navmesh
 đã lưu. Không cần tạo lại hoặc nhân đôi các khối, guard và vật phẩm đang có.
 
@@ -98,6 +98,11 @@ Mỗi vế tăng 2.25 m trong 5 m theo phương ngang, góc khoảng **24.23°**
 rộng 2.2 m. Chiếu nghỉ giữa ở Y=2.25; sảnh trên Y=4.5. Collision là mặt dốc
 mượt, không có các bậc đứng chặn capsule. Player/guard dùng bộ điều khiển chung.
 
+Kiểm tra trực tiếp các instance ngày **30/10/2026**: giới hạn sàn của Player và guard đều
+**45°**, Agent Max Slope của navmesh **40°**. Cả bốn mặt dốc đều **24.23°**, thấp hơn
+cả ba giới hạn. Nguồn bake là **Static Colliders**, mask `world=1`; Agent Max Climb=0.25
+chỉ là thông số bake, không tạo khả năng bước qua bậc vật lý cho nhân vật.
+
 | Thang | Vế dưới | Chiếu nghỉ | Vế trên |
 |---|---|---|---|
 | A | `(7,0,28.25)` → `(2,2.25,28.25)` | X=0.4…2, Z=24.65…29.35 | `(2,2.25,25.75)` → `(7,4.5,25.75)` |
@@ -106,6 +111,11 @@ mượt, không có các bậc đứng chặn capsule. Player/guard dùng bộ �
 Vách giữa hai vế và lan can ngăn bước ngang từ mặt dốc này sang mặt dốc khác.
 Đã thử Player đứng thẳng lên/xuống cả hai thang, qua cửa tầng trên; guard cũng đi theo
 đường navmesh lên/xuống được. Khi trang trí bằng bậc, giữ mặt dốc collision này.
+
+Các mặt dốc là `Geometry/StairA/LowerRamp`, `UpperRamp` và hai node tương ứng trong
+`StairB`, mỗi node dùng StaticBody3D với Mesh/Collision. Khi thêm bậc trang trí, dùng
+MeshInstance3D riêng, không thêm collider bậc và không bật Use Collision cho CSG bậc.
+Như vậy nguồn Static Colliders vẫn lấy mặt dốc mượt. Chưa cần thêm bậc trang trí để chạy demo.
 
 ![Dốc thang A nhìn từ tầng 2](step-06-stair-a.png)
 
@@ -136,6 +146,25 @@ bỏ layer/mask collision và bật Passage. Cửa mở giữ nguyên đến khi
 Chốt kho kiểm tra phía người chơi theo hướng thế giới `open_from=(0,0,-1)`, tức phía B.
 Không có tương tác đóng cửa trong bản này.
 
+Đã đối chiếu với `features/objectives/access_door.gd`: cửa chung mặc định dùng nhiệm vụ
+thẻ của thư viện và có ngoại lệ collision cho guard. Cửa bảo tàng dùng script riêng để giữ
+đúng ID `take_key`, phía chốt và quy tắc chặn guard. Player giữ `use_inventory=false`;
+K lưu trong tiến trình nhiệm vụ, không chiếm ô túi đồ. Nếu sau này dùng inventory,
+cần định nghĩa item K và nối pickup/điều kiện cửa với item đó; chỉ bật cờ chưa đủ.
+
+Kiểm tra bổ sung cho mục 6.4 ngày **30/10/2026**:
+
+- Player thực sự đi từ phòng đệm phía nam qua cửa `(27,4.5,27)` đến lối giữa các bệ
+  trong kho khi chưa có K và cả hai cửa có điều kiện vẫn đóng.
+- Tia camera và E lấy được dây sớm; nhiệm vụ `take_rope` hoàn tất, `take_key` chưa hoàn tất.
+- Đi bộ đẩy vào cửa B chưa có K và vào chốt từ phía kho đều bị collider chặn.
+- Có K rồi nhấn E mở B thì đi qua được; chốt chỉ mở lần đầu từ phía B, sau đó đi được hai chiều.
+- G3 giữ tuyến tuần tra trong B; Restart, Play Again và bị bắt đều khôi phục chìa/cửa/link.
+
+Để tự thử bằng F6: lên thang A trước khi lấy K, sang kho qua cửa phía nam để lấy dây;
+thử mở chốt từ kho sẽ bị từ chối. Sau đó xuống tầng 1 lấy K, lên tầng 2 mở B bằng E,
+đi đến chốt phía nam phòng B và mở nó. Thử Restart để thấy chìa và hai cửa trở về ban đầu.
+
 Navmesh được bake **khi cửa còn đóng** nên đường AI không xuyên cánh cửa.
 Khi mở, Passage nối hai phía ở cùng cao độ. Đây là cơ chế map riêng, không dùng điều kiện
 thẻ thư viện và không cho guard bỏ qua collision của cửa.
@@ -160,16 +189,19 @@ muốn giữ vào builder. Không cần chạy builder để F6, và không ch�
 
 ## Kiểm tra đã chạy
 
-Godot 4.7.2, ngày 29/10/2026:
+Godot 4.7.2, kết quả hành vi cập nhật ngày 30/10/2026:
 
-- `verify_blockout.gd`: **45 kiểm tra đạt** — tọa độ spawn, bốn dải sàn, khoảng thông tầng,
+- `verify_blockout.gd`: **53 kiểm tra đạt** — tọa độ spawn, bốn dải sàn, khoảng thông tầng,
   lỗ thang/lan can, đường đến các phòng, navmesh đóng/mở cửa, Player qua cửa,
-  Player và guard lên/xuống A/B, ba guard đi đủ hai vòng không kẹt.
-- `verify_demo.gd`: **50 kiểm tra đạt** — 60 thứ tự thu thập hợp lệ (K trước T2), tia camera/E
+  Player và guard lên/xuống A/B, ba guard đi đủ hai vòng không kẹt; thêm xác nhận nguồn bake,
+  so sánh độ dốc với các giới hạn, vào kho sớm và va chạm thật với cửa đang khóa.
+- `verify_demo.gd`: **51 kiểm tra đạt** — 60 thứ tự thu thập hợp lệ (K trước T2), tia camera/E
   cho năm vật phẩm, điều kiện cửa và phía chốt, chặn tương tác xuyên vật cản, thiếu đồ,
-  bị nhìn thấy/truy đuổi, WIN, Play Again, Restart và bị bắt rồi khôi phục toàn map.
+  bị nhìn thấy/truy đuổi, WIN, Play Again, Restart và bị bắt rồi khôi phục toàn map;
+  thêm thao tác E lấy dây khi chưa có K và chưa mở cửa B/chốt.
 - Navmesh mới: **394 polygon**, lấy từ static colliders của toàn region.
-- `tools/ci/check_scripts.gd`: **161 script biên dịch được**; không sửa mã dùng chung.
+- `tools/ci/check_scripts.gd`: **161 script biên dịch được** ở lần chạy 29/10; các script kiểm tra
+  vừa sửa đã được tải và chạy thành công ngày 30/10. Không sửa mã dùng chung.
 - Bốn ảnh trong tài liệu được chụp từ renderer Compatibility của Godot, không phải ảnh concept.
 
 Chạy tại gốc project bằng PowerShell:
