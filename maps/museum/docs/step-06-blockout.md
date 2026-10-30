@@ -52,9 +52,30 @@ A tại X=0…7, Z=24…30; B tại X=29…36, Z=0…6. Chiếu nghỉ và mặt
 
 ## 6.2. Phòng, đường vòng và bảo vệ
 
+Đối chiếu lại ngày **30/10/2026**: chín hạng mục dưới đây đã có trong scene hiện tại.
+Đường dẫn `Geometry/...` tính từ `Museum/NavigationRegion3D`; các node khác tính từ `Museum`.
+
+| Bước | Nội dung đã dựng | Node/tệp để kiểm tra trong Godot |
+|---|---|---|
+| 1 | Sàn tầng 1, tường ngoài, sân trong | `Geometry/Floors/Ground`, `Geometry/Exterior`, `Geometry/Courtyard` |
+| 2 | Các phòng tầng 1, ô cửa và hành lang vòng | `Geometry/Floor1Rooms`; các cửa nằm đúng tọa độ trong floorplan-notes |
+| 3 | Sàn tầng 2 chia tám khối, chừa sân và lỗ thang | `Geometry/Floors/Upper*`; bảng Size/Position tại mục 6.1 |
+| 4 | Hai đường lên/xuống, Player đứng thẳng đi qua được | `Geometry/StairA`, `Geometry/StairB`; đã thử cả hai chiều bằng bộ điều khiển Player |
+| 5 | Phòng A/B/C, kho phục chế và các lối vòng | `Geometry/Floor2Rooms`; kho còn cửa phía nam, B có cửa khóa và chốt đi kho |
+| 6 | Lan can sân tầng 2 cao 1.2 m, có collision | `Geometry/Courtyard/UpperRailNorth_0`, `UpperRailSouth_0`, `UpperRailWest_0`, `UpperRailEast_0` |
+| 7 | T1–T3, dây và điểm thoát đã chuyển lên tầng 2 | `Interactables/Painting_T1`, `Painting_T2`, `Painting_T3`, `Rope`, `EscapeWindow` |
+| 8 | Ba guard được gán ba route riêng | `Guard_G1/G2/G3` → `PatrolRoute_G1/G2/G3`; cả ba đi ít nhất hai vòng không kẹt |
+| 9 | Bake toàn map và kiểm tra kết nối | `resources/museum_navigation.tres`: 394 polygon; hai thang nối hai tầng, cửa có điều kiện nối sau khi mở |
+
+Lần đối chiếu này đã bake lại navmesh, chạy **45 kiểm tra hình học/di chuyển/tuần tra** và
+**50 kiểm tra nhiệm vụ/cửa/thắng-thua**, đều đạt. Bản bake cho cùng dữ liệu với navmesh
+đã lưu. Không cần tạo lại hoặc nhân đôi các khối, guard và vật phẩm đang có.
+
 - Tường ngoài cao 9 m; vách mỗi tầng cao 4.5 m, dày 0.3 m. Ô cửa cao 2.8 m;
   rộng 1.6 m thông thường, 2 m ở phòng bắc/thang B, 2.4 m từ sảnh vào hành lang.
 - Hành lang vòng bám đường bao X=9…27, Z=6…24, quanh sân trong 12 × 12 m.
+  Khoảng 3 m trên bản vẽ tính giữa trục vách/lan can; với hai phía dày 0.3 m,
+  khoảng rộng lọt lòng hiện tại là 2.7 m.
 - Cửa phòng A ở `(9,9)` và `(9,19)`; phòng C ở `(15,6)` và `(23,6)`;
   cửa phòng B tầng 2 ở `(27,10)`; chốt B → kho ở `(32,18)`.
 - Lan can đặc cao 1.2 m bao quanh sân tầng 2, có collision. Tầng 1 có vách sân thấp và

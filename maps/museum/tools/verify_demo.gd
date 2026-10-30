@@ -129,6 +129,14 @@ func _run() -> void:
 	var manager := level.get_node("ObjectiveManager") as ObjectiveManager
 	check(clean_start() and manager.is_graph() and manager.get_mandatory_ids().size() == 6, "Scene initializes museum objectives before child readiness")
 	check(level.get_node("ObjectiveHud").get_layout_controls().objectives.visible, "Objective HUD shows mission checklist")
+	await aim_at(level.get_node("Interactables/Rope"),Vector3(32,4.5,24.5))
+	await press_e()
+	check(manager.is_completed(&"take_rope") and not manager.is_completed(&"take_key")
+		and not level.get_node("NavigationRegion3D/Doors/GalleryB").is_open
+		and not level.get_node("NavigationRegion3D/Doors/RestorationShortcut").is_open,
+		"Camera-ray E collects rope early while K is missing and both doors remain closed")
+	await fresh()
+	manager = level.get_node("ObjectiveManager") as ObjectiveManager
 	var exit := level.get_node("Interactables/EscapeWindow") as Interactable
 	var player := level.get_node("Player") as FirstPersonPlayer
 	for missing in IDS:

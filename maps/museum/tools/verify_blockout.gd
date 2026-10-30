@@ -67,6 +67,18 @@ func walk(player: FirstPersonPlayer, points: Array) -> bool:
 	return success
 
 
+func push_against_door(player: FirstPersonPlayer, at: Vector3, yaw: float) -> void:
+	player.position = at
+	player.rotation.y = yaw
+	player.velocity = Vector3.ZERO
+	player.set_physics_process(true)
+	Input.action_press("move_forward")
+	await frames(90)
+	Input.action_release("move_forward")
+	await frames(10)
+	player.set_physics_process(false)
+
+
 func _run() -> void:
 	level = (load(SCENE) as PackedScene).instantiate()
 	root.add_child(level)
@@ -88,6 +100,18 @@ func _run() -> void:
 		guard.patrol_point_reached.connect(func(index: int): arrivals[i].append(index))
 		guard.got_stuck.connect(func(_index: int): stuck[i] += 1)
 	await frames(12)
+	var navigation := level.get_node("NavigationRegion3D").navigation_mesh as NavigationMesh
+	check(navigation.geometry_parsed_geometry_type == NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS
+		and navigation.geometry_collision_mask == 1, "Navigation bakes only world static colliders")
+	print("Slope limits: Player %.1f, Guard %.1f, Navigation %.1f degrees" % [
+		rad_to_deg(player.floor_max_angle), rad_to_deg(guards[0].floor_max_angle), navigation.agent_max_slope])
+	for stair_name in ["StairA", "StairB"]:
+		for flight_name in ["LowerRamp", "UpperRamp"]:
+			var ramp := level.get_node("NavigationRegion3D/Geometry/%s/%s" % [stair_name,flight_name]) as StaticBody3D
+			var angle := ramp.global_basis.y.angle_to(Vector3.UP)
+			check(angle < player.floor_max_angle and angle < guards[0].floor_max_angle
+				and rad_to_deg(angle) < navigation.agent_max_slope and ramp.collision_layer == 1,
+				"%s/%s smooth collision slope %.2f degrees is below all climb limits" % [stair_name,flight_name,rad_to_deg(angle)])
 	check(player.position.is_equal_approx(Vector3(18,0.1,28.5)) and player.rotation.is_zero_approx(), "Player starts in southern lobby facing -Z")
 	var hit := ray(Vector3(18,8,18), Vector3(18,-1,18))
 	check(not hit.is_empty() and absf(hit.position.y) < 0.01, "Courtyard has ground floor and no upper slab")
@@ -107,6 +131,18 @@ func _run() -> void:
 	var store := Vector3(32,4.6,19.5)
 	check(not connected(corridor,gallery) and not connected(store,gallery), "Closed doors isolate B from both corridor and restoration")
 	var doors := level.get_node("NavigationRegion3D/Doors")
+	player.position = Vector3(24.5,4.6,27)
+	player.velocity = Vector3.ZERO
+	check(await walk(player,[Vector3(28.5,4.5,27),Vector3(32,4.5,27),Vector3(32,4.5,24.5)])
+		and not level.get_node("ObjectiveManager").is_completed(&"take_key")
+		and not doors.get_node("GalleryB").is_open and not doors.get_node("RestorationShortcut").is_open,
+		"Player reaches rope aisle through southern restoration entrance before key or either door opens")
+	await push_against_door(player,corridor,-PI/2)
+	check(player.position.x < 26.7 and absf(player.position.z-10) < 0.2,
+		"Locked gallery panel physically stops Player walking east")
+	await push_against_door(player,store,0.0)
+	check(player.position.z > 18.3 and absf(player.position.x-32) < 0.2,
+		"Unopened shortcut physically blocks entry from restoration")
 	level.get_node("ObjectiveManager").complete(&"take_key")
 	player.position = corridor
 	check(doors.get_node("GalleryB").interact(player), "Key opens gallery door")
