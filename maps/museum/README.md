@@ -7,10 +7,12 @@ Nhánh được tạo từ `main` tại commit `13807bd` ngày 27/10/2026.
 Hiện có bản dựng khối hai tầng 36 × 30 m tại `res://maps/museum/scenes/museum.tscn`:
 sân trong thông tầng, hai đường dốc chữ U, ba bảo vệ, chìa K, hai cửa có điều kiện,
 ba tác phẩm, dây, cửa sổ thoát và HUD nhiệm vụ.
+Theo [sơ đồ concept v2](docs/concept-v2/README.md), Player xuất phát ở sân trước
+`(18, 0.1, 35)`, đi tới cửa chính và nhấn **E** để vào sảnh.
 Mở scene rồi nhấn **F6** để thử riêng; map chưa đăng ký trong menu chung.
 
 Hướng dẫn hiện tại: **[Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md)**,
-kèm ảnh chụp Godot và cách chỉnh sàn/dốc/cửa. Bản dựng đã qua 104 kiểm tra riêng của map.
+kèm ảnh chụp Godot và cách chỉnh sàn/dốc/cửa. Bản dựng đã qua 116 kiểm tra riêng của map.
 
 Lịch sử phòng thử: [Bước 4 — bảo vệ tuần tra](docs/step-04-patrol.md),
 [Bước 5 — nhiệm vụ, thắng và thua](docs/step-05-demo.md).

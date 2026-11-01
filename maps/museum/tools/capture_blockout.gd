@@ -25,8 +25,11 @@ func _capture() -> void:
 		["overview", Vector3(49,49,53), Vector3(18,2,15)],
 		["courtyard", Vector3(10.5,6.1,22.5), Vector3(21,3.4,12)],
 		["stair-a", Vector3(8,6.1,25.75), Vector3(1.2,2.8,26)],
-		["start", Vector3(18,1.7,28.5), Vector3(18,1.7,20)],
+		["start", Vector3(18,1.7,35), Vector3(18,1.7,30)],
 	]
+	var entrance_only := "--entrance-only" in OS.get_cmdline_user_args()
+	if entrance_only:
+		views = [["start", Vector3(18,1.7,35), Vector3(18,1.7,30)]]
 	for shot in views:
 		camera.position = shot[1]
 		camera.look_at(shot[2])
@@ -35,6 +38,8 @@ func _capture() -> void:
 			await process_frame
 		await RenderingServer.frame_post_draw
 		var output := "res://maps/museum/docs/step-06-%s.png" % shot[0]
+		if entrance_only:
+			output = "res://maps/museum/docs/concept-v2/exterior-start-godot.png"
 		var result := root.get_texture().get_image().save_png(output)
 		if result != OK:
 			push_error("Could not save screenshot: " + output)

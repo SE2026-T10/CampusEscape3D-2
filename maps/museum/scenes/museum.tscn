@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bx6jj6mks1vku"]
+[gd_scene load_steps=30 format=3 uid="uid://bx6jj6mks1vku"]
 
 [ext_resource type="PackedScene" path="res://shared/scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://shared/scripts/game/game_flow.gd" id="2_game_flow"]
@@ -19,6 +19,7 @@
 
 [ext_resource type="PackedScene" path="res://maps/museum/scenes/museum_geometry.tscn" id="17_geometry"]
 [ext_resource type="PackedScene" path="res://maps/museum/scenes/museum_door.tscn" id="18_door"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/entrance_door.tscn" id="19_entrance"]
 
 [sub_resource type="Environment" id="Environment_room"]
 background_mode = 1
@@ -65,6 +66,9 @@ navigation_mesh = ExtResource("5_navigation")
 
 [node name="Doors" type="Node3D" parent="NavigationRegion3D"]
 
+[node name="Entrance" parent="NavigationRegion3D/Doors" instance=ExtResource("19_entrance")]
+position = Vector3(18, 0, 30)
+
 [node name="GalleryB" parent="NavigationRegion3D/Doors" instance=ExtResource("18_door")]
 position = Vector3(27, 4.5, 10)
 rotation = Vector3(0, 1.5707963, 0)
@@ -76,7 +80,7 @@ door_name = "Cửa kho phục chế"
 open_from = Vector3(0, 0, -1)
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
-position = Vector3(18, 0.1, 28.5)
+position = Vector3(18, 0.1, 35)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 rotation = Vector3(-1.0471976, -0.5235988, 0)

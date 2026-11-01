@@ -112,7 +112,35 @@ func _run() -> void:
 			check(angle < player.floor_max_angle and angle < guards[0].floor_max_angle
 				and rad_to_deg(angle) < navigation.agent_max_slope and ramp.collision_layer == 1,
 				"%s/%s smooth collision slope %.2f degrees is below all climb limits" % [stair_name,flight_name,rad_to_deg(angle)])
-	check(player.position.is_equal_approx(Vector3(18,0.1,28.5)) and player.rotation.is_zero_approx(), "Player starts in southern lobby facing -Z")
+	check(player.position.is_equal_approx(Vector3(18,0.1,35)) and player.rotation.is_zero_approx(), "Player starts outside in front yard facing main entrance (-Z)")
+	var entrance := level.get_node("NavigationRegion3D/Doors/Entrance") as Interactable
+	var exterior_spawn := player.get_spawn_transform().origin
+	check(not connected(exterior_spawn,Vector3(18,.1,28.5)), "Closed main entrance separates front yard from indoor navigation")
+	var yard_hit := ray(Vector3(18,1,35),Vector3(18,-1,35))
+	check(not yard_hit.is_empty() and absf(yard_hit.position.y) < 0.01, "New spawn has solid ground at Y=0")
+	check(not ray(Vector3(1,.6,34),Vector3(-1,.6,34)).is_empty()
+		and not ray(Vector3(35,.6,34),Vector3(37,.6,34)).is_empty()
+		and not ray(Vector3(18,.6,37),Vector3(18,.6,39)).is_empty(), "Yard sides and street gate block walking off the level")
+	check(await walk(player,[Vector3(18,0,31.4)]), "Player walks from exterior spawn up to main door")
+	await push_against_door(player,Vector3(18,0,31.4),0)
+	check(player.position.z > 30.3, "Closed main door physically stops Player before E")
+	player.position = Vector3(18,0,31.4)
+	player.camera.look_at(entrance.position+Vector3(0,1.4,0))
+	await frames(3)
+	check(player.get_node("Interactor").find_target() == entrance, "Main door is selectable by camera ray from outside")
+	var event := InputEventAction.new()
+	event.action = &"interact"
+	event.pressed = true
+	Input.parse_input_event(event)
+	await process_frame
+	event = InputEventAction.new()
+	event.action = &"interact"
+	Input.parse_input_event(event)
+	await frames(5)
+	check(entrance.is_open and entrance.get_node("Panel").collision_layer == 0
+		and not level.get_node("ObjectiveManager").is_completed(&"take_key"), "E opens main door freely without museum key")
+	check(connected(exterior_spawn,Vector3(18,.1,28.5)), "Open main door links exterior and interior navmesh")
+	check(await walk(player,[Vector3(18,0,28.5)]), "Player walks through opened main entrance into lobby")
 	var hit := ray(Vector3(18,8,18), Vector3(18,-1,18))
 	check(not hit.is_empty() and absf(hit.position.y) < 0.01, "Courtyard has ground floor and no upper slab")
 	for sample in [Vector3(18,8,4.5),Vector3(18,8,25.5),Vector3(6,8,15),Vector3(30,8,15)]:
@@ -123,7 +151,7 @@ func _run() -> void:
 		check(not hit.is_empty() and hit.position.y < 4, "Open stair headroom above " + str(sample))
 	for edge in [[Vector3(18,5,8),Vector3(18,5,10)], [Vector3(18,5,22),Vector3(18,5,20)], [Vector3(11,5,15),Vector3(13,5,15)], [Vector3(25,5,15),Vector3(23,5,15)]]:
 		check(not ray(edge[0],edge[1]).is_empty(), "Upper courtyard collision railing " + str(edge[0]))
-	var spawn := player.position
+	var spawn := exterior_spawn
 	for target in [Vector3(31.5,.1,13),Vector3(6.5,.1,12),Vector3(18,.1,3),Vector3(18,.1,18),Vector3(30,.1,21),Vector3(30,.1,27),Vector3(3,4.6,12),Vector3(18,4.6,2),Vector3(32,4.6,24),Vector3(34,4.6,27)]:
 		check(connected(spawn,target), "Navmesh reaches room/goal " + str(target))
 	var corridor := Vector3(25.5,4.6,10)

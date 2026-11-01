@@ -74,7 +74,8 @@ func clean_start() -> bool:
 	for door in level.get_node("NavigationRegion3D/Doors").get_children():
 		if door.is_open or door.get_node("Panel").collision_layer != 1 or door.get_node("Passage").enabled:
 			return false
-	return level.get_node("GameFlow").state == GameStateMachine.State.PLAYING
+	return level.get_node("GameFlow").state == GameStateMachine.State.PLAYING \
+		and level.get_node("Player").get_spawn_transform().origin.is_equal_approx(Vector3(18,0.1,35))
 
 
 func aim_at(target: Node3D, feet: Vector3) -> void:
@@ -128,6 +129,17 @@ func _run() -> void:
 	await fresh()
 	var manager := level.get_node("ObjectiveManager") as ObjectiveManager
 	check(clean_start() and manager.is_graph() and manager.get_mandatory_ids().size() == 6, "Scene initializes museum objectives before child readiness")
+	var entrance: Interactable = level.get_node("NavigationRegion3D/Doors/Entrance")
+	await aim_at(entrance,Vector3(18,0,31.4))
+	level.get_node("Player").camera.look_at(entrance.position+Vector3(0,1.4,0))
+	await frames(3)
+	await press_e()
+	check(entrance.is_open and manager.completed_count() == 0, "Main entrance opens with E before any item is collected")
+	level.get_node("GameFlow").pause()
+	await reload_from(level.get_node("GameMenus").restart_button)
+	check(level.get_node("Player").position.distance_to(Vector3(18,0.1,35)) < 0.12,
+		"Restart returns to exterior spawn and recloses main entrance")
+	manager = level.get_node("ObjectiveManager") as ObjectiveManager
 	check(level.get_node("ObjectiveHud").get_layout_controls().objectives.visible, "Objective HUD shows mission checklist")
 	await aim_at(level.get_node("Interactables/Rope"),Vector3(32,4.5,24.5))
 	await press_e()
@@ -280,7 +292,7 @@ func _run() -> void:
 	check(caught, "Real guard catch shows CAUGHT state before reload")
 	check(reloaded and clean_start(), "Caught delay reload restores all pickups and objective progress")
 	if reloaded:
-		check(level.get_node("Player").position.is_equal_approx(Vector3(18, 0.1, 28.5)) and level.get_node("Guard_G1").position.distance_to(Vector3(7, 0.1, 15)) < 0.2, "Full reload restores actor spawn positions")
+		check(level.get_node("Player").position.distance_to(Vector3(18, 0.1, 35)) < 0.12 and level.get_node("Guard_G1").position.distance_to(Vector3(7, 0.1, 15)) < 0.2, "Full reload restores exterior Player spawn and guard spawn")
 	paused = false
 	current_scene = null
 	root.remove_child(level)

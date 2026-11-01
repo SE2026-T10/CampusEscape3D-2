@@ -7,7 +7,7 @@ extends Interactable
 signal rejected(reason: String)
 signal opened
 
-enum Mode { KEY, LATCH }
+enum Mode { KEY, LATCH, FREE }
 
 @export var mode := Mode.KEY
 @export var door_name := "Cửa phòng B"
@@ -66,7 +66,7 @@ func _blocked_reason(by: Node) -> String:
 		var objectives := ObjectiveManager.find(self)
 		if objectives == null or not objectives.is_completed(key_objective_id):
 			return "Cần chìa K ở phòng nhân viên tầng 1"
-	else:
+	elif mode == Mode.LATCH:
 		var actor := by as Node3D
 		if actor == null:
 			return "Chốt chỉ mở từ bên trong phòng B"

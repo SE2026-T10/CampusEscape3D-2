@@ -149,7 +149,51 @@ func stairs(node_name: String, mirror: bool) -> void:
 		box(stair, "SlopeRail%d" % i, Vector3((b-a).length(), 1.2, 0.12), p, brass, Vector3(0,0,slope))
 
 
+func front_yard() -> void:
+	var yard := group("FrontYard")
+	slab(yard, "Ground", 0, 36, 30, 38, 0, green)
+	# Flush visual path; walking collision stays on the continuous ground slab.
+	var path_mesh := MeshInstance3D.new()
+	var plane := PlaneMesh.new()
+	plane.size = Vector2(3, 8)
+	plane.material = stone
+	path_mesh.mesh = plane
+	attach(yard, path_mesh, "Walkway")
+	path_mesh.position = Vector3(18, 0.003, 34)
+	box(yard, "FenceWest", Vector3(0.3,1.3,8), Vector3(0.15,0.65,34), stone)
+	box(yard, "FenceEast", Vector3(0.3,1.3,8), Vector3(35.85,0.65,34), stone)
+	wall_segment(yard, "FenceSouthWest", true, 37.85, 0, 16.5, 0, 1.3, stone)
+	wall_segment(yard, "FenceSouthEast", true, 37.85, 19.5, 36, 0, 1.3, stone)
+	box(yard, "ClosedStreetGate", Vector3(3,1.3,0.2), Vector3(18,0.65,37.85), blue)
+	for p in [Vector3(6,0.4,34),Vector3(11,0.4,34),Vector3(25,0.4,34),Vector3(30,0.4,34)]:
+		box(yard, "Planter%d" % yard.get_child_count(), Vector3(1.4,0.8,1.4), p, green)
+	label(yard, "EntranceSign", "BẢO TÀNG · CỬA CHÍNH", Vector3(18,3.2,30.2))
+	label(yard, "GateSign", "CỔNG SÂN", Vector3(18,1.7,37.65), PI)
+	for x in [16.4,19.6]:
+		box(yard, "LampPost%d" % yard.get_child_count(), Vector3(0.12,1.4,0.12), Vector3(x,0.7,31), brass)
+		var lamp := OmniLight3D.new()
+		attach(yard,lamp,"EntranceLight%d" % yard.get_child_count())
+		lamp.position = Vector3(x,1.6,31)
+		lamp.light_color = Color(1,0.82,0.57)
+		lamp.light_energy = 1.2
+		lamp.omni_range = 5
+
+
 func _build() -> void:
+	# Patch the existing authored interior for this migration. A normal builder
+	# run also includes the yard, so future regeneration keeps the new start.
+	if "--update-entrance" in OS.get_cmdline_user_args():
+		geometry.free()
+		geometry = (load(OUTPUT) as PackedScene).instantiate()
+		var secured := geometry.get_node_or_null("Exterior/EntranceSecured")
+		if secured:
+			secured.free()
+		var previous_yard := geometry.get_node_or_null("FrontYard")
+		if previous_yard:
+			previous_yard.free()
+		front_yard()
+		save_geometry()
+		return
 	geometry.name = "Geometry"
 	var floors := group("Floors")
 	slab(floors, "Ground", 0, 36, 0, 30, 0, floor_mat)
@@ -169,7 +213,6 @@ func _build() -> void:
 	wall(exterior, "SouthUpper", true, 30, 0, 36, 4.5)
 	wall(exterior, "EastGround", false, 36, 0, 30, 0)
 	wall(exterior, "EastUpper", false, 36, 0, 30, 4.5, [[27, 1.6]])
-	box(exterior, "EntranceSecured", Vector3(2, 2.8, 0.2), Vector3(18,1.4,30), blue)
 	# Window sill blocks walking off the building; E is the controlled rope exit.
 	box(exterior, "EscapeSill", Vector3(0.3, 1.0, 1.6), Vector3(36,5,27), stone)
 	slab(exterior, "OutsideLanding", 36, 41, 24, 30, 0, blue)
@@ -229,6 +272,11 @@ func _build() -> void:
 	label(signs, "GalleryB", "PHÒNG B · T2 · CẦN K", Vector3(26.8,7.6,10), -PI/2)
 	label(signs, "GalleryC", "PHÒNG C · T3", Vector3(15,7.6,6.2))
 	label(signs, "Restoration", "KHO PHỤC CHẾ · DÂY / LỐI THOÁT", Vector3(26.8,7.6,27), -PI/2)
+	front_yard()
+	save_geometry()
+
+
+func save_geometry() -> void:
 	var packed := PackedScene.new()
 	var error := packed.pack(geometry)
 	if error == OK:

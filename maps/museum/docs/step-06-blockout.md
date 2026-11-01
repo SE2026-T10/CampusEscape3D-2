@@ -4,12 +4,16 @@ Ngày 29/10/2026, `museum.tscn` đã thay phòng thử bằng mặt bằng 36 ×
 [floorplans.png](concept-v1/floorplans.png) và [tọa độ thiết kế](concept-v1/floorplan-notes.md).
 Đây là bản dựng khối để thử di chuyển và gameplay; tranh, dây, chìa vẫn dùng hình đại diện.
 
+**Cập nhật 01/11/2026:** đã thêm sân trước 36 × 8 m theo
+[concept v2](concept-v2/README.md); Player bắt đầu ngoài sân và mở cửa chính bằng E.
+
 ![Bảo tàng trong Godot](step-06-overview.png)
 
 ## Mở và chơi thử
 
 1. Mở project, mở `res://maps/museum/scenes/museum.tscn`, nhấn **F6**.
-2. Player bắt đầu ở sảnh phía nam `(18, 0.1, 28.5)`, nhìn về bắc (-Z).
+2. Player bắt đầu ở sân trước phía nam `(18, 0.1, 35)`, nhìn về bắc (-Z).
+   Đi tới cửa chính `(18,0,30)` và nhấn **E** để vào sảnh; cửa này không cần K.
 3. WASD di chuyển, chuột để nhìn, C/Ctrl để cúi, Shift để chạy, E để tương tác, Esc để pause.
 4. Tìm **K** trong phòng nhân viên phía đông tầng 1. Có thể lấy T1/T3 hoặc dây trước K.
 5. Chọn thang **A** ở tây nam hoặc **B** ở đông bắc để lên tầng 2. Hai thang là dốc chữ U:
@@ -23,7 +27,7 @@ Thắng hiện menu; **Play again** / **Restart level** khôi phục cả chìa,
 link điều hướng và nhiệm vụ. Khi bị bắt, màn CAUGHT hiện khoảng 2.5 giây rồi tải lại map.
 F5 vẫn mở menu của nhóm; bảo tàng chưa đăng ký trong catalog.
 
-![Góc nhìn tại điểm bắt đầu](step-06-start.png)
+![Góc nhìn tại điểm bắt đầu ngoài sân](concept-v2/exterior-start-godot.png)
 
 ## 6.1. Hệ tọa độ và sàn
 
@@ -31,6 +35,8 @@ Gốc ở góc tây bắc; X tăng về đông, Z tăng về nam, Y là cao đ�
 NavigationRegion3D ở `(0,0,0)`, scale `(1,1,1)`. Khung nhà X=0…36, Z=0…30;
 mặt sàn tầng 1 Y=0, tầng 2 Y=4.5. Sân trong X=12…24, Z=9…21 có sàn tầng 1,
 không có sàn tầng 2. Không còn sàn/tường của phòng thử quanh gốc cũ.
+Sân trước mở rộng thêm X=0…36, Z=30…38, mặt đất Y=0. Khối sàn nằm tại
+`Geometry/FrontYard/Ground`, Size `(36,0.3,8)`, Position `(18,-0.15,34)`.
 
 Sàn nằm trong scene con `museum_geometry.tscn`, nhánh `Geometry/Floors`:
 
@@ -65,7 +71,7 @@ A tại X=0…7, Z=24…30; B tại X=29…36, Z=0…6. Chiếu nghỉ và mặt
 | 6 | Lan can sân tầng 2 cao 1.2 m, có collision | `Geometry/Courtyard/UpperRailNorth_0`, `UpperRailSouth_0`, `UpperRailWest_0`, `UpperRailEast_0` |
 | 7 | T1–T3, dây và điểm thoát đã chuyển lên tầng 2 | `Interactables/Painting_T1`, `Painting_T2`, `Painting_T3`, `Rope`, `EscapeWindow` |
 | 8 | Ba guard được gán ba route riêng | `Guard_G1/G2/G3` → `PatrolRoute_G1/G2/G3`; cả ba đi ít nhất hai vòng không kẹt |
-| 9 | Bake toàn map và kiểm tra kết nối | `resources/museum_navigation.tres`: 394 polygon; hai thang nối hai tầng, cửa có điều kiện nối sau khi mở |
+| 9 | Bake toàn map và kiểm tra kết nối | `resources/museum_navigation.tres`: 453 polygon sau khi thêm sân; hai thang nối hai tầng, cửa nối sau khi mở |
 
 Lần đối chiếu riêng mục 6.2 đã bake lại navmesh, chạy **45 kiểm tra hình học/di chuyển/tuần tra** và
 **50 kiểm tra nhiệm vụ/cửa/thắng-thua**, đều đạt. Bản bake cho cùng dữ liệu với navmesh
@@ -80,7 +86,7 @@ Lần đối chiếu riêng mục 6.2 đã bake lại navmesh, chạy **45 kiể
   cửa phòng B tầng 2 ở `(27,10)`; chốt B → kho ở `(32,18)`.
 - Lan can đặc cao 1.2 m bao quanh sân tầng 2, có collision. Tầng 1 có vách sân thấp và
   lối vào phía nam tại `(18,21)`. Đây là hình học thử; phần cột/vòm và lan can trang trí làm sau.
-- Lối vào chính có cánh chắn cố định để không đi ra ngoài map. Cửa sổ thoát có bậu chặn
+- Lối vào chính mở tự do bằng E từ sân trước; cổng phía đường tại Z=37.85 đóng cố định để giới hạn sân. Cửa sổ thoát có bậu chặn
   bước hụt; hoàn tất bằng E. Sân đáp ngoài nhà đã có khối sàn tại X=36…41, Z=24…30.
 - Bệ đặc chặn cơ thể và tia nhìn. Chưa thêm phần kính trong suốt.
 
@@ -137,6 +143,7 @@ K dùng trạng thái ObjectiveManager làm cờ; Player chưa bật inventory. 
 NavigationRegion3D
 ├── Geometry (instance museum_geometry.tscn)
 └── Doors
+    ├── Entrance (18, 0, 30; Mode = FREE)
     ├── GalleryB (27, 4.5, 10; Mode = KEY)
     └── RestorationShortcut (32, 4.5, 18; Mode = LATCH)
 ```
@@ -189,19 +196,20 @@ muốn giữ vào builder. Không cần chạy builder để F6, và không ch�
 
 ## Kiểm tra đã chạy
 
-Godot 4.7.2, kết quả hành vi cập nhật ngày 30/10/2026:
+Godot 4.7.2, kết quả hành vi cập nhật ngày 01/11/2026:
 
-- `verify_blockout.gd`: **53 kiểm tra đạt** — tọa độ spawn, bốn dải sàn, khoảng thông tầng,
+- `verify_blockout.gd`: **62 kiểm tra đạt** — tọa độ spawn ngoài sân, bốn dải sàn, khoảng thông tầng,
   lỗ thang/lan can, đường đến các phòng, navmesh đóng/mở cửa, Player qua cửa,
   Player và guard lên/xuống A/B, ba guard đi đủ hai vòng không kẹt; thêm xác nhận nguồn bake,
-  so sánh độ dốc với các giới hạn, vào kho sớm và va chạm thật với cửa đang khóa.
-- `verify_demo.gd`: **51 kiểm tra đạt** — 60 thứ tự thu thập hợp lệ (K trước T2), tia camera/E
+  so sánh độ dốc với các giới hạn, vào kho sớm và va chạm thật với cửa đang khóa;
+  thêm sàn/biên sân, cửa chính đóng/mở, E không cần K, di chuyển và navmesh từ sân vào sảnh.
+- `verify_demo.gd`: **54 kiểm tra đạt** — 60 thứ tự thu thập hợp lệ (K trước T2), tia camera/E
   cho năm vật phẩm, điều kiện cửa và phía chốt, chặn tương tác xuyên vật cản, thiếu đồ,
   bị nhìn thấy/truy đuổi, WIN, Play Again, Restart và bị bắt rồi khôi phục toàn map;
-  thêm thao tác E lấy dây khi chưa có K và chưa mở cửa B/chốt.
-- Navmesh mới: **394 polygon**, lấy từ static colliders của toàn region.
-- `tools/ci/check_scripts.gd`: **161 script biên dịch được** ở lần chạy 29/10; các script kiểm tra
-  vừa sửa đã được tải và chạy thành công ngày 30/10. Không sửa mã dùng chung.
+  thêm thao tác E lấy dây khi chưa có K và chưa mở cửa B/chốt; mở cửa chính rồi Restart,
+  trở lại điểm xuất phát ngoài sân và khôi phục cửa đóng.
+- Navmesh mới: **453 polygon**, lấy từ static colliders của toàn region, bao gồm sân trước.
+- `tools/ci/check_scripts.gd`: **161 script biên dịch được** ngày 01/11. Không sửa mã dùng chung.
 - Bốn ảnh trong tài liệu được chụp từ renderer Compatibility của Godot, không phải ảnh concept.
 
 Chạy tại gốc project bằng PowerShell:
@@ -214,8 +222,7 @@ Chạy tại gốc project bằng PowerShell:
 
 Công cụ kiểm tra tăng tốc thời gian mô phỏng; tắt phần trình bày âm thanh của guard trong
 bài kiểm tra, không thay hành vi game. Log thực thi nằm trong `.local/logs/museum-*-verification.log`
-khi chạy với `--log-file` tương ứng. Môi trường kiểm tra có thông báo không đọc được kho
-chứng chỉ hệ thống Windows; cả hai bài kiểm tra kết thúc mã 0, không có lỗi script.
+khi chạy với `--log-file` tương ứng. Cả hai bài kiểm tra kết thúc mã 0, không có lỗi script.
 Bake báo làm tròn bán kính/chiều cao theo ô voxel; đây là thông báo làm tròn tham số.
 
 Trước khi demo với nhóm, tự chạy F6 để đánh giá nhịp chơi, độ khó, độ dễ tìm đường và cảm giác
