@@ -208,7 +208,7 @@ func _build() -> void:
 	# Polish (loading dock): its solid props (in Geometry, baked) and loose decor.
 	_build_dock_props(_group(_root.get_node("Geometry"), "D_LoadingDock"), _group(dressing, "DockDecor"))
 	# Polish (lobby and reading hall): the desk, S1, G4, details; the hall's lamps, wall bookcases, display.
-	_build_lobby(_group(dressing, "LobbyDecor"))
+	_build_lobby(_group(_root.get_node("Geometry"), "A_LobbyProps"), _group(dressing, "LobbyDecor"))
 	_build_reading_hall(_group(_root.get_node("Geometry"), "C_ReadingHall"), _group(dressing, "HallDecor"))
 	# Polish (Book Processing): workstations, the noticeboard, solid props, wall details.
 	_build_processing(_group(_root.get_node("Geometry"), "D_Processing"), _group(dressing, "ProcessingDecor"))
@@ -1584,26 +1584,31 @@ func _build_dock_props(solid: Node3D, decor: Node3D) -> void:
 		for z in [-0.55, 0.55]:
 			_add_visual_box(rack, "Beam%d_%d" % [int(y * 100), int(z * 100)], Vector3(0, y, z), Vector3(5.48, 0.1, 0.06), "rack_orange")
 	var loads := [["cardboard", 0.8], ["wrap", 0.85], ["", 0.0], ["wrap", 0.7], ["cardboard", 0.7], ["cardboard_dark", 0.5]]
+	var rack_boxes := []   # Kenney polish: the cardboard loads as Kenney boxes, four to a pallet
 	for i in 6:
 		var bx: float = [-1.8, 0.0, 1.8][i % 3]
 		var by: float = 0.0 if i < 3 else 1.2
 		_pallet(rack, "Pallet%d" % i, Vector3(bx, by, 0), Vector3(1.2, 0.14, 1.0))
-		if loads[i][0] != "":
+		if loads[i][0] == "wrap":
 			_add_visual_box(rack, "Load%d" % i, Vector3(bx, by + 0.14 + loads[i][1] / 2.0, 0), Vector3(1.1, loads[i][1], 0.9), loads[i][0])
+		elif loads[i][0] != "":
+			for q in 4:
+				rack_boxes.append(_kp_box(Vector3(bx - 0.28 + (q % 2) * 0.56, by + 0.14, -0.23 + (q / 2) * 0.46), Vector3(0.53, loads[i][1] - 0.02 * (q % 3), 0.43), loads[i][0] if q != 3 else "cardboard_dark" if loads[i][0] == "cardboard" else "cardboard"))
 		else:
-			_add_visual_box(rack, "Load%d" % i, Vector3(bx - 0.25, by + 0.34, -0.1), Vector3(0.5, 0.4, 0.5), "cardboard")
+			rack_boxes.append(_kp_box(Vector3(bx - 0.25, by + 0.14, -0.1), Vector3(0.5, 0.4, 0.5), "cardboard", 0.0, true))
+	_kenney(rack, "Loads", rack_boxes)
 	# Book boxes on pallets along the south wall.
 	for k in 2:
 		var r: Array = [[24.2, 26.5, 25.6, 27.8], [30.0, 26.5, 31.4, 27.8]][k]
 		var m := _solid_prop(solid, "BookBoxes%d" % k, r, 1.3)
 		_pallet(m, "Pallet", Vector3.ZERO, Vector3(1.4, 0.14, 1.3))
-		var n := 0
+		var boxes := []   # Kenney polish: Kenney boxes, same sizes
 		for layer in 2:
 			for ix in 2:
 				for iz in 2:
 					var look := "cardboard" if (ix + iz + layer + k) % 2 == 0 else "cardboard_dark"
-					_add_visual_box(m, "Box%d" % n, Vector3(-0.34 + ix * 0.68, 0.14 + 0.29 + layer * 0.58, -0.31 + iz * 0.62), Vector3(0.66, 0.57, 0.6), look)
-					n += 1
+					boxes.append(_kp_box(Vector3(-0.34 + ix * 0.68, 0.14 + layer * 0.58, -0.31 + iz * 0.62), Vector3(0.66, 0.57, 0.6), look))
+		_kenney(m, "Boxes", boxes)
 		_add_visual_box(m, "Strap", Vector3(0, 0.72, 0), Vector3(1.37, 1.16, 0.03), "wire_black")
 		_add_text(m, "Label", Vector3(0, 0.5, -0.611), "BOOKS · FRAGILE", 22, 0.002, Color(0.15, 0.1, 0.05), 180.0)
 	# Shrink-wrapped pallets: east of the crates, and by the south wall near the control.
@@ -1660,9 +1665,9 @@ func _build_dock_props(solid: Node3D, decor: Node3D) -> void:
 	# Its forks (on the floor, no collision) and the loose decor.
 	for z in [-0.25, 0.25]:
 		_add_visual_box(decor, "ForkliftFork%d" % int(z * 10), Vector3(20.1, 0.025, 27.05 + z), Vector3(1.0, 0.05, 0.12), "keypad_bezel")
-	_add_visual_box(decor, "CrateBoxA", Vector3(21.9, 1.4, 15.9), Vector3(0.55, 0.4, 0.45), "cardboard")
-	_add_visual_box(decor, "CrateBoxB", Vector3(22.3, 1.35, 16.35), Vector3(0.4, 0.3, 0.35), "cardboard_dark")
-	_add_visual_box(decor, "CrateBoxC", Vector3(28.1, 1.375, 25.1), Vector3(0.6, 0.35, 0.5), "cardboard")
+	# Kenney polish: the boxes on the crates are Kenney boxes (one open), same places.
+	_kenney(decor, "CrateBoxesAB", [_kp_box(Vector3(0, 0, 0), Vector3(0.55, 0.4, 0.45)), _kp_box(Vector3(0.4, 0, 0.45), Vector3(0.4, 0.3, 0.35), "cardboard_dark", 0.0, true)], Vector3(21.9, 1.2, 15.9))
+	_kenney(decor, "CrateBoxC", [_kp_box(Vector3.ZERO, Vector3(0.6, 0.35, 0.5))], Vector3(28.1, 1.2, 25.1))
 	for k in 2:   # pallets stood on edge against the west wall, south of the dock door
 		var p := Node3D.new()
 		p.name = "LeaningPallet%d" % k
@@ -1836,11 +1841,17 @@ func _dress_main_entrance(parent: Node3D) -> Node3D:
 ## returns slot, stamp and hanging sign; the S1 stair's brass nosing and the panelling and
 ## cupboard under its open side; the G4 staff door's wooden leaves, frame and reader (the
 ## level's door points at them, fixes_x10.gd); a library map, noticeboard, plants, mat, banner.
-func _build_lobby(decor: Node3D) -> void:
-	# Circulation desk (x 1…7, z 15.4…16.6, top 1.12; the public face is north, z 15.4).
+const DESK_CENTRE := Vector3(-5.5, 0, 13.6)
+
+
+func _build_lobby(solid: Node3D, decor: Node3D) -> void:
+	# Circulation desk (x −8.5…−2.5, z 13.0…14.2, top 1.12): moved from x 1…7, z 15.4…16.6
+	# and turned 180° at the owner's request (fixes_x23.gd moves the level's collider and
+	# boxes); the public face (local −z) now faces south, the entrance, like the cornerstone.
 	var d := Node3D.new()
 	d.name = "CirculationDesk"
-	d.position = Vector3(4.0, 0, 16.0)
+	d.position = DESK_CENTRE
+	d.rotation_degrees = Vector3(0, 180.0, 0)
 	_add(decor, d)
 	for i in 5:
 		_add_visual_box(d, "FrontPanel%d" % i, Vector3(-2.4 + i * 1.2, 0.55, -0.61), Vector3(1.0, 0.72, 0.02), "oak")
@@ -1853,10 +1864,15 @@ func _build_lobby(decor: Node3D) -> void:
 	_add_visual_box(d, "Ledge", Vector3(0, 1.21, -0.48), Vector3(6.1, 0.18, 0.28), "oak")
 	_add_visual_box(d, "ReturnsSlot", Vector3(2.4, 1.21, -0.625), Vector3(0.45, 0.05, 0.012), "screen_dark")
 	_add_text(d, "ReturnsText", Vector3(2.4, 1.27, -0.627), "RETURNS", 18, 0.0018, Color(0.95, 0.92, 0.8), 180.0)
-	_add_visual_box(d, "Monitor2Foot", Vector3(1.6, 1.13, -0.15), Vector3(0.2, 0.02, 0.16), "keypad_bezel")
-	_add_visual_box(d, "Monitor2", Vector3(1.6, 1.3, -0.2), Vector3(0.5, 0.32, 0.04), "keypad_bezel")
-	_add_visual_box(d, "Monitor2Screen", Vector3(1.6, 1.3, -0.178), Vector3(0.46, 0.28, 0.004), "screen_lit")
-	_add_visual_box(d, "Keyboard2", Vector3(1.6, 1.13, 0.25), Vector3(0.44, 0.02, 0.15), "wire_black")
+	# Kenney polish: two computer sets for the staff (the level's own screen at x 2.8 is
+	# removed by fixes_x20.gd) and a table lamp at the west end.
+	var kit := []
+	for x in [-1.2, 1.6]:
+		kit.append(_kp("computerScreen", Vector3(x, 1.12, -0.15), 0.0, 1.35, {"metal": "screen_lit", "metalDark": "keypad_bezel"}))
+		kit.append(_kp("computerKeyboard", Vector3(x, 1.12, 0.25), 0.0, 1.5, {"metal": "tool_steel", "metalMedium": "keypad_bezel", "metalDark": "wire_black"}))
+		kit.append(_kp("computerMouse", Vector3(x + 0.35, 1.12, 0.27), 0.0, 1.5, {"metalDark": "wire_black"}))
+	_kenney(d, "Computers", kit)
+	_kenney(d, "Lamp", [_kp("lampRoundTable", Vector3(-2.65, 1.12, 0.1), 0.0, 1.5, {"metal": "tool_dark"})])
 	_add_visual_box(d, "Stamp", Vector3(-0.7, 1.16, 0.2), Vector3(0.06, 0.08, 0.06), "pipe_red")
 	_add_visual_box(d, "InkPad", Vector3(-0.55, 1.13, 0.2), Vector3(0.1, 0.02, 0.07), "wire_black")
 	# S1 stair: brass nosing (the level's strips, hidden by fixes_x10.gd) and the open (east)
@@ -1876,15 +1892,50 @@ func _build_lobby(decor: Node3D) -> void:
 	g4.position = Vector3(12.0, 1.2, 21.0)
 	_add(_root.get_node("Gameplay"), g4)
 	_door_leaves(g4, 2.0, "wood")
-	# Plants in the two planters and the entrance mat (the wall decor was removed by request).
-	for pl in [[Vector3(-6.0, 1.0, 13.5)], [Vector3(6.0, 1.0, 25.5)]]:
-		var base: Vector3 = pl[0]
-		_add_visual_cyl(decor, "PlantTrunk%d" % int(base.x), base + Vector3(0, 0.45, 0), 0.04, 0.9, "y", "wood_dark", 8)
-		for k in 4:
-			var off := Vector3([-0.25, 0.25, 0.0, 0.1][k], 0.85 + k * 0.22, [0.1, -0.1, 0.0, 0.15][k])
-			_add_visual_box(decor, "Foliage%d_%d" % [int(base.x), k], base + off, Vector3(0.55 - k * 0.08, 0.3, 0.45 - k * 0.06), "foliage" if k % 2 == 0 else "foliage_light")
+	# Plants in the two planters (Kenney polish: a potted plant in each, among the level's
+	# shrubs) and the entrance mat (the wall decor was removed by request).
+	# (The north-west planter was removed when the desk took its place: fixes_x23.gd.)
+	for base in [Vector3(6.0, 1.0, 25.5)]:
+		_kenney(decor, "Plant%d" % int(base.x), [_kp("pottedPlant", Vector3.ZERO, 0.0, 2.6, {"wood": "planter", "woodDark": "planter"})], base)
 	_add_visual_box(decor, "EntranceMat", Vector3(0, 0.006, 26.95), Vector3(3.6, 0.012, 1.4), "wire_black")
 	_add_visual_box(decor, "EntranceMatBorder", Vector3(0, 0.005, 26.95), Vector3(3.8, 0.01, 1.6), "rug_red")
+	_lobby_furniture(solid, decor)
+
+
+## Kenney polish additions (approved), each solid but the rug: a desk chair at the
+## circulation desk's staff-side end (clear of its hiding spot); a waiting area in front of the
+## cornerstone facing the entrance (a sofa, an armchair, a coffee table, a rug, a floor
+## lamp); two benches and a plant on the
+## east wall south of the staff door; a bin and a coat rack inside the entrance, west of
+## the doors (the badge reader is east).
+func _lobby_furniture(solid: Node3D, decor: Node3D) -> void:
+	var fabric := {"carpet": "fabric_green"}
+	var plant := {"wood": "planter", "woodDark": "planter"}
+	# The desk chair at the desk's staff-side end (moved and turned with the desk).
+	var chair := _solid_prop(solid, "LobbyDeskChair", [-8.05, 12.2, -7.35, 12.9], 1.0)
+	_kenney(chair, "Chair", [_kp("chairDesk", Vector3.ZERO, 20.0, 1.6, {"carpet": "keypad_bezel", "metalMedium": "tool_dark"})])
+	# The waiting area (moved at the owner's request): in front of the cornerstone, backs
+	# to the north wall, facing the main entrance; west of the cornerstone's reading spot
+	# (x 7, z 11.2) and the lobby guard's patrol point (8, 13), east of the reading hall
+	# doors (x ±2), clear of the guard's way along the desk; the table's collider is
+	# taller than the table so the navmesh does not climb onto it.
+	_kenney(decor, "LoungeRug", [_kp("rugRectangle", Vector3.ZERO, 0.0, Vector3(1.25, 1.0, 1.25), {"carpet": "carpet_runner", "carpetDarker": "keypad_bezel"})], Vector3(4.6, 0.008, 11.8))
+	var sofa := _solid_prop(solid, "LoungeSofa", [3.96, 10.55, 5.94, 11.4], 0.94)
+	_kenney(sofa, "Sofa", [_kp("loungeSofa", Vector3.ZERO, 0.0, 2.0, fabric)])
+	var arm := _solid_prop(solid, "LoungeArmchair", [2.9, 10.55, 3.9, 11.4], 0.94)
+	_kenney(arm, "Armchair", [_kp("loungeChair", Vector3.ZERO, 0.0, 2.0, fabric)])
+	var table := _solid_prop(solid, "LoungeTable", [4.41, 11.86, 5.49, 12.54], 0.75)
+	_kenney(table, "Table", [_kp("tableCoffee", Vector3.ZERO, 0.0, 1.6)])
+	var lamp := _solid_prop(solid, "LoungeLamp", [2.44, 10.44, 2.76, 10.76], 1.75)
+	_kenney(lamp, "Lamp", [_kp("lampSquareFloor", Vector3.ZERO, 0.0, 2.0, {"metal": "tool_dark"})])
+	var benches := _solid_prop(solid, "LobbyBenches", [11.2, 23.42, 11.7, 25.43], 1.08)
+	_kenney(benches, "Benches", [_kp("benchCushion", Vector3(0, 0, -0.525), -90.0, 2.3, fabric), _kp("benchCushion", Vector3(0, 0, 0.525), -90.0, 2.3, fabric)])
+	var east_pot := _solid_prop(solid, "LobbyEastPlant", [11.15, 25.85, 11.67, 26.37], 1.34)
+	_kenney(east_pot, "Plant", [_kp("pottedPlant", Vector3.ZERO, 0.0, 2.0, plant)])
+	var bin := _solid_prop(solid, "EntranceBin", [-2.85, 27.3, -2.55, 27.6], 0.35)
+	_kenney(bin, "Bin", [_kp("trashcan", Vector3.ZERO, 0.0, Vector3(1.35, 0.8, 1.25), {"metal": "tool_dark", "metalDark": "tool_steel"})])
+	var coat := _solid_prop(solid, "EntranceCoatRack", [-3.9, 27.15, -3.3, 27.75], 1.8)
+	_kenney(coat, "CoatRack", [_kp("coatRackStanding", Vector3.ZERO, 0.0, 2.1, {"wood": "oak_dark"})])
 
 
 ## A stair's nosing redrawn in `look`: the level's strips (hidden by a fixes_x*.gd) as a
@@ -1984,6 +2035,29 @@ func _build_reading_hall(solid: Node3D, decor: Node3D) -> void:
 				_add_visual_box(m, "B%d_%d" % [level, i], at, Vector3(0.075, hh, depth - 0.12) if along_x else Vector3(depth - 0.12, hh, 0.075), book_looks[(i * 5 + level * 3 + q) % book_looks.size()])
 				i += 1
 		q += 1
+	# Kenney polish (approved): four library chairs at each reading table, two each long
+	# side facing it, solid (one collider per side), in place of the level's two box chairs
+	# (hidden by fixes_x21.gd); on the north side of the table at (−6, −3), where its
+	# hiding spot is, only the one old chair as before. Two potted plants by the hall doors.
+	var ti := 0
+	for t in HALL_TABLES:
+		for side in [-1.0, 1.0]:
+			if ti == 1 and side < 0:
+				# Only the level's old chair here (x −0.75, tucked against the table, not solid),
+				# as before: the hiding spot north of this table stays open.
+				_kenney(decor, "HallTable1ChairN", [_kp_chair(Vector3.ZERO, 0.0)], Vector3(t.x - 0.75, 0, t.z - 0.64))
+				continue
+			var z0: float = t.z + side * 0.71
+			var z1: float = t.z + side * 1.15
+			var row := _solid_prop(solid, "HallChairs%d%s" % [ti, "N" if side < 0 else "S"], [t.x - 1.0, minf(z0, z1), t.x + 1.0, maxf(z0, z1)], 0.96)
+			var parts := []
+			for x in [-0.75, 0.75]:
+				parts.append(_kp_chair(Vector3(x, 0, 0), 0.0 if side < 0 else 180.0))
+			_kenney(row, "Chairs", parts)
+		ti += 1
+	for px in [-2.7, 2.7]:
+		var pot := _solid_prop(solid, "HallDoorPlant%s" % ("W" if px < 0 else "E"), [px - 0.26, 9.33, px + 0.26, 9.85], 1.34)
+		_kenney(pot, "Plant", [_kp("pottedPlant", Vector3.ZERO, 0.0, 2.0, {"wood": "planter", "woodDark": "planter"})])
 	var rack := _solid_prop(solid, "NewspaperRack", [3.2, 9.4, 4.2, 9.85], 1.2)
 	_add_visual_box(rack, "Back", Vector3(0, 0.6, 0.18), Vector3(1.0, 1.2, 0.04), "wood")
 	for y in [0.3, 0.65, 1.0]:
@@ -2016,12 +2090,11 @@ func _build_processing(solid: Node3D, decor: Node3D) -> void:
 		g.name = "Workstation%d" % k
 		g.position = t
 		_add(decor, g)
-		_add_visual_box(g, "MonitorFoot", Vector3(1.15, 0.01, -0.3), Vector3(0.2, 0.02, 0.16), "keypad_bezel")
-		_add_visual_box(g, "MonitorNeck", Vector3(1.15, 0.12, -0.32), Vector3(0.04, 0.2, 0.03), "keypad_bezel")
-		_add_visual_box(g, "Monitor", Vector3(1.15, 0.36, -0.3), Vector3(0.5, 0.32, 0.04), "keypad_bezel")
-		_add_visual_box(g, "Screen", Vector3(1.15, 0.36, -0.278), Vector3(0.46, 0.28, 0.004), "screen_lit")
-		_add_visual_box(g, "Keyboard", Vector3(1.1, 0.015, 0.2), Vector3(0.44, 0.02, 0.15), "wire_black")
-		_add_visual_box(g, "Mouse", Vector3(1.42, 0.015, 0.22), Vector3(0.06, 0.02, 0.1), "wire_black")
+		# Kenney polish: the computer set, as in the offices.
+		_kenney(g, "Computer", [
+			_kp("computerScreen", Vector3(1.15, 0, -0.3), 0.0, 1.35, {"metal": "screen_lit", "metalDark": "keypad_bezel"}),
+			_kp("computerKeyboard", Vector3(1.1, 0, 0.2), 0.0, 1.5, {"metal": "tool_steel", "metalMedium": "keypad_bezel", "metalDark": "wire_black"}),
+			_kp("computerMouse", Vector3(1.42, 0, 0.22), 0.0, 1.5, {"metalDark": "wire_black"})])
 		_add_visual_box(g, "ScannerBase", Vector3(-1.3, 0.02, 0.35), Vector3(0.12, 0.04, 0.12), "keypad_bezel")
 		_add_visual_box(g, "Scanner", Vector3(-1.3, 0.12, 0.35), Vector3(0.07, 0.16, 0.09), "release_yellow")
 		_add_visual_box(g, "Printer", Vector3(-1.25, 0.08, -0.35), Vector3(0.28, 0.16, 0.24), "panel_grey")
@@ -2032,6 +2105,12 @@ func _build_processing(solid: Node3D, decor: Node3D) -> void:
 			var z: float = [0.4, -0.42][s]
 			for b in 4 + s:
 				_add_visual_box(g, "Stack%d_%d" % [s, b], Vector3(x + 0.01 * (b % 2), 0.025 + b * 0.05, z), Vector3(0.24, 0.045, 0.17), book_looks[(b + k + s) % book_looks.size()])
+		# Kenney polish: a desk chair on the user's side (+z, solid, clear of the table's
+		# collider, 3.0 × 1.2 m) and a bin past the table's east end.
+		var chair := _solid_prop(solid, "WorkstationChair%d" % k, [t.x + 0.85, t.z + 0.62, t.x + 1.45, t.z + 1.2], 1.0)
+		_kenney(chair, "Chair", [_kp("chairDesk", Vector3.ZERO, 180.0, 1.6, {"carpet": "keypad_bezel", "metalMedium": "tool_dark"})])
+		var bin := _solid_prop(solid, "WorkstationBin%d" % k, [t.x + 1.6, t.z + 0.65, t.x + 1.9, t.z + 0.95], 0.35)
+		_kenney(bin, "Bin", [_kp("trashcan", Vector3.ZERO, 0.0, Vector3(1.35, 0.8, 1.25), {"metal": "tool_dark", "metalDark": "tool_steel"})])
 		k += 1
 	# The noticeboard round the wiring chart (the chart keeps its place: (26, 1.4, −27.83)).
 	var nb := Node3D.new()
@@ -2117,12 +2196,15 @@ func _build_processing(solid: Node3D, decor: Node3D) -> void:
 				_add_visual_box(m, "Book%d_%d" % [lvl, i], Vector3(0, [0.215, 0.615][lvl] + hh / 2.0, -0.42 + i * 0.065), Vector3(0.34, hh, 0.06), book_looks[(i + lvl + 2) % book_looks.size()])
 	var pal := _solid_prop(solid, "NewArrivalsPallet", [29.0, -8.0, 30.2, -6.8], 1.2)
 	_pallet(pal, "Pallet", Vector3.ZERO, Vector3(1.2, 0.14, 1.2))
+	# Kenney polish: the eight boxes on the pallet are Kenney cardboard boxes (0.58 × 0.51 m).
+	var boxes := []
 	var n := 0
 	for layer in 2:
 		for ix in 2:
 			for iz in 2:
-				_add_visual_box(pal, "Box%d" % n, Vector3(-0.3 + ix * 0.6, 0.14 + 0.26 + layer * 0.52, -0.3 + iz * 0.6), Vector3(0.58, 0.51, 0.58), box_looks[(n + 1) % box_looks.size()])
+				boxes.append(_kp("cardboardBoxClosed", Vector3(-0.3 + ix * 0.6, 0.14 + layer * 0.52, -0.3 + iz * 0.6), 0.0, Vector3(2.74, 1.81, 2.74), {"wood": box_looks[(n + 1) % box_looks.size()], "woodDark": "cardboard_dark"}))
 				n += 1
+	_kenney(pal, "Boxes", boxes)
 	_add_text(pal, "Label", Vector3(0, 0.66, 0.601), "NEW ARRIVALS", 22, 0.002, Color(0.15, 0.1, 0.05))
 	# The fire extinguisher by the electrical door (the clock, posters and signs were removed by request).
 	_add_visual_box(decor, "ExtinguisherBracket", Vector3(35.83, 0.75, -25.2), Vector3(0.03, 0.08, 0.12), "keypad_bezel")
@@ -2160,6 +2242,7 @@ func _build_storage(solid: Node3D, decor: Node3D) -> void:
 			for x in [-0.95, 0.95]:
 				_add_visual_box(g, "Beam%d_%d" % [int(y * 100), int(x * 100)], Vector3(x, y, 0), Vector3(0.06, 0.07, 1.96), "rack_orange")
 		_add_visual_box(g, "BackPanel", Vector3(0, 1.0, 0), Vector3(0.02, 1.96, 1.9), "mesh_grey")
+		var cartons := []
 		var k := 0
 		for side in [-1.0, 1.0]:
 			for level in 3:
@@ -2177,10 +2260,15 @@ func _build_storage(solid: Node3D, decor: Node3D) -> void:
 					else:
 						var h := 0.32 + 0.08 * ((k + n + level) % 3)
 						var bw := minf(w, 0.86 - z)
-						_add_visual_box(g, "Box%d" % k, Vector3(side * 0.52, y0 + h / 2.0, z + bw / 2.0), Vector3(0.78, h, bw - 0.03), box_looks[(k + level) % box_looks.size()])
+						var look: String = box_looks[(k + level) % box_looks.size()]
+						if look == "archive_box":
+							_add_visual_box(g, "Box%d" % k, Vector3(side * 0.52, y0 + h / 2.0, z + bw / 2.0), Vector3(0.78, h, bw - 0.03), look)
+						else:   # Kenney polish: the cardboard ones are Kenney boxes, same sizes
+							cartons.append(_kp_box(Vector3(side * 0.52, y0, z + bw / 2.0), Vector3(0.78, h, bw - 0.03), look))
 					z += w + 0.04
 					n += 1
 					k += 1
+		_kenney(g, "Cartons", cartons)
 		for end in [-1.0, 1.0]:
 			_add_visual_box(g, "TagPlate%d" % int(end), Vector3(0, 1.72, end * 0.98), Vector3(0.5, 0.22, 0.02), "release_yellow")
 			_add_text(g, "Tag%d" % int(end), Vector3(0, 1.72, end * 0.992), r[2], 64, 0.0028, Color(0.06, 0.06, 0.06), 0.0 if end > 0 else 180.0)
@@ -2220,6 +2308,7 @@ func _build_storage(solid: Node3D, decor: Node3D) -> void:
 		var length: float = (r[2] - r[0]) if along_x else (r[3] - r[1])
 		var depth: float = (r[3] - r[1]) if along_x else (r[2] - r[0])
 		var bays := maxi(1, roundi(length / 1.2))
+		var cartons := []
 		var bay := length / bays
 		for i in bays + 1:
 			var t := -length / 2.0 + i * bay
@@ -2236,7 +2325,12 @@ func _build_storage(solid: Node3D, decor: Node3D) -> void:
 				var h := 0.3 + 0.06 * ((i + level + q) % 3)
 				var at := Vector3(t, y0 + h / 2.0, 0.02) if along_x else Vector3(0.02, y0 + h / 2.0, t)
 				var sz := Vector3(bay / 3.0 - 0.05, h, depth - 0.12) if along_x else Vector3(depth - 0.12, h, bay / 3.0 - 0.05)
-				_add_visual_box(m, "Box%d_%d" % [level, i], at, sz, box_looks[(i + level + q) % box_looks.size()])
+				var look: String = box_looks[(i + level + q) % box_looks.size()]
+				if look == "archive_box":
+					_add_visual_box(m, "Box%d_%d" % [level, i], at, sz, look)
+				else:   # Kenney polish: the cardboard ones are Kenney boxes, same sizes
+					cartons.append(_kp_box(at - Vector3(0, h / 2.0, 0), sz, look))
+		_kenney(m, "Cartons", cartons)
 		q += 1
 	# The walkway lines, a trolley and a ladder.
 	for z in [0.3, 5.7]:   # the cross aisle (west door ↔ stair foot)
@@ -2317,16 +2411,7 @@ func _build_browsing_hall(solid: Node3D, decor: Node3D) -> void:
 		_add(decor, g)
 		_library_table(g, k)
 		# Four chairs, two each side, facing the table (the old ones were at x ∓0.75, z ∓0.64).
-		var c := 0
-		for side in [-1.0, 1.0]:
-			for x in [-0.75, 0.75]:
-				var ch := Node3D.new()
-				ch.name = "Chair%d" % c
-				ch.position = Vector3(x, 0, side * 0.64)
-				ch.rotation_degrees = Vector3(0, 0.0 if side < 0 else 180.0, 0)
-				_add(g, ch)
-				_library_chair(ch)
-				c += 1
+		_table_chairs(g, [-0.75, 0.75], 0.64)
 		k += 1
 	_dress_s3(decor)
 	_browsing_carpet(decor)
@@ -2338,25 +2423,18 @@ func _build_browsing_hall(solid: Node3D, decor: Node3D) -> void:
 	_add(decor, rug)
 	_add_visual_box(rug, "Border", Vector3(0, 0.006, 0), Vector3(2.9, 0.004, 3.7), "carpet_gold")
 	_add_visual_box(rug, "Field", Vector3(0, 0.0085, 0), Vector3(2.7, 0.004, 3.5), "rug_red")
-	var chair_w := _solid_prop(solid, "ArmchairWest", [-35.75, 24.9, -34.95, 25.9], 0.85)
-	_armchair(chair_w, 0.0)
-	var chair_s := _solid_prop(solid, "ArmchairSouth", [-34.55, 26.55, -33.55, 27.35], 0.85)
-	_armchair(chair_s, 90.0)
+	# Kenney polish: leather lounge chairs, a coffee table and a floor lamp (same places).
+	var leather := {"carpet": "leather"}
+	var chair_w := _solid_prop(solid, "ArmchairWest", [-35.75, 24.9, -34.95, 25.9], 0.9)
+	_kenney(chair_w, "Armchair", [_kp("loungeChair", Vector3.ZERO, 90.0, 1.9, leather)])
+	var chair_s := _solid_prop(solid, "ArmchairSouth", [-34.55, 26.55, -33.55, 27.35], 0.9)
+	_kenney(chair_s, "Armchair", [_kp("loungeChair", Vector3.ZERO, 180.0, 1.9, leather)])
 	var coffee := _solid_prop(solid, "CoffeeTable", [-34.55, 25.05, -33.55, 25.75], 0.7)   # taller than the table: no navmesh on its top
-	_add_visual_box(coffee, "Top", Vector3(0, 0.43, 0), Vector3(1.0, 0.04, 0.7), "oak")
-	for lx in [-0.44, 0.44]:
-		for lz in [-0.29, 0.29]:
-			_add_visual_box(coffee, "Leg%d_%d" % [int(lx * 100), int(lz * 100)], Vector3(lx, 0.205, lz), Vector3(0.05, 0.41, 0.05), "oak_dark")
-	_add_visual_box(coffee, "Shelf", Vector3(0, 0.1, 0), Vector3(0.9, 0.02, 0.6), "oak_dark")
-	_add_visual_box(coffee, "Magazine0", Vector3(-0.2, 0.118, 0.05), Vector3(0.22, 0.016, 0.3), "poster_b")
-	_add_visual_box(coffee, "Magazine1", Vector3(0.15, 0.118, -0.05), Vector3(0.22, 0.016, 0.3), "poster_a")
-	_add_visual_box(coffee, "Book", Vector3(0.25, 0.465, 0.12), Vector3(0.24, 0.03, 0.17), "cabinet_green")
-	_add_visual_box(coffee, "Cup", Vector3(-0.28, 0.49, -0.1), Vector3(0.07, 0.08, 0.07), "card_white")
-	var lamp := _solid_prop(solid, "FloorLamp", [-35.7, 26.8, -35.3, 27.2], 1.6)
-	_add_visual_box(lamp, "Base", Vector3(0, 0.015, 0), Vector3(0.34, 0.03, 0.34), "brass")
-	_add_visual_box(lamp, "Pole", Vector3(0, 0.72, 0), Vector3(0.03, 1.4, 0.03), "brass")
-	_add_visual_box(lamp, "Shade", Vector3(0, 1.44, 0), Vector3(0.38, 0.3, 0.38), "lamp_cream")
-	_add_visual_box(lamp, "ShadeTop", Vector3(0, 1.595, 0), Vector3(0.3, 0.01, 0.3), "oak_dark")
+	_kenney(coffee, "Table", [_kp("tableCoffee", Vector3.ZERO, 0.0, Vector3(1.5, 2.0, 1.75))])
+	_add_visual_box(coffee, "Book", Vector3(0.25, 0.477, 0.12), Vector3(0.24, 0.03, 0.17), "cabinet_green")
+	_add_visual_box(coffee, "Cup", Vector3(-0.28, 0.502, -0.1), Vector3(0.07, 0.08, 0.07), "card_white")
+	var lamp := _solid_prop(solid, "FloorLamp", [-35.7, 26.8, -35.3, 27.2], 1.75)
+	_kenney(lamp, "Lamp", [_kp("lampRoundFloor", Vector3.ZERO, 0.0, 2.0, {"metal": "brass"})])
 	# New-books display (inside the lobby door, north of it).
 	var display := _solid_prop(solid, "NewBooksDisplay", [-15.6, 19.2, -14.0, 20.0], 0.75)
 	_add_visual_box(display, "Top", Vector3(0, 0.73, 0), Vector3(1.6, 0.04, 0.8), "oak")
@@ -2365,11 +2443,13 @@ func _build_browsing_hall(solid: Node3D, decor: Node3D) -> void:
 			_add_visual_box(display, "Leg%d_%d" % [int(lx * 100), int(lz * 100)], Vector3(lx, 0.355, lz), Vector3(0.06, 0.71, 0.06), "oak_dark")
 	_add_visual_box(display, "PanelN", Vector3(0, 0.38, -0.3), Vector3(1.4, 0.56, 0.02), "oak_dark")
 	_add_visual_box(display, "PanelS", Vector3(0, 0.38, 0.3), Vector3(1.4, 0.56, 0.02), "oak_dark")
+	var book_sets := []   # Kenney polish: Kenney book sets standing behind the face-out covers
 	for i in 6:
 		var x := -0.6 + i * 0.24
 		var sd := -1.0 if i % 2 == 0 else 1.0
 		_add_box_r(display, "FaceOut%d" % i, Vector3(x, 0.89, sd * 0.12), Vector3(0.17, 0.25, 0.025), BOOK_LOOKS[(i * 3) % BOOK_LOOKS.size()], Vector3(-sd * 0.3, 0, 0))
-		_add_visual_box(display, "Flat%d" % i, Vector3(x, 0.765, -sd * 0.22), Vector3(0.16, 0.03, 0.22), BOOK_LOOKS[(i * 5 + 1) % BOOK_LOOKS.size()])
+		book_sets.append(_kp("books", Vector3(x, 0.75, -sd * 0.25), [-6.0, 4.0, 8.0, -3.0, 5.0, -7.0][i] + (0.0 if sd > 0 else 180.0), 1.5, KENNEY_BOOKS[i % KENNEY_BOOKS.size()]))   # spines out
+	_kenney(display, "Books", book_sets)
 	_add_box_r(display, "TentCard", Vector3(0, 0.83, 0), Vector3(0.34, 0.16, 0.01), "card_white", Vector3(0, 0, 0))
 	_add_text(display, "TentTextS", Vector3(0, 0.83, 0.007), "NEW BOOKS", 22, 0.0016, Color(0.12, 0.08, 0.03))
 	_add_text(display, "TentTextN", Vector3(0, 0.83, -0.007), "NEW BOOKS", 22, 0.0016, Color(0.12, 0.08, 0.03), 180.0)
@@ -2387,12 +2467,7 @@ func _build_browsing_hall(solid: Node3D, decor: Node3D) -> void:
 	var trolley := _solid_prop(solid, "BookTrolley", [-30.95, 12.3, -30.45, 13.2], 1.0)
 	_book_trolley(trolley, Vector3(0.5, 1.0, 0.9), 3)
 	var plant := _solid_prop(solid, "Plant", [-12.95, 10.55, -12.35, 11.15], 1.4)
-	_add_visual_box(plant, "Pot", Vector3(0, 0.25, 0), Vector3(0.5, 0.5, 0.5), "planter")
-	_add_visual_box(plant, "Soil", Vector3(0, 0.495, 0), Vector3(0.44, 0.02, 0.44), "wood_dark")
-	_add_visual_box(plant, "Trunk", Vector3(0, 0.75, 0), Vector3(0.05, 0.5, 0.05), "wood_dark")
-	for i in 4:
-		var off := Vector3([-0.12, 0.12, 0.0, 0.06][i], 0.95 + i * 0.13, [0.06, -0.06, 0.0, 0.1][i])
-		_add_visual_box(plant, "Foliage%d" % i, off, Vector3(0.46 - i * 0.07, 0.24, 0.42 - i * 0.06), "foliage" if i % 2 == 0 else "foliage_light")
+	_kenney(plant, "Plant", [_kp("pottedPlant", Vector3.ZERO, 0.0, 2.0, {"wood": "planter", "woodDark": "planter"})])
 
 
 ## A library table on a 3.0 × 1.4 m footprint (top at 0.8): oak top with an overhang,
@@ -2430,15 +2505,31 @@ func _library_table(g: Node3D, k: int) -> void:
 
 ## A padded library chair at its parent's origin, facing +z (its back towards −z).
 func _library_chair(ch: Node3D) -> void:
-	for lx in [-0.19, 0.19]:
-		for lz in [-0.17, 0.17]:
-			_add_visual_box(ch, "Leg%d_%d" % [int(lx * 100), int(lz * 100)], Vector3(lx, 0.215, lz), Vector3(0.035, 0.43, 0.035), "oak_dark")
-	_add_visual_box(ch, "Seat", Vector3(0, 0.45, 0), Vector3(0.44, 0.04, 0.43), "oak")
-	_add_visual_box(ch, "Cushion", Vector3(0, 0.495, 0.01), Vector3(0.4, 0.05, 0.38), "fabric_green")
-	for lx in [-0.19, 0.19]:
-		_add_visual_box(ch, "Post%d" % int(lx * 100), Vector3(lx, 0.71, -0.19), Vector3(0.035, 0.5, 0.035), "oak_dark")
-	_add_visual_box(ch, "TopRail", Vector3(0, 0.93, -0.19), Vector3(0.44, 0.07, 0.025), "oak")
-	_add_visual_box(ch, "BackPad", Vector3(0, 0.73, -0.185), Vector3(0.34, 0.26, 0.03), "fabric_green")
+	_kenney(ch, "Chair", [_kp_chair(Vector3.ZERO, 0.0)])
+
+
+## Kenney polish: the library chair (oak, a green cushion), Kenney's chairCushion sized
+## as the old box chair (0.44 × 0.94 × 0.43, facing +z), as a part for _kenney.
+func _kp_chair(pos: Vector3, yaw: float) -> Array:
+	return _kp("chairCushion", pos, yaw, Vector3(2.2, 2.05, 2.15), {"carpet": "fabric_green"})
+
+
+## Kenney polish: a Kenney cardboard box filling `size` (x, height, z) with its base
+## centred at `base`, in `look` ("cardboard", "cardboard_dark" or "archive_box"); `open`
+## for the open one (its flaps reach out beyond `size` along x).
+func _kp_box(base: Vector3, size: Vector3, look := "cardboard", yaw := 0.0, open := false) -> Array:
+	var seams := {"cardboard_dark": "planter", "archive_box": "panel_grey"}
+	return _kp("cardboardBoxOpen" if open else "cardboardBoxClosed", base, yaw, size / KENNEY_BOX, {"wood": look, "woodDark": seams.get(look, "cardboard_dark")})
+
+
+## The four library chairs round a table (two each side at x ±0.75, z ±0.64, facing it)
+## as one Kenney mesh under the table's node.
+func _table_chairs(g: Node3D, xs: Array, dz: float) -> void:
+	var parts := []
+	for side in [-1.0, 1.0]:
+		for x in xs:
+			parts.append(_kp_chair(Vector3(x, 0, side * dz), 0.0 if side < 0 else 180.0))
+	_kenney(g, "Chairs", parts)
 
 
 ## A leather armchair in a solid prop's model, facing +x (yaw 0) or turned by `yaw` degrees.
@@ -2820,10 +2911,11 @@ func _office(solid: Node3D, d: Node3D, i: int) -> void:
 	_office_desk(desk, i)
 	var ch := Node3D.new()
 	ch.name = "Chair"
-	ch.position = Vector3(c + 0.85, 0, -23.94)
+	ch.position = Vector3(c + 0.85, 0, -23.94 if i != 2 else -23.86)   # Office 3's turned chair pushed in a little: clear of the walkway behind the desk
 	ch.rotation_degrees = Vector3(0, 0.0 if i != 2 else 15.0, 0)
 	_add(o, ch)
-	_office_chair(ch)
+	# Kenney's desk chair faces +z, as the old one did.
+	_kenney(ch, "Model", [_kp("chairDesk", Vector3.ZERO, 0.0, 1.6, {"carpet": "keypad_bezel", "metalMedium": "tool_dark"})])
 	# Filing cabinets in the back corner (solid), steel shelving on a side wall clear of the
 	# documents and the locker (solid).
 	var cab := _upper_prop(solid, "Office%dCabinets" % (i + 1), [x0 + 0.2, OFFICE_Z0, x0 + 1.2, OFFICE_Z0 + 0.65], 1.32)
@@ -2838,38 +2930,39 @@ func _office(solid: Node3D, d: Node3D, i: int) -> void:
 	if i == 1:
 		_add_visual_box(cab, "PaperPile", Vector3(-0.2, 1.36, 0.0), Vector3(0.3, 0.08, 0.24), "paper")
 	var shelf_rects := [[-0.6, -20.5, -0.15, -18.5], [0.15, -20.5, 0.6, -18.5], [6.15, -20.5, 6.6, -18.5]]
+	# Kenney polish: an oak bookcase (2.0 m along the wall, 0.45 m deep) full of book sets.
 	var sh := _upper_prop(solid, "Office%dShelving" % (i + 1), shelf_rects[i], 2.0)
-	_steel_shelving(sh, Vector3(0.45, 2.0, 2.0), i)
+	var east_wall: bool = float(shelf_rects[i][0]) > x0 + 3.0
+	var case_parts := [_kp("bookcaseClosedWide", Vector3.ZERO, 0.0, Vector3(2.5, 2.5, 1.8))]
+	case_parts.append_array(_kenney_books(1.9, KENNEY_WIDE_SHELVES, 0.04, 10 + i))
+	_kenney(sh, "Bookcase", case_parts, Vector3.ZERO, -90.0 if east_wall else 90.0)
 	_office_floor(o, x0)
 	_office_door_leaves(o, x0, c, i)
 	_add_visual_box(o, "NumberPlate", Vector3(c, 2.65, -13.786), Vector3(0.5, 0.1, 0.008), "brass")
 	_add_text(o, "NumberText", Vector3(c, 2.65, -13.78), "OFFICE %d" % (i + 1), 22, 0.0016, Color(0.12, 0.08, 0.03))
+	# The bin stays 0.35 m tall: low enough for the navmesh to pass it, which keeps the way
+	# round Office 3's desk to its hiding spot open.
 	var bin := _upper_prop(solid, "Office%dBin" % (i + 1), [c + 1.65, -23.85, c + 1.95, -23.55], 0.35)
-	_add_visual_box(bin, "Bin", Vector3(0, 0.17, 0), Vector3(0.28, 0.34, 0.28), "tool_dark")
-	_add_visual_box(bin, "Rim", Vector3(0, 0.345, 0), Vector3(0.3, 0.02, 0.3), "tool_steel")
+	_kenney(bin, "Bin", [_kp("trashcan", Vector3.ZERO, 0.0, Vector3(1.35, 0.8, 1.25), {"metal": "tool_dark", "metalDark": "tool_steel"})])
 	if i < 2:
-		var coat := _upper_prop(solid, "Office%dCoatStand" % (i + 1), [x0 + 0.3, -15.05, x0 + 0.7, -14.65], 1.8)
-		_add_visual_box(coat, "Foot", Vector3(0, 0.02, 0), Vector3(0.38, 0.04, 0.38), "oak_dark")
-		_add_visual_box(coat, "Pole", Vector3(0, 0.9, 0), Vector3(0.04, 1.76, 0.04), "oak_dark")
-		for k in 4:
-			var a := k * PI / 2.0
-			_add_box_r(coat, "Hook%d" % k, Vector3(cos(a) * 0.09, 1.66, sin(a) * 0.09), Vector3(0.16, 0.025, 0.025), "brass", Vector3(0, -a, 0.5))
-		_add_visual_box(coat, "Coat", Vector3(0.0, 1.2, 0.12), Vector3(0.36, 0.7, 0.1), "motor_dark" if i == 0 else "cabinet_green")
-		var plant := _upper_prop(solid, "Office%dPlant" % (i + 1), [x0 + 5.2, -15.05, x0 + 5.75, -14.5], 1.3)
-		_add_visual_box(plant, "Pot", Vector3(0, 0.22, 0), Vector3(0.44, 0.44, 0.44), "planter")
-		for k in 3:
-			_add_visual_box(plant, "Foliage%d" % k, Vector3([-0.08, 0.08, 0.0][k], 0.62 + k * 0.2, [0.05, -0.05, 0.0][k]), Vector3(0.5 - k * 0.1, 0.26, 0.46 - k * 0.1), "foliage" if k % 2 == 0 else "foliage_light")
+		var coat := _upper_prop(solid, "Office%dCoatStand" % (i + 1), [x0 + 0.2, -15.15, x0 + 0.8, -14.55], 1.8)
+		_kenney(coat, "CoatRack", [_kp("coatRackStanding", Vector3.ZERO, 0.0, 2.1, {"wood": "oak_dark"})])
+		var coat_look := "motor_dark" if i == 0 else "cabinet_green"
+		_add_visual_box(coat, "Coat", Vector3(0.0, 1.17, 0.12), Vector3(0.34, 0.6, 0.12), coat_look)
+		_add_visual_box(coat, "Collar", Vector3(0.0, 1.49, 0.08), Vector3(0.14, 0.06, 0.07), coat_look)
+		var plant := _upper_prop(solid, "Office%dPlant" % (i + 1), [x0 + 5.2, -15.05, x0 + 5.75, -14.5], 1.34)
+		_kenney(plant, "Plant", [_kp("pottedPlant", Vector3.ZERO, 0.0, 2.0, {"wood": "planter", "woodDark": "planter"})])
 	else:
 		# Half packed: boxes in the back corner and by the door.
 		var boxes := _upper_prop(solid, "Office3Boxes", [x0 + 4.55, OFFICE_Z0, x0 + 5.85, OFFICE_Z0 + 0.95], 0.62)
-		for k in 4:
-			var bx := -0.33 + (k % 2) * 0.66
-			var by := 0.15 + (k / 2) * 0.31
-			_add_box_r(boxes, "Box%d" % k, Vector3(bx, by, 0.0 if k < 2 else 0.05), Vector3(0.6, 0.3, 0.9 if k < 2 else 0.4), "archive_box" if k % 2 == 0 else "cardboard", Vector3(0, 0.0 if k < 2 else 0.12, 0))
+		var box_looks := {"wood": "cardboard", "woodDark": "planter"}
+		var box_parts := []
+		for k in 6:
+			box_parts.append(_kp("cardboardBoxOpen" if k == 4 else "cardboardBoxClosed", Vector3(-0.43 + (k % 3) * 0.43, 0, -0.22 + (k / 3) * 0.44), [2.0, -3.0, 4.0, 1.0, -2.0, 3.0][k] if k != 4 else 0.0, 2.0 if k != 4 else Vector3(1.15, 2.0, 2.0), box_looks))
+		_kenney(boxes, "Boxes", box_parts)
 		var door_boxes := _upper_prop(solid, "Office3DoorBoxes", [x0 + 0.25, -15.4, x0 + 0.95, -14.6], 0.62)
-		_add_visual_box(door_boxes, "Box", Vector3(0, 0.15, 0), Vector3(0.66, 0.3, 0.76), "cardboard")
-		_add_visual_box(door_boxes, "Tape", Vector3(0, 0.302, 0), Vector3(0.66, 0.004, 0.06), "sticker_yellow")
-		_add_box_r(door_boxes, "TopBox", Vector3(0.02, 0.46, 0.02), Vector3(0.56, 0.3, 0.62), "archive_box", Vector3(0, 0.1, 0))
+		_kenney(door_boxes, "Boxes", [_kp("cardboardBoxClosed", Vector3(-0.12, 0, -0.18), 4.0, 1.6, box_looks), _kp("cardboardBoxOpen", Vector3(0.0, 0, 0.19), -3.0, 1.6, box_looks)])
+	_office_extras(solid, o, i, x0)
 
 
 ## An oak desk on a 3.0 × 1.0 m footprint (top at 0.82), its user on local +z: top, modesty panel at the front,
@@ -2885,18 +2978,17 @@ func _office_desk(g: Node3D, style: int) -> void:
 		_add_visual_box(g, "Drawer%d" % dr, Vector3(1.22, y, 0.495), Vector3(0.46, 0.2, 0.012), "oak")
 		_add_visual_box(g, "Pull%d" % dr, Vector3(1.22, y + 0.06, 0.505), Vector3(0.12, 0.02, 0.012), "brass")
 	var t := 0.82
-	# Monitor, keyboard, mouse (every desk).
-	_add_visual_box(g, "MonitorFoot", Vector3(-0.85, t + 0.01, -0.2), Vector3(0.22, 0.02, 0.16), "keypad_bezel")
-	_add_visual_box(g, "MonitorNeck", Vector3(-0.85, t + 0.14, -0.24), Vector3(0.04, 0.24, 0.03), "keypad_bezel")
-	_add_visual_box(g, "Monitor", Vector3(-0.85, t + 0.35, -0.22), Vector3(0.56, 0.34, 0.035), "keypad_bezel")
-	_add_visual_box(g, "Screen", Vector3(-0.85, t + 0.35, -0.2), Vector3(0.52, 0.3, 0.004), "screen_dark" if style == 2 else "screen_lit")
-	_add_visual_box(g, "Keyboard", Vector3(-0.85, t + 0.012, 0.18), Vector3(0.44, 0.02, 0.15), "wire_black")
-	_add_visual_box(g, "Mouse", Vector3(-0.5, t + 0.012, 0.2), Vector3(0.06, 0.02, 0.1), "wire_black")
-	# Desk lamp (angled arm) at the east end.
-	_add_visual_box(g, "LampBase", Vector3(1.3, t + 0.012, -0.3), Vector3(0.14, 0.024, 0.14), "tool_dark")
-	_add_box_r(g, "LampArm", Vector3(1.3, t + 0.2, -0.24), Vector3(0.025, 0.36, 0.025), "tool_dark", Vector3(0.35, 0, 0))
-	_add_box_r(g, "LampHead", Vector3(1.3, t + 0.38, -0.12), Vector3(0.14, 0.08, 0.2), "tool_dark", Vector3(0.5, 0, 0))
-	_add_visual_box(g, "LampGlow", Vector3(1.3, t + 0.335, -0.06), Vector3(0.1, 0.004, 0.12), "glow_sodium")
+	# Kenney polish: monitor, keyboard and mouse (every desk; Office 3's screen is off),
+	# a table lamp at the east end and, half packed, a laptop.
+	var kit := [
+		_kp("computerScreen", Vector3(-0.85, t, -0.22), 0.0, 1.35, {"metal": "screen_dark" if style == 2 else "screen_lit", "metalDark": "keypad_bezel"}),
+		_kp("computerKeyboard", Vector3(-0.85, t, 0.18), 0.0, 1.5, {"metal": "tool_steel", "metalMedium": "keypad_bezel", "metalDark": "wire_black"}),
+		_kp("computerMouse", Vector3(-0.5, t, 0.2), 0.0, 1.5, {"metalDark": "wire_black"}),
+	]
+	if style == 2:
+		kit.append(_kp("laptop", Vector3(-0.2, t, -0.02), 15.0, 1.4, {"metal": "tool_steel", "metalDark": "tool_dark", "metalMedium": "keypad_bezel"}))
+	_kenney(g, "Computer", kit)
+	_kenney(g, "Lamp", [_kp("lampRoundTable", Vector3(1.3, t, -0.3), 0.0, 1.5, {"metal": "tool_dark"})])
 	if style == 0:   # tidy
 		_add_visual_box(g, "Tray0", Vector3(0.75, t + 0.03, -0.25), Vector3(0.36, 0.05, 0.28), "tool_steel")
 		_add_visual_box(g, "Tray1", Vector3(0.75, t + 0.09, -0.25), Vector3(0.36, 0.05, 0.28), "tool_steel")
@@ -2922,17 +3014,41 @@ func _office_desk(g: Node3D, style: int) -> void:
 		_add_visual_box(g, "Mug", Vector3(0.25, t + 0.05, 0.25), Vector3(0.08, 0.1, 0.08), "motor_blue")
 
 
-## A swivel office chair at its parent's origin, facing +z (its back towards −z).
-func _office_chair(ch: Node3D) -> void:
-	for k in 3:
-		_add_box_r(ch, "Star%d" % k, Vector3(0, 0.05, 0), Vector3(0.56, 0.04, 0.05), "tool_dark", Vector3(0, k * PI / 3.0, 0))
-	_add_visual_box(ch, "Column", Vector3(0, 0.25, 0), Vector3(0.05, 0.36, 0.05), "tool_steel")
-	_add_visual_box(ch, "Seat", Vector3(0, 0.47, 0), Vector3(0.48, 0.08, 0.46), "keypad_bezel")
-	_add_visual_box(ch, "Back", Vector3(0, 0.8, -0.21), Vector3(0.44, 0.5, 0.06), "keypad_bezel")
-	_add_visual_box(ch, "BackPost", Vector3(0, 0.56, -0.2), Vector3(0.05, 0.16, 0.04), "tool_dark")
-	for sx in [-0.24, 0.24]:
-		_add_visual_box(ch, "Arm%d" % int(sx * 100), Vector3(sx, 0.66, -0.02), Vector3(0.05, 0.03, 0.3), "tool_dark")
-		_add_visual_box(ch, "ArmPost%d" % int(sx * 100), Vector3(sx, 0.57, -0.08), Vector3(0.03, 0.16, 0.03), "tool_dark")
+## Kenney polish additions (approved), each solid: Office 1 a round meeting table with
+## two chairs by the door, a rug and two oak bookcases on the back wall; Office 2 a tea
+## point (a side table, a coffee machine, a small plant) by the door and a bookcase on
+## the back wall; Office 3 an emptied open bookcase on the back wall. All clear of the
+## card, the checkpoint and its spawn, the patrol point, the locker, the documents and
+## the hiding spot behind Office 3's desk.
+func _office_extras(solid: Node3D, o: Node3D, i: int, x0: float) -> void:
+	match i:
+		0:
+			var table := _upper_prop(solid, "Office1MeetingTable", [x0 + 3.55, -18.4, x0 + 5.52, -16.3], 0.95)
+			var fabric := {"carpet": "fabric_green"}
+			_kenney(table, "Table", [_kp("tableRound", Vector3(0.215, 0, -0.25), 0.0, 1.9),
+				_kp("chairCushion", Vector3(0.215, 0, 0.8), 180.0, 2.0, fabric),
+				_kp("chairCushion", Vector3(-0.785, 0, -0.45), 90.0, 2.0, fabric)])
+			_kenney(o, "Rug", [_kp("rugRectangle", Vector3.ZERO, 0.0, Vector3(1.3, 1.0, 1.3), {"carpet": "carpet_runner", "carpetDarker": "keypad_bezel"})], Vector3(x0 + 3.0, 0.008, -19.8), 90.0)
+			var cases := _upper_prop(solid, "Office1Bookcases", [x0 + 1.94, OFFICE_Z0, x0 + 3.76, OFFICE_Z0 + 0.56], 1.9)
+			var parts := [_kp("bookcaseClosed", Vector3(-0.45, 0, 0), 0.0, 2.2), _kp("bookcaseClosedDoors", Vector3(0.45, 0, 0), 0.0, 2.2)]
+			for b in _kenney_books(0.8, KENNEY_CASE_SHELVES, 0.04, 21):
+				b[1] = Transform3D(b[1].basis, b[1].origin + Vector3(-0.45, 0, 0))
+				parts.append(b)
+			_kenney(cases, "Bookcases", parts)
+		1:
+			var tea := _upper_prop(solid, "Office2TeaPoint", [x0 + 0.2, -17.12, x0 + 0.7, -16.08], 1.02)
+			_kenney(tea, "TeaPoint", [_kp("sideTableDrawers", Vector3.ZERO, 0.0, 1.8),
+				_kp("kitchenCoffeeMachine", Vector3(-0.25, 0.69, 0.0), 0.0, 1.6, {"metal": "tool_dark", "metalMedium": "tool_steel", "carpetWhite": "paper"}),
+				_kp("plantSmall2", Vector3(0.3, 0.69, 0.0), 0.0, 2.2, {"wood": "planter"})], Vector3.ZERO, 90.0)
+			var case := _upper_prop(solid, "Office2Bookcase", [x0 + 4.26, OFFICE_Z0, x0 + 5.14, OFFICE_Z0 + 0.56], 1.9)
+			var parts := [_kp("bookcaseClosed", Vector3.ZERO, 0.0, 2.2)]
+			parts.append_array(_kenney_books(0.8, KENNEY_CASE_SHELVES, 0.04, 31))
+			_kenney(case, "Bookcase", parts)
+		2:
+			var case := _upper_prop(solid, "Office3Bookcase", [x0 + 1.56, OFFICE_Z0, x0 + 2.44, OFFICE_Z0 + 0.56], 1.95)
+			var parts := [_kp("bookcaseOpen", Vector3.ZERO, 0.0, 2.2)]
+			parts.append_array(_kenney_books(0.8, [KENNEY_CASE_SHELVES[0]], 0.0, 41, 0.6))
+			_kenney(case, "Bookcase", parts)
 
 
 ## Steel shelving in a solid prop's model (`size`: x across, z along): uprights, five
@@ -3003,15 +3119,10 @@ func _staff_corridor(solid: Node3D, d: Node3D) -> void:
 	_add(d, c)
 	_add_visual_box(c, "RunnerEdge", Vector3(3.0, 0.0015, -11.0), Vector3(17.6, 0.002, 1.5), "carpet_border")
 	_add_visual_box(c, "Runner", Vector3(3.0, 0.0028, -11.0), Vector3(17.5, 0.002, 1.34), "carpet_runner")
-	# A bench with a back (0.9 m, so the navmesh is not baked on its seat).
-	var bench := _upper_prop(solid, "CorridorBench", [-5.2, -8.6, -3.6, -8.15], 0.9)
-	for k in 3:
-		_add_visual_box(bench, "Slat%d" % k, Vector3(0, 0.44, -0.17 + k * 0.11), Vector3(1.6, 0.03, 0.09), "oak")
-	for k in 3:
-		_add_visual_box(bench, "BackSlat%d" % k, Vector3(0, 0.58 + k * 0.12, 0.19), Vector3(1.6, 0.08, 0.03), "oak")
-	for sx in [-0.7, 0.7]:
-		_add_visual_box(bench, "Leg%d" % int(sx * 10), Vector3(sx, 0.21, 0), Vector3(0.05, 0.42, 0.4), "steel_beam")
-		_add_visual_box(bench, "BackPost%d" % int(sx * 10), Vector3(sx, 0.66, 0.2), Vector3(0.05, 0.5, 0.03), "steel_beam")
+	# A bench with a back (so the navmesh is not baked on its seat): Kenney polish, two
+	# cushioned benches side by side, their backs to the wall (+z).
+	var bench := _upper_prop(solid, "CorridorBench", [-5.2, -8.6, -3.6, -8.15], 0.94)
+	_kenney(bench, "Benches", [_kp("benchCushion", Vector3(-0.4, 0, 0), 180.0, Vector3(2.0, 2.0, 2.2), {"carpet": "fabric_green"}), _kp("benchCushion", Vector3(0.4, 0, 0), 180.0, Vector3(2.0, 2.0, 2.2), {"carpet": "fabric_green"})])
 	var bins := _upper_prop(solid, "RecyclingBins", [5.0, -8.6, 6.0, -8.15], 0.85)
 	for k in 2:
 		var bx := -0.25 + k * 0.5
@@ -3048,16 +3159,7 @@ func _staff_balcony(solid: Node3D, d: Node3D) -> void:
 		g.position = t
 		_add(b, g)
 		_library_table(g, k + 2)
-		var c := 0
-		for side in [-1.0, 1.0]:
-			for x in [-0.75, 0.75]:
-				var ch := Node3D.new()
-				ch.name = "Chair%d" % c
-				ch.position = Vector3(x, 0, side * 0.64)
-				ch.rotation_degrees = Vector3(0, 0.0 if side < 0 else 180.0, 0)
-				_add(g, ch)
-				_library_chair(ch)
-				c += 1
+		_table_chairs(g, [-0.75, 0.75], 0.64)
 		k += 1
 	# The steel railing (x −8.85…12, z 10, 1.1 m): posts, rails and mesh panels.
 	var r := Node3D.new()
@@ -3084,35 +3186,29 @@ func _staff_balcony(solid: Node3D, d: Node3D) -> void:
 	_add_visual_box(counter, "Worktop", Vector3(-0.01, 0.89, 0), Vector3(0.64, 0.04, 2.0), "keypad_bezel")
 	_add_visual_box(counter, "Sink", Vector3(0.0, 0.912, 0.55), Vector3(0.4, 0.006, 0.45), "tool_steel")
 	_add_visual_box(counter, "Faucet", Vector3(0.18, 1.0, 0.55), Vector3(0.03, 0.18, 0.03), "tool_steel")
-	_add_visual_box(counter, "Machine", Vector3(0.05, 1.1, -0.55), Vector3(0.34, 0.38, 0.3), "tool_dark")
-	_add_visual_box(counter, "MachineDisplay", Vector3(-0.124, 1.2, -0.55), Vector3(0.004, 0.06, 0.12), "screen_lit")
-	_add_visual_box(counter, "MachineLed", Vector3(-0.124, 1.12, -0.48), Vector3(0.004, 0.02, 0.02), "led_green")
-	_add_visual_box(counter, "MachineSpout", Vector3(-0.1, 0.99, -0.55), Vector3(0.06, 0.05, 0.08), "tool_steel")
-	_add_visual_box(counter, "Kettle", Vector3(0.05, 1.0, 0.0), Vector3(0.16, 0.2, 0.16), "card_white")
+	# Kenney polish: a coffee machine and a microwave (fronts to the room, −x) in place of
+	# the boxed machine and the kettle.
+	_kenney(counter, "Appliances", [
+		_kp("kitchenCoffeeMachine", Vector3(0.08, 0.91, -0.55), -90.0, 1.8, {"metal": "tool_dark", "metalMedium": "tool_steel", "carpetWhite": "paper"}),
+		_kp("kitchenMicrowave", Vector3(0.1, 0.91, 0.03), -90.0, 1.6, {"metalMedium": "card_white", "metalDark": "tool_dark", "carpetWhite": "keypad_bezel", "glass": "screen_dark"}),
+	])
 	for m in 3:
 		_add_visual_box(counter, "Mug%d" % m, Vector3(-0.15, 0.96, -0.15 + m * 0.11), Vector3(0.08, 0.1, 0.08), ["pipe_red", "motor_blue", "card_white"][m])
-	var sofa := _upper_prop(solid, "BreakSofa", [11.0, -2.7, 11.85, -0.5], 0.85)
-	_add_visual_box(sofa, "Base", Vector3(0, 0.2, 0), Vector3(0.84, 0.3, 2.2), "fabric_green")
-	for s in 2:
-		_add_visual_box(sofa, "Cushion%d" % s, Vector3(-0.06, 0.41, -0.5 + s * 1.0), Vector3(0.62, 0.12, 0.96), "fabric_green")
-	_add_visual_box(sofa, "Back", Vector3(0.32, 0.6, 0), Vector3(0.2, 0.5, 2.2), "fabric_green")
-	for e in [-1.0, 1.0]:
-		_add_visual_box(sofa, "Arm%d" % int(e), Vector3(0, 0.48, e * 1.03), Vector3(0.84, 0.26, 0.14), "fabric_green")
-	_add_visual_box(sofa, "Pillow", Vector3(0.15, 0.62, -0.75), Vector3(0.14, 0.32, 0.32), "carpet_gold")
+	# Kenney polish: a lounge sofa (back to the wall), a coffee table and plants in the
+	# railing planters; the colliders as before, the sofa's as high as its back.
+	var sofa := _upper_prop(solid, "BreakSofa", [11.0, -2.7, 11.85, -0.5], 0.94)
+	_kenney(sofa, "Sofa", [_kp("loungeSofa", Vector3.ZERO, -90.0, 2.0, {"carpet": "fabric_green"})])
 	var coffee := _upper_prop(solid, "BreakTable", [9.7, -2.1, 10.5, -1.1], 0.7)   # taller than the table: no navmesh on its top
-	_add_visual_box(coffee, "Top", Vector3(0, 0.43, 0), Vector3(0.8, 0.04, 1.0), "oak")
-	for lx in [-0.34, 0.34]:
-		for lz in [-0.44, 0.44]:
-			_add_visual_box(coffee, "Leg%d_%d" % [int(lx * 100), int(lz * 100)], Vector3(lx, 0.205, lz), Vector3(0.05, 0.41, 0.05), "oak_dark")
-	_add_visual_box(coffee, "Magazine", Vector3(0.1, 0.458, 0.15), Vector3(0.22, 0.016, 0.3), "poster_c")
-	_add_visual_box(coffee, "Cup", Vector3(-0.15, 0.49, -0.25), Vector3(0.07, 0.08, 0.07), "card_white")
+	_kenney(coffee, "Table", [_kp("tableCoffee", Vector3.ZERO, 90.0, Vector3(1.5, 2.0, 1.75))])
+	_add_visual_box(coffee, "Magazine", Vector3(0.1, 0.47, 0.15), Vector3(0.22, 0.016, 0.3), "poster_c")
+	_add_visual_box(coffee, "Cup", Vector3(-0.15, 0.502, -0.25), Vector3(0.07, 0.08, 0.07), "card_white")
 	# Planters along the railing and a book trolley by the east wall.
 	for px in [-4.0, 1.5, 9.5]:
 		var p := _upper_prop(solid, "Planter%d" % int(px * 10), [px - 0.35, 9.35, px + 0.35, 9.85], 0.9)
 		_add_visual_box(p, "Box", Vector3(0, 0.25, 0), Vector3(0.7, 0.5, 0.5), "oak_dark")
 		_add_visual_box(p, "Rim", Vector3(0, 0.51, 0), Vector3(0.74, 0.03, 0.54), "oak")
-		for f in 3:
-			_add_visual_box(p, "Foliage%d" % f, Vector3(-0.18 + f * 0.18, 0.66 + (f % 2) * 0.08, 0), Vector3(0.3, 0.3, [0.4, 0.34, 0.37][f]), "foliage" if f % 2 == 0 else "foliage_light")   # depths differ: no shared faces
+		_add_visual_box(p, "Soil", Vector3(0, 0.527, 0), Vector3(0.64, 0.004, 0.44), "soil")
+		_kenney(p, "Plants", [_kp("plantSmall3", Vector3(-0.17, 0.25, 0.0), 20.0, Vector3(3.4, 4.5, 3.4), {"wood": "planter", "woodDark": "planter"}), _kp("plantSmall1", Vector3(0.17, 0.25, 0.0), -35.0, Vector3(3.2, 4.8, 3.2), {"wood": "planter", "woodDark": "planter"})])   # their pots sunk under the soil
 	var trolley := _upper_prop(solid, "BalconyTrolley", [11.35, 5.4, 11.85, 6.8], 1.0)
 	_book_trolley(trolley, Vector3(0.5, 1.0, 1.4), 3)
 
@@ -3628,8 +3724,8 @@ func _archive_desk(a: Node3D) -> void:
 	_add_box_r(g, "LensHandle", Vector3(0.82, t + 0.01, 0.28), Vector3(0.16, 0.02, 0.025), "brass", Vector3(0, -0.6, 0))
 	_add_visual_box(g, "Pencil", Vector3(0.45, t + 0.006, 0.3), Vector3(0.15, 0.01, 0.01), "sticker_yellow")
 	_add_visual_box(g, "Notepad", Vector3(0.45, t + 0.004, 0.18), Vector3(0.15, 0.008, 0.21), "paper")
-	_add_visual_box(g, "BoxA", Vector3(1.5, t + 0.13, -0.3), Vector3(0.36, 0.26, 0.42), "archive_box")
-	_add_visual_box(g, "BoxB", Vector3(1.5, t + 0.39, -0.3), Vector3(0.34, 0.26, 0.4), "archive_box")
+	# Kenney polish: the two archive boxes are Kenney boxes in the archive's white, same sizes.
+	_kenney(g, "Boxes", [_kp_box(Vector3(1.5, t, -0.3), Vector3(0.36, 0.26, 0.42), "archive_box"), _kp_box(Vector3(1.5, t + 0.26, -0.3), Vector3(0.34, 0.26, 0.4), "archive_box", -4.0)])
 	var l := Node3D.new()
 	l.name = "Lamp"
 	l.position = Vector3(-1.4, t, -0.35)
@@ -3740,8 +3836,10 @@ func _archive_props(solid: Node3D) -> void:
 	var trolley := _upper_prop(solid, "AlcoveTrolley", [35.25, -17.8, 35.8, -16.4], 1.0)
 	_book_trolley(trolley, Vector3(0.55, 1.0, 1.4), 3)
 	var boxes := _upper_prop(solid, "AlcoveBoxes", [28.3, -17.8, 29.3, -16.9], 0.62)
+	var parts := []   # Kenney polish: Kenney boxes in the archive's white, same sizes
 	for i in 3:
-		_add_box_r(boxes, "Box%d" % i, Vector3(-0.22 + (i % 2) * 0.44, 0.15 + (0.0 if i < 2 else 0.31), 0.0), Vector3(0.42, 0.3, 0.86 if i < 2 else 0.6), "archive_box", Vector3(0, 0.0 if i < 2 else 0.15, 0))
+		parts.append(_kp_box(Vector3(-0.22 + (i % 2) * 0.44, 0.0 if i < 2 else 0.31, 0.0), Vector3(0.42, 0.3, 0.86 if i < 2 else 0.6), "archive_box", 0.0 if i < 2 else rad_to_deg(0.15)))
+	_kenney(boxes, "Boxes", parts)
 
 
 ## Walnut beams across the hall and the stacks and brass pendants where the round fixtures
@@ -4023,17 +4121,7 @@ func _study_table(m: Node3D, seats: int, k: int) -> void:
 			_add_visual_box(m, "Leg%d_%d" % [int(sx), int(sz * 100)], Vector3(lx, 0.36, sz), Vector3(0.05, 0.72, 0.05), "steel_beam")
 		_add_visual_box(m, "Foot%d" % int(sx), Vector3(lx, 0.68, 0), Vector3(0.05, 0.05, 0.72), "steel_beam")
 	_add_visual_box(m, "Rail", Vector3(0, 0.68, 0), Vector3(l - 0.29, 0.05, 0.05), "steel_beam")
-	var xs := [-0.85, 0.0, 0.85] if seats == 6 else [-0.45, 0.45]
-	var n := 0
-	for side in [-1.0, 1.0]:
-		for x in xs:
-			var ch := Node3D.new()
-			ch.name = "Chair%d" % n
-			ch.position = Vector3(x, 0, side * 0.62)
-			ch.rotation_degrees = Vector3(0, 0.0 if side < 0 else 180.0, 0)
-			_add(m, ch)
-			_library_chair(ch)
-			n += 1
+	_table_chairs(m, [-0.85, 0.0, 0.85] if seats == 6 else [-0.45, 0.45], 0.62)
 	# A laptop, notebooks, a stack of books, a water bottle.
 	_add_visual_box(m, "Laptop", Vector3(-l / 2.0 + 0.45, 0.771, -0.2), Vector3(0.34, 0.022, 0.24), "keypad_bezel")
 	_add_box_r(m, "Screen", Vector3(-l / 2.0 + 0.45, 0.87, -0.33), Vector3(0.34, 0.22, 0.012), "keypad_bezel", Vector3(-0.25, 0, 0))
@@ -4157,26 +4245,23 @@ func _tutor_desk(decor: Node3D) -> void:
 	for dr in 3:
 		_add_visual_box(g, "Pull%d" % dr, Vector3(0.5, 0.58 - dr * 0.21, -0.365), Vector3(0.16, 0.02, 0.012), "steel_beam")
 	var t := 0.75
-	_add_visual_box(g, "MonitorFoot", Vector3(-0.1, t + 0.008, 0.18), Vector3(0.22, 0.016, 0.16), "keypad_bezel")
-	_add_visual_box(g, "MonitorNeck", Vector3(-0.1, t + 0.13, 0.2), Vector3(0.04, 0.24, 0.03), "keypad_bezel")
-	_add_visual_box(g, "Monitor", Vector3(-0.1, t + 0.32, 0.18), Vector3(0.56, 0.34, 0.03), "keypad_bezel")
-	_add_visual_box(g, "MonitorScreen", Vector3(-0.1, t + 0.32, 0.1635), Vector3(0.52, 0.3, 0.003), "screen_lit")
-	_add_visual_box(g, "Keyboard", Vector3(-0.1, t + 0.008, -0.12), Vector3(0.42, 0.016, 0.14), "keypad_bezel")
-	_add_visual_box(g, "Mouse", Vector3(0.2, t + 0.01, -0.12), Vector3(0.06, 0.02, 0.1), "keypad_bezel")
+	# Kenney polish: its monitor, keyboard and mouse face the tutor (north, −z).
+	_kenney(g, "Computer", [
+		_kp("computerScreen", Vector3(-0.1, t, 0.18), 180.0, 1.35, {"metal": "screen_lit", "metalDark": "keypad_bezel"}),
+		_kp("computerKeyboard", Vector3(-0.1, t, -0.12), 180.0, 1.5, {"metal": "tool_steel", "metalMedium": "keypad_bezel", "metalDark": "wire_black"}),
+		_kp("computerMouse", Vector3(0.2, t, -0.12), 180.0, 1.5, {"metalDark": "wire_black"}),
+	])
 	_add_box_r(g, "PapersA", Vector3(0.45, t + 0.004, -0.05), Vector3(0.21, 0.008, 0.3), "paper", Vector3(0, 0.2, 0))
 	_add_box_r(g, "PapersB", Vector3(0.48, t + 0.01, -0.02), Vector3(0.21, 0.004, 0.3), "card_white", Vector3(0, -0.1, 0))
 	_add_visual_box(g, "Tray", Vector3(-0.6, t + 0.03, 0.15), Vector3(0.26, 0.06, 0.34), "steel_beam")
 	_add_visual_box(g, "TrayPapers", Vector3(-0.6, t + 0.05, 0.15), Vector3(0.22, 0.03, 0.3), "paper")
 	_add_visual_cyl(g, "Mug", Vector3(0.62, t + 0.05, 0.2), 0.04, 0.1, "y", "card_white", 10)
-	_add_visual_box(g, "LampBase", Vector3(0.6, t + 0.01, 0.28), Vector3(0.12, 0.02, 0.12), "steel_beam")
-	_add_box_r(g, "LampArm", Vector3(0.6, t + 0.2, 0.22), Vector3(0.02, 0.38, 0.02), "steel_beam", Vector3(-0.3, 0, 0))
-	_add_visual_box(g, "LampHead", Vector3(0.6, t + 0.37, 0.14), Vector3(0.16, 0.035, 0.07), "steel_beam")
-	_add_visual_box(g, "LampGlow", Vector3(0.6, t + 0.351, 0.14), Vector3(0.13, 0.004, 0.05), "fluoro")
+	_kenney(g, "Lamp", [_kp("lampRoundTable", Vector3(0.6, t, 0.26), 180.0, 1.5, {"metal": "tool_dark"})])
 	var ch := Node3D.new()
 	ch.name = "Chair"
 	ch.position = Vector3(-0.1, 0, -0.3)
 	_add(g, ch)
-	_office_chair(ch)
+	_kenney(ch, "Model", [_kp("chairDesk", Vector3.ZERO, 0.0, 1.6, {"carpet": "keypad_bezel", "metalMedium": "tool_dark"})])   # faces the desk (+z)
 
 
 ## Glass door leaves folded back flat against a wall (visual only): two oak-framed glass
@@ -4517,9 +4602,7 @@ func _porch_props(solid: Node3D, _d: Node3D) -> void:
 		_add_visual_box(p, "Body", Vector3(0, 0.36, 0), Vector3(0.56, 0.72, 0.56), "stone_light")
 		_add_visual_box(p, "Rim", Vector3(0, 0.75, 0), Vector3(0.6, 0.06, 0.6), "stone_dark")
 		_add_visual_box(p, "Soil", Vector3(0, 0.781, 0), Vector3(0.5, 0.004, 0.5), "soil")
-		for f in 4:
-			_add_visual_box(p, "Foliage%d" % f, Vector3([-0.1, 0.1, 0.0, 0.05][f], 0.965 + f * 0.17, [0.06, -0.06, 0.0, 0.02][f]), Vector3(0.48 - f * 0.09, 0.26, 0.44 - f * 0.08), "foliage" if f % 2 == 0 else "foliage_light")
-		_add_visual_box(p, "Trunk", Vector3(0, 0.86, 0), Vector3(0.05, 0.14, 0.05), "wood_dark")
+		_kenney(p, "Plant", [_kp("plantSmall3", Vector3(0, 0.25, 0), 0.0, Vector3(5.5, 8.0, 5.5), {"wood": "planter", "woodDark": "planter"})])   # Kenney polish: a shrub, its pot sunk under the soil
 	# A bronze book return box by the entrance, east (its slot facing the porch, +z).
 	var ret := _solid_prop(solid, "PorchBookReturn", [3.4, 28.25, 4.2, 28.8], 1.1)
 	_add_visual_box(ret, "Body", Vector3(0, 0.55, 0), Vector3(0.8, 1.0, 0.55), "bronze")
@@ -4718,11 +4801,15 @@ func _west_landing_props(solid: Node3D, d: Node3D) -> void:
 			_add_visual_box(ch, "LegsB%d_%d" % [s, int(lx * 10)], Vector3(x + lx, 0.6, -0.16), Vector3(0.03, 1.2, 0.03), "steel_beam")
 	# Boxes by the south wall.
 	var bx := _solid_prop(solid, "LandingBoxes", [-40.6, -0.8, -39.2, -0.2], 0.9)
+	var boxes := []   # Kenney polish: the cardboard ones are Kenney boxes, same sizes
 	for k in 4:
 		var x := -0.36 + (k % 2) * 0.72
-		var y := 0.22 + (0.0 if k < 2 else 0.45)
-		_add_box_r(bx, "Box%d" % k, Vector3(x, y, 0.0), Vector3(0.66, 0.44, 0.56 - (k % 2) * 0.04), "cardboard" if k != 2 else "archive_box", Vector3(0, 0.0 if k < 2 else 0.08, 0))
-		_add_visual_box(bx, "Tape%d" % k, Vector3(x, y + 0.222, 0.0), Vector3(0.08, 0.004, 0.5), "card_white")
+		if k == 2:   # the archive box on top stays as it was
+			_add_box_r(bx, "Box%d" % k, Vector3(x, 0.67, 0.0), Vector3(0.66, 0.44, 0.56), "archive_box", Vector3(0, 0.08, 0))
+			_add_visual_box(bx, "Tape%d" % k, Vector3(x, 0.892, 0.0), Vector3(0.08, 0.004, 0.5), "card_white")
+		else:
+			boxes.append(_kp_box(Vector3(x, 0.0 if k < 2 else 0.45, 0.0), Vector3(0.66, 0.44, 0.56 - (k % 2) * 0.04), "cardboard", 0.0 if k < 2 else 4.6))
+	_kenney(bx, "Boxes", boxes)
 	# A mop sink and a mop bucket on the east wall (x −36.15).
 	var sink := _solid_prop(solid, "LandingMopSink", [-36.8, -3.6, -36.2, -2.5], 0.9)
 	_add_visual_box(sink, "Basin", Vector3(0, 0.75, 0), Vector3(0.6, 0.3, 1.1), "steel_shelf")
@@ -4787,6 +4874,127 @@ func _west_landing_services(ceilings: Node3D) -> void:
 		for c in 2:
 			_add_visual_box(h, "CageZ%d" % c, Vector3(-0.1 + c * 0.2, -0.075, 0), Vector3(0.014, 0.014, 0.22), "tool_dark")
 
+
+
+## Kenney Furniture Kit 2.0 (CC0, www.kenney.nl; see CREDITS.md): the models are read
+## from maps/library/assets/kenney_furniture/ (hidden from the editor by its .gdignore:
+## they are build input only) and merged here into one ArrayMesh per prop, saved in
+## the scene, its surfaces grouped by look and coloured with the map's looks (Kenney's
+## own material names map to them through KENNEY_LOOKS and a part's overrides). The
+## models are built at half size, hence KENNEY_SCALE. A model's origin is moved to the
+## centre of its base; its front faces +z.
+const KENNEY_DIR := "res://maps/library/assets/kenney_furniture/"
+const KENNEY_SCALE := 2.0
+const KENNEY_LOOKS := {"wood": "oak", "woodDark": "oak_dark", "metal": "tool_steel", "metalMedium": "keypad_bezel",
+	"metalDark": "tool_dark", "carpet": "carpet_runner", "carpetDarker": "keypad_bezel", "carpetWhite": "paper",
+	"plant": "foliage", "lamp": "lamp_shade", "_defaultMat": "oak"}
+## The book sets' four covers (Kenney's metal, plant, carpetDarker, carpetWhite), three ways.
+const KENNEY_BOOKS := [
+	{"metal": "pipe_red", "plant": "cabinet_green", "carpetDarker": "motor_blue", "carpetWhite": "paper"},
+	{"metal": "motor_blue", "plant": "paper", "carpetDarker": "pipe_red", "carpetWhite": "cabinet_green"},
+	{"metal": "cabinet_green", "plant": "rack_orange", "carpetDarker": "paper", "carpetWhite": "motor_blue"},
+]
+## The shelves' tops (2 mm up) of bookcaseClosedWide at scale (2.5, 2.5, 1.8) and of
+## bookcaseClosed / bookcaseOpen at 2.2 (Kenney's 0.07, 0.31, 0.55 and 0.13, 0.37, 0.61).
+const KENNEY_WIDE_SHELVES := [0.177, 0.777, 1.377]
+const KENNEY_CASE_SHELVES := [0.288, 0.816, 1.344]
+const KENNEY_BOX := Vector3(0.2125, 0.281, 0.2125)   # cardboardBoxClosed at scale 1
+var _kenney_sources := {}
+var _kenney_meshes := {}
+
+
+## A part of a Kenney prop: `model` placed at `pos`, turned `yaw` degrees, scaled
+## (KENNEY_SCALE by default), with `looks` overriding KENNEY_LOOKS.
+func _kp(model: String, pos := Vector3.ZERO, yaw := 0.0, scale: Variant = KENNEY_SCALE, looks := {}) -> Array:
+	var sc: Vector3 = scale if scale is Vector3 else Vector3.ONE * float(scale)
+	return [model, Transform3D(Basis(Vector3.UP, deg_to_rad(yaw)) * Basis.from_scale(sc), pos), looks]
+
+
+## The model's meshes, each with its transform, its base centred on the origin.
+func _kenney_source(model: String) -> Array:
+	if not _kenney_sources.has(model):
+		var doc := GLTFDocument.new()
+		var state := GLTFState.new()
+		var err := doc.append_from_file(ProjectSettings.globalize_path(KENNEY_DIR + model + ".glb"), state)
+		assert(err == OK, "Kenney model missing: " + model)
+		var scene: Node = doc.generate_scene(state)
+		var parts := []
+		var bounds := [null]
+		_kenney_collect(scene, Transform3D.IDENTITY, parts, bounds)
+		var b: AABB = bounds[0]
+		var shift := Transform3D(Basis(), -Vector3(b.get_center().x, b.position.y, b.get_center().z))
+		for part in parts:
+			part[1] = shift * part[1]
+		scene.free()
+		_kenney_sources[model] = parts
+	return _kenney_sources[model]
+
+
+func _kenney_collect(node: Node, xf: Transform3D, parts: Array, bounds: Array) -> void:
+	var t := xf
+	if node is Node3D:
+		t = xf * (node as Node3D).transform
+	if node is MeshInstance3D and (node as MeshInstance3D).mesh != null:
+		var mesh := (node as MeshInstance3D).mesh
+		parts.append([mesh, t])
+		var a: AABB = t * mesh.get_aabb()
+		bounds[0] = a if bounds[0] == null else (bounds[0] as AABB).merge(a)
+	for child in node.get_children():
+		_kenney_collect(child, t, parts, bounds)
+
+
+## One mesh of the given parts (see _kp), one surface per look; the same parts share it.
+func _kenney_mesh(parts: Array) -> ArrayMesh:
+	var key := var_to_str(parts)
+	if not _kenney_meshes.has(key):
+		var tools := {}
+		for part in parts:
+			var looks: Dictionary = part[2]
+			for src in _kenney_source(part[0]):
+				var mesh: Mesh = src[0]
+				for s in mesh.get_surface_count():
+					var m := mesh.surface_get_material(s)
+					var mat_name := m.resource_name if m else "_defaultMat"
+					var look: String = looks.get(mat_name, KENNEY_LOOKS.get(mat_name, "oak"))
+					if not tools.has(look):
+						var st := SurfaceTool.new()
+						st.begin(Mesh.PRIMITIVE_TRIANGLES)
+						tools[look] = st
+					(tools[look] as SurfaceTool).append_from(mesh, s, part[1] * src[1])
+		var out := ArrayMesh.new()
+		var names: Array = tools.keys()
+		names.sort()
+		for look in names:
+			(tools[look] as SurfaceTool).commit(out)
+			out.surface_set_material(out.get_surface_count() - 1, _look(look))
+		_kenney_meshes[key] = out
+	return _kenney_meshes[key]
+
+
+## A Kenney prop (see _kp) under `parent` at `at`, turned `yaw` degrees.
+func _kenney(parent: Node3D, node_name: String, parts: Array, at := Vector3.ZERO, yaw := 0.0) -> MeshInstance3D:
+	var mi := MeshInstance3D.new()
+	mi.name = node_name
+	mi.mesh = _kenney_mesh(parts)
+	mi.position = at
+	mi.rotation_degrees = Vector3(0, yaw, 0)
+	_add(parent, mi)
+	return mi
+
+
+## Book sets standing on shelves at heights `shelves`, along local x over `length`,
+## `depth` forward of the centre: parts for a Kenney bookcase's mesh.
+func _kenney_books(length: float, shelves: Array, depth: float, seed: int, fill := 0.85) -> Array:
+	var r := RandomNumberGenerator.new()
+	r.seed = seed
+	var parts := []
+	for y in shelves:
+		var t := -length / 2.0 + 0.2
+		while t < length / 2.0 - 0.2:
+			if r.randf() < fill:
+				parts.append(_kp("books", Vector3(t, y, depth), r.randf_range(-6.0, 6.0), 2.2, KENNEY_BOOKS[r.randi() % KENNEY_BOOKS.size()]))
+			t += 0.36
+	return parts
 
 
 func _solid_prop(parent: Node3D, node_name: String, rect: Array, h: float) -> Node3D:
@@ -4942,6 +5150,7 @@ func _add_label(parent: Node, node_name: String, pos: Vector3, text: String, col
 const BATCH_CELL := 12.0
 const MAX_LIGHTS_PER_MESH := 8
 const BATCH_SCRIPT := "res://shared/scripts/level/batched_boxes.gd"
+const SURFACE_MATERIAL := "res://maps/library/assets/materials/surface_detail.tres"
 var _batched := 0
 var _batches := 0
 
@@ -4968,10 +5177,9 @@ func _batch_static_meshes() -> void:
 		mi.get_parent().remove_child(mi)
 		mi.free()
 		_batched += 1
-	var plain := StandardMaterial3D.new()
-	plain.resource_scene_unique_id = "Material_batched_plain"
-	plain.vertex_color_use_as_albedo = true
-	plain.roughness = 0.9
+	# Phase B polish: the plain boxes' material is the surface detail shader (their colour
+	# times a subtle texture by rule; see make_surface_detail.gd), shared with the level.
+	var plain: Material = load(SURFACE_MATERIAL)
 	var lights := _light_bounds()
 	for host in groups:
 		var keys: Array = groups[host].keys()

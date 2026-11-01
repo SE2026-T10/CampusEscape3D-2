@@ -1,0 +1,29 @@
+[gd_resource type="ShaderMaterial" format=4]
+
+[ext_resource type="Shader" path="res://maps/library/assets/materials/surface_detail.gdshader" id="1_d8txi"]
+[ext_resource type="Texture2D" path="res://maps/library/assets/textures/surface/terrazzo.png" id="2_t5se8"]
+[ext_resource type="Texture2D" path="res://maps/library/assets/textures/surface/plaster.png" id="3_jfdxl"]
+[ext_resource type="Texture2D" path="res://maps/library/assets/textures/surface/wood_grain.png" id="4_6gl70"]
+[ext_resource type="Texture2D" path="res://maps/library/assets/textures/surface/wood_planks.png" id="5_ijmkn"]
+[ext_resource type="Texture2D" path="res://maps/library/assets/textures/surface/carpet_weave.png" id="6_275sy"]
+[ext_resource type="Texture2D" path="res://maps/library/assets/textures/surface/speckle.png" id="7_w26jn"]
+[ext_resource type="Texture2D" path="res://maps/library/assets/textures/surface/concrete.png" id="8_eyibj"]
+[ext_resource type="Texture2D" path="res://maps/library/assets/textures/surface/stone_blocks.png" id="9_fampw"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_d8txi")
+shader_parameter/rule_color = PackedVector4Array(0.5019608, 0.47843137, 0.4509804, 1, 0.61960787, 0.6, 0.56078434, 1, 0.4, 0.3019608, 0.21960784, 1, 0.4, 0.4117647, 0.4, 1, 0.34117648, 0.38039216, 0.41960785, 1, 0.32941177, 0.36078432, 0.4, 1, 0.56078434, 0.5686275, 0.54901963, 1, 0.4, 0.4, 0.38039216, 1, 0.4, 0.4, 0.38039216, 1, 0.4392157, 0.4509804, 0.4392157, 1, 0.3019608, 0.32941177, 0.38039216, 1, 0.54901963, 0.5294118, 0.5019608, 1, 0.78039217, 0.72156864, 0.61960787, 1, 0.36078432, 0.23921569, 0.14117648, 1, 0.6, 0.6, 0.5686275, 1, 0, 0, 0, 0)
+shader_parameter/rule_rect = PackedVector4Array(-12.2, 9.8, 12.2, 28.2, -5.2, 27.8, 5.2, 34.2, -12.2, -14.2, 12.2, 10.2, -6.2, -8.2, 12.2, 10.2, -12.2, -28.2, 12.2, -13.8, -6.2, -28.2, 12.2, -13.8, 11.8, -28.2, 17.2, 28.2, 16.8, -28.2, 36.2, 12, 16.8, 12, 36.2, 28.2, -100, -100, 100, 100, -100, -100, 100, 100, -100, -100, 100, 100, -100, -100, 100, 100, -100, -100, 100, 100, -100, -100, 100, 100, 0, 0, 0, 0)
+shader_parameter/rule_y = PackedVector4Array(-0.5, 1, 0, 0, -0.5, 1, 0, 0, -0.5, 1, 0, 0, 4, 5.5, 0, 0, -0.5, 1, 0, 0, 4, 5.5, 0, 0, -0.5, 1, 0, 0, -0.5, 1, 0, 0, -0.5, 1, 0, 0, -10, 20, 0, 0, -10, 20, 0, 0, -10, 20, 0, 0, -10, 20, 0, 0, -10, 20, 0, 0, -10, 20, 0, 0, 0, 0, 0, 0)
+shader_parameter/rule_kind = PackedVector4Array(0, 0, 1.2, 0.8859, 7, 0, 2.4, 0.8438, 3, 0, 2.4, 0.883, 3, 0, 2.4, 0.883, 4, 0, 1, 0.898, 4, 0, 1, 0.898, 5, 0, 1.5, 0.8961, 5, 0, 1.5, 0.8961, 6, 0, 3, 0.9005, 6, 0, 3, 0.9005, 6, 0, 3, 0.9005, 7, 0, 2.4, 0.8438, 1, 1, 3, 0.9249, 2, 1, 1.5, 0.8981, 6, 1, 3, 0.9005, 0, 0, 0, 0)
+shader_parameter/rule_count = 15
+shader_parameter/tex0 = ExtResource("2_t5se8")
+shader_parameter/tex1 = ExtResource("3_jfdxl")
+shader_parameter/tex2 = ExtResource("4_6gl70")
+shader_parameter/tex3 = ExtResource("5_ijmkn")
+shader_parameter/tex4 = ExtResource("6_275sy")
+shader_parameter/tex5 = ExtResource("7_w26jn")
+shader_parameter/tex6 = ExtResource("8_eyibj")
+shader_parameter/tex7 = ExtResource("9_fampw")
+shader_parameter/roughness_value = 0.9
