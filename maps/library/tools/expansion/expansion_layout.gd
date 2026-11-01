@@ -350,6 +350,7 @@ const DECOR_LOOKS := {
 	"door_steel": [Color(0.55, 0.57, 0.58), 0.55, 0.0, 0.0],
 	"wired_glass": [Color(0.32, 0.38, 0.42), 0.15, 0.0, 0.0],
 	"screen_lit": [Color(0.3, 0.55, 0.75), 0.4, 0.0, 0.6],
+	"lamp_shade": [Color(0.93, 0.86, 0.7), 0.9, 0.0, 0.25],   # Kenney polish: table lamp shades, softly lit
 	"cork": [Color(0.62, 0.45, 0.28), 1.0, 0.0, 0.0],
 	# The lobby and the reading hall: banker's lamps.
 	"lamp_green": [Color(0.08, 0.4, 0.2), 0.3, 0.0, 0.3],
