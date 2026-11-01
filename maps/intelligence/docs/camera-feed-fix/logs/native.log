@@ -1,0 +1,81 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 581.15 - Compatibility - Using Device: NVIDIA - Quadro P1000
+
+[B1 camera OK] V cannot grant CCTV rights before hack
+[B1 camera OK] Equipment remains usable before camera connection
+[B1 camera OK] Hack grants the real camera feed
+[B1 camera OK] Camera front appears immediately after hack
+[B1 camera OK] Camera front appears immediately after hack / visible on native renderer
+[B1 camera OK] Camera front appears immediately after hack / actual viewport texture
+[B1 camera OK] Physical V selects C1
+[B1 camera OK] Physical V selects C1 / visible on native renderer
+[B1 camera OK] Physical V selects C1 / actual viewport texture
+[B1 camera OK] Second V intentionally hides the feed
+[B1 camera OK] Hidden feed does not leave a live image panel
+[B1 camera OK] Actual handle can be gripped while camera is hidden
+[B1 camera OK] Gripping opaque screen restores the front view
+[B1 camera OK] Gripping opaque screen restores the front view / visible on native renderer
+[B1 camera OK] Gripping opaque screen restores the front view / actual viewport texture
+[B1 camera OK] V switches camera while gripping
+[B1 camera OK] V switches camera while gripping / visible on native renderer
+[B1 camera OK] V switches camera while gripping / actual viewport texture
+[B1 camera OK] Camera switch does not release the handle
+[B1 camera OK] Gameplay camera shortcut works with GUI keyboard focus
+[B1 camera OK] Held-key repeat cannot cycle multiple feeds
+[B1 camera OK] V can reopen a hidden feed
+[B1 camera OK] V can reopen a hidden feed / visible on native renderer
+[B1 camera OK] V can reopen a hidden feed / actual viewport texture
+[B1 camera OK] Pause ignores camera shortcut
+[B1 camera OK] Camera panel hides during pause
+[B1 camera OK] Resume restores camera image
+[B1 camera OK] Resume restores camera image / visible on native renderer
+[B1 camera OK] Resume restores camera image / actual viewport texture
+[B1 camera OK] Journal blocks camera shortcut
+[B1 camera OK] Journal hides live camera panel
+[B1 camera OK] Restoring hacked checkpoint restores a usable front feed
+[B1 camera OK] Restoring hacked checkpoint restores a usable front feed / visible on native renderer
+[B1 camera OK] Restoring hacked checkpoint restores a usable front feed / actual viewport texture
+[B1 camera OK] Front camera is ahead of opaque screen, not inside it
+[B1 camera OK] Native renderer produced real camera pixels
+[B1 camera OK] Front feed renders the actual guard ahead instead of the empty camouflage image
+[B1 camera OK] Seal alarm still revokes feeds; V cannot bypass it
+[B1 camera OK] Revoked feed cannot show a stale live image
+[B1 camera OK] V cannot grant CCTV rights before hack
+[B1 camera OK] Equipment remains usable before camera connection
+[B1 camera OK] Hack grants the real camera feed
+[B1 camera OK] Camera front appears immediately after hack
+[B1 camera OK] Camera front appears immediately after hack / visible on native renderer
+[B1 camera OK] Camera front appears immediately after hack / actual viewport texture
+[B1 camera OK] Physical V selects C1
+[B1 camera OK] Physical V selects C1 / visible on native renderer
+[B1 camera OK] Physical V selects C1 / actual viewport texture
+[B1 camera OK] Second V intentionally hides the feed
+[B1 camera OK] Hidden feed does not leave a live image panel
+[B1 camera OK] Actual handle can be gripped while camera is hidden
+[B1 camera OK] Gripping opaque screen restores the front view
+[B1 camera OK] Gripping opaque screen restores the front view / visible on native renderer
+[B1 camera OK] Gripping opaque screen restores the front view / actual viewport texture
+[B1 camera OK] V switches camera while gripping
+[B1 camera OK] V switches camera while gripping / visible on native renderer
+[B1 camera OK] V switches camera while gripping / actual viewport texture
+[B1 camera OK] Camera switch does not release the handle
+[B1 camera OK] Gameplay camera shortcut works with GUI keyboard focus
+[B1 camera OK] Held-key repeat cannot cycle multiple feeds
+[B1 camera OK] V can reopen a hidden feed
+[B1 camera OK] V can reopen a hidden feed / visible on native renderer
+[B1 camera OK] V can reopen a hidden feed / actual viewport texture
+[B1 camera OK] Pause ignores camera shortcut
+[B1 camera OK] Camera panel hides during pause
+[B1 camera OK] Resume restores camera image
+[B1 camera OK] Resume restores camera image / visible on native renderer
+[B1 camera OK] Resume restores camera image / actual viewport texture
+[B1 camera OK] Journal blocks camera shortcut
+[B1 camera OK] Journal hides live camera panel
+[B1 camera OK] Restoring hacked checkpoint restores a usable front feed
+[B1 camera OK] Restoring hacked checkpoint restores a usable front feed / visible on native renderer
+[B1 camera OK] Restoring hacked checkpoint restores a usable front feed / actual viewport texture
+[B1 camera OK] Front camera is ahead of opaque screen, not inside it
+[B1 camera OK] Native renderer produced real camera pixels
+[B1 camera OK] Seal alarm still revokes feeds; V cannot bypass it
+[B1 camera OK] Revoked feed cannot show a stale live image
+K17 B1 CAMERA FEED: 77 checks; 0 failures

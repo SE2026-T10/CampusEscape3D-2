@@ -7,4 +7,8 @@ func gather_flags(player: Node3D, guards: Array[Guard]) -> Dictionary:
 			flags.seen=true
 			flags.hidden=false
 			break
+	var b1:=get_tree().get_first_node_in_group("k17_b1_surveillance")
+	if b1 and (not b1.hacked or b1.revoked) and b1.cctv_sees(player):
+		flags.seen=true
+		flags.hidden=false
 	return flags

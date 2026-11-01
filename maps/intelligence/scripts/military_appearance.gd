@@ -23,4 +23,6 @@ static func apply(guard: Node3D) -> void:
 		part.name="Military"+str(original.name)
 		part.position=original.position
 		original.get_parent().add_child(part)
-		for mesh in part.find_children("*","GeometryInstance3D",true,false): mesh.gi_mode=GeometryInstance3D.GI_MODE_DYNAMIC
+		for mesh in part.find_children("*","GeometryInstance3D",true,false):
+			mesh.gi_mode=GeometryInstance3D.GI_MODE_DYNAMIC
+			mesh.layers=2 # Excluded only from the empty-corridor projection camera.

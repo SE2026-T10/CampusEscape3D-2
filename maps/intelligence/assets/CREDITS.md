@@ -42,3 +42,9 @@ Tám sector, hai cầu thang xuống B1, nhà xe, xe tải quân dụng phong c�
 Camera, công tắc, keypad, tài liệu và chai rỗng tái sử dụng hình học/cơ chế do project dựng trong `features/`. Tủ điều khiển, đường cáp, biển kho và dấu chỗ nấp do `scripts/equipment_presentation.gd` cùng `tools/k17_v4_builder.gd` sinh. Không tải thêm asset hoặc mua gói thương mại.
 
 `tools/k17_static_merge.gd` gom các khối tĩnh sẵn có theo vật liệu và ô không gian, tạo UV2 để bake lại `resources/k17_v4_lightmap.*`. Collider giữ riêng; camera quay, phím khóa, vật nhặt và cửa chuyển động dùng ánh sáng động. Âm khởi động nguồn dự phòng dùng `mech_clunk` trong hệ thống âm thanh chung.
+
+## Phá hoại tùy chọn V5
+
+Tủ chuyển tiếp tình báo, thiết bị nhiệm vụ, mô hình hư hại, biển gắn khung và cửa thông gió được project tự dựng bằng `tools/k17_sabotage_builder.gd`. Phần thay đổi trạng thái dùng ánh sáng động/probe, tách khỏi mesh tĩnh và bóng bake; collider của tủ được đưa vào lần dựng navmesh.
+
+`scripts/extraction_finale.gd` tạo hiệu ứng khói/lửa bằng CPUParticles3D và texture gradient hướng tâm, tương thích Compatibility. `assets/audio/sabotage_blast.wav` là âm hiệu ứng game tự tổng hợp bởi `tools/build_sabotage_audio.py`, mono PCM 16-bit 22050 Hz, seed cố định; không chứa sample bên ngoài. Đợt này không tải thêm hoặc mua asset.

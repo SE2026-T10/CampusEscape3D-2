@@ -12,10 +12,6 @@ func _ready() -> void:
 	var lamp:=_box(Vector3(42.83,1.85,3.2),Vector3(.04,.11,.11),Color("65b889"))
 	_power_lamp=lamp.material_override
 	_power_lamp.emission_enabled=true
-	_box(Vector3(5.35,1.53,-23.52),Vector3(1.05,1.1,.05),Color("172027"))
-	_box(Vector3(5.35,.49,-23.55),Vector3(.14,.98,.14),Color("172027"))
-	_box(Vector3(5.35,.025,-23.55),Vector3(.5,.05,.34),Color("172027"))
-	_label("KIỂM SOÁT KHO / B1",Vector3(5.35,2.04,-23.46),0)
 	_box(Vector3(19.80,1.55,3),Vector3(.05,1.1,1.7),Color("293c32"))
 	_label("K17 / PHÂN KHU\nCHỈ HUY · HỒ SƠ · KHO B1",Vector3(19.76,1.6,3),-PI/2)
 

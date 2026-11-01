@@ -1,16 +1,74 @@
 extends CodeLock
 ## Reuses the common puzzle, while access policy and wording belong to K17.
+const Mount := preload("res://maps/intelligence/resources/layout/k17_navigation.gd")
+
 func _ready() -> void:
 	super()
+	_build_housing()
 	_display.font_size=26
 	_display.pixel_size=.0013
-	_display.position.y=.58
+	_display.position=Vector3(0,.58,.012)
+	_display.outline_size=2
 	get_node("NoPowerTag").text="CHƯA CẤP QUYỀN"
 	for mesh in find_children("*","GeometryInstance3D",true,false): mesh.gi_mode=GeometryInstance3D.GI_MODE_DYNAMIC
 	for i in dials.size(): dials[i].control_name="Chữ số %d"%(i+1)
 	enter.control_name="Xác nhận"
 	enter.get_node("Model/Cap/Mark").text="XÁC NHẬN"
 	enter.action_text="Xác nhận mã kho"
+
+func _build_housing() -> void:
+	var housing := Node3D.new()
+	housing.name="Housing"
+	add_child(housing)
+	_box(housing,"Case",Mount.CASE_CENTER,Mount.CASE_SIZE,Color("293735"))
+	_box(housing,"KeyboardFace",Vector3(0,.035,-.005),Vector3(1.02,.42,.02),Color("111b1e"))
+	_box(housing,"DigitBezel",Vector3(0,.415,.004),Vector3(.96,.18,.009),Color("3e4f49"))
+	_box(housing,"DigitScreen",Vector3(0,.415,.008),Vector3(.89,.135,.006),Color("080f13"))
+	_box(housing,"StatusScreen",Vector3(0,.58,.008),Vector3(1.06,.115,.006),Color("080f13"))
+	_box(housing,"Nameplate",Vector3(0,.735,.006),Vector3(1.02,.09,.004),Color("111b1e"))
+	var label := Label3D.new()
+	label.name="Name"
+	label.text="KIỂM SOÁT KHO / B1"
+	label.font_size=22
+	label.pixel_size=.0016
+	label.outline_size=0
+	label.position=Vector3(0,.735,.009)
+	label.modulate=Color("c5cdb9")
+	housing.add_child(label)
+	for x in [-.545,.545]:
+		for y in [-.245,.765]:
+			var bolt := MeshInstance3D.new()
+			bolt.name="MountBolt"
+			bolt.position=Vector3(x,y,.006)
+			bolt.rotation.x=PI/2
+			var cylinder := CylinderMesh.new()
+			cylinder.top_radius=.013
+			cylinder.bottom_radius=.013
+			cylinder.height=.012
+			cylinder.radial_segments=8
+			bolt.mesh=cylinder
+			var material := StandardMaterial3D.new()
+			material.albedo_color=Color("78847a")
+			material.roughness=.75
+			bolt.material_override=material
+			housing.add_child(bolt)
+	_box(housing,"CableGland",Vector3(.43,-.30,-.096),Vector3(.065,.075,.04),Color("192325"))
+	_box(housing,"Conduit",Vector3(.43,-.63,-.1),Vector3(.028,.65,.028),Color("444d48"))
+	for y in [-.47,-.88]:
+		_box(housing,"ConduitClamp",Vector3(.43,y,-.108),Vector3(.075,.035,.016),Color("293735"))
+
+func _box(parent: Node,title: String,pos: Vector3,size_: Vector3,colour: Color) -> void:
+	var mesh := MeshInstance3D.new()
+	mesh.name=title
+	mesh.position=pos
+	var box := BoxMesh.new()
+	box.size=size_
+	mesh.mesh=box
+	var material := StandardMaterial3D.new()
+	material.albedo_color=colour
+	material.roughness=.82
+	mesh.material_override=material
+	parent.add_child(mesh)
 
 func has_power() -> bool:
 	var objectives := ObjectiveManager.find(self)

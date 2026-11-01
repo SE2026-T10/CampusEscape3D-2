@@ -52,7 +52,7 @@ func _run() -> void:
 						mission.time_left=75
 						team._physics_process(0)
 				power.set_powered(&"surveillance",cameras_on)
-				for view in [["yard",Vector3(-36,.05,44),Vector3(-20,1.5,18)],["command",Vector3(0,.05,7),Vector3(6,1.6,2)],["vault",Vector3(8,-3.95,-48),Vector3(0,-2.4,-40)],["service",Vector3(26,.05,35),Vector3(36,1.6,18)]]:
+				for view in [["yard",Vector3(-36,.05,44),Vector3(-20,1.5,18)],["command",Vector3(0,.05,7),Vector3(6,1.6,2)],["vault",Vector3(8,-3.95,-48),Vector3(0,-2.4,-40)],["service",Vector3(26,.05,35),Vector3(36,1.6,18)],["workshop",Vector3(37.6,.05,15.25),Vector3(37.6,1.3,17.15)]]:
 					if not selected_views.is_empty() and view[0] not in selected_views: continue
 					player.global_position=view[1]
 					player.rotation=Vector3.ZERO

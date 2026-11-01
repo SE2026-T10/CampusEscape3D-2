@@ -58,16 +58,16 @@ func _sensor(index: int, position: Vector3) -> void:
 	area.collision_mask = 0
 	area.monitoring = false
 	_add(sensor,area)
-	_shape(area,Vector3(3.6,2.4,.4))
+	_shape(area,Vector3(preload("res://maps/intelligence/resources/layout/k17_projection.gd").SENSOR_WIDTH,2.4,.4))
 	var beams := Node3D.new()
 	beams.name = "Beams"
 	_add(sensor,beams)
 	for y in [-.92,-.3,.4,1.0]:
-		_box(beams,"Beam",Vector3(0,y,0),Vector3(3.35,.018,.025),Color("ec5746"),true)
-	for x in [-1.65,1.65]:
+		_box(beams,"Beam",Vector3(0,y,0),Vector3(preload("res://maps/intelligence/resources/layout/k17_projection.gd").SENSOR_WIDTH,.018,.025),Color("ec5746"),true)
+	for x in [-2.1,2.1]:
 		_box(sensor,"EmitterPost",Vector3(x,0,0),Vector3(.12,2.4,.12),Color("303c35"))
 	_box(sensor,"Indicator",Vector3(1.62,1.0,.12),Vector3(.16,.18,.16),Color("55d497"),true)
-	_box(sensor,"Header",Vector3(0,1.25,0),Vector3(3.5,.32,.12),Color("27352c"))
+	_box(sensor,"Header",Vector3(0,1.25,0),Vector3(4.4,.32,.12),Color("27352c"))
 	_label(sensor,"Status","CẢM BIẾN",Vector3(0,1.25,.12),Vector3.ZERO,.004)
 	_label(sensor,"StatusBack","CẢM BIẾN",Vector3(0,1.25,-.12),Vector3(0,180,0),.004)
 	_audio(sensor,"Relay","relay",8)

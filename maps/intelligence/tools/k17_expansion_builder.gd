@@ -84,32 +84,18 @@ func build(builder: SceneTree, region: Node3D) -> void:
 	_wall_h(-34,-4,12,[])
 	_box("SecureBlockRoof",Vector3(4,3.4,-29),Vector3(16.4,.25,10.4),"wall")
 	_light(Vector3(4,2.8,-28),14,2)
-	_box("VaultFloor",Vector3(0,-4.2,-42),Vector3(20,.4,16),"floor")
-	_wall_h(-34,-10,10,[Vector2(2,6)],-4,4)
-	_wall_h(-50,-10,10,[],-4,4)
-	_wall_v(-10,-50,-34,[],-4,4)
-	_wall_v(10,-50,-34,[Vector2(-40,-36)],-4,4)
+	preload("res://maps/intelligence/tools/k17_projection_builder.gd").new().build(self)
 	# East return corridor and the second independent stairwell.
 	_box("ReturnFloor",Vector3(22,-4.2,-38),Vector3(24,.4,8),"floor")
-	_wall_h(-42,10,34,[],-4,4)
+	_wall_h(-37,10,28,[],-4,4)
+	_wall_v(28,-42,-37,[],-4,4)
+	_wall_h(-42,28,34,[],-4,4)
 	_wall_h(-34,10,34,[Vector2(28,32)],-4,4)
 	_wall_v(34,-42,-34,[],-4,4)
 	_stair(4)
 	_stair(30)
 	_box("ServiceStairCanopy",Vector3(30,3,-29),Vector3(6,.2,12),"steel")
-	for x in [-6.0,-2.0]:
-		_box("ArchiveRack",Vector3(x,-2.8,-40),Vector3(1,2.4,7),"steel")
-		for z in [-42.0,-39.0]: _model("archive_rack",Vector3(x,-2.8,z),PI/2,Vector3(.55,1,.7))
-	_box("FileDesk",Vector3(0,-3.55,-47),Vector3(2.4,.9,1.2),"steel").get_node("Mesh").visible=false
-	_box("FileSideCover",Vector3(-2.5,-2.75,-46),Vector3(.5,2.5,4),"steel")
-	_model("archive_table",Vector3(0,-3.55,-47))
-	# A partial divider channels the two sensor strips without blocking retreat.
-	_wall_v(1.8,-46,-34,[],-4,3.3)
-	_wall_v(6.2,-46,-34,[],-4,3.3)
-	for s in L.SENSORS:
-		for x in [-1.65,1.65]: _box("SensorPost",s+Vector3(x,0,0),Vector3(.12,2.4,.12),"steel")
-	_sign("07 / KHO MẬT B1\nMẬT LỆNH 04 – NIÊM PHONG",Vector3(0,-1.6,-49.765),0)
-	for p in [Vector3(0,-1.2,-46),Vector3(4,-1.2,-36),Vector3(22,-1.2,-38)]: _light(p,12,2)
+	_light(Vector3(22,-1.2,-38),12,2)
 	_sign("B1 / KHO MẬT\nMÃ KHO BẮT BUỘC",Vector3(4,2.6,-23.6),0,"ceiling",3.2)
 	_sign("LỐI RÚT BẢO TRÌ →",Vector3(8,-1.7,-41),PI,"ceiling",-.4)
 	_select("service_route")
@@ -157,6 +143,7 @@ func _box(title: String,pos: Vector3,size: Vector3,material: String,collision:=t
 		body.position=pos
 		b._paint(body,"Mesh",Vector3.ZERO,size,Color.WHITE)
 	body.set_meta("expansion",true)
+	if title=="FloorFinish": body.set_meta("minimap_room",true)
 	var mesh:=body.get_node("Mesh") as MeshInstance3D
 	(mesh.mesh as BoxMesh).add_uv2=true
 	mesh.material_override=_material(material)
@@ -220,6 +207,7 @@ func _stair(x: float) -> void:
 	var body:=StaticBody3D.new()
 	body.name="StairRamp"
 	body.set_meta("expansion",true)
+	body.set_meta("minimap_stair",Rect2(x-2,-34,4,10))
 	b._add(sector,body)
 	var points:=PackedVector3Array()
 	for dx in [-2.0,2.0]:

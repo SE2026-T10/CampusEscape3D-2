@@ -166,7 +166,7 @@ func _knowledge_and_inventory(player: FirstPersonPlayer) -> void:
 	var objectives:=ObjectiveManager.find(level)
 	var inventory:=PlayerInventory.find(level)
 	objectives.restore({})
-	_expect(objectives.is_graph() and objectives.get_mandatory_ids().size()==7 and objectives.get_optional_ids().size()==2,"Seven mandatory objectives with two independent preparations")
+	_expect(objectives.is_graph() and objectives.get_mandatory_ids().size()==7 and objectives.get_optional_ids().size()==3,"Seven mandatory objectives, two preparations and optional sabotage")
 	objectives.complete(M.ENTER)
 	var note: DocumentPickup=level.get_node("Gameplay/VaultCode")
 	_expect(note.interact(player),"Instructions can be read before taking the pass")
