@@ -266,7 +266,7 @@ No new layout version: the layout data and the scene's existing content are unch
 
 **What changed:**
 - The level gained one child, `Expansion`, an instance of the new, empty `scenes/level/expanded_library_expansion.tscn`, placed right after `Gameplay`. New puzzles, mechanics and areas go into that sub-scene.
-- **The builder is frozen** (owner decision, expansion Phase 1). `tools/expanded/build_expanded_graybox.gd` would revert the door-frame fix and drop `Expansion`, and the baseline tests fail if it is run. Changes to the existing level need approval and a new baseline.
+- **The builder is frozen** (owner decision, expansion Phase 1). `tools/expanded/build_expanded_graybox.gd` would revert the door-frame fix and drop `Expansion`, and the baseline tests fail if it is run. Changes to the existing level need approval and a new baseline. (Lifted on 2026-10-31: see "Improvements approved on 2026-10-31" below; the builder now reproduces the saved scene.)
 
 **Why:** the expansion's rules require the existing scene, its geometry and its fixes to stay as they are; a sub-scene keeps new work in its own small file.
 
@@ -565,3 +565,98 @@ No geometry, navmesh, guard placement or route changed.
 **Scene changes:** `expanded_library.tscn` patched by `fixes_x10.gd`; `expanded_library_expansion.tscn` rebuilt (`Dressing/LobbyDecor`, `Dressing/HallDecor`, `Geometry/C_ReadingHall`, `Gameplay/Escape/MainEntranceDressing`, `BadgeReaderHousing`, `Gameplay/LobbyStaffDoorDressing`); navmesh rebaked (1082 polygons).
 
 **Test change:** `expanded_polish_tests` G: the seized-valve check now samples the wheel each frame for 0.25 s instead of once at 0.03 s. With the heavier scene, frame times can exceed the 0.18 s jerk, so a single sample missed it.
+
+---
+
+## Improvements approved on 2026-10-31
+
+Approved by the owner after an audit of what was left to improve: atmosphere, pacing and the level's tooling. No change to the tutorial.
+
+**Builder cleanup (tooling only, the game unchanged):**
+- `maps/library/tools/rebuild_level.py` rebuilds the level scene and its navmesh from source: the v4 builder, the expansion's patches in the order they were made (`cut_doorways.py`, `add_expansion_instance.py`, `enable_items.py`, `mission_x3.py`, `security_x4.py`, `escape_x5.py`, then `fixes_x7` … in number order), the navmesh bake, the ids kept.
+- The two steps that were never scripted now are: `add_expansion_instance.py` (the `Expansion` instance, first added by hand in Phase 2) and the v4 door-frame fix, folded back into `build_expanded_graybox.gd` (`_add_door_trim`: posts 16 cm wide and 2 cm into the opening, lintels 2 cm lower, 4 cm longer and deeper).
+- `--check` rebuilds, compares with the saved files (float arrays to 0.1 mm: the hand-made fix had typed values) and puts the saved files back; `tools/ci/run_tests.sh` runs it after the flow runs, so the saved level can no longer drift from its source. **The builder is no longer frozen**: change the level through its source (layout, builder, a new numbered patch), then run the script.
+
+**Atmosphere:**
+- **Ambient sound:** four new seamless loops made in code (`tools/generate_audio.gd`, appended so every older sound keeps its samples): basement hum, electrical-room buzz, pump-room drips, archive air handling. Eleven positional `AmbientEmitter`s (`expansion_layout.gd` AMBIENCE, `Expansion/Ambience`), including the tutorial's page turns, book thuds and chair creaks in the reading hall, the study rooms and the browsing hall. Decoration only: guards don't hear them.
+- **Archive emergency lighting:** `ArchivePowerLights` (`maps/library/scripts/presentation/archive_power_lights.gd`, `Expansion/Gameplay/ArchiveLights`). Until the breaker puzzle powers `archive_access`, the archive's six ceiling lamps are out and three red emergency lights under the walnut beams pulse; MAIN brings the lamps back with a flicker and a clunk. It follows `PowerNetwork`, so checkpoints need nothing new. Detection is unchanged (guards see with rays).
+- ~~Windows with a night view~~: tried and taken out again the same day (see the follow-up below). The windows stay removed, as `fixes_x11.gd` has done since the no-wall-decor request.
+- **Wayfinding** (nothing on the walls): a directory stand inside the entrance with the ground floor's plan and a YOU ARE HERE dot (solid), brass floor inlays naming the reading hall and the browsing hall (the stacks' south end), and hanging signs from the ceiling over the lobby's stacks arch (BROWSING HALL · STACKS) and the foot of S1 (UPPER FLOOR · STAFF WING) (`build_expansion.gd` `_build_wayfinding`). Navmesh rebaked (1252 → 1258 polygons).
+
+**Pacing (optional content, the mandatory mission unchanged):**
+- **Staff-corridor guard:** `fixes_x26.py` adds GuardStaff on the layout's planned loop P6 (never guarded before): the staff corridor (x 0.5 … 9.5, z −11) and into Office 2 over the card desk, 2.5 s at each point, off the Office 1 door; copied from GuardUpper. Eight guards.
+- **The reserve shelf (Study 4):** an optional, hidden objective, `reserve_shelf` (`fixes_x27.py` adds it to the scene's objectives).
+  - Clues: the reserve slip on Study 4's west wall beside the whiteboard and a facilities memo in Office 1 (both discover the objective).
+  - Three reserve books (`ItemCatalog` `reserve_book_523`, `_823`, `_942`, carried like the tool kit) lie on the browsing hall's trolley, the staff balcony's trolley and the service corridor's returns bin.
+  - The north bookcase on Study 4's east wall is the reserve bookcase: three marked gaps on its third shelf (500–599 Science, 800–899 Literature, 900–999 History) and the reserve cabinet below (`ReserveShelf`, `ReserveGap`, `maps/library/scripts/puzzles/`). A wrong book is refused quietly.
+  - Reward: the cabinet opens and reveals the **dock release key** (`dock_key`). With it, the loading dock's OPEN button cranks the shutter up by hand **without SERVICE EXIT power** (so without the camera reboot); the jammed release still needs the tool kit. `ExitDoor` gained `hand_opened` / `open_by_hand()` (stored at checkpoints; off by default, so nothing else changes); `DockShutter` gained `hand_key`; WAYS OUT reads "power or the dock release key" once the player knows of the key.
+
+**Tests:** new suite `maps/library/tests/expanded_improvement_tests.gd` (ambience, the archive lights in both states, the windows staying removed, wayfinding, the staff guard's loop and the Office 1 respawn's cover, the reserve shelf end to end with a checkpoint restore, the hand-opened dock, Study 4's slip and shelf).
+
+**Follow-up the same day (requested by the owner):**
+- **The windows are removed again:** `fixes_x11.gd` is back to removing them (frames, glass, sills; the Windows group hidden); `fixes_x25.gd`, `make_night_sky.py` and `night_sky.png` are gone.
+- **No outside sound:** the porch rain emitter and `amb_rain.wav` are gone (`SoundBank`, 46 sound files). `generate_audio.gd` still draws the rain without saving it, so every sound after it keeps its samples (checked: all 46 regenerate identically).
+- **Study 4:** the reserve slip moved off the whiteboard to the wall just north of it (6.2, 1.45, −17.4); a third storage shelf, **Study 4 shelf** (`ItemStorage`, 4 places, starts empty), stands against the west wall in the south-west corner (6.37, 1.0, −24.5), so a player carrying the three reserve books can swap items beside the reserve shelf. Like the other shelves it has no collision (no navmesh change).
+
+## Electrical room door frame (2026-11-02)
+
+Requested by the owner: the electrical room door's steel frame showed striped, mixed textures. Its head and jambs sat exactly on the faces of the cut wall opening, so the two surfaces z-fought. `build_expansion.gd` `_door_leaves` now stands the frame 1 cm into the opening (the head 1 cm lower, the jambs 1 cm inward; the leaves still clear the head by 2 cm). The G4 lobby staff door uses the same frame, hidden behind the level's red door trim, so nothing visible changes there. Decoration only: no collision, navmesh or gameplay change.
+
+## Reserve shelf could not be used (2026-11-02)
+
+Reported by the owner: in Study 4 a book could not be placed on the reserve shelf. The three gaps' interaction boxes, and the dock key's in the cabinet below, sat behind the reserve bookcase's solid collider (its front at x 11.4), so the player's aim ray stopped at the collider and never reached them (the suite had called the gaps directly). The gaps' boxes now reach 14 cm out past the bookcase's front and the key's 25 cm (`build_expansion.gd` `_add_reserve_shelf`; `_add_item` takes an optional `shape_pos` / `shape_size`, used by the layout's DockKey). Nothing visible changes. `expanded_improvement_tests.gd` section H now aims at each gap and the key from the floor in front of the bookcase with the player's own `PlayerInteractor` ray, shelves a book and takes the key through it. It failed before the fix and passes now.
+
+## Study 4 reserve slip as a clue board (2026-11-02)
+
+Requested by the owner: the reserve slip in Study 4 now has the same oak-framed cork board and brass picture lamp as the other wall clues (`"board": true` in `expansion_layout.gd`; `_clue_board_model`), at the same place on the west wall beside the whiteboard (6.17, 1.4, −17.4). No mesh is reached by more than 8 lights (the polish suite's check). The Office 1 facilities memo stays a clipboard.
+
+## Stationary cameras, view cones stopped by walls (2026-11-02)
+
+Requested by the owner:
+- **Stationary:** `SecurityCamera.sweep_angle` now defaults to 0, so all five cameras hold still, each pointed where its old sweep was centred (the layout's "look" point), with the same 50° view (the owner chose to keep it). A camera given a sweep still sweeps.
+- **The view cone no longer shows through walls:** it was a fixed translucent cylinder 7.8 m long that passed through walls and floors (the upstairs staff corridor camera's cone showed in Study 4 below). It is now cast with rays from the lens (8 rings × 32, physics layer 1: walls, floors, closed doors), each stopped 5 cm before what it hits; its end lies on the floors and walls it reaches. Refreshed every 0.5 s while powered (the cameras' refreshes staggered), the mesh rebuilt only when a ray's length changes, so an opened door shows in it. The cone is unshaded and sits on render layer 11, which no light includes, so it adds no light pairing. Detection is unchanged: it already used rays, so walls never let a camera see through.
+- Tests: `expanded_improvement_tests.gd` section I (the cameras stay still; no ray end of any cone is behind a wall or floor; the staff corridor cone stays above its floor; a wall placed in front cuts a cone, which comes back when the wall is gone).
+
+## Remodelled items (2026-11-02)
+
+Requested by the owner: the interactable items were plain coloured boxes.
+- **Carried items** (`ItemCatalog.make_model`, used by pickups, items on storage shelves and thrown items): low-poly models of a few boxes, cylinders and a torus each, about their old size, resting on the floor; the HUD colours are unchanged. Red steel tool box with lid, latches and handle; staff card (white panel, photo, chip, clip); master badge (navy, gold band and seal, photo, clip); the reserve books (covers, page block, spine, a call-number label on the spine and a sticker on the cover); a brass dock key on a ring with a red tag; a green glass bottle with a label; the hardback with gold bands on the spine.
+- **The staff card on its desk and the rare manuscript** (both `AccessCard`): they build an ItemCatalog model at run time (`model_item`; the card the new staff card, the manuscript a leather-bound volume with gold corners, bands, clasp and seal: `ItemCatalog.RARE_MANUSCRIPT_MODEL`), keep their glow (`model_glow`), spin and labels, and rest where the boxes did. `fixes_x28.py` sets this and removes the old boxes and their resources; their parts are on render layer 8 as upper-floor props (`model_layers`, the 8-lights rule). The card on the desk is now blue like the carried card (its box was yellow). The tutorial's card is unchanged (`model_item` empty).
+- The lobby camera's `sweep_angle = 0.0` line left the expansion scene on rebuild (0 is the default since the stationary cameras).
+- Tests: `expanded_improvement_tests.gd` section J.
+
+## A "!" over every item (2026-11-02)
+
+Requested by the owner: every item now floats the clue documents' yellow "!" (bobbing and pulsing; a little smaller, about 0.29 m), so items read as things to take.
+- `PickupMarker` (`features/inventory/pickup_marker.gd`): the "!" as a Label3D; it shows while its parent is visible and animates only then. The clue documents keep their own marker (`DocumentPickup`), unchanged.
+- Carried items (`ItemPickup.show_marker`, on by default): the "!" 0.55 m over the item while it is there to take; it goes when the item is taken and comes back if a checkpoint restores it. None on items the player leaves on a storage shelf. The dock key's (in the reserve cabinet) and the locker bottle's and badge's float in front of the cabinet and the locker (`marker_offset` in the layout), so the shelves above don't hide them.
+- The staff card on its desk and the rare manuscript (`AccessCard.show_marker`, off by default as in the tutorial; `fixes_x29.py` turns it on): the "!" 0.8 m up, above their name labels.
+- Tests: `expanded_improvement_tests.gd` section K.
+
+## Guard snags on low props (2026-11-02)
+
+Reported by the owner: a guard chasing the player got stuck on the bin in a staff office.
+- **Cause:** the navmesh bake (cell height and step height 0.25 m) ignores a solid prop lower than 0.5 m, so the walkable area ran right up to such props (within 0.03 m of the office bins), while a guard (radius 0.35 m, no stepping) can't pass over them. The office bins stood in the narrow way between the desk's east end and the wall. A level-wide check found the same for the Book Processing bins, three step stools in the stacks, the basement mop bucket and two porch benches.
+- **Office bins** (0.35 m, `build_expansion.gd` `_office`): moved to the back walls, beside the filing cabinets (Office 3: beside the packing boxes), out of reach of the walkable area.
+- **The other low props** keep their place and look; their collision is now 0.5 m tall (`LOW_PROP_COLLISION`; 5–15 cm above the prop), so the bake keeps guards 0.5 m clear of them as of every desk. Navmesh rebaked (1258 → 1260 polygons).
+- Tests: `expanded_improvement_tests.gd` section L: every solid prop lower than 0.5 m is out of a guard's reach (0.4 m) of the walkable area; the office bins are on the back walls; the raised props' collision is 0.5 m and the walkable area keeps clear of them.
+
+## Office 1 facilities memo as a clue board (2026-11-02)
+
+Requested by the owner: the facilities memo in Office 1 (the reserve shelf's second clue, not the patrol notes in the locker) now has the same cork board and picture lamp as the other wall clues (`"board": true`). It moved from the west wall to the east wall, between the bookcase and the desk (−0.17, 5.9, −22.0), facing into the room: on the west wall the lamp would light the upper floor's `Batch_1_0_plain_L8_S0` with a 9th light (8 per mesh in the Compatibility renderer). Checked: no mesh is reached by more than 8 lights.
+
+## The mission as a note on paper (2026-11-02)
+
+Requested by the owner, for the Expanded Library only: the mission panel (top right) is a note on paper.
+- `PaperNote` (`shared/scripts/ui/paper_note.gd`): a cream sheet taped at the top, slightly askew, ruled, with a red margin line. In handwriting (Kalam, SIL OFL 1.1, `shared/assets/fonts/kalam/`, credited in `CREDITS.md`): the progress ("MISSION 2/8") in red, the current objective and its hint, then one ruled row per objective with a box in the margin: done ones ticked and crossed out with a pen stroke, current ones with a red arrow and in bold, the rest an empty box; the optional ones under "Optional".
+- `ObjectiveHud.paper_note` (off by default: the tutorial keeps its dark panel) is turned on for this map by `fixes_x30.py`. Only the look changes: the header, the current objective, `get_lines()` and the order are the same, and the panel keeps its place (top right) and width.
+- Tests: `expanded_hud_tests.gd` (the note shows the HUD's header, objective and hint, and one row per listed objective with its mark; the tutorial keeps its panel); the layout checks at every resolution and interface size pass with the note. The export checks the font and the script are in the pack.
+
+## K folds the mission note away (2026-11-02)
+
+Requested by the owner, for the Expanded Library's paper note: **K** (input action `toggle_mission`) folds the note into a small folded sheet in the top-right corner (`FoldedNote`, `shared/scripts/ui/folded_note.gd`: taped, a crease across it, a dog-eared corner, "Mission" and the progress in handwriting, a K key cap) and opens it again, with a quick pop. While folded, the sheet hops when the progress changes. The note starts open. The hint under the slots and the pause menu's controls add "K mission" (`GameMenus.MISSION_CONTROLS`, only where the HUD's `paper_note` is on); the tutorial is unchanged (K does nothing there). Tests: `expanded_hud_tests.gd` (K folds and opens the note with real key events, the folded sheet shows the progress, is on screen and clear of the status panel; the pause menu lists K; K does nothing in the tutorial).
+
+
+## The journal on a clipboard (2026-11-02)
+
+Requested by the owner, for the Expanded Library only (with the paper note): the journal (J) is a cream sheet on a brown hardboard clipboard, held at the top by a metal clip (`JournalClipboard`, `shared/scripts/ui/journal_clipboard.gd`). It is a page, longer than wide: 340 px wide (the dark panel widened to 600 px) and as tall as the space above the sound captions allows (up to 1.45 × its width). On the sheet: the headings (JOURNAL, DOCUMENTS, CLUES) handwritten in red (Kalam), the document typed, the clues handwritten in blue. Only the look changes: the same words, the same J paging (clues that don't fit go to the next page, now sooner since the page is narrower), the same place (top left, clear of the mission note, captions and stamina). Built where `ObjectiveHud.paper_note` is on; the tutorial keeps its dark journal. Tests: `expanded_hud_tests.gd` (the journal is the clipboard, its text on the sheet, longer than wide, headings handwritten; the tutorial keeps its panel; the clues and documents are read over every page); `expanded_mechanics_tests.gd` and `expanded_puzzle_tests.gd` press J until the journal closes (after reading a document the clues may now be on a second page); the layout checks page through every entry at every resolution and interface size with the clipboard. The export checks the script is in the pack.

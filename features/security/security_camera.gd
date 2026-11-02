@@ -3,13 +3,18 @@ extends Node3D
 
 ## A security camera (Expanded Library, expansion Phase 5) on the surveillance
 ## circuit of the level's PowerNetwork.
-##   - Powered: it sweeps left and right; if it sees the player (inside its cone
+##   - Powered: it watches one direction (stationary since 2026-11-02, on request;
+##     `sweep_angle` > 0 still sweeps); if it sees the player (inside its cone
 ##     and range, nothing in between, not concealed in a hiding spot) its meter
 ##     fills, faster up close and slower for a crouching player. Full meter:
 ##     the SecurityAlarm sounds at the player's position (guards nearby hear it
 ##     and investigate; no instant failure), then a cooldown.
 ##   - Unpowered: the lens goes dark and it sees nothing. Guards are not affected.
 ## Lens colour: green scanning, yellow seeing you, red alarm, dark off.
+## The view cone players see is cast with rays (`cone_rings` × `cone_segments` across the
+## cone, physics layer 1: walls, floors, closed doors), each stopped where it hits, so it
+## never shows through a wall or a floor; refreshed every `cone_refresh` seconds while
+## powered (a door opening or closing changes it), the mesh rebuilt only on a change.
 ## Not stored at checkpoints: its state follows the power, which is stored.
 
 signal spotted_player(position: Vector3)
@@ -18,8 +23,9 @@ signal spotted_player(position: Vector3)
 @export var circuit: StringName = &"surveillance"
 @export var view_range := 13.0
 @export_range(5.0, 120.0) var fov_degrees := 50.0
-## Half the sweep (degrees, around its resting direction) and the sweep speed (degrees per second).
-@export var sweep_angle := 35.0
+## Half the sweep (degrees, around its resting direction) and the sweep speed (degrees per
+## second). 0: stationary (the default since 2026-11-02, on request).
+@export var sweep_angle := 0.0
 @export var sweep_speed := 18.0
 ## Downward tilt of the lens (degrees).
 @export var pitch_degrees := 25.0
@@ -30,6 +36,19 @@ signal spotted_player(position: Vector3)
 ## Alarm noise radius and seconds before it can raise the alarm again.
 @export var alarm_radius := 25.0
 @export var cooldown := 8.0
+## The visible cone: its length (a share of view_range, as before), resolution and refresh.
+@export var cone_length := 0.6
+@export var cone_rings := 8
+@export var cone_segments := 32
+@export var cone_refresh := 0.5
+
+## The lens, in the head's frame.
+const LENS := Vector3(0, 0, -0.29)
+## Each cone ray ends this far before what it hits, so the cone's end never flickers
+## into the wall or floor it lies on.
+const CONE_GAP := 0.05
+## The view cone's render layer (11): no light includes it; cameras draw every layer.
+const CONE_LAYER := 1 << 10
 
 var meter := 0.0
 var sees_player := false
@@ -45,10 +64,21 @@ var _player: Node3D
 var _visual_state := Vector3(-1, -1, -1)
 var _cone_material: StandardMaterial3D
 var _cone: MeshInstance3D
+var _cone_dirs := PackedVector3Array()
+var _cone_lengths := PackedFloat32Array()
+var _cone_clock := 0.0
+## Spreads the cameras' cone refreshes over the refresh period, so their rays are not all
+## cast on the same frame.
+var _cone_stagger := 0.0
+static var _cameras_made := 0
+## Times the cone's mesh was rebuilt (for tests).
+var cone_builds := 0
 
 
 func _ready() -> void:
 	add_to_group("security_cameras")
+	_cone_stagger = float(_cameras_made % 5) / 5.0
+	_cameras_made += 1
 	_build()
 
 
@@ -68,13 +98,22 @@ func _physics_process(delta: float) -> void:
 	if not powered:
 		meter = 0.0
 		cooldown_left = 0.0
+		_cone_clock = 0.0   # cast again as soon as the power is back
 		_update_visual(false)
 		return
-	_sweep += _sweep_dir * sweep_speed * delta
-	if absf(_sweep) >= sweep_angle:
-		_sweep = clampf(_sweep, -sweep_angle, sweep_angle)
-		_sweep_dir = -_sweep_dir
+	if sweep_angle > 0.0:
+		_sweep += _sweep_dir * sweep_speed * delta
+		if absf(_sweep) >= sweep_angle:
+			_sweep = clampf(_sweep, -sweep_angle, sweep_angle)
+			_sweep_dir = -_sweep_dir
+	else:
+		_sweep = 0.0
 	_head.rotation_degrees = Vector3(-pitch_degrees, _sweep, 0)
+	_cone_clock -= delta
+	if _cone_clock <= 0.0:
+		_cone_clock = cone_refresh * (1.0 + _cone_stagger) if sweep_angle <= 0.0 else 0.1
+		_cone_stagger = 0.0   # only the first wait is offset
+		update_cone()
 	if cooldown_left > 0.0:
 		cooldown_left = maxf(cooldown_left - delta, 0.0)
 	if _player == null or not is_instance_valid(_player):
@@ -114,6 +153,72 @@ func can_see(player: Node3D) -> bool:
 		if not hit.is_empty() and hit.collider == player:
 			return true
 	return false
+
+
+## Casts the visible cone's rays from the lens and rebuilds its mesh if any length changed.
+func update_cone() -> void:
+	var space := get_world_3d().direct_space_state
+	var xf := _head.global_transform
+	var from := xf * LENS
+	var full := view_range * cone_length
+	var changed := false
+	for i in _cone_dirs.size():
+		var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(from, xf * (LENS + _cone_dirs[i] * full), 1))
+		var d := full if hit.is_empty() else maxf(from.distance_to(hit.position) - CONE_GAP, 0.05)
+		if absf(d - _cone_lengths[i]) > 0.01:
+			_cone_lengths[i] = d
+			changed = true
+	if changed:
+		_build_cone_mesh()
+
+
+## The length of the visible cone along its axis now (for tests).
+func cone_axis_length() -> float:
+	return _cone_lengths[0] if not _cone_lengths.is_empty() else 0.0
+
+
+## Ray directions across the cone (head frame, −z ahead): the axis, then `cone_rings`
+## rings of `cone_segments`, the last on the cone's edge.
+func _make_cone_dirs() -> void:
+	_cone_dirs.clear()
+	_cone_dirs.append(Vector3(0, 0, -1))
+	var half := deg_to_rad(fov_degrees / 2.0)
+	for k in range(1, cone_rings + 1):
+		var t := half * float(k) / float(cone_rings)
+		for j in cone_segments:
+			var p := TAU * float(j) / float(cone_segments)
+			_cone_dirs.append(Vector3(sin(t) * cos(p), sin(t) * sin(p), -cos(t)))
+	_cone_lengths.resize(_cone_dirs.size())
+	_cone_lengths.fill(view_range * cone_length)
+
+
+## The cone's mesh from the rays: its side from the lens to the edge rays' ends and its end
+## surface through all the rays' ends (lying on the walls and floors they reach).
+func _build_cone_mesh() -> void:
+	var pts := PackedVector3Array()
+	for i in _cone_dirs.size():
+		pts.append(LENS + _cone_dirs[i] * _cone_lengths[i])
+	var s := cone_segments
+	var v := PackedVector3Array()
+	var rim := 1 + (cone_rings - 1) * s
+	for j in s:
+		v.append_array([LENS, pts[rim + j], pts[rim + (j + 1) % s]])
+	for j in s:
+		v.append_array([pts[0], pts[1 + j], pts[1 + (j + 1) % s]])
+	for k in range(1, cone_rings):
+		var r0 := 1 + (k - 1) * s
+		var r1 := 1 + k * s
+		for j in s:
+			var j1 := (j + 1) % s
+			v.append_array([pts[r0 + j], pts[r1 + j], pts[r1 + j1]])
+			v.append_array([pts[r0 + j], pts[r1 + j1], pts[r0 + j1]])
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = v
+	var mesh := ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	_cone.mesh = mesh
+	cone_builds += 1
 
 
 func _raise(at: Vector3) -> void:
@@ -169,23 +274,21 @@ func _build() -> void:
 	lens_mesh.height = 0.05
 	lens.mesh = lens_mesh
 	lens.rotation_degrees = Vector3(90, 0, 0)
-	lens.position = Vector3(0, 0, -0.29)
+	lens.position = LENS
 	_lens_material = StandardMaterial3D.new()
 	_lens_material.emission_enabled = true
 	lens.material_override = _lens_material
 	_head.add_child(lens)
-	# A faint view cone so players can read where it looks.
+	# A faint view cone so players can read where it looks: cast with rays, it stops at
+	# walls and floors (update_cone, on the first physics frame and then every cone_refresh).
 	_cone = MeshInstance3D.new()
-	var cone_mesh := CylinderMesh.new()
-	cone_mesh.top_radius = 0.02
-	cone_mesh.bottom_radius = tan(deg_to_rad(fov_degrees / 2.0)) * view_range * 0.6
-	cone_mesh.height = view_range * 0.6
-	cone_mesh.radial_segments = 16
-	cone_mesh.rings = 1
-	_cone.mesh = cone_mesh
-	_cone.rotation_degrees = Vector3(90, 0, 0)
-	_cone.position = Vector3(0, 0, -view_range * 0.3)
+	_cone.name = "ViewCone"
+	_make_cone_dirs()
+	_build_cone_mesh()
 	_cone.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	# Unshaded, so it needs no light: on a render layer no light's cull mask includes
+	# (layer 11), it is paired with none and never counts toward a mesh's 8 lights.
+	_cone.layers = CONE_LAYER
 	_cone_material = StandardMaterial3D.new()
 	_cone_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	_cone_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA

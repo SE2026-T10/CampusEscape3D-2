@@ -20,6 +20,20 @@ extends Interactable
 @export var spin_speed := 60.0
 ## ItemCatalog id also given to the player's inventory when taken (empty: none, as in the tutorial).
 @export var grants_item: StringName = &""
+@export_group("Model (Expanded Library)")
+## An ItemCatalog model built into "Model" at run time (remodelled 2026-11-02, on request);
+## empty: the scene's own mesh, as in the tutorial.
+@export var model_item: StringName = &""
+## Where the built model rests in "Model" (it is built resting on y = 0).
+@export var model_offset := Vector3.ZERO
+## Each part glows in its own colour at this energy (0: no glow).
+@export var model_glow := 0.0
+## The parts' render layers (upper floor props are on layer 8: the 8-lights-per-mesh rule).
+@export_flags_3d_render var model_layers := 1
+## A floating "!" (PickupMarker) over it while it is shown (2026-11-02, on request; off,
+## as in the tutorial); above its name label.
+@export var show_marker := false
+@export var marker_offset := Vector3(0, 0.8, 0)
 
 @onready var _model: Node3D = get_node_or_null("Model")
 
@@ -28,7 +42,27 @@ func _ready() -> void:
 	super()
 	if prompt == "Interact":
 		prompt = "Take the access card"
+	if model_item != &"" and _model:
+		_build_model()
+	if show_marker:
+		add_child(PickupMarker.new(marker_offset))
 	_connect_manager.call_deferred()
+
+
+## The ItemCatalog model in "Model" (it spins with it), its parts glowing on model_layers.
+func _build_model() -> void:
+	var built := ItemCatalog.make_model(model_item)
+	built.name = "Built"
+	built.position = model_offset
+	_model.add_child(built)
+	for part in built.find_children("*", "MeshInstance3D", true, false):
+		var mi := part as MeshInstance3D
+		mi.layers = model_layers
+		var material := mi.material_override as StandardMaterial3D
+		if material and model_glow > 0.0:
+			material.emission_enabled = true
+			material.emission = material.albedo_color
+			material.emission_energy_multiplier = model_glow
 
 
 func _connect_manager() -> void:

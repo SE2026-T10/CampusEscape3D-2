@@ -52,6 +52,10 @@ const SCRIPTS := {
 	"escape_routes": "res://maps/library/scripts/escape/escape_routes.gd",
 	"mechanism_audio": "res://maps/library/scripts/presentation/mechanism_audio.gd",
 	"checkpoint": "res://features/checkpoints/checkpoint.gd",
+	"ambient": "res://shared/scripts/presentation/ambient_emitter.gd",
+	"reserve_shelf": "res://maps/library/scripts/puzzles/reserve_shelf.gd",
+	"reserve_gap": "res://maps/library/scripts/puzzles/reserve_gap.gd",
+	"archive_lights": "res://maps/library/scripts/presentation/archive_power_lights.gd",
 }
 ## Mesh tiles are at most this long, so no mesh is reached by more than the
 ## renderer's 8 lights per mesh (lamps are 8-12 m apart, range 10 m).
@@ -160,6 +164,8 @@ func _build() -> void:
 	audio.name = "MechanismAudio"
 	audio.set_script(load(SCRIPTS.mechanism_audio))
 	_add(gameplay, audio)
+	_add_ambience(_group(_root, "Ambience"))
+	_add_archive_lights(gameplay)
 
 	var dressing := _group(_root, "Dressing")
 	var ceilings := _group(dressing, "Ceilings")
@@ -209,6 +215,8 @@ func _build() -> void:
 	_build_dock_props(_group(_root.get_node("Geometry"), "D_LoadingDock"), _group(dressing, "DockDecor"))
 	# Polish (lobby and reading hall): the desk, S1, G4, details; the hall's lamps, wall bookcases, display.
 	_build_lobby(_group(_root.get_node("Geometry"), "A_LobbyProps"), _group(dressing, "LobbyDecor"))
+	# Wayfinding (approved 2026-10-31): a directory stand, brass floor inlays, hanging signs.
+	_build_wayfinding(_root.get_node("Geometry/A_LobbyProps"), _group(dressing, "Wayfinding"))
 	_build_reading_hall(_group(_root.get_node("Geometry"), "C_ReadingHall"), _group(dressing, "HallDecor"))
 	# Polish (Book Processing): workstations, the noticeboard, solid props, wall details.
 	_build_processing(_group(_root.get_node("Geometry"), "D_Processing"), _group(dressing, "ProcessingDecor"))
@@ -503,12 +511,16 @@ func _add_item(parent: Node, it: Dictionary) -> void:
 		item.set("objective_id", StringName(it.objective))
 	if it.has("available"):
 		item.set("available", it.available)
+	if it.has("marker_offset"):
+		item.set("marker_offset", it.marker_offset)
 	item.set_meta("zone_id", it.zone)
 	_add(parent, item)
 	var shape := CollisionShape3D.new()
 	shape.name = "Shape"
-	shape.shape = _box_shape(Vector3(0.5, 0.35, 0.5))
-	shape.position = Vector3(0, 0.175, 0)
+	# "shape_size" / "shape_pos" (local, optional): an interaction box reaching out of a
+	# solid prop (the dock key in the reserve cabinet, fixed 2026-11-02).
+	shape.shape = _box_shape(it.get("shape_size", Vector3(0.5, 0.35, 0.5)))
+	shape.position = it.get("shape_pos", Vector3(0, 0.175, 0))
 	_add(item, shape)
 
 
@@ -759,6 +771,105 @@ func _add_mission(mission: Node3D) -> void:
 	noise.set_script(load(SCRIPTS.noise))
 	noise.set("radius", 6.0)
 	_add(exit, noise)
+	_add_reserve_shelf(mission, m.reserve_shelf)
+
+
+## The Study 4 reserve shelf (approved 2026-10-31; ReserveShelf): the puzzle node at the
+## front of the reserve bookcase's third shelf, its three gaps (ReserveGap; a brass call
+## number card under each), its display (a card on the bookcase's top) and the reserve
+## cabinet's door below (hinged at its left end, swung open by the puzzle). The bookcase
+## itself is static (_reserve_bookcase, in Study 4's geometry).
+func _add_reserve_shelf(mission: Node3D, d: Dictionary) -> void:
+	var shelf := _placed(mission, d, SCRIPTS.reserve_shelf)
+	shelf.set("puzzle_name", "Reserve shelf")
+	shelf.set("objective_id", StringName(d.objective))
+	var books: Array[StringName] = []
+	for b in d.books:
+		books.append(StringName(b))
+	shelf.set("gap_books", books)
+	shelf.set("gap_labels", PackedStringArray(d.labels))
+	var reveals: Array[NodePath] = []
+	for r in d.reveal:
+		reveals.append(shelf.get_path_to(_root.get_node("Gameplay/" + r)))
+	shelf.set("reveal_paths", reveals)
+	for i in d.gap_x.size():
+		var gap := Area3D.new()
+		gap.name = "Gap%d" % i
+		gap.set_script(load(SCRIPTS.reserve_gap))
+		gap.set("index", i)
+		gap.position = Vector3(d.gap_x[i], 0.0, -0.14)
+		_add(shelf, gap)
+		var shape := CollisionShape3D.new()
+		shape.name = "Shape"
+		shape.shape = _box_shape(Vector3(0.32, 0.34, 0.3))
+		# Fixed 2026-11-02: the box reaches 14 cm out past the bookcase's front (x 11.4,
+		# where its solid collider starts), or the player's aim ray stops at the collider
+		# before it reaches the gap.
+		shape.position = Vector3(0, 0.17, 0.15)
+		_add(gap, shape)
+		_add_visual_box(shelf, "Card%d" % i, Vector3(d.gap_x[i], -0.04, 0.012), Vector3(0.34, 0.07, 0.004), "card_white")
+		var label := _add_text(shelf, "CardText%d" % i, Vector3(d.gap_x[i], -0.04, 0.0145), d.labels[i].to_upper(), 22, 0.0012, Color(0.12, 0.08, 0.04))
+		label.no_depth_test = false
+	# The display: a cream card standing on the bookcase's top.
+	_add_visual_box(shelf, "DisplayCard", Vector3(0, 1.06, -0.05), Vector3(0.8, 0.22, 0.012), "card_white")
+	var display := Label3D.new()
+	display.name = "Display"
+	display.font_size = 26
+	display.pixel_size = 0.0022
+	display.outline_size = 0
+	display.position = Vector3(0, 1.06, -0.042)
+	_add(shelf, display)
+	# The reserve cabinet's door (the bookcase's bottom bay, x −0.5…0.5, 0.1…0.52 m up).
+	var door := Node3D.new()
+	door.name = "CabinetDoor"
+	door.position = Vector3(-0.5, 0.31 - 1.05, 0.0)
+	_add(shelf, door)
+	_add_visual_box(door, "Panel", Vector3(0.5, 0.0, -0.012), Vector3(0.98, 0.4, 0.022), "oak")
+	_add_visual_box(door, "Inset", Vector3(0.5, 0.0, -0.0), Vector3(0.84, 0.28, 0.006), "oak_dark")
+	_add_visual_box(door, "Knob", Vector3(0.9, 0.0, 0.012), Vector3(0.03, 0.03, 0.025), "brass")
+	_add_visual_box(door, "Keyhole", Vector3(0.9, -0.05, 0.002), Vector3(0.012, 0.025, 0.004), "tool_dark")
+	shelf.set("cabinet_door_path", shelf.get_path_to(door))
+
+
+## The Study 4 reserve bookcase (approved 2026-10-31): as _study_bookcase (an oak case
+## in a wall unit, local x along the wall, front +z, 0.4 m deep), with four shelves:
+## the bottom bay of the middle is the reserve cabinet (dark inside; its door belongs to
+## the puzzle), and the third shelf (its top 1.05 m) has three empty gaps for the
+## reserve books at `gaps` (local x), the books around them.
+func _reserve_bookcase(u: Node3D, length: float, h: float, gaps: Array, seed: int) -> void:
+	var d := 0.4
+	for e in [-1.0, 1.0]:
+		_add_visual_box(u, "Side%d" % int(e), Vector3(e * (length / 2.0 - 0.015), h / 2.0, 0), Vector3(0.03, h, d), "oak")
+	_add_visual_box(u, "Top", Vector3(0, h - 0.015, 0), Vector3(length, 0.03, d), "oak")
+	_add_visual_box(u, "Plinth", Vector3(0, 0.04, 0.0), Vector3(length - 0.06, 0.08, d - 0.04), "oak_dark")
+	_add_visual_box(u, "Back", Vector3(0, h / 2.0, -d / 2.0 + 0.015), Vector3(length - 0.06, h - 0.03, 0.02), "oak_dark")
+	var shelves := 4
+	var row := (h - 0.11) / shelves
+	for s in shelves:
+		var y := 0.08 + s * row
+		if s > 0:
+			_add_visual_box(u, "Shelf%d" % s, Vector3(0, y + 0.012, 0.01), Vector3(length - 0.06, 0.025, d - 0.02), "oak")
+		var top := y + (0.025 if s > 0 else 0.0)
+		if s == 0:
+			# The cabinet: closed panels either side of its door (x −0.5…0.5), dark inside.
+			for e in [-1.0, 1.0]:
+				var w := length / 2.0 - 0.53
+				_add_visual_box(u, "CabinetSide%d" % int(e), Vector3(e * (0.5 + w / 2.0), top + row / 2.0, d / 2.0 - 0.02), Vector3(w, row - 0.04, 0.022), "oak")
+			_add_visual_box(u, "CabinetInside", Vector3(0, top + row / 2.0, -d / 2.0 + 0.03), Vector3(1.0, row - 0.04, 0.01), "tool_dark")
+			_add_visual_box(u, "CabinetFloor", Vector3(0, top + 0.01, 0.0), Vector3(1.0, 0.02, d - 0.06), "oak_dark")
+			_add_visual_box(u, "CabinetTop", Vector3(0, top + row - 0.01, 0.01), Vector3(length - 0.06, 0.02, d - 0.02), "oak")
+			continue
+		# Book runs, broken at the gaps on the third shelf.
+		var cuts := [-length / 2.0 + 0.05]
+		if s == 2:
+			for g in gaps:
+				cuts.append(g - 0.17)
+				cuts.append(g + 0.17)
+		cuts.append(length / 2.0 - 0.05)
+		for k in range(0, cuts.size(), 2):
+			var run: float = cuts[k + 1] - cuts[k]
+			if run > 0.1:
+				_book_run(u, "B%d_%d_" % [s, k / 2], Vector3(cuts[k], top, 0.02), run, row * 0.8, 0.26, seed + s * 5 + k)
 
 
 ## Polish (code locks): a puzzle's status text (its "Display", found by Puzzle) at `at`.
@@ -1075,6 +1186,7 @@ func _add_escapes(escape: Node3D) -> void:
 	var shutter := _placed(escape, e.dock_shutter, SCRIPTS.dock_shutter)
 	shutter.set("puzzle_name", "Dock shutter")
 	shutter.set("release_path", shutter.get_path_to(release))
+	shutter.set("hand_key", ItemCatalog.DOCK_KEY)   # approved 2026-10-31: the reserve cabinet's reward
 	# The dock ExitDoor is in the level (Gameplay/ExitDoor): ../../../../Gameplay/ExitDoor from here.
 	shutter.set("exit_path", NodePath("../../../../Gameplay/ExitDoor"))
 	# Polish (loading dock): the station, the roller shutter, the props, the yard outside.
@@ -1767,9 +1879,11 @@ func _door_leaves(holder: Node3D, w: float, style: String) -> Dictionary:
 		angles.append(90.0 if side < 0 else -90.0)
 	var frame := _group(holder, "Frame")
 	var frame_look := "wood_dark" if wood else "keypad_bezel"
+	# The frame stands 1 cm into the opening (fixed 2026-11-02, on request): flush with the
+	# cut opening's faces, the jambs' and the head's inner faces z-fought with the wall.
 	for side in [-1.0, 1.0]:
-		_add_visual_box(frame, "Jamb%s" % ("N" if side < 0 else "S"), Vector3(0, floor_y + (h + 0.06) / 2.0, side * (w / 2.0 + 0.03)), Vector3(0.36, h + 0.06, 0.06), frame_look)
-	_add_visual_box(frame, "Head", Vector3(0, floor_y + h + 0.04, 0), Vector3(0.36, 0.08, w + 0.12), frame_look)
+		_add_visual_box(frame, "Jamb%s" % ("N" if side < 0 else "S"), Vector3(0, floor_y + (h + 0.05) / 2.0, side * (w / 2.0 + 0.02)), Vector3(0.36, h + 0.05, 0.06), frame_look)
+	_add_visual_box(frame, "Head", Vector3(0, floor_y + h + 0.03, 0), Vector3(0.36, 0.08, w + 0.1), frame_look)
 	# The light strip over the door and the card reader's LED (AccessDoor colours both).
 	var strip := MeshInstance3D.new()
 	strip.name = "StatusStrip"
@@ -2109,7 +2223,10 @@ func _build_processing(solid: Node3D, decor: Node3D) -> void:
 		# collider, 3.0 × 1.2 m) and a bin past the table's east end.
 		var chair := _solid_prop(solid, "WorkstationChair%d" % k, [t.x + 0.85, t.z + 0.62, t.x + 1.45, t.z + 1.2], 1.0)
 		_kenney(chair, "Chair", [_kp("chairDesk", Vector3.ZERO, 180.0, 1.6, {"carpet": "keypad_bezel", "metalMedium": "tool_dark"})])
-		var bin := _solid_prop(solid, "WorkstationBin%d" % k, [t.x + 1.6, t.z + 0.65, t.x + 1.9, t.z + 0.95], 0.35)
+		# Its collision 0.5 m tall (the bin 0.35 m): from 0.5 m up the navmesh bake keeps
+		# guards 0.5 m clear of a prop, as of every desk; lower, the walkable area ran up to
+		# it and a guard could snag on it (fixed 2026-11-02).
+		var bin := _solid_prop(solid, "WorkstationBin%d" % k, [t.x + 1.6, t.z + 0.65, t.x + 1.9, t.z + 0.95], LOW_PROP_COLLISION)
 		_kenney(bin, "Bin", [_kp("trashcan", Vector3.ZERO, 0.0, Vector3(1.35, 0.8, 1.25), {"metal": "tool_dark", "metalDark": "tool_steel"})])
 		k += 1
 	# The noticeboard round the wiring chart (the chart keeps its place: (26, 1.4, −27.83)).
@@ -2743,7 +2860,8 @@ func _build_stacks(solid: Node3D, decor: Node3D, ceilings: Node3D) -> void:
 		var rect := [face, st[1] - 0.21, face + dir * 0.42, st[1] + 0.21]
 		if dir < 0:
 			rect = [face - 0.42, st[1] - 0.21, face, st[1] + 0.21]
-		var model := _solid_prop(solid, "StepStool%d" % int(absf(st[1])), rect, 0.45)
+		# Collision 0.5 m tall (the stool 0.45 m): see LOW_PROP_COLLISION.
+		var model := _solid_prop(solid, "StepStool%d" % int(absf(st[1])), rect, LOW_PROP_COLLISION)
 		_step_stool(model, dir)
 	var trolley := _solid_prop(solid, "StacksTrolley", [-24.2, -27.8, -22.8, -27.3], 1.0)
 	_book_trolley(trolley, Vector3(1.4, 1.0, 0.5), 3)
@@ -2940,9 +3058,12 @@ func _office(solid: Node3D, d: Node3D, i: int) -> void:
 	_office_door_leaves(o, x0, c, i)
 	_add_visual_box(o, "NumberPlate", Vector3(c, 2.65, -13.786), Vector3(0.5, 0.1, 0.008), "brass")
 	_add_text(o, "NumberText", Vector3(c, 2.65, -13.78), "OFFICE %d" % (i + 1), 22, 0.0016, Color(0.12, 0.08, 0.03))
-	# The bin stays 0.35 m tall: low enough for the navmesh to pass it, which keeps the way
-	# round Office 3's desk to its hiding spot open.
-	var bin := _upper_prop(solid, "Office%dBin" % (i + 1), [c + 1.65, -23.85, c + 1.95, -23.55], 0.35)
+	# The bin (0.35 m: the navmesh bake ignores it) stands against the back wall, beside the
+	# filing cabinets (Office 3: beside the packing boxes), well out of reach of the walkable
+	# area. It used to stand past the desk's east end, in the narrow way between the desk and
+	# the wall, where a chasing guard got stuck on it (moved 2026-11-02, on request).
+	var bin_x: float = [x0 + 1.25, x0 + 1.25, x0 + 4.45][i]
+	var bin := _upper_prop(solid, "Office%dBin" % (i + 1), [bin_x, -27.83, bin_x + 0.3, -27.53], 0.35)
 	_kenney(bin, "Bin", [_kp("trashcan", Vector3.ZERO, 0.0, Vector3(1.35, 0.8, 1.25), {"metal": "tool_dark", "metalDark": "tool_steel"})])
 	if i < 2:
 		var coat := _upper_prop(solid, "Office%dCoatStand" % (i + 1), [x0 + 0.2, -15.15, x0 + 0.8, -14.55], 1.8)
@@ -3467,7 +3588,7 @@ func _basement_props(solid: Node3D) -> void:
 		var cx := -0.42 + k * 0.28
 		_add_visual_cyl(cage, "Cylinder%d" % k, Vector3(cx, 0.7, -0.05), 0.11, 1.3, "y", "pipe_red" if k % 2 == 0 else "motor_dark", 8)
 		_add_visual_box(cage, "CylinderCap%d" % k, Vector3(cx, 1.4, -0.05), Vector3(0.08, 0.1, 0.08), "tool_steel")
-	var bucket := _basement_prop(solid, "MopBucket", [-36.6, -22.6, -36.2, -22.2], 0.4)
+	var bucket := _basement_prop(solid, "MopBucket", [-36.6, -22.6, -36.2, -22.2], LOW_PROP_COLLISION)   # see LOW_PROP_COLLISION
 	_add_visual_box(bucket, "Bucket", Vector3(0, 0.15, 0), Vector3(0.36, 0.3, 0.36), "release_yellow")
 	_add_visual_box(bucket, "Water", Vector3(0, 0.29, 0), Vector3(0.3, 0.01, 0.3), "water")
 	_add_box_r(bucket, "MopHandle", Vector3(0.05, 0.75, -0.02), Vector3(0.03, 1.3, 0.03), "wood", Vector3(0, 0, 0.2))
@@ -4012,7 +4133,8 @@ func _build_study_rooms(solid: Node3D, decor: Node3D, ceilings: Node3D) -> void:
 	# Study 4: a group table, a wall of tall bookcases, a whiteboard.
 	_study_table(_solid_prop(solid, "Study4Table", [7.8, -24.9, 10.2, -22.9], 0.76), 4, 3)
 	_study_bookcase(_wall_unit(_solid_prop(solid, "Study4BookcaseS", [11.4, -25.0, 11.8, -21.2], 2.0), -1.0), 3.8, 2.0, 5, 31)
-	_study_bookcase(_wall_unit(_solid_prop(solid, "Study4BookcaseN", [11.4, -20.8, 11.8, -17.0], 2.0), -1.0), 3.8, 2.0, 5, 37)
+	# Approved 2026-10-31: the north one is the reserve bookcase (the reserve shelf puzzle).
+	_reserve_bookcase(_wall_unit(_solid_prop(solid, "Study4BookcaseN", [11.4, -20.8, 11.8, -17.0], 2.0), -1.0), 3.8, 2.0, Layout.MISSION.reserve_shelf.gap_x, 37)
 	_whiteboard(decor, "Study4Board", Vector3(6.162, 1.75, -20.0), 1.0, 3)
 	_study_ceiling(ceilings)
 
@@ -4589,7 +4711,8 @@ func _porch_props(solid: Node3D, _d: Node3D) -> void:
 		for z in [[29.68, 30.72], [31.28, 32.32]]:
 			var xa: float = s * (PORCH_X - 0.05)
 			var xb: float = s * (PORCH_X - 0.5)
-			var b := _solid_prop(solid, "PorchBench%d" % k, [minf(xa, xb), z[0], maxf(xa, xb), z[1]], 0.46)
+			# Collision 0.5 m tall (the seat 0.46 m): see LOW_PROP_COLLISION.
+			var b := _solid_prop(solid, "PorchBench%d" % k, [minf(xa, xb), z[0], maxf(xa, xb), z[1]], LOW_PROP_COLLISION)
 			_add_visual_box(b, "Seat", Vector3(0, 0.42, 0), Vector3(0.45, 0.08, 1.04), "stone_light")
 			for e in [-1.0, 1.0]:
 				_add_visual_box(b, "Leg%d" % int(e), Vector3(0, 0.19, e * 0.38), Vector3(0.38, 0.38, 0.14), "stone_dark")
@@ -4995,6 +5118,143 @@ func _kenney_books(length: float, shelves: Array, depth: float, seed: int, fill 
 				parts.append(_kp("books", Vector3(t, y, depth), r.randf_range(-6.0, 6.0), 2.2, KENNEY_BOOKS[r.randi() % KENNEY_BOOKS.size()]))
 			t += 0.36
 	return parts
+
+
+## Archive emergency lighting (approved 2026-10-31): Expansion/Gameplay/ArchiveLights
+## switches the level's archive lamps with archive_access; its beacons are a dark
+## housing with a red lens and a red omni light on the archive lamps' cull mask.
+func _add_archive_lights(gameplay: Node3D) -> void:
+	var node := Node3D.new()
+	node.name = "ArchiveLights"
+	node.set_script(load(SCRIPTS.archive_lights))
+	var lamps: Array[NodePath] = []
+	for l in Layout.ARCHIVE_LAMPS:
+		lamps.append(NodePath("../../../Dressing/Lights/%s/Light" % l))
+	node.set("lamps", lamps)
+	_add(gameplay, node)
+	var k := 0
+	for pos in Layout.ARCHIVE_BEACONS:
+		var b := Node3D.new()
+		b.name = "Beacon%d" % k
+		b.position = pos
+		_add(node, b)
+		_add_visual_box(b, "Housing", Vector3(0, 0.27, 0), Vector3(0.34, 0.12, 0.2), "tool_dark", Layout.LAYER_UPPER)
+		_add_visual_box(b, "Lens", Vector3(0, 0.19, 0), Vector3(0.28, 0.05, 0.14), "beacon_red", Layout.LAYER_UPPER)
+		var light := OmniLight3D.new()
+		light.name = "Light"
+		light.position = Vector3(0, 0.0, 0)
+		light.light_color = Color(1.0, 0.16, 0.08)
+		light.light_energy = 3.0
+		light.omni_range = 9.0
+		light.omni_attenuation = 0.6
+		light.light_cull_mask = 9
+		light.shadow_enabled = false
+		_add(b, light)
+		k += 1
+
+
+## Wayfinding (approved by the owner, 2026-10-31; nothing on the walls, as asked):
+##   - a directory stand inside the entrance, west of the entrance screen (solid): a
+##     slanted oak board with the ground floor's plan, its zones in colour and a red
+##     YOU ARE HERE dot, readable by a player coming in from the porch;
+##   - brass floor inlays naming the reading hall (at its doors, read walking north) and
+##     the browsing hall (the stacks' south end, at the lobby's stacks arch, read walking west);
+##   - hanging signs from the ceiling (above the doorway height, no collision) over the
+##     stacks arch and the foot of the main stair S1.
+const DIRECTORY_AT := Vector3(-5.8, 0.0, 25.6)
+## The ground floor plan's zones [x0, z0, x1, z1, look, label] (the porch has no label).
+const DIRECTORY_ZONES := [
+	[-36.0, -28.0, -12.0, 28.0, "oak", "STACKS · BROWSING HALL"],
+	[-12.0, -28.0, 12.0, 10.0, "fabric_green", "READING HALL"],
+	[-12.0, 10.0, 12.0, 28.0, "card_white", "LOBBY"],
+	[12.0, -28.0, 36.0, 28.0, "rack_orange", "SERVICE"],
+	[-5.0, 28.0, 5.0, 34.0, "card_white", ""],
+]
+
+
+func _build_wayfinding(solid: Node3D, decor: Node3D) -> void:
+	var ink := Color(0.12, 0.09, 0.05)
+	# The directory stand: a base, a post and a board tilted 30° towards the entrance (+z).
+	var stand := _solid_prop(solid, "DirectoryStand", [DIRECTORY_AT.x - 0.3, DIRECTORY_AT.z - 0.25, DIRECTORY_AT.x + 0.3, DIRECTORY_AT.z + 0.25], 1.2)
+	_add_visual_box(stand, "Base", Vector3(0, 0.02, 0), Vector3(0.56, 0.04, 0.44), "oak_dark")
+	_add_visual_box(stand, "Post", Vector3(0, 0.47, 0), Vector3(0.1, 0.86, 0.1), "oak_dark")
+	var board := Node3D.new()
+	board.name = "Board"
+	board.position = Vector3(0, 1.0, 0)
+	board.rotation_degrees = Vector3(30, 0, 0)
+	_add(stand, board)
+	_add_visual_box(board, "Frame", Vector3(0, -0.02, 0), Vector3(0.94, 0.04, 0.66), "oak")
+	_add_visual_box(board, "Sheet", Vector3(0, 0.002, 0), Vector3(0.88, 0.004, 0.6), "paper")
+	var plan := Vector2(-4.0, 3.0)   # the plan's centre in level x / z
+	var k := 0.0076                  # metres on the board per metre of the level
+	var top := Node3D.new()          # labels lie on the sheet, their tops to the north
+	top.name = "Labels"
+	top.position = Vector3(0, 0.006, 0)
+	top.rotation_degrees = Vector3(-90, 0, 0)
+	_add(board, top)
+	var n := 0
+	for z in DIRECTORY_ZONES:
+		var c := Vector3(((z[0] + z[2]) / 2.0 - plan.x) * k, 0.006, ((z[1] + z[3]) / 2.0 - plan.y) * k)
+		_add_visual_box(board, "Zone%d" % n, c, Vector3((z[2] - z[0]) * k - 0.004, 0.003, (z[3] - z[1]) * k - 0.004), z[4])
+		if z[5] != "":
+			_add_text(top, "ZoneName%d" % n, Vector3(c.x, -c.z, 0.002), z[5], 20, 0.0011, ink)
+		n += 1
+	var here := Vector3((DIRECTORY_AT.x - plan.x) * k, 0.009, (DIRECTORY_AT.z - plan.y) * k)
+	_add_visual_box(board, "YouAreHere", here, Vector3(0.022, 0.004, 0.022), "pipe_red")
+	_add_text(top, "YouAreHereText", Vector3(here.x + 0.075, -here.z, 0.002), "YOU ARE HERE", 18, 0.0011, Color(0.6, 0.08, 0.05))
+	_add_text(top, "Title", Vector3(0, 0.27, 0.002), "CAMPUS LIBRARY · GROUND FLOOR", 26, 0.0012, ink)
+	_add_text(top, "Upstairs", Vector3(0, -0.27, 0.002), "Upper floor (staff wing, archive): main stair, west of the lobby", 16, 0.0011, ink)
+	# Brass floor inlays (flat, no collision): [centre, size, text, yaw of the text].
+	for inlay in [[Vector3(0.0, 0.006, 10.9), Vector3(4.4, 0.008, 0.5), "READING HALL", 0.0],
+			[Vector3(-11.3, 0.006, 24.0), Vector3(0.5, 0.008, 3.4), "BROWSING HALL", 90.0]]:
+		var g := Node3D.new()
+		g.name = "Inlay" + (inlay[2] as String).replace(" ", "")
+		g.position = inlay[0]
+		_add(decor, g)
+		_add_visual_box(g, "Brass", Vector3.ZERO, inlay[1], "brass")
+		var t := _add_text(g, "Text", Vector3(0, 0.0045, 0), inlay[2], 64, 0.0055, ink)
+		t.rotation_degrees = Vector3(-90, inlay[3], 0)
+	# Hanging signs: a green board on two rods, lettered on both faces: [centre, yaw, text].
+	for sign in [[Vector3(-10.9, 3.2, 24.0), 90.0, "BROWSING HALL · STACKS", "HangingStacks"], [Vector3(-10.35, 3.2, 21.2), 0.0, "UPPER FLOOR · STAFF WING", "HangingStair"]]:
+		var g := Node3D.new()
+		g.name = sign[3]
+		g.position = sign[0]
+		g.rotation_degrees = Vector3(0, sign[1], 0)
+		_add(decor, g)
+		var w := 2.4
+		_add_visual_box(g, "Board", Vector3.ZERO, Vector3(w, 0.42, 0.05), "fabric_green")
+		_add_visual_box(g, "Trim", Vector3(0, -0.225, 0), Vector3(w + 0.04, 0.03, 0.07), "brass")
+		for e in [-1.0, 1.0]:
+			_add_visual_box(g, "Rod%d" % int(e), Vector3(e * (w / 2.0 - 0.15), 0.71, 0), Vector3(0.02, 1.0, 0.02), "keypad_bezel")
+		for f in [1.0, -1.0]:
+			_add_text(g, "Text%s" % ("Front" if f > 0 else "Back"), Vector3(0, 0.0, f * 0.027), sign[2], 48, 0.004, Color(0.95, 0.9, 0.78), 0.0 if f > 0 else 180.0)
+
+
+## Ambient sound (approved 2026-10-31): Layout.AMBIENCE as AmbientEmitters.
+func _add_ambience(parent: Node3D) -> void:
+	for a in Layout.AMBIENCE:
+		var e := AudioStreamPlayer3D.new()
+		e.name = a.name
+		e.position = a.pos
+		e.volume_db = a.db
+		e.unit_size = a.unit
+		e.max_distance = a.max
+		e.set_script(load(SCRIPTS.ambient))
+		if a.has("loop"):
+			e.set("loop_sound", a.loop)
+		else:
+			e.set("sounds", PackedStringArray(a.sounds))
+			e.set("interval_min", a.interval[0])
+			e.set("interval_max", a.interval[1])
+		_add(parent, e)
+
+
+## The collision height of low solid props (bins, stools, buckets, benches; 2026-11-02): the
+## navmesh bake ignores a collider lower than 0.5 m (its cell height is 0.25 m and its step
+## height 0.25 m), so the walkable area ran right up to such props and a guard (radius
+## 0.35 m, no stepping) could snag on them. From 0.5 m up the bake keeps guards 0.5 m clear.
+## A prop below it must stand well away from any walkable area (the improvement tests check).
+const LOW_PROP_COLLISION := 0.5
 
 
 func _solid_prop(parent: Node3D, node_name: String, rect: Array, h: float) -> Node3D:

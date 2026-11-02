@@ -34,7 +34,16 @@ const COLOUR_GOOD := Color(0.45, 0.95, 0.6)
 ## Seconds a message stays on screen (it fades during the last second).
 const MESSAGE_TIME := 3.5
 
+## The mission panel as a note on paper (PaperNote; the Expanded Library, requested by the
+## owner on 2026-11-02). Off: the dark panel (the tutorial). Only the look changes: the
+## header, the current objective and get_lines() are the same.
+@export var paper_note := false
+
 var _panel: PanelContainer
+var _paper: PaperNote
+## The note folded away (K; the paper note only), and whether the note is open.
+var _folded: FoldedNote
+var mission_open := true
 var _current: Label
 var _hint: Label
 var _list: RichTextLabel
@@ -117,6 +126,20 @@ func _connect_signals() -> void:
 			node.opened.connect(func(): show_message("%s opened" % node.get("door_name"), COLOUR_GOOD))
 
 
+## K: folds the mission note away into a small folded sheet, or opens it again (the paper
+## note only).
+func toggle_mission(open := not mission_open) -> void:
+	if _paper == null or open == mission_open:
+		return
+	mission_open = open
+	var show_note: Control = _panel if open else _folded
+	show_note.scale = Vector2(0.6, 0.6)
+	show_note.modulate.a = 0.0
+	var t := create_tween().set_parallel()
+	t.tween_property(show_note, "scale", Vector2.ONE, 0.16).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t.tween_property(show_note, "modulate:a", 1.0, 0.12)
+
+
 func _process(delta: float) -> void:
 	var objectives := ObjectiveManager.find(self)
 	var finished := objectives != null and objectives.is_finished()
@@ -130,7 +153,10 @@ func _process(delta: float) -> void:
 		_message.modulate.a = clampf(_message_left, 0.0, 1.0)
 		if _message_left <= 0.0:
 			_message.text = ""
-	_panel.visible = not finished
+	_panel.visible = not finished and (mission_open or _paper == null)
+	if _folded:
+		_folded.visible = not finished and not mission_open
+		_folded.set_progress(get_header_text().trim_prefix("MISSION "))
 	_prompt_box.visible = not finished
 	_message.visible = not finished
 	var inventory := get_inventory()
@@ -144,6 +170,10 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _paper and InputMap.has_action("toggle_mission") and event.is_action_pressed("toggle_mission"):
+		toggle_mission()
+		get_viewport().set_input_as_handled()
+		return
 	if InputMap.has_action("journal") and event.is_action_pressed("journal") and get_inventory() != null:
 		if not _journal.visible:
 			open_journal(&"")
@@ -264,6 +294,8 @@ func _journal_page_text(docs: Array, clues: Array, shown: int) -> String:
 		more = "J: more clues"
 	elif _journal_page < docs.size() - 1 and not _journal_from_read:
 		more = "J: next document (%d/%d)" % [_journal_page + 2, docs.size()]
+	if _journal is JournalClipboard:
+		return _journal_clipboard_text(docs, clues, shown, more, rest)
 	var text := "[b]JOURNAL[/b]  [color=#9aa3ad]%s[/color]\n" % more
 	if not _clues_only:
 		text += "\n[color=#ffd36b]DOCUMENTS (%d)[/color]\n" % docs.size()
@@ -282,6 +314,33 @@ func _journal_page_text(docs: Array, clues: Array, shown: int) -> String:
 	return text.strip_edges()
 
 
+## The same page on the clipboard's sheet, the same words in ink: headings handwritten in
+## red, the document typed, the clues handwritten in blue.
+func _journal_clipboard_text(docs: Array, clues: Array, shown: int, more: String, rest: int) -> String:
+	var hand := "res://shared/assets/fonts/kalam/Kalam-Regular.ttf"
+	var hand_bold := "res://shared/assets/fonts/kalam/Kalam-Bold.ttf"
+	var red := PaperNote.INK_RED.to_html(false)
+	var soft := Color(0.45, 0.46, 0.52).to_html(false)
+	var blue := PaperNote.INK.to_html(false)
+	var heading := func(t: String) -> String: return "[font=%s][font_size=18][color=#%s]%s[/color][/font_size][/font]" % [hand_bold, red, t]
+	var text := "%s  [color=#%s]%s[/color]\n" % [heading.call("JOURNAL"), soft, more]
+	if not _clues_only:
+		text += "%s\n" % heading.call("DOCUMENTS (%d)" % docs.size())
+		if docs.is_empty():
+			text += "[color=#%s]None yet. Read notes and notices to collect them here.[/color]\n" % soft
+		else:
+			var d: Dictionary = docs[clampi(_journal_page, 0, docs.size() - 1)]
+			text += "[b]%s[/b]\n%s\n" % [d.title, d.text]
+	if not clues.is_empty() and (shown > 0 or _clues_only):
+		text += "\n%s\n" % heading.call("CLUES (%d)%s" % [clues.size(), ", continued" if _clue_start > 0 else ""])
+		for i in shown:
+			var c: Dictionary = clues[_clue_start + i]
+			text += "[font_size=16][color=#%s][font=%s]· %s:[/font] [font=%s]%s[/font][/color][/font_size]\n" % [blue, hand_bold, c.title, hand, c.text]
+	if rest > 0:
+		text += "[color=#%s]… %d more clue%s: press J[/color]\n" % [soft, rest, "" if rest == 1 else "s"]
+	return text.strip_edges()
+
+
 ## Expansion Phase 7: the journal keeps clear of the objective panel (right) and
 ## the captions, stamina and stance (bottom left) at every interface size: it
 ## widens into the free space (up to 600 px); clues that do not fit go on the
@@ -291,14 +350,21 @@ func _fit_journal() -> void:
 	_journal_view = view
 	var width := clampf(view.x - 364.0 - 20.0 - 20.0 - 20.0, 420.0, 600.0)
 	var max_height := _journal_max_height()
+	var chrome := _journal_chrome()
+	# The clipboard is a page: narrow and long (JournalClipboard.WIDTH, up to PAGE_RATIO times
+	# as tall as wide, as far as the space above the captions allows).
+	var least_height := 0.0
+	if _journal is JournalClipboard:
+		width = JournalClipboard.WIDTH
+		least_height = minf(width * JournalClipboard.PAGE_RATIO - chrome.y, max_height)
 	_journal.custom_minimum_size = Vector2(width, 0)
-	_journal_text.custom_minimum_size = Vector2(width - 32.0, 0)
+	_journal_text.custom_minimum_size = Vector2(width - chrome.x, least_height)
 	_journal_text.fit_content = true
 	_journal.size = Vector2(width, 0)
 	var height := _journal_text.get_content_height()
 	if height > max_height:
 		_journal_text.fit_content = false
-		_journal_text.custom_minimum_size = Vector2(width - 32.0, max_height)
+		_journal_text.custom_minimum_size = Vector2(width - chrome.x, max_height)
 		_journal_text.size = _journal_text.custom_minimum_size
 	_journal.size = Vector2(width, 0)
 
@@ -308,7 +374,13 @@ func _journal_view_size() -> Vector2:
 
 
 func _journal_max_height() -> float:
-	return maxf(_journal_view_size().y - 20.0 - JOURNAL_BOTTOM_CLEARANCE - 32.0, 120.0)
+	return maxf(_journal_view_size().y - 20.0 - JOURNAL_BOTTOM_CLEARANCE - _journal_chrome().y, 120.0)
+
+
+## The width and height the journal panel adds round its text (the clipboard and its sheet
+## for the paper-note levels).
+func _journal_chrome() -> Vector2:
+	return JournalClipboard.CHROME if _journal is JournalClipboard else Vector2(32, 32)
 
 
 func close_journal() -> void:
@@ -350,6 +422,8 @@ func _draw_slots() -> void:
 			Color.WHITE if id != &"" else Color(1, 1, 1, 0.4))
 		_slots.draw_string(font, rect.position + Vector2(4, 12), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1, 1, 1, 0.6))
 	var hint := "1–3 select  ·  F use / throw  ·  J journal (%d)" % inventory.documents.size()
+	if _paper:
+		hint += "  ·  K mission"
 	_slots.draw_string_outline(font, Vector2(0, SLOT_SIZE.y + 20), hint, HORIZONTAL_ALIGNMENT_CENTER, _slots.size.x, 13, 4, Color.BLACK)
 	_slots.draw_string(font, Vector2(0, SLOT_SIZE.y + 20), hint, HORIZONTAL_ALIGNMENT_CENTER, _slots.size.x, 13, Color(1, 1, 1, 0.75))
 
@@ -381,10 +455,14 @@ func _build_status_panel() -> void:
 
 ## The status panel (WAYS OUT, POWER, checkpoint) and the objective panel, for layout tests.
 func get_layout_controls() -> Dictionary:
-	return {"objectives": _panel, "status": _status_panel, "journal": _journal, "slots": _slots, "prompt": _prompt_box, "message": _message}
+	return {"objectives": _panel, "status": _status_panel, "journal": _journal, "slots": _slots, "prompt": _prompt_box, "message": _message,
+		"mission_folded": _folded}
 
 
 func _build_journal() -> void:
+	if paper_note:
+		_build_journal_board()
+		return
 	_journal = PanelContainer.new()
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.06, 0.05, 0.04, 0.86)
@@ -409,6 +487,28 @@ func _build_journal() -> void:
 	_journal_text.add_theme_font_size_override("normal_font_size", 13)
 	_journal_text.add_theme_font_size_override("bold_font_size", 18)
 	_journal.add_child(_journal_text)
+
+
+## The paper-note levels' journal: a sheet on a clipboard (JournalClipboard).
+func _build_journal_board() -> void:
+	var board := JournalClipboard.new()
+	_journal = board
+	_journal.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_journal.position = Vector2(20, 20)
+	_journal.custom_minimum_size = Vector2(JournalClipboard.WIDTH, 0)
+	_journal.size = Vector2(JournalClipboard.WIDTH, 0)
+	_journal.visible = false
+	add_child(_journal)
+	_journal_text = RichTextLabel.new()
+	_journal_text.bbcode_enabled = true
+	_journal_text.fit_content = true
+	_journal_text.scroll_active = false
+	_journal_text.custom_minimum_size = Vector2(JournalClipboard.WIDTH - JournalClipboard.CHROME.x, 0)
+	_journal_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_journal_text.add_theme_font_size_override("normal_font_size", 14)
+	_journal_text.add_theme_font_size_override("bold_font_size", 17)
+	_journal_text.add_theme_color_override("default_color", Color(0.16, 0.16, 0.2))
+	board.sheet.add_child(_journal_text)
 
 
 ## Current objective title, or "" when finished.
@@ -511,6 +611,15 @@ func _update_panel(objectives: ObjectiveManager) -> void:
 		if _last_objective != &"":
 			_flash = 0.8
 		_last_objective = id
+	if _paper:
+		var rows := []
+		for list_id in get_listed_ids():
+			var state := objectives.get_state(list_id)
+			var mark := PaperNote.Mark.DONE if state == ObjectiveManager.State.COMPLETED else (PaperNote.Mark.CURRENT if state == ObjectiveManager.State.ACTIVE else PaperNote.Mark.TODO)
+			rows.append([objectives.get_title(list_id), mark, objectives.is_optional(list_id)])
+		_paper.show_mission(get_header_text(), objectives.get_title(id), objectives.get_hint(id), rows)
+		_update_status(objectives)
+		return
 	# Expansion Phase 9: labels are only reassigned when their text changes (a
 	# RichTextLabel re-parses and re-lays out its BBCode on every assignment).
 	_set_text(_header, get_header_text())
@@ -528,6 +637,10 @@ func _update_panel(objectives: ObjectiveManager) -> void:
 			text += "[color=#%s]OPTIONAL[/color]\n" % Color(1.0, 0.82, 0.3).to_html(false)
 		text += "[color=#%s]%s[/color]\n" % [colours[objectives.get_state(ids[i])].to_html(false), lines[i]]
 	_set_text(_list, text.strip_edges())
+	_update_status(objectives)
+
+
+func _update_status(objectives: ObjectiveManager) -> void:
 	var status := _status_bbcode() if objectives.is_graph() or MapHudProvider.find_for(self) != null else ""
 	_set_text(_status_text, status.strip_edges())
 	_status_panel.visible = status != "" and not _journal.visible and not objectives.is_finished()
@@ -561,6 +674,19 @@ func _status_bbcode() -> String:
 
 
 func _build_panel() -> void:
+	if paper_note:
+		_paper = PaperNote.new()
+		_panel = _paper
+		_panel.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+		_panel.position = Vector2(-394, 30)
+		_panel.custom_minimum_size = Vector2(364, 0)
+		add_child(_panel)
+		_folded = FoldedNote.new()
+		_folded.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+		_folded.position = Vector2(-FoldedNote.SIZE.x - 22, 22)
+		_folded.visible = false
+		add_child(_folded)
+		return
 	_panel = PanelContainer.new()
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.03, 0.04, 0.06, 0.62)
