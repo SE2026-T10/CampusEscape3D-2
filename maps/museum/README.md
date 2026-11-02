@@ -13,7 +13,10 @@ Mở scene rồi nhấn **F6** để thử riêng; map chưa đăng ký trong me
 
 Đã thêm **[Bước 7 — G2 phát hiện khung T1 trống](docs/step-07-empty-frame.md)**:
 lấy T1 để lại khung, G2 kiểm tra bằng tầm nhìn thực rồi tìm quanh phòng A.
-Bản dựng đã qua **164 kiểm tra** riêng của map.
+Đã thêm **[Bước 8 — Vận chuyển tranh lớn T2](docs/step-08-carry-t2.md)**:
+E nhấc tranh, Q đặt xuống/nhặt lại bằng E; mang tranh đi chậm và không sprint.
+Chỉ giao T2 tại thảm xanh trong kho mới hoàn thành nhiệm vụ vận chuyển.
+Bản dựng đã qua **249 kiểm tra** riêng của map.
 
 Hình học và cách chỉnh sàn/dốc/cửa: [Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md).
 

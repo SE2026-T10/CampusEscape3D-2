@@ -211,8 +211,14 @@ func _run() -> void:
 		await aim_at(pickup, POSITIONS[i])
 		check(interactor.find_target() == pickup, "Camera ray finds " + PICKUPS[i])
 		await press_e()
-		var removed_artwork: bool = not pickup.get_node("Canvas").visible and pickup.get_node("Frame").is_visible_in_tree() if IDS[i] == &"take_t1" else not pickup.visible
-		check(manager.is_completed(IDS[i]) and removed_artwork and not pickup.enabled and pickup.collision_layer == 0, "E collects artwork and removes interaction collision: " + PICKUPS[i])
+		if IDS[i] == &"take_t2":
+			check(player.is_carrying() and pickup.state == pickup.State.CARRIED
+				and not manager.is_completed(&"take_t2") and pickup.visual.is_visible_in_tree()
+				and not pickup.enabled and pickup.collision_layer == 0,
+				"E holds T2 visibly without completing its transport objective")
+		else:
+			var removed_artwork: bool = not pickup.get_node("Canvas").visible and pickup.get_node("Frame").is_visible_in_tree() if IDS[i] == &"take_t1" else not pickup.visible
+			check(manager.is_completed(IDS[i]) and removed_artwork and not pickup.enabled and pickup.collision_layer == 0, "E collects artwork and removes interaction collision: " + PICKUPS[i])
 		check(not pickup.interact(player), "Pickup cannot be collected twice: " + PICKUPS[i])
 		if IDS[i] == &"take_key":
 			await aim_at(gallery_door, Vector3(25.5,4.5,10))
@@ -228,6 +234,16 @@ func _run() -> void:
 	await press_e()
 	check(shortcut.is_open and shortcut.get_node("Panel").collision_layer == 0 and shortcut.get_node("Passage").enabled,
 		"B-side E permanently opens shortcut and navigation in both directions")
+	check(not exit.interact(player) and manager.get_state(&"escape") == ObjectiveManager.State.LOCKED,
+		"Carrying T2 does not unlock escape before depot delivery")
+	var depot := level.get_node("Interactables/T2Depot") as Interactable
+	await aim_at(depot, Vector3(32,4.5,27.5))
+	player.camera.look_at(depot.global_position + Vector3(0,0.65,0))
+	await frames(3)
+	check(interactor.find_target() == depot, "Held T2 does not block camera interaction with depot")
+	await press_e()
+	check(manager.is_completed(&"take_t2") and not player.is_carrying(),
+		"E at depot completes T2 transport and frees the player")
 	check(not manager.is_finished() and level.get_node("GameFlow").state == GameStateMachine.State.PLAYING, "All items collected still requires explicit escape")
 	var director := level.get_node("StealthDirector") as StealthDirector
 	var guard := level.get_node("Guard_G1") as Guard

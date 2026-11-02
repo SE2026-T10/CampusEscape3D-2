@@ -25,6 +25,8 @@ func _blocked_reason() -> String:
 		return "Lối thoát chưa sẵn sàng"
 	var objectives := ObjectiveManager.find(self)
 	if objectives == null or objectives.get_state(&"escape") != ObjectiveManager.State.ACTIVE:
+		if objectives != null and objectives.is_completed(&"take_key") and not objectives.is_completed(&"take_t2"):
+			return "Cần giao T2 tại điểm tập kết trong kho, lấy đủ 3 tác phẩm và dây trước"
 		return "Cần lấy đủ 3 tác phẩm và dây trước"
 	var director := StealthDirector.find(self)
 	if director != null and director.status in [StealthDirector.Status.SPOTTED,

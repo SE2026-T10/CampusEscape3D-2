@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bx6jj6mks1vku"]
+[gd_scene load_steps=36 format=3 uid="uid://bx6jj6mks1vku"]
 
 [ext_resource type="PackedScene" path="res://shared/scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://shared/scripts/game/game_flow.gd" id="2_game_flow"]
@@ -22,6 +22,10 @@
 [ext_resource type="PackedScene" path="res://maps/museum/scenes/entrance_door.tscn" id="19_entrance"]
 [ext_resource type="PackedScene" path="res://maps/museum/scenes/painting_t1.tscn" id="20_painting_t1"]
 [ext_resource type="Script" path="res://maps/museum/scripts/museum_inspector.gd" id="21_inspector"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/painting_t2.tscn" id="22_painting_t2"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/t2_depot.tscn" id="23_depot"]
+[ext_resource type="Script" path="res://maps/museum/scripts/museum_player.gd" id="24_player"]
+[ext_resource type="Script" path="res://maps/museum/scripts/museum_carry_hud.gd" id="25_carry_hud"]
 
 [sub_resource type="Environment" id="Environment_room"]
 background_mode = 1
@@ -83,6 +87,7 @@ open_from = Vector3(0, 0, -1)
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 position = Vector3(18, 0.1, 35)
+script = ExtResource("24_player")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 rotation = Vector3(-1.0471976, -0.5235988, 0)
@@ -104,6 +109,9 @@ win_message = "Bạn đã mang đủ ba tác phẩm và thoát khỏi bảo tàn
 
 [node name="ObjectiveHud" type="CanvasLayer" parent="."]
 script = ExtResource("13_objective_hud")
+
+[node name="CarryHud" type="CanvasLayer" parent="."]
+script = ExtResource("25_carry_hud")
 
 [node name="PatrolRoute_G1" type="Node3D" parent="."]
 script = ExtResource("6_route")
@@ -312,14 +320,12 @@ script = ExtResource("10_hud")
 position = Vector3(0.23, 6, 12)
 rotation = Vector3(0, 1.5707963, 0)
 
-[node name="Painting_T2" parent="Interactables" instance=ExtResource("14_painting")]
+[node name="Painting_T2" parent="Interactables" instance=ExtResource("22_painting_t2")]
 position = Vector3(35, 6, 10)
 rotation = Vector3(0, -1.5707963, 0)
-prompt = "Lấy tác phẩm T2"
-objective_id = &"take_t2"
 
-[node name="Label3D" parent="Interactables/Painting_T2" index="2"]
-text = "T2"
+[node name="T2Depot" parent="Interactables" instance=ExtResource("23_depot")]
+position = Vector3(32, 4.5, 26)
 
 [node name="Painting_T3" parent="Interactables" instance=ExtResource("14_painting")]
 position = Vector3(18, 6, 1.1)
@@ -386,5 +392,4 @@ font_size = 64
 pixel_size = 0.005
 outline_size = 12
 
-[editable path="Interactables/Painting_T2"]
 [editable path="Interactables/Painting_T3"]

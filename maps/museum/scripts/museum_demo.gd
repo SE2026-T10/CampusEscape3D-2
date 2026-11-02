@@ -8,9 +8,9 @@ const OBJECTIVES := [
 	{"id": &"take_t1", "title": "Lấy tác phẩm T1",
 	 "hint": "Phòng A phía tây tầng 2. Quan sát G2 kiểm tra tranh trước khi lấy T1.",
 	 "done": "Đã lấy tác phẩm T1", "requires": []},
-	{"id": &"take_t2", "title": "Lấy tác phẩm T2",
-	 "hint": "Dùng chìa K mở phòng B ở phía đông tầng 2; T2 treo trên tường phía đông.",
-	 "done": "Đã lấy tác phẩm T2", "requires": [&"take_key"]},
+	{"id": &"take_t2", "title": "Mang tranh lớn T2 tới điểm tập kết",
+	 "hint": "E nhấc T2 trong phòng B; Q đặt xuống. Mở chốt B → kho để đi ngắn, rồi E giao tranh tại thảm xanh trong kho.",
+	 "done": "T2 đã được vận chuyển tới điểm tập kết trong kho", "requires": [&"take_key"]},
 	{"id": &"take_t3", "title": "Lấy tác phẩm T3",
 	 "hint": "Phòng tranh C, phía bắc tầng 2.", "done": "Đã lấy tác phẩm T3", "requires": []},
 	{"id": &"take_rope", "title": "Tìm dây thoát",
@@ -33,12 +33,17 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	$ObjectiveManager.level_completed.connect($StealthDirector.finish_level)
 	$Guard_G2.notice.connect(_on_guard_notice)
+	$Interactables/Painting_T2.notice.connect(_on_carry_notice)
 	# Keep the caught overlay, then reload everything, including hidden pickups.
 	$StealthDirector.level_reset.connect(_restart_demo)
 
 
 func _on_guard_notice(message: String) -> void:
 	$ObjectiveHud.show_message(message, Color(1,0.7,0.3))
+
+
+func _on_carry_notice(message: String) -> void:
+	$ObjectiveHud.show_message(message, Color(0.7,0.9,1))
 
 
 func _restart_demo() -> void:
