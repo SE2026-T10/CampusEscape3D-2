@@ -6,7 +6,7 @@ extends SceneTree
 const SCENE := "res://maps/museum/scenes/museum.tscn"
 const IDS := [&"take_key", &"take_t1", &"take_t2", &"take_t3", &"take_rope"]
 const PICKUPS := ["Key", "Painting_T1", "Painting_T2", "Painting_T3", "Rope"]
-const POSITIONS := [Vector3(31.5,0,14.4), Vector3(2.6,4.5,12), Vector3(33.5,4.5,10), Vector3(18,4.5,2.6), Vector3(32,4.5,24.5)]
+const POSITIONS := [Vector3(31.5,0,14.4), Vector3(1.7,4.5,12), Vector3(33.5,4.5,10), Vector3(18,4.5,2.6), Vector3(32,4.5,24.5)]
 var failures := 0
 var checks := 0
 var level: Node3D
@@ -211,7 +211,8 @@ func _run() -> void:
 		await aim_at(pickup, POSITIONS[i])
 		check(interactor.find_target() == pickup, "Camera ray finds " + PICKUPS[i])
 		await press_e()
-		check(manager.is_completed(IDS[i]) and not pickup.visible and not pickup.enabled and pickup.collision_layer == 0, "E collects and removes interaction collision: " + PICKUPS[i])
+		var removed_artwork: bool = not pickup.get_node("Canvas").visible and pickup.get_node("Frame").is_visible_in_tree() if IDS[i] == &"take_t1" else not pickup.visible
+		check(manager.is_completed(IDS[i]) and removed_artwork and not pickup.enabled and pickup.collision_layer == 0, "E collects artwork and removes interaction collision: " + PICKUPS[i])
 		check(not pickup.interact(player), "Pickup cannot be collected twice: " + PICKUPS[i])
 		if IDS[i] == &"take_key":
 			await aim_at(gallery_door, Vector3(25.5,4.5,10))

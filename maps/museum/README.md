@@ -11,8 +11,11 @@ Theo [sơ đồ concept v2](docs/concept-v2/README.md), Player xuất phát ở 
 `(18, 0.1, 35)`, đi tới cửa chính và nhấn **E** để vào sảnh.
 Mở scene rồi nhấn **F6** để thử riêng; map chưa đăng ký trong menu chung.
 
-Hướng dẫn hiện tại: **[Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md)**,
-kèm ảnh chụp Godot và cách chỉnh sàn/dốc/cửa. Bản dựng đã qua 116 kiểm tra riêng của map.
+Đã thêm **[Bước 7 — G2 phát hiện khung T1 trống](docs/step-07-empty-frame.md)**:
+lấy T1 để lại khung, G2 kiểm tra bằng tầm nhìn thực rồi tìm quanh phòng A.
+Bản dựng đã qua **164 kiểm tra** riêng của map.
+
+Hình học và cách chỉnh sàn/dốc/cửa: [Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md).
 
 Lịch sử phòng thử: [Bước 4 — bảo vệ tuần tra](docs/step-04-patrol.md),
 [Bước 5 — nhiệm vụ, thắng và thua](docs/step-05-demo.md).

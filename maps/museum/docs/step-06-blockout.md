@@ -7,6 +7,9 @@ Ngày 29/10/2026, `museum.tscn` đã thay phòng thử bằng mặt bằng 36 ×
 **Cập nhật 01/11/2026:** đã thêm sân trước 36 × 8 m theo
 [concept v2](concept-v2/README.md); Player bắt đầu ngoài sân và mở cửa chính bằng E.
 
+**Cập nhật 02/11/2026:** [bước 7](step-07-empty-frame.md) thêm khung T1 còn lại sau khi lấy,
+G2 kiểm tra và tìm quanh phòng A. Vị trí T1/route trong bảng dưới đã cập nhật.
+
 ![Bảo tàng trong Godot](step-06-overview.png)
 
 ## Mở và chơi thử
@@ -93,7 +96,7 @@ Lần đối chiếu riêng mục 6.2 đã bake lại navmesh, chạy **45 kiể
 | Guard | Route | Phạm vi tuần tra |
 |---|---|---|
 | Guard_G1 | PatrolRoute_G1, 11 điểm | Phòng điêu khắc, hành lang tây/nam và sảnh tầng 1 |
-| Guard_G2 | PatrolRoute_G2, 10 điểm | Phòng A, hành lang tây/bắc và phòng C tầng 2 |
+| Guard_G2 | PatrolRoute_G2, 14 điểm | Phòng A, hành lang tây/bắc, phòng C tầng 2 và điểm Inspect_T1 |
 | Guard_G3 | PatrolRoute_G3, 4 điểm | Vòng quanh bệ trong B, không yêu cầu đi qua cửa khóa |
 
 ![Hành lang và khoảng thông tầng](step-06-courtyard.png)
@@ -130,7 +133,7 @@ Như vậy nguồn Static Colliders vẫn lấy mặt dốc mượt. Chưa cần
 | Node trong Interactables | Position | Mục tiêu |
 |---|---|---|
 | Key | (31.5, 0.9, 13) | take_key |
-| Painting_T1 | (1.5, 6, 12) | take_t1 |
+| Painting_T1 | (0.23, 6, 12) | take_t1; để lại khung khi lấy, G2 có thể phát hiện ở bước 7 |
 | Painting_T2 | (35, 6, 10) | take_t2; cần take_key |
 | Painting_T3 | (18, 6, 1.1) | take_t3 |
 | Rope | (32, 5.4, 23) | take_rope |

@@ -30,7 +30,18 @@ func _capture() -> void:
 	var entrance_only := "--entrance-only" in OS.get_cmdline_user_args()
 	if entrance_only:
 		views = [["start", Vector3(18,1.7,35), Vector3(18,1.7,30)]]
+	var frame_only := "--frame-only" in OS.get_cmdline_user_args()
+	if frame_only:
+		views = [
+			["t1-intact",Vector3(2.15,6.1,12),Vector3(0.23,6,12)],
+			["t1-empty",Vector3(2.15,6.1,12),Vector3(0.23,6,12)],
+		]
 	for shot in views:
+		if frame_only and shot[0] == "t1-empty":
+			if not level.get_node("Interactables/Painting_T1").interact(level.get_node("Player")):
+				push_error("Could not collect T1 for screenshot")
+				quit(1)
+				return
 		camera.position = shot[1]
 		camera.look_at(shot[2])
 		camera.fov = 40 if shot[0] == "overview" else 75
@@ -40,6 +51,8 @@ func _capture() -> void:
 		var output := "res://maps/museum/docs/step-06-%s.png" % shot[0]
 		if entrance_only:
 			output = "res://maps/museum/docs/concept-v2/exterior-start-godot.png"
+		if frame_only:
+			output = "res://maps/museum/docs/step-07-%s.png" % shot[0]
 		var result := root.get_texture().get_image().save_png(output)
 		if result != OK:
 			push_error("Could not save screenshot: " + output)

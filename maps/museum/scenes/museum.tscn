@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bx6jj6mks1vku"]
+[gd_scene load_steps=32 format=3 uid="uid://bx6jj6mks1vku"]
 
 [ext_resource type="PackedScene" path="res://shared/scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://shared/scripts/game/game_flow.gd" id="2_game_flow"]
@@ -20,6 +20,8 @@
 [ext_resource type="PackedScene" path="res://maps/museum/scenes/museum_geometry.tscn" id="17_geometry"]
 [ext_resource type="PackedScene" path="res://maps/museum/scenes/museum_door.tscn" id="18_door"]
 [ext_resource type="PackedScene" path="res://maps/museum/scenes/entrance_door.tscn" id="19_entrance"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/painting_t1.tscn" id="20_painting_t1"]
+[ext_resource type="Script" path="res://maps/museum/scripts/museum_inspector.gd" id="21_inspector"]
 
 [sub_resource type="Environment" id="Environment_room"]
 background_mode = 1
@@ -218,9 +220,55 @@ position = Vector3(7, 4.6, 19)
 script = ExtResource("7_point")
 wait_time = 0.8
 
+[node name="P11" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(7, 4.6, 21)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="P12" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(2.25, 4.6, 21)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="Inspect_T1" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(2.25, 4.6, 12)
+script = ExtResource("7_point")
+wait_time = 2.0
+
+[node name="P14" type="Marker3D" parent="PatrolRoute_G2"]
+position = Vector3(2.25, 4.6, 9)
+script = ExtResource("7_point")
+wait_time = 0.8
+
+[node name="RoomSearch_T1" type="Node3D" parent="."]
+
+[node name="S1" type="Marker3D" parent="RoomSearch_T1"]
+position = Vector3(2.25, 4.6, 9)
+
+[node name="S2" type="Marker3D" parent="RoomSearch_T1"]
+position = Vector3(7, 4.6, 9)
+
+[node name="S3" type="Marker3D" parent="RoomSearch_T1"]
+position = Vector3(7, 4.6, 21)
+
+[node name="S4" type="Marker3D" parent="RoomSearch_T1"]
+position = Vector3(2.25, 4.6, 21)
+
 [node name="Guard_G2" parent="." node_paths=PackedStringArray("patrol_route") instance=ExtResource("4_guard")]
 position = Vector3(7, 4.6, 15)
+script = ExtResource("21_inspector")
 patrol_route = NodePath("../PatrolRoute_G2")
+painting_path = NodePath("../Interactables/Painting_T1")
+search_points_path = NodePath("../RoomSearch_T1")
+
+[node name="Speech" type="Label3D" parent="Guard_G2"]
+visible = false
+position = Vector3(0, 2.55, 0)
+billboard = 1
+modulate = Color(1, 0.9, 0.6, 1)
+font_size = 48
+pixel_size = 0.005
+outline_size = 12
 
 [node name="PatrolRoute_G3" type="Node3D" parent="."]
 script = ExtResource("6_route")
@@ -260,8 +308,8 @@ script = ExtResource("10_hud")
 
 [node name="Interactables" type="Node3D" parent="."]
 
-[node name="Painting_T1" parent="Interactables" instance=ExtResource("14_painting")]
-position = Vector3(1.5, 6, 12)
+[node name="Painting_T1" parent="Interactables" instance=ExtResource("20_painting_t1")]
+position = Vector3(0.23, 6, 12)
 rotation = Vector3(0, 1.5707963, 0)
 
 [node name="Painting_T2" parent="Interactables" instance=ExtResource("14_painting")]
