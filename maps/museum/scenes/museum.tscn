@@ -85,6 +85,24 @@ mode = 1
 door_name = "Cửa kho phục chế"
 open_from = Vector3(0, 0, -1)
 
+[node name="Service" parent="NavigationRegion3D/Doors" instance=ExtResource("18_door")]
+position = Vector3(27, 0, 27)
+rotation = Vector3(0, 1.5707963, 0)
+mode = 2
+door_name = "Cửa phòng dịch vụ"
+
+[node name="Staff" parent="NavigationRegion3D/Doors" instance=ExtResource("18_door")]
+position = Vector3(27, 0, 10)
+rotation = Vector3(0, 1.5707963, 0)
+mode = 2
+door_name = "Cửa phòng nhân viên"
+
+[node name="RestorationEntrance" parent="NavigationRegion3D/Doors" instance=ExtResource("18_door")]
+position = Vector3(27, 4.5, 27)
+rotation = Vector3(0, 1.5707963, 0)
+mode = 2
+door_name = "Cửa phòng đệm — kho phục chế"
+
 [node name="Player" parent="." instance=ExtResource("1_player")]
 position = Vector3(18, 0.1, 35)
 script = ExtResource("24_player")
@@ -267,46 +285,16 @@ script = ExtResource("7_point")
 wait_time = 0.8
 
 [node name="P3" type="Marker3D" parent="PatrolRoute_G5"]
-position = Vector3(25.5, 0.1, 27)
+position = Vector3(25, 0.1, 27)
 script = ExtResource("7_point")
 wait_time = 0.8
 
 [node name="P4" type="Marker3D" parent="PatrolRoute_G5"]
-position = Vector3(28.5, 0.1, 27)
-script = ExtResource("7_point")
-wait_time = 0.8
-
-[node name="P5" type="Marker3D" parent="PatrolRoute_G5"]
-position = Vector3(34, 0.1, 27)
-script = ExtResource("7_point")
-wait_time = 0.8
-
-[node name="P6" type="Marker3D" parent="PatrolRoute_G5"]
-position = Vector3(34, 0.1, 28.5)
-script = ExtResource("7_point")
-wait_time = 0.8
-
-[node name="P7" type="Marker3D" parent="PatrolRoute_G5"]
-position = Vector3(28.5, 0.1, 28.5)
-script = ExtResource("7_point")
-wait_time = 0.8
-
-[node name="P8" type="Marker3D" parent="PatrolRoute_G5"]
-position = Vector3(28.5, 0.1, 27)
-script = ExtResource("7_point")
-wait_time = 0.8
-
-[node name="P9" type="Marker3D" parent="PatrolRoute_G5"]
-position = Vector3(25.5, 0.1, 27)
-script = ExtResource("7_point")
-wait_time = 0.8
-
-[node name="P10" type="Marker3D" parent="PatrolRoute_G5"]
 position = Vector3(24, 0.1, 28.5)
 script = ExtResource("7_point")
 wait_time = 0.8
 
-[node name="P11" type="Marker3D" parent="PatrolRoute_G5"]
+[node name="P5" type="Marker3D" parent="PatrolRoute_G5"]
 position = Vector3(12, 0.1, 28.5)
 script = ExtResource("7_point")
 wait_time = 0.8

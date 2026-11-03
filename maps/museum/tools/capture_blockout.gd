@@ -36,6 +36,28 @@ func _capture() -> void:
 			["t1-intact",Vector3(2.15,6.1,12),Vector3(0.23,6,12)],
 			["t1-empty",Vector3(2.15,6.1,12),Vector3(0.23,6,12)],
 		]
+	var courtyard_only := "--courtyard-cross-only" in OS.get_cmdline_user_args()
+	var ring_only := "--courtyard-ring-only" in OS.get_cmdline_user_args()
+	courtyard_only = courtyard_only or ring_only
+	if courtyard_only:
+		views = [["courtyard-cross",Vector3(18,17,15.05),Vector3(18,0,15)]]
+		# Cutaway screenshot only: expose all four ground-floor openings.
+		var geometry := level.get_node("NavigationRegion3D/Geometry")
+		geometry.get_node("Floor2Rooms").hide()
+		for slab in geometry.get_node("Floors").get_children():
+			if str(slab.name).begins_with("Upper"):
+				slab.hide()
+		for railing in geometry.get_node("Courtyard").get_children():
+			if str(railing.name).begins_with("UpperRail"):
+				railing.hide()
+		for cover in geometry.get_node("Cover").get_children():
+			if cover.position.y > 4.5:
+				cover.hide()
+		for sign in geometry.get_node("Signs").get_children():
+			if sign.position.y > 4.5:
+				sign.hide()
+		camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+		camera.size = 24
 	for shot in views:
 		if frame_only and shot[0] == "t1-empty":
 			if not level.get_node("Interactables/Painting_T1").interact(level.get_node("Player")):
@@ -53,6 +75,10 @@ func _capture() -> void:
 			output = "res://maps/museum/docs/concept-v2/exterior-start-godot.png"
 		if frame_only:
 			output = "res://maps/museum/docs/step-07-%s.png" % shot[0]
+		if courtyard_only:
+			output = "res://maps/museum/docs/step-10-courtyard-cross.png"
+		if ring_only:
+			output = "res://maps/museum/docs/step-11-courtyard-ring.png"
 		var result := root.get_texture().get_image().save_png(output)
 		if result != OK:
 			push_error("Could not save screenshot: " + output)

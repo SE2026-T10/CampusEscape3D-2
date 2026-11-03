@@ -24,7 +24,7 @@ func inside_patrol_area(index: int, at: Vector3) -> bool:
 		2, 7:
 			return at.x > 27.4 and at.x < 35.5 and at.z > 6.4 and at.z < 17.6
 		4:
-			return at.x > 9.4 and at.x < 35.5 and at.z > 24.4 and at.z < 29.5
+			return at.x > 9.4 and at.x < 26.6 and at.z > 24.4 and at.z < 29.5
 		3, 8:
 			var in_ring := at.x > 9.4 and at.x < 26.6 and at.z > 6.4 and at.z < 23.6 \
 				and not (at.x > 11.8 and at.x < 24.2 and at.z > 8.8 and at.z < 21.2)
@@ -101,6 +101,24 @@ func push_against_door(player: FirstPersonPlayer, at: Vector3, yaw: float) -> vo
 	player.set_physics_process(false)
 
 
+func use_door(door: Node3D, feet: Vector3) -> void:
+	var player := level.get_node("Player") as FirstPersonPlayer
+	player.position = feet
+	player.velocity = Vector3.ZERO
+	player.camera.look_at(door.global_position+Vector3(0,1.4,0))
+	await frames(3)
+	var event := InputEventAction.new()
+	event.action = &"interact"
+	event.pressed = true
+	Input.parse_input_event(event)
+	await process_frame
+	event = InputEventAction.new()
+	event.action = &"interact"
+	Input.parse_input_event(event)
+	await process_frame
+	await frames(5)
+
+
 func _run() -> void:
 	level = (load(SCENE) as PackedScene).instantiate()
 	root.add_child(level)
@@ -175,7 +193,39 @@ func _run() -> void:
 		check(not ray(edge[0],edge[1]).is_empty(), "Upper courtyard collision railing " + str(edge[0]))
 	var spawn := exterior_spawn
 	for target in [Vector3(31.5,.1,13),Vector3(6.5,.1,12),Vector3(18,.1,3),Vector3(18,.1,18),Vector3(30,.1,21),Vector3(30,.1,27),Vector3(3,4.6,12),Vector3(18,4.6,2),Vector3(32,4.6,24),Vector3(34,4.6,27)]:
-		check(connected(spawn,target), "Navmesh reaches room/goal " + str(target))
+		var door_id := ""
+		if target.is_equal_approx(Vector3(30,0.1,27)):
+			door_id = "Service"
+		elif target.is_equal_approx(Vector3(31.5,0.1,13)):
+			door_id = "Staff"
+		elif target.is_equal_approx(Vector3(32,4.6,24)) or target.is_equal_approx(Vector3(34,4.6,27)):
+			door_id = "RestorationEntrance"
+		if door_id != "":
+			var entry: Interactable = level.get_node("NavigationRegion3D/Doors/"+door_id)
+			check(not connected(spawn,target),"Closed " + door_id + " door isolates room navigation")
+			entry.interact(player)
+			await frames(5)
+			check(connected(spawn,target),"Opened " + door_id + " door connects room navigation")
+			entry.interact(player)
+			await frames(5)
+		else:
+			check(connected(spawn,target), "Navmesh reaches room/goal " + str(target))
+	check(not ray(Vector3(25.5,1.4,15),Vector3(28.5,1.4,15)).is_empty(),"Former southern staff entrance is now solid wall")
+	for sample in [["Staff",Vector3(25.5,0,10),Vector3(28.5,0,10)],
+			["RestorationEntrance",Vector3(25.5,4.5,27),Vector3(28.5,4.5,27)]]:
+		var entry: Interactable = level.get_node("NavigationRegion3D/Doors/"+sample[0])
+		await push_against_door(player,sample[1],-PI/2)
+		check(player.position.x < 26.7,"Closed " + sample[0] + " door physically stops player")
+		await use_door(entry,sample[1])
+		check(entry.is_open,"Camera E opens " + sample[0] + " from corridor")
+		check(await walk(player,[sample[2]]),"Player crosses opened " + sample[0] + " doorway")
+		await use_door(entry,sample[2])
+		check(not entry.is_open and not ray(sample[1]+Vector3(0,1.4,0),sample[2]+Vector3(0,1.4,0)).is_empty(),
+			"Camera E closes " + sample[0] + " from inside and blocks sight")
+		await use_door(entry,sample[2])
+		check(entry.is_open,"Camera E reopens " + sample[0] + " from inside")
+		check(await walk(player,[sample[1]]),"Player returns through " + sample[0] + " doorway")
+		await use_door(entry,sample[1])
 	var corridor := Vector3(25.5,4.6,10)
 	var gallery := Vector3(29,4.6,10)
 	var store := Vector3(32,4.6,19.5)
@@ -183,10 +233,11 @@ func _run() -> void:
 	var doors := level.get_node("NavigationRegion3D/Doors")
 	player.position = Vector3(24.5,4.6,27)
 	player.velocity = Vector3.ZERO
+	await use_door(doors.get_node("RestorationEntrance"),Vector3(25.5,4.5,27))
 	check(await walk(player,[Vector3(28.5,4.5,27),Vector3(32,4.5,27),Vector3(32,4.5,24.5)])
 		and not level.get_node("ObjectiveManager").is_completed(&"take_key")
 		and not doors.get_node("GalleryB").is_open and not doors.get_node("RestorationShortcut").is_open,
-		"Player reaches rope aisle through southern restoration entrance before key or either door opens")
+		"Player opens free restoration entrance and reaches rope before key or either locked door opens")
 	await push_against_door(player,corridor,-PI/2)
 	check(player.position.x < 26.7 and absf(player.position.z-10) < 0.2,
 		"Locked gallery panel physically stops Player walking east")
@@ -247,6 +298,41 @@ func _run() -> void:
 					break
 			check(reached, "Guard follows stair " + stair_name + " navigation to " + str(destination))
 		test_guard.set_physics_process(false)
+	# Four entrances now connect by a circular detour around the central fountain.
+	check(level.get_node("NavigationRegion3D/Geometry/Courtyard/FountainBase").position.is_equal_approx(Vector3(18,0.3,15)), "Fountain is restored to courtyard centre")
+	var courtyard_axes := [
+		[Vector3(18,0.1,7.5),Vector3(18,0,22.5),"north-south",[Vector3(18,0,11.9),Vector3(20.2,0,12.8),Vector3(21.1,0,15),Vector3(20.2,0,17.2),Vector3(18,0,18.1)]],
+		[Vector3(10.5,0.1,15),Vector3(25.5,0,15),"west-east",[Vector3(14.9,0,15),Vector3(15.8,0,12.8),Vector3(18,0,11.9),Vector3(20.2,0,12.8),Vector3(21.1,0,15)]],
+	]
+	for axis in courtyard_axes:
+		var start: Vector3 = axis[0]
+		var finish: Vector3 = axis[1]
+		check(not ray(start+Vector3(0,0.3,0),finish+Vector3(0,0.3,0)).is_empty(),"Central fountain remains a solid obstacle on " + axis[2])
+		var direct_path := path(start,finish+Vector3(0,0.1,0))
+		var around := connected(start,finish)
+		for point in direct_path:
+			around = around and point.y < 1.0 and not (absf(point.x-18) < 1.5 and absf(point.z-15) < 1.5)
+		check(around,"Navigation goes around the fountain on " + axis[2])
+		player.position = start
+		player.velocity = Vector3.ZERO
+		var waypoints: Array = axis[3].duplicate()
+		waypoints.append(finish)
+		check(await walk(player,waypoints),"Player traverses circular courtyard path " + axis[2])
+		player.position = Vector3(18,0.1,35)
+		var courtyard_guard := guards[0]
+		courtyard_guard.machine.current = GuardStateMachine.NONE
+		courtyard_guard.position = start
+		courtyard_guard.velocity = Vector3.ZERO
+		courtyard_guard.set_physics_process(true)
+		courtyard_guard.navigate_to(finish,courtyard_guard.patrol_speed)
+		var reached := false
+		for tick in 1400:
+			await physics_frame
+			if courtyard_guard.position.distance_to(finish) < 0.5:
+				reached = true
+				break
+		check(reached,"Guard navigates around fountain on " + axis[2])
+		courtyard_guard.set_physics_process(false)
 	# Patrol at real speed with perception/noise isolated from traversal tests.
 	player.position = Vector3(18,0.1,35)
 	check(get_nodes_in_group("guards").size() == 9, "Exactly nine guards are present")

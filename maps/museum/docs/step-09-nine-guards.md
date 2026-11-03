@@ -10,7 +10,7 @@ Tọa độ waypoint được căn theo cửa và collision thực tế trong sc
 | 1 | Guard_G2 | Phòng trưng bày lịch sử phía bắc | 4 |
 | 1 | Guard_G3 | Vòng quanh bàn trong phòng nhân viên | 4 |
 | 1 | Guard_G4 | Hành lang vòng quanh sân trong | 4 |
-| 1 | Guard_G5 | Sảnh chính ↔ cửa nối ở (27,27) ↔ phòng dịch vụ | 11 |
+| 1 | Guard_G5 | Chỉ tuần sảnh chính; phòng dịch vụ có cửa riêng | 5 |
 | 2 | Guard_G6 | Phòng A, có điểm Inspect_T1 trên lối phía tây | 5 |
 | 2 | Guard_G7 | Phòng C phía bắc | 4 |
 | 2 | Guard_G8 | Phòng B, vòng quanh bệ giữa phòng | 4 |

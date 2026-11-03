@@ -1,11 +1,11 @@
 extends Interactable
 
-## Museum doors stay open until the whole level reloads. Closed panels are baked
-## into navigation, so a Passage link must bridge their gap only after opening.
+## Closed panels block movement and sight. Links bridge baked gaps while open.
 ## Unlike the shared library door, guards have no collision exception here.
 
 signal rejected(reason: String)
 signal opened
+signal closed
 
 enum Mode { KEY, LATCH, FREE }
 
@@ -16,6 +16,7 @@ enum Mode { KEY, LATCH, FREE }
 @export var open_from := Vector3.FORWARD
 
 var is_open := false
+var unlocked := false
 
 @onready var _panel: StaticBody3D = get_node_or_null("Panel")
 @onready var _passage: NavigationLink3D = get_node_or_null("Passage")
@@ -24,24 +25,41 @@ var is_open := false
 func _ready() -> void:
 	super()
 	add_to_group("museum_doors")
+	unlocked = mode == Mode.FREE
 	if _passage:
 		_passage.enabled = false
 
 
 func can_interact(by: Node) -> bool:
 	var flow := GameFlow.find(self)
-	return super(by) and not is_open and flow != null \
-		and flow.state == GameStateMachine.State.PLAYING
+	return super(by) and flow != null \
+		and flow.state == GameStateMachine.State.PLAYING and not flow.is_leaving()
 
 
 func get_prompt(by: Node) -> String:
 	if is_open:
-		return ""
+		return "Đóng " + door_name.to_lower()
 	var reason := _blocked_reason(by)
 	return reason if not reason.is_empty() else "Mở " + door_name.to_lower()
 
 
 func _on_interact(by: Node) -> bool:
+	if is_open:
+		var shape_node := _panel.get_node("CollisionShape3D") as CollisionShape3D
+		var query := PhysicsShapeQueryParameters3D.new()
+		query.shape = shape_node.shape
+		query.transform = shape_node.global_transform
+		query.collision_mask = 6 # Player or guard in the closing panel volume.
+		query.collide_with_areas = false
+		if not get_world_3d().direct_space_state.intersect_shape(query,1).is_empty():
+			rejected.emit("Có người đứng ở cửa; hãy chờ lối trống để đóng.")
+			return false
+		is_open = false
+		_panel.collision_layer = 1
+		_panel.show()
+		_passage.enabled = false
+		closed.emit()
+		return true
 	var reason := _blocked_reason(by)
 	if not reason.is_empty():
 		rejected.emit(reason)
@@ -49,8 +67,7 @@ func _on_interact(by: Node) -> bool:
 	# Clear both collision filters: hidden bodies must not block movement, sight,
 	# noise or another interaction ray. No mid-physics shape edits are needed.
 	is_open = true
-	enabled = false
-	collision_layer = 0
+	unlocked = true
 	if _panel:
 		_panel.collision_layer = 0
 		_panel.collision_mask = 0
@@ -62,6 +79,8 @@ func _on_interact(by: Node) -> bool:
 
 
 func _blocked_reason(by: Node) -> String:
+	if unlocked:
+		return ""
 	if mode == Mode.KEY:
 		var objectives := ObjectiveManager.find(self)
 		if objectives == null or not objectives.is_completed(key_objective_id):

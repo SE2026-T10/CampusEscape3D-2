@@ -18,7 +18,12 @@ lấy T1 để lại khung, G6 kiểm tra bằng tầm nhìn thực rồi tìm q
 Đã thêm **[Bước 8 — Vận chuyển tranh lớn T2](docs/step-08-carry-t2.md)**:
 E nhấc tranh, Q đặt xuống/nhặt lại bằng E; mang tranh đi chậm và không sprint.
 Chỉ giao T2 tại thảm xanh trong kho mới hoàn thành nhiệm vụ vận chuyển.
-Bản dựng đã qua **266 kiểm tra** riêng của map.
+Đã cập nhật **[sân trong và cửa đóng/mở](docs/step-11-ring-and-doors.md)**:
+bốn lối nối với đường tròn quanh đài phun nước giữa sân; G5 chỉ tuần sảnh,
+phòng dịch vụ có cửa riêng. Nhấn E để mở hoặc đóng cửa, chắn tầm nhìn bảo vệ.
+Đã thêm **[cửa phòng nhân viên và cửa kho phục chế](docs/step-12-staff-restoration-doors.md)**:
+phòng nhân viên chỉ còn một lối vào, hai cửa mới đều E mở/đóng từ hai phía.
+Bản dựng đã qua **308 kiểm tra** riêng của map.
 
 Hình học và cách chỉnh sàn/dốc/cửa: [Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md).
 

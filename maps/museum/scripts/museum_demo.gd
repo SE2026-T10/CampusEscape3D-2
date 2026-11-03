@@ -3,7 +3,7 @@ extends Node3D
 ## Museum-only objectives. Only T2 requires the staff-room key.
 const OBJECTIVES := [
 	{"id": &"take_key", "title": "Tìm chìa K cho phòng B",
-	 "hint": "Phòng nhân viên ở phía đông tầng 1; chìa ở gần (31.5, 13).",
+	 "hint": "Phòng nhân viên phía đông tầng 1; E mở cửa ở (27, 10), chìa ở gần (31.5, 13).",
 	 "done": "Đã lấy chìa K — có thể mở cửa phòng B ở tầng 2", "requires": []},
 	{"id": &"take_t1", "title": "Lấy tác phẩm T1",
 	 "hint": "Phòng A phía tây tầng 2. Quan sát G6 kiểm tra tranh trước khi lấy T1.",
@@ -14,7 +14,7 @@ const OBJECTIVES := [
 	{"id": &"take_t3", "title": "Lấy tác phẩm T3",
 	 "hint": "Phòng tranh C, phía bắc tầng 2.", "done": "Đã lấy tác phẩm T3", "requires": []},
 	{"id": &"take_rope", "title": "Tìm dây thoát",
-	 "hint": "Kho phục chế ở góc đông nam tầng 2; có lối vào tự do từ phòng đệm phía nam.",
+	 "hint": "Kho phục chế góc đông nam tầng 2; E mở cửa từ phòng đệm phía nam, không cần chìa.",
 	 "done": "Đã lấy dây thoát", "requires": []},
 	{"id": &"escape", "title": "Buộc dây và thoát",
 	 "hint": "Cắt đuôi bảo vệ rồi dùng cửa sổ phía đông kho phục chế, tầng 2.",

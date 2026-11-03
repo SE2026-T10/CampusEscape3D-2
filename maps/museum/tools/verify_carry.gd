@@ -355,6 +355,12 @@ func _run() -> void:
 		Vector3(18,4.5,27),Vector3(25.5,4.5,27),Vector3(28,4.5,27),Vector3(32,4.5,27.5)]
 	var followed_route := true
 	for destination in long_route:
+		if destination.is_equal_approx(Vector3(28,4.5,27)):
+			var south_entry = level.get_node("NavigationRegion3D/Doors/RestorationEntrance")
+			player.camera.look_at(south_entry.global_position+Vector3(0,1.4,0))
+			await frames(3)
+			await press_e()
+			check(south_entry.is_open and player.is_carrying(),"Carrying player opens new south restoration door with E")
 		var reached: bool = await walk_to(destination)
 		followed_route = reached and followed_route
 	check(followed_route and player.is_carrying() \

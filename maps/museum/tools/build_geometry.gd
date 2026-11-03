@@ -179,7 +179,83 @@ func front_yard() -> void:
 		lamp.omni_range = 5
 
 
+func courtyard_ground(courtyard: Node3D) -> void:
+	# Four 2 m openings share clear, level paths through the centre.
+	wall(courtyard, "GroundNorth", true, 9, 12, 24, 0, [[18,2]], 1.2, green)
+	wall(courtyard, "GroundSouth", true, 21, 12, 24, 0, [[18,2]], 1.2, green)
+	wall(courtyard, "GroundWest", false, 12, 9, 21, 0, [[15,2]], 1.2, green)
+	wall(courtyard, "GroundEast", false, 24, 9, 21, 0, [[15,2]], 1.2, green)
+	box(courtyard, "FountainBase", Vector3(3,0.6,3), Vector3(18,0.3,15), blue)
+	var planter_index := 0
+	for p in [Vector3(14,0.6,11), Vector3(22,0.6,11), Vector3(14,0.6,19), Vector3(22,0.6,19)]:
+		box(courtyard, "Planter%d" % planter_index, Vector3(1.3,1.2,1.3), p, green)
+		planter_index += 1
+	# Visual surfaces only: the existing ground slab provides seamless collision.
+	for patch in [Vector3(14.6,0.003,11.6),Vector3(21.4,0.003,11.6),Vector3(14.6,0.003,18.4),Vector3(21.4,0.003,18.4)]:
+		courtyard_surface(courtyard,"Garden%d" % courtyard.get_child_count(),Vector2(4.8,4.8),patch,green)
+	courtyard_surface(courtyard,"PathNorth",Vector2(2,3),Vector3(18,0.004,10.5),stone)
+	courtyard_surface(courtyard,"PathSouth",Vector2(2,3),Vector3(18,0.004,19.5),stone)
+	courtyard_surface(courtyard,"PathWest",Vector2(3,2),Vector3(13.5,0.004,15),stone)
+	courtyard_surface(courtyard,"PathEast",Vector2(3,2),Vector3(22.5,0.004,15),stone)
+	var vertices := PackedVector3Array()
+	var normals := PackedVector3Array()
+	for segment in 96:
+		var a := TAU * segment / 96.0
+		var b := TAU * (segment+1) / 96.0
+		var inner_a := Vector3(cos(a)*2.2,0.006,sin(a)*2.2)
+		var outer_a := Vector3(cos(a)*4.0,0.006,sin(a)*4.0)
+		var inner_b := Vector3(cos(b)*2.2,0.006,sin(b)*2.2)
+		var outer_b := Vector3(cos(b)*4.0,0.006,sin(b)*4.0)
+		for vertex in [inner_a,outer_a,outer_b,inner_a,outer_b,inner_b]:
+			vertices.append(vertex)
+			normals.append(Vector3.UP)
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	var ring_mesh := ArrayMesh.new()
+	ring_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+	ring_mesh.surface_set_material(0,stone)
+	var ring := MeshInstance3D.new()
+	ring.mesh = ring_mesh
+	attach(courtyard,ring,"PathRing")
+	ring.position = Vector3(18,0,15)
+
+
+func courtyard_surface(parent: Node, node_name: String, size: Vector2, at: Vector3, mat: Material) -> void:
+	var surface := MeshInstance3D.new()
+	var plane := PlaneMesh.new()
+	plane.size = size
+	plane.material = mat
+	surface.mesh = plane
+	attach(parent,surface,node_name)
+	surface.position = at
+
+
 func _build() -> void:
+	if "--update-staff" in OS.get_cmdline_user_args():
+		geometry.free()
+		geometry = (load(OUTPUT) as PackedScene).instantiate()
+		var rooms := geometry.get_node("Floor1Rooms") as Node3D
+		for child in rooms.get_children():
+			if str(child.name).begins_with("StaffPartition"):
+				child.free()
+		wall(rooms,"StaffPartition",false,27,6,18,0,[[10,1.6]])
+		save_geometry()
+		return
+	# Patch only the courtyard; preserve authored rooms, stairs, yard and upper rails.
+	if "--update-courtyard" in OS.get_cmdline_user_args():
+		geometry.free()
+		geometry = (load(OUTPUT) as PackedScene).instantiate()
+		var existing := geometry.get_node("Courtyard") as Node3D
+		for child in existing.get_children():
+			if str(child.name).begins_with("Ground") or str(child.name).begins_with("Planter") \
+					or str(child.name).begins_with("Garden") or str(child.name).begins_with("Path") \
+					or child.name == &"FountainBase":
+				child.free()
+		courtyard_ground(existing)
+		save_geometry()
+		return
 	# Patch the existing authored interior for this migration. A normal builder
 	# run also includes the yard, so future regeneration keeps the new start.
 	if "--update-entrance" in OS.get_cmdline_user_args():
@@ -227,7 +303,7 @@ func _build() -> void:
 		wall(rooms, "StairAPartition", false, 9, 24, 30, y, [[27,1.6]])
 		wall(rooms, "EastSouthPartition", false, 27, 24, 30, y, [[27,1.6]])
 		if floor_index == 0:
-			wall(rooms, "StaffPartition", false, 27, 6, 18, y, [[10,1.6],[15,1.6]])
+			wall(rooms, "StaffPartition", false, 27, 6, 18, y, [[10,1.6]])
 			wall(rooms, "StorePartition", false, 27, 18, 24, y, [[21,1.6]])
 			wall(rooms, "StaffSouth", true, 18, 27, 36, y)
 			wall(rooms, "ServiceNorth", true, 24, 27, 36, y)
@@ -236,18 +312,11 @@ func _build() -> void:
 			wall(rooms, "RestorationWest", false, 27, 18, 24, y)
 			wall(rooms, "ShortcutPartition", true, 18, 27, 36, y, [[32,1.6]])
 	var courtyard := group("Courtyard")
-	# Low perimeter gives ground-floor cover; the south arch is the sole entrance.
-	wall(courtyard, "GroundNorth", true, 9, 12, 24, 0, [], 1.2, green)
-	wall(courtyard, "GroundWest", false, 12, 9, 21, 0, [], 1.2, green)
-	wall(courtyard, "GroundEast", false, 24, 9, 21, 0, [], 1.2, green)
-	wall(courtyard, "GroundSouth", true, 21, 12, 24, 0, [[18,2]], 1.2, green)
+	courtyard_ground(courtyard)
 	wall(courtyard, "UpperRailNorth", true, 9, 12, 24, 4.5, [], 1.2, brass)
 	wall(courtyard, "UpperRailSouth", true, 21, 12, 24, 4.5, [], 1.2, brass)
 	wall(courtyard, "UpperRailWest", false, 12, 9, 21, 4.5, [], 1.2, brass)
 	wall(courtyard, "UpperRailEast", false, 24, 9, 21, 4.5, [], 1.2, brass)
-	box(courtyard, "FountainBase", Vector3(3,0.6,3), Vector3(18,0.3,15), blue)
-	for p in [Vector3(14,0.6,11), Vector3(22,0.6,11), Vector3(14,0.6,19), Vector3(22,0.6,19)]:
-		box(courtyard, "Planter%d" % courtyard.get_child_count(), Vector3(1.3,1.2,1.3), p, green)
 	stairs("StairA", false)
 	stairs("StairB", true)
 	var covers := group("Cover")
