@@ -1,0 +1,4 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 581.15 - Compatibility - Using Device: NVIDIA - Quadro P1000
+
+K17 ART PREVIEW {"device":"Quadro P1000","draw_calls":2239.0,"median_frame_ms":6.595,"note":"Fixed camera; AI paused only for visual isolation. Not a live-gameplay FPS claim.","p95_frame_ms":14.512,"renderer":"gl_compatibility","resolution":"(1280, 720)","video_memory_bytes":337566123.0,"visible_primitives":432054.0}

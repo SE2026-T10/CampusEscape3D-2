@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 581.15 - Compatibility - Using Device: NVIDIA - Quadro P1000
+
+K17 V3 RENDER {"active_actors":6,"actors":6,"alert":false,"draw_calls":4062.0,"frames":222,"median_fps":81.8665575112567,"median_ms":12.215,"p95_ms":21.575,"video_memory_bytes":341041985.0,"view":"yard"}
+K17 V3 RENDER {"active_actors":6,"actors":6,"alert":false,"draw_calls":2926.0,"frames":353,"median_fps":119.517150711127,"median_ms":8.367,"p95_ms":11.384,"video_memory_bytes":341358395.0,"view":"command"}
+K17 V3 RENDER {"active_actors":6,"actors":6,"alert":false,"draw_calls":4509.0,"frames":200,"median_fps":77.5434243176179,"median_ms":12.896,"p95_ms":30.918,"video_memory_bytes":341314705.0,"view":"vault"}
+[K17 dispatch] wave=1 actor=Reinforcement0 origin=(-18.0, 0.0, 39.5)
+[K17 dispatch] wave=1 actor=Reinforcement1 origin=(22.0, 0.0, -18.0)
+[K17 dispatch] wave=2 actor=Reinforcement2 origin=(-42.0, 0.0, 42.0)
+[K17 dispatch] wave=2 actor=Reinforcement3 origin=(44.0, 0.0, -18.0)
+K17 V3 RENDER {"active_actors":10,"actors":10,"alert":true,"draw_calls":4483.0,"frames":183,"median_fps":63.8243553740107,"median_ms":15.668,"p95_ms":23.254,"video_memory_bytes":340994411.0,"view":"yard"}
+K17 V3 RENDER {"active_actors":10,"actors":10,"alert":true,"draw_calls":2986.0,"frames":316,"median_fps":107.56157900398,"median_ms":9.297,"p95_ms":13.092,"video_memory_bytes":340995267.0,"view":"command"}
+K17 V3 RENDER {"active_actors":10,"actors":10,"alert":true,"draw_calls":4587.0,"frames":217,"median_fps":73.3729547288869,"median_ms":13.629,"p95_ms":17.621,"video_memory_bytes":340993235.0,"view":"vault"}

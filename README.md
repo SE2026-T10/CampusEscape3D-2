@@ -120,7 +120,7 @@ Chi tiết về cấu hình nhiệm vụ, giao diện HUD và lệnh kiểm tra:
   - **Lối bảo trì bí mật:** nằm ở tầng hầm và dẫn ra cống thoát nước.
 
   Người chơi đi qua lối thoát để thắng; màn hình kết quả ghi lại đường đã dùng. Các câu đố tùy chọn gồm máy bơm, tủ an ninh và đường tắt qua cổng sau khu lưu trữ. Bốn camera trên mạch `SURVEILLANCE` phát báo động khi phát hiện người chơi, khiến bảo vệ đến kiểm tra. Báo động không kết thúc lượt chơi ngay. Công tắc trong phòng điện điều khiển camera và nguồn điện bến hàng; bật nguồn bến hàng sẽ khởi động lại camera. Bảo vệ kiểm tra các chỗ ẩn gần nơi tìm kiếm; chỗ ẩn chỉ có tác dụng nếu không ai thấy người chơi đi vào. Chạy nhanh tiêu hao thể lực. Người chơi mang tối đa ba vật phẩm và có nhật ký lưu tài liệu, manh mối. HUD hiển thị `WAYS OUT` cho các đường thoát và điều kiện đã khám phá, trạng thái điện sau khi xem bảng công tắc và điểm hồi sinh gần nhất.
-- **Cài đặt (`Settings`):** có trong menu chính và menu tạm dừng của cả ba map. Hỗ trợ cỡ giao diện 90/100/110/125 %, âm lượng tổng và phụ đề âm thanh. Phụ đề bật mặc định, hiển thị tiếng báo động, bước chân, bộ đàm, kính vỡ và công tắc kèm mũi tên chỉ hướng ở góc dưới trái. Cấu hình lưu tại `user://settings.cfg`.
+- **Cài đặt (`Settings`):** có trong menu chính và menu tạm dừng của cả ba map. Hỗ trợ cỡ giao diện 90/100/110/125 %, âm lượng tổng và phụ đề âm thanh. Phụ đề bật mặc định, hiển thị tiếng báo động, bước chân, bộ đàm, kính vỡ và công tắc kèm mũi tên chỉ hướng ở góc dưới trái. Cấu hình `user://settings.cfg`.
 - **Chạy thẳng một cảnh khi phát triển:** mở `maps/tutorial/scenes/library_graybox.tscn` hoặc `maps/library/scenes/expanded_library.tscn`, nhấn **F6**.
 - **Bản đã đóng gói:** chạy `CampusEscape3D.exe`.
 

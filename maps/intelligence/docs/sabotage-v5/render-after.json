@@ -1,0 +1,64 @@
+{
+	"conditions": "VSync off, real wall clock, stationary views, 2s warm-up. All AI/cameras active; capture disabled, mission clock and power scheduling fixed to isolate 6/8/10 actors and camera power. Not a gameplay FPS guarantee.",
+	"device": "Quadro P1000",
+	"renderer": "gl_compatibility",
+	"resolution": "1280x720",
+	"samples": [
+		{
+			"active_actors": 10,
+			"actors": 10,
+			"cameras_on": true,
+			"draw_calls": 2051.0,
+			"frames": 823,
+			"median_fps": 109.974705817662,
+			"p95_ms": 14.722,
+			"p99_ms": 21.085,
+			"repeat": 1,
+			"seconds": 8.0,
+			"video_memory_bytes": 344945771.0,
+			"view": "service"
+		},
+		{
+			"active_actors": 10,
+			"actors": 10,
+			"cameras_on": true,
+			"draw_calls": 567.0,
+			"frames": 1374,
+			"median_fps": 182.083029861617,
+			"p95_ms": 8.892,
+			"p99_ms": 10.613,
+			"repeat": 1,
+			"seconds": 8.0,
+			"video_memory_bytes": 345346827.0,
+			"view": "workshop"
+		},
+		{
+			"active_actors": 10,
+			"actors": 10,
+			"cameras_on": true,
+			"draw_calls": 2051.0,
+			"frames": 855,
+			"median_fps": 109.781534745856,
+			"p95_ms": 13.068,
+			"p99_ms": 14.905,
+			"repeat": 2,
+			"seconds": 8.0,
+			"video_memory_bytes": 345338987.0,
+			"view": "service"
+		},
+		{
+			"active_actors": 10,
+			"actors": 10,
+			"cameras_on": true,
+			"draw_calls": 567.0,
+			"frames": 1370,
+			"median_fps": 180.212650928095,
+			"p95_ms": 8.625,
+			"p99_ms": 10.609,
+			"repeat": 2,
+			"seconds": 8.0,
+			"video_memory_bytes": 345346827.0,
+			"view": "workshop"
+		}
+	]
+}
