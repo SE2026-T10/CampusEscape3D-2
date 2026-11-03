@@ -7,8 +7,30 @@ const SCENE := "res://maps/museum/scenes/museum.tscn"
 var level: Node3D
 var failures := 0
 var checks := 0
-var arrivals := [[], [], []]
-var stuck := [0, 0, 0]
+var arrivals := [[], [], [], [], [], [], [], [], []]
+var stuck := [0, 0, 0, 0, 0, 0, 0, 0, 0]
+var stayed_inside := [true, true, true, true, true, true, true, true, true]
+
+
+func inside_patrol_area(index: int, at: Vector3) -> bool:
+	var base := 0.0 if index < 5 else 4.5
+	if absf(at.y-base) > 0.3:
+		return false
+	match index:
+		0, 5:
+			return at.x > 0.5 and at.x < 8.6 and at.z > 6.4 and at.z < 23.6
+		1, 6:
+			return at.x > 0.5 and at.x < 26.6 and at.z > 0.5 and at.z < 5.6
+		2, 7:
+			return at.x > 27.4 and at.x < 35.5 and at.z > 6.4 and at.z < 17.6
+		4:
+			return at.x > 9.4 and at.x < 35.5 and at.z > 24.4 and at.z < 29.5
+		3, 8:
+			var in_ring := at.x > 9.4 and at.x < 26.6 and at.z > 6.4 and at.z < 23.6 \
+				and not (at.x > 11.8 and at.x < 24.2 and at.z > 8.8 and at.z < 21.2)
+			var in_buffer := index == 8 and at.x > 9.4 and at.x < 26.6 and at.z >= 23.6 and at.z < 29.5
+			return in_ring or in_buffer
+	return false
 
 
 func _initialize() -> void:
@@ -88,7 +110,7 @@ func _run() -> void:
 	player.get_node("Noise").set_physics_process(false)
 	level.get_node("StealthDirector").set_physics_process(false)
 	var guards: Array[Guard] = []
-	for i in 3:
+	for i in 9:
 		var guard := level.get_node("Guard_G%d" % (i+1)) as Guard
 		guards.append(guard)
 		guard.set_physics_process(false)
@@ -226,7 +248,19 @@ func _run() -> void:
 			check(reached, "Guard follows stair " + stair_name + " navigation to " + str(destination))
 		test_guard.set_physics_process(false)
 	# Patrol at real speed with perception/noise isolated from traversal tests.
-	player.position = Vector3(18,0.1,28.5)
+	player.position = Vector3(18,0.1,35)
+	check(get_nodes_in_group("guards").size() == 9, "Exactly nine guards are present")
+	# Restore the starting door configuration; patrol must not depend on opened locks.
+	for door in level.get_node("NavigationRegion3D/Doors").get_children():
+		door.is_open = false
+		door.enabled = true
+		door.collision_layer = Interactable.LAYER
+		door.get_node("Panel").collision_layer = 1
+		door.get_node("Panel").show()
+		door.get_node("Passage").enabled = false
+	check(not level.get_node("NavigationRegion3D/Doors/GalleryB").is_open
+		and not level.get_node("NavigationRegion3D/Doors/RestorationShortcut").is_open,
+		"Patrol verification starts with gallery and shortcut closed")
 	for guard in guards:
 		guard.agent.avoidance_enabled = true
 		guard.reset_to_start()
@@ -234,17 +268,19 @@ func _run() -> void:
 	for tick in 18000:
 		await physics_frame
 		var done := true
-		for i in 3:
+		for i in 9:
+			stayed_inside[i] = stayed_inside[i] and inside_patrol_area(i, guards[i].position)
 			done = done and arrivals[i].size() >= guards[i].patrol_route.get_point_count()*2+1
 		if done:
 			break
-	for i in 3:
+	for i in 9:
 		var count := guards[i].patrol_route.get_point_count()
 		var ordered: bool = arrivals[i].size() >= count*2+1
 		for n in mini(arrivals[i].size(),count*2+1):
 			ordered = ordered and arrivals[i][n] == n%count
 		check(ordered and stuck[i] == 0, "Guard G%d completes two ordered patrol loops with no stuck events (%d arrivals)" % [i+1,arrivals[i].size()])
-	check(guards[2].position.x > 27 and guards[2].position.z < 18 and guards[2].position.y > 4, "G3 remains inside gallery B on patrol")
+		check(stayed_inside[i], "Guard G%d stays on its assigned floor and patrol area" % (i+1))
+	check(guards[7].position.x > 27 and guards[7].position.z < 18 and guards[7].position.y > 4, "G8 remains inside gallery B on patrol")
 	current_scene = null
 	level.free()
 	await frames(3)

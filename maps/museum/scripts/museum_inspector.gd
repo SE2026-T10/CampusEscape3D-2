@@ -86,8 +86,8 @@ func report_missing() -> bool:
 		return false
 	discovery_reported = true
 	discovery_count += 1
-	var message := "G2 đã phát hiện thiếu tác phẩm T1"
-	speech.text = "G2: Tranh T1 đâu rồi?\nKiểm tra phòng A!"
+	var message := "G6 đã phát hiện thiếu tác phẩm T1"
+	speech.text = "G6: Tranh T1 đâu rồi?\nKiểm tra phòng A!"
 	speech.show()
 	_speech_left = 6.0
 	notice.emit(message)

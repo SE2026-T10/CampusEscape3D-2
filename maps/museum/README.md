@@ -5,18 +5,20 @@ Người phụ trách: **hgmanh**. Nhánh phát triển: **`hgmanh-work`**.
 Map ID: **`museum`**. Thư mục làm việc: `maps/museum/`.
 Nhánh được tạo từ `main` tại commit `13807bd` ngày 27/10/2026.
 Hiện có bản dựng khối hai tầng 36 × 30 m tại `res://maps/museum/scenes/museum.tscn`:
-sân trong thông tầng, hai đường dốc chữ U, ba bảo vệ, chìa K, hai cửa có điều kiện,
+sân trong thông tầng, hai đường dốc chữ U, chín bảo vệ, chìa K, hai cửa có điều kiện,
 ba tác phẩm, dây, cửa sổ thoát và HUD nhiệm vụ.
 Theo [sơ đồ concept v2](docs/concept-v2/README.md), Player xuất phát ở sân trước
 `(18, 0.1, 35)`, đi tới cửa chính và nhấn **E** để vào sảnh.
 Mở scene rồi nhấn **F6** để thử riêng; map chưa đăng ký trong menu chung.
 
-Đã thêm **[Bước 7 — G2 phát hiện khung T1 trống](docs/step-07-empty-frame.md)**:
-lấy T1 để lại khung, G2 kiểm tra bằng tầm nhìn thực rồi tìm quanh phòng A.
+Đã thêm **[Bước 9 — Chín bảo vệ](docs/step-09-nine-guards.md)** theo sơ đồ mới:
+G1–G5 tầng 1, G6–G9 tầng 2; có nhãn số trên đầu để nhận biết khi chạy thử.
+Cơ chế **[phát hiện khung T1 trống](docs/step-07-empty-frame.md)** nay thuộc G6:
+lấy T1 để lại khung, G6 kiểm tra bằng tầm nhìn thực rồi tìm quanh phòng A.
 Đã thêm **[Bước 8 — Vận chuyển tranh lớn T2](docs/step-08-carry-t2.md)**:
 E nhấc tranh, Q đặt xuống/nhặt lại bằng E; mang tranh đi chậm và không sprint.
 Chỉ giao T2 tại thảm xanh trong kho mới hoàn thành nhiệm vụ vận chuyển.
-Bản dựng đã qua **249 kiểm tra** riêng của map.
+Bản dựng đã qua **266 kiểm tra** riêng của map.
 
 Hình học và cách chỉnh sàn/dốc/cửa: [Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md).
 

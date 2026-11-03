@@ -6,7 +6,7 @@ const OBJECTIVES := [
 	 "hint": "Phòng nhân viên ở phía đông tầng 1; chìa ở gần (31.5, 13).",
 	 "done": "Đã lấy chìa K — có thể mở cửa phòng B ở tầng 2", "requires": []},
 	{"id": &"take_t1", "title": "Lấy tác phẩm T1",
-	 "hint": "Phòng A phía tây tầng 2. Quan sát G2 kiểm tra tranh trước khi lấy T1.",
+	 "hint": "Phòng A phía tây tầng 2. Quan sát G6 kiểm tra tranh trước khi lấy T1.",
 	 "done": "Đã lấy tác phẩm T1", "requires": []},
 	{"id": &"take_t2", "title": "Mang tranh lớn T2 tới điểm tập kết",
 	 "hint": "E nhấc T2 trong phòng B; Q đặt xuống. Mở chốt B → kho để đi ngắn, rồi E giao tranh tại thảm xanh trong kho.",
@@ -32,7 +32,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	$ObjectiveManager.level_completed.connect($StealthDirector.finish_level)
-	$Guard_G2.notice.connect(_on_guard_notice)
+	$Guard_G6.notice.connect(_on_guard_notice)
 	$Interactables/Painting_T2.notice.connect(_on_carry_notice)
 	# Keep the caught overlay, then reload everything, including hidden pickups.
 	$StealthDirector.level_reset.connect(_restart_demo)

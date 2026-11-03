@@ -1,3 +1,9 @@
+# Cập nhật sau sơ đồ 9 bảo vệ
+
+Người kiểm tra T1 nay là **Guard_G6**, HUD/lời thoại dùng số G6.
+Các tên G2 bên dưới mô tả phiên bản ban đầu; xem
+[Bước 9 — chín bảo vệ](step-09-nine-guards.md) để chỉnh scene hiện tại.
+
 # Bước 7 — G2 phát hiện khung T1 trống
 
 Triển khai ngày **02/11/2026** cho T1 và G2 trong `res://maps/museum/scenes/museum.tscn`.

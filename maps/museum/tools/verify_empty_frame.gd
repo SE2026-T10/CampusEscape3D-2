@@ -1,6 +1,6 @@
 extends SceneTree
 
-## Integration checks for the T1/G2 empty-frame prototype.
+## Integration checks for the T1/G6 empty-frame prototype.
 ## godot --headless --fixed-fps 60 --path . --script res://maps/museum/tools/verify_empty_frame.gd
 const SCENE := "res://maps/museum/scenes/museum.tscn"
 var level: Node3D
@@ -66,7 +66,7 @@ func fresh() -> void:
 	root.add_child(level)
 	current_scene = level
 	isolate()
-	inspector = level.get_node("Guard_G2")
+	inspector = level.get_node("Guard_G6")
 	painting = level.get_node("Interactables/Painting_T1")
 	notices.clear()
 	discoveries = 0
@@ -114,7 +114,7 @@ func start_at_inspection() -> void:
 		if route.get_child(i).name == "Inspect_T1":
 			index = i
 			break
-	check(index >= 0, "G2 route contains a real Inspect_T1 patrol stop")
+	check(index >= 0, "G6 route contains a real Inspect_T1 patrol stop")
 	if index < 0:
 		return
 	var at := route.get_point_position(index)
@@ -131,13 +131,13 @@ func _run() -> void:
 	check(not painting.is_artwork_missing() and painting.get_node("Canvas").visible
 		and painting.get_node("Frame").visible, "T1 initially contains a canvas and persistent frame")
 	await pose(Vector3(2.25,4.5,12))
-	check(inspector.can_see_frame(), "G2 can see the frame from the west gallery aisle")
+	check(inspector.can_see_frame(), "G6 can see the frame from the west gallery aisle")
 	await pose(Vector3(2.25,4.5,12),false)
-	check(not inspector.can_see_frame(), "A frame behind G2 is outside its vision cone")
+	check(not inspector.can_see_frame(), "A frame behind G6 is outside its vision cone")
 	await pose(Vector3(2.25,4.5,21))
 	check(not inspector.can_see_frame(), "A frame beyond inspection sight range is not visible")
 	await pose(Vector3(2.25,0,12))
-	check(not inspector.can_see_frame(), "G2 cannot inspect the upper frame from the lower floor")
+	check(not inspector.can_see_frame(), "G6 cannot inspect the upper frame from the lower floor")
 	await pose(Vector3(2.25,4.5,12))
 	var blocker := StaticBody3D.new()
 	blocker.collision_layer = 1
@@ -150,14 +150,14 @@ func _run() -> void:
 	blocker.add_child(collision)
 	level.add_child(blocker)
 	await frames(3)
-	check(not inspector.can_see_frame(), "World collision blocks G2's line of sight to the frame")
+	check(not inspector.can_see_frame(), "World collision blocks G6's line of sight to the frame")
 	blocker.free()
 	await frames(3)
 	check(inspector.can_see_frame(), "Removing an occluder restores actual frame line of sight")
 	# An intact painting is inspected during the normal patrol, without an alarm.
 	await fresh()
 	inspector.set_physics_process(true)
-	check(await until(func(): return phase() == &"inspection"), "G2 naturally reaches its scheduled intact-painting inspection")
+	check(await until(func(): return phase() == &"inspection"), "G6 naturally reaches its scheduled intact-painting inspection")
 	check(inspector.inspection_visits >= 1 and not inspector.discovery_reported
 		and inspector.machine.current == GuardStateMachine.PATROL, "Intact-frame inspection stays on PATROL and reports no missing art")
 	var flow := level.get_node("GameFlow") as GameFlow
@@ -175,7 +175,7 @@ func _run() -> void:
 		"Taking T1 removes only canvas and interaction while leaving a visible empty frame")
 	check(level.get_node("ObjectiveManager").is_completed(&"take_t1")
 		and not painting.interact(level.get_node("Player")), "T1 completes once and cannot be collected twice")
-	check(not inspector.discovery_reported and discoveries == 0, "Taking T1 does not remotely notify G2")
+	check(not inspector.discovery_reported and discoveries == 0, "Taking T1 does not remotely notify G6")
 	await frames(240)
 	check(not inspector.discovery_reported, "Taking T1 just after inspection leaves time to withdraw before next visit")
 	check(await until(func(): return phase() == &"checking"), "Next patrol inspection detects the missing canvas after real visual confirmation")
@@ -184,15 +184,15 @@ func _run() -> void:
 	check(inspector.machine.current == GuardStateMachine.INVESTIGATE
 		and not inspector.vision.has_last_known_position and is_zero_approx(inspector.vision.detection),
 		"Frame evidence starts investigation without inventing a player sighting or CHASE")
-	check(notices.any(func(text: String): return text.contains("G2") and text.contains("thiếu"))
-		and level.get_node("ObjectiveHud").get_layout_controls().message.text.contains("G2"),
-		"Discovery feedback names G2 and reaches the mission HUD")
+	check(notices.any(func(text: String): return text.contains("G6") and text.contains("thiếu"))
+		and level.get_node("ObjectiveHud").get_layout_controls().message.text.contains("G6"),
+		"Discovery feedback names G6 and reaches the mission HUD")
 	check(inspector.get_node("Speech").visible and inspector.get_node("Speech").text.contains("T1"),
-		"G2 displays a readable spoken line about missing T1")
+		"G6 displays a readable spoken line about missing T1")
 	held_position = inspector.position
 	await frames(30)
 	check(phase() == &"checking" and inspector.position.distance_to(held_position) < 0.05,
-		"G2 stops to examine missing artwork before searching the room")
+		"G6 stops to examine missing artwork before searching the room")
 	flow.pause()
 	await frames(180)
 	check(phase() == &"checking", "Pause also freezes the missing-art examination")
@@ -211,11 +211,11 @@ func _run() -> void:
 				visited[point.name] = true
 		await physics_frame
 	check(legitimate_targets and visited.size() >= 3,
-		"G2 physically searches predefined gallery locations, never the unseen player's position")
+		"G6 physically searches predefined gallery locations, never the unseen player's position")
 	check(phase() == &"patrol" and inspector.machine.current == GuardStateMachine.PATROL,
-		"Room search ends and G2 returns to its patrol route")
+		"Room search ends and G6 returns to its patrol route")
 	var visits: int = inspector.inspection_visits
-	check(await until(func(): return inspector.inspection_visits > visits), "G2 checks T1 again on a later patrol loop")
+	check(await until(func(): return inspector.inspection_visits > visits), "G6 checks T1 again on a later patrol loop")
 	await frames(240)
 	check(inspector.discovery_count == 1 and discoveries == 1, "Already-discovered empty frame does not repeatedly alarm or restart search")
 	# A missing canvas still cannot be discovered through a world occluder,
@@ -234,7 +234,7 @@ func _run() -> void:
 	level.add_child(blocker)
 	await frames(3)
 	await start_at_inspection()
-	check(await until(func(): return phase() == &"inspection",300), "G2 reaches inspection while the empty frame is physically occluded")
+	check(await until(func(): return phase() == &"inspection",300), "G6 reaches inspection while the empty frame is physically occluded")
 	await frames(180)
 	check(not inspector.discovery_reported and discoveries == 0,
 		"Even a scheduled inspection cannot discover a missing canvas through a wall")
@@ -275,7 +275,7 @@ func _run() -> void:
 		if current_scene != null and current_scene.get_instance_id() != old_id:
 			level = current_scene as Node3D
 			isolate()
-			inspector = level.get_node("Guard_G2")
+			inspector = level.get_node("Guard_G6")
 			painting = level.get_node("Interactables/Painting_T1")
 			await frames(12)
 			reloaded = true
