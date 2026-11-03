@@ -8,12 +8,15 @@ extends RefCounted
 
 const TUTORIAL := &"library_tutorial"
 const EXPANDED := &"expanded_library"
+const MUSEUM := &"museum"
 
 const LEVELS := [
 	{"id": TUTORIAL, "title": "Library Tutorial", "scene": "res://maps/tutorial/scenes/library_graybox.tscn",
 		"description": "The original library: one floor, one access card. Learn the ropes."},
 	{"id": EXPANDED, "title": "Expanded Library", "scene": "res://maps/library/scenes/expanded_library.tscn",
 		"description": "Two floors and a basement, seven guards, puzzles and three ways out. Retrieve the rare manuscript."},
+	{"id": MUSEUM, "title": "Museum Heist", "scene": "res://maps/museum/scenes/museum_heist.tscn",
+		"description": "A museum graybox mission: reach the restricted area, take the staff card, and use the main exit."},
 ]
 
 

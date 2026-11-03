@@ -4,7 +4,8 @@ extends SceneTree
 ## tests stub scene changes, because changing scene would end the test runner).
 ## Starting at the main menu, three times over:
 ##   Library Tutorial → Esc → Restart → Esc → Main menu →
-##   Expanded Library → Esc → Restart → Esc → Main menu
+##   Expanded Library → Esc → Restart → Esc → Main menu →
+##   Museum Heist → Esc → Restart → Esc → Main menu
 ## then Quit. After every scene change it checks:
 ##   - the right scene is loaded (a new instance; Restart reloads the same map)
 ##   - the previous scene and its systems are freed (no stale references)
@@ -54,10 +55,11 @@ func _run() -> void:
 	await _shot("main_menu")
 	var tutorial := LevelCatalog.scene_of(LevelCatalog.TUTORIAL)
 	var expanded := LevelCatalog.scene_of(LevelCatalog.EXPANDED)
+	var museum := LevelCatalog.scene_of(LevelCatalog.MUSEUM)
 	for cycle in CYCLES:
-		for path in [tutorial, expanded]:
+		for path in [tutorial, expanded, museum]:
 			var menu := current_scene as MainMenu
-			var button: Button = menu.start_button if path == tutorial else menu.expanded_button
+			var button: Button = menu.level_buttons[LevelCatalog.id_of_scene(path)]
 			var title: String = LevelCatalog.get_level(LevelCatalog.id_of_scene(path)).title
 			# Select the map.
 			var before: WeakRef = weakref(current_scene)
@@ -129,6 +131,14 @@ func _check_level(level: Node, path: String, previous: WeakRef, what: String) ->
 	var has_mission := level != null and level.has_node("Gameplay/ObjectiveManager")
 	for g in MISSION_SYSTEMS:
 		ok = ok and counts[g] == (1 if has_mission else 0)
+	if path == LevelCatalog.scene_of(LevelCatalog.MUSEUM):
+		var guards := level.get_tree().get_nodes_in_group("guards").filter(
+			func(node): return level.is_ancestor_of(node))
+		ok = ok and guards.size() == 5
+		for node in guards:
+			var guard := node as Guard
+			var route := guard.patrol_route
+			ok = ok and route != null and route.get_point_count() == 2
 	ok = ok and _count_nodes(root, func(n): return n is MainMenu) == 0
 	# Each connection made once: the same counts every time this map loads.
 	var connections := _connections(level) if level else {}
