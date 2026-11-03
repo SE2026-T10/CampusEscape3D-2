@@ -151,8 +151,17 @@ const EXPANSION_SCENE := "res://maps/library/scenes/expanded_library_expansion.t
 ##     bins moved to the back walls; the low props of the expansion (Book Processing bins,
 ##     step stools, mop bucket, porch benches) given 0.5 m collision, which the navmesh bake
 ##     keeps guards clear of; the navmesh rebaked (1258 → 1260 polygons).
+##   - S2 staff stair in steel (2026-11-02, on request): maps/library/tools/expansion/fixes_x31.gd
+##     removes the stair's stepped side panels and caps from the batches (their Handrail
+##     bodies stay), stops the east wall's wainscot and dado rail at the stair's foot and
+##     makes the foot mat rubber grey (decoration digest updated; collision and actor
+##     digests and the navmesh unchanged).
+##   - Emptier rooms dressed (2026-11-03, on request): the expansion's new solid props in the
+##     east basement, cable bay, electrical room, Book Processing and on the upper floor; the
+##     navmesh rebaked with them (1260 → 1322 polygons). fixes_x32.py turns on the
+##     StealthHud's paper style (no geometry, decoration or actor change).
 const BASELINE_GEOMETRY_SHA := "85653d19815a67c5206d7aa975fceb561d88ef673a7da0dfaf7afe3203812e78"
-const BASELINE_DECORATION_SHA := "75c990f1dbd3562574f99b67ac845e28044a4716005fb1e708d13e0dece3e3ff"
+const BASELINE_DECORATION_SHA := "b21c6cf573c95620483f2b0e59d9065ccbe0940b9ea652c489fc1cb8c9bbf159"
 const BASELINE_ACTORS_SHA := "5b21b05f6a85f8092db260a4459314cf7d3fdd9acc10a4d430530fdd5c9ea305"
 const BASELINE_COUNTS := {"collision_objects": 268, "collision_shapes": 268, "batched_nodes": 307,
 	"guards": 6, "patrol_points": 41, "hiding_spots": 13, "access_doors": 4, "checkpoints": 3, "lights": 90}
@@ -169,7 +178,7 @@ const PHASE5_ADDED_COUNTS := {"guards": 1, "patrol_points": 5}
 const STAFF_GUARD_ADDED := [^"Guards/GuardStaff", ^"Guards/P6_StaffCorridor"]
 const STAFF_GUARD_ADDED_COUNTS := {"guards": 1, "patrol_points": 3}
 const BASELINE_NAVMESH := "res://maps/library/resources/expanded_library_navmesh.tres"
-const BASELINE_NAV_POLYGONS := 1260
+const BASELINE_NAV_POLYGONS := 1322
 
 const SYSTEM_GROUPS := ["game_flow", "stealth_director", "noise_system", "audio_director", "player",
 	"objective_manager", "checkpoint_manager"]

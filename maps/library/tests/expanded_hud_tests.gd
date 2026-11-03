@@ -238,6 +238,12 @@ func _check_hud_reads_game() -> void:
 		var jr := journal.get_global_rect()
 		_expect(jr.size.x == JournalClipboard.WIDTH and jr.size.y > jr.size.x, "The clipboard is a page, longer than wide (%s)." % jr.size)
 		_expect(first.contains("Kalam-Bold.ttf") and first.contains("[b]Pump room log[/b]"), "Headings handwritten, the document's title typed.")
+	# The rest of the HUD on paper (2026-11-03): the ways-out index card, the item tags, the
+	# stamina strip; the same texts as before.
+	var card := (_hud.get_layout_controls().status as Control).get_node_or_null("Card")
+	var card_style := (_hud.get_layout_controls().status as PanelContainer).get_theme_stylebox("panel") as StyleBoxFlat
+	_expect(card != null and card_style.bg_color.is_equal_approx(PaperNote.PAPER) and not _hud.get_status_lines().is_empty(), "The ways-out panel is an index card.")
+	_expect(_stealth.paper_style, "The stamina bar is drawn on paper.")
 	_hud.close_journal()
 	print("  [expanded-hud] reads the game: stamina bar, EXHAUSTED + caption while Shift is held after running dry; slots = inventory; checklist = objectives; journal = clues + documents only, on a portrait clipboard")
 
@@ -518,6 +524,7 @@ func _check_tutorial() -> void:
 	_expect(_hud.get_header_text().begins_with("OBJECTIVE ") and _hud.get_lines().size() == _objectives.get_ids().size(), "Tutorial: its checklist as before (%s)." % _hud.get_header_text())
 	_expect(not (_hud.get_layout_controls().objectives is PaperNote), "Tutorial: its dark mission panel, not the Expanded Library's paper note.")
 	_expect(not (_hud.get_layout_controls().journal is JournalClipboard), "Tutorial: its dark journal panel, not the Expanded Library's clipboard.")
+	_expect(not _stealth.paper_style and (_hud.get_layout_controls().status as Control).get_node_or_null("Card") == null, "Tutorial: its dark stamina bar and status panel.")
 	await _press_key("toggle_mission")
 	_hud._process(0.0)
 	_expect(_hud.mission_open and _hud.get_layout_controls().objectives.visible and _hud.get_layout_controls().mission_folded == null, "Tutorial: K does nothing.")

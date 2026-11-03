@@ -174,9 +174,9 @@ const RAMP_FILLER_STEPS := 10
 
 ## Cover with collision: "low" hides a crouched player, "full" a standing one.
 const COVER := [
-	{"name": "AlcoveCrate", "zone": "G", "rect": [-38.9, -16.6, -37.1, -15.0], "y": BF, "h": 1.2, "look": "crate"},
+	{"name": "AlcoveCrate", "zone": "G", "rect": [-38.9, -16.6, -37.1, -15.0], "y": BF, "h": 1.2, "look": "crate", "hidden": true},   # polish 2026-11-03: a pallet of cartons is its look
 	{"name": "BayCrate", "zone": "G", "rect": [-27.6, -21.0, -26.0, -19.4], "y": BF, "h": 1.2, "look": "crate", "hidden": true},   # polish: two tool chests are its look
-	{"name": "CableBayCrate", "zone": "G", "rect": [43.2, -21.8, 44.8, -20.2], "y": BF, "h": 1.2, "look": "crate_dark"},
+	{"name": "CableBayCrate", "zone": "G", "rect": [43.2, -21.8, 44.8, -20.2], "y": BF, "h": 1.2, "look": "crate_dark", "hidden": true},   # polish 2026-11-03: a slatted shipping crate is its look
 	{"name": "TunnelCrateWest", "zone": "G", "rect": [-14.8, -26.85, -13.2, -25.3], "y": BF, "h": 1.2, "look": "crate"},
 	{"name": "TunnelCrateEast", "zone": "G", "rect": [18.2, -24.7, 19.8, -23.15], "y": BF, "h": 1.2, "look": "crate"},
 	{"name": "PumpMachine", "zone": "G", "rect": [-2.0, -20.2, 2.0, -17.8], "y": BF, "h": SLAB_BOTTOM - BF, "look": "steel", "hidden": true},   # floor to ceiling: full cover, nothing baked on top; polish: no mesh, the pump unit (built by the builder) is its look
@@ -275,7 +275,7 @@ const BASEMENT_LAMP_DROP := 0.45
 ## Header colours over the three cut doorways, on both faces (decoration).
 const DOOR_HEADERS := [
 	{"name": "WestServiceDoor", "x": -36.0, "z": -9.0, "width": 2.0, "look": "header"},
-	{"name": "ElectricalRoomDoor", "x": 36.0, "z": -23.0, "width": 2.0, "look": "restricted"},
+	{"name": "ElectricalRoomDoor", "x": 36.0, "z": -23.0, "width": 2.0, "look": "header"},   # polish 2026-11-03: was a red block ("restricted")
 	{"name": "Study1StacksDoor", "x": -12.0, "z": -21.0, "width": 2.0, "look": "header"},
 ]
 
@@ -406,6 +406,10 @@ const DECOR_LOOKS := {
 	"concrete_ceiling": [Color(0.5, 0.5, 0.48), 1.0, 0.0, 0.0],
 	"floor_sealed": [Color(0.44, 0.45, 0.44), 0.55, 0.0, 0.0],
 	"band_paint": [Color(0.3, 0.34, 0.36), 0.7, 0.0, 0.0],
+	# The storm drain (redesign): leaves, the moonlight through the manhole's grating.
+	"leaf_brown": [Color(0.42, 0.3, 0.14), 1.0, 0.0, 0.0],
+	"leaf_dark": [Color(0.26, 0.22, 0.12), 1.0, 0.0, 0.0],
+	"glow_moon": [Color(0.62, 0.72, 0.9), 0.5, 0.0, 1.3],
 }
 const _BC := SLAB_BOTTOM - 0.05 - BF   # basement ceiling height (3.75 m)
 const DECOR := [

@@ -47,6 +47,8 @@ const LENS := Vector3(0, 0, -0.29)
 ## Each cone ray ends this far before what it hits, so the cone's end never flickers
 ## into the wall or floor it lies on.
 const CONE_GAP := 0.05
+## The cone's opacity while the camera sees nothing (was 0.07; it rises to 0.17 as before).
+const CONE_REST_ALPHA := 0.035
 ## The view cone's render layer (11): no light includes it; cameras draw every layer.
 const CONE_LAYER := 1 << 10
 
@@ -244,7 +246,9 @@ func _update_visual(powered: bool) -> void:
 	_lens_material.emission = colour
 	_lens_material.emission_energy_multiplier = 2.0 if powered else 0.0
 	_cone.visible = powered
-	_cone_material.albedo_color = Color(colour, 0.07 + 0.1 * clampf(meter / 100.0, 0.0, 1.0))
+	# Softer at rest (2026-11-03): a faint cone while the camera sees nothing, as strong as
+	# before once it is noticing the player.
+	_cone_material.albedo_color = Color(colour, CONE_REST_ALPHA + 0.13 * clampf(meter / 100.0, 0.0, 1.0))
 
 
 func _build() -> void:

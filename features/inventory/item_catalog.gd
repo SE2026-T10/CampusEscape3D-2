@@ -20,6 +20,9 @@ const SECURITY_BADGE := &"security_badge"
 ## The Study 4 reserve shelf (approved 2026-10-31): three reserve books to put back, and
 ## its reward, the loading dock shutter's manual release key.
 const RESERVE_BOOK_523 := &"reserve_book_523"
+## What pressing F (use) says with a reserve book in hand (2026-11-03, on request): a hint
+## that it goes back somewhere, not how to use a mechanism.
+const RESERVE_USE_HINT := "Looks like this book belongs somewhere."
 const RESERVE_BOOK_823 := &"reserve_book_823"
 const RESERVE_BOOK_942 := &"reserve_book_942"
 const DOCK_KEY := &"dock_key"
@@ -36,11 +39,11 @@ const ITEMS := {
 		"size": Vector3(0.26, 0.015, 0.17), "colour": Color(0.2, 0.55, 0.95), "shape": "box"},
 	SECURITY_BADGE: {"name": "Security master badge", "kind": Kind.CARD,
 		"size": Vector3(0.24, 0.02, 0.16), "colour": Color(0.95, 0.75, 0.15), "shape": "box"},
-	RESERVE_BOOK_523: {"name": "Reserve book 523.8", "kind": Kind.TOOL,
+	RESERVE_BOOK_523: {"name": "Reserve book 523.8", "use_hint": RESERVE_USE_HINT, "kind": Kind.TOOL,
 		"size": Vector3(0.2, 0.05, 0.27), "colour": Color(0.2, 0.42, 0.3), "shape": "box"},
-	RESERVE_BOOK_823: {"name": "Reserve book 823.8", "kind": Kind.TOOL,
+	RESERVE_BOOK_823: {"name": "Reserve book 823.8", "use_hint": RESERVE_USE_HINT, "kind": Kind.TOOL,
 		"size": Vector3(0.2, 0.05, 0.27), "colour": Color(0.6, 0.16, 0.13), "shape": "box"},
-	RESERVE_BOOK_942: {"name": "Reserve book 942.1", "kind": Kind.TOOL,
+	RESERVE_BOOK_942: {"name": "Reserve book 942.1", "use_hint": RESERVE_USE_HINT, "kind": Kind.TOOL,
 		"size": Vector3(0.2, 0.05, 0.27), "colour": Color(0.18, 0.28, 0.5), "shape": "box"},
 	DOCK_KEY: {"name": "Dock release key", "kind": Kind.TOOL,
 		"size": Vector3(0.14, 0.025, 0.06), "colour": Color(0.85, 0.68, 0.25), "shape": "box"},
@@ -57,6 +60,11 @@ static func has_item(id: StringName) -> bool:
 
 static func item_name(id: StringName) -> String:
 	return ITEMS[id].name if ITEMS.has(id) else String(id)
+
+
+## What using the item with F says, if it has its own line ("" for the kind's usual hint).
+static func use_hint(id: StringName) -> String:
+	return String(ITEMS[id].get("use_hint", "")) if ITEMS.has(id) else ""
 
 
 static func get_kind(id: StringName) -> Kind:

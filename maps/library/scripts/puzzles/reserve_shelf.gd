@@ -10,6 +10,8 @@ extends Puzzle
 ##   - A gap (a ReserveGap child "Gap<i>") takes its book from the player's inventory.
 ##   - A wrong book is refused, quietly (shelving makes no noise, no alarm); without a
 ##     reserve book a gap only says which range goes there.
+##   - No display of the count (removed on request, 2026-11-03): the books standing in their
+##     gaps show the progress; the Puzzle's display label is kept hidden.
 ## Persistence (group "checkpoint_state"): which gaps are filled, and so whether it is
 ## solved; the books' pickups and the player's slots restore themselves, so being caught
 ## puts a book shelved since the last checkpoint back in the player's hands.
@@ -42,6 +44,7 @@ func _ready() -> void:
 			_gaps.append(gap)
 			_books.append(_book_model(gap, gap_books[i]))
 	super()
+	_display.visible = false
 
 
 ## A book standing in the gap, spine out (hidden until shelved).
@@ -121,10 +124,6 @@ func _refresh() -> void:
 		if node and node.has_method("set_available"):
 			node.set_available(is_solved)
 	_set_door(is_solved)
-	if is_solved:
-		_set_display("RESERVE SHELF\nCOMPLETE", Color(0.1, 0.42, 0.2))   # dark ink: the display is a cream card
-	else:
-		_set_display("RESERVE SHELF\n%d / %d BOOKS" % [shelved_count(), filled.size()], Color(0.18, 0.12, 0.06))
 	_snap = false
 
 

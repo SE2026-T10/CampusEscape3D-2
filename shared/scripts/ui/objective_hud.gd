@@ -404,7 +404,9 @@ func _draw_slots() -> void:
 		return
 	var font := ThemeDB.fallback_font
 	var texts := get_slot_texts()
-	for i in texts.size():
+	if paper_note:
+		_draw_slot_tags(inventory, texts)
+	for i in (0 if paper_note else texts.size()):
 		var rect := Rect2(Vector2(i * (SLOT_SIZE.x + 8), 0), SLOT_SIZE)
 		var chosen := i == inventory.selected
 		_slots.draw_rect(rect, Color(0.03, 0.04, 0.06, 0.72 if chosen else 0.55))
@@ -434,6 +436,14 @@ func _build_status_panel() -> void:
 	style.bg_color = Color(0.03, 0.04, 0.06, 0.62)
 	style.set_corner_radius_all(6)
 	style.set_content_margin_all(12)
+	if paper_note:
+		# The paper-note levels (2026-11-03): an index card held by a paper clip.
+		style.bg_color = PaperNote.PAPER
+		style.set_corner_radius_all(2)
+		style.shadow_color = Color(0, 0, 0, 0.4)
+		style.shadow_size = 5
+		style.shadow_offset = Vector2(2, 4)
+		style.content_margin_top = 16
 	_status_panel.add_theme_stylebox_override("panel", style)
 	_status_panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	_status_panel.position = Vector2(20, 20)
@@ -450,7 +460,71 @@ func _build_status_panel() -> void:
 	_status_text.add_theme_font_size_override("normal_font_size", 14)
 	_status_text.add_theme_constant_override("outline_size", 5)
 	_status_text.add_theme_color_override("font_outline_color", Color.BLACK)
+	if paper_note:
+		var card := Control.new()
+		card.name = "Card"
+		card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		card.draw.connect(_draw_status_card.bind(card))
+		_status_panel.add_child(card)
+		_status_panel.rotation_degrees = -0.6
+		_status_text.add_theme_constant_override("outline_size", 0)
+		_status_text.add_theme_color_override("default_color", PaperNote.INK)
+		_status_text.add_theme_font_override("normal_font", PaperNote.FONT)
+		_status_text.add_theme_font_size_override("normal_font_size", 15)
+		_status_text.add_theme_constant_override("line_separation", -3)
 	_status_panel.add_child(_status_text)
+
+
+## The index card's rules, its red top line and the paper clip (the card's content area;
+## drawn a little beyond it).
+func _draw_status_card(c: Control) -> void:
+	var w := c.size.x + 24.0
+	var x0 := -12.0
+	c.draw_line(Vector2(x0, -6), Vector2(x0 + w, -6), PaperNote.INK_RED, 1.5)
+	var y := 16.0
+	while y < c.size.y + 4.0:
+		c.draw_line(Vector2(x0, y), Vector2(x0 + w, y), PaperNote.RULE, 1.0)
+		y += 19.0
+	# The clip, over the top left corner.
+	var clip := Color(0.58, 0.6, 0.65)
+	var at := Vector2(14, -30)
+	var loop := PackedVector2Array([at + Vector2(0, 40), at + Vector2(0, 6), at + Vector2(7, -1), at + Vector2(14, 6), at + Vector2(14, 34), at + Vector2(9, 39), at + Vector2(4, 34), at + Vector2(4, 12)])
+	c.draw_polyline(loop, Color(0, 0, 0, 0.25), 3.0, true)
+	c.draw_polyline(loop, clip, 2.2, true)
+
+
+## The paper-note levels' slots (2026-11-03): three luggage tags on strings, the chosen one
+## lifted and ringed in red ink; its number in red, the item's colour and its name in ink.
+func _draw_slot_tags(inventory: PlayerInventory, texts: Array[String]) -> void:
+	for i in texts.size():
+		var chosen := i == inventory.selected
+		var r := Rect2(Vector2(i * (SLOT_SIZE.x + 8), -4.0 if chosen else 0.0), SLOT_SIZE)
+		var id := inventory.get_item(i)
+		var tag := PackedVector2Array([r.position + Vector2(16, 0), Vector2(r.end.x, r.position.y), r.end,
+			Vector2(r.position.x + 16, r.end.y), Vector2(r.position.x, r.end.y - 12), r.position + Vector2(0, 12)])
+		var shadow := PackedVector2Array()
+		for p in tag:
+			shadow.append(p + Vector2(2, 3))
+		_slots.draw_colored_polygon(shadow, Color(0, 0, 0, 0.35))
+		_slots.draw_colored_polygon(tag, PaperNote.PAPER if id != &"" else PaperNote.PAPER.darkened(0.08))
+		var outline := tag.duplicate()
+		outline.append(tag[0])
+		_slots.draw_polyline(outline, PaperNote.INK_RED if chosen else PaperNote.INK_SOFT, 2.0 if chosen else 1.0, true)
+		var hole := r.position + Vector2(10, r.size.y / 2.0)
+		_slots.draw_circle(hole, 5.0, Color(0.55, 0.48, 0.3))
+		_slots.draw_circle(hole, 3.2, Color(0.12, 0.1, 0.08))
+		_slots.draw_line(hole, hole + Vector2(-14, -16), Color(0.85, 0.82, 0.72), 1.5, true)
+		_slots.draw_string(PaperNote.FONT_BOLD, r.position + Vector2(22, 17), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, PaperNote.INK_RED)
+		if id != &"":
+			var info: Dictionary = ItemCatalog.ITEMS[id]
+			_slots.draw_rect(Rect2(r.position + Vector2(24, 24), Vector2(10, 10)), info.colour)
+			_slots.draw_rect(Rect2(r.position + Vector2(24, 24), Vector2(10, 10)), PaperNote.INK_SOFT, false, 1.0)
+		var label := texts[i].substr(2)
+		var font_size := 17
+		while font_size > 11 and PaperNote.FONT.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > SLOT_SIZE.x - 48:
+			font_size -= 1
+		_slots.draw_string(PaperNote.FONT, r.position + Vector2(40, 29), label, HORIZONTAL_ALIGNMENT_LEFT, SLOT_SIZE.x - 44, font_size,
+			PaperNote.INK if id != &"" else PaperNote.INK_DONE)
 
 
 ## The status panel (WAYS OUT, POWER, checkpoint) and the objective panel, for layout tests.
@@ -661,10 +735,20 @@ func get_status_lines() -> Array[String]:
 
 func _status_bbcode() -> String:
 	var accent := Color(1.0, 0.82, 0.3)
+	var done := COLOUR_DONE
+	var locked := COLOUR_LOCKED
+	var plain := Color.WHITE
+	var warn := Color("ff8a70")
+	if paper_note:   # ink on the index card
+		accent = PaperNote.INK_RED
+		done = Color(0.12, 0.45, 0.2)
+		locked = PaperNote.INK_SOFT
+		plain = PaperNote.INK
+		warn = PaperNote.INK_RED
 	var text := ""
 	var provider := MapHudProvider.find_for(self)
 	if provider:
-		text = provider.get_status_bbcode(accent, COLOUR_DONE, COLOUR_LOCKED)
+		text = provider.get_status_bbcode(accent, done, locked, plain, warn)
 		if text != "" and not text.ends_with("\n"):
 			text += "\n"
 	var checkpoints := CheckpointManager.find(self)

@@ -2725,14 +2725,14 @@ layers = 12
 material_override = ExtResource("surface_detail")
 cast_shadow = 0
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(0.14, 0, 0, 0, 0.04, 0, 0, 0, 2, -0.15000153, 1.02, 0, 0.9, 0.72, 0.1, 1)
+boxes = PackedFloat32Array()
 
 [node name="Batch_5_1_plain_L12_S1" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=1648334465]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.5, 0, -5)
 layers = 12
 material_override = ExtResource("surface_detail")
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(0.1, 0, 0, 0, 2.25, 0, 0, 0, 2, -1.6500015, 4.375, 0, 0.56, 0.58, 0.59, 1, 3, 0, 0, 0, 3.2510242, 0, 0, 0, 1, -0.15000153, 1.6255121, 0.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 3.7010243, 0, 0, 0, 1, -0.15000153, 1.8505121, -0.5, 0.2, 0.21, 0.22, 1)
+boxes = PackedFloat32Array(3, 0, 0, 0, 3.2510242, 0, 0, 0, 1, -0.15000153, 1.6255121, 0.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 3.7010243, 0, 0, 0, 1, -0.15000153, 1.8505121, -0.5, 0.2, 0.21, 0.22, 1)
 
 [node name="Batch_5_1_plain_L4_S0" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=946682233]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, -11.5)
@@ -2755,14 +2755,14 @@ layers = 12
 material_override = ExtResource("surface_detail")
 cast_shadow = 0
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(0.14, 0, 0, 0, 0.04, 0, 0, 0, 2, -0.15000153, 1.9200001, 3, 0.9, 0.72, 0.1, 1, 0.14, 0, 0, 0, 0.04, 0, 0, 0, 2, -0.15000153, 2.82, 1, 0.9, 0.72, 0.1, 1, 0.14, 0, 0, 0, 0.04, 0, 0, 0, 2, -0.15000153, 3.72, -1, 0.9, 0.72, 0.1, 1, 0.14, 0, 0, 0, 0.04, 0, 0, 0, 2, -0.15000153, 4.62, -3, 0.9, 0.72, 0.1, 1)
+boxes = PackedFloat32Array()
 
 [node name="Batch_5_2_plain_L12_S1" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=1245368688]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.5, 0, -1)
 layers = 12
 material_override = ExtResource("surface_detail")
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(3, 0, 0, 0, 0.27357644, 0.1231094, 0, -4.5, 10, -0.15000153, 2.1132119, -0.06155467, 0.45, 0.46, 0.47, 1, 0.1, 0, 0, 0, 1.9, 0, 0, 0, 2, -1.6500015, 0.95, 4, 0.56, 0.58, 0.59, 1, 0.1, 0, 0, 0, 2.25, 0, 0, 0, 2, -1.6500015, 1.675, 2, 0.56, 0.58, 0.59, 1, 0.1, 0, 0, 0, 2.25, 0, 0, 0, 2, -1.6500015, 2.575, 0, 0.56, 0.58, 0.59, 1, 0.1, 0, 0, 0, 2.25, 0, 0, 0, 2, -1.6500015, 3.475, -2, 0.56, 0.58, 0.59, 1, 3, 0, 0, 0, 0.101024315, 0, 0, 0, 1, -0.15000153, 0.050512157, 3.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 0.5510243, 0, 0, 0, 1, -0.15000153, 0.27551216, 2.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 1.0010244, 0, 0, 0, 1, -0.15000153, 0.5005122, 1.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 1.4510243, 0, 0, 0, 1, -0.15000153, 0.72551215, 0.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 1.9010243, 0, 0, 0, 1, -0.15000153, 0.9505122, -0.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 2.3510244, 0, 0, 0, 1, -0.15000153, 1.1755122, -1.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 2.8010242, 0, 0, 0, 1, -0.15000153, 1.4005121, -2.5, 0.2, 0.21, 0.22, 1)
+boxes = PackedFloat32Array(3, 0, 0, 0, 0.27357644, 0.1231094, 0, -4.5, 10, -0.15000153, 2.1132119, -0.06155467, 0.45, 0.46, 0.47, 1, 3, 0, 0, 0, 0.101024315, 0, 0, 0, 1, -0.15000153, 0.050512157, 3.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 0.5510243, 0, 0, 0, 1, -0.15000153, 0.27551216, 2.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 1.0010244, 0, 0, 0, 1, -0.15000153, 0.5005122, 1.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 1.4510243, 0, 0, 0, 1, -0.15000153, 0.72551215, 0.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 1.9010243, 0, 0, 0, 1, -0.15000153, 0.9505122, -0.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 2.3510244, 0, 0, 0, 1, -0.15000153, 1.1755122, -1.5, 0.2, 0.21, 0.22, 1, 3, 0, 0, 0, 2.8010242, 0, 0, 0, 1, -0.15000153, 1.4005121, -2.5, 0.2, 0.21, 0.22, 1)
 
 [node name="Batch_5_2_plain_L4_S0" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=385630700]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 2)
@@ -2802,7 +2802,7 @@ layers = 4
 material_override = ExtResource("surface_detail")
 cast_shadow = 0
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(0.06, 0, 0, 0, 0.06, 0, 0, 0, 16, 6.8199997, 1.0199999, -2.3841858e-07, 0.6, 0.12, 0.1, 1)
+boxes = PackedFloat32Array(0.06, 0, 0, 0, 0.06, 0, 0, 0, 6, 6.82, 1.02, 5, 0.6, 0.12, 0.1, 1)
 
 [node name="Batch_5_2_plain_L4_S0_5" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=270530887]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 2)
@@ -2810,7 +2810,7 @@ layers = 4
 material_override = ExtResource("surface_detail")
 cast_shadow = 0
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(0.03, 0, 0, 0, 1, 0, 0, 0, 16, 6.834999, 0.49999988, -2.3841858e-07, 0.42, 0.13, 0.11, 1)
+boxes = PackedFloat32Array(0.03, 0, 0, 0, 1, 0, 0, 0, 6, 6.834999, 0.5, 5, 0.42, 0.13, 0.11, 1)
 
 [node name="Batch_5_2_plain_L4_S0_6" type="MultiMeshInstance3D" parent="NavigationRegion3D/Ground/Batched" unique_id=270530888]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 2)
@@ -9331,7 +9331,7 @@ layers = 4
 material_override = ExtResource("surface_detail")
 cast_shadow = 0
 script = ExtResource("3_wyiue")
-boxes = PackedFloat32Array(3, 0, 0, 0, 0.008, 0, 0, 0, 0.9, -0.15000153, 0.004, -0.5500002, 0.86, 0.8, 0.62, 1)
+boxes = PackedFloat32Array(3, 0, 0, 0, 0.008, 0, 0, 0, 0.9, -0.15000153, 0.004, -0.5500002, 0.2, 0.2, 0.21, 1)
 
 [node name="Batch_5_2_window_L4_S0" type="MultiMeshInstance3D" parent="Dressing/Batched" unique_id=1801406471]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 5)
@@ -9385,6 +9385,7 @@ script = ExtResource("21_2qhgn")
 
 [node name="StealthHud" type="CanvasLayer" parent="." unique_id=675729522]
 script = ExtResource("22_uf0kj")
+paper_style = true
 
 [node name="NoiseSystem" type="Node3D" parent="." unique_id=746297583]
 script = ExtResource("23_wr50t")

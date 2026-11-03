@@ -20,7 +20,8 @@ extends RefCounted
 ##   F. Reserve shelf: the objective in the scene is the layout's; the three books lie
 ##      where a player can reach them; the slip and the memo discover the objective;
 ##      a wrong book is refused quietly; the right ones are shelved; the third opens
-##      the cabinet, reveals the key and completes the objective; a checkpoint restore
+##      the cabinet, reveals the key and completes the objective; no count is shown on the
+##      shelf and F with a reserve book says it belongs somewhere (2026-11-03); a checkpoint restore
 ##      takes back what was shelved since; the key opens the dock shutter by hand
 ##      without power, the HUD names the key, and a restore closes it again.
 ##   G. Study 4 (requested 2026-10-31): the reserve slip (and the Office 1 memo, on its east
@@ -50,6 +51,17 @@ extends RefCounted
 ##      guard's reach (0.4 m) of the walkable area; the office bins are on the back walls;
 ##      the other low props (Book Processing bins, step stools, mop bucket, porch benches)
 ##      have 0.5 m collision, so the walkable area keeps 0.5 m clear of them.
+##   M. Front doors (2026-11-02, on request): the porch's back wall, behind the spawn, has
+##      the library's front doors (decoration flat on the wall, no collision); they are a
+##      LockedDoor: aimed at from the spawn turned round, the prompt says they are locked,
+##      and E is refused with the reason on the HUD, without a noise for the guards.
+##   N. Emptier rooms dressed (2026-11-03, on request): the east basement, the cable bay,
+##      the electrical room, Book Processing and the upper floor have their new solid props,
+##      each standing at least 1.2 m (flat) from every guard's patrol path and 0.6 m from
+##      every hiding spot and interactable; the west basement's and the cable bay's crates
+##      keep their colliders but draw no box of their own (a pallet of cartons, a slatted
+##      crate in their place); the electrical room's door header is no longer red.
+##   O. Camera cones (2026-11-03): faint while a camera sees nothing.
 
 const SCENE := "res://maps/library/scenes/expanded_library.tscn"
 const Layout := preload("res://maps/library/tools/expanded_layout.gd")
@@ -79,6 +91,9 @@ func run(host: Node) -> Array[String]:
 	_check_item_models()
 	await _check_item_markers()
 	_check_guard_snags()
+	await _check_front_doors()
+	_check_rooms_dressed()
+	_check_camera_cones()
 	await _load(false)
 	await _check_staff_guard()
 	await _unload()
@@ -277,6 +292,20 @@ func _check_reserve_shelf() -> void:
 		return
 	var key := _level.get_node(X.MISSION.reserve_shelf.reveal[0].replace("Items/", "Expansion/Gameplay/Items/")) as ItemPickup
 	_expect(not key.available and not key.visible, "The dock key is not there before the shelf is complete.")
+	# 2026-11-03, on request: no count shown on the shelf; F with a reserve book only hints
+	# that it belongs somewhere.
+	var display := shelf.get_node_or_null("Display") as Label3D
+	_expect(not shelf.has_node("DisplayCard") and (display == null or not display.visible), "The reserve shelf shows no count.")
+	var notes: Array[String] = []
+	var note := func(text: String, _good: bool): notes.append(text)
+	_inventory.notice.connect(note)
+	_inventory.add(ItemCatalog.RESERVE_BOOK_823)
+	_inventory.select(_inventory.slots.find(ItemCatalog.RESERVE_BOOK_823))
+	var used := _inventory.use_selected()
+	_inventory.notice.disconnect(note)
+	_expect(not used and _inventory.has(ItemCatalog.RESERVE_BOOK_823) and notes.has("Looks like this book belongs somewhere."),
+		"F with a reserve book: \"Looks like this book belongs somewhere.\", the book kept (%s)." % [notes])
+	_inventory.take_from_slot(_inventory.slots.find(ItemCatalog.RESERVE_BOOK_823))
 	# The books lie where a player can reach them.
 	var map := (_level as Node3D).get_world_3d().navigation_map
 	for it in X.ITEMS:
@@ -442,6 +471,120 @@ func _aim_at(interactor: PlayerInteractor, t: Interactable, front: Vector3) -> I
 	_player.head.rotation.x = atan2(aim.y - eye, Vector2(aim.x - at.x, aim.z - at.z).length())
 	await _frames(4)
 	return interactor.find_target()
+
+
+# --- M. Front doors behind the spawn -----------------------------------------------------------
+
+func _check_front_doors() -> void:
+	var doors := _level.get_node_or_null("Expansion/Gameplay/FrontDoors") as LockedDoor
+	var decor := _level.get_node_or_null("Expansion/Dressing/PorchDecor/Porch/FrontDoors") as Node3D
+	_expect(doors != null and decor != null, "The porch has the front doors and their lock.")
+	if doors == null or decor == null:
+		return
+	# Behind the spawn: the spawn faces north (−z), the doors are on the back wall (south).
+	var spawn: Vector3 = Layout.SPAWN
+	_expect(absf(doors.global_position.x - spawn.x) < 0.5 and doors.global_position.z > spawn.z + 1.5 and doors.global_position.z < 33.85,
+		"The front doors are on the porch's back wall, behind the spawn (%s)." % doors.global_position)
+	var deep := []
+	for c in decor.get_children():
+		var n := c as Node3D
+		if n and not String(n.name).begins_with("Mat") and n.name != "Threshold" and n.global_position.z < 33.85 - 0.17:
+			deep.append(n.name)
+	_expect(deep.is_empty() and decor.find_children("*", "CollisionObject3D", true, false).is_empty(),
+		"The doors' dressing is flat on the wall, without collision (deeper: %s)." % [deep])
+	# From the spawn, turned round: the prompt, then E refused with the reason, no noise.
+	var interactor := _player.find_children("*", "PlayerInteractor", true, false)[0] as PlayerInteractor
+	var target := await _aim_at(interactor, doors, Vector3(0, 0, -1))
+	_expect(target == doors, "Turning round from the spawn, the player's aim finds the front doors (got %s)." % (target.name if target else "nothing"))
+	_expect(interactor.get_prompt_text().contains("Front doors · locked for the night"), "Their prompt says they are locked (%s)." % interactor.get_prompt_text())
+	var noises := [0]
+	var count := func(_e: NoiseEvent): noises[0] += 1
+	NoiseSystem.find(_level).noise_emitted.connect(count)
+	var hud := _level.get_node("ObjectiveHud") as ObjectiveHud
+	var used := interactor.try_interact() if target == doors else true
+	await _frames(2)
+	NoiseSystem.find(_level).noise_emitted.disconnect(count)
+	_expect(not used and doors.tries == 1 and hud.get_message_text().contains("locked for the night") and noises[0] == 0,
+		"E on the front doors is refused with the reason (%s), no noise (%d)." % [hud.get_message_text(), noises[0]])
+
+
+# --- N. Emptier rooms dressed ------------------------------------------------------------------
+
+const DRESSED_PROPS := ["G_BasementProps/CableDrumRack", "G_BasementProps/EastPalletStack", "G_BasementProps/StorageCage",
+	"G_BasementProps/DistributionBoard", "G_BasementProps/CableCoils", "D_ElectricalProps/Transformer", "D_ElectricalProps/Workbench",
+	"D_Processing/SortingShelfEast", "D_Processing/SortingTable", "D_Processing/ReturnBins", "D_Processing/WrapStation",
+	"E_StaffWing/UpperMore/StacksReadingTable0", "E_StaffWing/UpperMore/StacksReadingTable1", "E_StaffWing/UpperMore/BalconyArmchair-3",
+	"E_StaffWing/UpperMore/BalconyArmchair-1", "E_StaffWing/UpperMore/BalconySideTable", "E_StaffWing/UpperMore/BalconyFloorLamp",
+	"E_StaffWing/UpperMore/DisplayCase0", "E_StaffWing/UpperMore/DisplayCase1", "E_StaffWing/UpperMore/ExhibitionBench",
+	"E_StaffWing/UpperMore/UpperPlant-26", "E_StaffWing/UpperMore/UpperPlant8"]
+
+
+func _check_rooms_dressed() -> void:
+	var map: RID = (_level as Node3D).get_world_3d().navigation_map
+	# Every guard's patrol path (along the navmesh between its points).
+	var paths: Array[PackedVector3Array] = []
+	for r in _level.get_node("Guards").get_children():
+		if r.name.begins_with("P") and r is Node3D:
+			var pts: Array[Vector3] = []
+			for c in r.get_children():
+				if c is Node3D:
+					pts.append((c as Node3D).global_position)
+			for i in pts.size():
+				paths.append(NavigationServer3D.map_get_path(map, pts[i], pts[(i + 1) % pts.size()], true))
+	var keep: Array[Node3D] = []
+	for g in ["hiding_spots", "interactables"]:
+		for n in _level.get_tree().get_nodes_in_group(g):
+			if n is Node3D and n.is_inside_tree():
+				keep.append(n)
+	var missing := []
+	var near := []
+	for path in DRESSED_PROPS:
+		var body := _level.get_node_or_null("Expansion/Geometry/" + path) as StaticBody3D
+		if body == null:
+			missing.append(path)
+			continue
+		var size: Vector3 = ((body.get_node("Shape") as CollisionShape3D).shape as BoxShape3D).size
+		var box := AABB(body.global_position - size / 2.0, size)
+		for pts in paths:
+			for q in pts:
+				if absf(q.y - box.position.y) > 1.5:
+					continue
+				var flat := Vector2(clampf(q.x, box.position.x, box.end.x) - q.x, clampf(q.z, box.position.z, box.end.z) - q.z).length()
+				if flat < 1.2:
+					near.append("%s %.2f m from a guard path" % [path.get_file(), flat])
+					break
+		for n in keep:
+			var q := n.global_position
+			if absf(q.y - box.get_center().y) > 2.0:
+				continue
+			var flat := Vector2(clampf(q.x, box.position.x, box.end.x) - q.x, clampf(q.z, box.position.z, box.end.z) - q.z).length()
+			if flat < 0.6:
+				near.append("%s %.2f m from %s" % [path.get_file(), flat, n.name])
+	_expect(missing.is_empty(), "The dressed rooms' props exist (missing %s)." % [missing])
+	_expect(near.is_empty(), "The new props keep clear of guard paths, hiding spots and interactables: %s." % ["; ".join(near.slice(0, 5))])
+	for crate in ["AlcoveCrate", "CableBayCrate"]:
+		var body := _level.get_node("Expansion/Geometry/G_ServiceNetwork/Cover_" + crate) as StaticBody3D
+		_expect(body.get_node_or_null("Shape") != null and body.find_children("*", "MeshInstance3D", true, false).is_empty(),
+			"%s keeps its collider and draws no box of its own." % crate)
+	_expect(_level.has_node("Expansion/Geometry/G_BasementProps/CrateLooks/AlcovePallet") and _level.has_node("Expansion/Geometry/G_BasementProps/CrateLooks/CableBayShippingCrate"),
+		"The crates' new looks: a pallet of cartons and a slatted crate.")
+	var red := 0
+	for bb in _level.get_node("Expansion/Dressing/DoorHeaders").find_children("*", "BatchedBoxes", true, false):
+		var batch := bb as BatchedBoxes
+		for i in batch.box_count():
+			var c: Vector3 = (batch.global_transform * batch.box_transform(i)).origin
+			if absf(c.x - 36.0) < 0.3 and absf(c.z + 23.0) < 0.2 and batch.box_color(i).r > batch.box_color(i).g * 2.0:
+				red += 1
+	_expect(red == 0, "The electrical room's door header is no longer red (%d red boxes)." % red)
+
+
+# --- O. Camera cones -----------------------------------------------------------------------------
+
+func _check_camera_cones() -> void:
+	var cam := _level.get_tree().get_nodes_in_group("security_cameras")
+	if cam.is_empty():
+		cam = _level.find_children("*", "SecurityCamera", true, false)
+	_expect(not cam.is_empty() and SecurityCamera.CONE_REST_ALPHA <= 0.04, "Camera cones are faint at rest (%.3f)." % SecurityCamera.CONE_REST_ALPHA)
 
 
 # --- I. Stationary cameras, cones stopped by walls ---------------------------------------------
