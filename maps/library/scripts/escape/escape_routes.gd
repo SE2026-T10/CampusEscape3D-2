@@ -27,8 +27,6 @@ const CLUE_DOCK_RELEASE := &"route_dock_release"
 const CLUE_POWER_BOARD := &"power_switch_board"
 ## The document that reveals the hidden passage.
 const PASSAGE_DOCUMENT := &"culvert_access_plan"
-## The documents that tell of the dock's manual release key (approved 2026-10-31).
-const DOCK_KEY_DOCUMENTS: Array[StringName] = [&"reserve_memo"]
 
 const CLUES := {
 	CLUE_MAIN: ["Main entrance", "Locked down at night. Security can override it at the lobby badge reader with the master badge; the override takes a few seconds."],
@@ -133,14 +131,8 @@ func get_known_routes() -> Array[Dictionary]:
 	var dock := get_node_or_null(dock_exit_path) as ExitDoor
 	if dock and knows(CLUE_DOCK):
 		var network := PowerNetwork.find(self)
-		var inventory := PlayerInventory.find(self)
-		var carries_key := inventory != null and inventory.has(ItemCatalog.DOCK_KEY)
-		var power_text := "SERVICE EXIT power" if knows(CLUE_DOCK_POWER) else "shutter power"
-		# The manual release key, once the player knows of it, is the other way to the same step.
-		if carries_key or dock.hand_opened or DOCK_KEY_DOCUMENTS.any(func(d): return knows(d)):
-			power_text += " or the dock release key"
 		var reqs: Array = [manuscript,
-			{"text": power_text, "met": (network != null and network.is_powered(&"service_exit")) or carries_key or dock.hand_opened}]
+			{"text": "SERVICE EXIT power" if knows(CLUE_DOCK_POWER) else "shutter power", "met": network != null and network.is_powered(&"service_exit")}]
 		var release := get_node_or_null(release_path) as ToolMechanism
 		if knows(CLUE_DOCK_RELEASE):
 			reqs.append({"text": "free the release (tool kit)", "met": release != null and release.is_operated})
@@ -201,9 +193,7 @@ func get_status_lines() -> Array[String]:
 	return out
 
 
-## `plain`: a route's name while it is not open; `warn`: a circuit that is off (the paper HUD
-## passes ink colours; the defaults are the dark panel's).
-func get_status_bbcode(accent: Color, done: Color, todo: Color, plain := Color.WHITE, warn := Color("ff8a70")) -> String:
+func get_status_bbcode(accent: Color, done: Color, todo: Color) -> String:
 	var text := ""
 	var known := get_known_routes()
 	if not known.is_empty():
@@ -213,12 +203,12 @@ func get_status_bbcode(accent: Color, done: Color, todo: Color, plain := Color.W
 			for requirement in route.requirements:
 				parts.append("[color=#%s]%s %s[/color]" % [(done if requirement.met else todo).to_html(false),
 					"[x]" if requirement.met else "[ ]", requirement.text])
-			text += "[color=#%s]%s%s[/color]: %s\n" % [done.to_html(false) if route.open else plain.to_html(false), route.name,
+			text += "[color=#%s]%s%s[/color]: %s\n" % [done.to_html(false) if route.open else "ffffff", route.name,
 				" (open)" if route.open else "", " · ".join(parts)]
 	var power := get_known_power()
 	if not power.is_empty():
 		text += "[color=#%s]POWER[/color] %s\n" % [accent.to_html(false), " · ".join(power.map(func(p):
-			return "[color=#%s]%s %s[/color]" % [done.to_html(false) if p[1] else warn.to_html(false), p[0], "ON" if p[1] else "OFF"]))]
+			return "[color=#%s]%s %s[/color]" % [done.to_html(false) if p[1] else "ff8a70", p[0], "ON" if p[1] else "OFF"]))]
 	return text
 
 

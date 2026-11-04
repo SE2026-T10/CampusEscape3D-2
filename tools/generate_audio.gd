@@ -64,16 +64,6 @@ func _init() -> void:
 	_save("glass_smash", _mix([_sweep_noise(0.4, 7000.0, 2500.0, 0.6), _click(0.02, 3200.0, 0.4), _delay(_click(0.02, 4100.0, 0.3), 0.05)]))
 	_save("item_thud", _step(0.22, 420.0, 72.0, 0.75))
 	_save("item_pickup", _mix([_bell(1046.5, 0.3, 0.35), _delay(_click(0.03, 2200.0, 0.2), 0.03)]))
-	# Expanded Library ambience (approved 2026-10-31): seamless 8 s loops for the
-	# AmbientEmitters of the basement, the electrical room, the pump room, the porch and
-	# the archive (made last, so every sound above keeps its exact samples).
-	_save("amb_basement_hum", _loopable(_basement_hum(8.5), 0.5))
-	_save("amb_electrical_buzz", _loopable(_electrical_buzz(8.5), 0.5))
-	_save("amb_drips", _loopable(_drips(8.5), 0.5))
-	# Porch rain: taken out again on request (2026-10-31, no outside sound). Still drawn, not
-	# saved, so the random numbers stay in step and the sounds after it keep their samples.
-	_loopable(_rain(8.5), 0.5)
-	_save("amb_air_handling", _loopable(_air_handling(8.5), 0.5))
 	print("Generated sounds in %s" % OUT)
 	quit(0)
 
@@ -309,116 +299,6 @@ func _chase(length: float) -> PackedFloat32Array:
 
 
 # --- Utilities ---------------------------------------------------------------------------------
-
-# --- Expanded Library ambience ---------------------------------------------------------------
-
-## Mains hum (50 Hz and two harmonics) over a low duct rumble, swelling slowly.
-func _basement_hum(length: float) -> PackedFloat32Array:
-	var n := _n(length)
-	var noise := _noise(n)
-	var rumble := _lowpass(_lowpass(noise, 120.0), 120.0)
-	var out := PackedFloat32Array()
-	out.resize(n)
-	for i in n:
-		var t := float(i) / RATE
-		var hum := 0.5 * sin(TAU * 50.0 * t) + 0.25 * sin(TAU * 100.0 * t) + 0.12 * sin(TAU * 150.0 * t)
-		out[i] = (hum * 0.5 + rumble[i] * 6.0) * (1.0 + 0.15 * sin(TAU * t * 2.0 / length))
-	return _normalize(out, 0.5)
-
-
-## A transformer's buzz (100 Hz, square-ish, softened) with a few faint crackles.
-func _electrical_buzz(length: float) -> PackedFloat32Array:
-	var n := _n(length)
-	var out := PackedFloat32Array()
-	out.resize(n)
-	for i in n:
-		var t := float(i) / RATE
-		out[i] = (signf(sin(TAU * 100.0 * t)) * 0.15 + signf(sin(TAU * 200.0 * t)) * 0.075 + signf(sin(TAU * 300.0 * t)) * 0.05)
-	out = _lowpass(_lowpass(out, 900.0), 900.0)
-	for j in 14:
-		var at := _rng.randi_range(0, n - 400)
-		var crack := _highpass(_noise(400), 3000.0)
-		for i in crack.size():
-			crack[i] *= exp(-i / 60.0) * 0.6
-		_add(out, crack, at)
-	return _normalize(out, 0.45)
-
-
-## Water dripping in a tiled room: falling "plip"s over a low drone.
-func _drips(length: float) -> PackedFloat32Array:
-	var n := _n(length)
-	var out := _lowpass(_lowpass(_noise(n), 200.0), 200.0)
-	for i in n:
-		out[i] *= 4.0
-	for k in 7:
-		var at := _n(0.4 + k * 1.13 + _rng.randf_range(-0.2, 0.2))
-		var m := _n(0.25)
-		var drop := PackedFloat32Array()
-		drop.resize(m)
-		var phase := 0.0
-		var f0 := _rng.randf_range(900.0, 1500.0)
-		for i in m:
-			var t := float(i) / RATE
-			phase += f0 * (1.0 + 1.2 * exp(-t * 30.0)) / RATE
-			drop[i] = sin(TAU * phase) * exp(-t * 22.0) * 0.8
-		_add(out, drop, at)
-	return _normalize(out, 0.5)
-
-
-## Steady rain on a porch roof: a band of noise, gusting, with single drops (no longer
-## saved; see above).
-func _rain(length: float) -> PackedFloat32Array:
-	var n := _n(length)
-	var noise := _noise(n)
-	var band := _lowpass(_highpass(noise, 500.0), 6000.0)
-	var low := _lowpass(noise, 400.0)
-	var out := PackedFloat32Array()
-	out.resize(n)
-	for i in n:
-		var t := float(i) / RATE
-		var gust := 1.0 + 0.25 * sin(TAU * t / length) + 0.1 * sin(TAU * t * 3.0 / length)
-		out[i] = (band[i] * 0.6 + low[i] * 1.5) * gust
-	for j in 220:
-		var drop := _highpass(_noise(200), 2500.0)
-		var g := _rng.randf_range(0.2, 0.9) * 0.6
-		for i in drop.size():
-			drop[i] *= exp(-i / 25.0) * g
-		_add(out, drop, _rng.randi_range(0, n - 200))
-	return _normalize(out, 0.5)
-
-
-## Air handling in a closed room: a soft band of noise.
-func _air_handling(length: float) -> PackedFloat32Array:
-	var n := _n(length)
-	return _normalize(_lowpass(_highpass(_noise(n), 200.0), 1500.0), 0.35)
-
-
-func _noise(n: int) -> PackedFloat32Array:
-	var out := PackedFloat32Array()
-	out.resize(n)
-	for i in n:
-		out[i] = _rng.randf_range(-1.0, 1.0)
-	return out
-
-
-func _highpass(sound: PackedFloat32Array, cutoff: float) -> PackedFloat32Array:
-	var low := _lowpass(sound, cutoff)
-	var out := sound.duplicate()
-	for i in out.size():
-		out[i] -= low[i]
-	return out
-
-
-func _normalize(sound: PackedFloat32Array, peak: float) -> PackedFloat32Array:
-	var top := 0.0
-	for v in sound:
-		top = maxf(top, absf(v))
-	var out := sound.duplicate()
-	if top > 0.0:
-		for i in out.size():
-			out[i] *= peak / top
-	return out
-
 
 func _delay(sound: PackedFloat32Array, seconds: float) -> PackedFloat32Array:
 	var out := PackedFloat32Array()

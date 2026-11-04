@@ -389,7 +389,7 @@ func _item_totals() -> Dictionary:
 func _check_guard_snapshot() -> void:
 	await _load(true)
 	var guards: Array = _level.get_node("Guards").get_children().filter(func(g): return g is Guard)
-	_expect(guards.size() == 8 and guards.all(func(g): return g.checkpoint_snapshot), "All eight guards use the checkpoint snapshot.")
+	_expect(guards.size() == 7 and guards.all(func(g): return g.checkpoint_snapshot), "All seven guards use the checkpoint snapshot.")
 	var tutorial := (load(TUTORIAL) as PackedScene).instantiate()
 	_expect(tutorial.get_node("Guards").get_children().filter(func(g): return g is Guard).all(func(g): return not g.checkpoint_snapshot),
 		"Tutorial guards keep resetting to their starts.")
@@ -404,7 +404,7 @@ func _check_guard_snapshot() -> void:
 	var cp := _checkpoint("Storage")
 	_expect(_checkpoints.activate(cp), "The checkpoint activates.")
 	var snaps: Dictionary = _checkpoints.saved_guards.duplicate()
-	_expect(snaps.size() == 8, "The checkpoint stored 8 guards (%d)." % snaps.size())
+	_expect(snaps.size() == 7, "The checkpoint stored 7 guards (%d)." % snaps.size())
 	await _frames(60 * 8)   # they move on
 	# Where every guard is at the moment of the respawn (they walk on right after).
 	var at_respawn := {}

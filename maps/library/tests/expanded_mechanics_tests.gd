@@ -419,11 +419,11 @@ func _check_inventory() -> void:
 	_expect(docs_only.call() == 1 and _inventory.has_document(&"pump_room_log") and _inventory.slots == before,
 		"Reading twice: one journal entry, carried slots unchanged (journal %d)." % docs_only.call())
 	_expect(_hud.is_journal_open(), "Reading a document should open the journal.")
-	var presses := await _page_journal_shut()
-	_expect(not _hud.is_journal_open(), "J should page through the journal and close it (%d presses)." % presses)
+	await _press("journal")
+	_expect(not _hud.is_journal_open(), "J should close the journal.")
 	await _press("journal")
 	_expect(_hud.is_journal_open(), "J should open the journal.")
-	await _page_journal_shut()
+	await _press("journal")
 	var notice: DocumentPickup = _level.get_node("Expansion/Gameplay/Documents/ElectricalNotice")
 	_expect(notice.interact(_player) and docs_only.call() == 2 and _inventory.slots == before,
 		"A second document: two journal entries, slots unchanged.")
@@ -805,13 +805,3 @@ func _seconds(seconds: float) -> void:
 func _frames(count: int) -> void:
 	for i in count:
 		await _host.get_tree().physics_frame
-
-
-## Presses J until the journal closes (it pages through the clues and documents first; a
-## narrow page, like the Expanded Library's clipboard, can have several). Returns the presses.
-func _page_journal_shut() -> int:
-	var presses := 0
-	while _hud.is_journal_open() and presses < 12:
-		await _press("journal")
-		presses += 1
-	return presses

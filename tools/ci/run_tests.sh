@@ -6,9 +6,6 @@
 #   3. the map-selection run: every catalog map selected, restarted and left, three
 #      times over, with real scene changes (tools/map_flow.gd); no errors or
 #      warnings allowed in its output
-#   4. the Expanded Library drift check: the saved level scene and navmesh must
-#      equal a rebuild from source (maps/library/tools/rebuild_level.py --check;
-#      the saved files are put back afterwards)
 # Run tools/ci/validate.sh first (it imports the project). Logs go to ci-logs/.
 set -euo pipefail
 : "${GODOT:?Set GODOT to the Godot executable}"
@@ -49,13 +46,11 @@ fi
 if grep -qE "SCRIPT ERROR|^ERROR|^WARNING" ci-logs/map_flow.log; then
   echo "::error::Errors or warnings during the map-selection run"; grep -E -A2 "SCRIPT ERROR|^ERROR|^WARNING" ci-logs/map_flow.log; exit 1
 fi
-echo "Running the Expanded Library drift check (about 5 minutes)"
-set +e
-timeout 1500 python3 maps/library/tools/rebuild_level.py --check > ci-logs/rebuild_level.log 2>&1
-status=$?
-set -e
-grep -E "^rebuild_level:" ci-logs/rebuild_level.log || true
-if [ "$status" -ne 0 ] || ! grep -q "CHECK PASSED" ci-logs/rebuild_level.log; then
-  echo "::error::The saved Expanded Library differs from a rebuild from source (exit $status)"; tail -n 60 ci-logs/rebuild_level.log; exit 1
+
+echo "Checking K17 art, shared HUD opt-in and sight-transparent barriers"
+timeout 120 "$GODOT" --headless --path . --script res://maps/intelligence/tools/check_art.gd > ci-logs/k17_art.log 2>&1 || {
+  echo "::error::K17 art integration failed"; cat ci-logs/k17_art.log; exit 1; }
+if ! grep -qE "^K17 ART CHECKS: [0-9]+ checks; 0 failures" ci-logs/k17_art.log || grep -qE "SCRIPT ERROR|^ERROR|^WARNING" ci-logs/k17_art.log; then
+  echo "::error::K17 art integration has failures or resource warnings"; cat ci-logs/k17_art.log; exit 1
 fi
 echo "TESTS PASSED"

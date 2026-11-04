@@ -139,46 +139,20 @@ const EXPANSION_SCENE := "res://maps/library/scenes/expanded_library_expansion.t
 ##     maps/library/tools/expansion/fixes_x24.gd hides the two box chairs left at the
 ##     archive's reading desk (Chair27, Chair28; decoration without collision; the digest
 ##     is unchanged); no navmesh change.
-##   - Improvements approved on 2026-10-31 (maps/library/docs/LEVEL_LOG.md):
-##     the level is rebuilt from source by maps/library/tools/rebuild_level.py (the door-frame
-##     fix now computed by the builder, the same boxes to 0.1 mm); the windows stay removed
-##     (fixes_x11.gd; a night view was tried and taken out again the same day, on request;
-##     collision and actor digests unchanged); fixes_x26.py adds
-##     the staff-corridor guard (STAFF_GUARD_ADDED, checked on its own); fixes_x27.py adds the
-##     optional reserve_shelf objective; the navmesh rebaked with the expansion's directory
-##     stand in the lobby (1252 → 1258 polygons).
-##   - No guard snags (2026-11-02, on request: a guard got stuck on an office bin): the office
-##     bins moved to the back walls; the low props of the expansion (Book Processing bins,
-##     step stools, mop bucket, porch benches) given 0.5 m collision, which the navmesh bake
-##     keeps guards clear of; the navmesh rebaked (1258 → 1260 polygons).
-##   - S2 staff stair in steel (2026-11-02, on request): maps/library/tools/expansion/fixes_x31.gd
-##     removes the stair's stepped side panels and caps from the batches (their Handrail
-##     bodies stay), stops the east wall's wainscot and dado rail at the stair's foot and
-##     makes the foot mat rubber grey (decoration digest updated; collision and actor
-##     digests and the navmesh unchanged).
-##   - Emptier rooms dressed (2026-11-03, on request): the expansion's new solid props in the
-##     east basement, cable bay, electrical room, Book Processing and on the upper floor; the
-##     navmesh rebaked with them (1260 → 1322 polygons). fixes_x32.py turns on the
-##     StealthHud's paper style (no geometry, decoration or actor change).
 const BASELINE_GEOMETRY_SHA := "85653d19815a67c5206d7aa975fceb561d88ef673a7da0dfaf7afe3203812e78"
-const BASELINE_DECORATION_SHA := "b21c6cf573c95620483f2b0e59d9065ccbe0940b9ea652c489fc1cb8c9bbf159"
+const BASELINE_DECORATION_SHA := "75c990f1dbd3562574f99b67ac845e28044a4716005fb1e708d13e0dece3e3ff"
 const BASELINE_ACTORS_SHA := "5b21b05f6a85f8092db260a4459314cf7d3fdd9acc10a4d430530fdd5c9ea305"
 const BASELINE_COUNTS := {"collision_objects": 268, "collision_shapes": 268, "batched_nodes": 307,
 	"guards": 6, "patrol_points": 41, "hiding_spots": 13, "access_doors": 4, "checkpoints": 3, "lights": 90}
 ## Expansion Phase 4 (approved): the mission became an objective graph (mission_x3.py).
 ## Before: [enter_library, take_card, take_manuscript, unlock_shortcut, escape].
-## Approved 2026-10-31 (fixes_x27.py): the optional, hidden reserve_shelf added at the end.
 const BASELINE_OBJECTIVES := [&"enter_library", &"take_card", &"find_toolkit", &"open_panel", &"restore_power", &"open_vault",
-	&"take_manuscript", &"escape", &"unlock_shortcut", &"drain_culvert", &"security_locker", &"reserve_shelf"]
+	&"take_manuscript", &"escape", &"unlock_shortcut", &"drain_culvert", &"security_locker"]
 ## Expansion Phase 5 (approved): the nodes added to the existing map, and what they add.
 const PHASE5_ADDED := [^"Guards/GuardBasement", ^"Guards/P9_Basement"]
 const PHASE5_ADDED_COUNTS := {"guards": 1, "patrol_points": 5}
-## Approved 2026-10-31 (fixes_x26.py): the staff-corridor guard and its loop P6, checked
-## on their own like the Phase 5 guard (the improvement suite tests its loop).
-const STAFF_GUARD_ADDED := [^"Guards/GuardStaff", ^"Guards/P6_StaffCorridor"]
-const STAFF_GUARD_ADDED_COUNTS := {"guards": 1, "patrol_points": 3}
 const BASELINE_NAVMESH := "res://maps/library/resources/expanded_library_navmesh.tres"
-const BASELINE_NAV_POLYGONS := 1322
+const BASELINE_NAV_POLYGONS := 1252
 
 const SYSTEM_GROUPS := ["game_flow", "stealth_director", "noise_system", "audio_director", "player",
 	"objective_manager", "checkpoint_manager"]
@@ -239,7 +213,7 @@ func _instances_of(root: Node, path: String) -> Array[Node]:
 
 func _check_existing_level() -> void:
 	var level := (load(EXPANDED) as PackedScene).instantiate()
-	var d := digests(level, PHASE5_ADDED + STAFF_GUARD_ADDED)
+	var d := digests(level, PHASE5_ADDED)
 	_expect(d.geometry == BASELINE_GEOMETRY_SHA, "Collision geometry outside Expansion differs from the baseline (digest %s)." % d.geometry)
 	_expect(d.decoration == BASELINE_DECORATION_SHA, "Batched decoration (door frames, trims, furniture dressing) outside Expansion differs from the baseline (digest %s)." % d.decoration)
 	_expect(d.actors == BASELINE_ACTORS_SHA, "Guards, patrol routes or mission nodes outside Expansion differ from the baseline (digest %s)." % d.actors)
@@ -247,14 +221,12 @@ func _check_existing_level() -> void:
 		_expect(d.counts.get(key, -1) == BASELINE_COUNTS[key], "Baseline count '%s' is %s, expected %s." % [key, d.counts.get(key), BASELINE_COUNTS[key]])
 	var all := digests(level)
 	for key in BASELINE_COUNTS:
-		var expected: int = BASELINE_COUNTS[key] + PHASE5_ADDED_COUNTS.get(key, 0) + STAFF_GUARD_ADDED_COUNTS.get(key, 0)
+		var expected: int = BASELINE_COUNTS[key] + PHASE5_ADDED_COUNTS.get(key, 0)
 		if key in ["collision_objects", "collision_shapes"]:
-			continue   # the guards' bodies and shapes are checked below
-		_expect(all.counts.get(key, -1) == expected, "With the Phase 5 and 2026-10-31 additions, count '%s' is %s, expected %s." % [key, all.counts.get(key), expected])
+			continue   # the guard's body and shape are checked below
+		_expect(all.counts.get(key, -1) == expected, "With the Phase 5 additions, count '%s' is %s, expected %s." % [key, all.counts.get(key), expected])
 	var basement: Node = level.get_node_or_null("Guards/GuardBasement")
 	_expect(basement is Guard and basement.patrol_route == level.get_node_or_null("Guards/P9_Basement"), "Phase 5: GuardBasement should patrol P9_Basement.")
-	var staff: Node = level.get_node_or_null("Guards/GuardStaff")
-	_expect(staff is Guard and staff.patrol_route == level.get_node_or_null("Guards/P6_StaffCorridor"), "2026-10-31: GuardStaff should patrol P6_StaffCorridor.")
 	var objectives := level.get_node("Gameplay/ObjectiveManager")
 	var ids: Array = objectives.objectives.map(func(o): return StringName(o.id))
 	_expect(ids == BASELINE_OBJECTIVES, "The mission's objectives changed: %s." % [ids])
@@ -262,7 +234,7 @@ func _check_existing_level() -> void:
 	_expect(region.navigation_mesh and region.navigation_mesh.resource_path == BASELINE_NAVMESH
 		and region.navigation_mesh.get_polygon_count() == BASELINE_NAV_POLYGONS,
 		"The navmesh must stay %s with %d polygons." % [BASELINE_NAVMESH, BASELINE_NAV_POLYGONS])
-	print("  [expansion] existing level matches the baseline (7d73492 + the 3 approved Phase 2 doorways): %d collision objects, %d shapes, %d batched decoration nodes, %d lights, 6 guards, 41 patrol points (+ the Phase 5 basement guard and its 5 points, and the 2026-10-31 staff-corridor guard and its 3), 13 hiding spots, 4 access doors, 3 checkpoints, %d objectives (Phase 4 graph), navmesh %d polygons" % [
+	print("  [expansion] existing level matches the baseline (7d73492 + the 3 approved Phase 2 doorways): %d collision objects, %d shapes, %d batched decoration nodes, %d lights, 6 guards, 41 patrol points (+ the Phase 5 basement guard and its 5 points), 13 hiding spots, 4 access doors, 3 checkpoints, %d objectives (Phase 4 graph), navmesh %d polygons" % [
 		d.counts.collision_objects, d.counts.collision_shapes, d.counts.batched_nodes, d.counts.lights, BASELINE_OBJECTIVES.size(), BASELINE_NAV_POLYGONS])
 	level.free()
 
@@ -375,8 +347,8 @@ func _check_alternating_loads() -> void:
 			_expect(all.size() == 1 and level.is_ancestor_of(all[0]), "%s: expected exactly one '%s', in this map (found %d)." % [path.get_file(), g, all.size()])
 		var expanded: bool = path == EXPANDED
 		var guards := tree.get_nodes_in_group("guards").filter(func(n): return level.is_ancestor_of(n)).size()
-		_expect(guards == tree.get_nodes_in_group("guards").size() and guards == (8 if expanded else 3),
-			"%s: expected %d guards of its own, found %d (%d in the tree)." % [path.get_file(), 8 if expanded else 3, guards, tree.get_nodes_in_group("guards").size()])
+		_expect(guards == tree.get_nodes_in_group("guards").size() and guards == (7 if expanded else 3),
+			"%s: expected %d guards of its own, found %d (%d in the tree)." % [path.get_file(), 7 if expanded else 3, guards, tree.get_nodes_in_group("guards").size()])
 		_expect(level.has_node("Expansion") == expanded, "%s: the Expansion node must exist only in the Expanded Library." % path.get_file())
 		var objectives := ObjectiveManager.find(level)
 		var first: StringName = objectives.get_ids()[1] if objectives else &""

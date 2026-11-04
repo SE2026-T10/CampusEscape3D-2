@@ -97,7 +97,7 @@ func _expect(condition: bool, message: String) -> void:
 func _check_scope() -> void:
 	var level := (load(SCENE) as PackedScene).instantiate()
 	var guards := level.get_node("Guards").get_children().filter(func(g): return g is Guard)
-	_expect(guards.size() == 8 and guards.all(func(g): return g.expanded_security), "All eight Expanded Library guards should use the expanded security rules.")
+	_expect(guards.size() == 7 and guards.all(func(g): return g.expanded_security), "All seven Expanded Library guards should use the expanded security rules.")
 	level.free()
 	var tutorial := (load(TUTORIAL) as PackedScene).instantiate()
 	var tguards := tutorial.get_node("Guards").get_children().filter(func(g): return g is Guard)

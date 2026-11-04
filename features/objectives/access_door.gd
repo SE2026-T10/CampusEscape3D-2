@@ -56,10 +56,6 @@ enum Mode { KEY, ONE_WAY }
 ## the usual green / red) and its "Panel/Hatch" child (the hatch's frame, latch and
 ## stencil) appears; before, the hatch is hidden and the panel looks like the wall.
 @export var found_colour := Color(0, 0, 0, 0)
-## Polish: degrees the panel turns about its own origin (its hinge) when the door opens,
-## staying drawn, instead of vanishing (0: it vanishes). The Expanded Library's maintenance
-## hatch (2026-11-02).
-@export var swing_angle := 0.0
 ## Polish (the electrical room door): door leaves on hinges (Node3Ds turning about y)
 ## drawn instead of the panel's mesh; they swing to `leaf_open_angles` (degrees) when
 ## the door opens (and while a guard walks through), back when it closes, at once on a
@@ -71,8 +67,6 @@ enum Mode { KEY, ONE_WAY }
 @export var status_light_paths: Array[NodePath] = []
 
 const LEAF_TIME := 0.6
-## Polish: how long a swinging panel takes to open, in seconds.
-const SWING_TIME := 1.1
 
 ## True once opened.
 var is_open := false
@@ -83,8 +77,6 @@ var rejections := 0
 @onready var _noise: NoiseMaker = get_node_or_null("Noise")
 @onready var _sign: Label3D = get_node_or_null("Sign")
 @onready var _hatch: Node3D = get_node_or_null("Panel/Hatch")
-## A hidden door's disguise (dressing that makes it look like the wall), shown until found.
-@onready var _disguise: Node3D = get_node_or_null("Panel/Disguise")
 
 var _panel_material: StandardMaterial3D
 var _leaves: Array[Node3D] = []
@@ -93,7 +85,6 @@ var _leaf_tween: Tween
 var _animate_leaves := false
 var _status_materials: Array[StandardMaterial3D] = []
 var _status_colour := Color(0, 0, 0, 0)
-var _swing_tween: Tween
 
 
 func _ready() -> void:
@@ -150,8 +141,6 @@ func _process(_delta: float) -> void:
 		enabled = found
 		if _sign:
 			_sign.visible = found
-		if _disguise and _disguise.visible == found:
-			_disguise.visible = not found
 		if not found:
 			if _panel_material:
 				_panel_material.albedo_color = hidden_colour
@@ -295,8 +284,7 @@ func _complete_objective() -> void:
 func _apply() -> void:
 	enabled = not is_open and (hidden_until_document == &"" or is_inside_tree() and is_discovered())
 	if _panel:
-		_panel.visible = not is_open or swing_angle != 0.0
-		_swing(is_open, _animate_leaves)
+		_panel.visible = not is_open
 		# Only the layer changes (allowed at any time, also mid physics step).
 		_panel.collision_layer = 0 if is_open else 1
 		var mesh := _panel.get_node_or_null("Mesh") as Node3D
@@ -305,21 +293,6 @@ func _apply() -> void:
 	_set_leaves(is_open, _animate_leaves)
 	if _sign:
 		_sign.visible = not is_open
-
-
-## Polish: a swinging panel turns open or shut (animated, or at once).
-func _swing(open_now: bool, animate: bool) -> void:
-	if swing_angle == 0.0 or _panel == null:
-		return
-	var target := deg_to_rad(swing_angle) if open_now else 0.0
-	if _swing_tween:
-		_swing_tween.kill()
-		_swing_tween = null
-	if animate and is_inside_tree():
-		_swing_tween = create_tween()
-		_swing_tween.tween_property(_panel, "rotation:y", target, SWING_TIME).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	else:
-		_panel.rotation.y = target
 
 
 ## Polish: the leaves open or shut (animated, or at once).

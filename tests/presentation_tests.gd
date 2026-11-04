@@ -60,7 +60,7 @@ func _expect(condition: bool, message: String) -> void:
 func _check_assets_and_buses() -> void:
 	var files := SoundBank.all_files()
 	# 32 since Phase 12, plus 10 mechanism sounds (Expanded Library expansion Phase 9).
-	_expect(files.size() == 46, "Expected 46 sound files (42 + the Expanded Library's four ambience loops, 2026-10-31), found %d." % files.size())
+	_expect(files.size() == 42, "Expected 42 sound files, found %d." % files.size())
 	for path in files:
 		var stream := load(path) as AudioStreamWAV
 		_expect(stream != null and stream.get_length() > 0.02, "%s should load as a sound." % path)
