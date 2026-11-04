@@ -1,0 +1,178 @@
+{
+	"case_back_z": -23.8249988555908,
+	"door_states": [
+		{
+			"is_open": false,
+			"keypad_world": "(6.7, 1.3, -23.709)",
+			"leaf_angle": 0.0,
+			"leaf_visible": true,
+			"name": "closed"
+		},
+		{
+			"is_open": true,
+			"keypad_world": "(6.7, 1.3, -23.709)",
+			"leaf_angle": 41.557373046875,
+			"leaf_visible": true,
+			"name": "opening"
+		},
+		{
+			"is_open": true,
+			"keypad_world": "(6.7, 1.3, -23.709)",
+			"leaf_angle": 90.0,
+			"leaf_visible": true,
+			"name": "open"
+		}
+	],
+	"keys": [
+		{
+			"cap_back_z": -23.7054996490479,
+			"case_front_z": -23.7049999237061,
+			"keyboard_face_z": -23.7039985656738,
+			"name": "Dial1",
+			"seating_overlap_m": 0.00150108337402344
+		},
+		{
+			"cap_back_z": -23.7054996490479,
+			"case_front_z": -23.7049999237061,
+			"keyboard_face_z": -23.7039985656738,
+			"name": "Dial2",
+			"seating_overlap_m": 0.00150108337402344
+		},
+		{
+			"cap_back_z": -23.7054996490479,
+			"case_front_z": -23.7049999237061,
+			"keyboard_face_z": -23.7039985656738,
+			"name": "Dial3",
+			"seating_overlap_m": 0.00150108337402344
+		},
+		{
+			"cap_back_z": -23.7054996490479,
+			"case_front_z": -23.7049999237061,
+			"keyboard_face_z": -23.7039985656738,
+			"name": "Dial4",
+			"seating_overlap_m": 0.00150108337402344
+		},
+		{
+			"cap_back_z": -23.7054996490479,
+			"case_front_z": -23.7049999237061,
+			"keyboard_face_z": -23.7039985656738,
+			"name": "Enter",
+			"seating_overlap_m": 0.00150108337402344
+		}
+	],
+	"map_snapshots": [
+		{
+			"floor": 0,
+			"heading_radians": 0.0,
+			"marker_pixel": "(50.0, 211.1111)",
+			"name": "01_spawn_ground",
+			"player_map_local": "(-36.0, 0.000107, 51.0)",
+			"player_world": "(-36.0, 0.000107, 51.0)"
+		},
+		{
+			"floor": 0,
+			"heading_radians": 0.0,
+			"marker_pixel": "(123.7972, 84.95833)",
+			"name": "02_keypad_closed",
+			"player_map_local": "(6.85, 0.0, -22.25)",
+			"player_world": "(6.85, 0.0, -22.25)"
+		},
+		{
+			"floor": 0,
+			"heading_radians": 0.0,
+			"marker_pixel": "(124.6583, 84.18333)",
+			"name": "03_keypad_side",
+			"player_map_local": "(7.35, 0.0, -22.7)",
+			"player_world": "(7.35, 0.0, -22.7)"
+		},
+		{
+			"floor": 0,
+			"heading_radians": 0.0,
+			"marker_pixel": "(119.5778, 86.76666)",
+			"name": "04_door_opening",
+			"player_map_local": "(4.4, 0.0, -21.2)",
+			"player_world": "(4.4, 0.0, -21.2)"
+		},
+		{
+			"floor": 0,
+			"heading_radians": 0.0,
+			"marker_pixel": "(119.5778, 86.76666)",
+			"name": "05_door_open",
+			"player_map_local": "(4.4, 0.0, -21.2)",
+			"player_world": "(4.4, 0.0, -21.2)"
+		},
+		{
+			"floor": 0,
+			"heading_radians": 0.0,
+			"marker_pixel": "(123.7972, 84.95833)",
+			"name": "06_keypad_ready",
+			"player_map_local": "(6.85, 0.0, -22.25)",
+			"player_world": "(6.85, 0.0, -22.25)"
+		},
+		{
+			"floor": 1,
+			"heading_radians": 0.0,
+			"marker_pixel": "(95.0, 76.125)",
+			"name": "07_basement_position",
+			"player_map_local": "(8.0, -4.0, -48.5)",
+			"player_world": "(8.0, -4.0, -48.5)"
+		},
+		{
+			"floor": 1,
+			"heading_radians": 0.0,
+			"marker_pixel": "(188.5, 159.0)",
+			"name": "08_stairs_position",
+			"player_map_local": "(30.0, -2.0, -29.0)",
+			"player_world": "(30.0, -2.0, -29.0)"
+		},
+		{
+			"floor": 0,
+			"heading_radians": 0.0,
+			"marker_pixel": "(123.7972, 84.95833)",
+			"name": "hud_1280x720_100",
+			"player_map_local": "(6.85, 0.0, -22.25)",
+			"player_world": "(6.85, 0.0, -22.25)"
+		},
+		{
+			"floor": 0,
+			"heading_radians": 0.0,
+			"marker_pixel": "(123.7972, 84.95833)",
+			"name": "hud_1280x720_125",
+			"player_map_local": "(6.85, 0.0, -22.25)",
+			"player_world": "(6.85, 0.0, -22.25)"
+		},
+		{
+			"floor": 0,
+			"heading_radians": 0.0,
+			"marker_pixel": "(123.7972, 84.95833)",
+			"name": "hud_1024x768_100",
+			"player_map_local": "(6.85, 0.0, -22.25)",
+			"player_world": "(6.85, 0.0, -22.25)"
+		},
+		{
+			"floor": 0,
+			"heading_radians": 0.0,
+			"marker_pixel": "(123.7972, 84.95833)",
+			"name": "hud_1024x768_125",
+			"player_map_local": "(6.85, 0.0, -22.25)",
+			"player_world": "(6.85, 0.0, -22.25)"
+		},
+		{
+			"floor": 0,
+			"heading_radians": 0.0,
+			"marker_pixel": "(123.7972, 84.95833)",
+			"name": "hud_1920x1080_100",
+			"player_map_local": "(6.85, 0.0, -22.25)",
+			"player_world": "(6.85, 0.0, -22.25)"
+		},
+		{
+			"floor": 0,
+			"heading_radians": 0.0,
+			"marker_pixel": "(123.7972, 84.95833)",
+			"name": "hud_1920x1080_125",
+			"player_map_local": "(6.85, 0.0, -22.25)",
+			"player_world": "(6.85, 0.0, -22.25)"
+		}
+	],
+	"scope": "Staged real-renderer inspection; not a walking E2E"
+}

@@ -3,6 +3,14 @@ extends RefCounted
 ## Helpers shared by the test files.
 
 
+## The audio mixer uses wall time even when physics tests run faster than real time.
+## Let retired playbacks drain, and process their deferred frees, before engine exit.
+static func settle_async_audio(tree: SceneTree) -> void:
+	for i in 4:
+		OS.delay_msec(50)
+		await tree.process_frame
+
+
 ## Adds `level` under `host` and waits until the navigation map has synced it.
 ## Several tests load copies of the same level into the same navigation map,
 ## so "the map has data" is not enough: the previous copy's data may still be

@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 581.15 - Compatibility - Using Device: NVIDIA - Quadro P1000
+
+[K17 dispatch] wave=1 actor=Reinforcement0 origin=(-18.0, 0.0, 39.5)
+[K17 dispatch] wave=1 actor=Reinforcement1 origin=(22.0, 0.0, -18.0)
+[K17 dispatch] wave=2 actor=Reinforcement2 origin=(-42.0, 0.0, 42.0)
+[K17 dispatch] wave=2 actor=Reinforcement3 origin=(44.0, 0.0, -18.0)
+K17 V5 FINALE RENDER {"actors":10,"frames":352,"max_at_finale_seconds":4.01666666666666,"max_ms":46.118,"median_ms":10.037,"p95_ms":21.205,"p99_ms":29.662,"peak_draw_calls":3398,"repeat":1}
+[K17 dispatch] wave=1 actor=Reinforcement0 origin=(-18.0, 0.0, 39.5)
+[K17 dispatch] wave=1 actor=Reinforcement1 origin=(22.0, 0.0, -18.0)
+[K17 dispatch] wave=2 actor=Reinforcement2 origin=(-42.0, 0.0, 42.0)
+[K17 dispatch] wave=2 actor=Reinforcement3 origin=(44.0, 0.0, -18.0)
+K17 V5 FINALE RENDER {"actors":10,"frames":392,"max_at_finale_seconds":2.7,"max_ms":25.962,"median_ms":9.498,"p95_ms":16.222,"p99_ms":20.725,"peak_draw_calls":3398,"repeat":2}
+[K17 dispatch] wave=1 actor=Reinforcement0 origin=(-18.0, 0.0, 39.5)
+[K17 dispatch] wave=1 actor=Reinforcement1 origin=(22.0, 0.0, -18.0)
+[K17 dispatch] wave=2 actor=Reinforcement2 origin=(-42.0, 0.0, 42.0)
+[K17 dispatch] wave=2 actor=Reinforcement3 origin=(44.0, 0.0, -18.0)
+K17 V5 FINALE RENDER {"actors":10,"frames":411,"max_at_finale_seconds":4.01666666666666,"max_ms":19.234,"median_ms":9.357,"p95_ms":12.304,"p99_ms":14.668,"peak_draw_calls":3109,"repeat":3}

@@ -59,12 +59,12 @@ func _check_state_machine() -> void:
 	var m := GameStateMachine.new()
 	var seen: Array = []
 	m.state_changed.connect(func(from, to): seen.append([from, to]))
-	_expect(GameStateMachine.State.keys() == ["PLAYING", "CAUGHT", "PAUSED", "WIN"], "Game states should be PLAYING, CAUGHT, PAUSED, WIN.")
+	_expect(GameStateMachine.State.keys() == ["PLAYING", "CAUGHT", "PAUSED", "WIN", "FAILED"], "Game states include a separate mission failure.")
 	_expect(m.current == G.PLAYING and m.history == [G.PLAYING], "The game should start PLAYING.")
 	# Every allowed transition, and nothing else.
-	var allowed := {G.PLAYING: [G.CAUGHT, G.PAUSED, G.WIN], G.CAUGHT: [G.PLAYING], G.PAUSED: [G.PLAYING], G.WIN: []}
+	var allowed := {G.PLAYING: [G.CAUGHT, G.PAUSED, G.WIN, G.FAILED], G.CAUGHT: [G.PLAYING], G.PAUSED: [G.PLAYING], G.WIN: [], G.FAILED: [G.PLAYING]}
 	for from in allowed:
-		for to in [G.PLAYING, G.CAUGHT, G.PAUSED, G.WIN]:
+		for to in [G.PLAYING, G.CAUGHT, G.PAUSED, G.WIN, G.FAILED]:
 			var probe := GameStateMachine.new()
 			probe.current = from
 			var expected: bool = to in allowed[from]
@@ -82,7 +82,7 @@ func _check_state_machine() -> void:
 	_expect(not m.request(G.PAUSED) and not m.request(G.WIN) and not m.request(G.CAUGHT), "From CAUGHT only PLAYING (respawn) is allowed.")
 	m.request(G.PLAYING)
 	m.request(G.WIN)
-	for to in [G.PLAYING, G.CAUGHT, G.PAUSED, G.WIN]:
+	for to in [G.PLAYING, G.CAUGHT, G.PAUSED, G.WIN, G.FAILED]:
 		_expect(not m.request(to), "WIN is final; %s must be refused." % GameStateMachine.name_of(to))
 
 
@@ -97,7 +97,7 @@ func _check_random_requests() -> void:
 		if machines[-1].current == G.WIN:
 			machines.append(GameStateMachine.new())
 			machines[-1].state_changed.connect(func(_a, _b): emitted.count += 1)
-		machines[-1].request(rng.randi_range(0, 3))
+		machines[-1].request(rng.randi_range(0, GameStateMachine.State.size() - 1))
 	var transitions := 0
 	var refused := 0
 	var bad := 0
