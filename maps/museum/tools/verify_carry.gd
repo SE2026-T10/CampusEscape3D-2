@@ -116,7 +116,7 @@ func press_q(echo := false) -> void:
 
 
 func take_key() -> void:
-	await aim_at(level.get_node("Interactables/Key"), Vector3(31.5,0,14.4))
+	await aim_at(level.get_node("Interactables/Key"), Vector3(34,0,10.2))
 	await press_e()
 	check(objectives.is_completed(&"take_key"), "Camera E collects staff-room key before T2 transport")
 

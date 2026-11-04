@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bx6jj6mks1vku"]
+[gd_scene load_steps=42 format=3 uid="uid://bx6jj6mks1vku"]
 
 [ext_resource type="PackedScene" path="res://shared/scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://shared/scripts/game/game_flow.gd" id="2_game_flow"]
@@ -26,6 +26,10 @@
 [ext_resource type="PackedScene" path="res://maps/museum/scenes/t2_depot.tscn" id="23_depot"]
 [ext_resource type="Script" path="res://maps/museum/scripts/museum_player.gd" id="24_player"]
 [ext_resource type="Script" path="res://maps/museum/scripts/museum_carry_hud.gd" id="25_carry_hud"]
+[ext_resource type="Script" path="res://maps/museum/scripts/staff_guard.gd" id="26_staff_guard"]
+[ext_resource type="Script" path="res://maps/museum/scripts/staff_presentation.gd" id="27_staff_presentation"]
+[ext_resource type="Script" path="res://maps/museum/scripts/staff_reader.gd" id="28_staff_reader"]
+[ext_resource type="Script" path="res://maps/museum/scripts/staff_hearing.gd" id="29_staff_hearing"]
 
 [sub_resource type="Environment" id="Environment_room"]
 background_mode = 1
@@ -58,7 +62,16 @@ size = Vector3(1.1, 2, 0.25)
 albedo_color = Color(0.96, 0.72, 0.15, 1)
 [sub_resource type="BoxMesh" id="Mesh_key"]
 material = SubResource("Material_key")
-size = Vector3(0.45, 0.12, 0.18)
+size = Vector3(0.22, 0.04, 0.05)
+[sub_resource type="TorusMesh" id="Mesh_key_ring"]
+material = SubResource("Material_key")
+inner_radius = 0.035
+outer_radius = 0.065
+rings = 16
+ring_segments = 8
+[sub_resource type="BoxMesh" id="Mesh_key_tooth"]
+material = SubResource("Material_key")
+size = Vector3(0.035, 0.07, 0.05)
 [sub_resource type="BoxShape3D" id="Shape_key"]
 size = Vector3(0.6, 0.35, 0.35)
 
@@ -130,6 +143,9 @@ script = ExtResource("13_objective_hud")
 
 [node name="CarryHud" type="CanvasLayer" parent="."]
 script = ExtResource("25_carry_hud")
+
+[node name="StaffReader" type="CanvasLayer" parent="."]
+script = ExtResource("28_staff_reader")
 
 [node name="PatrolRoute_G1" type="Node3D" parent="."]
 script = ExtResource("6_route")
@@ -204,29 +220,47 @@ outline_size = 8
 [node name="PatrolRoute_G3" type="Node3D" parent="."]
 script = ExtResource("6_route")
 
-[node name="P1" type="Marker3D" parent="PatrolRoute_G3"]
-position = Vector3(28.5, 0.1, 8)
+[node name="H1" type="Marker3D" parent="PatrolRoute_G3"]
+position = Vector3(33.8, 0.1, 9)
 script = ExtResource("7_point")
-wait_time = 0.8
+wait_time = 1.0
 
-[node name="P2" type="Marker3D" parent="PatrolRoute_G3"]
-position = Vector3(34, 0.1, 8)
+[node name="H2" type="Marker3D" parent="PatrolRoute_G3"]
+position = Vector3(30.6, 0.1, 9)
 script = ExtResource("7_point")
-wait_time = 0.8
+wait_time = 1.0
 
-[node name="P3" type="Marker3D" parent="PatrolRoute_G3"]
-position = Vector3(34, 0.1, 16)
+[node name="H3" type="Marker3D" parent="PatrolRoute_G3"]
+position = Vector3(30.6, 0.1, 15.2)
 script = ExtResource("7_point")
-wait_time = 0.8
+wait_time = 1.0
 
-[node name="P4" type="Marker3D" parent="PatrolRoute_G3"]
-position = Vector3(28.5, 0.1, 16)
+[node name="H4" type="Marker3D" parent="PatrolRoute_G3"]
+position = Vector3(33.8, 0.1, 15.2)
 script = ExtResource("7_point")
-wait_time = 0.8
+wait_time = 1.0
+
+[node name="H5" type="Marker3D" parent="PatrolRoute_G3"]
+position = Vector3(33.8, 0.1, 12.8)
+script = ExtResource("7_point")
+wait_time = 1.0
+
+[node name="H6" type="Marker3D" parent="PatrolRoute_G3"]
+position = Vector3(33.8, 0.1, 11)
+script = ExtResource("7_point")
+wait_time = 1.0
 
 [node name="Guard_G3" parent="." node_paths=PackedStringArray("patrol_route") instance=ExtResource("4_guard")]
-position = Vector3(28.5, 0.1, 8)
+position = Vector3(34.1, 0.1, 12)
+rotation = Vector3(0, 1.5707963, 0)
+script = ExtResource("26_staff_guard")
 patrol_route = NodePath("../PatrolRoute_G3")
+
+[node name="Presentation" parent="Guard_G3" index="7"]
+script = ExtResource("27_staff_presentation")
+
+[node name="Hearing" parent="Guard_G3" index="3"]
+script = ExtResource("29_staff_hearing")
 
 [node name="GuardId" type="Label3D" parent="Guard_G3"]
 position = Vector3(0, 2.15, 0)
@@ -553,7 +587,8 @@ objective_id = &"take_t3"
 text = "T3"
 
 [node name="Key" type="Area3D" parent="Interactables"]
-position = Vector3(31.5, 0.9, 13)
+position = Vector3(34.95, 1.2, 10.2)
+rotation = Vector3(0, -1.5707963, 0)
 script = ExtResource("15_pickup")
 prompt = "Lấy chìa K — phòng B"
 objective_id = &"take_key"
@@ -561,12 +596,19 @@ objective_id = &"take_key"
 mesh = SubResource("Mesh_key")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactables/Key"]
 shape = SubResource("Shape_key")
+[node name="KeyRing" type="MeshInstance3D" parent="Interactables/Key"]
+position = Vector3(-0.14, 0, 0)
+rotation = Vector3(1.5707963, 0, 0)
+mesh = SubResource("Mesh_key_ring")
+[node name="Tooth" type="MeshInstance3D" parent="Interactables/Key"]
+position = Vector3(0.075, -0.04, 0)
+mesh = SubResource("Mesh_key_tooth")
 [node name="Label3D" type="Label3D" parent="Interactables/Key"]
-position = Vector3(0, 0.5, 0)
+position = Vector3(0, 0.3, 0)
 billboard = 1
 text = "K · CHÌA PHÒNG B"
-font_size = 56
-pixel_size = 0.005
+font_size = 40
+pixel_size = 0.0014
 outline_size = 12
 
 [node name="Rope" type="Area3D" parent="Interactables"]
@@ -610,3 +652,4 @@ pixel_size = 0.005
 outline_size = 12
 
 [editable path="Interactables/Painting_T3"]
+[editable path="Guard_G3"]

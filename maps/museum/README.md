@@ -23,7 +23,12 @@ bốn lối nối với đường tròn quanh đài phun nước giữa sân; G5
 phòng dịch vụ có cửa riêng. Nhấn E để mở hoặc đóng cửa, chắn tầm nhìn bảo vệ.
 Đã thêm **[cửa phòng nhân viên và cửa kho phục chế](docs/step-12-staff-restoration-doors.md)**:
 phòng nhân viên chỉ còn một lối vào, hai cửa mới đều E mở/đóng từ hai phía.
-Bản dựng đã qua **308 kiểm tra** riêng của map.
+Đã sửa **[phòng nhân viên theo bố cục A–H](docs/step-14-staff-ah.md)**:
+cúi nấp sau bàn A, G3 ngồi ở B, chìa treo trên tủ D, đọc C/G để suy mã kho,
+chai/lon F gây tiếng. Khi kiểm tra, G3 đi vòng H quanh bàn rồi về ghế.
+Đã thêm [giấy ghi chú trên bàn và lịch thời gian thực](docs/step-15-paper-calendar.md):
+E đọc giấy giữa màn hình; lịch C cập nhật ngày giờ máy tính.
+Bản dựng đã qua **362 kiểm tra** riêng của map.
 
 Hình học và cách chỉnh sàn/dốc/cửa: [Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md).
 

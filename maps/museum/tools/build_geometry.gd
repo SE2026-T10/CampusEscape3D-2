@@ -232,7 +232,129 @@ func courtyard_surface(parent: Node, node_name: String, size: Vector2, at: Vecto
 	surface.position = at
 
 
+func staff_interior() -> void:
+	var room := group("StaffInterior")
+	var wood := material(Color(0.3,0.17,0.085))
+	var paper := material(Color(0.87,0.81,0.65))
+	var metal := material(Color(0.28,0.32,0.3))
+	# A: one long, solid-front desk. Standing heads remain visible; crouching is covered.
+	box(room,"Desk",Vector3(1.4,1.1,4.6),Vector3(32.2,0.55,12),wood)
+	staff_visual(room,"DeskTop",Vector3(1.48,0.08,4.68),Vector3(32.2,1.06,12),wood)
+	staff_visual(room,"ModestyPanel_A",Vector3(0.06,1.0,4.4),Vector3(31.49,0.5,12),wood)
+	# D: the key is on the locker frontage, never on the desk.
+	box(room,"Lockers",Vector3(0.6,2.0,4.8),Vector3(35.4,1.0,12),metal)
+	for z in [10.4,12,13.6]:
+		staff_visual(room,"LockerHandle%d"%room.get_child_count(),Vector3(0.06,0.12,0.06),Vector3(35.06,1.1,z),brass)
+	staff_visual(room,"KeyRack_D",Vector3(0.08,0.15,0.55),Vector3(35.06,1.2,10.2),wood)
+	# B: chair behind the desk; visual-only, with clear standing/circulation space.
+	staff_visual(room,"ChairSeat",Vector3(0.65,0.12,0.65),Vector3(34.1,0.47,12),wood)
+	staff_visual(room,"ChairBack",Vector3(0.15,0.8,0.65),Vector3(34.5,0.88,12),wood)
+	for x in [33.85,34.35]:
+		for z in [11.75,12.25]:
+			staff_visual(room,"ChairLeg%d"%room.get_child_count(),Vector3(0.07,0.4,0.07),Vector3(x,0.2,z),metal)
+	staff_visual(room,"Radio",Vector3(0.18,0.28,0.14),Vector3(32.3,1.27,13.4),metal)
+	staff_visual(room,"RadioAntenna",Vector3(0.02,0.28,0.02),Vector3(32.35,1.52,13.4),metal)
+	staff_visual(room,"LampBase",Vector3(0.25,0.06,0.25),Vector3(32.2,1.14,10.4),brass)
+	staff_visual(room,"LampStem",Vector3(0.04,0.4,0.04),Vector3(32.2,1.36,10.4),brass)
+	staff_visual(room,"LampShade",Vector3(0.35,0.12,0.25),Vector3(32.2,1.59,10.4),brass)
+	var light := OmniLight3D.new()
+	attach(room,light,"DeskLight")
+	light.position = Vector3(32.2,1.55,10.6)
+	light.light_color = Color(1,0.8,0.5)
+	light.light_energy = 0.8
+	light.omni_range = 4
+	# C stays on the west wall; G is a small loose paper on desk A.
+	staff_readable(room,"MaintenanceBoard","C · Lịch bảo trì",
+		"Kiểm tra đèn: 08/03\nKiểm tra dây bảo hộ: 14/03\nBảo dưỡng đài phun nước: 16/03\n\nGhi chú mã kho nằm trên bàn A.",
+		"C · LỊCH BẢO TRÌ\nĐèn: 08/03\nDây: 14/03\nĐài phun nước: 16/03",Vector3(27.3,1.5,16),PI/2,paper,
+		"res://maps/museum/scripts/staff_calendar.gd")
+	staff_readable(room,"CodeNote","G · Mảnh ghi chú",
+		"Ghi nhớ cho ca sau:\n\nMã kho phụ là ngày kiểm tra dây bảo hộ gần nhất.\n\nViết liền NGÀY rồi THÁNG: DDMM.\n\nĐối chiếu lịch bảo trì C.",
+		"G · GHI CHÚ\nDDMM",Vector3(32.2,1.112,11),0,paper)
+	var note := room.get_node("CodeNote") as Node3D
+	note.scale = Vector3.ONE*0.25
+	note.rotation.x = -PI/2
+	var note_mesh := note.get_node("Board").mesh as BoxMesh
+	note_mesh.size.z = 0.012
+	staff_readable(room,"ShiftLog","Sổ bàn giao ca",
+		"Chìa PHÒNG B treo ngoài tủ D.\nG3 ngồi ở ghế B, khi kiểm tra đi theo vòng H quanh bàn A.\n\nCúi sau mặt trước kín của bàn A để tránh tầm nhìn. Không chạm chai/lon F.",
+		"SỔ TRỰC\nE: ĐỌC",Vector3(32.2,1.15,12.4),0,paper)
+	var logbook := room.get_node("ShiftLog") as Node3D
+	logbook.rotation.x = -PI/2
+	logbook.scale = Vector3.ONE*0.45
+	for pos in [Vector3(34.7,0,14.9),Vector3(34.8,0,15.4)]:
+		var prop := Area3D.new()
+		attach(room,prop,"NoisyBottle%d"%room.get_child_count())
+		prop.position = pos
+		prop.set_script(load("res://maps/museum/scripts/staff_noise_prop.gd"))
+		var shape := CollisionShape3D.new()
+		var box_shape := BoxShape3D.new()
+		box_shape.size = Vector3(0.65,0.65,0.65)
+		shape.shape = box_shape
+		shape.position.y = 0.3
+		attach(prop,shape,"Trigger")
+		var bottle := MeshInstance3D.new()
+		var cylinder := CylinderMesh.new()
+		cylinder.top_radius = 0.065
+		cylinder.bottom_radius = 0.075
+		cylinder.height = 0.32
+		cylinder.material = green
+		bottle.mesh = cylinder
+		attach(prop,bottle,"Bottle")
+		bottle.position.y = 0.09
+		bottle.rotation.z = PI/2
+		staff_visual(prop,"Label",Vector3(0.13,0.15,0.17),Vector3(0,0.09,0),brass)
+
+
+func staff_visual(parent: Node,node_name: String,size: Vector3,at: Vector3,mat: Material) -> void:
+	var visual := MeshInstance3D.new()
+	var mesh := BoxMesh.new()
+	mesh.size = size
+	mesh.material = mat
+	visual.mesh = mesh
+	attach(parent,visual,node_name)
+	visual.position = at
+
+
+func staff_readable(parent: Node,node_name: String,title: String,content: String,caption: String,at: Vector3,yaw: float,mat: Material,
+		script_path := "res://maps/museum/scripts/staff_document.gd") -> void:
+	var document := Area3D.new()
+	attach(parent,document,node_name)
+	document.position = at
+	document.rotation.y = yaw
+	document.set_script(load(script_path))
+	document.set("title",title)
+	document.set("content",content)
+	document.set("prompt","Đọc " + title.to_lower())
+	staff_visual(document,"Board",Vector3(1.3,0.95,0.08),Vector3.ZERO,mat)
+	var shape := CollisionShape3D.new()
+	var form := BoxShape3D.new()
+	form.size = Vector3(1.4,1.05,0.22)
+	shape.shape = form
+	attach(document,shape,"CollisionShape3D")
+	var text := Label3D.new()
+	attach(document,text,"Text")
+	text.position.z = 0.055
+	text.text = caption
+	text.font_size = 40
+	text.pixel_size = 0.0017
+	text.modulate = Color(0.15,0.12,0.08)
+	text.outline_size = 0
+
+
 func _build() -> void:
+	if "--update-staff-interior" in OS.get_cmdline_user_args():
+		geometry.free()
+		geometry = (load(OUTPUT) as PackedScene).instantiate()
+		var previous := geometry.get_node_or_null("StaffInterior")
+		if previous:
+			previous.free()
+		var desk := geometry.get_node_or_null("Cover/StaffDesk")
+		if desk:
+			desk.free()
+		staff_interior()
+		save_geometry()
+		return
 	if "--update-staff" in OS.get_cmdline_user_args():
 		geometry.free()
 		geometry = (load(OUTPUT) as PackedScene).instantiate()
@@ -326,7 +448,7 @@ func _build() -> void:
 		box(covers, "WestSouth%d" % floor_index, Vector3(2.2,1.2,3), Vector3(4.3,y+0.6,18), blue)
 		box(covers, "NorthWest%d" % floor_index, Vector3(3.4,1.2,1.4), Vector3(10.5,y+0.6,2.8), blue)
 		box(covers, "NorthEast%d" % floor_index, Vector3(3.4,1.2,1.4), Vector3(22,y+0.6,2.8), blue)
-	box(covers, "StaffDesk", Vector3(2.8,0.7,1.4), Vector3(31.5,0.35,11), blue)
+	staff_interior()
 	box(covers, "GalleryBPlinth", Vector3(2.4,1.2,3), Vector3(31.3,5.1,12), blue)
 	box(covers, "RestorationWest", Vector3(1.8,1.2,3), Vector3(29.6,5.1,21.8), blue)
 	box(covers, "RestorationEast", Vector3(1.8,1.2,3), Vector3(34.2,5.1,21.8), blue)

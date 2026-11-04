@@ -38,7 +38,9 @@ func _capture() -> void:
 		]
 	var courtyard_only := "--courtyard-cross-only" in OS.get_cmdline_user_args()
 	var ring_only := "--courtyard-ring-only" in OS.get_cmdline_user_args()
-	courtyard_only = courtyard_only or ring_only
+	var paper_only := "--paper-reader-only" in OS.get_cmdline_user_args()
+	var staff_only := "--staff-room-only" in OS.get_cmdline_user_args() or paper_only
+	courtyard_only = courtyard_only or ring_only or staff_only
 	if courtyard_only:
 		views = [["courtyard-cross",Vector3(18,17,15.05),Vector3(18,0,15)]]
 		# Cutaway screenshot only: expose all four ground-floor openings.
@@ -58,13 +60,43 @@ func _capture() -> void:
 				sign.hide()
 		camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 		camera.size = 24
+	if staff_only:
+		views = [["staff-overview",Vector3(31.5,13,12.05),Vector3(31.5,0.6,12)],
+			["staff-inside",Vector3(30,1.65,11.5),Vector3(34.1,1,12)],
+			["staff-awake",Vector3(30,1.65,11.5),Vector3(34.1,1,12)]]
+		camera.projection = Camera3D.PROJECTION_PERSPECTIVE
+		level.get_node("Guard_G3/Presentation")._process(0.016)
+		for actor in get_nodes_in_group("guards"):
+			if actor.name != &"Guard_G3":
+				actor.hide()
+		for item in level.get_node("Interactables").get_children():
+			if item.name != &"Key":
+				item.hide()
+	if paper_only:
+		views = [["paper-note",Vector3(30.6,1.6,11),Vector3(32.2,1.112,11)],
+			["paper-calendar",Vector3(28.7,1.6,16),Vector3(27.3,1.5,16)]]
 	for shot in views:
+		if paper_only:
+			var flow := level.get_node("GameFlow")
+			if flow.state == GameStateMachine.State.PAUSED:
+				flow.resume()
+			var reader := level.get_node("StaffReader")
+			reader.show()
+			var document := "CodeNote" if shot[0] == "paper-note" else "MaintenanceBoard"
+			level.get_node("NavigationRegion3D/Geometry/StaffInterior/"+document).interact(level.get_node("Player"))
+		if staff_only and shot[0] == "staff-awake":
+			level.get_node("Guard_G3").hear_noise(Vector3(32,0,14),0.9)
+			level.get_node("Guard_G3")._update_cone()
+			level.get_node("Guard_G3/Presentation")._process(0.016)
 		if frame_only and shot[0] == "t1-empty":
 			if not level.get_node("Interactables/Painting_T1").interact(level.get_node("Player")):
 				push_error("Could not collect T1 for screenshot")
 				quit(1)
 				return
 		camera.position = shot[1]
+		if staff_only:
+			camera.projection = Camera3D.PROJECTION_ORTHOGONAL if shot[0] == "staff-overview" else Camera3D.PROJECTION_PERSPECTIVE
+			camera.size = 16
 		camera.look_at(shot[2])
 		camera.fov = 40 if shot[0] == "overview" else 75
 		for frame in 5:
@@ -79,6 +111,10 @@ func _capture() -> void:
 			output = "res://maps/museum/docs/step-10-courtyard-cross.png"
 		if ring_only:
 			output = "res://maps/museum/docs/step-11-courtyard-ring.png"
+		if staff_only:
+			output = "res://maps/museum/docs/step-14-ah-%s.png" % shot[0]
+		if paper_only:
+			output = "res://maps/museum/docs/step-15-%s.png" % shot[0]
 		var result := root.get_texture().get_image().save_png(output)
 		if result != OK:
 			push_error("Could not save screenshot: " + output)

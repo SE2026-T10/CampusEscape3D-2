@@ -6,7 +6,7 @@ extends SceneTree
 const SCENE := "res://maps/museum/scenes/museum.tscn"
 const IDS := [&"take_key", &"take_t1", &"take_t2", &"take_t3", &"take_rope"]
 const PICKUPS := ["Key", "Painting_T1", "Painting_T2", "Painting_T3", "Rope"]
-const POSITIONS := [Vector3(31.5,0,14.4), Vector3(1.7,4.5,12), Vector3(33.5,4.5,10), Vector3(18,4.5,2.6), Vector3(32,4.5,24.5)]
+const POSITIONS := [Vector3(34,0,10.2), Vector3(1.7,4.5,12), Vector3(33.5,4.5,10), Vector3(18,4.5,2.6), Vector3(32,4.5,24.5)]
 var failures := 0
 var checks := 0
 var level: Node3D

@@ -192,11 +192,11 @@ func _run() -> void:
 	for edge in [[Vector3(18,5,8),Vector3(18,5,10)], [Vector3(18,5,22),Vector3(18,5,20)], [Vector3(11,5,15),Vector3(13,5,15)], [Vector3(25,5,15),Vector3(23,5,15)]]:
 		check(not ray(edge[0],edge[1]).is_empty(), "Upper courtyard collision railing " + str(edge[0]))
 	var spawn := exterior_spawn
-	for target in [Vector3(31.5,.1,13),Vector3(6.5,.1,12),Vector3(18,.1,3),Vector3(18,.1,18),Vector3(30,.1,21),Vector3(30,.1,27),Vector3(3,4.6,12),Vector3(18,4.6,2),Vector3(32,4.6,24),Vector3(34,4.6,27)]:
+	for target in [Vector3(34,.1,10.2),Vector3(6.5,.1,12),Vector3(18,.1,3),Vector3(18,.1,18),Vector3(30,.1,21),Vector3(30,.1,27),Vector3(3,4.6,12),Vector3(18,4.6,2),Vector3(32,4.6,24),Vector3(34,4.6,27)]:
 		var door_id := ""
 		if target.is_equal_approx(Vector3(30,0.1,27)):
 			door_id = "Service"
-		elif target.is_equal_approx(Vector3(31.5,0.1,13)):
+		elif target.is_equal_approx(Vector3(34,0.1,10.2)):
 			door_id = "Staff"
 		elif target.is_equal_approx(Vector3(32,4.6,24)) or target.is_equal_approx(Vector3(34,4.6,27)):
 			door_id = "RestorationEntrance"
@@ -356,10 +356,16 @@ func _run() -> void:
 		var done := true
 		for i in 9:
 			stayed_inside[i] = stayed_inside[i] and inside_patrol_area(i, guards[i].position)
-			done = done and arrivals[i].size() >= guards[i].patrol_route.get_point_count()*2+1
+			if i != 2:
+				done = done and arrivals[i].size() >= guards[i].patrol_route.get_point_count()*2+1
 		if done:
 			break
 	for i in 9:
+		if i == 2:
+			check(guards[i].get("phase") == &"sleeping" and guards[i].position.distance_to(Vector3(34.1,0,12)) < 0.15
+				and arrivals[i].is_empty(),"G3 stays asleep at chair instead of walking patrol loops")
+			check(stayed_inside[i],"G3 stays in staff room")
+			continue
 		var count := guards[i].patrol_route.get_point_count()
 		var ordered: bool = arrivals[i].size() >= count*2+1
 		for n in mini(arrivals[i].size(),count*2+1):
