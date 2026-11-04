@@ -19,6 +19,11 @@ func get_status_lines() -> Array[String]:
 	return []
 
 
+## Maps may show only the current objective while keeping the shared HUD and list API.
+func show_objective_checklist() -> bool:
+	return true
+
+
 ## Return BBCode for this map's extra status panel, without checkpoint text.
 func get_status_bbcode(_accent: Color, _done: Color, _todo: Color) -> String:
 	return "\n".join(get_status_lines())
@@ -27,3 +32,8 @@ func get_status_bbcode(_accent: Color, _done: Color, _todo: Color) -> String:
 ## An empty string leaves the exit's own configured refusal message in use.
 func get_exit_hint(_exit: Node) -> String:
 	return ""
+
+
+## Optional map-specific result data, appended to the shared victory screen.
+func get_result_lines() -> Array[String]:
+	return []

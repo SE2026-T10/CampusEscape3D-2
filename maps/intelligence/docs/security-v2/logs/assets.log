@@ -1,0 +1,4 @@
+ASSET SHA256 CHECKS PASSED: 58 GLB/JPG/PNG/WAV files
+gate_motor.wav: mono PCM16 22050 Hz; 0.90 seconds
+radio.wav: mono PCM16 22050 Hz; 1.60 seconds
+relay.wav: mono PCM16 22050 Hz; 0.30 seconds

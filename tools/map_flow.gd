@@ -3,8 +3,7 @@ extends SceneTree
 ## QA run of map selection with real scene changes, repeated (the automated
 ## tests stub scene changes, because changing scene would end the test runner).
 ## Starting at the main menu, three times over:
-##   Library Tutorial → Esc → Restart → Esc → Main menu →
-##   Expanded Library → Esc → Restart → Esc → Main menu
+##   every catalog map → Esc → Restart → Esc → Main menu
 ## then Quit. After every scene change it checks:
 ##   - the right scene is loaded (a new instance; Restart reloads the same map)
 ##   - the previous scene and its systems are freed (no stale references)
@@ -52,13 +51,16 @@ func _run() -> void:
 	_check(scene is MainMenu, "The game opens at the main menu.")
 	_check_menu(scene, 0)
 	await _shot("main_menu")
-	var tutorial := LevelCatalog.scene_of(LevelCatalog.TUTORIAL)
-	var expanded := LevelCatalog.scene_of(LevelCatalog.EXPANDED)
+	var entries := LevelCatalog.LEVELS.duplicate()
+	for entry in LevelCatalog.LEVELS:
+		if entry.get("test_scene", "") != "":
+			entries.append({"id": entry.id, "title": entry.test_title, "scene": entry.test_scene, "is_test": true})
 	for cycle in CYCLES:
-		for path in [tutorial, expanded]:
+		for entry in entries:
+			var path: String = entry.scene
 			var menu := current_scene as MainMenu
-			var button: Button = menu.start_button if path == tutorial else menu.expanded_button
-			var title: String = LevelCatalog.get_level(LevelCatalog.id_of_scene(path)).title
+			var button: Button = menu.test_buttons[entry.id] if entry.get("is_test", false) else menu.level_buttons[entry.id]
+			var title: String = entry.title
 			# Select the map.
 			var before: WeakRef = weakref(current_scene)
 			var before_id := current_scene.get_instance_id()
@@ -67,7 +69,7 @@ func _run() -> void:
 			_check_level(level, path, before, "Cycle %d: %s selected from the menu" % [cycle + 1, title])
 			_check(_mission_is_clean(level), "Cycle %d: %s starts with a clean mission." % [cycle + 1, title])
 			if cycle == 0:
-				await _shot("level_" + String(LevelCatalog.id_of_scene(path)))
+				await _shot("level_" + String(entry.id) + ("_test" if entry.get("is_test", false) else ""))
 			# Make some progress, to check that Restart throws it away.
 			var made := _make_progress(level)
 			_check(made, "Cycle %d: %s — progress made before restarting." % [cycle + 1, title])
@@ -93,10 +95,10 @@ func _run() -> void:
 				"Cycle %d: %s → Main menu: back at the menu, the level freed." % [cycle + 1, title])
 			_check_menu(back, cycle + 1)
 	# No growth across cycles on the menu.
-	var first: Dictionary = _menu_counts[2]   # back from the first Expanded Library visit
+	var first: Dictionary = _menu_counts[entries.size()]   # back from the first full catalog cycle
 	var last: Dictionary = _menu_counts[_menu_counts.size() - 1]
 	_check(last.nodes <= first.nodes and last.orphans <= first.orphans and last.root_children == first.root_children,
-		"No leftovers from cycle 1 to cycle %d (menu after the Expanded Library): nodes %d → %d, orphan nodes %d → %d, root children %d → %d." % [
+		"No leftovers from cycle 1 to cycle %d (menu after the full catalog cycle): nodes %d → %d, orphan nodes %d → %d, root children %d → %d." % [
 			CYCLES, first.nodes, last.nodes, first.orphans, last.orphans, first.root_children, last.root_children])
 	# Quit from the menu (stubbed, so the result can be printed first).
 	var menu_end := current_scene as MainMenu

@@ -1,0 +1,57 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[B1 OK] All file-gated shortcut/egress controls were removed
+[B1 OK] Final cart stop beyond doorway remains ten metres from post
+[B1 OK] Cart stops beyond the complete doorway
+[B1 OK] Route from (4.0, -4.0, -35.5) crosses Sensor0
+[B1 OK] Route from (4.0, -4.0, -35.5) crosses Sensor1
+[B1 OK] Route from (30.0, -4.0, -38.0) crosses Sensor0
+[B1 OK] Route from (30.0, -4.0, -38.0) crosses Sensor1
+[B1 OK] Route from (-3.0, -4.0, -36.3) crosses Sensor0
+[B1 OK] Route from (-3.0, -4.0, -36.3) crosses Sensor1
+[B1 OK] Route from (-10.2, -4.0, -36.3) crosses Sensor0
+[B1 OK] Route from (-10.2, -4.0, -36.3) crosses Sensor1
+[B1 OK] Red sensor detects actual actor at x=2.34, Sensor0
+[B1 OK] Red sensor detects actual actor at x=4.0, Sensor0
+[B1 OK] Red sensor detects actual actor at x=5.66, Sensor0
+[B1 OK] Red sensor detects actual actor at x=2.34, Sensor1
+[B1 OK] Red sensor detects actual actor at x=4.0, Sensor1
+[B1 OK] Red sensor detects actual actor at x=5.66, Sensor1
+[B1 OK] Both windows are occluded at marked bay (-2.3, -4.0, -50.05) / -3.0
+[B1 OK] Wall hides actual body including grip offset at bay (-2.3, -4.0, -50.05) / -3.0
+[B1 OK] Both windows are occluded at marked bay (-2.3, -4.0, -50.05) / -10.2
+[B1 OK] Wall hides actual body including grip offset at bay (-2.3, -4.0, -50.05) / -10.2
+[B1 OK] Both windows are occluded at marked bay (-11.8, -4.0, -50.05) / -3.0
+[B1 OK] Wall hides actual body including grip offset at bay (-11.8, -4.0, -50.05) / -3.0
+[B1 OK] Both windows are occluded at marked bay (-11.8, -4.0, -50.05) / -10.2
+[B1 OK] Wall hides actual body including grip offset at bay (-11.8, -4.0, -50.05) / -10.2
+[B1 OK] Real preparation console can grant CCTV control
+[B1 OK] Hack completion is idempotent
+[B1 OK] Valid post accepts pending request
+[B1 OK] Only one call can be pending
+[B1 OK] Sending is not instantly treated as looking away
+[B1 OK] Pause freezes pending call
+[B1 OK] Acknowledged call begins terminal action and cooldown
+[B1 OK] Cooldown cannot queue spam
+[B1 OK] Investigation interrupts terminal attention
+[B1 OK] An investigating post refuses terminal check
+[B1 OK] A recovered guard can be called again
+[B1 OK] Third rapid accepted sequence triggers finite channel verification
+[B1 OK] Channel verification expires without locking mission
+[B1 OK] Checkpoint clears rights/pending/history to safe baseline
+[B1 OK] Fixed reader is reachable by real interaction ray
+[B1 OK] Releasing before six seconds cancels archive unlock
+[B1 OK] Six-second E hold opens actual sliding door
+[B1 OK] Unlock does not start extraction clock
+[B1 OK] C1 cannot see through physical projection panel
+[B1 OK] C1 sees actual actor who steps in front
+[B1 OK] Unhacked C1 contributes real visibility to the shared HUD
+[B1 OK] Spoofed enemy feed does not mark the exposed player as seen by C1
+[B1 OK] Seal alarm revokes live feed and cancels pending calls
+[B1 OK] Alarm retains opened doorway but refuses forged requests
+[B1 OK] Nearby guard physically folds discovered obstacle after alarm
+[B1 OK] Folded case is swept aside without losing physical collision
+[B1 OK] Handle remains available after FILE instead of being mission-disabled
+[B1 OK] No-guard variant adds no hidden calibration actors
+[B1 OK] No-guard variant grants CCTV but honestly refuses nonexistent guard
+K17 B1 REFINEMENT: 54 checks; 0 failures
