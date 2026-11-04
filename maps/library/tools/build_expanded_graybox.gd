@@ -19,9 +19,6 @@ extends SceneTree
 ##
 ## While the level is a graybox, this tool and the layout data are the source
 ## of truth: change the data and rebuild instead of editing the scene by hand.
-## Since the 2026 expansion the level is this tool's output plus numbered patches:
-## rebuild it with maps/library/tools/rebuild_level.py, which runs them all in order
-## (CI checks that the saved scene equals that rebuild).
 
 const Layout := preload("res://maps/library/tools/expanded_layout.gd")
 const SCENE_PATH := "res://maps/library/scenes/expanded_library.tscn"
@@ -597,20 +594,17 @@ func _add_wainscot(body: Node, wall: Dictionary, along_x: bool, fixed: float, iv
 
 ## Wooden posts and a lintel around a doorway, as the tutorial's Dressing/Doorways
 ## (red on the card gates, amber on the shortcut). They sit on the wall's solid
-## ends and reach 2 cm into the opening, so their faces never share a plane with the
-## wall's (the door-frame fix of v4, made in the saved scene by hand and folded back
-## into the builder in the 2026-10-31 cleanup: posts 16 cm wide, lintels 2 cm lower,
-## 4 cm longer and deeper; without it they flickered, z-fighting with the walls).
+## ends, outside the opening, so the doorway keeps its full width.
 func _add_door_trim(parent: Node, node_name: String, o: Dictionary, along_x: bool, fixed: float, y0: float) -> void:
 	var trim := _group(parent, node_name)
 	var look: String = {"gate": "restricted", "shortcut": "shortcut"}.get(o.type, "trim")
 	var depth := Layout.WALL_THICKNESS + 0.08
 	for side in [-1.0, 1.0]:
-		var at: float = o.at + side * (o.width / 2.0 + 0.06)
+		var at: float = o.at + side * (o.width / 2.0 + 0.07)
 		_visual(trim, "Post%d" % (1 if side < 0 else 2), _wall_point(along_x, at, fixed, y0 + Layout.DOOR_HEIGHT / 2.0),
-			_wall_size(along_x, 0.16, Layout.DOOR_HEIGHT, depth), look)
-	_visual(trim, "Lintel", _wall_point(along_x, o.at, fixed, y0 + Layout.DOOR_HEIGHT + 0.05),
-		_wall_size(along_x, o.width + 0.32, 0.14, depth + 0.04), look)
+			_wall_size(along_x, 0.14, Layout.DOOR_HEIGHT, depth), look)
+	_visual(trim, "Lintel", _wall_point(along_x, o.at, fixed, y0 + Layout.DOOR_HEIGHT + 0.06),
+		_wall_size(along_x, o.width + 0.28, 0.12, depth), look)
 
 
 func _wall_point(along_x: bool, along: float, fixed: float, y: float) -> Vector3:

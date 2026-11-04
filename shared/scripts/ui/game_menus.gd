@@ -96,19 +96,13 @@ func _connect_flow() -> void:
 
 const CONTROLS := "WASD move · Shift sprint · C/Ctrl crouch · E use · Esc resume"
 const ITEM_CONTROLS := "1–3 select item · F use / throw · J journal"
-## Levels whose mission is a paper note (ObjectiveHud.paper_note, the Expanded Library):
-## K folds it away and opens it again (2026-11-02).
-const MISSION_CONTROLS := " · K mission"
 
 
-## The pause menu's controls line; levels with an inventory add its keys, and a level with
-## the paper mission note its K.
+## The pause menu's controls line; levels with an inventory add its keys.
 func get_controls_text() -> String:
 	var player := get_tree().get_first_node_in_group("player")
 	var inventory := player.get_node_or_null("Inventory") as PlayerInventory if player else null
-	var hud := get_parent().get_node_or_null("ObjectiveHud") if get_parent() else null
-	var note: bool = hud != null and bool(hud.get("paper_note"))
-	return CONTROLS + ("\n" + ITEM_CONTROLS + (MISSION_CONTROLS if note else "") if inventory and inventory.enabled else "")
+	return CONTROLS + ("\n" + ITEM_CONTROLS if inventory and inventory.enabled else "")
 
 
 ## Shows the panel for the current game state and focuses its first button.
