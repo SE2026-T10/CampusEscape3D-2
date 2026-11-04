@@ -187,7 +187,7 @@ Mỗi bản đồ có một cảnh chính, chứa các hệ thống trò chơi d
 shared/scenes/ui/main_menu.tscn                 Cảnh menu: một nút cho mỗi bản đồ trong LevelCatalog và nút thoát
 maps/library/scenes/expanded_library.tscn       Thư viện mở rộng; công cụ dựng và trang trí nằm trong maps/library/tools/
 └── Expansion (expanded_library_expansion.tscn) Phần mở rộng năm 2026: tầng hầm, mạng bảo trì khu G, phòng điện
-                                               Công cụ tại maps/library/tools/expansion/; bộ dựng v4 được giữ làm mốc
+											   Công cụ tại maps/library/tools/expansion/; bộ dựng v4 được giữ làm mốc
 maps/tutorial/scenes/library_graybox.tscn       Bản đồ hướng dẫn
 ├── NavigationRegion3D (+ library_navmesh.tres) Phòng, tường, kệ, bàn ghế và chỗ ẩn HidingSpot
 ├── Player (shared/scenes/player/player.tscn)   FirstPersonPlayer, PlayerNoise, PlayerInteractor, PlayerFeedback

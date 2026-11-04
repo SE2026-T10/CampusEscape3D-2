@@ -1,0 +1,113 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_bronze"]
+albedo_color = Color(0.36, 0.24, 0.13, 1)
+metallic = 0.78
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Material_marble"]
+albedo_color = Color(0.82, 0.79, 0.7, 1)
+roughness = 0.45
+
+[sub_resource type="SphereMesh" id="Mesh_shoulders"]
+material = SubResource("Material_bronze")
+radius = 0.44
+height = 0.72
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="Mesh_head"]
+material = SubResource("Material_bronze")
+radius = 0.29
+height = 0.68
+radial_segments = 16
+rings = 8
+
+[sub_resource type="CylinderMesh" id="Mesh_neck"]
+material = SubResource("Material_bronze")
+top_radius = 0.16
+bottom_radius = 0.22
+height = 0.36
+radial_segments = 12
+
+[sub_resource type="SphereMesh" id="Mesh_hair"]
+material = SubResource("Material_bronze")
+radius = 0.3
+height = 0.24
+radial_segments = 14
+rings = 6
+
+[sub_resource type="SphereMesh" id="Mesh_ear"]
+material = SubResource("Material_bronze")
+radius = 0.07
+height = 0.14
+radial_segments = 8
+rings = 4
+
+[sub_resource type="SphereMesh" id="Mesh_nose"]
+material = SubResource("Material_bronze")
+radius = 0.07
+height = 0.16
+radial_segments = 8
+rings = 4
+
+[sub_resource type="BoxMesh" id="Mesh_base"]
+material = SubResource("Material_marble")
+size = Vector3(0.72, 0.14, 0.62)
+
+[sub_resource type="BoxMesh" id="Mesh_base_trim"]
+material = SubResource("Material_bronze")
+size = Vector3(0.62, 0.08, 0.54)
+
+[sub_resource type="CapsuleShape3D" id="Shape_bust"]
+radius = 0.42
+height = 1.6
+
+[node name="ClassicalBust" type="StaticBody3D"]
+
+[node name="SculptureCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.8, 0)
+shape = SubResource("Shape_bust")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+position = Vector3(0, 0.8, 0)
+avoidance_enabled = true
+radius = 0.45
+height = 1.5
+
+[node name="MarbleBase" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.07, 0)
+mesh = SubResource("Mesh_base")
+
+[node name="BaseTrim" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.18, 0)
+mesh = SubResource("Mesh_base_trim")
+
+[node name="Shoulders" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.48, 0)
+scale = Vector3(1, 0.72, 0.8)
+mesh = SubResource("Mesh_shoulders")
+
+[node name="Neck" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.82, 0)
+mesh = SubResource("Mesh_neck")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.14, 0)
+mesh = SubResource("Mesh_head")
+
+[node name="Hair" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.34, -0.035)
+mesh = SubResource("Mesh_hair")
+
+[node name="LeftEar" type="MeshInstance3D" parent="."]
+position = Vector3(-0.27, 1.15, 0)
+mesh = SubResource("Mesh_ear")
+
+[node name="RightEar" type="MeshInstance3D" parent="."]
+position = Vector3(0.27, 1.15, 0)
+mesh = SubResource("Mesh_ear")
+
+[node name="Nose" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.1, 0.27)
+mesh = SubResource("Mesh_nose")

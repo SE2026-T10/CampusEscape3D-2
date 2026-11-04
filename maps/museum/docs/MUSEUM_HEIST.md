@@ -7,7 +7,7 @@
 - **Thể loại:** lén lút góc nhìn thứ nhất, graybox thử nghiệm
 - **Ý tưởng:** xâm nhập một bảo tàng ban đêm, lấy thẻ nhân viên trong khu vực hạn chế rồi tìm tới lối thoát chính.
 
-Đây là bản graybox nhỏ để kiểm tra tích hợp map với catalog, player, guard, nhiệm vụ và luồng chơi chung. Nó chưa hiện thực đầy đủ thiết kế Museum Heist nhiều phòng như ý tưởng ban đầu.
+Bản Museum Heist hiện dùng các prop low-poly ghép từ nhiều mesh thay cho các khối màu đơn: tủ trưng bày có đế gỗ, khung đồng, kính và cổ vật; bệ đá có bust; tranh có khung và hình abstract/landscape; quầy lễ tân, ghế, kệ hồ sơ, bàn an ninh, chậu cây, cột và dây phân cách. Map vẫn là graybox gameplay, chưa có camera, vault, puzzle, artifact hay nhiều exit riêng.
 
 ## Cốt truyện
 
@@ -17,18 +17,19 @@ Map hiện không có artifact mục tiêu, vault, clue, câu đố hay nhánh n
 
 ## Thiết kế bản đồ
 
-Scene hiện có một mặt sàn graybox khoảng 40 × 30 m, bốn tường biên, một lưới điều hướng thủ công và một số node đánh dấu vị trí. Đây là không gian mở duy nhất; tên gọi dưới đây mô tả vị trí gameplay, không phải các phòng được ngăn bằng tường:
+Scene có sàn chính khoảng 40 × 30 m, bốn tường biên và các cụm prop theo từng khu vực. Chúng tạo tuyến vòng quanh vật trưng bày và điểm che khuất, nhưng không đóng kín thành các phòng riêng:
 
 | Khu vực gameplay | Vị trí gần đúng (X, Z) | Nội dung hiện có |
 |---|---:|---|
-| Điểm bắt đầu / sảnh | (-15, 0) | Player spawn và vùng kích hoạt mục tiêu vào map |
-| Vùng hạn chế | (14, -7) | Trigger mở mục tiêu lấy thẻ |
-| Vị trí thẻ | (14, -3) | Thẻ nhân viên có thể nhặt |
-| Cửa nhân viên | (8, -6) | Cửa khóa bằng mục tiêu thẻ; mở bằng E sau khi lấy thẻ |
-| Vùng tới lối ra | (-15, 11) | Trigger mục tiêu tiếp cận cửa thoát |
-| Cửa thoát chính | (-15, 15) | Interactable hoàn tất màn sau khi đủ điều kiện |
+| Lobby / điểm bắt đầu | (-15, 0) | Quầy lễ tân hướng về spawn, ghế nhân viên, bench, hai chậu cây, cột và đèn |
+| Exhibition Hall | (-4, 2) | Ba tủ kính, bệ đá có bust, tượng bust độc lập, hai tranh khác nhau và dây phân cách |
+| Restricted Archive | (12, -8) | Hai kệ hồ sơ có thùng/hồ sơ, dây phân cách, trigger thẻ, thẻ và cửa nhân viên |
+| Security Area | (13, 13) | Bàn điều khiển có hai màn hình, phím/đèn báo và ghế bảo vệ |
+| Main Exit | (-15, 11) | Trigger tiếp cận, tuần tra ExitGuard và cửa thoát chính |
 
-Người chơi đi qua sàn mở giữa các vị trí này; hiện không có hành lang, phòng trưng bày, kho lưu trữ, phòng điều khiển, vault, maintenance hay đường service exit riêng. Chỉ có một lối thoát được triển khai, không có hai tuyến thoát khác nhau.
+Các tủ, quầy, bệ, kệ, bench, cột và chậu có collision tương ứng; tranh gắn tường không có collision, còn cả trụ lẫn dây barrier có collision để chặn đường đi. StaticBody prop dùng physics layer mặc định `1`, nằm trong `GuardVision.sight_mask = 3`, nên mesh kính vẫn chặn raycast tầm nhìn dù vật liệu nhìn xuyên được.
+
+Các prop lớn có `NavigationObstacle3D` bật avoidance để hỗ trợ steering cục bộ của guard. Tuy nhiên, `museum_navmesh.tres` vẫn là một polygon thủ công phủ gần hết sàn, không được bake lại quanh từng prop; avoidance không thay thế navmesh obstacle carving/path reroute. Patrol marker hiện tại được giữ ngoài footprint chính của prop, nhưng đường INVESTIGATE/CHASE quanh props cần xác nhận bằng playtest trong Godot.
 
 ## Mục tiêu
 
@@ -66,6 +67,9 @@ Guard dùng AI chung với các trạng thái **PATROL**, **INVESTIGATE** và **
 | Cửa nhân viên | Có; `AccessDoor`, cần hoàn thành mục tiêu lấy thẻ; mở bằng E |
 | Cửa thoát chính | Có; `ExitDoor`, cần tới đúng bước cuối của chuỗi mục tiêu và dùng E |
 | Guard tuần tra, thị giác, thính giác | Dùng hệ thống dùng chung |
+| Museum props | Có; các scene riêng cho tủ kính, bust, pedestal, hai tranh, quầy lễ tân, bench, planter, bàn an ninh, kệ hồ sơ, cột và barrier |
+| Collision / tầm nhìn | Có collision cho vật cản chính; static body layer 1 chặn raycast guard vision, kể cả kính trong |
+| Navigation avoidance | Có `NavigationObstacle3D` trên prop cản đường; navmesh thủ công chưa carve quanh prop và chưa được xác nhận runtime |
 | Camera an ninh | Chưa triển khai |
 | Puzzle / bảng điện / mã vault | Chưa triển khai |
 | Artifact, vault, clue, vật phẩm đánh lạc hướng | Chưa triển khai |
@@ -74,8 +78,14 @@ Guard dùng AI chung với các trạng thái **PATROL**, **INVESTIGATE** và **
 
 ## Tài nguyên và cấu trúc file
 
-- `scenes/museum_heist.tscn` — scene chính; khai báo geometry graybox, player/guard instances, patrol routes, trigger, card, door và các hệ thống gameplay.
-- `resources/museum_navmesh.tres` — navigation mesh dạng polygon thủ công cho mặt sàn mở.
+- `scenes/museum_heist.tscn` — scene chính; đặt prop, lighting, player/guard/patrol, objective và game-flow nodes.
+- `scenes/props/display_case.tscn` — đế gỗ, viền kim loại, kính có collision, cổ vật và đèn trong tủ.
+- `scenes/props/statue_bust.tscn`, `art_pedestal.tscn`, `decorative_column.tscn` — bust nhiều mesh, bệ nhiều tầng và cột có chân/thân/đầu cột.
+- `scenes/props/painting.tscn`, `painting_landscape.tscn` — tranh abstract và landscape có khung, canvas và hình khối nghệ thuật.
+- `scenes/props/reception_desk.tscn`, `security_station.tscn` — quầy/bàn nhiều thành phần, màn hình, chi tiết điều khiển và ghế dùng chung.
+- `scenes/props/museum_bench.tscn`, `plant_pot.tscn`, `archive_shelf.tscn`, `rope_barrier.tscn` — nội thất lobby, kệ có hàng, và trụ dây phân cách.
+- `resources/museum_navmesh.tres` — navigation mesh polygon thủ công cho mặt sàn rộng; không tự carve theo prop.
+- **Model/material:** Không có model/texture art phù hợp trong Museum, shared hoặc tutorial; ghế nhân viên tái sử dụng `shared/scenes/props/chair.tscn`. Các prop khác dùng primitive mesh và material `StandardMaterial3D` riêng (gỗ, đồng, đá, kính, lá, màn hình); không thêm asset ngoài hoặc phụ thuộc asset map khác.
 - `docs/MUSEUM_HEIST.md` — tài liệu trạng thái map này.
 - `scripts/`, `assets/`, `tests/`, `tools/` — hiện chưa có script, asset, test hay tool riêng cho Museum.
 - `shared/` và `features/` — mã nguồn các hệ thống được scene tham chiếu; map không sao chép player hoặc guard AI.
@@ -98,16 +108,11 @@ Guard dùng AI chung với các trạng thái **PATROL**, **INVESTIGATE** và **
 
 ## Kiểm thử
 
-Các kiểm tra dưới đây xác minh việc biên dịch/tải scene và luồng chọn map; chúng không phải đánh giá chơi thử thủ công, cân bằng độ khó hay kiểm thử mọi đường đi gameplay:
-
-| Kiểm tra | Kết quả |
+| Kiểm tra trong phiên thay props | Kết quả |
 |---|---|
-| `tools/ci/check_scripts.gd` bằng Godot 4.7.2 | Qua; 152 script biên dịch |
-| `tools/map_flow.gd` | Qua 76/76 kiểm tra; tải 18 map qua 3 chu kỳ, gồm chọn/restart/rời Museum, nhiệm vụ reset sạch và 5 guard có route 2 điểm |
-| `python tools/ci/check_layout.py` | Qua; 219 tham chiếu tài nguyên runtime hợp lệ |
-| `tests/test_scene.tscn` bằng Godot 4.7.2 | Qua toàn bộ suite; xác nhận menu có 3 map và Museum tải, restart, quay lại menu cùng các hệ thống dùng chung |
+| `python tools/ci/check_layout.py` | Qua; xác nhận 527 tham chiếu runtime `res://` |
 
-Kiểm thử không xác nhận map đạt thiết kế hoàn chỉnh, có camera/puzzle/vault, hay có nhiều lối thoát. Việc chơi thủ công và kiểm tra chất lượng trải nghiệm vẫn cần thực hiện.
+Godot editor/headless, `tools/ci/validate.sh`, `tools/ci/run_tests.sh`, `tools/map_flow.gd` và screenshot/playtest không chạy được trong phiên này vì executable Godot không có trong PATH. Bố cục props, collision raycast thực tế, navigation avoidance, guard/player bị kẹt và hình ảnh trong góc nhìn thứ nhất vẫn cần xác minh trong Godot. Các kết quả kiểm thử cũ ở tài liệu trước không được coi là kiểm chứng phiên thay props này.
 
 ## Hướng phát triển
 
@@ -115,5 +120,5 @@ Kiểm thử không xác nhận map đạt thiết kế hoàn chỉnh, có camer
 - Thêm artifact/vault, clue, puzzle bảo mật, camera có thể vô hiệu hóa và điều kiện mở cửa nhất quán.
 - Tạo ít nhất hai tuyến thoát độc lập với prerequisites và tác động gameplay riêng.
 - Bổ sung vật phẩm distraction, các mục tiêu tùy chọn, checkpoint/hiding spots nếu cần.
-- Cải thiện hình ảnh bảo tàng bằng props, biển hướng dẫn, display cases, tượng và ánh sáng riêng.
+- Thêm camera, vault, puzzle, artifact và các exit phụ mà không làm hỏng objective chain hiện tại.
 - Thêm test gameplay riêng cho mục tiêu, tương tác bị khóa, guard navigation, reset và các đường thoát.

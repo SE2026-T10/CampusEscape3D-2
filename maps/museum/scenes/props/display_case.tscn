@@ -1,0 +1,190 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_wood"]
+albedo_color = Color(0.24, 0.12, 0.07, 1)
+roughness = 0.38
+
+[sub_resource type="StandardMaterial3D" id="Material_brass"]
+albedo_color = Color(0.68, 0.49, 0.2, 1)
+metallic = 0.78
+roughness = 0.26
+
+[sub_resource type="StandardMaterial3D" id="Material_glass"]
+albedo_color = Color(0.66, 0.83, 0.86, 0.18)
+roughness = 0.12
+transparency = 1
+
+[sub_resource type="StandardMaterial3D" id="Material_artifact"]
+albedo_color = Color(0.72, 0.49, 0.2, 1)
+metallic = 0.68
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Material_lamp"]
+albedo_color = Color(1, 0.83, 0.52, 1)
+emission_enabled = true
+emission = Color(1, 0.62, 0.25, 1)
+emission_energy_multiplier = 1.3
+
+[sub_resource type="BoxMesh" id="Mesh_case_base"]
+material = SubResource("Material_wood")
+size = Vector3(2.8, 0.46, 1.8)
+
+[sub_resource type="BoxMesh" id="Mesh_case_trim"]
+material = SubResource("Material_brass")
+size = Vector3(2.86, 0.09, 1.86)
+
+[sub_resource type="BoxMesh" id="Mesh_glass_side"]
+material = SubResource("Material_glass")
+size = Vector3(0.035, 1.42, 1.72)
+
+[sub_resource type="BoxMesh" id="Mesh_glass_front"]
+material = SubResource("Material_glass")
+size = Vector3(2.72, 1.42, 0.035)
+
+[sub_resource type="BoxMesh" id="Mesh_case_top"]
+material = SubResource("Material_glass")
+size = Vector3(2.72, 0.035, 1.72)
+
+[sub_resource type="BoxMesh" id="Mesh_case_lamp"]
+material = SubResource("Material_lamp")
+size = Vector3(0.65, 0.04, 0.16)
+
+[sub_resource type="BoxMesh" id="Mesh_rail_side"]
+material = SubResource("Material_brass")
+size = Vector3(0.055, 1.5, 0.055)
+
+[sub_resource type="BoxMesh" id="Mesh_rail_long"]
+material = SubResource("Material_brass")
+size = Vector3(2.8, 0.055, 0.055)
+
+[sub_resource type="SphereMesh" id="Mesh_vase_body"]
+material = SubResource("Material_artifact")
+radius = 0.22
+height = 0.42
+radial_segments = 12
+rings = 6
+
+[sub_resource type="CylinderMesh" id="Mesh_vase_neck"]
+top_radius = 0.09
+bottom_radius = 0.14
+height = 0.24
+radial_segments = 10
+
+[sub_resource type="BoxShape3D" id="Shape_case_base"]
+size = Vector3(2.8, 0.46, 1.8)
+
+[sub_resource type="BoxShape3D" id="Shape_glass_side"]
+size = Vector3(0.035, 1.42, 1.72)
+
+[sub_resource type="BoxShape3D" id="Shape_glass_front"]
+size = Vector3(2.72, 1.42, 0.035)
+
+[sub_resource type="BoxShape3D" id="Shape_glass_top"]
+size = Vector3(2.72, 0.035, 1.72)
+
+[node name="MuseumDisplayCase" type="StaticBody3D"]
+collision_layer = 1
+
+[node name="Base" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.23, 0)
+mesh = SubResource("Mesh_case_base")
+
+[node name="BaseCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.23, 0)
+shape = SubResource("Shape_case_base")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+position = Vector3(0, 1.0, 0)
+avoidance_enabled = true
+radius = 1.5
+height = 2.2
+
+[node name="BrassPlinth" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.48, 0)
+mesh = SubResource("Mesh_case_trim")
+
+[node name="GlassLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-1.38, 1.28, 0)
+mesh = SubResource("Mesh_glass_side")
+
+[node name="GlassLeftCollision" type="CollisionShape3D" parent="."]
+position = Vector3(-1.38, 1.28, 0)
+shape = SubResource("Shape_glass_side")
+
+[node name="GlassRight" type="MeshInstance3D" parent="."]
+position = Vector3(1.38, 1.28, 0)
+mesh = SubResource("Mesh_glass_side")
+
+[node name="GlassRightCollision" type="CollisionShape3D" parent="."]
+position = Vector3(1.38, 1.28, 0)
+shape = SubResource("Shape_glass_side")
+
+[node name="GlassFront" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.28, 0.88)
+mesh = SubResource("Mesh_glass_front")
+
+[node name="GlassFrontCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.28, 0.88)
+shape = SubResource("Shape_glass_front")
+
+[node name="GlassBack" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.28, -0.88)
+mesh = SubResource("Mesh_glass_front")
+
+[node name="GlassBackCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.28, -0.88)
+shape = SubResource("Shape_glass_front")
+
+[node name="GlassTop" type="MeshInstance3D" parent="."]
+position = Vector3(0, 2.0, 0)
+mesh = SubResource("Mesh_case_top")
+
+[node name="GlassTopCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 2.0, 0)
+shape = SubResource("Shape_glass_top")
+
+[node name="CornerRailFrontLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-1.39, 1.28, 0.89)
+mesh = SubResource("Mesh_rail_side")
+
+[node name="CornerRailFrontRight" type="MeshInstance3D" parent="."]
+position = Vector3(1.39, 1.28, 0.89)
+mesh = SubResource("Mesh_rail_side")
+
+[node name="CornerRailBackLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-1.39, 1.28, -0.89)
+mesh = SubResource("Mesh_rail_side")
+
+[node name="CornerRailBackRight" type="MeshInstance3D" parent="."]
+position = Vector3(1.39, 1.28, -0.89)
+mesh = SubResource("Mesh_rail_side")
+
+[node name="FrontTopRail" type="MeshInstance3D" parent="."]
+position = Vector3(0, 2.02, 0.89)
+mesh = SubResource("Mesh_rail_long")
+
+[node name="BackTopRail" type="MeshInstance3D" parent="."]
+position = Vector3(0, 2.02, -0.89)
+mesh = SubResource("Mesh_rail_long")
+
+[node name="ArtifactFoot" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.63, 0)
+mesh = SubResource("Mesh_vase_neck")
+
+[node name="ArtifactVase" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.88, 0)
+mesh = SubResource("Mesh_vase_body")
+
+[node name="ArtifactNeck" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.15, 0)
+mesh = SubResource("Mesh_vase_neck")
+
+[node name="DisplayLight" type="OmniLight3D" parent="."]
+position = Vector3(0, 1.9, 0)
+light_color = Color(1, 0.75, 0.4, 1)
+light_energy = 0.7
+omni_range = 2.6
+
+[node name="CaseLamp" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.91, 0)
+mesh = SubResource("Mesh_case_lamp")

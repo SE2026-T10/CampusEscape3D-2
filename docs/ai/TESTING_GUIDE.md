@@ -58,7 +58,7 @@ CI thực hiện `tools/ci/validate.sh` → `tools/ci/run_tests.sh` → export W
 3. Chạy `map_flow.gd` để kiểm tra scene catalog, restart và quay về menu nếu map đã đăng ký.
 4. Chạy playthrough/tool chuyên biệt nếu thay đổi mục tiêu, puzzle, security hoặc escape; kiểm tra thủ công hình ảnh/độ khó nếu yêu cầu liên quan UX.
 
-Museum hiện không có `maps/museum/tests/`; `map_flow.gd` kiểm tra chọn/restart/rời map và một số điều kiện guard, không thay thế gameplay test hoặc playtest thủ công. K17 có suites riêng; chỉ một phần đang được gọi bởi full runner như liệt kê phía trên.
+Museum hiện không có `maps/museum/tests/`; `map_flow.gd` vẫn kiểm tra chọn/restart/rời map và một số điều kiện guard, không thay thế gameplay test hoặc playtest thủ công. Khi sửa `maps/museum/scenes/props/`, chạy layout checker và `map_flow.gd`; trong Godot cần kiểm tra vật cản từ player view, raycast vision qua kính/prop, collision tại các điểm tương tác, cùng patrol/investigate/chase quanh `NavigationObstacle3D`. Obstacle avoidance không chứng minh navmesh đã carve hoặc guard có thể tìm đường quanh mọi prop. K17 có suites riêng; chỉ một phần đang được gọi bởi full runner như liệt kê phía trên.
 
 ## Chạy riêng một map
 

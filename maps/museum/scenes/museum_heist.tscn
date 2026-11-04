@@ -19,13 +19,25 @@
 [ext_resource type="Script" path="res://features/objectives/access_door.gd" id="17_8rq6u"]
 [ext_resource type="Script" path="res://features/objectives/exit_door.gd" id="18_4u2kq"]
 [ext_resource type="Script" path="res://shared/scripts/noise/noise_maker.gd" id="19_h4c2s"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/display_case.tscn" id="20_display_case"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/art_pedestal.tscn" id="21_art_pedestal"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/statue_bust.tscn" id="22_statue"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/painting.tscn" id="23_painting"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/reception_desk.tscn" id="24_reception"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/museum_bench.tscn" id="25_bench"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/plant_pot.tscn" id="26_planter"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/security_station.tscn" id="27_security"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/archive_shelf.tscn" id="28_archive_shelf"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/rope_barrier.tscn" id="29_rope_barrier"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/decorative_column.tscn" id="30_column"]
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/painting_landscape.tscn" id="31_landscape"]
 
 [sub_resource type="Environment" id="Environment_museum"]
 background_mode = 1
 background_color = Color(0.06, 0.08, 0.1, 1)
 ambient_light_source = 2
 ambient_light_color = Color(0.76, 0.71, 0.64, 1)
-ambient_light_energy = 0.55
+ambient_light_energy = 0.34
 tonemap_mode = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape_floor"]
@@ -85,7 +97,7 @@ environment = SubResource("Environment_museum")
 
 [node name="KeyLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.7, -0.42, 0.58, 0, 0.81, 0.58, -0.72, -0.41, 0.57, 0, 8, 0)
-light_energy = 1.2
+light_energy = 0.42
 shadow_enabled = true
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
@@ -140,6 +152,121 @@ material_override = SubResource("Material_wall")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/WestWall"]
 shape = SubResource("BoxShape_wall_2")
+
+[node name="MuseumLighting" type="Node3D" parent="."]
+
+[node name="LobbySpot" type="SpotLight3D" parent="MuseumLighting"]
+transform = Transform3D(1, 0, 0, 0, -0.28, 0.96, 0, -0.96, -0.28, -13, 4.8, 3)
+light_energy = 1.8
+spot_range = 14.0
+spot_angle = 32.0
+shadow_enabled = true
+
+[node name="GallerySpot" type="SpotLight3D" parent="MuseumLighting"]
+transform = Transform3D(1, 0, 0, 0, -0.28, 0.96, 0, -0.96, -0.28, -1, 4.8, -5)
+light_energy = 1.6
+spot_range = 16.0
+spot_angle = 30.0
+
+[node name="SculptureSpot" type="SpotLight3D" parent="MuseumLighting"]
+transform = Transform3D(1, 0, 0, 0, -0.28, 0.96, 0, -0.96, -0.28, -3.5, 5.0, 2.5)
+light_color = Color(1, 0.83, 0.61, 1)
+light_energy = 1.5
+spot_range = 10.0
+spot_angle = 24.0
+
+[node name="SecuritySpot" type="SpotLight3D" parent="MuseumLighting"]
+transform = Transform3D(1, 0, 0, 0, -0.32, 0.95, 0, -0.95, -0.32, 10, 4.5, 9)
+light_energy = 1.4
+spot_range = 12.0
+spot_angle = 28.0
+
+[node name="ExitSpot" type="SpotLight3D" parent="MuseumLighting"]
+transform = Transform3D(1, 0, 0, 0, -0.25, 1, 0, -1, -0.25, -15, 5.2, 14)
+light_energy = 1.8
+spot_range = 12.0
+spot_angle = 36.0
+shadow_enabled = true
+
+[node name="PaintingSpotLeft" type="SpotLight3D" parent="MuseumLighting"]
+position = Vector3(-15.5, 4, -8)
+rotation_degrees = Vector3(0, 90, 0)
+light_color = Color(1, 0.81, 0.58, 1)
+light_energy = 1.2
+spot_range = 7.0
+spot_angle = 26.0
+
+[node name="PaintingSpotRight" type="SpotLight3D" parent="MuseumLighting"]
+position = Vector3(-15.5, 4, 8)
+rotation_degrees = Vector3(0, 90, 0)
+light_color = Color(0.71, 0.82, 1, 1)
+light_energy = 1.1
+spot_range = 7.0
+spot_angle = 26.0
+
+[node name="MuseumDecor" type="Node3D" parent="."]
+
+[node name="ReceptionDesk" parent="MuseumDecor" instance=ExtResource("24_reception")]
+position = Vector3(-17.5, 0.225, 0)
+rotation_degrees = Vector3(0, 90, 0)
+
+[node name="LobbyBench" parent="MuseumDecor" instance=ExtResource("25_bench")]
+position = Vector3(-16.5, 0.225, -6.5)
+
+[node name="LobbyPlanterWest" parent="MuseumDecor" instance=ExtResource("26_planter")]
+position = Vector3(-17.2, 0.225, 5.5)
+
+[node name="LobbyPlanterEast" parent="MuseumDecor" instance=ExtResource("26_planter")]
+position = Vector3(-12.2, 0.225, -6.5)
+scale = Vector3(0.8, 0.8, 0.8)
+
+[node name="LobbyDisplayCase" parent="MuseumDecor" instance=ExtResource("20_display_case")]
+position = Vector3(-9, 0.225, -1)
+
+[node name="GalleryDisplayCase" parent="MuseumDecor" instance=ExtResource("20_display_case")]
+position = Vector3(1.5, 0.225, 3)
+rotation_degrees = Vector3(0, 28, 0)
+
+[node name="RestrictedDisplayCase" parent="MuseumDecor" instance=ExtResource("20_display_case")]
+position = Vector3(14, 0.225, 1)
+rotation_degrees = Vector3(0, -18, 0)
+
+[node name="GalleryPedestal" parent="MuseumDecor" instance=ExtResource("21_art_pedestal")]
+position = Vector3(-3.5, 0.225, 2.5)
+
+[node name="GallerySculpture" parent="MuseumDecor" instance=ExtResource("22_statue")]
+position = Vector3(4, 0.225, -1)
+scale = Vector3(1.05, 1.05, 1.05)
+
+[node name="GalleryPaintingWest" parent="MuseumDecor" instance=ExtResource("23_painting")]
+position = Vector3(-19.64, 2.45, -8)
+rotation_degrees = Vector3(0, 90, 0)
+
+[node name="GalleryPaintingNorth" parent="MuseumDecor" instance=ExtResource("31_landscape")]
+position = Vector3(-19.64, 2.45, 8)
+rotation_degrees = Vector3(0, 90, 0)
+scale = Vector3(0.82, 0.82, 0.82)
+
+[node name="GalleryRopeBarrier" parent="MuseumDecor" instance=ExtResource("29_rope_barrier")]
+position = Vector3(0, 0.225, 11)
+
+[node name="RestrictedRopeBarrier" parent="MuseumDecor" instance=ExtResource("29_rope_barrier")]
+position = Vector3(5, 0.225, -7)
+rotation_degrees = Vector3(0, 90, 0)
+
+[node name="ArchiveShelfWest" parent="MuseumDecor" instance=ExtResource("28_archive_shelf")]
+position = Vector3(17, 0.225, -12)
+
+[node name="ArchiveShelfEast" parent="MuseumDecor" instance=ExtResource("28_archive_shelf")]
+position = Vector3(17, 0.225, -8)
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="SecurityStation" parent="MuseumDecor" instance=ExtResource("27_security")]
+position = Vector3(13, 0.225, 13.2)
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="LobbyColumn" parent="MuseumDecor" instance=ExtResource("30_column")]
+position = Vector3(-13, 0.225, -10)
 
 [node name="StealthDirector" type="Node" parent="."]
 script = ExtResource("7_j7c5n")

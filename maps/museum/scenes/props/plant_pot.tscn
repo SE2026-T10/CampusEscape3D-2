@@ -1,0 +1,102 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_pot"]
+albedo_color = Color(0.38, 0.2, 0.13, 1)
+roughness = 0.73
+
+[sub_resource type="StandardMaterial3D" id="Material_rim"]
+albedo_color = Color(0.62, 0.43, 0.22, 1)
+metallic = 0.35
+roughness = 0.34
+
+[sub_resource type="StandardMaterial3D" id="Material_soil"]
+albedo_color = Color(0.13, 0.09, 0.05, 1)
+roughness = 1
+
+[sub_resource type="StandardMaterial3D" id="Material_leaf"]
+albedo_color = Color(0.14, 0.35, 0.19, 1)
+roughness = 0.88
+
+[sub_resource type="CylinderMesh" id="Mesh_pot"]
+material = SubResource("Material_pot")
+top_radius = 0.48
+bottom_radius = 0.32
+height = 0.72
+radial_segments = 12
+
+[sub_resource type="CylinderMesh" id="Mesh_rim"]
+material = SubResource("Material_rim")
+top_radius = 0.5
+bottom_radius = 0.5
+height = 0.09
+radial_segments = 12
+
+[sub_resource type="CylinderMesh" id="Mesh_soil"]
+material = SubResource("Material_soil")
+top_radius = 0.4
+bottom_radius = 0.4
+height = 0.04
+radial_segments = 12
+
+[sub_resource type="CylinderShape3D" id="Shape_pot"]
+height = 0.78
+radius = 0.5
+
+[sub_resource type="CylinderMesh" id="Mesh_stem"]
+material = SubResource("Material_rim")
+top_radius = 0.045
+bottom_radius = 0.07
+height = 1.1
+radial_segments = 7
+
+[sub_resource type="SphereMesh" id="Mesh_leaf"]
+material = SubResource("Material_leaf")
+radius = 0.36
+height = 0.62
+radial_segments = 10
+rings = 5
+
+[node name="MuseumPlanter" type="StaticBody3D"]
+
+[node name="Pot" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.36, 0)
+mesh = SubResource("Mesh_pot")
+
+[node name="PotCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.39, 0)
+shape = SubResource("Shape_pot")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+position = Vector3(0, 0.4, 0)
+avoidance_enabled = true
+radius = 0.55
+height = 0.8
+
+[node name="Rim" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.74, 0)
+mesh = SubResource("Mesh_rim")
+
+[node name="Soil" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.79, 0)
+mesh = SubResource("Mesh_soil")
+
+[node name="Trunk" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.32, 0)
+mesh = SubResource("Mesh_stem")
+
+[node name="LeafCenter" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.85, 0)
+scale = Vector3(0.9, 1.2, 0.9)
+mesh = SubResource("Mesh_leaf")
+
+[node name="LeafLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.27, 1.52, 0.06)
+scale = Vector3(1.1, 0.65, 0.8)
+rotation_degrees = Vector3(0, 0, 32)
+mesh = SubResource("Mesh_leaf")
+
+[node name="LeafRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.28, 1.6, -0.08)
+scale = Vector3(1.05, 0.7, 0.8)
+rotation_degrees = Vector3(0, 0, -35)
+mesh = SubResource("Mesh_leaf")

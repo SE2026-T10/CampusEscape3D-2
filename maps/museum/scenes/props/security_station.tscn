@@ -1,0 +1,123 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://shared/scenes/props/chair.tscn" id="1_chair"]
+
+[sub_resource type="StandardMaterial3D" id="Material_console"]
+albedo_color = Color(0.14, 0.2, 0.24, 1)
+metallic = 0.38
+roughness = 0.43
+
+[sub_resource type="StandardMaterial3D" id="Material_metal"]
+albedo_color = Color(0.36, 0.4, 0.4, 1)
+metallic = 0.72
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Material_screen"]
+albedo_color = Color(0.04, 0.14, 0.18, 1)
+emission_enabled = true
+emission = Color(0.05, 0.25, 0.35, 1)
+emission_energy_multiplier = 0.75
+roughness = 0.27
+
+[sub_resource type="StandardMaterial3D" id="Material_indicator"]
+albedo_color = Color(0.23, 0.78, 0.48, 1)
+emission_enabled = true
+emission = Color(0.12, 0.72, 0.31, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="BoxMesh" id="Mesh_console_body"]
+material = SubResource("Material_console")
+size = Vector3(2.9, 0.8, 0.86)
+
+[sub_resource type="BoxMesh" id="Mesh_console_top"]
+material = SubResource("Material_metal")
+size = Vector3(3.0, 0.12, 0.96)
+
+[sub_resource type="BoxMesh" id="Mesh_screen_case"]
+material = SubResource("Material_metal")
+size = Vector3(0.76, 0.55, 0.09)
+
+[sub_resource type="BoxMesh" id="Mesh_screen"]
+material = SubResource("Material_screen")
+size = Vector3(0.66, 0.43, 0.025)
+
+[sub_resource type="BoxMesh" id="Mesh_keyboard"]
+material = SubResource("Material_metal")
+size = Vector3(0.5, 0.035, 0.19)
+
+[sub_resource type="SphereMesh" id="Mesh_button"]
+material = SubResource("Material_indicator")
+radius = 0.045
+height = 0.09
+radial_segments = 8
+rings = 4
+
+[sub_resource type="BoxShape3D" id="Shape_console"]
+size = Vector3(2.9, 0.8, 0.86)
+
+[sub_resource type="BoxShape3D" id="Shape_staff_chair"]
+size = Vector3(0.58, 0.9, 0.58)
+
+[node name="MuseumSecurityStation" type="Node3D"]
+
+[node name="Console" type="StaticBody3D" parent="."]
+
+[node name="ConsoleBody" type="MeshInstance3D" parent="Console"]
+position = Vector3(0, 0.4, 0)
+mesh = SubResource("Mesh_console_body")
+
+[node name="Collision" type="CollisionShape3D" parent="Console"]
+position = Vector3(0, 0.4, 0)
+shape = SubResource("Shape_console")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+position = Vector3(0, 0.5, 0)
+avoidance_enabled = true
+radius = 1.55
+height = 1.7
+
+[node name="Top" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.86, 0)
+mesh = SubResource("Mesh_console_top")
+
+[node name="MonitorLeftFrame" type="MeshInstance3D" parent="."]
+position = Vector3(-0.72, 1.36, -0.14)
+mesh = SubResource("Mesh_screen_case")
+
+[node name="MonitorLeftScreen" type="MeshInstance3D" parent="."]
+position = Vector3(-0.72, 1.36, -0.085)
+mesh = SubResource("Mesh_screen")
+
+[node name="MonitorRightFrame" type="MeshInstance3D" parent="."]
+position = Vector3(0.72, 1.36, -0.14)
+mesh = SubResource("Mesh_screen_case")
+
+[node name="MonitorRightScreen" type="MeshInstance3D" parent="."]
+position = Vector3(0.72, 1.36, -0.085)
+mesh = SubResource("Mesh_screen")
+
+[node name="Keyboard" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.01, 0.2)
+mesh = SubResource("Mesh_keyboard")
+
+[node name="Indicator1" type="MeshInstance3D" parent="."]
+position = Vector3(-0.58, 1.02, 0.27)
+mesh = SubResource("Mesh_button")
+
+[node name="Indicator2" type="MeshInstance3D" parent="."]
+position = Vector3(-0.4, 1.02, 0.27)
+mesh = SubResource("Mesh_button")
+
+[node name="Indicator3" type="MeshInstance3D" parent="."]
+position = Vector3(0.58, 1.02, 0.27)
+mesh = SubResource("Mesh_button")
+
+[node name="StaffChairBody" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.45, -1.1)
+
+[node name="ChairCollision" type="CollisionShape3D" parent="StaffChairBody"]
+shape = SubResource("Shape_staff_chair")
+
+[node name="StaffChair" parent="StaffChairBody" instance=ExtResource("1_chair")]
+position = Vector3(0, -0.45, 0)
+rotation_degrees = Vector3(0, 180, 0)

@@ -78,4 +78,4 @@ sequenceDiagram
 4. `ObjectiveManager.level_completed` được `GameFlow` xử lý để vào WIN; UI của map có thể cung cấp result lines qua `MapHudProvider`.
 5. Nút Play Again tải lại scene hiện tại; Restart cũng reload scene hiện tại. Nút Main Menu tải `shared/scenes/ui/main_menu.tscn`.
 
-**Giới hạn tài liệu:** Museum hiện dùng chuỗi mục tiêu tuyến tính và một exit; không được áp dụng sơ đồ route/puzzle của Expanded Library sang Museum. K17 có mission controller/exit logic riêng; đọc `maps/intelligence/scripts/` khi task chạm vào flow của K17.
+**Giới hạn tài liệu:** Museum vẫn dùng chuỗi mục tiêu tuyến tính và một exit, nhưng không gian đã được chia rõ thành lobby, exhibition hall, restricted archive và security desk, giúp củng cố nhánh lén lút mà không thay đổi flow chung. Không được áp dụng sơ đồ route/puzzle của Expanded Library sang Museum. K17 có mission controller/exit logic riêng; đọc `maps/intelligence/scripts/` khi task chạm vào flow của K17.

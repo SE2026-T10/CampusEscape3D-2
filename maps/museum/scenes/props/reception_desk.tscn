@@ -1,0 +1,146 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://shared/scenes/props/chair.tscn" id="1_chair"]
+
+[sub_resource type="StandardMaterial3D" id="Material_oak"]
+albedo_color = Color(0.3, 0.16, 0.09, 1)
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Material_brass"]
+albedo_color = Color(0.7, 0.51, 0.22, 1)
+metallic = 0.74
+roughness = 0.28
+
+[sub_resource type="StandardMaterial3D" id="Material_screen"]
+albedo_color = Color(0.06, 0.16, 0.2, 1)
+emission_enabled = true
+emission = Color(0.05, 0.28, 0.38, 1)
+emission_energy_multiplier = 0.55
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Material_sign"]
+albedo_color = Color(0.82, 0.71, 0.49, 1)
+roughness = 0.82
+
+[sub_resource type="BoxMesh" id="Mesh_counter_body"]
+material = SubResource("Material_oak")
+size = Vector3(3.2, 0.82, 0.32)
+
+[sub_resource type="BoxMesh" id="Mesh_counter_top"]
+material = SubResource("Material_brass")
+size = Vector3(3.45, 0.13, 1.15)
+
+[sub_resource type="BoxMesh" id="Mesh_counter_side"]
+material = SubResource("Material_oak")
+size = Vector3(0.3, 0.82, 0.92)
+
+[sub_resource type="BoxMesh" id="Mesh_counter_inlay"]
+material = SubResource("Material_brass")
+size = Vector3(0.45, 0.08, 0.035)
+
+[sub_resource type="BoxMesh" id="Mesh_monitor_frame"]
+material = SubResource("Material_oak")
+size = Vector3(0.72, 0.48, 0.09)
+
+[sub_resource type="BoxMesh" id="Mesh_monitor_screen"]
+material = SubResource("Material_screen")
+size = Vector3(0.62, 0.37, 0.025)
+
+[sub_resource type="CylinderMesh" id="Mesh_monitor_stand"]
+top_radius = 0.04
+bottom_radius = 0.06
+height = 0.2
+radial_segments = 8
+
+[sub_resource type="BoxMesh" id="Mesh_keyboard"]
+material = SubResource("Material_brass")
+size = Vector3(0.46, 0.035, 0.17)
+
+[sub_resource type="BoxMesh" id="Mesh_nameplate"]
+material = SubResource("Material_sign")
+size = Vector3(0.85, 0.19, 0.035)
+
+[sub_resource type="BoxShape3D" id="Shape_counter"]
+size = Vector3(3.2, 0.82, 0.32)
+
+[sub_resource type="BoxShape3D" id="Shape_chair"]
+size = Vector3(0.58, 0.9, 0.58)
+
+[node name="MuseumReceptionDesk" type="Node3D"]
+
+[node name="Counter" type="StaticBody3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Counter"]
+position = Vector3(0, 0.48, -0.35)
+mesh = SubResource("Mesh_counter_body")
+
+[node name="Collision" type="CollisionShape3D" parent="Counter"]
+position = Vector3(0, 0.48, -0.35)
+shape = SubResource("Shape_counter")
+
+[node name="LeftWing" type="MeshInstance3D" parent="Counter"]
+position = Vector3(-1.42, 0.48, 0.03)
+mesh = SubResource("Mesh_counter_side")
+
+[node name="RightWing" type="MeshInstance3D" parent="Counter"]
+position = Vector3(1.42, 0.48, 0.03)
+mesh = SubResource("Mesh_counter_side")
+
+[node name="CounterTop" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.96, -0.12)
+mesh = SubResource("Mesh_counter_top")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+position = Vector3(0, 0.55, -0.2)
+avoidance_enabled = true
+radius = 1.8
+height = 1.7
+
+[node name="StaffChairBody" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.45, -1.25)
+
+[node name="Collision" type="CollisionShape3D" parent="StaffChairBody"]
+shape = SubResource("Shape_chair")
+
+[node name="StaffChair" parent="StaffChairBody" instance=ExtResource("1_chair")]
+position = Vector3(0, -0.45, -0.05)
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="FrontInlay" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.49, -0.18)
+mesh = SubResource("Mesh_counter_inlay")
+
+[node name="InlayLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.95, 0.49, -0.18)
+mesh = SubResource("Mesh_counter_inlay")
+
+[node name="InlayRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.95, 0.49, -0.18)
+mesh = SubResource("Mesh_counter_inlay")
+
+[node name="NamePlate" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.71, -0.17)
+mesh = SubResource("Mesh_nameplate")
+
+[node name="ReceptionLabel" type="Label3D" parent="."]
+position = Vector3(0, 0.71, -0.14)
+modulate = Color(0.16, 0.12, 0.08, 1)
+text = "RECEPTION"
+font_size = 30
+pixel_size = 0.003
+
+[node name="MonitorStand" type="MeshInstance3D" parent="."]
+position = Vector3(0.65, 1.11, -0.42)
+mesh = SubResource("Mesh_monitor_stand")
+
+[node name="Monitor" type="MeshInstance3D" parent="."]
+position = Vector3(0.65, 1.4, -0.42)
+mesh = SubResource("Mesh_monitor_frame")
+
+[node name="Screen" type="MeshInstance3D" parent="."]
+position = Vector3(0.65, 1.4, -0.365)
+mesh = SubResource("Mesh_monitor_screen")
+
+[node name="Keyboard" type="MeshInstance3D" parent="."]
+position = Vector3(-0.1, 1.04, -0.18)
+mesh = SubResource("Mesh_keyboard")
