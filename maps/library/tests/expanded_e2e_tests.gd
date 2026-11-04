@@ -383,7 +383,7 @@ func _run_optional_main() -> void:
 		_expect(_objectives.is_finished() and _objectives.escape_route == &"main_entrance", "Won by the main entrance (%s)." % _objectives.escape_route)
 		_expect(OPTIONAL.all(func(id): return _objectives.is_completed(id)), "All 3 optional objectives done.")
 		var menus: GameMenus = _level.get_node("GameMenus")
-		_expect(menus.get_objectives_text().contains("optional 3/4") and menus.get_objectives_text().contains("Escape route: Main entrance"), "Win text: %s." % menus.get_objectives_text())
+		_expect(menus.get_objectives_text().contains("optional 3/3") and menus.get_objectives_text().contains("Escape route: Main entrance"), "Win text: %s." % menus.get_objectives_text())
 	timings.append(["B all optional (no guards)", _w.game_time, _w.walked])
 	print("  [expanded-e2e] B optional (walked): rota → locker 136 (badge, bottle, notes) → override → main entrance refused without the manuscript → card → pump log → tool kit → pump (grate cleared) → capture (state as stored, journal kept) → power → vault → manuscript → back gate → staff stair → out by the main entrance: WIN, 3/3 optional (%.0f s, %.0f m)" % [_w.game_time, _w.walked])
 

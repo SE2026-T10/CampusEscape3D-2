@@ -4,9 +4,7 @@ extends Puzzle
 ## The loading dock shutter's control box (Expanded Library, expansion Phase 6,
 ## escape route B). Pressing OPEN unlocks the dock exit (`exit_path`, the
 ## level's loading dock ExitDoor) once:
-##   - its circuit has power (SERVICE EXIT, from the electrical room), or the
-##     player carries `hand_key` (the manual release key: the shutter is cranked
-##     up by hand and stays open without power), and
+##   - its circuit has power (SERVICE EXIT, from the electrical room), and
 ##   - the jammed shutter release beside the door (`release_path`, a
 ##     ToolMechanism) has been freed with the tool kit.
 ## Otherwise it says which one is missing. Opening rattles the shutter up (a
@@ -24,9 +22,6 @@ extends Puzzle
 @export var exit_path: NodePath
 @export var release_path: NodePath
 @export var power_circuit: StringName = &"service_exit"
-## A carried item that opens the shutter by hand without power (the manual release
-## key from the Study 4 reserve cabinet, approved 2026-10-31); empty: none.
-@export var hand_key: StringName = &""
 @export var noise_radius := 14.0
 @export_group("Polish (loading dock)")
 @export var curtain_path: NodePath
@@ -123,8 +118,7 @@ func _on_pressed() -> void:
 	if exit.unlocked:
 		feedback.emit("The shutter is already open.", true)
 		return
-	var by_hand := not has_power() and _carries_hand_key()
-	if not has_power() and not by_hand:
+	if not has_power():
 		refusals += 1
 		feedback.emit("Dock shutter: no power. SERVICE EXIT is off (electrical room).", false)
 		return
@@ -133,23 +127,12 @@ func _on_pressed() -> void:
 		refusals += 1
 		feedback.emit("Dock shutter: the release beside the door is jammed. Free it with the tool kit.", false)
 		return
-	if by_hand:
-		exit.open_by_hand()
-	else:
-		exit.unlock()
+	exit.unlock()
 	var system := NoiseSystem.find(self)
 	if system:
 		system.emit_noise(global_position, NoiseEvent.Type.INTERACTION, "environment", 0.8, noise_radius, -1.0, "Shutter rattles up")
 	_mark_solved()
-	if by_hand:
-		feedback.emit("You crank the shutter up by hand with the dock release key: the loading dock is clear.", true)
-	else:
-		feedback.emit("Shutter open: the loading dock is clear.", true)
-
-
-func _carries_hand_key() -> bool:
-	var inventory := PlayerInventory.find(self)
-	return hand_key != &"" and inventory != null and inventory.has(hand_key)
+	feedback.emit("Shutter open: the loading dock is clear.", true)
 
 
 func _process(delta: float) -> void:
@@ -206,8 +189,6 @@ func _refresh() -> void:
 	is_solved = exit != null and exit.unlocked
 	if is_solved:
 		_set_display("SHUTTER · OPEN", Color(0.3, 0.9, 0.45))
-	elif not has_power() and _carries_hand_key():
-		_set_display("SHUTTER · NO POWER\nMANUAL KEY READY", Color(1.0, 0.75, 0.25))
 	elif not has_power():
 		_set_display("SHUTTER · NO POWER", Color(0.85, 0.3, 0.25))
 	elif get_release() and not get_release().is_operated:

@@ -41,7 +41,7 @@ const B := X.BF
 const U := Layout.UPPER_Y
 
 const MANDATORY := [&"enter_library", &"take_card", &"find_toolkit", &"open_panel", &"restore_power", &"open_vault", &"take_manuscript", &"escape"]
-const OPTIONAL := [&"unlock_shortcut", &"drain_culvert", &"security_locker", &"reserve_shelf"]   # reserve_shelf: approved 2026-10-31
+const OPTIONAL := [&"unlock_shortcut", &"drain_culvert", &"security_locker"]
 ## The answers (only here, in the scene and in the clues).
 const VAULT_CODE := "2691"
 const LOCKER_CODE := "136"
@@ -269,7 +269,7 @@ func _check_route_dock() -> void:
 		"Escaping through the dock wins (state %s)." % flow.state)
 	_expect(OPTIONAL.all(func(id): return not _objectives.is_completed(id)), "The mission is won with no optional objective done.")
 	var menus: GameMenus = _level.get_node("GameMenus")
-	_expect(menus.get_objectives_text() == "Mission objectives 8/8 complete · optional 0/4\nEscape route: Loading dock", "Win text: %s." % menus.get_objectives_text())
+	_expect(menus.get_objectives_text() == "Mission objectives 8/8 complete · optional 0/3\nEscape route: Loading dock", "Win text: %s." % menus.get_objectives_text())
 	print("  [expansion-puzzles] route 1 (real input): plaque → tool kit → notice → %s → card → memo → G2 → code → manuscript → walk out of the loading dock: WIN, 0/3 optional" % " → ".join(log))
 
 
@@ -424,15 +424,16 @@ func _check_optional_locker() -> void:
 	await _use(notes, Vector3(-4.5, U, -22.45))   # polish: inside the locker
 	_expect(_inventory.has_document(&"patrol_notes"), "The patrol notes go to the journal.")
 	_expect(not _objectives.is_finished() and _objectives.current() == &"take_card", "An optional objective doesn't move the mission.")
-	var presses := await _page_journal_shut()   # opened by reading: J pages through it, then closes it
-	_expect(not _hud.is_journal_open(), "J closes a journal opened by reading (%d presses)." % presses)
+	await _press("journal")   # opened by reading: J closes it
+	_expect(not _hud.is_journal_open(), "J closes a journal opened by reading.")
 	await _press("journal")   # opened with J: pages through the documents
 	var text := _hud.get_journal_text()
 	# Expansion Phase 7: the journal holds only clues and documents; the objectives are in the panel.
 	_expect(not text.contains("MISSION") and not text.contains("OPTIONAL") and text.contains("DOCUMENTS") and text.contains("Patrol notes"),
 		"The journal lists only clues and documents (%s)." % text.left(200))
 	_expect(_hud.get_lines().has("[x] (optional) Open the security locker"), "The objective panel lists the optional objective done.")
-	await _page_journal_shut()
+	await _press("journal")
+	await _press("journal")
 	print("  [expansion-puzzles] optional locker: hidden until the rota, wrong combination refused (no alarm), right one → bottle + patrol notes; mission unaffected")
 
 
@@ -709,13 +710,3 @@ func _until_true(done: Callable, max_frames: int) -> bool:
 func _frames(count: int) -> void:
 	for i in count:
 		await _host.get_tree().physics_frame
-
-
-## Presses J until the journal closes (it pages through the clues and documents first; a
-## narrow page, like the Expanded Library's clipboard, can have several). Returns the presses.
-func _page_journal_shut() -> int:
-	var presses := 0
-	while _hud.is_journal_open() and presses < 12:
-		await _press("journal")
-		presses += 1
-	return presses

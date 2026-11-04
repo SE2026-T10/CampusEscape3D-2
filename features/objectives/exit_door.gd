@@ -78,9 +78,6 @@ signal feedback(text: String, good: bool)
 var rejections := 0
 ## Walk-through: unlocked by its mechanism (stored at checkpoints).
 var unlocked := false
-## Opened by hand (the Expanded Library's loading dock, with its manual release key):
-## open from then on without `power_circuit` (stored at checkpoints).
-var hand_opened := false
 
 var _trigger: Area3D
 var _panel: StaticBody3D
@@ -202,12 +199,6 @@ func is_open() -> bool:
 	return (not needs_unlock or unlocked) and _has_power() and _extra_done()
 
 
-## Opens by hand: unlocked, and no longer needing its power circuit.
-func open_by_hand() -> void:
-	hand_opened = true
-	unlock()
-
-
 ## Walk-through: opens the exit (from its mechanism) once its other conditions hold.
 func unlock() -> void:
 	if unlocked:
@@ -310,19 +301,18 @@ func _escape() -> void:
 
 
 func get_checkpoint_state() -> Dictionary:
-	return {"unlocked": unlocked, "hand_opened": hand_opened}
+	return {"unlocked": unlocked}
 
 
 func restore_checkpoint_state(state: Dictionary) -> void:
 	unlocked = bool(state.get("unlocked", false))
-	hand_opened = bool(state.get("hand_opened", false))
 	_curtain_snap = true
 	_refuse_cooldown = 0.0
 	_apply_panel()
 
 
 func _has_power() -> bool:
-	if power_circuit == &"" or hand_opened:
+	if power_circuit == &"":
 		return true
 	var network := get_tree().get_first_node_in_group("power_network")
 	return network != null and network.is_powered(power_circuit)

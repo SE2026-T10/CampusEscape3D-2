@@ -183,8 +183,7 @@ func use_selected() -> bool:
 		ItemCatalog.Kind.DISTRACTION:
 			return throw_selected()
 		ItemCatalog.Kind.TOOL:
-			var hint := ItemCatalog.use_hint(id)
-			notify(hint if hint != "" else "%s: look at a marked mechanism and press E to use it." % ItemCatalog.item_name(id))
+			notify("%s: look at a marked mechanism and press E to use it." % ItemCatalog.item_name(id))
 		ItemCatalog.Kind.CARD:
 			notify("%s: walk up to a staff door and press E." % ItemCatalog.item_name(id))
 	return false
