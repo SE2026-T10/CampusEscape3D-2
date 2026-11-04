@@ -10,7 +10,7 @@ Lịch C cập nhật ngày, tháng, năm và giờ địa phương theo máy t�
 cả trên tường lẫn trong giao diện đọc. Không cần kết nối mạng.
 Các ngày bảo trì là dữ kiện cố định của câu đố: kiểm tra dây **14/03**,
 kết hợp hướng dẫn DDMM trên G suy ra **1403**. Mã không tự đổi theo ngày máy tính.
-Cửa nhập mã kho phụ chưa được triển khai ở bước này.
+Cửa nhập mã kho phụ đã được triển khai ở [bước 16](step-16-aux-storage.md).
 
 ![Đọc lịch C](step-15-paper-calendar.png)
 

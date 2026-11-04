@@ -40,7 +40,8 @@ func _capture() -> void:
 	var ring_only := "--courtyard-ring-only" in OS.get_cmdline_user_args()
 	var paper_only := "--paper-reader-only" in OS.get_cmdline_user_args()
 	var staff_only := "--staff-room-only" in OS.get_cmdline_user_args() or paper_only
-	courtyard_only = courtyard_only or ring_only or staff_only
+	var storage_only := "--storage-only" in OS.get_cmdline_user_args()
+	courtyard_only = courtyard_only or ring_only or staff_only or storage_only
 	if courtyard_only:
 		views = [["courtyard-cross",Vector3(18,17,15.05),Vector3(18,0,15)]]
 		# Cutaway screenshot only: expose all four ground-floor openings.
@@ -75,7 +76,30 @@ func _capture() -> void:
 	if paper_only:
 		views = [["paper-note",Vector3(30.6,1.6,11),Vector3(32.2,1.112,11)],
 			["paper-calendar",Vector3(28.7,1.6,16),Vector3(27.3,1.5,16)]]
+	if storage_only:
+		views = [["storage-keypad",Vector3(25.5,1.6,21),Vector3(27,1.4,21)],
+			["storage-overview",Vector3(31.5,12,21.05),Vector3(31.5,0,21)],
+			["storage-inside",Vector3(28.2,1.7,21),Vector3(35.4,1.4,20.6)]]
+		for actor in get_nodes_in_group("guards"):
+			actor.hide()
+		for item in level.get_node("Interactables").get_children():
+			if item.name != &"Rope":
+				item.hide()
 	for shot in views:
+		if storage_only:
+			var flow := level.get_node("GameFlow")
+			if flow.state == GameStateMachine.State.PAUSED:
+				flow.resume()
+			var door := level.get_node("NavigationRegion3D/Doors/Storage")
+			level.get_node("Player").position = Vector3(25.5,0,21)
+			if shot[0] == "storage-keypad":
+				door.interact(level.get_node("Player"))
+			else:
+				door.keypad.close_panel()
+				if not door.unlocked:
+					door.submit_code("1403",level.get_node("Player"))
+			camera.projection = Camera3D.PROJECTION_ORTHOGONAL if shot[0] == "storage-overview" else Camera3D.PROJECTION_PERSPECTIVE
+			camera.size = 13
 		if paper_only:
 			var flow := level.get_node("GameFlow")
 			if flow.state == GameStateMachine.State.PAUSED:
@@ -101,6 +125,9 @@ func _capture() -> void:
 		camera.fov = 40 if shot[0] == "overview" else 75
 		for frame in 5:
 			await process_frame
+		if storage_only:
+			level.get_node("NavigationRegion3D/Doors/Storage").keypad._fit()
+			await process_frame
 		await RenderingServer.frame_post_draw
 		var output := "res://maps/museum/docs/step-06-%s.png" % shot[0]
 		if entrance_only:
@@ -115,6 +142,8 @@ func _capture() -> void:
 			output = "res://maps/museum/docs/step-14-ah-%s.png" % shot[0]
 		if paper_only:
 			output = "res://maps/museum/docs/step-15-%s.png" % shot[0]
+		if storage_only:
+			output = "res://maps/museum/docs/step-16-%s.png" % shot[0]
 		var result := root.get_texture().get_image().save_png(output)
 		if result != OK:
 			push_error("Could not save screenshot: " + output)

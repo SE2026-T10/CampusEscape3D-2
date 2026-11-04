@@ -1,6 +1,6 @@
-# Concept v3 — Phòng nhân viên, bố cục A–H
+# Concept v3 — Phòng nhân viên và kho phụ
 
-**Bản thiết kế duy nhất hiện tại:** [staff-room-floorplan.png](staff-room-floorplan.png).
+**Bản thiết kế phòng nhân viên duy nhất hiện tại:** [staff-room-floorplan.png](staff-room-floorplan.png).
 Hai phương án trước đã được thay bằng bản này theo phác thảo của người thiết kế.
 
 ![Bố cục phòng và tuyến H](staff-room-floorplan.png)
@@ -37,4 +37,16 @@ Các ảnh chụp bản dựng trước được giữ tại thư mục docs và
 
 Cập nhật sau bản vẽ: G đã chuyển thành mảnh giấy nhỏ trên bàn A; lịch C cập nhật
 ngày giờ máy tính. Xem [bước 15](../step-15-paper-calendar.md).
-Ảnh concept duy nhất được giữ để tham chiếu bố cục A–H.
+Ảnh phòng nhân viên duy nhất được giữ để tham chiếu bố cục A–H.
+
+## Kho phụ tầng 1
+
+Ảnh kho phụ được duyệt: [aux-storage-concept.png](aux-storage-concept.png).
+Đây là thiết kế cho phòng khác, bổ sung cho bản phòng nhân viên A–H.
+
+![Kho phụ và khóa mã](aux-storage-concept.png)
+
+Đã triển khai vào map: cửa mã 1403, kệ dụng cụ, xe đẩy, tủ che tầm nhìn,
+giá treo dây và bảng kiểm tra. Phòng có sẵn trong map rộng 9 × 6 m, cửa tây;
+bố cục ảnh 4 × 5 m được xoay và điều chỉnh để giữ nguyên mặt bằng bảo tàng.
+Chi tiết và ảnh Godot: [bước 16](../step-16-aux-storage.md).

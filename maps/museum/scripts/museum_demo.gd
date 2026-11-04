@@ -14,7 +14,7 @@ const OBJECTIVES := [
 	{"id": &"take_t3", "title": "Lấy tác phẩm T3",
 	 "hint": "Phòng tranh C, phía bắc tầng 2.", "done": "Đã lấy tác phẩm T3", "requires": []},
 	{"id": &"take_rope", "title": "Tìm dây thoát",
-	 "hint": "Kho phục chế góc đông nam tầng 2; E mở cửa từ phòng đệm phía nam, không cần chìa.",
+	 "hint": "Kho phụ phía đông tầng 1. Lịch C và giấy G trong phòng nhân viên gợi ý mã cửa; E lấy dây trên giá.",
 	 "done": "Đã lấy dây thoát", "requires": []},
 	{"id": &"escape", "title": "Buộc dây và thoát",
 	 "hint": "Cắt đuôi bảo vệ rồi dùng cửa sổ phía đông kho phục chế, tầng 2.",
@@ -31,6 +31,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	$NavigationRegion3D/Doors/Storage.rejected.connect(_on_guard_notice)
 	$ObjectiveManager.level_completed.connect($StealthDirector.finish_level)
 	$Guard_G6.notice.connect(_on_guard_notice)
 	$Guard_G3.notice.connect(_on_guard_notice)

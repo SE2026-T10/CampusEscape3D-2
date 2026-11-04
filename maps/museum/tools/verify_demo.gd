@@ -6,7 +6,7 @@ extends SceneTree
 const SCENE := "res://maps/museum/scenes/museum.tscn"
 const IDS := [&"take_key", &"take_t1", &"take_t2", &"take_t3", &"take_rope"]
 const PICKUPS := ["Key", "Painting_T1", "Painting_T2", "Painting_T3", "Rope"]
-const POSITIONS := [Vector3(34,0,10.2), Vector3(1.7,4.5,12), Vector3(33.5,4.5,10), Vector3(18,4.5,2.6), Vector3(32,4.5,24.5)]
+const POSITIONS := [Vector3(34,0,10.2), Vector3(1.7,4.5,12), Vector3(33.5,4.5,10), Vector3(18,4.5,2.6), Vector3(33.9,0,20.6)]
 var failures := 0
 var checks := 0
 var level: Node3D
@@ -73,6 +73,8 @@ func clean_start() -> bool:
 			return false
 	for door in level.get_node("NavigationRegion3D/Doors").get_children():
 		if door.is_open or door.get_node("Panel").collision_layer != 1 or door.get_node("Passage").enabled:
+			return false
+		if door.name == &"Storage" and door.unlocked:
 			return false
 	return level.get_node("GameFlow").state == GameStateMachine.State.PLAYING \
 		and level.get_node("Player").get_spawn_transform().origin.is_equal_approx(Vector3(18,0.1,35))
@@ -183,7 +185,10 @@ func _run() -> void:
 	level.get_node("GameFlow").pause()
 	check(not service.interact(service_player) and not service.is_open,"Pause prevents door toggle")
 	level.get_node("GameFlow").resume()
-	await aim_at(level.get_node("Interactables/Rope"),Vector3(32,4.5,24.5))
+	var storage := level.get_node("NavigationRegion3D/Doors/Storage")
+	service_player.position = Vector3(25.5,0,21)
+	storage.submit_code("1403",service_player)
+	await aim_at(level.get_node("Interactables/Rope"),Vector3(33.9,0,20.6))
 	await press_e()
 	check(manager.is_completed(&"take_rope") and not manager.is_completed(&"take_key")
 		and not level.get_node("NavigationRegion3D/Doors/GalleryB").is_open
@@ -250,6 +255,9 @@ func _run() -> void:
 	check(not shortcut.interact(player) and not shortcut.is_open, "Restoration side cannot unlatch shortcut")
 	for i in PICKUPS.size():
 		var pickup := level.get_node("Interactables/" + PICKUPS[i]) as Interactable
+		if PICKUPS[i] == "Rope":
+			player.position = Vector3(25.5,0,21)
+			level.get_node("NavigationRegion3D/Doors/Storage").submit_code("1403",player)
 		await aim_at(pickup, POSITIONS[i])
 		check(interactor.find_target() == pickup, "Camera ray finds " + PICKUPS[i])
 		await press_e()
@@ -319,6 +327,8 @@ func _run() -> void:
 	await reload_from(level.get_node("GameMenus").restart_button)
 	# Real perception, pursuit, capture and delayed full scene reload.
 	await fresh(false)
+	level.get_node("Player").position = Vector3(25.5,0,21)
+	level.get_node("NavigationRegion3D/Doors/Storage").submit_code("1403",level.get_node("Player"))
 	level.get_node("Interactables/Rope").interact(level.get_node("Player"))
 	player = level.get_node("Player") as FirstPersonPlayer
 	# Also exercise full door/key restoration after an actual catch, not just WIN.

@@ -28,7 +28,10 @@ cúi nấp sau bàn A, G3 ngồi ở B, chìa treo trên tủ D, đọc C/G đ�
 chai/lon F gây tiếng. Khi kiểm tra, G3 đi vòng H quanh bàn rồi về ghế.
 Đã thêm [giấy ghi chú trên bàn và lịch thời gian thực](docs/step-15-paper-calendar.md):
 E đọc giấy giữa màn hình; lịch C cập nhật ngày giờ máy tính.
-Bản dựng đã qua **362 kiểm tra** riêng của map.
+Đã triển khai [kho phụ khóa mã ở tầng 1](docs/step-16-aux-storage.md):
+mã 1403 từ C/G, E lấy dây trên giá, tủ che tầm nhìn và cảnh báo khi sai ba lần.
+Dây không còn ở tầng 2; tập kết T2 và cửa sổ thoát vẫn ở kho phục chế tầng 2.
+Bản dựng đã qua **397 kiểm tra** riêng của map.
 
 Hình học và cách chỉnh sàn/dốc/cửa: [Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md).
 

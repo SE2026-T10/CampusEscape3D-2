@@ -198,12 +198,18 @@ func _run() -> void:
 			door_id = "Service"
 		elif target.is_equal_approx(Vector3(34,0.1,10.2)):
 			door_id = "Staff"
+		elif target.is_equal_approx(Vector3(30,0.1,21)):
+			door_id = "Storage"
 		elif target.is_equal_approx(Vector3(32,4.6,24)) or target.is_equal_approx(Vector3(34,4.6,27)):
 			door_id = "RestorationEntrance"
 		if door_id != "":
 			var entry: Interactable = level.get_node("NavigationRegion3D/Doors/"+door_id)
 			check(not connected(spawn,target),"Closed " + door_id + " door isolates room navigation")
-			entry.interact(player)
+			if door_id == "Storage":
+				player.position = Vector3(25.5,0,21)
+				entry.submit_code("1403",player)
+			else:
+				entry.interact(player)
 			await frames(5)
 			check(connected(spawn,target),"Opened " + door_id + " door connects room navigation")
 			entry.interact(player)
@@ -237,7 +243,7 @@ func _run() -> void:
 	check(await walk(player,[Vector3(28.5,4.5,27),Vector3(32,4.5,27),Vector3(32,4.5,24.5)])
 		and not level.get_node("ObjectiveManager").is_completed(&"take_key")
 		and not doors.get_node("GalleryB").is_open and not doors.get_node("RestorationShortcut").is_open,
-		"Player opens free restoration entrance and reaches rope before key or either locked door opens")
+		"Player opens free restoration entrance and reaches T2 depot before key or either locked door opens")
 	await push_against_door(player,corridor,-PI/2)
 	check(player.position.x < 26.7 and absf(player.position.z-10) < 0.2,
 		"Locked gallery panel physically stops Player walking east")

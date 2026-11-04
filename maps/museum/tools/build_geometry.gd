@@ -342,7 +342,65 @@ func staff_readable(parent: Node,node_name: String,title: String,content: String
 	text.outline_size = 0
 
 
+func storage_interior() -> void:
+	# Existing room X=27..36, Z=18..24; concept rotated to face west entrance.
+	var room := group("StorageInterior")
+	var metal := material(Color(0.22,0.29,0.25))
+	var paper := material(Color(0.86,0.8,0.64))
+	var wood := material(Color(0.34,0.23,0.12))
+	box(room,"ToolShelves",Vector3(4.1,2.15,0.7),Vector3(31,1.075,18.65),metal)
+	for y in [0.35,0.95,1.55,2.12]:
+		staff_visual(room,"Shelf%d"%room.get_child_count(),Vector3(4.2,0.07,0.82),Vector3(31,y,18.95),wood)
+		for x in [29.5,30.4,31.5,32.5]:
+			staff_visual(room,"ToolBox%d"%room.get_child_count(),Vector3(0.5,0.3,0.35),Vector3(x,y+0.18,19.04),brass if x < 31 else green)
+	# Cabinet shields a walkable pocket on the south side.
+	box(room,"SteelCabinet",Vector3(3.4,2.2,0.65),Vector3(31.5,1.1,22.3),metal)
+	staff_visual(room,"CabinetDoor",Vector3(1.15,2.1,0.06),Vector3(32.65,1.1,21.94),green)
+	staff_visual(room,"CabinetHandle",Vector3(0.06,0.22,0.08),Vector3(32.2,1.1,21.87),brass)
+	box(room,"UtilityCart",Vector3(1.1,0.85,0.75),Vector3(28.7,0.425,19.7),metal)
+	for x in [28.3,29.1]:
+		for z in [19.45,19.95]:
+			staff_visual(room,"Wheel%d"%room.get_child_count(),Vector3(0.15,0.18,0.12),Vector3(x,0.09,z),wood)
+	staff_visual(room,"CartTray",Vector3(1.15,0.08,0.8),Vector3(28.7,0.85,19.7),wood)
+	staff_visual(room,"Cloth",Vector3(0.45,0.06,0.35),Vector3(28.7,0.92,19.7),paper)
+	staff_visual(room,"RopeRack",Vector3(0.12,0.2,1.7),Vector3(35.65,1.95,20.6),wood)
+	for z in [20.2,20.6,21.0]:
+		staff_visual(room,"Hook%d"%room.get_child_count(),Vector3(0.25,0.12,0.06),Vector3(35.47,1.96,z),brass)
+	label(room,"RopeSign","DÂY THOÁT HIỂM",Vector3(35.62,2.65,20.6),-PI/2)
+	room.get_node("RopeSign").pixel_size = 0.0025
+	label(room,"InspectionTag","Kiểm tra: 14/03",Vector3(35.6,0.65,20.6),-PI/2)
+	room.get_node("InspectionTag").pixel_size = 0.0018
+	staff_visual(room,"EquipmentBag",Vector3(0.42,0.6,0.5),Vector3(35.5,1.3,22),wood)
+	staff_readable(room,"Checklist","Bảng kiểm tra kho phụ",
+		"Dây bảo hộ — kiểm tra 14/03.\nMóc và đai: đủ bộ.\n\nMang dây tới cửa sổ tầng 2 để chuẩn bị thoát. Cần đưa tranh lớn T2 tới điểm tập kết trong kho phục chế tầng 2.\n\nĐóng cửa kho khi rời đi.",
+		"BẢNG KIỂM TRA\nDây · Móc · Đai",Vector3(29.2,1.55,23.72),PI,paper)
+	var light := OmniLight3D.new()
+	attach(room,light,"UtilityLight")
+	light.position = Vector3(31.5,3.4,21)
+	light.light_color = Color(1,0.83,0.6)
+	light.light_energy = 1.3
+	light.omni_range = 7
+	staff_visual(room,"Lamp",Vector3(0.5,0.12,0.5),Vector3(31.5,3.6,21),brass)
+	label(room,"StorageSign","KHO PHỤ · KHÓA MÃ",Vector3(26.79,3.1,21),-PI/2)
+	room.get_node("StorageSign").pixel_size = 0.0025
+	staff_visual(room,"KeypadBacking",Vector3(0.09,0.42,0.29),Vector3(26.78,1.45,19.9),metal)
+	staff_visual(room,"KeypadScreen",Vector3(0.03,0.075,0.21),Vector3(26.72,1.58,19.9),green)
+	for y in 4:
+		for z in 3:
+			staff_visual(room,"Key%d%d"%[y,z],Vector3(0.035,0.042,0.045),Vector3(26.715,1.46-y*0.06,19.83+z*0.07),paper)
+
+
 func _build() -> void:
+	if "--update-storage" in OS.get_cmdline_user_args():
+		geometry.free()
+		geometry = (load(OUTPUT) as PackedScene).instantiate()
+		var previous := geometry.get_node_or_null("StorageInterior")
+		if previous:
+			previous.free()
+		storage_interior()
+		geometry.get_node("Signs/Restoration").text = "KHO PHỤC CHẾ · TẬP KẾT T2 / LỐI THOÁT"
+		save_geometry()
+		return
 	if "--update-staff-interior" in OS.get_cmdline_user_args():
 		geometry.free()
 		geometry = (load(OUTPUT) as PackedScene).instantiate()
@@ -449,6 +507,7 @@ func _build() -> void:
 		box(covers, "NorthWest%d" % floor_index, Vector3(3.4,1.2,1.4), Vector3(10.5,y+0.6,2.8), blue)
 		box(covers, "NorthEast%d" % floor_index, Vector3(3.4,1.2,1.4), Vector3(22,y+0.6,2.8), blue)
 	staff_interior()
+	storage_interior()
 	box(covers, "GalleryBPlinth", Vector3(2.4,1.2,3), Vector3(31.3,5.1,12), blue)
 	box(covers, "RestorationWest", Vector3(1.8,1.2,3), Vector3(29.6,5.1,21.8), blue)
 	box(covers, "RestorationEast", Vector3(1.8,1.2,3), Vector3(34.2,5.1,21.8), blue)
@@ -462,7 +521,7 @@ func _build() -> void:
 	label(signs, "GalleryA", "PHÒNG A · T1", Vector3(9.2,7.6,9), PI/2)
 	label(signs, "GalleryB", "PHÒNG B · T2 · CẦN K", Vector3(26.8,7.6,10), -PI/2)
 	label(signs, "GalleryC", "PHÒNG C · T3", Vector3(15,7.6,6.2))
-	label(signs, "Restoration", "KHO PHỤC CHẾ · DÂY / LỐI THOÁT", Vector3(26.8,7.6,27), -PI/2)
+	label(signs, "Restoration", "KHO PHỤC CHẾ · TẬP KẾT T2 / LỐI THOÁT", Vector3(26.8,7.6,27), -PI/2)
 	front_yard()
 	save_geometry()
 

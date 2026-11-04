@@ -323,6 +323,10 @@ func _run() -> void:
 	# Carrying must not bypass escape when every other required item was collected.
 	await take_key()
 	await take_t2()
+	var carry_pose: Vector3 = player.position
+	player.position = Vector3(25.5,0,21)
+	level.get_node("NavigationRegion3D/Doors/Storage").submit_code("1403",player)
+	player.position = carry_pose
 	for name in ["Painting_T1","Painting_T3","Rope"]:
 		level.get_node("Interactables/"+name).interact(player)
 	var exit = level.get_node("Interactables/EscapeWindow")

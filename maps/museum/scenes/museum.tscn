@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://bx6jj6mks1vku"]
+[gd_scene load_steps=45 format=3 uid="uid://bx6jj6mks1vku"]
 
 [ext_resource type="PackedScene" path="res://shared/scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://shared/scripts/game/game_flow.gd" id="2_game_flow"]
@@ -30,6 +30,8 @@
 [ext_resource type="Script" path="res://maps/museum/scripts/staff_presentation.gd" id="27_staff_presentation"]
 [ext_resource type="Script" path="res://maps/museum/scripts/staff_reader.gd" id="28_staff_reader"]
 [ext_resource type="Script" path="res://maps/museum/scripts/staff_hearing.gd" id="29_staff_hearing"]
+[ext_resource type="Script" path="res://maps/museum/scripts/storage_door.gd" id="30_storage"]
+[ext_resource type="Script" path="res://maps/museum/scripts/storage_rope.gd" id="31_rope"]
 
 [sub_resource type="Environment" id="Environment_room"]
 background_mode = 1
@@ -41,12 +43,18 @@ ambient_light_energy = 0.45
 [sub_resource type="StandardMaterial3D" id="Material_rope"]
 albedo_color = Color(0.75, 0.55, 0.24, 1)
 
-[sub_resource type="BoxMesh" id="Mesh_rope"]
+[sub_resource type="TorusMesh" id="Mesh_rope"]
 material = SubResource("Material_rope")
-size = Vector3(0.65, 0.25, 0.45)
+inner_radius = 0.29
+outer_radius = 0.34
+rings = 48
+ring_segments = 12
 
 [sub_resource type="BoxShape3D" id="Shape_rope"]
-size = Vector3(0.8, 0.45, 0.6)
+size = Vector3(0.95, 1.25, 0.25)
+
+[sub_resource type="BoxShape3D" id="Shape_keypad"]
+size = Vector3(0.36, 0.5, 0.22)
 
 [sub_resource type="StandardMaterial3D" id="Material_exit"]
 albedo_color = Color(0.1, 0.7, 0.45, 1)
@@ -84,6 +92,16 @@ navigation_mesh = ExtResource("5_navigation")
 [node name="Geometry" parent="NavigationRegion3D" instance=ExtResource("17_geometry")]
 
 [node name="Doors" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="Storage" parent="NavigationRegion3D/Doors" instance=ExtResource("18_door")]
+position = Vector3(27, 0, 21)
+rotation = Vector3(0, 1.5707963, 0)
+script = ExtResource("30_storage")
+door_name = "Cửa kho phụ"
+
+[node name="KeypadInteraction" type="CollisionShape3D" parent="NavigationRegion3D/Doors/Storage"]
+position = Vector3(1.1, 1.45, -0.28)
+shape = SubResource("Shape_keypad")
 
 [node name="Entrance" parent="NavigationRegion3D/Doors" instance=ExtResource("19_entrance")]
 position = Vector3(18, 0, 30)
@@ -612,23 +630,36 @@ pixel_size = 0.0014
 outline_size = 12
 
 [node name="Rope" type="Area3D" parent="Interactables"]
-position = Vector3(32, 5.4, 23)
-script = ExtResource("15_pickup")
+position = Vector3(35.35, 1.4, 20.6)
+rotation = Vector3(0, -1.5707963, 0)
+script = ExtResource("31_rope")
 prompt = "Lấy dây thoát"
 objective_id = &"take_rope"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Interactables/Rope"]
+rotation = Vector3(1.5707963, 0, 0)
+scale = Vector3(1, 1, 1.45)
+mesh = SubResource("Mesh_rope")
+
+[node name="Coil2" type="MeshInstance3D" parent="Interactables/Rope"]
+rotation = Vector3(1.5707963, 0, 0)
+scale = Vector3(1.16, 1, 1.62)
+mesh = SubResource("Mesh_rope")
+
+[node name="Coil3" type="MeshInstance3D" parent="Interactables/Rope"]
+rotation = Vector3(1.5707963, 0, 0)
+scale = Vector3(1.32, 1, 1.79)
 mesh = SubResource("Mesh_rope")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactables/Rope"]
 shape = SubResource("Shape_rope")
 
 [node name="Label3D" type="Label3D" parent="Interactables/Rope"]
-position = Vector3(0, 0.55, 0)
+position = Vector3(0, 0.75, 0)
 billboard = 1
 text = "R · DÂY"
 font_size = 56
-pixel_size = 0.005
+pixel_size = 0.0018
 outline_size = 12
 
 [node name="EscapeWindow" type="Area3D" parent="Interactables"]
