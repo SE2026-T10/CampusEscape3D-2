@@ -131,6 +131,14 @@ func _check_level(level: Node, path: String, previous: WeakRef, what: String) ->
 	var has_mission := level != null and level.has_node("Gameplay/ObjectiveManager")
 	for g in MISSION_SYSTEMS:
 		ok = ok and counts[g] == (1 if has_mission else 0)
+	if path == LevelCatalog.scene_of(LevelCatalog.MUSEUM):
+		var guards := level.get_tree().get_nodes_in_group("guards").filter(
+			func(node): return level.is_ancestor_of(node))
+		ok = ok and guards.size() == 5
+		for node in guards:
+			var guard := node as Guard
+			var route := guard.patrol_route
+			ok = ok and route != null and route.get_point_count() == 2
 	ok = ok and _count_nodes(root, func(n): return n is MainMenu) == 0
 	# Each connection made once: the same counts every time this map loads.
 	var connections := _connections(level) if level else {}
