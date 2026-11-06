@@ -40,8 +40,14 @@ extends RefCounted
 ##      the grille slides up and the water drains, and the GRATE JAMMED tag
 ##      goes; a restore sets it all at once either way. The pump unit stands
 ##      inside its cover's collision box, which draws nothing else; the found
-##      maintenance panel is a steel hatch. No collision in any of it, and
+##      maintenance panel is a steel hatch (before: a false wall with its disguise;
+##      opened, it swings into the culvert along its west wall; a restore shuts it). No collision in any of it, and
 ##      nothing between a player and a valve, START, the crank or the screen.
+##      The storm drain (redesigned 2026-11-02): the gate a riveted sluice gate (11
+##      bars, 3 channels, braces) whose top sits in the concrete portal's beam; the
+##      portal's sign; the culvert's fittings without collision and out of the
+##      walkway (only floor decals and things on the walls, the end wall's rungs or
+##      overhead); the rungs and the manhole beyond the gate, past the exit's trigger.
 ##   H. Loading dock (polish): the level's red panel, green header and floating
 ##      sign are hidden (the panel's collision unchanged); the release's bolt
 ##      and JAMMED tag go and its handle drops when freed; the station's OPEN is
@@ -648,12 +654,63 @@ func _check_pump_room() -> void:
 	var panel := _level.get_node("Expansion/Gameplay/MaintenancePanel") as AccessDoor
 	var hatch := panel.get_node("Panel/Hatch") as Node3D
 	await _frames(2)
-	_expect(not panel.is_discovered() and not hatch.visible, "Before the plan: no hatch on the panel.")
+	var disguise := panel.get_node("Panel/Disguise") as Node3D
+	_expect(not panel.is_discovered() and not hatch.visible and disguise.visible, "Before the plan: no hatch on the panel, the false wall's disguise on it.")
 	(_player.get_node("Inventory") as PlayerInventory).add_document(&"culvert_access_plan", "Culvert access plan", "x")
 	await _frames(3)
 	var mat := (panel.get_node("Panel/Mesh") as MeshInstance3D).material_override as StandardMaterial3D
 	_expect(hatch.visible and mat.albedo_color.is_equal_approx(panel.found_colour), "Found: a steel hatch (colour %s)." % mat.albedo_color)
-	_expect(hatch.find_children("*", "CollisionShape3D", true, false).is_empty(), "The hatch dressing has no collision.")
+	_expect(hatch.find_children("*", "CollisionShape3D", true, false).is_empty() and disguise.find_children("*", "CollisionShape3D", true, false).is_empty(),
+		"The hatch and false-wall dressing have no collision.")
+	_expect(not disguise.visible, "Found: the false wall's disguise is gone.")
+	# Opened, the hatch swings into the culvert on its hinges and lies along its west wall.
+	var body := panel.get_node("Panel") as StaticBody3D
+	panel.open()
+	await _frames(int(AccessDoor.SWING_TIME * 60.0) + 20)
+	var mesh := panel.get_node("Panel/Mesh") as MeshInstance3D
+	var open_box: AABB = mesh.global_transform * mesh.get_aabb()
+	_expect(body.visible and body.collision_layer == 0 and absf(body.rotation.y - deg_to_rad(panel.swing_angle)) < 0.01
+		and open_box.end.x < -1.6 and open_box.position.x > -1.86 and open_box.end.z < -26.85 and open_box.position.z > -31.0,
+		"Opened, the hatch swings into the culvert along its west wall, without collision (%s)." % open_box)
+	panel.restore_checkpoint_state({"open": false})
+	await _frames(2)
+	_expect(absf(body.rotation.y) < 0.001 and body.collision_layer == 1 and body.visible, "A restore shuts the hatch at once.")
+	_check_storm_drain(grille)
+
+
+## The storm drain's redesign (2026-11-02): the gate, its portal, the culvert's fittings.
+func _check_storm_drain(grille: Node3D) -> void:
+	var b := X.BF
+	var ceiling := b + X._BC
+	_expect(grille.find_children("Bar*", "", false, false).size() == 11 and grille.find_children("Channel*", "", false, false).size() == 3
+		and grille.find_children("Brace*", "", false, false).size() == 4 and grille.has_node("JammedTag"), "The storm drain gate is a riveted sluice gate (11 bars, 3 channels, braces, the tag).")
+	var drain := _level.get_node(M + "DrainDressing")
+	var beam := drain.get_node("Beam/Mesh") as MeshInstance3D
+	var beam_box: AABB = beam.global_transform * beam.get_aabb()
+	var top := grille.get_node("FrameTop/Mesh") as MeshInstance3D
+	var top_box: AABB = top.global_transform * top.get_aabb()
+	_expect(beam_box.encloses(top_box.grow(-0.001)), "The closed gate's top sits inside the portal's beam (%s in %s)." % [top_box, beam_box])
+	_expect((drain.get_node("SignText") as Label3D).text == "STORM DRAIN · NO ENTRY", "The portal's sign.")
+	var culvert := _level.get_node_or_null("Expansion/Dressing/BasementDecor/StormDrain")
+	_expect(culvert != null and culvert.find_children("*", "CollisionObject3D", true, false).is_empty(), "The culvert's fittings exist, without collision.")
+	if culvert == null:
+		return
+	# Out of the walkway: batched, each part is left as a placeholder at its centre.
+	var in_way := []
+	for c in culvert.get_children():
+		var p := (c as Node3D).global_position
+		var floor_decal := p.y < b + 0.03
+		var on_wall := absf(p.x) > 1.6
+		var end_wall := p.z < -39.6
+		var overhead := p.y > b + 2.3
+		if not (floor_decal or on_wall or end_wall or overhead):
+			in_way.append(c.name)
+	_expect(in_way.is_empty(), "The culvert's fittings stay out of the walkway (in the way: %s)." % [in_way])
+	var rungs := culvert.find_children("Rung?", "", false, false) + culvert.find_children("Rung??", "", false, false)
+	var moon := culvert.get_node_or_null("Moonlight") as Node3D
+	var trigger := _level.get_node(M + X.MISSION.drain_exit.name + "/Trigger") as Node3D
+	_expect(rungs.size() == 11 and moon != null and moon.global_position.y > ceiling - 0.15 and moon.global_position.z < trigger.global_position.z
+		and trigger.global_position.z < grille.global_position.z, "Beyond the gate: 11 rungs up to the moonlit manhole, past the exit's trigger.")
 
 
 # --- H. Loading dock -------------------------------------------------------------------------
@@ -818,10 +875,43 @@ func _check_storage() -> void:
 			if not racks.any(func(r: AABB): return r.grow(0.01).encloses(aabb)):
 				outside += 1
 	_expect(decor.find_children("Shelving*", "Node3D", false, false).size() == 4 and outside == 0, "The four shelving units stand inside the racks' colliders (%d parts outside)." % outside)
+	# The S2 staff stair as a steel stair (2026-11-02): 22 treads, nosings and risers; the
+	# stepped side panels gone from the batches, their Handrail bodies kept; the guardrail
+	# outside the walkway (west of x 32.85); the east wall's wainscot stops at the foot.
 	var old_nosing := _level.get_node("NavigationRegion3D/Stairs/S2_S2StaffStair/Ramp/Nosing") as BatchedBoxes
-	var nosing := decor.get_node("Nosing") as BatchedBoxes
-	_expect(not old_nosing.visible and nosing.visible and nosing.box_count() == old_nosing.box_count() and nosing.global_transform.is_equal_approx(old_nosing.global_transform),
-		"The S2 stair's nosing is redrawn yellow, strip for strip.")
+	var s2 := decor.get_node_or_null("S2Stair")
+	_expect(not old_nosing.visible and not decor.has_node("Nosing") and s2 != null, "The S2 stair is dressed in steel (the level's nosing hidden).")
+	if s2:
+		_expect(s2.find_children("Tread*", "", false, false).size() == 22 and s2.find_children("Nosing*", "", false, false).size() == 22 and s2.find_children("Riser*", "", false, false).size() == 22,
+			"22 treads, nosings and risers on the S2 stair.")
+		# The parts are batched (each left as a placeholder at its centre): their half
+		# thicknesses across the stair, as _dress_s2 builds them.
+		var half := {"Stringer": 0.04, "StringerFlange": 0.08, "MidRail": 0.02, "TopRail": 0.0275, "Post": 0.025, "EndPost": 0.035, "EndCap": 0.045}
+		var inside := []
+		var parts := 0
+		for c in s2.get_children():
+			var key := String(c.name).rstrip("0123456789")
+			if half.has(key):
+				parts += 1
+				if (c as Node3D).global_position.x + float(half[key]) > 32.851:
+					inside.append(c.name)
+		_expect(parts == 4 + 8 + 4 and inside.is_empty(), "The S2 guardrail (%d parts) stays outside the stair's walkway (inside: %s)." % [parts, inside])
+	var panels := 0
+	var wainscot_ok := false
+	for bb in _level.get_node("NavigationRegion3D").find_children("*", "BatchedBoxes", true, false):
+		var batch := bb as BatchedBoxes
+		for i in batch.box_count():
+			var xf: Transform3D = batch.global_transform * batch.box_transform(i)
+			var hex := batch.box_color(i).to_html(false)
+			if hex in ["8f9496", "e6b81a"] and absf(xf.origin.x - 32.85) < 0.02 and xf.origin.z > -6.2 and xf.origin.z < 4.2:
+				panels += 1
+			if hex == "6b211c" and xf.origin.x > 35.8 and absf(xf.origin.z - 7.0) < 0.01 and absf(xf.basis.z.length() - 6.0) < 0.01:
+				wainscot_ok = true
+	_expect(panels == 0, "The S2 stair's stepped side panels and caps are gone (%d left)." % panels)
+	_expect(wainscot_ok, "The east wall's wainscot stops at the S2 stair's foot (z 4…10).")
+	for k in 5:
+		var body := _level.get_node_or_null("NavigationRegion3D/Stairs/S2_S2StaffStair/Handrail%d" % k) as StaticBody3D
+		_expect(body != null and (body.get_node("Shape") as CollisionShape3D).shape is BoxShape3D, "The S2 stair keeps its Handrail%d body." % k)
 	# The wall shelves: solid, off the guard's route, clear of the doors and the rest.
 	var shelves: Array = []
 	for body in _level.get_node("Expansion/Geometry/D_Storage").get_children():
@@ -911,8 +1001,9 @@ func _check_processing() -> void:
 		if body is StaticBody3D:
 			var size: Vector3 = ((body.get_node("Shape") as CollisionShape3D).shape as BoxShape3D).size
 			props.append([body.name, AABB(body.global_position - size / 2.0, size)])
-	# 6 room props, and (Kenney polish) each workstation's desk chair and bin.
-	_expect(props.size() == 14, "14 solid processing props (found %d)." % props.size())
+	# 6 room props, and (Kenney polish) each workstation's desk chair and bin; 4 more since
+	# 2026-11-03 (the east sorting shelves, the sorting table, the return bins, the wrap station).
+	_expect(props.size() == 18, "18 solid processing props (found %d)." % props.size())
 	var keep := {"west door": Vector3(17, 0, -17), "storage door": Vector3(26, 0, -6), "electrical door": Vector3(36, 0, -23), "wiring chart": Vector3(26, 0, -27.85)}
 	for pr in props:
 		var box: AABB = pr[1]
