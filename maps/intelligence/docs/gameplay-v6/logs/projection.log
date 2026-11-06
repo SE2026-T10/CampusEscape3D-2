@@ -1,0 +1,120 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[V6 OK] Handle is reachable with the real camera ray
+[V6 OK] Raised screen has physical deployment clearance
+[V6 OK] Deployment activates calibrated image
+[V6 OK] Player can grip from the actual handle position
+[V6 OK] Input drives the solid cart
+[V6 OK] E releases while looking away from the handle
+[V6 OK] Regrip remains available
+[V6 OK] Pause atomically releases cart and player
+[V6 OK] Restore resets equipment to safe folded home pose
+[V6 OK] Checkpoint state has no continuously changing pose or clock
+[V6 OK] Observation pane gives a real view of the north return patrol
+[V6 OK] The same transparent pane physically blocks actors
+[V6 OK] Main observer has a true sightline to the screen
+[V6 OK] Active screen covers hardware from calibrated main observer
+[V6 OK] Solid panel physically covers player in main sightline
+[V6 OK] Active projection cannot hide a player who steps in front of it
+[V6 OK] Unpowered screen is visual evidence, not a fake player sighting
+[V6 OK] Visual evidence feeds the real investigate transition
+[V6 OK] Inspection aims outside the solid cart
+[V6 OK] Side observer sees suspicious hardware despite active projection
+[V6 OK] L-shaped bay physically hides all hardware: (-3.0, -4.0, -50.7)
+[V6 OK] L-shaped bay physically hides actual player: (-3.0, -4.0, -50.7)
+[V6 OK] Bay parking point has walkable navigation: (-3.0, -4.0, -50.7)
+[V6 OK] Bay parking point has walkable navigation: (-1.95, -4.0, -50.7)
+[V6 OK] L-shaped bay physically hides all hardware: (-10.0, -4.0, -50.7)
+[V6 OK] L-shaped bay physically hides actual player: (-10.0, -4.0, -50.7)
+[V6 OK] Bay parking point has walkable navigation: (-10.0, -4.0, -50.7)
+[V6 OK] Bay parking point has walkable navigation: (-8.95, -4.0, -50.7)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -50.7)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -50.7)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -50.50526)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -50.50526)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -50.31053)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -50.31053)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -50.11579)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -50.11579)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -49.92105)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -49.92105)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -49.72631)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -49.72631)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -49.53158)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -49.53158)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -49.33684)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -49.33684)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -49.14211)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -49.14211)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -48.94737)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -48.94737)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -48.75263)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -48.75263)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -48.5579)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -48.5579)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -48.36316)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -48.36316)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -48.16842)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -48.16842)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -47.97369)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -47.97369)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -47.77895)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -47.77895)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -47.58421)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -47.58421)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -47.38947)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -47.38947)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -47.19474)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -47.19474)
+[V6 OK] Bay exit preserves main-observer cover at (-0.4, -4.0, -47.0)
+[V6 OK] Bay exit physically covers the actual body at (0.65, -4.0, -47.0)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -50.7)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -50.7)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -50.50526)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -50.50526)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -50.31053)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -50.31053)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -50.11579)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -50.11579)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -49.92105)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -49.92105)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -49.72631)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -49.72631)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -49.53158)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -49.53158)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -49.33684)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -49.33684)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -49.14211)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -49.14211)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -48.94737)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -48.94737)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -48.75263)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -48.75263)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -48.5579)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -48.5579)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -48.36316)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -48.36316)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -48.16842)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -48.16842)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -47.97369)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -47.97369)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -47.77895)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -47.77895)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -47.58421)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -47.58421)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -47.38947)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -47.38947)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -47.19474)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -47.19474)
+[V6 OK] Bay exit preserves main-observer cover at (-6.9, -4.0, -47.0)
+[V6 OK] Bay exit physically covers the actual body at (-5.85, -4.0, -47.0)
+[V6 OK] New B1 checkpoint activates only after vault access
+[V6 OK] File pickup cannot start cart handling during extraction
+[V6 OK] Post-file overlap never overwrites pre-file checkpoint
+[V6 OK] Real failure can retry the B1 checkpoint
+[V6 OK] Retry restores equipment and releases grip
+[V6 OK] Retry restores pre-document mission
+[V6 OK] No-guard variant contains no hidden calibration NPC
+[V6 OK] No-guard projection has an explicit reference eye
+[V6 OK] No-guard variant inherits all V6 gameplay
+K17 V6 PROJECTION: 117 checks; 0 failures

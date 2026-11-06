@@ -1,0 +1,19 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+K17 PURSUIT TRANSITION 0 -> 2 reason=confirmed sighting player=(-28.0, 0.000391, 44.0)
+K17 PURSUIT TRANSITION 2 -> 1 reason=lost sight of the player player=(5.57225, 0.000391, 44.0)
+K17 ENCOUNTER yard_early_reaction actual_sight_to_chase=true lost=true catches=0 player=(16.10277, 0.000391, 44.0) guard=(-9.833372, 0.000391, 44.00038)
+K17 PURSUIT TRANSITION 0 -> 2 reason=confirmed sighting player=(-25.0, 0.000391, -20.0)
+K17 PURSUIT TRANSITION 2 -> 1 reason=lost sight of the player player=(-25.0, 0.000391, 13.57218)
+K17 ENCOUNTER west_flank_early_reaction actual_sight_to_chase=true lost=true catches=0 player=(16.15062, 0.000391, 20.99822) guard=(-25.81968, 0.0, 4.177779)
+K17 PURSUIT TRANSITION 0 -> 2 reason=confirmed sighting player=(3.0, 0.000391, 10.02551)
+K17 PURSUIT TRANSITION 2 -> 1 reason=lost sight of the player player=(1.434918, 0.000878, 13.09928)
+K17 COVER radio_cover concealed=true distance=1.44261705875397 guard_sees=false
+K17 ENCOUNTER radio_cover actual_sight_to_chase=true lost=true catches=0 player=(0.311192, 0.000878, 12.98144) guard=(1.571022, 0.000878, 12.37238)
+K17 PURSUIT TRANSITION 0 -> 2 reason=confirmed sighting player=(2.5, -3.999609, -48.7)
+K17 PURSUIT TRANSITION 2 -> 1 reason=lost sight of the player player=(-1.684774, -3.999609, -46.57963)
+K17 PURSUIT TRANSITION 1 -> 2 reason=confirmed sighting player=(-1.687137, -3.999609, -46.48965)
+K17 COVER vault_wall_cover concealed=false distance=2.5478413105011 guard_sees=false
+K17 PURSUIT TRANSITION 2 -> 1 reason=lost sight of the player player=(-1.691616, -3.999609, -46.31915)
+K17 ENCOUNTER vault_wall_cover actual_sight_to_chase=true lost=true catches=0 player=(-1.691616, -3.999609, -46.31915) guard=(-1.45876, -3.999158, -36.14907)
+K17 ENCOUNTERS PASSED

@@ -1,0 +1,7 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[K17 keypad] entry=4827 powered=true progress={ &"enter_k17": 2, &"take_pass": 2, &"take_vault_code": 2, &"reach_archive": 2, &"open_vault": 1, &"take_intelligence": 0, &"extract_k17": 0, &"prepare_backdoor": 2, &"disable_cameras": 1, &"sabotage_k17": 0 }
+[K17 walking V5] route=courtyard sabotage=true remaining=65.5 state=3 catches=0 sensors=0 reinforcements=0
+[K17 keypad] entry=4827 powered=true progress={ &"enter_k17": 2, &"take_pass": 2, &"take_vault_code": 2, &"reach_archive": 2, &"open_vault": 1, &"take_intelligence": 0, &"extract_k17": 0, &"prepare_backdoor": 2, &"disable_cameras": 1, &"sabotage_k17": 0 }
+[K17 walking V5] route=maintenance sabotage=true remaining=76.1 state=3 catches=0 sensors=0 reinforcements=0
+K17 WALKING PASSED (154 waypoints, 2 routes; NPC active=false)

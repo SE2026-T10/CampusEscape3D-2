@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 581.15 - Compatibility - Using Device: NVIDIA - Quadro P1000
+
+K17 V6 PROJECTION IMAGE {"metrics":{"mean_error":0.0104987851751007,"on_off_change":0.224282097056376,"pixels":6240},"passed":true,"region":"[P: (600, 338), S: (78, 80)]","scope":"Staged images at the same guard eye, actors excluded, no walking claim"}
+K17 V6 RENDER {"frames":342,"mean_draw_calls":1779.78070175439,"median_ms":7.015,"p95_ms":10.398,"projection":false,"repeat":1,"view":"guard_eye"}
+K17 V6 RENDER {"frames":328,"mean_draw_calls":1789.75914634146,"median_ms":7.212,"p95_ms":11.465,"projection":true,"repeat":2,"view":"guard_eye"}
+K17 V6 RENDER {"frames":355,"mean_draw_calls":1778.34366197183,"median_ms":6.64,"p95_ms":9.963,"projection":true,"repeat":3,"view":"guard_eye"}
+K17 V6 RENDER {"frames":370,"mean_draw_calls":1756.75675675676,"median_ms":6.494,"p95_ms":8.984,"projection":false,"repeat":4,"view":"guard_eye"}
+K17 V6 RENDER {"frames":570,"mean_draw_calls":618.308771929825,"median_ms":4.044,"p95_ms":6.209,"projection":false,"repeat":1,"view":"operator"}
+K17 V6 RENDER {"frames":570,"mean_draw_calls":623.359649122807,"median_ms":4.128,"p95_ms":6.097,"projection":true,"repeat":2,"view":"operator"}
+K17 V6 RENDER {"frames":587,"mean_draw_calls":620.565587734242,"median_ms":4.049,"p95_ms":5.795,"projection":true,"repeat":3,"view":"operator"}
+K17 V6 RENDER {"frames":572,"mean_draw_calls":617.356643356643,"median_ms":4.052,"p95_ms":6.362,"projection":false,"repeat":4,"view":"operator"}

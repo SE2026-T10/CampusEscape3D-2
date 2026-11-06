@@ -41,6 +41,7 @@ var _list: RichTextLabel
 var _prompt: Label
 var _prompt_box: PanelContainer
 var _prompt_key: Label
+var _hold_bar: ProgressBar
 var _prompt_alpha := 0.0
 var _header: Label
 var _message: Label
@@ -70,6 +71,8 @@ var _prompt_colour := Color(0, 0, 0, 0)
 const JOURNAL_BOTTOM_CLEARANCE := 250.0
 ## Carried slot size, in pixels.
 const SLOT_SIZE := Vector2(184, 44)
+## Scene-local wording; other maps keep the default controls hint.
+@export var inventory_hint_format := "1–3 select  ·  F use / throw  ·  J journal (%d)"
 
 
 func _ready() -> void:
@@ -349,7 +352,7 @@ func _draw_slots() -> void:
 		_slots.draw_string(font, rect.position + Vector2(30, 27), label, HORIZONTAL_ALIGNMENT_LEFT, SLOT_SIZE.x - 36, font_size,
 			Color.WHITE if id != &"" else Color(1, 1, 1, 0.4))
 		_slots.draw_string(font, rect.position + Vector2(4, 12), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1, 1, 1, 0.6))
-	var hint := "1–3 select  ·  F use / throw  ·  J journal (%d)" % inventory.documents.size()
+	var hint := inventory_hint_format % inventory.documents.size()
 	_slots.draw_string_outline(font, Vector2(0, SLOT_SIZE.y + 20), hint, HORIZONTAL_ALIGNMENT_CENTER, _slots.size.x, 13, 4, Color.BLACK)
 	_slots.draw_string(font, Vector2(0, SLOT_SIZE.y + 20), hint, HORIZONTAL_ALIGNMENT_CENTER, _slots.size.x, 13, Color(1, 1, 1, 0.75))
 
@@ -528,6 +531,8 @@ func _update_panel(objectives: ObjectiveManager) -> void:
 			text += "[color=#%s]OPTIONAL[/color]\n" % Color(1.0, 0.82, 0.3).to_html(false)
 		text += "[color=#%s]%s[/color]\n" % [colours[objectives.get_state(ids[i])].to_html(false), lines[i]]
 	_set_text(_list, text.strip_edges())
+	var hud_provider := MapHudProvider.find_for(self)
+	_list.visible = hud_provider == null or hud_provider.show_objective_checklist()
 	var status := _status_bbcode() if objectives.is_graph() or MapHudProvider.find_for(self) != null else ""
 	_set_text(_status_text, status.strip_edges())
 	_status_panel.visible = status != "" and not _journal.visible and not objectives.is_finished()
@@ -600,6 +605,11 @@ func _build_panel() -> void:
 
 func _update_prompt(delta: float) -> void:
 	var text := get_prompt_text()
+	var player := get_tree().get_first_node_in_group("player")
+	var interactor := player.get_node_or_null("Interactor") as PlayerInteractor if player else null
+	_hold_bar.visible = interactor != null and interactor.hold_target != null
+	if _hold_bar.visible:
+		_hold_bar.value = interactor.get_hold_progress() * 100.0
 	if text != "":
 		var parts := split_prompt(text)
 		_set_text(_prompt_key, parts[0])
@@ -634,9 +644,17 @@ func _build_prompt() -> void:
 	_prompt_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_prompt_box.modulate.a = 0.0
 	centre.add_child(_prompt_box)
+	var prompt_column := VBoxContainer.new()
+	_prompt_box.add_child(prompt_column)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
-	_prompt_box.add_child(row)
+	prompt_column.add_child(row)
+	_hold_bar = ProgressBar.new()
+	_hold_bar.custom_minimum_size = Vector2(220, 7)
+	_hold_bar.show_percentage = false
+	_hold_bar.visible = false
+	_hold_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	prompt_column.add_child(_hold_bar)
 	var cap := PanelContainer.new()
 	var cap_style := StyleBoxFlat.new()
 	cap_style.bg_color = Color(0.92, 0.92, 0.88)

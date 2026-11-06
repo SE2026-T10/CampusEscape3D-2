@@ -1,0 +1,121 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[V6 OK] Handle is reachable with the real camera ray
+[V6 OK] Raised screen has physical deployment clearance
+[V6 OK] Deployment activates calibrated image
+[V6 OK] Player can grip from the actual handle position
+[V6 OK] Input drives the solid cart
+[V6 OK] E releases while looking away from the handle
+[V6 OK] Regrip remains available
+[V6 OK] Pause atomically releases cart and player
+[V6 OK] Restore resets equipment to safe folded home pose
+[V6 OK] Checkpoint state has no continuously changing pose or clock
+[V6 OK] Side observation pane gives a real view of the cart corridor
+[V6 OK] The same pane physically blocks actors
+[V6 OK] Main observer has a true sightline to the screen
+[V6 OK] Active screen covers hardware from calibrated main observer
+[V6 OK] Solid panel physically covers player in main sightline
+[V6 OK] Active projection cannot hide a player who steps in front of it
+[V6 OK] Unpowered screen is visual evidence, not a fake player sighting
+[V6 OK] Visual evidence feeds the real investigate transition
+[V6 OK] Inspection aims outside the solid cart
+[V6 OK] Side observer sees suspicious hardware despite active projection
+[V6 OK] L-shaped bay physically hides all hardware: (-2.3, -4.0, -50.05)
+[V6 OK] L-shaped bay physically hides actual player: (-2.3, -4.0, -50.05)
+[V6 OK] Bay parking point has walkable navigation: (-2.3, -4.0, -50.05)
+[V6 OK] Bay parking point has walkable navigation: (-1.25, -4.0, -50.05)
+[V6 OK] L-shaped bay physically hides all hardware: (-11.8, -4.0, -50.05)
+[V6 OK] L-shaped bay physically hides actual player: (-11.8, -4.0, -50.05)
+[V6 OK] Bay parking point has walkable navigation: (-11.8, -4.0, -50.05)
+[V6 OK] Bay parking point has walkable navigation: (-10.75, -4.0, -50.05)
+[V6 OK] Post accepts a legitimate terminal check
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -50.05)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -49.88947)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -49.72895)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -49.56842)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -49.40789)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -49.24737)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -49.08684)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -48.92632)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -48.76579)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -48.60526)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -48.44474)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -48.28421)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -48.12368)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -47.96316)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -47.80263)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -47.64211)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -47.48158)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -47.32105)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -47.16053)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (0.2, -4.0, -47.0)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -50.05)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -49.88947)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -49.72895)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -49.56842)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -49.40789)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -49.24737)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -49.08684)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -48.92632)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -48.76579)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -48.60526)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -48.44474)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -48.28421)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -48.12368)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -47.96316)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -47.80263)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -47.64211)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -47.48158)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -47.32105)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -47.16053)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] Turning to the terminal removes the actual sightline during transition (-8.8, -4.0, -47.0)
+[V6 OK] Bay transition does not expose the player to a guard facing away
+[V6 OK] New B1 checkpoint activates only after vault access
+[V6 OK] Cart remains movable after file pickup if the escape path needs clearing
+[V6 OK] Post-file overlap never overwrites pre-file checkpoint
+[V6 OK] Real failure can retry the B1 checkpoint
+[V6 OK] Retry restores equipment and releases grip
+[V6 OK] Retry restores pre-document mission
+[V6 OK] No-guard variant contains no hidden calibration NPC
+[V6 OK] No-guard projection has an explicit reference eye
+[V6 OK] No-guard variant inherits all V6 gameplay
+K17 V6 PROJECTION: 118 checks; 0 failures
