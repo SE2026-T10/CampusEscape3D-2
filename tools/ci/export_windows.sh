@@ -33,7 +33,8 @@ for needed in project.binary shared/scenes/ui/main_menu.tscn.remap shared/script
               maps/library/scenes/expanded_library_expansion.tscn.remap \
               shared/scenes/npc/guard.tscn.remap shared/scenes/player/player.tscn.remap \
               shared/scenes/props/ceiling_light.tscn shared/scenes/props/chair.tscn \
-              features/objectives/access_door.gd shared/scripts/level/batched_boxes.gd shared/scripts/level/shelf_books.gd; do
+              features/objectives/access_door.gd shared/scripts/level/batched_boxes.gd shared/scripts/level/shelf_books.gd \
+              shared/scripts/ui/paper_note.gd shared/scripts/ui/journal_clipboard.gd shared/assets/fonts/kalam/Kalam-Regular.ttf shared/assets/fonts/kalam/Kalam-Bold.ttf; do
   grep -aq "$needed" build/CampusEscape3D.pck || { echo "::error::$needed is missing from the pack"; exit 1; }
 done
 if grep -aqE "(^|[^a-z_])(tests|tools)/[a-z_]+\.gd" build/CampusEscape3D.pck; then
