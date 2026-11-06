@@ -50,3 +50,11 @@ ngày giờ máy tính. Xem [bước 15](../step-15-paper-calendar.md).
 giá treo dây và bảng kiểm tra. Phòng có sẵn trong map rộng 9 × 6 m, cửa tây;
 bố cục ảnh 4 × 5 m được xoay và điều chỉnh để giữ nguyên mặt bằng bảo tàng.
 Chi tiết và ảnh Godot: [bước 16](../step-16-aux-storage.md).
+
+## Vòng chơi hợp đồng
+
+[floorplans-contract-missions.png](floorplans-contract-missions.png) là ảnh ý tưởng
+hai tầng với N0, quầy dịch vụ, vé V và cơ chế hiện vật riêng cho từng phòng.
+Bản chơi được đã triển khai theo [bước 17](../step-17-contract-gameplay.md), giữ
+mặt bằng hiện có; dùng một tranh phụ mỗi phòng A/B/C và hợp đồng đầu cố định S1/H1/T1.
+Ảnh concept minh họa hướng phát triển, không phải ảnh chụp scene hay tọa độ thi công.

@@ -1,8 +1,8 @@
-[gd_scene load_steps=45 format=3 uid="uid://bx6jj6mks1vku"]
+[gd_scene load_steps=50 format=3 uid="uid://bx6jj6mks1vku"]
 
 [ext_resource type="PackedScene" path="res://shared/scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://shared/scripts/game/game_flow.gd" id="2_game_flow"]
-[ext_resource type="Script" path="res://shared/scripts/ui/game_menus.gd" id="3_game_menus"]
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/contract_menus.gd" id="3_game_menus"]
 [ext_resource type="PackedScene" path="res://shared/scenes/npc/guard.tscn" id="4_guard"]
 [ext_resource type="NavigationMesh" path="res://maps/isg_museum/resources/museum_navigation.tres" id="5_navigation"]
 [ext_resource type="Script" path="res://shared/scripts/npc/patrol_route.gd" id="6_route"]
@@ -12,7 +12,7 @@
 [ext_resource type="Script" path="res://shared/scripts/ui/stealth_hud.gd" id="10_hud"]
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/museum_demo.gd" id="11_demo"]
 [ext_resource type="Script" path="res://features/objectives/objective_manager.gd" id="12_objectives"]
-[ext_resource type="Script" path="res://shared/scripts/ui/objective_hud.gd" id="13_objective_hud"]
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/contract_hud.gd" id="13_objective_hud"]
 [ext_resource type="PackedScene" path="res://maps/isg_museum/scenes/painting_demo.tscn" id="14_painting"]
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/demo_pickup.gd" id="15_pickup"]
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/demo_exit.gd" id="16_exit"]
@@ -32,6 +32,11 @@
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/staff_hearing.gd" id="29_staff_hearing"]
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/storage_door.gd" id="30_storage"]
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/storage_rope.gd" id="31_rope"]
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/museum_contract.gd" id="32_contract"]
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/contract_ui.gd" id="33_contract_ui"]
+[ext_resource type="PackedScene" path="res://maps/isg_museum/scenes/exhibits_expansion.tscn" id="34_exhibits"]
+[ext_resource type="PackedScene" path="res://maps/isg_museum/scenes/service_expansion.tscn" id="35_service"]
+[ext_resource type="PackedScene" path="res://maps/isg_museum/scenes/contract_teammate.tscn" id="36_teammate"]
 
 [sub_resource type="Environment" id="Environment_room"]
 background_mode = 1
@@ -91,6 +96,12 @@ navigation_mesh = ExtResource("5_navigation")
 
 [node name="Geometry" parent="NavigationRegion3D" instance=ExtResource("17_geometry")]
 
+[node name="ExhibitsExpansion" parent="NavigationRegion3D" instance=ExtResource("34_exhibits")]
+
+[node name="ServiceExpansion" parent="NavigationRegion3D" instance=ExtResource("35_service")]
+
+[node name="Teammate" parent="NavigationRegion3D" instance=ExtResource("36_teammate")]
+
 [node name="Doors" type="Node3D" parent="NavigationRegion3D"]
 
 [node name="Storage" parent="NavigationRegion3D/Doors" instance=ExtResource("18_door")]
@@ -148,13 +159,19 @@ environment = SubResource("Environment_room")
 [node name="ObjectiveManager" type="Node" parent="."]
 script = ExtResource("12_objectives")
 
+[node name="MuseumContract" type="Node" parent="."]
+script = ExtResource("32_contract")
+
+[node name="ContractUI" type="CanvasLayer" parent="."]
+script = ExtResource("33_contract_ui")
+
 [node name="GameFlow" type="Node" parent="."]
 script = ExtResource("2_game_flow")
 fallback_level_scene = "res://maps/isg_museum/scenes/museum.tscn"
 
 [node name="GameMenus" type="CanvasLayer" parent="."]
 script = ExtResource("3_game_menus")
-win_message = "Bạn đã mang đủ ba tác phẩm và thoát khỏi bảo tàng!"
+win_message = "Đã rút lui — xem kết quả hợp đồng."
 
 [node name="ObjectiveHud" type="CanvasLayer" parent="."]
 script = ExtResource("13_objective_hud")
@@ -598,11 +615,11 @@ position = Vector3(32, 4.5, 26)
 
 [node name="Painting_T3" parent="Interactables" instance=ExtResource("14_painting")]
 position = Vector3(18, 6, 1.1)
-prompt = "Lấy tác phẩm T3"
+prompt = "Lấy T3 · có niêm phong báo động phòng C"
 objective_id = &"take_t3"
 
 [node name="Label3D" parent="Interactables/Painting_T3" index="2"]
-text = "T3"
+text = "T3 · NIÊM PHONG PHÒNG C"
 
 [node name="Key" type="Area3D" parent="Interactables"]
 position = Vector3(34.95, 1.2, 10.2)

@@ -134,7 +134,7 @@ func clean_start() -> bool:
 		and painting.visual.get_parent() == painting \
 		and objectives.completed_count() == 0 \
 		and objectives.get_state(&"take_t2") == ObjectiveManager.State.LOCKED \
-		and objectives.get_state(&"escape") == ObjectiveManager.State.LOCKED \
+		and objectives.get_state(&"escape") == ObjectiveManager.State.ACTIVE \
 		and player.get_target_velocity(Vector2(0,-1),true).length() > 5.0 \
 		and player.position.distance_to(Vector3(18,0.1,35)) < 0.12 \
 		and not level.get_node("NavigationRegion3D/Doors/Entrance").is_open \
@@ -143,8 +143,12 @@ func clean_start() -> bool:
 
 func restart_real_scene() -> void:
 	var old_id := level.get_instance_id()
-	level.get_node("GameFlow").pause()
-	level.get_node("GameMenus").restart_button.pressed.emit()
+	var contract_ui := get_first_node_in_group("museum_contract_ui")
+	if contract_ui.visible and contract_ui._is_result:
+		contract_ui.restart_button.pressed.emit()
+	else:
+		level.get_node("GameFlow").pause()
+		level.get_node("GameMenus").restart_button.pressed.emit()
 	var reloaded := false
 	for tick in 90:
 		await process_frame
@@ -213,8 +217,9 @@ func _run() -> void:
 	player.velocity = Vector3(5.5,0,0)
 	await press_e()
 	check(painting.state == CARRIED and player.is_carrying(), "T2 becomes a carried world item after K")
-	check(not objectives.is_completed(&"take_t2") and objectives.get_state(&"escape") == ObjectiveManager.State.LOCKED,
-		"Initial T2 pickup does not complete transport or unlock escape")
+	check(not objectives.is_completed(&"take_t2") and objectives.get_state(&"escape") == ObjectiveManager.State.ACTIVE
+		and not get_first_node_in_group("museum_contract").collected_ids().has("t2"),
+		"Initial T2 pickup does not credit transport while optional escape objective stays available")
 	check(Vector2(player.velocity.x,player.velocity.z).length() <= player.carry_walk_speed+0.01,
 		"Taking T2 immediately removes residual sprint momentum")
 	check(painting.visual.get_parent() == player.camera \
@@ -317,10 +322,11 @@ func _run() -> void:
 		"Delivered T2 remains visibly staged at the depot and cannot be removed")
 	check(not painting.interact(player) and not depot.interact(player), "Delivered T2 cannot be taken or credited twice")
 	check(player.get_target_velocity(Vector2(0,-1),true).length() > 5.0, "Delivery restores normal sprinting immediately")
-	check(not objectives.is_finished() and objectives.get_state(&"escape") == ObjectiveManager.State.LOCKED,
-		"Delivering T2 alone does not end the level or bypass the other artworks and rope")
+	check(not objectives.is_finished() and objectives.get_state(&"escape") == ObjectiveManager.State.ACTIVE
+		and not level.get_node("Interactables/EscapeWindow")._blocked_reason().is_empty(),
+		"Delivering T2 alone does not end the level or bypass the required rope")
 	await restart_real_scene()
-	# Carrying must not bypass escape when every other required item was collected.
+	# Optional T2 can remain undelivered when retreating, but receives no credit.
 	await take_key()
 	await take_t2()
 	var carry_pose: Vector3 = player.position
@@ -330,8 +336,9 @@ func _run() -> void:
 	for name in ["Painting_T1","Painting_T3","Rope"]:
 		level.get_node("Interactables/"+name).interact(player)
 	var exit = level.get_node("Interactables/EscapeWindow")
-	check(not exit.interact(player) and not objectives.is_finished() and not objectives.is_completed(&"take_t2"),
-		"All other items plus T2 in hand still cannot escape before depot delivery")
+	check(exit._blocked_reason().is_empty() and not objectives.is_finished() and not objectives.is_completed(&"take_t2")
+		and not get_first_node_in_group("museum_contract").collected_ids().has("t2"),
+		"Rope permits retreat with T2 in hand, but report never credits undelivered T2")
 	check(level.get_node("Interactables/Painting_T1").is_artwork_missing() \
 		and not level.get_node("Interactables/Painting_T3").visible,
 		"T1 retains its empty frame and T3 remains an ordinary immediate pickup")
@@ -388,7 +395,7 @@ func _run() -> void:
 			and not objectives.is_completed(&"take_t2") and not level.get_node("CarryHud/CarryStatus").visible,
 			"Transport and delivery are blocked and carry HUD hides in gameplay state " + str(blocked_state))
 		paused = false
-	# A natural guard catch while holding T2 must reload all world and carry state.
+	# A natural catch preserves a result; explicit restart restores carry state.
 	await fresh()
 	await take_key()
 	await take_t2()
@@ -408,20 +415,18 @@ func _run() -> void:
 	director.set_physics_process(true)
 	var old_id := level.get_instance_id()
 	var caught := false
-	var reloaded := false
 	for tick in 700:
 		await physics_frame
-		if current_scene != null and current_scene.get_instance_id() != old_id:
-			level = current_scene as Node3D
-			isolate()
-			bind_level()
-			await frames(12)
-			reloaded = true
-			break
 		if is_instance_valid(director) and director.status == StealthDirector.Status.CAUGHT:
 			caught = level.get_node("GameFlow").state == GameStateMachine.State.CAUGHT
+			break
 	check(caught, "Real guard sight, chase and capture still catch a player carrying T2")
-	check(reloaded and clean_start(), "Caught delay fully restores T2, movement, objectives and exterior starting state")
+	await frames(180)
+	var result_ui := get_first_node_in_group("museum_contract_ui")
+	check(current_scene.get_instance_id() == old_id and result_ui.visible and result_ui._is_result
+		and get_first_node_in_group("museum_contract").last_report.rating == "caught",
+		"Caught T2 attempt remains on result screen beyond the former reset delay")
+	await restart_real_scene()
 	paused = false
 	current_scene = null
 	level.free()

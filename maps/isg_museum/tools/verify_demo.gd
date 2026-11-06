@@ -1,6 +1,6 @@
 extends SceneTree
 
-## Focused museum demo verification; intentionally run manually, not at startup.
+## Museum interaction regression checks, updated for optional contract loot.
 ## godot --headless --path . --script res://maps/isg_museum/tools/verify_demo.gd
 
 const SCENE := "res://maps/isg_museum/scenes/museum.tscn"
@@ -64,7 +64,7 @@ func fresh(quiet := true) -> void:
 
 func clean_start() -> bool:
 	var manager := level.get_node("ObjectiveManager") as ObjectiveManager
-	if manager.completed_count() != 0 or manager.get_state(&"escape") != ObjectiveManager.State.LOCKED:
+	if manager.completed_count() != 0 or manager.get_state(&"escape") != ObjectiveManager.State.ACTIVE:
 		return false
 	for i in IDS.size():
 		var pickup := level.get_node("Interactables/" + PICKUPS[i]) as Interactable
@@ -130,7 +130,7 @@ func permutations(values: Array) -> Array:
 func _run() -> void:
 	await fresh()
 	var manager := level.get_node("ObjectiveManager") as ObjectiveManager
-	check(clean_start() and manager.is_graph() and manager.get_mandatory_ids().size() == 6, "Scene initializes museum objectives before child readiness")
+	check(clean_start() and manager.is_graph() and manager.get_mandatory_ids() == [&"escape"], "Scene initializes optional loot and sole mandatory escape before child readiness")
 	var entrance: Interactable = level.get_node("NavigationRegion3D/Doors/Entrance")
 	await aim_at(entrance,Vector3(18,0,31.4))
 	level.get_node("Player").camera.look_at(entrance.position+Vector3(0,1.4,0))
@@ -203,7 +203,8 @@ func _run() -> void:
 		for id in IDS:
 			if id != missing:
 				manager.complete(id)
-		check(not exit.interact(player) and not manager.is_finished(), "Exit refuses missing requirement: " + str(missing))
+		var permitted: bool = exit._blocked_reason().is_empty()
+		check(permitted == (missing != &"take_rope") and not manager.is_finished(), "Only missing rope blocks optional-loot escape; absent item: " + str(missing))
 	var orders := permutations(Array(IDS))
 	var all_orders := orders.size() == 120
 	var legal_orders := 0
@@ -215,7 +216,7 @@ func _run() -> void:
 		for id in order:
 			all_orders = manager.complete(id) and all_orders
 		all_orders = all_orders and manager.get_state(&"escape") == ObjectiveManager.State.ACTIVE and not manager.is_finished()
-	check(all_orders and legal_orders == 60, "All 60 valid collection orders (K before T2) activate escape without automatic WIN")
+	check(all_orders and legal_orders == 60, "All 60 valid optional collection orders (K before T2) preserve explicit escape without automatic WIN")
 	await fresh()
 	manager = level.get_node("ObjectiveManager") as ObjectiveManager
 	exit = level.get_node("Interactables/EscapeWindow") as Interactable
@@ -224,7 +225,7 @@ func _run() -> void:
 	var interactor := player.get_node("Interactor") as PlayerInteractor
 	check(interactor.find_target() == exit, "Escape Area is reachable by camera ray")
 	await press_e()
-	check(level.get_node("ObjectiveHud").get_layout_controls().message.text.contains("3 tác phẩm"), "Missing-items E interaction displays HUD rejection")
+	check(level.get_node("ObjectiveHud").get_layout_controls().message.text.contains("dây"), "Missing-rope E interaction displays HUD rejection")
 	# A ray within reach must still stop at the world collision.
 	var target := level.get_node("Interactables/Painting_T3") as Interactable
 	var original := target.position
@@ -289,8 +290,9 @@ func _run() -> void:
 	check(shortcut.interact(player) and shortcut.is_open,"Unlocked shortcut reopens from restoration side after closing")
 	check(gallery_door.interact(player) and not gallery_door.is_open
 		and gallery_door.interact(player) and gallery_door.is_open,"Gallery door can close and reopen after key unlock")
-	check(not exit.interact(player) and manager.get_state(&"escape") == ObjectiveManager.State.LOCKED,
-		"Carrying T2 does not unlock escape before depot delivery")
+	check(exit._blocked_reason().is_empty() and not manager.is_completed(&"take_t2")
+		and not get_first_node_in_group("museum_contract").collected_ids().has("t2"),
+		"Rope permits retreat while carried T2 remains uncredited until depot delivery")
 	var depot := level.get_node("Interactables/T2Depot") as Interactable
 	await aim_at(depot, Vector3(32,4.5,27.5))
 	player.camera.look_at(depot.global_position + Vector3(0,0.65,0))
@@ -317,15 +319,16 @@ func _run() -> void:
 	await press_e()
 	var flow := level.get_node("GameFlow") as GameFlow
 	var menus := level.get_node("GameMenus") as GameMenus
-	check(manager.is_finished() and flow.state == GameStateMachine.State.WIN and menus.win_panel.visible, "Successful camera-ray E escape shows WIN menu")
+	var contract_ui := get_first_node_in_group("museum_contract_ui")
+	check(manager.is_finished() and flow.state == GameStateMachine.State.WIN and contract_ui.visible and contract_ui._is_result, "Successful camera-ray E escape shows contract result")
 	check(director.status == StealthDirector.Status.ESCAPED and player.process_mode == Node.PROCESS_MODE_DISABLED and guard.process_mode == Node.PROCESS_MODE_DISABLED, "WIN freezes player and guard through StealthDirector")
 	check(manager.escape_route == &"museum_rope", "Win records museum rope escape route")
-	await reload_from(menus.play_again_button)
+	await reload_from(contract_ui.restart_button)
 	# Restart with partial collection must likewise restore actual scene instances.
 	level.get_node("Interactables/Painting_T1").interact(level.get_node("Player"))
 	level.get_node("GameFlow").pause()
 	await reload_from(level.get_node("GameMenus").restart_button)
-	# Real perception, pursuit, capture and delayed full scene reload.
+	# Real perception and capture preserve the result until explicit restart.
 	await fresh(false)
 	level.get_node("Player").position = Vector3(25.5,0,21)
 	level.get_node("NavigationRegion3D/Doors/Storage").submit_code("1403",level.get_node("Player"))
@@ -352,21 +355,18 @@ func _run() -> void:
 	director = level.get_node("StealthDirector") as StealthDirector
 	var previous_id := level.get_instance_id()
 	var caught := false
-	var reloaded := false
 	for i in 600:
 		await physics_frame
-		if current_scene != null and current_scene.get_instance_id() != previous_id:
-			level = current_scene as Node3D
-			isolate()
-			await frames(8)
-			reloaded = true
-			break
 		if is_instance_valid(director) and director.status == StealthDirector.Status.CAUGHT:
 			caught = level.get_node("GameFlow").state == GameStateMachine.State.CAUGHT
-	check(caught, "Real guard catch shows CAUGHT state before reload")
-	check(reloaded and clean_start(), "Caught delay reload restores all pickups and objective progress")
-	if reloaded:
-		check(level.get_node("Player").position.distance_to(Vector3(18, 0.1, 35)) < 0.12 and level.get_node("Guard_G1").position.distance_to(Vector3(7, 0.1, 15)) < 0.2, "Full reload restores exterior Player spawn and guard spawn")
+			break
+	check(caught, "Real guard catch shows CAUGHT state and attempt result")
+	await frames(180)
+	contract_ui = get_first_node_in_group("museum_contract_ui")
+	check(current_scene.get_instance_id() == previous_id and contract_ui.visible and contract_ui._is_result
+		and get_first_node_in_group("museum_contract").last_report.rating == "caught", "Caught report persists beyond the old automatic reset delay")
+	await reload_from(contract_ui.restart_button)
+	check(level.get_node("Player").position.distance_to(Vector3(18, 0.1, 35)) < 0.12 and level.get_node("Guard_G1").position.distance_to(Vector3(7, 0.1, 15)) < 0.2, "Explicit restart restores exterior Player spawn and guard spawn")
 	paused = false
 	current_scene = null
 	root.remove_child(level)

@@ -6,7 +6,7 @@ Map ID: **`isg_museum`**. Thư mục làm việc: `maps/isg_museum/`.
 Nhánh được tạo từ `main` tại commit `13807bd` ngày 27/10/2026.
 Hiện có bản dựng khối hai tầng 36 × 30 m tại `res://maps/isg_museum/scenes/museum.tscn`:
 sân trong thông tầng, hai đường dốc chữ U, chín bảo vệ, chìa K, hai cửa có điều kiện,
-ba tác phẩm, dây, cửa sổ thoát và HUD nhiệm vụ.
+mười hiện vật, dây, cửa sổ thoát và HUD hợp đồng.
 Theo [sơ đồ concept v2](docs/concept-v2/README.md), Player xuất phát ở sân trước
 `(18, 0.1, 35)`, đi tới cửa chính và nhấn **E** để vào sảnh.
 Mở scene rồi nhấn **F6** để thử riêng; map chưa đăng ký trong menu chung.
@@ -31,7 +31,12 @@ E đọc giấy giữa màn hình; lịch C cập nhật ngày giờ máy tính.
 Đã triển khai [kho phụ khóa mã ở tầng 1](docs/step-16-aux-storage.md):
 mã 1403 từ C/G, E lấy dây trên giá, tủ che tầm nhìn và cảnh báo khi sai ba lần.
 Dây không còn ở tầng 2; tập kết T2 và cửa sổ thoát vẫn ở kho phục chế tầng 2.
-Bản dựng đã qua **397 kiểm tra** riêng của map.
+Đã triển khai [vòng chơi hợp đồng và cơ chế từng phòng](docs/step-17-contract-gameplay.md):
+N0 giao nhiệm vụ S1/H1/T1, dịch vụ cấp vé tầng 2 và bản đồ, tủ kính điêu khắc,
+ngăn lịch sử, tranh phụ A/B/C và niêm phong báo động phòng C.
+Có dây và cắt đuôi thì được rút lui; kết quả đánh giá riêng theo hiện vật đúng hợp đồng.
+Khi bị bắt, màn tổng kết chờ người chơi chọn chơi lại.
+Bản dựng đã qua **504 kiểm tra** riêng của map.
 
 Hình học và cách chỉnh sàn/dốc/cửa: [Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md).
 

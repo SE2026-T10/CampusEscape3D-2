@@ -1,0 +1,399 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/service_expansion.gd" id="1_jtddc"]
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/service_npc.gd" id="2_1ssyi"]
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/staff_document.gd" id="3_2gcoi"]
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/service_map.gd" id="4_rxbbp"]
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/service_ticket_door.gd" id="5_jpnh5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6v4u0"]
+albedo_color = Color(0.34, 0.21, 0.12, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_xwffc"]
+material = SubResource("StandardMaterial3D_6v4u0")
+size = Vector3(0.8, 1, 2.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pihgf"]
+size = Vector3(0.8, 1, 2.6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_04eag"]
+albedo_color = Color(0.9, 0.84, 0.66, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_oiefn"]
+material = SubResource("StandardMaterial3D_04eag")
+size = Vector3(0.95, 0.1, 2.7)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0w1kf"]
+albedo_color = Color(0.24, 0.31, 0.29, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_wln2g"]
+material = SubResource("StandardMaterial3D_0w1kf")
+size = Vector3(0.6, 0.5, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iyh3x"]
+size = Vector3(0.6, 0.5, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_aghsp"]
+material = SubResource("StandardMaterial3D_6v4u0")
+size = Vector3(0.12, 0.85, 0.65)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kkaxe"]
+size = Vector3(0.9, 1.5, 0.9)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_03ia2"]
+albedo_color = Color(0.2, 0.42, 0.58, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_y64gv"]
+material = SubResource("StandardMaterial3D_03ia2")
+size = Vector3(0.42, 0.55, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_slg5l"]
+albedo_color = Color(0.7, 0.5, 0.34, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_0uc82"]
+material = SubResource("StandardMaterial3D_slg5l")
+size = Vector3(0.3, 0.33, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4c386"]
+material = SubResource("StandardMaterial3D_0w1kf")
+size = Vector3(0.02, 0.035, 0.035)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hs7y3"]
+material = SubResource("StandardMaterial3D_0w1kf")
+size = Vector3(0.02, 0.035, 0.035)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7i1ew"]
+material = SubResource("StandardMaterial3D_0w1kf")
+size = Vector3(0.4, 0.18, 0.17)
+
+[sub_resource type="BoxMesh" id="BoxMesh_y5wbu"]
+material = SubResource("StandardMaterial3D_0w1kf")
+size = Vector3(0.15, 0.43, 0.17)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2alnk"]
+material = SubResource("StandardMaterial3D_0w1kf")
+size = Vector3(0.4, 0.18, 0.17)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wxt8f"]
+material = SubResource("StandardMaterial3D_0w1kf")
+size = Vector3(0.15, 0.43, 0.17)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mrl7n"]
+size = Vector3(1.8, 1.2, 0.18)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jha0f"]
+material = SubResource("StandardMaterial3D_04eag")
+size = Vector3(1.7, 1.1, 0.04)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5e0lp"]
+size = Vector3(1.8, 1.2, 0.18)
+
+[sub_resource type="BoxMesh" id="BoxMesh_l7sxi"]
+material = SubResource("StandardMaterial3D_04eag")
+size = Vector3(1.7, 1.1, 0.04)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_el22p"]
+size = Vector3(2.2, 1.4, 0.22)
+
+[sub_resource type="BoxMesh" id="BoxMesh_iap2q"]
+material = SubResource("StandardMaterial3D_6v4u0")
+size = Vector3(2.3, 1.5, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pjbek"]
+material = SubResource("StandardMaterial3D_04eag")
+size = Vector3(2.15, 1.35, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pbax1"]
+material = SubResource("StandardMaterial3D_0w1kf")
+size = Vector3(0.8, 0.85, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_86xj1"]
+material = SubResource("StandardMaterial3D_03ia2")
+size = Vector3(0.3, 0.35, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ok0h7"]
+material = SubResource("StandardMaterial3D_0w1kf")
+size = Vector3(0.8, 0.85, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_s3f1n"]
+material = SubResource("StandardMaterial3D_03ia2")
+size = Vector3(0.3, 0.35, 0.02)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fi6iu"]
+size = Vector3(1.6, 2.8, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_t21q5"]
+material = SubResource("StandardMaterial3D_0w1kf")
+size = Vector3(1.6, 2.8, 0.26)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y0ia6"]
+size = Vector3(1.6, 2.8, 0.26)
+
+[sub_resource type="BoxMesh" id="BoxMesh_btg81"]
+material = SubResource("StandardMaterial3D_03ia2")
+size = Vector3(0.25, 0.45, 0.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s8uqq"]
+size = Vector3(2, 2.8, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kj4xv"]
+material = SubResource("StandardMaterial3D_0w1kf")
+size = Vector3(2, 2.8, 0.26)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kdoxe"]
+size = Vector3(2, 2.8, 0.26)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xda5v"]
+material = SubResource("StandardMaterial3D_03ia2")
+size = Vector3(0.25, 0.45, 0.12)
+
+[node name="ServiceExpansion" type="Node3D" unique_id=1106092569]
+script = ExtResource("1_jtddc")
+
+[node name="ReceptionCounter" type="StaticBody3D" parent="." unique_id=1237042240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8, 0.5, 27)
+collision_mask = 0
+
+[node name="Visual" type="MeshInstance3D" parent="ReceptionCounter" unique_id=253472231]
+mesh = SubResource("BoxMesh_xwffc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ReceptionCounter" unique_id=1473162338]
+shape = SubResource("BoxShape3D_pihgf")
+
+[node name="CounterTop" type="MeshInstance3D" parent="." unique_id=1750887045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8, 1.04, 27)
+mesh = SubResource("BoxMesh_oiefn")
+
+[node name="ReceptionChair" type="StaticBody3D" parent="." unique_id=1441934512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.05, 0.25, 27)
+collision_mask = 0
+
+[node name="Visual" type="MeshInstance3D" parent="ReceptionChair" unique_id=557120810]
+mesh = SubResource("BoxMesh_wln2g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ReceptionChair" unique_id=1128640346]
+shape = SubResource("BoxShape3D_iyh3x")
+
+[node name="ChairBack" type="MeshInstance3D" parent="." unique_id=403676342]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.35, 0.7, 27)
+mesh = SubResource("BoxMesh_aghsp")
+
+[node name="Receptionist" type="Area3D" parent="." unique_id=1550682814]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.7, 1.15, 27)
+script = ExtResource("2_1ssyi")
+prompt = "Nói chuyện với nhân viên tiếp đón"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Receptionist" unique_id=1216098994]
+shape = SubResource("BoxShape3D_kkaxe")
+
+[node name="Torso" type="MeshInstance3D" parent="Receptionist" unique_id=700131799]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = SubResource("BoxMesh_y64gv")
+
+[node name="Head" type="MeshInstance3D" parent="Receptionist" unique_id=1600344985]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, 0)
+mesh = SubResource("BoxMesh_0uc82")
+
+[node name="Eye0" type="MeshInstance3D" parent="Receptionist/Head" unique_id=1683403503]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.155, 0.025, -0.08)
+mesh = SubResource("BoxMesh_4c386")
+
+[node name="Eye1" type="MeshInstance3D" parent="Receptionist/Head" unique_id=1814286838]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.155, 0.025, 0.08)
+mesh = SubResource("BoxMesh_hs7y3")
+
+[node name="WatchNotice" type="Label3D" parent="Receptionist" unique_id=661773274]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0.85, 0)
+visible = false
+pixel_size = 0.0015
+text = "Đang kiểm tra giấy hẹn..."
+font_size = 44
+outline_size = 3
+
+[node name="Thigh4" type="MeshInstance3D" parent="Receptionist" unique_id=1385231230]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14, -0.57, -0.18)
+mesh = SubResource("BoxMesh_7i1ew")
+
+[node name="Shin5" type="MeshInstance3D" parent="Receptionist" unique_id=539452154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, -0.8, -0.18)
+mesh = SubResource("BoxMesh_y5wbu")
+
+[node name="Thigh6" type="MeshInstance3D" parent="Receptionist" unique_id=1750931156]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14, -0.57, 0.18)
+mesh = SubResource("BoxMesh_2alnk")
+
+[node name="Shin7" type="MeshInstance3D" parent="Receptionist" unique_id=1213387398]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, -0.8, 0.18)
+mesh = SubResource("BoxMesh_wxt8f")
+
+[node name="Name" type="Label3D" parent="Receptionist" unique_id=1241268007]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0.65, 0)
+pixel_size = 0.0018
+text = "N1 · TIẾP ĐÓN"
+font_size = 44
+outline_size = 3
+
+[node name="EventPoster" type="Area3D" parent="." unique_id=359205308]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 22, 1.7, 29.72)
+script = ExtResource("3_2gcoi")
+title = "Áp phích sự kiện"
+content = "BẢO TÀNG · ĐÊM DI SẢN
+
+Khách có giấy hẹn vui lòng tới phòng dịch vụ để nhận vé tham quan tầng 2.
+
+Mang theo thông tin người phụ trách và giờ hẹn."
+prompt = "Đọc áp phích sự kiện"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EventPoster" unique_id=348624417]
+shape = SubResource("BoxShape3D_mrl7n")
+
+[node name="Paper" type="MeshInstance3D" parent="EventPoster" unique_id=499399862]
+mesh = SubResource("BoxMesh_jha0f")
+
+[node name="Caption" type="Label3D" parent="EventPoster" unique_id=1811134686]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.035)
+pixel_size = 0.0018
+text = "ĐÊM DI SẢN
+Nhận vé tại phòng dịch vụ"
+font_size = 44
+outline_size = 3
+
+[node name="ReceptionNotice" type="Area3D" parent="." unique_id=223878700]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 35.7, 1.65, 27)
+script = ExtResource("3_2gcoi")
+title = "Bảng thông báo tiếp đón"
+content = "SỰ KIỆN: Đêm di sản
+Người phụ trách đón khách: Lê An
+
+Giờ hẹn được ghi trên giấy mời của từng nhóm.
+Vé V dùng cho cả cửa thang A và thang B ở tầng 2."
+prompt = "Đọc bảng thông báo tiếp đón"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ReceptionNotice" unique_id=608863384]
+shape = SubResource("BoxShape3D_5e0lp")
+
+[node name="Paper" type="MeshInstance3D" parent="ReceptionNotice" unique_id=96377224]
+mesh = SubResource("BoxMesh_l7sxi")
+
+[node name="Caption" type="Label3D" parent="ReceptionNotice" unique_id=527867781]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.035)
+pixel_size = 0.0018
+text = "TIẾP ĐÓN
+Phụ trách: Lê An
+Vé V: tầng 2"
+font_size = 44
+outline_size = 3
+
+[node name="WallMap" type="Area3D" parent="." unique_id=1425739765]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 1.65, 24.3)
+script = ExtResource("4_rxbbp")
+prompt = "Xem bản đồ hai tầng"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallMap" unique_id=2134500929]
+shape = SubResource("BoxShape3D_el22p")
+
+[node name="Frame" type="MeshInstance3D" parent="WallMap" unique_id=1729578872]
+mesh = SubResource("BoxMesh_iap2q")
+
+[node name="Paper" type="MeshInstance3D" parent="WallMap" unique_id=908833539]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.09)
+mesh = SubResource("BoxMesh_pjbek")
+
+[node name="Floor3" type="MeshInstance3D" parent="WallMap" unique_id=1953140207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.52, 0, 0.12)
+mesh = SubResource("BoxMesh_pbax1")
+
+[node name="Courtyard4" type="MeshInstance3D" parent="WallMap" unique_id=148759050]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.52, 0, 0.14)
+mesh = SubResource("BoxMesh_86xj1")
+
+[node name="Floor5" type="MeshInstance3D" parent="WallMap" unique_id=917685102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52, 0, 0.12)
+mesh = SubResource("BoxMesh_ok0h7")
+
+[node name="Courtyard6" type="MeshInstance3D" parent="WallMap" unique_id=111990034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52, 0, 0.14)
+mesh = SubResource("BoxMesh_s3f1n")
+
+[node name="Caption" type="Label3D" parent="WallMap" unique_id=950626319]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.16)
+pixel_size = 0.0016
+text = "M · BẢN ĐỒ HAI TẦNG
+E: XEM / LƯU"
+font_size = 44
+outline_size = 3
+
+[node name="TicketGate_A" type="Area3D" parent="." unique_id=521791797]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 9, 4.5, 27)
+script = ExtResource("5_jpnh5")
+door_name = "Cửa vé tầng 2 · TicketGate_A"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_A" unique_id=352050132]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+shape = SubResource("BoxShape3D_fi6iu")
+
+[node name="Panel" type="StaticBody3D" parent="TicketGate_A" unique_id=959272336]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TicketGate_A/Panel" unique_id=205309874]
+mesh = SubResource("BoxMesh_t21q5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_A/Panel" unique_id=1086411930]
+shape = SubResource("BoxShape3D_y0ia6")
+
+[node name="Passage" type="NavigationLink3D" parent="TicketGate_A" unique_id=1743091660]
+enabled = false
+start_position = Vector3(0, 0.45, -1.1)
+end_position = Vector3(0, 0.45, 1.1)
+
+[node name="Label" type="Label3D" parent="TicketGate_A" unique_id=1503680582]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 3.05, 0)
+pixel_size = 0.0021
+text = "V · CẦN VÉ TẦNG 2"
+font_size = 44
+outline_size = 3
+
+[node name="Reader" type="MeshInstance3D" parent="TicketGate_A" unique_id=1741938810]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.62, 1.4, -0.24)
+mesh = SubResource("BoxMesh_btg81")
+
+[node name="TicketGate_B" type="Area3D" parent="." unique_id=1743015482]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 27, 4.5, 3)
+script = ExtResource("5_jpnh5")
+door_name = "Cửa vé tầng 2 · TicketGate_B"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_B" unique_id=83880723]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+shape = SubResource("BoxShape3D_s8uqq")
+
+[node name="Panel" type="StaticBody3D" parent="TicketGate_B" unique_id=782472106]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TicketGate_B/Panel" unique_id=1320274925]
+mesh = SubResource("BoxMesh_kj4xv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_B/Panel" unique_id=597297462]
+shape = SubResource("BoxShape3D_kdoxe")
+
+[node name="Passage" type="NavigationLink3D" parent="TicketGate_B" unique_id=185126618]
+enabled = false
+start_position = Vector3(0, 0.45, -1.1)
+end_position = Vector3(0, 0.45, 1.1)
+
+[node name="Label" type="Label3D" parent="TicketGate_B" unique_id=2024007398]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 3.05, 0)
+pixel_size = 0.0021
+text = "V · CẦN VÉ TẦNG 2"
+font_size = 44
+outline_size = 3
+
+[node name="Reader" type="MeshInstance3D" parent="TicketGate_B" unique_id=1918205469]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.82, 1.4, -0.24)
+mesh = SubResource("BoxMesh_xda5v")

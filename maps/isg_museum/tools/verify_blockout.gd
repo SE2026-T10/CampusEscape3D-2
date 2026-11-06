@@ -192,6 +192,12 @@ func _run() -> void:
 	for edge in [[Vector3(18,5,8),Vector3(18,5,10)], [Vector3(18,5,22),Vector3(18,5,20)], [Vector3(11,5,15),Vector3(13,5,15)], [Vector3(25,5,15),Vector3(23,5,15)]]:
 		check(not ray(edge[0],edge[1]).is_empty(), "Upper courtyard collision railing " + str(edge[0]))
 	var spawn := exterior_spawn
+	# This suite verifies traversal after access is earned; service/contract
+	# suites separately exercise refusal without V and the dialogue that grants it.
+	get_first_node_in_group("museum_contract").grant_ticket()
+	for gate in get_nodes_in_group("museum_ticket_doors"):
+		var approach := Vector3(10.5,4.5,27) if gate.name == &"TicketGate_A" else Vector3(25.5,4.5,3)
+		await use_door(gate,approach)
 	for target in [Vector3(34,.1,10.2),Vector3(6.5,.1,12),Vector3(18,.1,3),Vector3(18,.1,18),Vector3(30,.1,21),Vector3(30,.1,27),Vector3(3,4.6,12),Vector3(18,4.6,2),Vector3(32,4.6,24),Vector3(34,4.6,27)]:
 		var door_id := ""
 		if target.is_equal_approx(Vector3(30,0.1,27)):
@@ -210,7 +216,8 @@ func _run() -> void:
 				entry.submit_code("1403",player)
 			else:
 				entry.interact(player)
-			await frames(5)
+			# NavigationServer applies newly enabled links on a later physics tick.
+			await frames(12)
 			check(connected(spawn,target),"Opened " + door_id + " door connects room navigation")
 			entry.interact(player)
 			await frames(5)
@@ -343,6 +350,9 @@ func _run() -> void:
 	player.position = Vector3(18,0.1,35)
 	check(get_nodes_in_group("guards").size() == 9, "Exactly nine guards are present")
 	# Restore the starting door configuration; patrol must not depend on opened locks.
+	for gate in get_nodes_in_group("museum_ticket_doors"):
+		if gate.is_open:
+			gate.interact(player)
 	for door in level.get_node("NavigationRegion3D/Doors").get_children():
 		door.is_open = false
 		door.enabled = true

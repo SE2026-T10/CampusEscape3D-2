@@ -1,6 +1,6 @@
 extends Node3D
 
-## Museum-only objectives. Only T2 requires the staff-room key.
+## Map-only progress flags; escape is the sole mandatory objective.
 const OBJECTIVES := [
 	{"id": &"take_key", "title": "Tìm chìa K cho phòng B",
 	 "hint": "E mở cửa phòng nhân viên tầng 1; chìa treo ngoài tủ D. Cúi sau bàn A, tránh chai/lon F.",
@@ -19,7 +19,7 @@ const OBJECTIVES := [
 	{"id": &"escape", "title": "Buộc dây và thoát",
 	 "hint": "Cắt đuôi bảo vệ rồi dùng cửa sổ phía đông kho phục chế, tầng 2.",
 	 "done": "Đã thoát khỏi bảo tàng!",
-	 "requires": [&"take_t1", &"take_t2", &"take_t3", &"take_rope"]},
+	 "requires": []},
 ]
 
 var _restarting := false
@@ -27,7 +27,23 @@ var _restarting := false
 
 func _enter_tree() -> void:
 	# Configure before the manager's _ready(), avoiding the library defaults.
-	$ObjectiveManager.objectives.assign(OBJECTIVES)
+	var definitions: Array[Dictionary] = []
+	for entry in OBJECTIVES:
+		var item: Dictionary = entry.duplicate(true)
+		item.requires = []
+		if item.id != &"escape":
+			item.optional = true
+		if item.id == &"take_t2":
+			item.requires = [&"take_key"]
+		definitions.append(item)
+	for id in preload("res://maps/isg_museum/scripts/museum_contract.gd").CATALOG:
+		var info: Dictionary = preload("res://maps/isg_museum/scripts/museum_contract.gd").CATALOG[id]
+		if id in ["t1","t2","t3"]:
+			continue
+		definitions.append({"id":StringName(info.objective),"title":info.name,"hint":info.room,"requires":[],"optional":true})
+	definitions.append({"id":&"accept_contract","title":"Nhận hợp đồng từ N0","requires":[],"optional":true})
+	definitions.append({"id":&"get_ticket","title":"Nhận vé lên tầng 2","requires":[],"optional":true})
+	$ObjectiveManager.objectives.assign(definitions)
 
 
 func _ready() -> void:

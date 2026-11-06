@@ -8,6 +8,7 @@ signal carry_changed(painting: Node3D)
 
 var carried_painting: Node3D
 var keypad_active := false
+var modal_active := false
 
 
 func is_carrying() -> bool:
@@ -41,7 +42,7 @@ func get_target_velocity(input_dir: Vector2, sprinting: bool) -> Vector3:
 
 
 func _physics_process(delta: float) -> void:
-	if keypad_active:
+	if keypad_active or modal_active:
 		velocity.x = 0
 		velocity.z = 0
 		if not is_on_floor():
@@ -71,7 +72,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if keypad_active:
+	if keypad_active or modal_active:
 		return
 	if event is InputEventKey and event.pressed and not event.echo \
 			and (event.physical_keycode == KEY_Q or event.keycode == KEY_Q) \

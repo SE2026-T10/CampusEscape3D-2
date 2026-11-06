@@ -51,6 +51,9 @@ func submit_code(value: String, by: Node) -> bool:
 	if alarm:
 		wrong_attempts = 0
 		alarm_count += 1
+		var contract := get_tree().get_first_node_in_group("museum_contract")
+		if contract:
+			contract.record_alarm("storage")
 	beep(300 if alarm else 520,0.65 if alarm else 0.1)
 	var noise := NoiseSystem.find(self)
 	if noise:

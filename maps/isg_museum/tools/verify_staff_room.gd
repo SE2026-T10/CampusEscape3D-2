@@ -250,7 +250,20 @@ func _run() -> void:
 			break
 		if director.status == StealthDirector.Status.CAUGHT:
 			caught = true
+			break
 	check(caught,"G3 pursuit can actually catch player")
+	# Contract mode keeps the caught summary until the player chooses Restart.
+	var result_ui := level.get_node("ContractUI")
+	var contract := get_first_node_in_group("museum_contract")
+	if caught and contract.last_report.get("rating","") == "caught":
+		result_ui.restart_button.pressed.emit()
+		for tick in 60:
+			await process_frame
+			if current_scene != null and current_scene.get_instance_id() != old_id:
+				level = current_scene
+				guard = level.get_node("Guard_G3")
+				reloaded = true
+				break
 	await frames(12)
 	check(reloaded and guard.phase == &"sleeping" and level.get_node("Interactables/Key").visible
 		and not level.get_node("ObjectiveManager").is_completed(&"take_key"),"Caught reload restores sleeping G3, key and room state")
