@@ -14,6 +14,7 @@ maps/library/           map thư viện, expansion, logic, test, công cụ và 
 maps/intelligence/      map tình báo K17 V1 của Nguyễn Đình Phiên
 maps/bank/              ví dụ thư mục cho map mới, chưa có nội dung chơi
 maps/museum/            ví dụ thư mục cho map mới, chưa có nội dung chơi
+maps/isg_museum/        map bảo tàng của hgmanh; mở scenes/museum.tscn và chạy bằng F6
 templates/map/          khung thư mục để sao chép khi bắt đầu một map
 tests/                  test dùng chung và runner tích hợp
 tools/                  CI, benchmark và kiểm tra scene lifecycle

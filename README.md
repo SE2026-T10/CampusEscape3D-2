@@ -42,6 +42,7 @@ CampusEscape3D-2/
 │   ├── library/                    # Bản đồ thư viện mở rộng hiện có
 │   ├── bank/                       # Khung ví dụ cho bản đồ ngân hàng
 │   ├── museum/                     # Khung ví dụ cho bản đồ bảo tàng
+│   ├── isg_museum/                 # Map bảo tàng riêng của hgmanh (chạy bằng F6)
 │   └── intelligence/               # Map K17 V1: scene, nhiệm vụ và kiểm thử
 ├── templates/map/                  # Khung thư mục để bắt đầu bản đồ mới
 ├── tests/                          # Kiểm thử chung và bộ chạy kiểm thử các bản đồ
