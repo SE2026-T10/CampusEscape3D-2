@@ -58,3 +58,6 @@ hai tầng với N0, quầy dịch vụ, vé V và cơ chế hiện vật riêng
 Bản chơi được đã triển khai theo [bước 17](../step-17-contract-gameplay.md), giữ
 mặt bằng hiện có; dùng một tranh phụ mỗi phòng A/B/C và hợp đồng đầu cố định S1/H1/T1.
 Ảnh concept minh họa hướng phát triển, không phải ảnh chụp scene hay tọa độ thi công.
+
+Phản hồi chơi thử mới nhất đã áp dụng ở [bước 18](../step-18-contract-revision.md):
+bốn hợp đồng ngẫu nhiên, giấy ngắn gọn, bảng tên trên bàn, vé đọc được và N0 bên phải cửa.

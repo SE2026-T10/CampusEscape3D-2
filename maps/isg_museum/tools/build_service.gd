@@ -74,7 +74,7 @@ func interactive(parent: Node,node_name: String,at: Vector3,size: Vector3,script
 
 
 func document(node_name: String,at: Vector3,yaw: float,title: String,text: String,caption: String) -> void:
-	var board := interactive(scene,node_name,at,Vector3(1.8,1.2,.18),"res://maps/isg_museum/scripts/staff_document.gd")
+	var board := interactive(scene,node_name,at,Vector3(1.8,1.2,.18),"res://maps/isg_museum/scripts/service_document.gd")
 	board.rotation.y = yaw
 	board.set("title",title)
 	board.set("content",text)
@@ -129,8 +129,12 @@ func _build() -> void:
 	sign_label(npc,"Name","N1 · TIẾP ĐÓN",Vector3(0,.65,0),-PI/2,.0018)
 	document("EventPoster",Vector3(22,1.7,29.72),PI,"Áp phích sự kiện",
 		"BẢO TÀNG · ĐÊM DI SẢN\n\nKhách có giấy hẹn vui lòng tới phòng dịch vụ để nhận vé tham quan tầng 2.\n\nMang theo thông tin người phụ trách và giờ hẹn.","ĐÊM DI SẢN\nNhận vé tại phòng dịch vụ")
-	document("ReceptionNotice",Vector3(35.7,1.65,27),-PI/2,"Bảng thông báo tiếp đón",
-		"SỰ KIỆN: Đêm di sản\nNgười phụ trách đón khách: Lê An\n\nGiờ hẹn được ghi trên giấy mời của từng nhóm.\nVé V dùng cho cả cửa thang A và thang B ở tầng 2.","TIẾP ĐÓN\nPhụ trách: Lê An\nVé V: tầng 2")
+	var plate := interactive(scene,"ReceptionNotice",Vector3(31.48,1.23,26.35),Vector3(.65,.3,.2),"res://maps/isg_museum/scripts/service_document.gd")
+	plate.rotation.y = -PI/2
+	plate.set("document_kind","host")
+	visual(plate,"Base",Vector3(.6,.04,.18),Vector3(0,-.12,0),wood)
+	visual(plate,"Plate",Vector3(.58,.2,.04),Vector3.ZERO,paper)
+	sign_label(plate,"Caption","NHÂN VIÊN\nTiếp đón",Vector3(0,0,.03),0,.0011)
 	var map := interactive(scene,"WallMap",Vector3(32,1.65,24.3),Vector3(2.2,1.4,.22),"res://maps/isg_museum/scripts/service_map.gd")
 	map.set("prompt","Xem bản đồ hai tầng")
 	visual(map,"Frame",Vector3(2.3,1.5,.12),Vector3.ZERO,wood)

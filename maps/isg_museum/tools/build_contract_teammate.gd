@@ -16,7 +16,8 @@ func cube(node_name: String,at: Vector3,size: Vector3,colour: Color) -> void:
 	node.position = at
 func _initialize() -> void:
 	scene.name = "Teammate"
-	scene.position = Vector3(14.3,1,35.3)
+	scene.position = Vector3(20.5,1,31.5)
+	scene.rotation.y = -0.45
 	scene.set_script(load("res://maps/isg_museum/scripts/contract_teammate.gd"))
 	scene.set("prompt","Nói chuyện với N0 · nhận hợp đồng")
 	var shape := CollisionShape3D.new()
@@ -26,14 +27,16 @@ func _initialize() -> void:
 	add(scene,shape,"Interaction")
 	cube("Body",Vector3(0,.08,0),Vector3(.55,.65,.35),Color(.14,.42,.47))
 	cube("Head",Vector3(0,.68,0),Vector3(.32,.36,.3),Color(.73,.55,.37))
+	for x in [-.065,.065]:
+		cube("Eye%d"%scene.get_child_count(),Vector3(x,.71,.16),Vector3(.035,.04,.02),Color(.07,.1,.12))
 	for x in [-.17,.17]:
 		cube("Leg%d"%scene.get_child_count(),Vector3(x,-.58,0),Vector3(.22,.7,.26),Color(.12,.17,.22))
 	for x in [-.38,.38]:
 		cube("Arm%d"%scene.get_child_count(),Vector3(x,-.03,0),Vector3(.18,.62,.24),Color(.14,.42,.47))
-	cube("Bench",Vector3(-.7,-.53,.9),Vector3(1.7,.12,.55),Color(.34,.23,.13))
-	cube("BenchBack",Vector3(-.7,-.1,1.1),Vector3(1.7,.7,.08),Color(.34,.23,.13))
-	for x in [-1.3,-.1]:
-		cube("BenchLeg%d"%scene.get_child_count(),Vector3(x,-.77,.9),Vector3(.12,.45,.5),Color(.2,.24,.23))
+	cube("Bench",Vector3(1.4,-.53,-.3),Vector3(1.7,.12,.55),Color(.34,.23,.13))
+	cube("BenchBack",Vector3(1.4,-.1,-.52),Vector3(1.7,.7,.08),Color(.34,.23,.13))
+	for x in [.8,2.0]:
+		cube("BenchLeg%d"%scene.get_child_count(),Vector3(x,-.77,-.3),Vector3(.12,.45,.5),Color(.2,.24,.23))
 	var label := Label3D.new()
 	label.text = "N0 · ĐỒNG ĐỘI\nE: NHẬN HỢP ĐỒNG"
 	label.pixel_size = .002

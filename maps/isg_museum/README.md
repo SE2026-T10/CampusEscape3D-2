@@ -36,7 +36,10 @@ N0 giao nhiệm vụ S1/H1/T1, dịch vụ cấp vé tầng 2 và bản đồ, t
 ngăn lịch sử, tranh phụ A/B/C và niêm phong báo động phòng C.
 Có dây và cắt đuôi thì được rút lui; kết quả đánh giá riêng theo hiện vật đúng hợp đồng.
 Khi bị bắt, màn tổng kết chờ người chơi chọn chơi lại.
-Bản dựng đã qua **504 kiểm tra** riêng của map.
+Đã cập nhật theo [phản hồi chơi thử — bước 18](docs/step-18-contract-revision.md):
+bốn hợp đồng ngẫu nhiên độc lập (25% mỗi mẫu), giấy ngắn gọn, bảng tên trên bàn,
+hỏi đáp đổi theo hợp đồng, vé đọc sau khi trả lời đúng (**V** xem lại), N0 bên phải cửa chính.
+Bản dựng đã qua **575 kiểm tra** riêng của map.
 
 Hình học và cách chỉnh sàn/dốc/cửa: [Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md).
 

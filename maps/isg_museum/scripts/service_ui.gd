@@ -1,10 +1,6 @@
 extends CanvasLayer
 
-const QUESTIONS := [
-	{"question":"Bạn tới tham dự sự kiện nào?", "answers":["Đêm di sản","Triển lãm mùa xuân","Ngày hội thể thao"], "correct":0, "hint":"Kiểm tra áp phích ở sảnh chính."},
-	{"question":"Ai là người phụ trách đón khách?", "answers":["Trần Minh","Lê An","Mai Lan"], "correct":1, "hint":"Đọc bảng thông báo bên quầy dịch vụ."},
-	{"question":"Bạn được hẹn vào thời gian nào?", "answers":["20:00","22:00","21:30"], "correct":2, "hint":"Xem giấy hẹn đồng đội giao ngoài cổng."},
-]
+var questions: Array[Dictionary] = []
 var saved_map := false
 var question_index := 0
 var wrong_count := 0
@@ -122,8 +118,11 @@ func _open(next_mode: String, target: Node3D, by: Node3D) -> bool:
 
 
 func open_quiz(target: Node3D, by: Node3D) -> bool:
+	if _contract() != null and _contract().has_ticket:
+		return open_ticket(target,by)
 	if not _open("quiz",target,by):
 		return false
+	_build_questions()
 	title.text = "PHÒNG DỊCH VỤ · XÁC NHẬN GIẤY HẸN"
 	question_index = 0
 	question.show()
@@ -131,8 +130,44 @@ func open_quiz(target: Node3D, by: Node3D) -> bool:
 	map_buttons.hide()
 	map_canvas.hide()
 	save_button.hide()
-	message.text = "Trả lời theo áp phích, bảng thông báo và giấy hẹn."
+	message.text = "Đối chiếu áp phích, bảng tên trên bàn và giấy hẹn."
 	_refresh_quiz()
+	_fit()
+	return true
+
+
+func _build_questions() -> void:
+	questions.clear()
+	var fields := ["event","host","appointment"]
+	var titles := ["Bạn tới tham dự sự kiện nào?","Ai là người phụ trách đón khách?","Bạn được hẹn vào thời gian nào?"]
+	var hints := ["Kiểm tra áp phích ở sảnh chính.","Đọc bảng tên trên bàn tiếp đón.","Xem giấy hẹn đồng đội giao ngoài cửa."]
+	for i in fields.size():
+		var choices: Array = []
+		for info in preload("res://maps/isg_museum/scripts/museum_contract.gd").CONTRACTS:
+			choices.append(info[fields[i]])
+		choices.shuffle()
+		questions.append({"question":titles[i],"answers":choices,"correct":choices.find(_contract().contract_info[fields[i]]),"hint":hints[i]})
+	# Four plausible choices; positions are reshuffled on each conversation.
+	while answers.get_child_count() < 4:
+		var button := Button.new()
+		button.custom_minimum_size.y = 44
+		button.focus_mode = Control.FOCUS_NONE
+		button.pressed.connect(answer.bind(answers.get_child_count()))
+		answers.add_child(button)
+
+
+func open_ticket(target: Node3D, by: Node3D) -> bool:
+	if _contract() == null or not _contract().has_ticket or not _open("ticket",target,by):
+		return false
+	var info: Dictionary = _contract().contract_info
+	title.text = "VÉ THÔNG HÀNH • TẦNG 2"
+	message.text = "Nhân viên tiếp đón trao vé. Đã lưu trong sổ • V: mở lại."
+	question.text = "Sự kiện: %s\n\nNgười xác nhận: %s\n\nGiờ hẹn: %s\n\nCó hiệu lực tại cửa thang A và B."%[info.event,info.host,info.appointment]
+	question.show()
+	answers.hide()
+	map_buttons.hide()
+	map_canvas.hide()
+	save_button.hide()
 	_fit()
 	return true
 
@@ -156,7 +191,7 @@ func answer(index: int) -> void:
 	var contract := _contract()
 	if not visible or mode != "quiz" or cooldown_left > 0 or contract == null or contract.has_ticket:
 		return
-	var info: Dictionary = QUESTIONS[question_index]
+	var info: Dictionary = questions[question_index]
 	if index != info.correct:
 		wrong_count += 1
 		if wrong_count >= 3:
@@ -169,10 +204,11 @@ func answer(index: int) -> void:
 		_refresh_quiz()
 		return
 	question_index += 1
-	if question_index >= QUESTIONS.size():
+	if question_index >= questions.size():
 		contract.grant_ticket()
-		message.text = "Thông tin khớp. Đây là vé V lên tầng 2. Quét tại cửa thang A hoặc B."
 		question_index = 0
+		open_ticket(source,actor)
+		return
 	else:
 		message.text = "Đã xác nhận. Xin kiểm tra thông tin tiếp theo."
 	_refresh_quiz()
@@ -187,10 +223,10 @@ func _refresh_quiz() -> void:
 		answers.hide()
 		return
 	answers.show()
-	question.text = "Câu %d/3 · %s"%[question_index+1,QUESTIONS[question_index].question]
-	for i in 3:
+	question.text = "Câu %d/3 · %s"%[question_index+1,questions[question_index].question]
+	for i in answers.get_child_count():
 		var button := answers.get_child(i) as Button
-		button.text = QUESTIONS[question_index].answers[i]
+		button.text = questions[question_index].answers[i]
 		button.disabled = cooldown_left > 0
 	if cooldown_left > 0:
 		message.text = "Tạm kiểm tra giấy tờ · thử lại sau %d giây. Không mất vé vĩnh viễn."%ceili(cooldown_left)
@@ -251,6 +287,14 @@ func _fit() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and (event.physical_keycode == KEY_V or event.keycode == KEY_V):
+		if _contract() != null and _contract().has_ticket:
+			if visible:
+				close_panel()
+			else:
+				open_ticket(null,get_tree().get_first_node_in_group("player"))
+			get_viewport().set_input_as_handled()
+			return
 	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_M:
 		var flow := GameFlow.find(self)
 		if saved_map and flow and flow.state == GameStateMachine.State.PLAYING and not flow.is_leaving():

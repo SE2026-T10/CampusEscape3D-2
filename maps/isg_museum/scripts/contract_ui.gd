@@ -7,6 +7,22 @@ class ArtifactIcon extends Control:
 		var ink := Color(.38,.24,.12)
 		var silver := Color(.62,.7,.76)
 		match kind:
+			"bust":
+				draw_circle(Vector2(45,27),16,Color(.78,.78,.7))
+				draw_rect(Rect2(34,40,22,16),Color(.7,.7,.63))
+				draw_colored_polygon(PackedVector2Array([Vector2(35,48),Vector2(55,48),Vector2(70,68),Vector2(20,68)]),Color(.78,.78,.7))
+				draw_rect(Rect2(18,68,54,7),ink)
+			"watch":
+				draw_arc(Vector2(45,15),7,0,TAU,20,ink,3)
+				draw_circle(Vector2(45,47),26,Color(.75,.56,.2))
+				draw_circle(Vector2(45,47),21,Color(.95,.91,.75))
+				draw_line(Vector2(45,47),Vector2(45,31),ink,3)
+				draw_line(Vector2(45,47),Vector2(57,54),ink,3)
+			"scroll":
+				draw_rect(Rect2(22,20,46,48),Color(.94,.88,.7))
+				draw_arc(Vector2(24,44),23,PI/2,PI*1.5,20,ink,4)
+				draw_line(Vector2(31,34),Vector2(60,34),ink,2)
+				draw_line(Vector2(31,45),Vector2(60,45),ink,2)
 			"bird":
 				_draw_oval(Vector2(44,48),Vector2(18,12),Color(.6,.4,.15))
 				draw_colored_polygon(PackedVector2Array([Vector2(43,45),Vector2(15,17),Vector2(30,52)]),ink)
@@ -75,7 +91,7 @@ func _ready() -> void:
 	outer.add_child(scroll)
 	content = VBoxContainer.new()
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	content.add_theme_constant_override("separation",12)
+	content.add_theme_constant_override("separation",10)
 	scroll.add_child(content)
 	_buttons = HBoxContainer.new()
 	_buttons.add_theme_constant_override("separation",12)
@@ -134,9 +150,8 @@ func open_contract(source: Node3D = null) -> void:
 	_source = source
 	_is_result = false
 	_clear()
-	_label("HỢP ĐỒNG 01 · ĐÊM DI SẢN",28)
-	_label("N0: Lấy đúng ba hiện vật dưới đây. Có dây thì có thể rút lui sớm, nhưng thiếu món sẽ chỉ hoàn thành một phần.",18)
 	var contract = _contract()
+	_label("HỢP ĐỒNG %02d • %s"%[contract.contract_info.number,contract.contract_info.event.to_upper()],26)
 	var found: Array = contract.collected_ids()
 	for id in contract.selected_ids:
 		var info: Dictionary = contract.catalog[id]
@@ -145,17 +160,18 @@ func open_contract(source: Node3D = null) -> void:
 		content.add_child(row)
 		var icon := ArtifactIcon.new()
 		icon.kind = info.icon
-		icon.custom_minimum_size = Vector2(90,85)
+		icon.custom_minimum_size = Vector2(90,76)
 		row.add_child(icon)
 		var text := Label.new()
 		text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		text.text = "%s · %s · %d điểm%s\n%s\n%s"%[id.to_upper(),info.name,info.points," · ĐÃ LẤY" if id in found else "",info.room,info.detail]
+		text.text = "%s • %d điểm%s\n%s\n%s"%[info.name,info.points," • ĐÃ LẤY" if id in found else "",info.room,info.detail]
 		text.add_theme_color_override("font_color",Color(.2,.15,.1))
 		text.add_theme_font_size_override("font_size",18)
 		row.add_child(text)
-	_label("Yêu cầu phụ: không bị truy đuổi (+200 điểm). Đồ ngoài hợp đồng: +50 điểm/món, không thay thế mục tiêu.",18)
-	_label("GIẤY HẸN · Đêm di sản · Giờ hẹn: 21:30\nDây thoát: kho phụ tầng 1. J mở lại giấy; lưu bản đồ ở phòng dịch vụ rồi M để xem.",18)
+	_label("Yêu cầu phụ: không bị truy đuổi (+200 điểm).\nĐồ ngoài hợp đồng: +50 điểm/món.",18)
+	_label("GIẤY HẸN • %s • Giờ hẹn: %s"%[contract.contract_info.event,contract.contract_info.appointment],18)
+	_label("Dây: kho phụ tầng 1 • J: giấy hẹn • M: bản đồ đã lưu • V: vé đã nhận\nĐồ ngoài hợp đồng không thay thế mục tiêu. T2 chỉ tính sau khi giao.",14)
 	if not contract.accepted:
 		accept_button = _button("Nhận hợp đồng và giấy hẹn",func():
 			contract.accept_contract()
@@ -228,7 +244,7 @@ func close_sheet() -> void:
 func _fit() -> void:
 	var view := get_viewport().get_visible_rect().size
 	content.custom_minimum_size.x = minf(720,view.x-100)-52
-	panel.size = Vector2(minf(720,view.x-100),minf(650,view.y-60))
+	panel.size = Vector2(minf(760,view.x-80),minf(650 if _is_result else 610,view.y-60))
 	panel.position = (view-panel.size)/2
 
 

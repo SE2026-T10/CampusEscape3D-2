@@ -1,5 +1,8 @@
 # Bước 17 — Hợp đồng, vé tầng 2 và hiện vật theo phòng
 
+Hợp đồng cố định, vị trí N0 và bảng tiếp đón trong bước này đã được cập nhật theo
+[bước 18 — phản hồi chơi thử](step-18-contract-revision.md). Dùng bước 18 để xem cách chơi hiện tại.
+
 Mở `res://maps/isg_museum/scenes/museum.tscn`, nhấn **F6** để chạy.
 Bản này thay đổi điều kiện kết thúc: **có dây và đã cắt đuôi thì được rút lui**;
 không còn bắt buộc lấy đủ T1/T2/T3. Hợp đồng được đánh giá riêng khi rút lui.

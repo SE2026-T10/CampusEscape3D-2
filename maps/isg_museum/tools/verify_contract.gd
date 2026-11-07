@@ -9,6 +9,7 @@ var player: FirstPersonPlayer
 var objectives: ObjectiveManager
 var failures := 0
 var checks := 0
+var fixture_contract_index := 0
 
 
 func _initialize() -> void:
@@ -62,6 +63,7 @@ func fresh() -> void:
 		level.free()
 		await frames(3)
 	level = load(SCENE).instantiate()
+	level.get_node("MuseumContract").contract_index_override = fixture_contract_index
 	root.add_child(level)
 	current_scene = level
 	isolate()
@@ -156,7 +158,7 @@ func _run() -> void:
 	objectives.complete(&"take_h1")
 	check(not objectives.is_finished(),"Collecting an optional item before assignment keeps gameplay running")
 	var teammate := level.get_node("NavigationRegion3D/Teammate") as Node3D
-	await aim(teammate,Vector3(15.8,0,35.3))
+	await aim(teammate,Vector3(20.5,0,33))
 	check(player.get_node("Interactor").find_target() == teammate,"Teammate outside museum is selectable by camera ray")
 	await press_e()
 	var ui := get_first_node_in_group("museum_contract_ui")
@@ -212,7 +214,7 @@ func _run() -> void:
 	# Actual partial exit.
 	contract.accept_contract()
 	objectives.complete(&"take_rope")
-	objectives.complete(&"take_s1")
+	objectives.complete(StringName(contract.catalog[contract.selected_ids[0]].objective))
 	check(await escape() and contract.report().rating == "partial" and contract.report().missing.size() == 2,
 		"Actual exit with one requested item yields partial contract")
 	await fresh()
