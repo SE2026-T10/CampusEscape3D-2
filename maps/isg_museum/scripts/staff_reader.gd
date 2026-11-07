@@ -19,6 +19,9 @@ var column: VBoxContainer
 var _document: WeakRef
 var _clock_left := 0.0
 var _view_size := Vector2.ZERO
+var _calendar_column: VBoxContainer
+var _calendar_image: TextureRect
+var _calendar_mode := false
 
 
 func _ready() -> void:
@@ -74,6 +77,18 @@ func _ready() -> void:
 	hint.add_theme_font_size_override("font_size",16)
 	hint.add_theme_color_override("font_color",Color(0.39,0.3,0.2))
 	column.add_child(hint)
+	_calendar_column = VBoxContainer.new()
+	panel.add_child(_calendar_column)
+	_calendar_image = TextureRect.new()
+	_calendar_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_calendar_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_calendar_image.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_calendar_column.add_child(_calendar_image)
+	var calendar_hint := Label.new()
+	calendar_hint.text = "E / Esc: cất lịch"
+	calendar_hint.add_theme_color_override("font_color",Color(.25,.2,.12))
+	_calendar_column.add_child(calendar_hint)
+	_calendar_column.hide()
 	panel.hide()
 	_fit_sheet()
 	var flow := GameFlow.find(self)
@@ -84,6 +99,9 @@ func _ready() -> void:
 
 
 func open_document(title: String, text: String, source: Node = null) -> void:
+	_calendar_mode = false
+	_calendar_column.hide()
+	column.show()
 	heading.text = title
 	body.text = text
 	_document = weakref(source) if source != null else null
@@ -92,6 +110,15 @@ func open_document(title: String, text: String, source: Node = null) -> void:
 	backdrop.show()
 	_fit_sheet()
 	_settle_sheet()
+
+
+func open_calendar(source: Node) -> void:
+	open_document("Lịch tháng",source.get_content(),source)
+	_calendar_mode = true
+	column.hide()
+	_calendar_column.show()
+	_calendar_image.texture = source.calendar_viewport.get_texture()
+	_fit_sheet()
 
 
 func _settle_sheet() -> void:
@@ -124,6 +151,8 @@ func _fit_sheet() -> void:
 	_view_size = get_viewport().get_visible_rect().size
 	column.custom_minimum_size.x = maxf(1,minf(620,_view_size.x-48)-64)
 	panel.size = Vector2(minf(620,_view_size.x-48),minf(560,_view_size.y-48))
+	if _calendar_mode:
+		panel.size = Vector2(minf(510,_view_size.x-48),minf(690,_view_size.y-32))
 	panel.position = (_view_size-panel.size)/2
 
 

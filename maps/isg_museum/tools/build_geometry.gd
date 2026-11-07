@@ -246,6 +246,12 @@ func staff_interior() -> void:
 	for z in [10.4,12,13.6]:
 		staff_visual(room,"LockerHandle%d"%room.get_child_count(),Vector3(0.06,0.12,0.06),Vector3(35.06,1.1,z),brass)
 	staff_visual(room,"KeyRack_D",Vector3(0.08,0.15,0.55),Vector3(35.06,1.2,10.2),wood)
+	staff_visual(room,"KeyLabel",Vector3(.04,.3,.78),Vector3(35.04,1.65,10.2),paper)
+	label(room,"KeyLabelText","CHÌA KHÓA PHÒNG B\nTẦNG 2",Vector3(35.012,1.65,10.2),-PI/2)
+	room.get_node("KeyLabelText").font_size = 36
+	room.get_node("KeyLabelText").pixel_size = .0012
+	room.get_node("KeyLabelText").modulate = Color(.18,.15,.1)
+	room.get_node("KeyLabelText").outline_size = 0
 	# B: chair behind the desk; visual-only, with clear standing/circulation space.
 	staff_visual(room,"ChairSeat",Vector3(0.65,0.12,0.65),Vector3(34.1,0.47,12),wood)
 	staff_visual(room,"ChairBack",Vector3(0.15,0.8,0.65),Vector3(34.5,0.88,12),wood)
@@ -264,24 +270,16 @@ func staff_interior() -> void:
 	light.light_energy = 0.8
 	light.omni_range = 4
 	# C stays on the west wall; G is a small loose paper on desk A.
-	staff_readable(room,"MaintenanceBoard","C · Lịch bảo trì",
-		"Kiểm tra đèn: 08/03\nKiểm tra dây bảo hộ: 14/03\nBảo dưỡng đài phun nước: 16/03\n\nGhi chú mã kho nằm trên bàn A.",
-		"C · LỊCH BẢO TRÌ\nĐèn: 08/03\nDây: 14/03\nĐài phun nước: 16/03",Vector3(27.3,1.5,16),PI/2,paper,
+	staff_readable(room,"MaintenanceBoard","Lịch treo tường","","LỊCH THÁNG",Vector3(27.3,1.5,16),PI/2,paper,
 		"res://maps/isg_museum/scripts/staff_calendar.gd")
 	staff_readable(room,"CodeNote","G · Mảnh ghi chú",
-		"Ghi nhớ cho ca sau:\n\nMã kho phụ là ngày kiểm tra dây bảo hộ gần nhất.\n\nViết liền NGÀY rồi THÁNG: DDMM.\n\nĐối chiếu lịch bảo trì C.",
+		"Mã kho là ngày hôm nay.\n\nViết ngày trước, tháng sau: DDMM.",
 		"G · GHI CHÚ\nDDMM",Vector3(32.2,1.112,11),0,paper)
 	var note := room.get_node("CodeNote") as Node3D
 	note.scale = Vector3.ONE*0.25
 	note.rotation.x = -PI/2
 	var note_mesh := note.get_node("Board").mesh as BoxMesh
 	note_mesh.size.z = 0.012
-	staff_readable(room,"ShiftLog","Sổ bàn giao ca",
-		"Chìa PHÒNG B treo ngoài tủ D.\nG3 ngồi ở ghế B, khi kiểm tra đi theo vòng H quanh bàn A.\n\nCúi sau mặt trước kín của bàn A để tránh tầm nhìn. Không chạm chai/lon F.",
-		"SỔ TRỰC\nE: ĐỌC",Vector3(32.2,1.15,12.4),0,paper)
-	var logbook := room.get_node("ShiftLog") as Node3D
-	logbook.rotation.x = -PI/2
-	logbook.scale = Vector3.ONE*0.45
 	for pos in [Vector3(34.7,0,14.9),Vector3(34.8,0,15.4)]:
 		var prop := Area3D.new()
 		attach(room,prop,"NoisyBottle%d"%room.get_child_count())
@@ -353,27 +351,15 @@ func storage_interior() -> void:
 		staff_visual(room,"Shelf%d"%room.get_child_count(),Vector3(4.2,0.07,0.82),Vector3(31,y,18.95),wood)
 		for x in [29.5,30.4,31.5,32.5]:
 			staff_visual(room,"ToolBox%d"%room.get_child_count(),Vector3(0.5,0.3,0.35),Vector3(x,y+0.18,19.04),brass if x < 31 else green)
-	# Cabinet shields a walkable pocket on the south side.
-	box(room,"SteelCabinet",Vector3(3.4,2.2,0.65),Vector3(31.5,1.1,22.3),metal)
-	staff_visual(room,"CabinetDoor",Vector3(1.15,2.1,0.06),Vector3(32.65,1.1,21.94),green)
-	staff_visual(room,"CabinetHandle",Vector3(0.06,0.22,0.08),Vector3(32.2,1.1,21.87),brass)
-	box(room,"UtilityCart",Vector3(1.1,0.85,0.75),Vector3(28.7,0.425,19.7),metal)
-	for x in [28.3,29.1]:
-		for z in [19.45,19.95]:
-			staff_visual(room,"Wheel%d"%room.get_child_count(),Vector3(0.15,0.18,0.12),Vector3(x,0.09,z),wood)
-	staff_visual(room,"CartTray",Vector3(1.15,0.08,0.8),Vector3(28.7,0.85,19.7),wood)
-	staff_visual(room,"Cloth",Vector3(0.45,0.06,0.35),Vector3(28.7,0.92,19.7),paper)
+	box(room,"SteelCabinet",Vector3(3.4,2.2,0.65),Vector3(31.5,1.1,23.525),metal)
+	staff_visual(room,"CabinetDoor",Vector3(1.15,2.1,0.06),Vector3(32.65,1.1,23.165),green)
+	staff_visual(room,"CabinetHandle",Vector3(0.06,0.22,0.08),Vector3(32.2,1.1,23.095),brass)
 	staff_visual(room,"RopeRack",Vector3(0.12,0.2,1.7),Vector3(35.65,1.95,20.6),wood)
 	for z in [20.2,20.6,21.0]:
 		staff_visual(room,"Hook%d"%room.get_child_count(),Vector3(0.25,0.12,0.06),Vector3(35.47,1.96,z),brass)
 	label(room,"RopeSign","DÂY THOÁT HIỂM",Vector3(35.62,2.65,20.6),-PI/2)
 	room.get_node("RopeSign").pixel_size = 0.0025
-	label(room,"InspectionTag","Kiểm tra: 14/03",Vector3(35.6,0.65,20.6),-PI/2)
-	room.get_node("InspectionTag").pixel_size = 0.0018
 	staff_visual(room,"EquipmentBag",Vector3(0.42,0.6,0.5),Vector3(35.5,1.3,22),wood)
-	staff_readable(room,"Checklist","Bảng kiểm tra kho phụ",
-		"Dây bảo hộ — kiểm tra 14/03.\nMóc và đai: đủ bộ.\n\nMang dây tới cửa sổ tầng 2 để chuẩn bị thoát. Cần đưa tranh lớn T2 tới điểm tập kết trong kho phục chế tầng 2.\n\nĐóng cửa kho khi rời đi.",
-		"BẢNG KIỂM TRA\nDây · Móc · Đai",Vector3(29.2,1.55,23.72),PI,paper)
 	var light := OmniLight3D.new()
 	attach(room,light,"UtilityLight")
 	light.position = Vector3(31.5,3.4,21)
@@ -391,6 +377,20 @@ func storage_interior() -> void:
 
 
 func _build() -> void:
+	if "--update-feedback" in OS.get_cmdline_user_args():
+		geometry.free()
+		geometry = (load(OUTPUT) as PackedScene).instantiate()
+		geometry.get_node("StaffInterior").free()
+		geometry.get_node("StorageInterior").free()
+		staff_interior()
+		storage_interior()
+		var rooms := geometry.get_node("Floor2Rooms")
+		for child in rooms.get_children():
+			if str(child.name).begins_with("ShortcutPartition"):
+				child.free()
+		wall(rooms,"ShortcutPartition",true,18,27,36,4.5,[],4.5,red)
+		save_geometry()
+		return
 	if "--update-storage" in OS.get_cmdline_user_args():
 		geometry.free()
 		geometry = (load(OUTPUT) as PackedScene).instantiate()
@@ -490,7 +490,7 @@ func _build() -> void:
 		else:
 			wall(rooms, "GalleryBPartition", false, 27, 6, 18, y, [[10,1.6]], 4.5, red)
 			wall(rooms, "RestorationWest", false, 27, 18, 24, y)
-			wall(rooms, "ShortcutPartition", true, 18, 27, 36, y, [[32,1.6]])
+			wall(rooms, "ShortcutPartition", true, 18, 27, 36, y, [], 4.5, red)
 	var courtyard := group("Courtyard")
 	courtyard_ground(courtyard)
 	wall(courtyard, "UpperRailNorth", true, 9, 12, 24, 4.5, [], 1.2, brass)

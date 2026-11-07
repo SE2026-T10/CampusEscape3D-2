@@ -61,3 +61,6 @@ mặt bằng hiện có; dùng một tranh phụ mỗi phòng A/B/C và hợp đ
 
 Phản hồi chơi thử mới nhất đã áp dụng ở [bước 18](../step-18-contract-revision.md):
 bốn hợp đồng ngẫu nhiên, giấy ngắn gọn, bảng tên trên bàn, vé đọc được và N0 bên phải cửa.
+
+[Bước 19](../step-19-room-feedback.md) cập nhật theo lượt chơi thử tiếp theo,
+gồm lịch tháng, mã ngày hiện tại, G3, kho phụ và việc bịt cửa B sang kho phục chế.

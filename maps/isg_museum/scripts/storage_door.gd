@@ -1,7 +1,6 @@
 extends "res://maps/isg_museum/scripts/museum_door.gd"
 
 ## The staff calendar and note explain this code; reading them is optional.
-const CODE := "1403"
 var wrong_attempts := 0
 var alarm_count := 0
 var keypad: CanvasLayer
@@ -40,7 +39,7 @@ func submit_code(value: String, by: Node) -> bool:
 	if not can_interact(by) or unlocked or not by is Node3D \
 			or (by as Node3D).global_position.distance_to(global_position) > 3.0:
 		return false
-	if value == CODE:
+	if value == current_code():
 		unlocked = true
 		wrong_attempts = 0
 		_indicator(Color(0.15,0.8,0.3))
@@ -62,6 +61,11 @@ func submit_code(value: String, by: Node) -> bool:
 			"Cảnh báo nhập sai mã kho phụ" if alarm else "Bíp bàn phím kho phụ")
 	rejected.emit("Sai mã ba lần — tiếng cảnh báo có thể thu hút bảo vệ!" if alarm else "Sai mã kho phụ")
 	return false
+
+
+func current_code() -> String:
+	var calendar := get_tree().get_first_node_in_group("staff_calendar")
+	return calendar.get_code()
 
 
 func _indicator(colour: Color) -> void:

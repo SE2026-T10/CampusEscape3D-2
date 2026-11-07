@@ -9,7 +9,7 @@ const OBJECTIVES := [
 	 "hint": "Phòng A phía tây tầng 2. Quan sát G6 kiểm tra tranh trước khi lấy T1.",
 	 "done": "Đã lấy tác phẩm T1", "requires": []},
 	{"id": &"take_t2", "title": "Mang tranh lớn T2 tới điểm tập kết",
-	 "hint": "E nhấc T2 trong phòng B; Q đặt xuống. Mở chốt B → kho để đi ngắn, rồi E giao tranh tại thảm xanh trong kho.",
+	 "hint": "E nhấc T2 trong phòng B; Q đặt xuống. Đi qua hành lang và phòng đệm phía nam, E vào kho để giao tranh tại thảm xanh.",
 	 "done": "T2 đã được vận chuyển tới điểm tập kết trong kho", "requires": [&"take_key"]},
 	{"id": &"take_t3", "title": "Lấy tác phẩm T3",
 	 "hint": "Phòng tranh C, phía bắc tầng 2.", "done": "Đã lấy tác phẩm T3", "requires": []},

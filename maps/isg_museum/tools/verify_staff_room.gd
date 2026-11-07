@@ -163,19 +163,18 @@ func _run() -> void:
 	await aim(board,Vector3(28.7,0,16))
 	await press_e()
 	var reader := level.get_node("StaffReader")
-	check(reader.panel.visible and reader.body.text.contains("14/03"),"E opens readable maintenance dates")
+	check(reader.panel.visible and reader._calendar_mode,"E opens the monthly calendar")
 	check(not paused,"Reading keeps world running")
 	var real_clock: Callable = board.time_provider
 	var fake_now := {"day":31,"month":12,"year":2026,"hour":23,"minute":59,"second":59,"weekday":4}
 	board.time_provider = func(): return fake_now
 	board.refresh_clock()
 	await frames(65)
-	check(reader.body.text.contains("31/12/2026") and reader.body.text.contains("23:59:59"),"Calendar sheet shows live clock while remaining open")
+	check(reader.body.text.contains("31/12/2026") and board.get_code() == "3112","Calendar and door code follow current date")
 	fake_now.merge({"day":1,"month":1,"year":2027,"hour":0,"minute":0,"second":0,"weekday":5},true)
 	await frames(65)
-	check(reader.body.text.contains("01/01/2027") and reader.body.text.contains("00:00:00")
-		and board.get_node("Text").text.contains("01/01/2027"),"Live calendar rolls over day, month and year on wall and reading sheet")
-	check(reader.body.text.contains("14/03"),"Real-time calendar never changes maintenance date used by puzzle")
+	check(reader.body.text.contains("01/01/2027") and board.current_date.year == 2027,"Live calendar rolls over day, month and year")
+	check(board.get_code() == "0101" and not reader.body.text.contains("14/03"),"Puzzle code changes with the calendar date")
 	board.time_provider = real_clock
 	board.refresh_clock()
 	await press_e()
@@ -189,10 +188,10 @@ func _run() -> void:
 		and root.get_visible_rect().encloses(reader.panel.get_global_rect()),
 		"Paper reading sheet is centred on viewport")
 	await press_e()
-	var logbook := level.get_node("NavigationRegion3D/Geometry/StaffInterior/ShiftLog")
-	await aim(logbook,Vector3(30.6,0,12.4))
+	check(not interior.has_node("ShiftLog"),"Shift handover book has been removed")
+	await aim(note,Vector3(30.6,0,11))
 	await press_e()
-	check(reader.panel.visible and reader.heading.text.contains("Sổ"),"Desk logbook is reachable and readable")
+	check(reader.panel.visible and interior.get_node("KeyLabelText").text.contains("TẦNG 2"),"Key rack has the room B label")
 	var close_event := InputEventAction.new()
 	close_event.action = &"pause"
 	close_event.pressed = true

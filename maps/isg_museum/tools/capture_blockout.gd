@@ -97,7 +97,7 @@ func _capture() -> void:
 			else:
 				door.keypad.close_panel()
 				if not door.unlocked:
-					door.submit_code("1403",level.get_node("Player"))
+					door.submit_code(level.get_node("NavigationRegion3D/Doors/Storage").current_code(),level.get_node("Player"))
 			camera.projection = Camera3D.PROJECTION_ORTHOGONAL if shot[0] == "storage-overview" else Camera3D.PROJECTION_PERSPECTIVE
 			camera.size = 13
 		if paper_only:

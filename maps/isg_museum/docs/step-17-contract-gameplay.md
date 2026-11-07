@@ -1,5 +1,7 @@
 # Bước 17 — Hợp đồng, vé tầng 2 và hiện vật theo phòng
 
+Lịch, mã kho và tuyến mang T2 mới được mô tả ở [bước 19](step-19-room-feedback.md).
+
 Hợp đồng cố định, vị trí N0 và bảng tiếp đón trong bước này đã được cập nhật theo
 [bước 18 — phản hồi chơi thử](step-18-contract-revision.md). Dùng bước 18 để xem cách chơi hiện tại.
 

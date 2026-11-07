@@ -244,7 +244,7 @@ func _run() -> void:
 	contract.accept_contract()
 	objectives.complete(&"take_key")
 	var painting = level.get_node("Interactables/Painting_T2")
-	await aim(painting,Vector3(33.5,4.5,10))
+	await aim(painting,Vector3(34.3,4.5,10))
 	await press_e()
 	check(player.is_carrying() and not contract.report().collected.has("t2") and not objectives.is_completed(&"take_t2"),
 		"T2 carried in hands is not credited in report")

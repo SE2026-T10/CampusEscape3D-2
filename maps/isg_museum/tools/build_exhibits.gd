@@ -174,7 +174,7 @@ func painting(node_name: String,objective: StringName,title: String,at: Vector3,
 
 
 func scroll() -> void:
-	var root := item(expansion,"B2","res://maps/isg_museum/scripts/exhibit_scroll.gd",&"take_b2","B2 · Tranh cuộn phác thảo",Vector3(35.7,6,15))
+	var root := item(expansion,"B2","res://maps/isg_museum/scripts/exhibit_scroll.gd",&"take_b2","B2 · Tranh cuộn phác thảo",Vector3(35.86,6,15))
 	root.rotation.y = -PI/2
 	root.set("prompt","Lấy B2 · Tranh cuộn phác thảo")
 	trigger(root,Vector3(1.15,0.8,0.3))
@@ -206,9 +206,9 @@ func build() -> void:
 	sculpture("S2",&"take_s2","S2 · Tượng bán thân đá",Vector3(4.3,1.7,18),false)
 	drawer("H1",&"take_h1","H1 · Huy chương bạc",Vector3(10.5,1.35,2.8),true)
 	drawer("H2",&"take_h2","H2 · Đồng hồ bỏ túi",Vector3(22,1.35,2.8),false)
-	painting("A2",&"take_a2","A2 · Phong cảnh nhỏ",Vector3(0.24,6,18),PI/2,Color(0.16,0.35,0.25))
+	painting("A2",&"take_a2","A2 · Phong cảnh nhỏ",Vector3(0.19,6,18),PI/2,Color(0.16,0.35,0.25))
 	scroll()
-	painting("C2",&"take_c2","C2 · Tĩnh vật hoa",Vector3(10,6,0.24),0,Color(0.43,0.2,0.3))
+	painting("C2",&"take_c2","C2 · Tĩnh vật hoa",Vector3(10,6,0.19),0,Color(0.43,0.2,0.3))
 	gallery_alarm()
 	var packed := PackedScene.new()
 	var result := packed.pack(expansion)

@@ -39,7 +39,7 @@ func _capture() -> void:
 		level.get_node("GameFlow").resume()
 	level.get_node("Interactables/Key").interact(player)
 	var painting := level.get_node("Interactables/Painting_T2")
-	player.position = Vector3(33.5,4.5,10)
+	player.position = Vector3(34.3,4.5,10)
 	player.camera.look_at(painting.global_position)
 	if not painting.interact(player):
 		push_error("Could not pick up T2")
@@ -48,7 +48,7 @@ func _capture() -> void:
 	player.position = Vector3(32,4.5,16.5)
 	player.rotation = Vector3(0,PI,0)
 	player.camera.rotation = Vector3.ZERO
-	level.get_node("NavigationRegion3D/Doors/RestorationShortcut").interact(player)
+	level.get_node("NavigationRegion3D/Doors/GalleryB").interact(player)
 	player.camera.look_at(Vector3(32,5.6,24))
 	level.get_node("ObjectiveHud").show_message("",Color.WHITE)
 	await save_view("t2-carry")

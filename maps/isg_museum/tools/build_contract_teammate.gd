@@ -33,10 +33,6 @@ func _initialize() -> void:
 		cube("Leg%d"%scene.get_child_count(),Vector3(x,-.58,0),Vector3(.22,.7,.26),Color(.12,.17,.22))
 	for x in [-.38,.38]:
 		cube("Arm%d"%scene.get_child_count(),Vector3(x,-.03,0),Vector3(.18,.62,.24),Color(.14,.42,.47))
-	cube("Bench",Vector3(1.4,-.53,-.3),Vector3(1.7,.12,.55),Color(.34,.23,.13))
-	cube("BenchBack",Vector3(1.4,-.1,-.52),Vector3(1.7,.7,.08),Color(.34,.23,.13))
-	for x in [.8,2.0]:
-		cube("BenchLeg%d"%scene.get_child_count(),Vector3(x,-.77,-.3),Vector3(.12,.45,.5),Color(.2,.24,.23))
 	var label := Label3D.new()
 	label.text = "N0 · ĐỒNG ĐỘI\nE: NHẬN HỢP ĐỒNG"
 	label.pixel_size = .002

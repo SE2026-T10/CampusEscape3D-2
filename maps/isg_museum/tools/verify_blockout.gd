@@ -213,7 +213,7 @@ func _run() -> void:
 			check(not connected(spawn,target),"Closed " + door_id + " door isolates room navigation")
 			if door_id == "Storage":
 				player.position = Vector3(25.5,0,21)
-				entry.submit_code("1403",player)
+				entry.submit_code(level.get_node("NavigationRegion3D/Doors/Storage").current_code(),player)
 			else:
 				entry.interact(player)
 			# NavigationServer applies newly enabled links on a later physics tick.
@@ -249,7 +249,7 @@ func _run() -> void:
 	await use_door(doors.get_node("RestorationEntrance"),Vector3(25.5,4.5,27))
 	check(await walk(player,[Vector3(28.5,4.5,27),Vector3(32,4.5,27),Vector3(32,4.5,24.5)])
 		and not level.get_node("ObjectiveManager").is_completed(&"take_key")
-		and not doors.get_node("GalleryB").is_open and not doors.get_node("RestorationShortcut").is_open,
+		and not doors.get_node("GalleryB").is_open and not doors.has_node("RestorationShortcut"),
 		"Player opens free restoration entrance and reaches T2 depot before key or either locked door opens")
 	await push_against_door(player,corridor,-PI/2)
 	check(player.position.x < 26.7 and absf(player.position.z-10) < 0.2,
@@ -266,13 +266,14 @@ func _run() -> void:
 	player.velocity = Vector3.ZERO
 	check(await walk(player,[Vector3(29,4.5,10)]), "Player physically passes through opened gallery door")
 	player.position = Vector3(32,4.5,16.5)
-	check(doors.get_node("RestorationShortcut").interact(player), "B-side latch opens shortcut")
+	check(not doors.has_node("RestorationShortcut"), "B-to-restoration shortcut has been removed")
 	await frames(5)
 	var shortcut_path := path(Vector3(32,4.6,16.5),store)
-	check(connected(Vector3(32,4.6,16.5),store) and shortcut_path.size() <= 6, "Opened shortcut supplies a direct path into restoration")
+	check(connected(Vector3(32,4.6,16.5),store) and shortcut_path.size() > 6, "Navigation reaches restoration by corridor detour")
 	player.position = Vector3(32,4.5,16.5)
 	player.velocity = Vector3.ZERO
-	check(await walk(player,[Vector3(32,4.5,19.5),Vector3(32,4.5,16.5)]), "Player physically crosses opened shortcut in both directions")
+	await push_against_door(player,Vector3(32,4.5,16.5),PI)
+	check(player.position.z < 17.7,"Solid wall blocks the former shortcut from inside B")
 	# Two stairs must each work locally, rather than silently using the other stair.
 	for mirror in [false,true]:
 		var lower := Vector3(8,0.1,28.25) if not mirror else Vector3(28,0.1,4.25)
@@ -361,7 +362,7 @@ func _run() -> void:
 		door.get_node("Panel").show()
 		door.get_node("Passage").enabled = false
 	check(not level.get_node("NavigationRegion3D/Doors/GalleryB").is_open
-		and not level.get_node("NavigationRegion3D/Doors/RestorationShortcut").is_open,
+		and not level.get_node("NavigationRegion3D/Doors").has_node("RestorationShortcut"),
 		"Patrol verification starts with gallery and shortcut closed")
 	for guard in guards:
 		guard.agent.avoidance_enabled = true

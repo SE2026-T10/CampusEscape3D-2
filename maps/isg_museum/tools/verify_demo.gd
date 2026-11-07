@@ -6,7 +6,7 @@ extends SceneTree
 const SCENE := "res://maps/isg_museum/scenes/museum.tscn"
 const IDS := [&"take_key", &"take_t1", &"take_t2", &"take_t3", &"take_rope"]
 const PICKUPS := ["Key", "Painting_T1", "Painting_T2", "Painting_T3", "Rope"]
-const POSITIONS := [Vector3(34,0,10.2), Vector3(1.7,4.5,12), Vector3(33.5,4.5,10), Vector3(18,4.5,2.6), Vector3(33.9,0,20.6)]
+const POSITIONS := [Vector3(34,0,10.2), Vector3(1.7,4.5,12), Vector3(34.3,4.5,10), Vector3(18,4.5,1.8), Vector3(33.9,0,20.6)]
 var failures := 0
 var checks := 0
 var level: Node3D
@@ -187,12 +187,12 @@ func _run() -> void:
 	level.get_node("GameFlow").resume()
 	var storage := level.get_node("NavigationRegion3D/Doors/Storage")
 	service_player.position = Vector3(25.5,0,21)
-	storage.submit_code("1403",service_player)
+	storage.submit_code(level.get_node("NavigationRegion3D/Doors/Storage").current_code(),service_player)
 	await aim_at(level.get_node("Interactables/Rope"),Vector3(33.9,0,20.6))
 	await press_e()
 	check(manager.is_completed(&"take_rope") and not manager.is_completed(&"take_key")
 		and not level.get_node("NavigationRegion3D/Doors/GalleryB").is_open
-		and not level.get_node("NavigationRegion3D/Doors/RestorationShortcut").is_open,
+		and not level.get_node("NavigationRegion3D/Doors").has_node("RestorationShortcut"),
 		"Camera-ray E collects rope early while K is missing and both doors remain closed")
 	await fresh()
 	manager = level.get_node("ObjectiveManager") as ObjectiveManager
@@ -243,7 +243,7 @@ func _run() -> void:
 	check(interactor.find_target() == null, "Room wall blocks interaction with pickup behind wall")
 	target.position = original
 	var gallery_door: Interactable = level.get_node("NavigationRegion3D/Doors/GalleryB")
-	var shortcut: Interactable = level.get_node("NavigationRegion3D/Doors/RestorationShortcut")
+	var closed_wall := level.get_node("NavigationRegion3D/Geometry/Floor2Rooms/ShortcutPartition_0")
 	await aim_at(gallery_door, Vector3(25.5,4.5,10))
 	player.camera.look_at(gallery_door.position + Vector3(0,1.4,0))
 	await frames(3)
@@ -253,12 +253,12 @@ func _run() -> void:
 	check(level.get_node("ObjectiveHud").get_layout_controls().message.text.contains("chìa K"), "Locked door explains missing key in HUD")
 	check(not level.get_node("Interactables/Painting_T2").interact(player), "T2 cannot be collected before K")
 	player.position = Vector3(32,4.5,19.5)
-	check(not shortcut.interact(player) and not shortcut.is_open, "Restoration side cannot unlatch shortcut")
+	check(closed_wall.collision_layer == 1, "Former shortcut is now solid world collision")
 	for i in PICKUPS.size():
 		var pickup := level.get_node("Interactables/" + PICKUPS[i]) as Interactable
 		if PICKUPS[i] == "Rope":
 			player.position = Vector3(25.5,0,21)
-			level.get_node("NavigationRegion3D/Doors/Storage").submit_code("1403",player)
+			level.get_node("NavigationRegion3D/Doors/Storage").submit_code(level.get_node("NavigationRegion3D/Doors/Storage").current_code(),player)
 		await aim_at(pickup, POSITIONS[i])
 		check(interactor.find_target() == pickup, "Camera ray finds " + PICKUPS[i])
 		await press_e()
@@ -278,16 +278,7 @@ func _run() -> void:
 			await press_e()
 			check(gallery_door.is_open and gallery_door.get_node("Panel").collision_layer == 0 and gallery_door.get_node("Passage").enabled,
 				"E with K removes solid door collision and enables navigation passage")
-	await aim_at(shortcut, Vector3(32,4.5,16.5))
-	player.camera.look_at(shortcut.position + Vector3(0,1.4,0))
-	await frames(3)
-	check(interactor.find_target() == shortcut, "Camera reaches latch from inside B")
-	await press_e()
-	check(shortcut.is_open and shortcut.get_node("Panel").collision_layer == 0 and shortcut.get_node("Passage").enabled,
-		"B-side E unlocks shortcut and navigation in both directions")
-	check(shortcut.interact(player) and not shortcut.is_open,"Unlocked shortcut can be closed again")
-	player.position = Vector3(32,4.5,19.5)
-	check(shortcut.interact(player) and shortcut.is_open,"Unlocked shortcut reopens from restoration side after closing")
+	check(not level.get_node("NavigationRegion3D/Doors").has_node("RestorationShortcut"),"B-to-restoration doorway removed" )
 	check(gallery_door.interact(player) and not gallery_door.is_open
 		and gallery_door.interact(player) and gallery_door.is_open,"Gallery door can close and reopen after key unlock")
 	check(exit._blocked_reason().is_empty() and not manager.is_completed(&"take_t2")
@@ -331,14 +322,14 @@ func _run() -> void:
 	# Real perception and capture preserve the result until explicit restart.
 	await fresh(false)
 	level.get_node("Player").position = Vector3(25.5,0,21)
-	level.get_node("NavigationRegion3D/Doors/Storage").submit_code("1403",level.get_node("Player"))
+	level.get_node("NavigationRegion3D/Doors/Storage").submit_code(level.get_node("NavigationRegion3D/Doors/Storage").current_code(),level.get_node("Player"))
 	level.get_node("Interactables/Rope").interact(level.get_node("Player"))
 	player = level.get_node("Player") as FirstPersonPlayer
 	# Also exercise full door/key restoration after an actual catch, not just WIN.
 	level.get_node("Interactables/Key").interact(player)
 	level.get_node("NavigationRegion3D/Doors/GalleryB").interact(player)
 	player.position = Vector3(32,4.5,16.5)
-	level.get_node("NavigationRegion3D/Doors/RestorationShortcut").interact(player)
+
 	player.set_physics_process(false)
 	player.get_node("Noise").set_physics_process(false)
 	player.position = Vector3(7, 0, 13)

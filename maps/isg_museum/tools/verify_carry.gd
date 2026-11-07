@@ -122,7 +122,7 @@ func take_key() -> void:
 
 
 func take_t2() -> void:
-	await aim_at(painting, Vector3(33.5,4.5,10))
+	await aim_at(painting, Vector3(34.3,4.5,10))
 	check(player.get_node("Interactor").find_target() == painting, "Camera ray selects the large T2 on its wall")
 	await press_e()
 	check(painting.state == CARRIED and player.carried_painting == painting, "E takes T2 into the player's hands")
@@ -138,7 +138,7 @@ func clean_start() -> bool:
 		and player.get_target_velocity(Vector2(0,-1),true).length() > 5.0 \
 		and player.position.distance_to(Vector3(18,0.1,35)) < 0.12 \
 		and not level.get_node("NavigationRegion3D/Doors/Entrance").is_open \
-		and not level.get_node("NavigationRegion3D/Doors/RestorationShortcut").is_open
+		and not level.get_node("NavigationRegion3D/Doors").has_node("RestorationShortcut")
 
 
 func restart_real_scene() -> void:
@@ -203,7 +203,7 @@ func walk_to(destination: Vector3, max_frames := 1600) -> bool:
 func _run() -> void:
 	await fresh()
 	check(clean_start(), "T2 begins on the wall with ordinary sprint available and transport locked by K")
-	await aim_at(painting, Vector3(33.5,4.5,10))
+	await aim_at(painting, Vector3(34.3,4.5,10))
 	await press_e()
 	check(painting.state == WALL and not player.is_carrying() and not objectives.is_completed(&"take_t2"),
 		"Without K, E cannot take or complete transport of T2")
@@ -213,7 +213,7 @@ func _run() -> void:
 	await take_key()
 	player.velocity = Vector3(5.5,0,0)
 	# Set up a real interaction; preserve a sprint velocity until the E press.
-	await aim_at(painting, Vector3(33.5,4.5,10))
+	await aim_at(painting, Vector3(34.3,4.5,10))
 	player.velocity = Vector3(5.5,0,0)
 	await press_e()
 	check(painting.state == CARRIED and player.is_carrying(), "T2 becomes a carried world item after K")
@@ -291,15 +291,7 @@ func _run() -> void:
 	await aim_at(painting,Vector3(32,4.5,16))
 	await press_e()
 	check(painting.state == CARRIED, "A painting dropped while crouched is reachable again while standing")
-	var shortcut = level.get_node("NavigationRegion3D/Doors/RestorationShortcut")
-	await aim_at(shortcut,Vector3(32,4.5,16.5))
-	player.camera.look_at(shortcut.global_position+Vector3(0,1.4,0))
-	await frames(3)
-	check(player.get_node("Interactor").find_target() == shortcut, "Held T2 leaves the shortcut latch reachable by the camera E ray")
-	await press_e()
-	check(shortcut.is_open and shortcut.get_node("Panel").collision_layer == 0 \
-		and shortcut.get_node("Passage").enabled and player.is_carrying(),
-		"Player can open the B-to-store shortcut while carrying T2")
+	check(not level.get_node("NavigationRegion3D/Doors").has_node("RestorationShortcut"), "Former shortcut has no door interaction")
 	await pose(Vector3(32,4.5,16.5),PI)
 	player.set_physics_process(true)
 	Input.action_press(&"move_forward")
@@ -307,8 +299,8 @@ func _run() -> void:
 	Input.action_release(&"move_forward")
 	player.set_physics_process(false)
 	player.velocity = Vector3.ZERO
-	check(player.position.z > 19.5 and absf(player.position.y-4.5) < 0.15 and player.is_carrying(),
-		"Carrying player physically walks through the opened shortcut into restoration room")
+	check(player.position.z < 17.7 and absf(player.position.y-4.5) < 0.15 and player.is_carrying(),
+		"Carrying player is stopped by the new wall between B and restoration")
 	check(not depot.interact(player) and not objectives.is_completed(&"take_t2"), "Depot cannot accept T2 remotely from another room")
 	await aim_at(depot,Vector3(32,4.5,27.5))
 	check(player.get_node("Interactor").find_target() == depot, "Depot remains selectable with T2 visible in front of the camera")
@@ -331,7 +323,7 @@ func _run() -> void:
 	await take_t2()
 	var carry_pose: Vector3 = player.position
 	player.position = Vector3(25.5,0,21)
-	level.get_node("NavigationRegion3D/Doors/Storage").submit_code("1403",player)
+	level.get_node("NavigationRegion3D/Doors/Storage").submit_code(level.get_node("NavigationRegion3D/Doors/Storage").current_code(),player)
 	player.position = carry_pose
 	for name in ["Painting_T1","Painting_T3","Rope"]:
 		level.get_node("Interactables/"+name).interact(player)
@@ -360,7 +352,7 @@ func _run() -> void:
 	player.camera.look_at(gallery_door.global_position+Vector3(0,1.4,0))
 	await frames(3)
 	await press_e()
-	check(gallery_door.is_open and not level.get_node("NavigationRegion3D/Doors/RestorationShortcut").is_open \
+	check(gallery_door.is_open and not level.get_node("NavigationRegion3D/Doors").has_node("RestorationShortcut") \
 		and player.is_carrying(), "Gallery door can open with K while carrying, leaving the shortcut latched")
 	var long_route := [Vector3(25.5,4.5,10),Vector3(25.5,4.5,22.5),Vector3(18,4.5,22.5),
 		Vector3(18,4.5,27),Vector3(25.5,4.5,27),Vector3(28,4.5,27),Vector3(32,4.5,27.5)]
@@ -375,7 +367,7 @@ func _run() -> void:
 		var reached: bool = await walk_to(destination)
 		followed_route = reached and followed_route
 	check(followed_route and player.is_carrying() \
-		and not level.get_node("NavigationRegion3D/Doors/RestorationShortcut").is_open,
+		and not level.get_node("NavigationRegion3D/Doors").has_node("RestorationShortcut"),
 		"Real carry movement follows the longer ring hall and free southern store entrance without opening the shortcut")
 	player.camera.look_at(depot.global_position+Vector3(0,0.65,0))
 	await frames(3)

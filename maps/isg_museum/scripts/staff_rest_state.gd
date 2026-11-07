@@ -1,7 +1,10 @@
 extends PatrolState
 
+var _actor: Guard
+
 ## The shared PATROL slot means resting/returning for G3, not a walking loop.
 func enter(actor, previous: int, _position: Vector3) -> void:
+	_actor = actor
 	if previous == GuardStateMachine.NONE:
 		actor.go_to_sleep()
 	else:
@@ -18,4 +21,6 @@ func exit(actor, _next: int) -> void:
 
 
 func get_debug_text() -> String:
-	return "staff rest / returning to chair"
+	if not is_instance_valid(_actor):
+		return "staff rest"
+	return "staff rest / " + String(_actor.phase)

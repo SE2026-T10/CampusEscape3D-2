@@ -29,7 +29,7 @@ chai/lon F gây tiếng. Khi kiểm tra, G3 đi vòng H quanh bàn rồi về gh
 Đã thêm [giấy ghi chú trên bàn và lịch thời gian thực](docs/step-15-paper-calendar.md):
 E đọc giấy giữa màn hình; lịch C cập nhật ngày giờ máy tính.
 Đã triển khai [kho phụ khóa mã ở tầng 1](docs/step-16-aux-storage.md):
-mã 1403 từ C/G, E lấy dây trên giá, tủ che tầm nhìn và cảnh báo khi sai ba lần.
+mã ngày hiện tại DDMM từ C/G, E lấy dây trên giá và cảnh báo khi sai ba lần.
 Dây không còn ở tầng 2; tập kết T2 và cửa sổ thoát vẫn ở kho phục chế tầng 2.
 Đã triển khai [vòng chơi hợp đồng và cơ chế từng phòng](docs/step-17-contract-gameplay.md):
 N0 giao nhiệm vụ S1/H1/T1, dịch vụ cấp vé tầng 2 và bản đồ, tủ kính điêu khắc,
@@ -39,7 +39,11 @@ Khi bị bắt, màn tổng kết chờ người chơi chọn chơi lại.
 Đã cập nhật theo [phản hồi chơi thử — bước 18](docs/step-18-contract-revision.md):
 bốn hợp đồng ngẫu nhiên độc lập (25% mỗi mẫu), giấy ngắn gọn, bảng tên trên bàn,
 hỏi đáp đổi theo hợp đồng, vé đọc sau khi trả lời đúng (**V** xem lại), N0 bên phải cửa chính.
-Bản dựng đã qua **575 kiểm tra** riêng của map.
+Đã áp dụng [góp ý về các phòng — bước 19](docs/step-19-room-feedback.md).
+Lịch tháng và mã kho cùng cập nhật theo ngày máy tính, G3 có tư thế ngồi mới,
+tủ kho sát tường nam, bỏ sổ trực và các đồ được chỉ định, bịt lối B sang kho,
+bỏ ghế cạnh N0 và đưa tranh tầng 2 sát tường.
+Bản dựng đã qua **602 kiểm tra** riêng của map.
 
 Hình học và cách chỉnh sàn/dốc/cửa: [Bước 6 — mặt bằng hai tầng](docs/step-06-blockout.md).
 
