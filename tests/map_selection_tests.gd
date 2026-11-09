@@ -22,6 +22,7 @@ const NAV_PROBE := {
 	&"expanded_library": Vector3(0, 0.05, 32),
 	&"museum": Vector3(-12, 0, 0),
 	&"intelligence_k17": Vector3(-36, 0.05, 51),
+	&"grocery_morning": Vector3(0, 0, 10),
 }
 
 var failures: Array[String] = []

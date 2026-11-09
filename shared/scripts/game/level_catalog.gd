@@ -10,6 +10,7 @@ const TUTORIAL := &"library_tutorial"
 const EXPANDED := &"expanded_library"
 const MUSEUM := &"museum"
 const INTELLIGENCE := &"intelligence_k17"
+const GROCERY := &"grocery_morning"
 
 const LEVELS := [
 	{"id": TUTORIAL, "title": "Library Tutorial", "scene": "res://maps/tutorial/scenes/library_graybox.tscn",
@@ -23,6 +24,8 @@ const LEVELS := [
 		"test_scene": "res://maps/intelligence/scenes/intelligence_k17_test.tscn",
 		"test_title": "K17 — Test map không lính gác",
 		"test_description": "Tự do kiểm tra đường đi và tương tác. Cảm biến, checkpoint và đồng hồ vẫn hoạt động."},
+	{"id": GROCERY, "title": "Morning Grocery", "scene": "res://maps/grocery/scenes/grocery_morning.tscn",
+		"description": "A busy grocery store in the morning. A random item must be stolen: if a customer sees you with it, the staff come for you."},
 ]
 
 
