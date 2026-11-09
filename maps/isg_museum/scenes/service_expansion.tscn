@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/service_expansion.gd" id="1_jtddc"]
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/service_npc.gd" id="2_1ssyi"]
+[ext_resource type="Material" path="res://maps/isg_museum/assets/materials/presets/dark_wood.tres" id="2_2gcoi"]
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/service_document.gd" id="3_2gcoi"]
+[ext_resource type="Material" path="res://maps/isg_museum/assets/materials/presets/painted_steel.tres" id="3_rxbbp"]
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/service_map.gd" id="4_rxbbp"]
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/service_ticket_door.gd" id="5_jpnh5"]
 
@@ -164,6 +166,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8, 0.5, 27)
 collision_mask = 0
 
 [node name="Visual" type="MeshInstance3D" parent="ReceptionCounter" unique_id=1559444042]
+material_override = ExtResource("2_2gcoi")
 mesh = SubResource("BoxMesh_xwffc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ReceptionCounter" unique_id=1330790493]
@@ -171,6 +174,7 @@ shape = SubResource("BoxShape3D_pihgf")
 
 [node name="CounterTop" type="MeshInstance3D" parent="." unique_id=943451735]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8, 1.04, 27)
+material_override = ExtResource("2_2gcoi")
 mesh = SubResource("BoxMesh_oiefn")
 
 [node name="ReceptionChair" type="StaticBody3D" parent="." unique_id=1521898497]
@@ -178,6 +182,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.05, 0.25, 27)
 collision_mask = 0
 
 [node name="Visual" type="MeshInstance3D" parent="ReceptionChair" unique_id=1764935907]
+material_override = ExtResource("3_rxbbp")
 mesh = SubResource("BoxMesh_wln2g")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ReceptionChair" unique_id=450778504]
@@ -185,6 +190,7 @@ shape = SubResource("BoxShape3D_iyh3x")
 
 [node name="ChairBack" type="MeshInstance3D" parent="." unique_id=911679167]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.35, 0.7, 27)
+material_override = ExtResource("2_2gcoi")
 mesh = SubResource("BoxMesh_aghsp")
 
 [node name="Receptionist" type="Area3D" parent="." unique_id=1340256351]
@@ -277,6 +283,7 @@ shape = SubResource("BoxShape3D_5e0lp")
 
 [node name="Base" type="MeshInstance3D" parent="ReceptionNotice" unique_id=908128842]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+material_override = ExtResource("2_2gcoi")
 mesh = SubResource("BoxMesh_l7sxi")
 
 [node name="Plate" type="MeshInstance3D" parent="ReceptionNotice" unique_id=177228295]
@@ -299,6 +306,7 @@ prompt = "Xem bản đồ hai tầng"
 shape = SubResource("BoxShape3D_iap2q")
 
 [node name="Frame" type="MeshInstance3D" parent="WallMap" unique_id=1174978685]
+material_override = ExtResource("2_2gcoi")
 mesh = SubResource("BoxMesh_pjbek")
 
 [node name="Paper" type="MeshInstance3D" parent="WallMap" unique_id=316097835]
@@ -343,6 +351,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 collision_mask = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="TicketGate_A/Panel" unique_id=1806006467]
+material_override = ExtResource("3_rxbbp")
 mesh = SubResource("BoxMesh_y0ia6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_A/Panel" unique_id=834847039]
@@ -378,6 +387,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 collision_mask = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="TicketGate_B/Panel" unique_id=354137396]
+material_override = ExtResource("3_rxbbp")
 mesh = SubResource("BoxMesh_kdoxe")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_B/Panel" unique_id=1733971713]

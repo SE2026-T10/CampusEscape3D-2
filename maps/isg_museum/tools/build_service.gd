@@ -1,6 +1,7 @@
 extends SceneTree
 
 const OUTPUT := "res://maps/isg_museum/scenes/service_expansion.tscn"
+const Palette := preload("res://maps/isg_museum/tools/material_palette.gd")
 var scene := Node3D.new()
 var metal := material(Color(0.24,0.31,0.29))
 var wood := material(Color(0.34,0.21,0.12))
@@ -145,6 +146,7 @@ func _build() -> void:
 	sign_label(map,"Caption","M · BẢN ĐỒ HAI TẦNG\nE: XEM / LƯU",Vector3(0,.5,.16),0,.0016)
 	ticket_door("TicketGate_A",Vector3(9,4.5,27),1.6)
 	ticket_door("TicketGate_B",Vector3(27,4.5,3),2.0)
+	Palette.apply_service(scene)
 	var packed := PackedScene.new()
 	var error := packed.pack(scene)
 	if error == OK:

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "godot-gdscript-patterns": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "skillPath": "plugins/game-development/skills/godot-gdscript-patterns/SKILL.md",
+      "computedHash": "2c1033a49da376a6ebac9d45f9a25076660023b2e4448822b00188acf722ba9c"
+    }
+  }
+}

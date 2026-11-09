@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/museum_door.gd" id="1_door"]
+[ext_resource type="Material" path="res://maps/isg_museum/assets/materials/presets/dark_wood.tres" id="2_fom2b"]
 
 [sub_resource type="StandardMaterial3D" id="Material_door"]
 albedo_color = Color(0.3, 0.21, 0.13, 1)
@@ -15,24 +16,25 @@ size = Vector3(1.6, 2.8, 0.26)
 [sub_resource type="BoxShape3D" id="Shape_interaction"]
 size = Vector3(1.6, 2.8, 0.5)
 
-[node name="MuseumDoor" type="Area3D"]
+[node name="MuseumDoor" type="Area3D" unique_id=801910397]
 script = ExtResource("1_door")
 
-[node name="Panel" type="StaticBody3D" parent="."]
-position = Vector3(0, 1.4, 0)
+[node name="Panel" type="StaticBody3D" parent="." unique_id=942667532]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Panel"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Panel" unique_id=287509443]
+material_override = ExtResource("2_fom2b")
 mesh = SubResource("Mesh_panel")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Panel"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Panel" unique_id=1398969751]
 shape = SubResource("Shape_panel")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-position = Vector3(0, 1.4, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1077126807]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 shape = SubResource("Shape_interaction")
 
-[node name="Passage" type="NavigationLink3D" parent="."]
+[node name="Passage" type="NavigationLink3D" parent="." unique_id=923035317]
 enabled = false
 start_position = Vector3(0, 0.45, -1.1)
 end_position = Vector3(0, 0.45, 1.1)

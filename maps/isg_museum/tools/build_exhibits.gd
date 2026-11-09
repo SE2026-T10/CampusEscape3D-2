@@ -2,6 +2,7 @@ extends SceneTree
 
 ## Offline authoring: preserves the existing museum geometry and guard routes.
 const OUTPUT := "res://maps/isg_museum/scenes/exhibits_expansion.tscn"
+const Palette := preload("res://maps/isg_museum/tools/material_palette.gd")
 var expansion := Node3D.new()
 var bronze := material(Color(0.59,0.38,0.14),0.55)
 var silver := material(Color(0.67,0.73,0.78),0.8)
@@ -210,6 +211,7 @@ func build() -> void:
 	scroll()
 	painting("C2",&"take_c2","C2 · Tĩnh vật hoa",Vector3(10,6,0.19),0,Color(0.43,0.2,0.3))
 	gallery_alarm()
+	Palette.apply_exhibits(expansion)
 	var packed := PackedScene.new()
 	var result := packed.pack(expansion)
 	if result == OK:

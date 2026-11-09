@@ -3,6 +3,7 @@ extends SceneTree
 ## Offline blockout builder. Replaces museum_geometry.tscn, never runs in gameplay.
 ## Edit this source before rebuilding; editor changes in the generated scene are overwritten.
 const OUTPUT := "res://maps/isg_museum/scenes/museum_geometry.tscn"
+const Palette := preload("res://maps/isg_museum/tools/material_palette.gd")
 var geometry := Node3D.new()
 var stone := material(Color(0.71, 0.67, 0.56))
 var floor_mat := material(Color(0.38, 0.32, 0.25))
@@ -527,6 +528,7 @@ func _build() -> void:
 
 
 func save_geometry() -> void:
+	Palette.apply_geometry(geometry)
 	var packed := PackedScene.new()
 	var error := packed.pack(geometry)
 	if error == OK:
