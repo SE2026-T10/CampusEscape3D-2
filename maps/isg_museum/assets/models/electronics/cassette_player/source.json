@@ -1,0 +1,79 @@
+{
+    "id":  "cassette_player",
+    "title":  "Cassette Player",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/cassette_player",
+    "metadata_api":  "https://api.polyhaven.com/info/cassette_player",
+    "download_api":  "https://api.polyhaven.com/files/cassette_player",
+    "authors":  [
+                    "Oday Abuzaeed"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "cassette_player_2k.gltf",
+    "original_triangles":  4830,
+    "mesh_count":  2,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "cassette_player_2k.gltf",
+                      "bytes":  7549,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/cassette_player/cassette_player_2k.gltf",
+                      "source_md5":  "71f76175a10afb210b4c84d4b02107bf",
+                      "sha256":  "cdcf14188143c2b8f95447dcf020b32f5f1821218e3e7d4038e344ca6a9d71f9"
+                  },
+                  {
+                      "file":  "textures/cassette_player_body_arm_2k.jpg",
+                      "bytes":  594696,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/cassette_player/cassette_player_body_arm_2k.jpg",
+                      "source_md5":  "b0404905fa8168694e0aec89979854a0",
+                      "sha256":  "fdb8bfff859c022f0f7ececb0a676a2101c0dfdda459d70ffce199a6288cb826"
+                  },
+                  {
+                      "file":  "textures/cassette_player_tape_arm_2k.jpg",
+                      "bytes":  308284,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/cassette_player/cassette_player_tape_arm_2k.jpg",
+                      "source_md5":  "1d992133f4c096382fa0adb2370ce355",
+                      "sha256":  "af86af4ccc3bed8586d2cfbc0f2ec9dda6c248bb10e2d9db59e56ca060c9c97d"
+                  },
+                  {
+                      "file":  "textures/cassette_player_body_nor_gl_2k.jpg",
+                      "bytes":  399091,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/cassette_player/cassette_player_body_nor_gl_2k.jpg",
+                      "source_md5":  "df7cadeb39a24b0a4cb66e21579d5cd7",
+                      "sha256":  "f0800b44ba1db32d4ee38cbfd860d6f9568780ca8ee7f82c6c2ee0d546739705"
+                  },
+                  {
+                      "file":  "cassette_player.bin",
+                      "bytes":  147476,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/cassette_player/cassette_player.bin",
+                      "source_md5":  "5b2fa2037108b755477666b6c1f1b4d6",
+                      "sha256":  "5ebf8d2361d54fa9640b50c28f38a516135a39e0030e513a8cd3fd3096b335f8"
+                  },
+                  {
+                      "file":  "textures/cassette_player_tape_orangeblue_diff_2k.jpg",
+                      "bytes":  436178,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/cassette_player/cassette_player_tape_orangeblue_diff_2k.jpg",
+                      "source_md5":  "5a9d6bf19f228585d648ddc40b11062d",
+                      "sha256":  "f2b84e0a056662975e0c5abb0ef081a0f9a3391da91f6c2ad1d62b62e50d8388"
+                  },
+                  {
+                      "file":  "textures/cassette_player_body_diff_2k.jpg",
+                      "bytes":  371331,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/cassette_player/cassette_player_body_diff_2k.jpg",
+                      "source_md5":  "620e99df3a2e5497f415230af39b6ffb",
+                      "sha256":  "fcbc01c9e943cf213b07716dfa4d02ac8a1f5184ed47a6ec8a55930305f70767"
+                  },
+                  {
+                      "file":  "textures/cassette_player_tape_nor_gl_2k.jpg",
+                      "bytes":  331736,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/cassette_player/cassette_player_tape_nor_gl_2k.jpg",
+                      "source_md5":  "ad784197ddd66e6391a6d803fd8bc8db",
+                      "sha256":  "0fa2b242b65d994cdd94c11692843f2902d35139540f01b5e622c972b8975b11"
+                  }
+              ]
+}

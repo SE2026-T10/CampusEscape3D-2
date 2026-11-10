@@ -1,0 +1,65 @@
+{
+    "id":  "pocket_watch",
+    "title":  "Pocket Watch",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/pocket_watch",
+    "metadata_api":  "https://api.polyhaven.com/info/pocket_watch",
+    "download_api":  "https://api.polyhaven.com/files/pocket_watch",
+    "authors":  [
+                    "PierreB3D"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "pocket_watch_2k.gltf",
+    "original_triangles":  15615,
+    "mesh_count":  6,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "pocket_watch_2k.gltf",
+                      "bytes":  12349,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/pocket_watch/pocket_watch_2k.gltf",
+                      "source_md5":  "d67b349af872e7230eec10806f421b9b",
+                      "sha256":  "816ee6828b35feb857ef96dd9587bbb9c1e5569706a0e31c9e986d157a8da7e2"
+                  },
+                  {
+                      "file":  "textures/pocket_watch_nor_gl_2k.jpg",
+                      "bytes":  1087758,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/pocket_watch/pocket_watch_nor_gl_2k.jpg",
+                      "source_md5":  "42dddb6fafa6af5c1106bd6e9d78809f",
+                      "sha256":  "f952b9457a3c02f6605f4110b9eec28a148b7050e39ed96ca584a43ef4886247"
+                  },
+                  {
+                      "file":  "textures/pocket_watch_diff_2k.jpg",
+                      "bytes":  2159613,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/pocket_watch/pocket_watch_diff_2k.jpg",
+                      "source_md5":  "a9e138e31c3d5c2c992a7a6d5ee74c76",
+                      "sha256":  "e4e01c04c93f084b60f1b0059b47850d45489dc317976d6fee4086976a4e69cc"
+                  },
+                  {
+                      "file":  "textures/pocket_watch_arm_2k.jpg",
+                      "bytes":  1798078,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/pocket_watch/pocket_watch_arm_2k.jpg",
+                      "source_md5":  "86d3cfbae9997324d2441854a54976ec",
+                      "sha256":  "639c6f7d44e19b3eb2cc82730cb7e8c4edc68e1a451079bdf19cd94eaa6e1e96"
+                  },
+                  {
+                      "file":  "textures/pocket_watch_glass_rough_2k.jpg",
+                      "bytes":  1023514,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/pocket_watch/pocket_watch_glass_rough_2k.jpg",
+                      "source_md5":  "2da9ef4451682b9a3176c1a2c05ba222",
+                      "sha256":  "ac490bf8b5ad7603730ccd2c9dab3acabc1eff7cd1c57987a5903576e61aa4d9"
+                  },
+                  {
+                      "file":  "pocket_watch.bin",
+                      "bytes":  419168,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/pocket_watch/pocket_watch.bin",
+                      "source_md5":  "251eceb2b83339a68ce2c7203e03a775",
+                      "sha256":  "95a268728180a2616ecc65b9b63f6b89404b68a0fcac8071ba969d6b77c2ff0e"
+                  }
+              ]
+}

@@ -1,0 +1,38 @@
+{
+    "id":  "gothic_architectural_structures",
+    "title":  "Gothic Architectural Structures",
+    "kind":  "model",
+    "folder":  "models/architecture/gothic_architectural_structures",
+    "provider":  "Sketchfab",
+    "provider_model_id":  "affc5b590531447788aafc23a011154c",
+    "source_url":  "https://sketchfab.com/3d-models/gothic-architectural-structures-affc5b590531447788aafc23a011154c",
+    "metadata_url":  "https://api.sketchfab.com/v3/models/affc5b590531447788aafc23a011154c",
+    "download_api_url":  "https://api.sketchfab.com/v3/models/affc5b590531447788aafc23a011154c/download",
+    "author":  "Samuel F. Angrick-Johanns (Oneironauticus)",
+    "author_url":  "https://sketchfab.com/oneironauticus",
+    "license":  "CC-BY-4.0",
+    "license_url":  "https://creativecommons.org/licenses/by/4.0/",
+    "attribution_required":  true,
+    "attribution":  "\"Gothic Architectural Structures\" by Samuel F. Angrick-Johanns (Oneironauticus), https://sketchfab.com/3d-models/gothic-architectural-structures-affc5b590531447788aafc23a011154c, licensed under CC BY 4.0.",
+    "checked_on":  "2026-11-10",
+    "status":  "pending_authentication",
+    "downloaded":  false,
+    "downloadable_on_provider":  true,
+    "triangles":  7890,
+    "vertices":  4023,
+    "files":  [
+
+              ],
+    "blocker":  "Official Sketchfab download API returned HTTP 401: Authentication credentials were not provided. Public metadata is accessible, but model files require an authenticated download.",
+    "download_attempt":  {
+                             "method":  "official_sketchfab_download_api",
+                             "metadata_http_status":  200,
+                             "download_http_status":  401
+                         },
+    "manual_download_instructions":  [
+                                         "Open source_url in the browser where you are logged into Sketchfab.",
+                                         "Choose Download 3D Model and prefer GLB or glTF with textures.",
+                                         "Save the original archive under .local/downloads/museum_models/sketchfab/.",
+                                         "After receiving the files, unpack safely and validate before setting downloaded=true."
+                                     ]
+}

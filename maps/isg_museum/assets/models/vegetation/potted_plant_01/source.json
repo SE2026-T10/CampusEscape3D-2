@@ -1,0 +1,79 @@
+{
+    "id":  "potted_plant_01",
+    "title":  "Potted Plant 01",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/potted_plant_01",
+    "metadata_api":  "https://api.polyhaven.com/info/potted_plant_01",
+    "download_api":  "https://api.polyhaven.com/files/potted_plant_01",
+    "authors":  [
+                    "Rico Cilliers"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "potted_plant_01_2k.gltf",
+    "original_triangles":  96030,
+    "mesh_count":  4,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "potted_plant_01_2k.gltf",
+                      "bytes":  7969,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/potted_plant_01/potted_plant_01_2k.gltf",
+                      "source_md5":  "a3afe93c4e0ba15a6b825a5d23ba46a8",
+                      "sha256":  "41357028b8a7861c596cadc51c8793448c18c42e8d84d834ebe7993b5b30c924"
+                  },
+                  {
+                      "file":  "textures/potted_plant_01_pot_diff_2k.jpg",
+                      "bytes":  745276,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/potted_plant_01/potted_plant_01_pot_diff_2k.jpg",
+                      "source_md5":  "f07bd660652fc0d579bb8375b05c91c3",
+                      "sha256":  "5c85fa6020e1b5a84ea1e6da84261e4fb6f0a94bf48cd6d56fa603de234336fa"
+                  },
+                  {
+                      "file":  "textures/potted_plant_01_leaves_rough_2k.jpg",
+                      "bytes":  348164,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/potted_plant_01/potted_plant_01_leaves_rough_2k.jpg",
+                      "source_md5":  "3059d00068cef46642d51ff26ef9f88d",
+                      "sha256":  "77c990375720dcdfd801592c9f0546bc5a2ec99a825879945225080ba291d694"
+                  },
+                  {
+                      "file":  "potted_plant_01.bin",
+                      "bytes":  5345188,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/potted_plant_01/potted_plant_01.bin",
+                      "source_md5":  "18377bd8d99b20a8d5fc5cf03cbf94b2",
+                      "sha256":  "a8dd1f7ce75f50dc25bbedc20809da02ee4193815c155b883a329925fa5548f7"
+                  },
+                  {
+                      "file":  "textures/potted_plant_01_leaves_diff_2k.jpg",
+                      "bytes":  400273,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/potted_plant_01/potted_plant_01_leaves_diff_2k.jpg",
+                      "source_md5":  "fe8618f20339a0f697b0f7eba42899b7",
+                      "sha256":  "6ff5a44117b77a0ad570a333aea71f04ee735ed9cab9668936f8775da1614c6b"
+                  },
+                  {
+                      "file":  "textures/potted_plant_01_pot_nor_gl_2k.jpg",
+                      "bytes":  827724,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/potted_plant_01/potted_plant_01_pot_nor_gl_2k.jpg",
+                      "source_md5":  "4ba29a8fc922311e005845702f692bb3",
+                      "sha256":  "22792283d310a057553e7428739be073720a492c2a288440ab690124462de1e3"
+                  },
+                  {
+                      "file":  "textures/potted_plant_01_leaves_nor_gl_2k.jpg",
+                      "bytes":  764246,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/potted_plant_01/potted_plant_01_leaves_nor_gl_2k.jpg",
+                      "source_md5":  "aa4609083ad82a635004cd3efad1c0b9",
+                      "sha256":  "8cde55f644e9092bcaa7976b005c6df1b452714f1e1c57ede8abb8b7c8bb4a1a"
+                  },
+                  {
+                      "file":  "textures/potted_plant_01_pot_rough_2k.jpg",
+                      "bytes":  610864,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/potted_plant_01/potted_plant_01_pot_rough_2k.jpg",
+                      "source_md5":  "1c9cab62500fd1c0f298182e23b76e93",
+                      "sha256":  "95154a5693f70802d36691cc284e378e173c56d416506c187725c08a96260503"
+                  }
+              ]
+}

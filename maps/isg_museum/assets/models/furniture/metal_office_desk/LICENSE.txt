@@ -1,0 +1,9 @@
+Metal Office Desk
+Authors: Ulan Cabanilla
+Source: https://polyhaven.com/a/metal_office_desk
+License: Creative Commons CC0 1.0 Universal
+https://creativecommons.org/publicdomain/zero/1.0/
+https://polyhaven.com/license
+
+Original model and its published 2K glTF dependencies downloaded without geometry edits.
+source.json records the original checksums, URLs and downloaded file hashes.

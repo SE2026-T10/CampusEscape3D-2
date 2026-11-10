@@ -1,0 +1,47 @@
+{
+ "slug": "rope-coil",
+ "triangles": 7928,
+ "texture_px": 2048,
+ "triangles_light": null,
+ "texture_px_light": null,
+ "files": {
+  "glb": {
+   "name": "rope-coil.glb",
+   "bytes": 1029560
+  },
+  "blend": {
+   "name": "rope-coil.blend",
+   "bytes": 1162253
+  },
+  "fbx": {
+   "name": "rope-coil.fbx",
+   "bytes": 1568028
+  },
+  "obj": {
+   "name": "rope-coil-obj.zip",
+   "bytes": 1115707
+  },
+  "usdz": {
+   "name": "rope-coil.usdz",
+   "bytes": 1412572
+  }
+ },
+ "extras": {
+  "license": "CC0-1.0",
+  "source": "grab3d.com",
+  "dimensions_m": "0.517 x 0.436 x 0.135",
+  "triangles": 7928,
+  "textures": "PBR 2048px: base color, roughness, metallic, normal (baked)",
+  "generator": "Created by grab3d",
+  "created": "2026-10-18",
+  "real_size": "coiled hemp rope, 35 cm diameter, rope 3.3 cm thick, approx. 3.6 m long",
+  "notes": "three loose turns, twisted three strand look (geometry ripple plus baked strand pattern), loose end runs down the side and lies on the floor with a coral whipping and frayed tip; single baked mesh, no moving parts",
+  "set": "Cozy Curiosities Kit"
+ },
+ "origin": {
+  "method": "procedural",
+  "detail": "Built procedurally with Blender scripts. The scripts were written with the help of an AI coding assistant. No generative AI model produced the geometry or textures directly.",
+  "ai_content": false,
+  "ai_assisted_code": true
+ }
+}

@@ -1,0 +1,118 @@
+{
+    "id":  "tree_small_02",
+    "title":  "Tree Small 02",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/tree_small_02",
+    "metadata_api":  "https://api.polyhaven.com/info/tree_small_02",
+    "download_api":  "https://api.polyhaven.com/files/tree_small_02",
+    "authors":  [
+                    "Rico Cilliers"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "tree_small_02_2k.gltf",
+    "original_triangles":  4652585,
+    "downloaded_triangles":  2062487,
+    "mesh_count":  1,
+    "animation_count":  0,
+    "supplied_lod_nodes":  [
+                               "tree_small_02_LOD0"
+                           ],
+    "needs_mesh_optimization":  true,
+    "notes":  [
+                  "Original published 2K glTF geometry and dependencies. Not placed in the gameplay scene. Materials and scale still require review during integration.",
+                  "Published glTF contains only node tree_small_02_LOD0, 2062487 triangles. API says original source includes LODs but no alternate LOD glTF is published in this file set. Treat this as high-poly source; optimize before gameplay integration."
+              ],
+    "files":  [
+                  {
+                      "file":  "tree_small_02_2k.gltf",
+                      "bytes":  9075,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/tree_small_02/tree_small_02_2k.gltf",
+                      "source_md5":  "7b77f2ca02edf5d7964ca3514e66c6b7",
+                      "sha256":  "a1a7c8a145c811392457c111bff8192146f655a75b5de163ec659cd32af17726"
+                  },
+                  {
+                      "file":  "textures/tree_small_02_branch_nor_gl_2k.jpg",
+                      "bytes":  1781975,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/tree_small_02/tree_small_02_branch_nor_gl_2k.jpg",
+                      "source_md5":  "12286d5b329b4fb4203fc155a01b0a04",
+                      "sha256":  "368505992d867bb50eccc00d77940a7a3eaf32f42de9f536d105407b0d6df3fd"
+                  },
+                  {
+                      "file":  "textures/tree_small_02_branch_diff_2k.jpg",
+                      "bytes":  1425692,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/tree_small_02/tree_small_02_branch_diff_2k.jpg",
+                      "source_md5":  "5ba327fc166360fcbb44f2eb04fbd8d8",
+                      "sha256":  "9032de9e063ee7e3763a6b10d19d89302f5776e85a966b6dd1c3a5634b2a80e1"
+                  },
+                  {
+                      "file":  "textures/tree_small_02_branch_arm_2k.jpg",
+                      "bytes":  1147503,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/tree_small_02/tree_small_02_branch_arm_2k.jpg",
+                      "source_md5":  "d6a0921ec6dbeaaf22a4b91d68fe16d1",
+                      "sha256":  "82da928cc4e8a45c559f6abe8053227c7ae6cc14eb8d026a30c203aedd087042"
+                  },
+                  {
+                      "file":  "textures/tree_small_02_leaves_nor_gl_2k.jpg",
+                      "bytes":  2395771,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/tree_small_02/tree_small_02_leaves_nor_gl_2k.jpg",
+                      "source_md5":  "ab509e55b5d763f68195e0eb257bb5e3",
+                      "sha256":  "40c956e345430562cdb4d0470c7d499aa160f1fa3dd7555d88be2dedf0d7ff2e"
+                  },
+                  {
+                      "file":  "textures/tree_small_02_leaves_diff_2k.jpg",
+                      "bytes":  961870,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/tree_small_02/tree_small_02_leaves_diff_2k.jpg",
+                      "source_md5":  "021ddc0cf1d94b99716a106cede576c7",
+                      "sha256":  "6c984a46861562f2a20381c54106aa5e07ce0d3fce785907f8d263157e7561af"
+                  },
+                  {
+                      "file":  "textures/tree_small_02_leaves_arm_2k.jpg",
+                      "bytes":  2191542,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/tree_small_02/tree_small_02_leaves_arm_2k.jpg",
+                      "source_md5":  "4b88d67947fe214f2afc65beb83bee02",
+                      "sha256":  "a126c0d92b60c44c0664e4d3651831970e259b0d5a1fb39ebb67081cbecaca96"
+                  },
+                  {
+                      "file":  "textures/tree_small_02_nor_gl_2k.jpg",
+                      "bytes":  4555311,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/tree_small_02/tree_small_02_nor_gl_2k.jpg",
+                      "source_md5":  "064c3e1d08f010c732e7af6395a66769",
+                      "sha256":  "cb7897fc0aea602964836116ecf631614ece2970f579647fe1070bccb428fe89"
+                  },
+                  {
+                      "file":  "textures/tree_small_02_diff_2k.jpg",
+                      "bytes":  3170612,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/tree_small_02/tree_small_02_diff_2k.jpg",
+                      "source_md5":  "ff4d82640b7e0daaec0b71bfc1cef76c",
+                      "sha256":  "4ab3210b6ec6bb1181145500bca71d1c1f81ead6baaa8600f5979c2cec50c6a4"
+                  },
+                  {
+                      "file":  "textures/tree_small_02_arm_2k.jpg",
+                      "bytes":  2586815,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/tree_small_02/tree_small_02_arm_2k.jpg",
+                      "source_md5":  "038ad0c1968be6802b20d084cdf30603",
+                      "sha256":  "e96b4e84e9786b982d01562e0d249f6e58db1b656dd511db7c034d6ed60b1c92"
+                  },
+                  {
+                      "file":  "tree_small_02.bin",
+                      "bytes":  95102324,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/tree_small_02/tree_small_02.bin",
+                      "source_md5":  "7a7019a87e6fe0d7475c0fa2e08d8962",
+                      "sha256":  "8da6c3c389ad8748286d1b7488cd827f75ebdad9d8f59ef7dfb0916df5edc634"
+                  }
+              ],
+    "validation":  {
+                       "godot_parse_passed":  true,
+                       "godot_version":  "4.7.2-stable (official)",
+                       "id":  "tree_small_02",
+                       "main_file":  "models/vegetation/tree_small_02/tree_small_02_2k.gltf",
+                       "mesh_instances":  1,
+                       "triangles":  2062487,
+                       "vertices":  1777278
+                   }
+}

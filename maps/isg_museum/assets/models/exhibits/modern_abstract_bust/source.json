@@ -1,0 +1,28 @@
+{
+    "id":  "modern_abstract_bust",
+    "source":  "https://www.innerscene.com/tools/library/3d-parts/modern-abstract-bust-91e3ae04",
+    "folder":  "models/exhibits/modern_abstract_bust",
+    "author":  "Innerscene, adapted from MakeHuman/MPFB CC0 body and skin assets",
+    "provider":  "Innerscene",
+    "bytes":  755264,
+    "format":  "GLB",
+    "file":  "modern-abstract-bust.glb",
+    "title":  "Modern abstract bust",
+    "validation":  {
+                       "mesh_count":  2,
+                       "external_dependencies":  0,
+                       "material_count":  2,
+                       "glb_version":  2
+                   },
+    "downloaded_on":  "2026-11-10",
+    "dimensions_m":  [
+                         0.38999,
+                         0.23696,
+                         0.63293
+                     ],
+    "download":  "https://www.innerscene.com/api/library/modern-abstract-bust-91e3ae04/download",
+    "license_url":  "https://creativecommons.org/publicdomain/zero/1.0/",
+    "status":  "downloaded",
+    "license":  "CC0-1.0",
+    "sha256":  "f9a057392de928a6252d58d3aa905cc7159a64a9d737ac0614523cbc6f258e16"
+}

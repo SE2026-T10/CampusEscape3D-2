@@ -1,0 +1,58 @@
+{
+    "id":  "wooden_display_shelves_01",
+    "title":  "Wooden Display Shelves 01",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/wooden_display_shelves_01",
+    "metadata_api":  "https://api.polyhaven.com/info/wooden_display_shelves_01",
+    "download_api":  "https://api.polyhaven.com/files/wooden_display_shelves_01",
+    "authors":  [
+                    "James Ray Cock"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "wooden_display_shelves_01_2k.gltf",
+    "original_triangles":  3174,
+    "mesh_count":  4,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "wooden_display_shelves_01_2k.gltf",
+                      "bytes":  6795,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/wooden_display_shelves_01/wooden_display_shelves_01_2k.gltf",
+                      "source_md5":  "cd57daf2a88b6e3f077c995ba69a2a95",
+                      "sha256":  "b3a7633c2c341ee459d7235549671696b5466513ee1d26bfcc6fc0b05cb97b4d"
+                  },
+                  {
+                      "file":  "textures/wooden_display_shelves_01_diff_2k.jpg",
+                      "bytes":  474742,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/wooden_display_shelves_01/wooden_display_shelves_01_diff_2k.jpg",
+                      "source_md5":  "5cc9c95761700c0118572247d8e530cf",
+                      "sha256":  "532b4fc7e9147cc35287cbc4796e789c3973f916b53019ff0fa10c068f96e056"
+                  },
+                  {
+                      "file":  "wooden_display_shelves_01.bin",
+                      "bytes":  105988,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/wooden_display_shelves_01/wooden_display_shelves_01.bin",
+                      "source_md5":  "d26e27c0c3a7c6b247b220a49379298f",
+                      "sha256":  "e6c000a780626e618c1f1c0c1ec2ec29e1452e7824055ba53b40963d857edfbe"
+                  },
+                  {
+                      "file":  "textures/wooden_display_shelves_01_arm_2k.jpg",
+                      "bytes":  569358,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/wooden_display_shelves_01/wooden_display_shelves_01_arm_2k.jpg",
+                      "source_md5":  "8a972b9d1aaea1a7cf45246f6098a27d",
+                      "sha256":  "f2240882e5c67fac0a79843628633857375852f171c13bc02603c93686b6933f"
+                  },
+                  {
+                      "file":  "textures/wooden_display_shelves_01_nor_gl_2k.jpg",
+                      "bytes":  253878,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/wooden_display_shelves_01/wooden_display_shelves_01_nor_gl_2k.jpg",
+                      "source_md5":  "042d7da30a8750f9b24d4588fccd660e",
+                      "sha256":  "266eaa323e91dcf42e8c30bf9850da39fead76f589f1ff52c5a2f9a3b546e504"
+                  }
+              ]
+}

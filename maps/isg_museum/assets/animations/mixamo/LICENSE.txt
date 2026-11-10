@@ -1,0 +1,15 @@
+Adobe Mixamo reference character and animation downloads
+
+Source: https://www.mixamo.com/
+Provider: Adobe Mixamo
+Received from the user's Adobe Mixamo downloads on 2026-11-10.
+
+Use of these files is governed by Adobe's applicable Mixamo terms.
+Adobe's FAQ describes royalty-free use of Mixamo characters and animations
+in personal, commercial and non-profit projects, including video games.
+
+Official information:
+https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html
+https://helpx.adobe.com/creative-cloud/help/mixamo-rigging-animation.html
+
+source.json identifies the received files and their SHA-256 checksums.

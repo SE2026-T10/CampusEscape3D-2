@@ -1,0 +1,48 @@
+{
+    "id":  "italian_fountain",
+    "title":  "Fountain",
+    "provider":  "Sketchfab",
+    "provider_model_id":  "8580500134194ba5be3f6df7593049f2",
+    "source_url":  "https://sketchfab.com/3d-models/fountain-8580500134194ba5be3f6df7593049f2",
+    "metadata_url":  "https://api.sketchfab.com/v3/models/8580500134194ba5be3f6df7593049f2",
+    "download_api_url":  "https://api.sketchfab.com/v3/models/8580500134194ba5be3f6df7593049f2/download",
+    "author":  "yorre.detavernier",
+    "author_url":  "https://sketchfab.com/yorre.detavernier",
+    "license":  "CC-BY-4.0",
+    "license_url":  "https://creativecommons.org/licenses/by/4.0/",
+    "attribution_required":  true,
+    "attribution":  "\"Fountain\" by yorre.detavernier, https://sketchfab.com/3d-models/fountain-8580500134194ba5be3f6df7593049f2, licensed under CC BY 4.0.",
+    "checked_on":  "2026-11-10",
+    "status":  "downloaded",
+    "downloaded":  true,
+    "downloadable_on_provider":  true,
+    "triangles":  2984,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "fountain.glb",
+                      "bytes":  8606600,
+                      "sha256":  "e274e839480e9fb2675945978b34342ace0f83af5349416ee4db2496c1bb75d8"
+                  }
+              ],
+    "downloaded_on":  "2026-11-10",
+    "download_method":  "user_browser_download",
+    "model_file":  "fountain.glb",
+    "format":  "GLB 2.0",
+    "validation":  {
+                       "glb_version":  2,
+                       "mesh_count":  24,
+                       "godot_mesh_instances":  24,
+                       "material_count":  5,
+                       "embedded_image_count":  5,
+                       "external_dependencies":  0,
+                       "skin_count":  0,
+                       "joint_count":  0,
+                       "animation_count":  0,
+                       "godot_version":  "4.7.2",
+                       "godot_parse_passed":  true,
+                       "import_notes":  [
+                                            "Godot converts specular/glossiness materials to metallic/roughness. Appearance can differ slightly from the source viewer."
+                                        ]
+                   }
+}

@@ -1,0 +1,18 @@
+Fountain
+Author: yorre.detavernier
+Author page: https://sketchfab.com/yorre.detavernier
+Source: https://sketchfab.com/3d-models/fountain-8580500134194ba5be3f6df7593049f2
+
+Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/
+
+The provider requires attribution. When distributing this model or an adapted
+version, credit the author, retain the source and license links, and indicate
+changes when applicable.
+
+Attribution line for use after the model is downloaded:
+"Fountain" by yorre.detavernier, https://sketchfab.com/3d-models/fountain-8580500134194ba5be3f6df7593049f2, licensed under CC BY 4.0.
+
+This folder currently contains source records and manual download instructions.
+No model file has been downloaded because the official download API requires
+Sketchfab authentication.

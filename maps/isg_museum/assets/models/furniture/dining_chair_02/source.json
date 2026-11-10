@@ -1,0 +1,58 @@
+{
+    "id":  "dining_chair_02",
+    "title":  "Dining Chair 02",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/dining_chair_02",
+    "metadata_api":  "https://api.polyhaven.com/info/dining_chair_02",
+    "download_api":  "https://api.polyhaven.com/files/dining_chair_02",
+    "authors":  [
+                    "James Ray Cock"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "dining_chair_02_2k.gltf",
+    "original_triangles":  22013,
+    "mesh_count":  1,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "dining_chair_02_2k.gltf",
+                      "bytes":  2723,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/dining_chair_02/dining_chair_02_2k.gltf",
+                      "source_md5":  "a8f25a5452e75fe1246624bb80f2d7f0",
+                      "sha256":  "c73342e0930615ea147237e1a640dd64eafa8d43662d1befad8ac896af87b129"
+                  },
+                  {
+                      "file":  "textures/dining_chair_02_arm_2k.jpg",
+                      "bytes":  587889,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/dining_chair_02/dining_chair_02_arm_2k.jpg",
+                      "source_md5":  "4df526356157c87076dd3d6e8e3d2fb5",
+                      "sha256":  "48a766aff4587319218e42ad8b115fbe764b86ae513560d97700af519c424329"
+                  },
+                  {
+                      "file":  "dining_chair_02.bin",
+                      "bytes":  544592,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/dining_chair_02/dining_chair_02.bin",
+                      "source_md5":  "b7f8a91c0a5249d02de7885f3b242c4e",
+                      "sha256":  "c7f1ef858f73815176d2ab304472a69ccf6097e971e5258eb924a75f841d4af5"
+                  },
+                  {
+                      "file":  "textures/dining_chair_02_diff_2k.jpg",
+                      "bytes":  332586,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/dining_chair_02/dining_chair_02_diff_2k.jpg",
+                      "source_md5":  "be041803606b5bf7869f08ab58a1581f",
+                      "sha256":  "823eeddb981acc8afbf3a04c8b8fd9152c2b1f776d14786e97116494aceabab8"
+                  },
+                  {
+                      "file":  "textures/dining_chair_02_nor_gl_2k.jpg",
+                      "bytes":  450908,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/dining_chair_02/dining_chair_02_nor_gl_2k.jpg",
+                      "source_md5":  "359ae52672c4c1277ff9f7cc780e1ca0",
+                      "sha256":  "ded8fb83951b189b43448746f34e4bfd6ab63d7cc9fb03c281d3eff4bcb5dfa1"
+                  }
+              ]
+}

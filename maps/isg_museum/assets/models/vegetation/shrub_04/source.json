@@ -1,0 +1,76 @@
+{
+    "id":  "shrub_04",
+    "title":  "Shrub 04",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/shrub_04",
+    "metadata_api":  "https://api.polyhaven.com/info/shrub_04",
+    "download_api":  "https://api.polyhaven.com/files/shrub_04",
+    "authors":  [
+                    "Rico Cilliers"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "shrub_04_2k.gltf",
+    "original_triangles":  47813,
+    "downloaded_triangles":  27327,
+    "mesh_count":  1,
+    "animation_count":  0,
+    "supplied_lod_nodes":  [
+
+                           ],
+    "needs_mesh_optimization":  false,
+    "notes":  [
+                  "Original published 2K glTF geometry and dependencies. Not placed in the gameplay scene. Materials and scale still require review during integration.",
+                  "Natural shrub branches; assemble/trim to the planned 0.3m hedge. Visual leaves alone do not block guard sight."
+              ],
+    "files":  [
+                  {
+                      "file":  "shrub_04_2k.gltf",
+                      "bytes":  2882,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/shrub_04/shrub_04_2k.gltf",
+                      "source_md5":  "7a6f451aea5cc9bae36ce9b027dc25cf",
+                      "sha256":  "4dee67a480bdcf0f63f3144aea4de00943833e18c576086ffc4ee7b9f82017ed"
+                  },
+                  {
+                      "file":  "textures/shrub_04_arm_2k.jpg",
+                      "bytes":  1005689,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/shrub_04/shrub_04_arm_2k.jpg",
+                      "source_md5":  "f37749dbbfe57024799df7b96f896643",
+                      "sha256":  "030c84b34ed22469c281310d2b18c298892f78d25518be061e8f0fe22e7423d7"
+                  },
+                  {
+                      "file":  "shrub_04.bin",
+                      "bytes":  749084,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/shrub_04/shrub_04.bin",
+                      "source_md5":  "987a672e598f9dc04b6d23cb8f36d697",
+                      "sha256":  "cb442c39682e54cc63f912aa78ab17a03566f947a61adbbbaaa6473166744f01"
+                  },
+                  {
+                      "file":  "textures/shrub_04_nor_gl_2k.jpg",
+                      "bytes":  1428577,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/shrub_04/shrub_04_nor_gl_2k.jpg",
+                      "source_md5":  "ca4ecc50015a85e38675a4967e843485",
+                      "sha256":  "dd2a0aea75996a390f10fd82aa24166263713d02c42ff68edaaaf7d0a884f5eb"
+                  },
+                  {
+                      "file":  "textures/shrub_04_diff_2k.jpg",
+                      "bytes":  1202317,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/shrub_04/shrub_04_diff_2k.jpg",
+                      "source_md5":  "76f10cb443bc5964ec9484cfea474196",
+                      "sha256":  "a45e95f3c78c31a1d411c58232089bd472bb31ebe146ba4237c3f1a930f49fc9"
+                  }
+              ],
+    "validation":  {
+                       "godot_parse_passed":  true,
+                       "godot_version":  "4.7.2-stable (official)",
+                       "id":  "shrub_04",
+                       "main_file":  "models/vegetation/shrub_04/shrub_04_2k.gltf",
+                       "mesh_instances":  1,
+                       "triangles":  27327,
+                       "vertices":  18285
+                   }
+}

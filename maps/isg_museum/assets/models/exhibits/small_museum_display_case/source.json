@@ -1,0 +1,45 @@
+{
+    "id":  "small_museum_display_case",
+    "title":  "Small Museum Display Case",
+    "provider":  "Sketchfab",
+    "provider_model_id":  "bcc6c9850ce8455897196555418c6fa7",
+    "source_url":  "https://sketchfab.com/3d-models/small-museum-display-case-bcc6c9850ce8455897196555418c6fa7",
+    "metadata_url":  "https://api.sketchfab.com/v3/models/bcc6c9850ce8455897196555418c6fa7",
+    "download_api_url":  "https://api.sketchfab.com/v3/models/bcc6c9850ce8455897196555418c6fa7/download",
+    "author":  "Charlotte Kimberly Andreassen",
+    "author_url":  "https://sketchfab.com/charlottekimberly",
+    "license":  "CC-BY-4.0",
+    "license_url":  "https://creativecommons.org/licenses/by/4.0/",
+    "attribution_required":  true,
+    "attribution":  "\"Small Museum Display Case\" by Charlotte Kimberly Andreassen, https://sketchfab.com/3d-models/small-museum-display-case-bcc6c9850ce8455897196555418c6fa7, licensed under CC BY 4.0.",
+    "checked_on":  "2026-11-10",
+    "status":  "downloaded",
+    "downloaded":  true,
+    "downloadable_on_provider":  true,
+    "triangles":  82,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "small_museum_display_case.glb",
+                      "bytes":  1427400,
+                      "sha256":  "66421b69544c8ee83e76fbe1c5d92500533c4654324c661d4853d902aeeb1e50"
+                  }
+              ],
+    "downloaded_on":  "2026-11-10",
+    "download_method":  "user_browser_download",
+    "model_file":  "small_museum_display_case.glb",
+    "format":  "GLB 2.0",
+    "validation":  {
+                       "glb_version":  2,
+                       "mesh_count":  1,
+                       "godot_mesh_instances":  1,
+                       "material_count":  1,
+                       "embedded_image_count":  3,
+                       "external_dependencies":  0,
+                       "skin_count":  0,
+                       "joint_count":  0,
+                       "animation_count":  0,
+                       "godot_version":  "4.7.2",
+                       "godot_parse_passed":  true
+                   }
+}

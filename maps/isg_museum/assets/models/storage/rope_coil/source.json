@@ -1,0 +1,28 @@
+{
+    "id":  "rope_coil",
+    "source":  "https://grab3d.com/models/props/rope-coil/",
+    "folder":  "models/storage/rope_coil",
+    "author":  "Grab3D",
+    "provider":  "Grab3D",
+    "bytes":  1029560,
+    "format":  "GLB",
+    "file":  "rope-coil.glb",
+    "title":  "Rope Coil",
+    "validation":  {
+                       "mesh_count":  1,
+                       "external_dependencies":  0,
+                       "material_count":  1,
+                       "glb_version":  2
+                   },
+    "downloaded_on":  "2026-11-10",
+    "dimensions_m":  [
+                         0.517,
+                         0.436,
+                         0.135
+                     ],
+    "download":  "https://grab3d.com/dl/rope-coil/rope-coil.glb",
+    "license_url":  "https://creativecommons.org/publicdomain/zero/1.0/",
+    "status":  "downloaded",
+    "license":  "CC0-1.0",
+    "sha256":  "90c9723ff83f7a1a228d423032e8b719ef112306666418969e3c27d0ef44d05c"
+}

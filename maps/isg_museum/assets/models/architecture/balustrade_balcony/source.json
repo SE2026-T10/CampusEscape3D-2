@@ -1,0 +1,38 @@
+{
+    "id":  "balustrade_balcony",
+    "title":  "Balustrade Balcony",
+    "kind":  "model",
+    "folder":  "models/architecture/balustrade_balcony",
+    "provider":  "Sketchfab",
+    "provider_model_id":  "83bf8e57aba441de9f2a9ef7442db59d",
+    "source_url":  "https://sketchfab.com/3d-models/balustrade-balcony-83bf8e57aba441de9f2a9ef7442db59d",
+    "metadata_url":  "https://api.sketchfab.com/v3/models/83bf8e57aba441de9f2a9ef7442db59d",
+    "download_api_url":  "https://api.sketchfab.com/v3/models/83bf8e57aba441de9f2a9ef7442db59d/download",
+    "author":  "Esther3D",
+    "author_url":  "https://sketchfab.com/Esther3d",
+    "license":  "CC-BY-4.0",
+    "license_url":  "https://creativecommons.org/licenses/by/4.0/",
+    "attribution_required":  true,
+    "attribution":  "\"Balustrade Balcony\" by Esther3D, https://sketchfab.com/3d-models/balustrade-balcony-83bf8e57aba441de9f2a9ef7442db59d, licensed under CC BY 4.0.",
+    "checked_on":  "2026-11-10",
+    "status":  "pending_authentication",
+    "downloaded":  false,
+    "downloadable_on_provider":  true,
+    "triangles":  21846,
+    "vertices":  11381,
+    "files":  [
+
+              ],
+    "blocker":  "Official Sketchfab download API returned HTTP 401: Authentication credentials were not provided. Public metadata is accessible, but model files require an authenticated download.",
+    "download_attempt":  {
+                             "method":  "official_sketchfab_download_api",
+                             "metadata_http_status":  200,
+                             "download_http_status":  401
+                         },
+    "manual_download_instructions":  [
+                                         "Open source_url in the browser where you are logged into Sketchfab.",
+                                         "Choose Download 3D Model and prefer GLB or glTF with textures.",
+                                         "Save the original archive under .local/downloads/museum_models/sketchfab/.",
+                                         "After receiving the files, unpack safely and validate before setting downloaded=true."
+                                     ]
+}

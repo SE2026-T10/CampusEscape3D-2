@@ -1,0 +1,58 @@
+{
+    "id":  "vintage_wooden_drawer_01",
+    "title":  "Vintage Wooden Drawer 01",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/vintage_wooden_drawer_01",
+    "metadata_api":  "https://api.polyhaven.com/info/vintage_wooden_drawer_01",
+    "download_api":  "https://api.polyhaven.com/files/vintage_wooden_drawer_01",
+    "authors":  [
+                    "James Ray Cock"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "vintage_wooden_drawer_01_2k.gltf",
+    "original_triangles":  5184,
+    "mesh_count":  7,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "vintage_wooden_drawer_01_2k.gltf",
+                      "bytes":  11781,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/vintage_wooden_drawer_01/vintage_wooden_drawer_01_2k.gltf",
+                      "source_md5":  "396aea7875aceeb54b2c512804ff71ab",
+                      "sha256":  "fba5bc73ffd5014f77fd8e1df8a4d91820e7d3b1fcb719409853daaf5a0b191d"
+                  },
+                  {
+                      "file":  "textures/vintage_wooden_drawer_01_nor_gl_2k.jpg",
+                      "bytes":  1974716,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_wooden_drawer_01/vintage_wooden_drawer_01_nor_gl_2k.jpg",
+                      "source_md5":  "9684c9244c7a843caf0a63943424b0b7",
+                      "sha256":  "9c778882b86c4ea484e15037efb5f84e669882358abf728f511aedab5f95abd5"
+                  },
+                  {
+                      "file":  "textures/vintage_wooden_drawer_01_diff_2k.jpg",
+                      "bytes":  2294557,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_wooden_drawer_01/vintage_wooden_drawer_01_diff_2k.jpg",
+                      "source_md5":  "f6cc1eede61f59bb9375540fb679ccb8",
+                      "sha256":  "9b32c5a27b97e36b13d7beddeaf4f2badfac39312b931d1b23af1e057d10df1e"
+                  },
+                  {
+                      "file":  "textures/vintage_wooden_drawer_01_arm_2k.jpg",
+                      "bytes":  2403596,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_wooden_drawer_01/vintage_wooden_drawer_01_arm_2k.jpg",
+                      "source_md5":  "28f98f082b9ed7d4850f827ccd43298e",
+                      "sha256":  "96ad2018f8a5a5935491994b6c5d7172cf3ab108cca7c404c87c9dc58da14095"
+                  },
+                  {
+                      "file":  "vintage_wooden_drawer_01.bin",
+                      "bytes":  187680,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/vintage_wooden_drawer_01/vintage_wooden_drawer_01.bin",
+                      "source_md5":  "61ea9192d2199cd76f54623942b5bde4",
+                      "sha256":  "1c9982901f1ad4f4bb431b239f893e6fbf7953d9f16a1369e418554c7f0fbd89"
+                  }
+              ]
+}

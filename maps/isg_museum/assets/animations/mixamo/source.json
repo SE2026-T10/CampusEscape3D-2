@@ -1,0 +1,279 @@
+{
+    "id":  "mixamo_animations",
+    "title":  "Mixamo character animations",
+    "provider":  "Adobe Mixamo",
+    "source_url":  "https://www.mixamo.com/",
+    "license":  "Adobe Mixamo terms",
+    "license_url":  "https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html",
+    "checked_on":  "2026-11-10",
+    "status":  "downloaded",
+    "downloaded":  true,
+    "files":  [
+                  {
+                      "file":  "reference/reference_tpose.fbx",
+                      "role":  "Reference character and T-pose",
+                      "kind":  "reference_character",
+                      "bytes":  1750032,
+                      "sha256":  "1b0c8191ca3365b96160d4e1c610821ed41abe34c13156df7ef9839578203d9d",
+                      "format":  "FBX Binary",
+                      "fbx_version":  7700,
+                      "frames_per_second":  30,
+                      "mesh_instances":  2,
+                      "skeleton_bones":  65,
+                      "skeleton_hierarchy_matches_reference":  true,
+                      "animations":  [
+                                         {
+                                             "name":  "Take 001",
+                                             "duration_seconds":  3.333333,
+                                             "tracks":  0,
+                                             "hips_horizontal_displacement_m":  0
+                                         },
+                                         {
+                                             "name":  "mixamo_com",
+                                             "duration_seconds":  0.033333,
+                                             "tracks":  35,
+                                             "hips_horizontal_displacement_m":  0.0
+                                         }
+                                     ],
+                      "notes":  "The active T-pose take is mixamo_com. Take 001 has no tracks."
+                  },
+                  {
+                      "file":  "clips/guard_idle.fbx",
+                      "role":  "Standing idle",
+                      "kind":  "animation_clip",
+                      "bytes":  998880,
+                      "sha256":  "a5bb7cde7e67b889a93b2a97fe2390642c03bba4f32fcc5608026019d2850c8a",
+                      "format":  "FBX Binary",
+                      "fbx_version":  7700,
+                      "frames_per_second":  30,
+                      "mesh_instances":  0,
+                      "skeleton_bones":  65,
+                      "skeleton_hierarchy_matches_reference":  true,
+                      "animations":  [
+                                         {
+                                             "name":  "mixamo_com",
+                                             "duration_seconds":  8.333333,
+                                             "tracks":  53,
+                                             "hips_horizontal_displacement_m":  0.000000
+                                         }
+                                     ]
+                  },
+                  {
+                      "file":  "clips/guard_look_around.fbx",
+                      "role":  "Looking around and searching",
+                      "kind":  "animation_clip",
+                      "bytes":  828464,
+                      "sha256":  "b476e5cbe35a7168e377308bd90b752101ac39de14e0ee943b901881d818a6d7",
+                      "format":  "FBX Binary",
+                      "fbx_version":  7700,
+                      "frames_per_second":  30,
+                      "mesh_instances":  0,
+                      "skeleton_bones":  65,
+                      "skeleton_hierarchy_matches_reference":  true,
+                      "animations":  [
+                                         {
+                                             "name":  "mixamo_com",
+                                             "duration_seconds":  6.333333,
+                                             "tracks":  53,
+                                             "hips_horizontal_displacement_m":  0.000001
+                                         }
+                                     ]
+                  },
+                  {
+                      "file":  "clips/guard_run.fbx",
+                      "role":  "Chase running",
+                      "kind":  "animation_clip",
+                      "bytes":  334240,
+                      "sha256":  "76cbbd0c605a9082e1af3fdf5b9a65afbd924c3db9cad3159cd2363b7377785f",
+                      "format":  "FBX Binary",
+                      "fbx_version":  7700,
+                      "frames_per_second":  30,
+                      "mesh_instances":  0,
+                      "skeleton_bones":  65,
+                      "skeleton_hierarchy_matches_reference":  true,
+                      "animations":  [
+                                         {
+                                             "name":  "mixamo_com",
+                                             "duration_seconds":  0.633333,
+                                             "tracks":  53,
+                                             "hips_horizontal_displacement_m":  3.748498
+                                         }
+                                     ],
+                      "requires_in_place_processing":  true
+                  },
+                  {
+                      "file":  "clips/guard_sit_down.fbx",
+                      "role":  "Standing to sitting",
+                      "kind":  "animation_clip",
+                      "bytes":  513264,
+                      "sha256":  "b523e11b1f4e3b71121e480b8c40df1e25fa6998005b8e46c60101d8cd16419a",
+                      "format":  "FBX Binary",
+                      "fbx_version":  7700,
+                      "frames_per_second":  30,
+                      "mesh_instances":  0,
+                      "skeleton_bones":  65,
+                      "skeleton_hierarchy_matches_reference":  true,
+                      "animations":  [
+                                         {
+                                             "name":  "mixamo_com",
+                                             "duration_seconds":  2.233333,
+                                             "tracks":  53,
+                                             "hips_horizontal_displacement_m":  0.485117
+                                         }
+                                     ]
+                  },
+                  {
+                      "file":  "clips/guard_sitting_idle.fbx",
+                      "role":  "Seated idle",
+                      "kind":  "animation_clip",
+                      "bytes":  725744,
+                      "sha256":  "689a97a72654a1d21e78964e2177a0957d0b23dae33bede0971e1e50b6c6550e",
+                      "format":  "FBX Binary",
+                      "fbx_version":  7700,
+                      "frames_per_second":  30,
+                      "mesh_instances":  0,
+                      "skeleton_bones":  65,
+                      "skeleton_hierarchy_matches_reference":  true,
+                      "animations":  [
+                                         {
+                                             "name":  "mixamo_com",
+                                             "duration_seconds":  6.4,
+                                             "tracks":  53,
+                                             "hips_horizontal_displacement_m":  0.000000
+                                         }
+                                     ]
+                  },
+                  {
+                      "file":  "clips/guard_stand_up.fbx",
+                      "role":  "Sitting to standing",
+                      "kind":  "animation_clip",
+                      "bytes":  519456,
+                      "sha256":  "288589415eb200bf47d6a4313b15e12698ed2d101b8e033022eb4092779e2167",
+                      "format":  "FBX Binary",
+                      "fbx_version":  7700,
+                      "frames_per_second":  30,
+                      "mesh_instances":  0,
+                      "skeleton_bones":  65,
+                      "skeleton_hierarchy_matches_reference":  true,
+                      "animations":  [
+                                         {
+                                             "name":  "mixamo_com",
+                                             "duration_seconds":  2.266667,
+                                             "tracks":  53,
+                                             "hips_horizontal_displacement_m":  0.479421
+                                         }
+                                     ]
+                  },
+                  {
+                      "file":  "clips/guard_walk.fbx",
+                      "role":  "Patrol walking",
+                      "kind":  "animation_clip",
+                      "bytes":  366208,
+                      "sha256":  "5987ff80cb8770434ef6bed89940491302dfca585cc635c76039bc669254e2c6",
+                      "format":  "FBX Binary",
+                      "fbx_version":  7700,
+                      "frames_per_second":  30,
+                      "mesh_instances":  0,
+                      "skeleton_bones":  65,
+                      "skeleton_hierarchy_matches_reference":  true,
+                      "animations":  [
+                                         {
+                                             "name":  "mixamo_com",
+                                             "duration_seconds":  1.033333,
+                                             "tracks":  43,
+                                             "hips_horizontal_displacement_m":  1.845224
+                                         }
+                                     ],
+                      "requires_in_place_processing":  true
+                  },
+                  {
+                      "file":  "clips/npc_talking.fbx",
+                      "role":  "Standing conversation",
+                      "kind":  "animation_clip",
+                      "bytes":  687200,
+                      "sha256":  "db01f3e5c6c70627aa505c6259e75d255808042b8e631622f05fcc287139afce",
+                      "format":  "FBX Binary",
+                      "fbx_version":  7700,
+                      "frames_per_second":  30,
+                      "mesh_instances":  0,
+                      "skeleton_bones":  65,
+                      "skeleton_hierarchy_matches_reference":  true,
+                      "animations":  [
+                                         {
+                                             "name":  "mixamo_com",
+                                             "duration_seconds":  3.933333,
+                                             "tracks":  53,
+                                             "hips_horizontal_displacement_m":  0.000000
+                                         }
+                                     ]
+                  },
+                  {
+                      "file":  "clips/receptionist_talking.fbx",
+                      "role":  "Seated conversation",
+                      "kind":  "animation_clip",
+                      "bytes":  3859744,
+                      "sha256":  "a7df1e0f31873d30fc6f1e6a2fbeb984dc32b0e47bd6a6086ed09d1294e47cbd",
+                      "format":  "FBX Binary",
+                      "fbx_version":  7700,
+                      "frames_per_second":  30,
+                      "mesh_instances":  0,
+                      "skeleton_bones":  65,
+                      "skeleton_hierarchy_matches_reference":  true,
+                      "animations":  [
+                                         {
+                                             "name":  "mixamo_com",
+                                             "duration_seconds":  44.066667,
+                                             "tracks":  53,
+                                             "hips_horizontal_displacement_m":  0.000010
+                                         }
+                                     ]
+                  }
+              ],
+    "requested_actions":  [
+                              "idle",
+                              "walking",
+                              "running",
+                              "looking_around",
+                              "inspect_artwork",
+                              "sitting_idle",
+                              "seated_sleeping",
+                              "standing_up",
+                              "sitting_down",
+                              "talking",
+                              "handing_paper_or_ticket"
+                          ],
+    "downloaded_on":  "2026-11-10",
+    "download_method":  "user_browser_download",
+    "reference_file":  "reference/reference_tpose.fbx",
+    "animation_clip_count":  9,
+    "validation":  {
+                       "godot_version":  "4.7.2",
+                       "parsed_fbx_files":  10,
+                       "copied_file_hashes_match_originals":  true,
+                       "skeleton_bones":  65,
+                       "matching_bone_names_and_hierarchy":  true,
+                       "clip_hips_bind_origin_z_offset_from_reference_m":  -0.015543,
+                       "external_texture_dependencies":  0,
+                       "notes":  [
+                                     "Walking and running retain source horizontal Hips motion. Process In Place when integrating with controller-driven movement.",
+                                     "The Sketchfab guard model still requires rigging before animation retargeting."
+                                 ]
+                   },
+    "planned_adaptations":  [
+                                {
+                                    "role":  "inspect_artwork",
+                                    "base":  "clips/guard_look_around.fbx",
+                                    "work":  "Reuse or adjust during integration"
+                                },
+                                {
+                                    "role":  "seated_sleeping",
+                                    "base":  "clips/guard_sitting_idle.fbx",
+                                    "work":  "Create a seated sleeping pose during integration"
+                                },
+                                {
+                                    "role":  "handing_paper_or_ticket",
+                                    "base":  "clips/npc_talking.fbx",
+                                    "work":  "Create a handover motion during integration"
+                                }
+                            ]
+}

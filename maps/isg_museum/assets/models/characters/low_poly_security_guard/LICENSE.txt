@@ -1,0 +1,18 @@
+Low poly security guard
+Author: Jose Manuel
+Author page: https://sketchfab.com/manre
+Source: https://sketchfab.com/3d-models/low-poly-security-guard-abaf0f47b2c4413986919bb5c673face
+
+Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/
+
+The provider requires attribution. When distributing this model or an adapted
+version, credit the author, retain the source and license links, and indicate
+changes when applicable.
+
+Attribution line for use after the model is downloaded:
+"Low poly security guard" by Jose Manuel, https://sketchfab.com/3d-models/low-poly-security-guard-abaf0f47b2c4413986919bb5c673face, licensed under CC BY 4.0.
+
+This folder currently contains source records and manual download instructions.
+No model file has been downloaded because the official download API requires
+Sketchfab authentication.
