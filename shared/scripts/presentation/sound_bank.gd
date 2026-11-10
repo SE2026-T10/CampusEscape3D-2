@@ -15,9 +15,12 @@ const SINGLE := ["guard_keys", "guard_radio", "card_pickup", "objective_complete
 	"amb_chair_creak", "music_tension", "music_chase",
 	# Expansion Phase 9: the Expanded Library's mechanisms (MechanismAudio).
 	"mech_click", "mech_clunk", "puzzle_wrong", "puzzle_solved", "reader_beep", "shutter_rattle", "pump_stall",
-	"glass_smash", "item_thud", "item_pickup"]
+	"glass_smash", "item_thud", "item_pickup",
+	# Expanded Library ambience (AmbientEmitters placed by the expansion builder).
+	"amb_basement_hum", "amb_electrical_buzz", "amb_drips", "amb_air_handling"]
 ## Sounds imported with forward looping.
-const LOOPED := ["amb_room_tone", "amb_clock_tick", "music_tension", "music_chase"]
+const LOOPED := ["amb_room_tone", "amb_clock_tick", "music_tension", "music_chase",
+	"amb_basement_hum", "amb_electrical_buzz", "amb_drips", "amb_air_handling"]
 
 static var _rng := RandomNumberGenerator.new()
 

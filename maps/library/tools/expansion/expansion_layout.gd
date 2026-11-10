@@ -26,7 +26,8 @@ extends RefCounted
 ## a grate) and escape 3 (the main entrance, under a security lockdown).
 ##
 ## Phase 3 (x2, stamina and inventory): a provisional set of carried items,
-## two storage shelves (the only places items can be left or swapped) and two
+## two storage shelves (the only places items can be left or swapped; a third, in
+## Study 4, was added on 2026-10-31 for the reserve shelf) and two
 ## clue documents in the new areas, so the mechanics can be played; the
 ## electrical room door now checks the carried staff card (key_item). Real
 ## tool-kit mechanisms and the clue texts come with the Phase 4 puzzles.
@@ -173,9 +174,9 @@ const RAMP_FILLER_STEPS := 10
 
 ## Cover with collision: "low" hides a crouched player, "full" a standing one.
 const COVER := [
-	{"name": "AlcoveCrate", "zone": "G", "rect": [-38.9, -16.6, -37.1, -15.0], "y": BF, "h": 1.2, "look": "crate"},
+	{"name": "AlcoveCrate", "zone": "G", "rect": [-38.9, -16.6, -37.1, -15.0], "y": BF, "h": 1.2, "look": "crate", "hidden": true},   # polish 2026-11-03: a pallet of cartons is its look
 	{"name": "BayCrate", "zone": "G", "rect": [-27.6, -21.0, -26.0, -19.4], "y": BF, "h": 1.2, "look": "crate", "hidden": true},   # polish: two tool chests are its look
-	{"name": "CableBayCrate", "zone": "G", "rect": [43.2, -21.8, 44.8, -20.2], "y": BF, "h": 1.2, "look": "crate_dark"},
+	{"name": "CableBayCrate", "zone": "G", "rect": [43.2, -21.8, 44.8, -20.2], "y": BF, "h": 1.2, "look": "crate_dark", "hidden": true},   # polish 2026-11-03: a slatted shipping crate is its look
 	{"name": "TunnelCrateWest", "zone": "G", "rect": [-14.8, -26.85, -13.2, -25.3], "y": BF, "h": 1.2, "look": "crate"},
 	{"name": "TunnelCrateEast", "zone": "G", "rect": [18.2, -24.7, 19.8, -23.15], "y": BF, "h": 1.2, "look": "crate"},
 	{"name": "PumpMachine", "zone": "G", "rect": [-2.0, -20.2, 2.0, -17.8], "y": BF, "h": SLAB_BOTTOM - BF, "look": "steel", "hidden": true},   # floor to ceiling: full cover, nothing baked on top; polish: no mesh, the pump unit (built by the builder) is its look
@@ -274,7 +275,7 @@ const BASEMENT_LAMP_DROP := 0.45
 ## Header colours over the three cut doorways, on both faces (decoration).
 const DOOR_HEADERS := [
 	{"name": "WestServiceDoor", "x": -36.0, "z": -9.0, "width": 2.0, "look": "header"},
-	{"name": "ElectricalRoomDoor", "x": 36.0, "z": -23.0, "width": 2.0, "look": "restricted"},
+	{"name": "ElectricalRoomDoor", "x": 36.0, "z": -23.0, "width": 2.0, "look": "header"},   # polish 2026-11-03: was a red block ("restricted")
 	{"name": "Study1StacksDoor", "x": -12.0, "z": -21.0, "width": 2.0, "look": "header"},
 ]
 
@@ -314,6 +315,7 @@ const DECOR_LOOKS := {
 	"wire_black": [Color(0.05, 0.05, 0.055), 0.6, 0.0, 0.0],
 	"screen_dark": [Color(0.04, 0.06, 0.07), 0.3, 0.0, 0.0],
 	"led_green": [Color(0.2, 0.85, 0.35), 0.5, 0.0, 0.5],
+	"beacon_red": [Color(1.0, 0.16, 0.1), 0.4, 0.0, 2.2],
 	"led_amber": [Color(1.0, 0.6, 0.1), 0.5, 0.0, 0.5],
 	"sticker_yellow": [Color(0.97, 0.78, 0.1), 0.8, 0.0, 0.0],
 	# The pump room and the storm drain: the pump unit, the crank, the grille.
@@ -404,6 +406,10 @@ const DECOR_LOOKS := {
 	"concrete_ceiling": [Color(0.5, 0.5, 0.48), 1.0, 0.0, 0.0],
 	"floor_sealed": [Color(0.44, 0.45, 0.44), 0.55, 0.0, 0.0],
 	"band_paint": [Color(0.3, 0.34, 0.36), 0.7, 0.0, 0.0],
+	# The storm drain (redesign): leaves, the moonlight through the manhole's grating.
+	"leaf_brown": [Color(0.42, 0.3, 0.14), 1.0, 0.0, 0.0],
+	"leaf_dark": [Color(0.26, 0.22, 0.12), 1.0, 0.0, 0.0],
+	"glow_moon": [Color(0.62, 0.72, 0.9), 0.5, 0.0, 1.3],
 }
 const _BC := SLAB_BOTTOM - 0.05 - BF   # basement ceiling height (3.75 m)
 const DECOR := [
@@ -497,9 +503,24 @@ const ITEMS := [
 	{"name": "HardbackTunnel", "item": "hardback", "zone": "G", "pos": Vector3(19.0, BF + 1.2, -23.9), "yaw": 30.0},
 	{"name": "BottleCableBay", "item": "bottle", "zone": "G", "pos": Vector3(44.0, BF + 1.2, -21.0), "yaw": 0.0},
 	# Phase 4: inside the Office 1 security locker (appears when it is opened).
-	{"name": "LockerBottle", "item": "bottle", "zone": "E", "pos": Vector3(-5.6, 5.41, -22.62), "yaw": 0.0, "available": false},   # polish: on the locker's middle shelf
+	# Its "!" floats in front of the locker (+x), below the shelf above (2026-11-02).
+	{"name": "LockerBottle", "item": "bottle", "zone": "E", "pos": Vector3(-5.6, 5.41, -22.62), "yaw": 0.0, "available": false,
+		"marker_offset": Vector3(0.45, 0.3, 0)},   # polish: on the locker's middle shelf
 	# Phase 6: the credential for escape A, also in the locker.
-	{"name": "LockerBadge", "item": "security_badge", "zone": "E", "pos": Vector3(-5.6, 5.41, -22.2), "yaw": 90.0, "available": false},   # polish: middle shelf
+	{"name": "LockerBadge", "item": "security_badge", "zone": "E", "pos": Vector3(-5.6, 5.41, -22.2), "yaw": 90.0, "available": false,
+		"marker_offset": Vector3(0, 0.3, 0.45)},   # polish: middle shelf
+	# The Study 4 reserve shelf (approved 2026-10-31): three reserve books lying on top of
+	# return trolleys (the browsing hall's, the staff balcony's) and on the service
+	# corridor's returns bin; the reward, the dock's manual release key, inside the reserve
+	# cabinet (it appears when the shelf is complete).
+	{"name": "ReserveBook823", "item": "reserve_book_823", "zone": "B", "pos": Vector3(-30.7, 1.08, 12.75), "yaw": 0.0},
+	{"name": "ReserveBook942", "item": "reserve_book_942", "zone": "E", "pos": Vector3(11.6, 4.5 + 1.08, 6.1), "yaw": 0.0},
+	{"name": "ReserveBook523", "item": "reserve_book_523", "zone": "D", "pos": Vector3(16.5, 0.99, 15.2), "yaw": 10.0},
+	# The key lies inside the cabinet, behind the bookcase's solid collider (x 11.4): its
+	# interaction box reaches 25 cm out into the study (local −z is −x at yaw 90), or the
+	# player's aim ray could not reach it (fixed 2026-11-02).
+	{"name": "DockKey", "item": "dock_key", "zone": "C", "pos": Vector3(11.6, 0.12, -18.9), "yaw": 90.0, "available": false,
+		"shape_pos": Vector3(0, 0.2, -0.2), "shape_size": Vector3(0.5, 0.4, 0.5), "marker_offset": Vector3(0, 0.35, -0.5)},
 ]
 ## Storage shelves (ItemStorage): wall-mounted, no collision (nothing baked, no
 ## route changed). "pos" is the shelf surface, 1 m above the floor; "facing"
@@ -507,6 +528,9 @@ const ITEMS := [
 const STORAGE := [
 	{"name": "MaintenanceShelf", "title": "Maintenance shelf", "zone": "G", "pos": Vector3(-20.36, BF + 1.0, -20.0), "facing": -90.0},
 	{"name": "ElectricalShelf", "title": "Electrical room shelf", "zone": "D", "pos": Vector3(39.5, 1.0, -18.36), "facing": 180.0},
+	# Requested 2026-10-31: a shelf in Study 4, against the west wall in the south-west
+	# corner, to swap items beside the reserve shelf (three books fill the hands).
+	{"name": "Study4Shelf", "title": "Study 4 shelf", "zone": "C", "pos": Vector3(6.37, 1.0, -24.5), "facing": 90.0},
 ]
 ## Clue documents (DocumentPickup): clipboards on walls at 1.4 m. Provisional
 ## texts; Phase 4 gives them their puzzle clues.
@@ -538,6 +562,19 @@ const DOCUMENTS := [
 	{"name": "PatrolNotes", "id": "patrol_notes", "title": "Patrol notes", "zone": "E", "available": false,
 		"pos": Vector3(-5.79, 6.07, -22.4), "facing": 90.0,   # polish: on the back of the locker's upper compartment
 		"text": "PATROL NOTES (security locker)\nEvery guard keeps to a fixed loop and stops briefly at its corners: wait for the pause, then move.\nOne guard walks the whole basement tunnel. An alarm draws whoever hears it to the spot. Be somewhere else by then.\nThe master badge in this locker overrides the night lockdown at the main entrance reader. The override takes a few seconds and the lobby camera watches the reader.\n— Night shift"},
+	# The Study 4 reserve shelf (approved 2026-10-31): the slip, on the study's west wall
+	# beside the whiteboard (moved off the board on request, 2026-10-31; a clue board with
+	# its picture lamp like the other wall clues since 2026-11-02, on request), and a
+	# facilities memo in Office 1 (each discovers the optional objective).
+	{"name": "ReserveSlip", "id": "reserve_slip", "title": "Reserve slip", "zone": "C",
+		"board": true, "pos": Vector3(6.17, 1.4, -17.4), "facing": 90.0, "discovers": "reserve_shelf",
+		"text": "RESERVE COLLECTION · STUDY 4\nNot back on the reserve shelf (east wall):\n  523.8 STA  Stars and How to Find Them\n  823.8 DIC  Selected Novels, vol. 2\n  942.1 LON  A History of the City\nStaff: they are out on the return trolleys. Each goes back in its own gap; the gaps are marked with their call numbers. The reserve cabinet opens when the shelf is complete."},
+	# A clue board with its picture lamp like the others (2026-11-02, on request), on Office 1's
+	# east wall between the bookcase and the desk: on the west wall (where it was a clipboard)
+	# the lamp would light the upper floor's Batch_1_0 with a 9th light (8 per mesh).
+	{"name": "ReserveMemo", "id": "reserve_memo", "title": "Facilities memo", "zone": "E",
+		"board": true, "pos": Vector3(-0.17, 5.9, -22.0), "facing": -90.0, "discovers": "reserve_shelf",
+		"text": "MEMO · Facilities\nThe spare manual release key for the loading dock shutter is now kept in the reserve cabinet in Study 4 (ground floor), so it can't walk off again. With it the shutter can be cranked up by hand, power or no power.\nThe cabinet only opens once the reserve shelf above it is complete, and three reserve books are still out on the return trolleys."},
 	# Phase 6 (escape C): the clue to the hidden maintenance panel.
 	{"name": "CulvertAccessPlan", "id": "culvert_access_plan", "title": "Culvert access plan", "zone": "G",
 		"board": true, "pos": Vector3(-23.5, BF + 1.4, -17.17), "facing": 180.0,
@@ -567,6 +604,13 @@ const MISSION := {
 		"solution": [true, false, true], "objective": "drain_culvert"},
 	"drain_exit": {"name": "StormDrainExit", "pos": Vector3(0.0, BF + 1.2, -35.8), "zone": "G",
 		"size": Vector3(3.6, 2.4, 1.0)},
+	# The Study 4 reserve shelf (approved 2026-10-31; ReserveShelf): at the front of the reserve
+	# bookcase's third shelf (x 11.4, its top 1.05 m), facing into the study (−x); three gaps
+	# along the shelf (local x), the cabinet below it, the dock key inside.
+	"reserve_shelf": {"name": "ReserveShelf", "pos": Vector3(11.42, 1.05, -18.9), "facing": -90.0, "zone": "C",
+		"books": ["reserve_book_523", "reserve_book_823", "reserve_book_942"], "gap_x": [-1.2, 0.0, 1.2],
+		"labels": ["500–599 · Science", "800–899 · Literature", "900–999 · History"],
+		"objective": "reserve_shelf", "reveal": ["Items/DockKey"]},
 }
 
 ## Phase 4 (x3): the Expanded Library's objectives (ObjectiveManager graph mode),
@@ -604,11 +648,16 @@ const MISSION_OBJECTIVES := [
 	{"id": "security_locker", "optional": true, "hidden": true, "title": "Open the security locker",
 		"hint": "Office 1, upper floor. The night rota mentions the combination.",
 		"done": "Security locker open"},
+	# Approved 2026-10-31: written into expanded_library.tscn by fixes_x27.py.
+	{"id": "reserve_shelf", "optional": true, "hidden": true, "title": "Complete the reserve shelf",
+		"hint": "Study 4, ground floor. The reserve slip lists the three missing books; they are out on the return trolleys.",
+		"done": "Reserve shelf complete: the cabinet below it is open"},
 ]
 
 
 ## Phase 5 (x4): switches (CircuitSwitch, on the electrical room cabinets) and
-## cameras (SecurityCamera: "pos" is the mount, "look" a point it faces at rest).
+## cameras (SecurityCamera: "pos" is the mount, "look" the point it faces; all stationary
+## since 2026-11-02, on request: "sweep" defaults to 0).
 const UY := 4.5
 const SECURITY := {
 	"switches": [
@@ -669,6 +718,29 @@ const ESCAPES := {
 ## the frozen builder gave it no floor surface and no ceiling below (its
 ## collision slab is there). Visual only: a floor tile on top, a ceiling tile
 ## underneath, both inside the existing slab (top 4.5, 0.3 thick).
+## Ambient sound (approved 2026-10-31): AmbientEmitters (decoration only: not NoiseSystem
+## events, guards don't hear them). "loop" plays one seamless loop; "sounds" plays one of
+## them every interval_min…interval_max seconds. Sounds by tools/generate_audio.gd.
+const AMBIENCE := [
+	{"name": "TunnelHumWest", "pos": Vector3(-25.0, BF + 2.6, -25.0), "loop": "amb_basement_hum", "db": -14.0, "unit": 3.0, "max": 18.0},
+	{"name": "TunnelHumMid", "pos": Vector3(5.0, BF + 2.6, -25.0), "loop": "amb_basement_hum", "db": -14.0, "unit": 3.0, "max": 18.0},
+	{"name": "TunnelHumEast", "pos": Vector3(32.0, BF + 2.6, -25.0), "loop": "amb_basement_hum", "db": -14.0, "unit": 3.0, "max": 18.0},
+	{"name": "PumpRoomDrips", "pos": Vector3(0.0, BF + 1.5, -18.5), "loop": "amb_drips", "db": -10.0, "unit": 2.5, "max": 14.0},
+	{"name": "ElectricalBuzz", "pos": Vector3(41.0, 1.8, -26.8), "loop": "amb_electrical_buzz", "db": -14.0, "unit": 2.0, "max": 12.0},
+	{"name": "ArchiveAirHall", "pos": Vector3(20.0, UY + 2.6, -12.0), "loop": "amb_air_handling", "db": -18.0, "unit": 3.0, "max": 16.0},
+	{"name": "ArchiveAirStacks", "pos": Vector3(20.0, UY + 2.6, -23.0), "loop": "amb_air_handling", "db": -18.0, "unit": 3.0, "max": 16.0},
+	{"name": "ReadingHallPages", "pos": Vector3(-5.0, 1.0, -2.0), "sounds": ["amb_page_turn", "amb_page_turn", "amb_chair_creak"], "interval": [6.0, 16.0], "db": -12.0, "unit": 3.0, "max": 20.0},
+	{"name": "ReadingHallBooks", "pos": Vector3(5.0, 1.0, -7.0), "sounds": ["amb_book_thud", "amb_page_turn"], "interval": [10.0, 24.0], "db": -12.0, "unit": 3.0, "max": 20.0},
+	{"name": "StudyRoomsPages", "pos": Vector3(-3.0, 1.0, -21.0), "sounds": ["amb_page_turn", "amb_chair_creak"], "interval": [14.0, 30.0], "db": -16.0, "unit": 2.5, "max": 14.0},
+	{"name": "BrowsingHallBooks", "pos": Vector3(-24.0, 1.2, 18.0), "sounds": ["amb_book_thud", "amb_page_turn"], "interval": [12.0, 26.0], "db": -14.0, "unit": 3.0, "max": 18.0},
+]
+
+## Archive emergency lighting (approved 2026-10-31; ArchivePowerLights): the existing
+## level's archive lamps go out while archive_access has no power, and these red
+## emergency lights (under the walnut beams) pulse instead.
+const ARCHIVE_LAMPS := ["F_ArchiveHall_0", "F_ArchiveHall_1", "F_ArchiveStacks_0", "F_ArchiveStacks_1", "F_Vault_0", "F_Alcove_0"]
+const ARCHIVE_BEACONS := [Vector3(18.0, UY + 2.95, -15.0), Vector3(22.0, UY + 2.95, -21.0), Vector3(31.0, UY + 2.95, -15.0)]
+
 const FLOOR_PATCHES := [
 	{"name": "ArchiveBackGateFloor", "rect": [28.0, -12.0, 30.0, -6.0], "top": UY, "slab": 0.3, "look": "floor_archive"},
 ]
