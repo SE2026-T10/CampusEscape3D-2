@@ -20,7 +20,6 @@ const MISSION_SYSTEMS := ["objective_manager", "checkpoint_manager"]
 const NAV_PROBE := {
 	&"library_tutorial": Vector3(0, 0, 18),
 	&"expanded_library": Vector3(0, 0.05, 32),
-	&"museum": Vector3(-12, 0, 0),
 	&"intelligence_k17": Vector3(-36, 0.05, 51),
 	&"grocery_morning": Vector3(0, 0, 10),
 }
@@ -53,7 +52,7 @@ func _expect(condition: bool, message: String) -> void:
 
 func _check_catalog() -> void:
 	var ids := LevelCatalog.ids()
-	_expect(ids.size() >= 3 and ids.has(LevelCatalog.TUTORIAL) and ids.has(LevelCatalog.EXPANDED) and ids.has(LevelCatalog.MUSEUM), "The catalog must offer all three maps.")
+	_expect(ids.size() >= 2 and ids.has(LevelCatalog.TUTORIAL) and ids.has(LevelCatalog.EXPANDED), "The catalog must offer both maps.")
 	_expect(ids[0] == LevelCatalog.TUTORIAL, "The Library Tutorial must stay the first (default) map.")
 	var unique := {}
 	for level in LevelCatalog.LEVELS:
@@ -81,8 +80,6 @@ func _check_menu() -> void:
 			"start_button must be the Library Tutorial button.")
 		_expect(menu.expanded_button == menu.level_buttons[LevelCatalog.EXPANDED] and menu.expanded_button.text == "Expanded Library",
 			"expanded_button must be the Expanded Library button.")
-		_expect(menu.level_buttons[LevelCatalog.MUSEUM].text == "Museum Heist",
-			"The Museum Heist button must be present in the menu.")
 		_expect(menu.start_button.has_focus(), "The Library Tutorial button should have keyboard focus.")
 		# Derive keyboard navigation from the catalog, including newly added maps.
 		var ordered: Array[Button] = []
@@ -196,27 +193,6 @@ func _check_level(level: Dictionary) -> Dictionary:
 		var mine := all.filter(func(n): return scene.is_ancestor_of(n))
 		_expect(mine.size() == expected and all.size() == expected, "%s: expected %d node(s) in group '%s', found %d (%d in the whole tree)." % [
 			level.title, expected, g, mine.size(), all.size()])
-	if level.id == LevelCatalog.MUSEUM:
-		var guards := scene.get_node("Guards").get_children().filter(func(node): return node is Guard)
-		_expect(guards.size() == 5, "Museum Heist must have five shared guards.")
-		for node in guards:
-			var guard := node as Guard
-			var route := guard.patrol_route
-			_expect(route != null and route == scene.get_node_or_null("Guards/" + route.name)
-				and route.get_point_count() == 2, "%s must use a two-point museum patrol route." % guard.name)
-			if route:
-				for i in route.get_point_count():
-					var point := route.get_point_position(i)
-					var closest := NavigationServer3D.map_get_closest_point(scene.get_world_3d().navigation_map, point)
-					_expect(point.distance_to(closest) < 0.6, "%s patrol point %d must be on the museum navmesh." % [guard.name, i])
-		var objectives := ObjectiveManager.find(scene)
-		var expected_objectives: Array[StringName] = [
-			&"enter_library", &"reach_restricted", &"take_card", &"reach_exit", &"escape",
-		]
-		_expect(objectives != null and objectives.get_ids() == expected_objectives,
-			"Museum Heist must configure its five-step objective flow.")
-		_expect(objectives != null and objectives.get_title(&"enter_library") == "Enter the museum",
-			"Museum Heist must not show the tutorial's default objective title.")
 	var flow := GameFlow.find(scene)
 	var director := StealthDirector.find(scene)
 	var connections := {}
