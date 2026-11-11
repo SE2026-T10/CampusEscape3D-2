@@ -212,6 +212,8 @@ func build() -> void:
 	painting("C2",&"take_c2","C2 · Tĩnh vật hoa",Vector3(10,6,0.19),0,Color(0.43,0.2,0.3))
 	gallery_alarm()
 	Palette.apply_exhibits(expansion)
+	var art := preload("res://maps/isg_museum/tools/environment_art_builder.gd").new()
+	art.apply_to_exhibits(expansion, art.load_layout())
 	var packed := PackedScene.new()
 	var result := packed.pack(expansion)
 	if result == OK:

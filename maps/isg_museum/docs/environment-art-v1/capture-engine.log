@@ -1,0 +1,83 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 621.14 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 6GB Laptop GPU
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+Captured 01-courtyard
+Captured 02-cover
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (drivers/gles3/shader_gles3.cpp:648)
+Captured 04-floor-2
+Captured 03-floor-1
+Captured 05-staff
+Captured 06-broken-glass

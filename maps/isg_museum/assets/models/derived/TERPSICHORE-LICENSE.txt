@@ -1,0 +1,15 @@
+Terpsichore Lyran by Canova
+Author: Glenn Gunhouse
+Author page: https://sketchfab.com/ggunhouse
+Source: https://sketchfab.com/3d-models/terpsichore-lyran-by-canova-aef74272b36a48a5a4e35189b048034c
+
+CC-BY-SA-4.0
+https://creativecommons.org/licenses/by-sa/4.0/
+
+The provider requires attribution and ShareAlike for modified versions of this model. Retain the author, source and license links and indicate modifications.
+
+Attribution:
+"Terpsichore Lyran by Canova" by Glenn Gunhouse, https://sketchfab.com/3d-models/terpsichore-lyran-by-canova-aef74272b36a48a5a4e35189b048034c, licensed under CC-BY-SA-4.0.
+
+Download status: downloaded. User-provided GLB prepared on 2026-11-11.
+Original model geometry and materials are retained. See source.json for its checksum.

@@ -1,0 +1,17 @@
+{
+	"exhibits/terpsichore_lyran/terpsichore_lyran_by_canova.glb": {
+		"derived": "res://maps/isg_museum/assets/models/derived/terpsichore.scn",
+		"derived_triangles": 28605,
+		"source_triangles": 114430
+	},
+	"vegetation/potted_plant_01/potted_plant_01_2k.gltf": {
+		"derived": "res://maps/isg_museum/assets/models/derived/potted_plant_01.scn",
+		"derived_triangles": 10636,
+		"source_triangles": 176226
+	},
+	"vegetation/shrub_04/shrub_04_2k.gltf": {
+		"derived": "res://maps/isg_museum/assets/models/derived/shrub_04.scn",
+		"derived_triangles": 2287,
+		"source_triangles": 27327
+	}
+}

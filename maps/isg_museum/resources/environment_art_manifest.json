@@ -1,0 +1,352 @@
+{
+	"derived": {
+		"exhibits/terpsichore_lyran/terpsichore_lyran_by_canova.glb": "derived/terpsichore.scn",
+		"vegetation/potted_plant_01/potted_plant_01_2k.gltf": "derived/potted_plant_01.scn",
+		"vegetation/shrub_04/shrub_04_2k.gltf": "derived/shrub_04.scn",
+		"vegetation/tree_small_02/tree_small_02_2k.gltf": "derived/tree_small_02_near.scn"
+	},
+	"notes": [
+		"Ancestor transforms baked into VisualPivot; source files unchanged.",
+		"Gothic and balustrade stone overrides; Terpsichore lit stone adaptation CC BY-SA 4.0.",
+		"Fountain basin extracted without upper tiers. No automatic trimesh colliders.",
+		"Trees use compact offline LOD meshes; runtime never instances original tree LOD0."
+	],
+	"prop_reduction": {
+		"exhibits/terpsichore_lyran/terpsichore_lyran_by_canova.glb": {
+			"derived": "res://maps/isg_museum/assets/models/derived/terpsichore.scn",
+			"derived_triangles": 28605.0,
+			"source_triangles": 114430.0
+		},
+		"vegetation/potted_plant_01/potted_plant_01_2k.gltf": {
+			"derived": "res://maps/isg_museum/assets/models/derived/potted_plant_01.scn",
+			"derived_triangles": 10636.0,
+			"source_triangles": 176226.0
+		},
+		"vegetation/shrub_04/shrub_04_2k.gltf": {
+			"derived": "res://maps/isg_museum/assets/models/derived/shrub_04.scn",
+			"derived_triangles": 2287.0,
+			"source_triangles": 27327.0
+		}
+	},
+	"schema_version": 1,
+	"sources": {
+		"architecture/balustrade_balcony/balustrade_balcony.glb": {
+			"instances": 16,
+			"selected_triangles_total": 158400,
+			"source_metadata": "res://maps/isg_museum/assets/models/architecture/balustrade_balcony/source.json",
+			"variants": {
+				"9900:architecture/balustrade_balcony/balustrade_balcony.glb": {
+					"instances": 16,
+					"runtime_source": "res://maps/isg_museum/assets/models/architecture/balustrade_balcony/balustrade_balcony.glb",
+					"triangles": 9900
+				}
+			}
+		},
+		"architecture/gothic_architectural_structures/gothic_architectural_structures.glb": {
+			"instances": 80,
+			"selected_triangles_total": 105200,
+			"source_metadata": "res://maps/isg_museum/assets/models/architecture/gothic_architectural_structures/source.json",
+			"variants": {
+				"2304:architecture/gothic_architectural_structures/gothic_architectural_structures.glb": {
+					"instances": 40,
+					"runtime_source": "res://maps/isg_museum/assets/models/architecture/gothic_architectural_structures/gothic_architectural_structures.glb",
+					"triangles": 2304
+				},
+				"326:architecture/gothic_architectural_structures/gothic_architectural_structures.glb": {
+					"instances": 40,
+					"runtime_source": "res://maps/isg_museum/assets/models/architecture/gothic_architectural_structures/gothic_architectural_structures.glb",
+					"triangles": 326
+				}
+			}
+		},
+		"architecture/italian_fountain/fountain.glb": {
+			"instances": 1,
+			"selected_triangles_total": 936,
+			"source_metadata": "res://maps/isg_museum/assets/models/architecture/italian_fountain/source.json",
+			"variants": {
+				"936:architecture/italian_fountain/fountain.glb": {
+					"instances": 1,
+					"runtime_source": "res://maps/isg_museum/assets/models/architecture/italian_fountain/fountain.glb",
+					"triangles": 936
+				}
+			}
+		},
+		"electronics/cassette_player/cassette_player_2k.gltf": {
+			"instances": 1,
+			"selected_triangles_total": 4830,
+			"source_metadata": "res://maps/isg_museum/assets/models/electronics/cassette_player/source.json",
+			"variants": {
+				"4830:electronics/cassette_player/cassette_player_2k.gltf": {
+					"instances": 1,
+					"runtime_source": "res://maps/isg_museum/assets/models/electronics/cassette_player/cassette_player_2k.gltf",
+					"triangles": 4830
+				}
+			}
+		},
+		"exhibits/modern_abstract_bust/modern-abstract-bust.glb": {
+			"instances": 1,
+			"selected_triangles_total": 13120,
+			"source_metadata": "res://maps/isg_museum/assets/models/exhibits/modern_abstract_bust/source.json",
+			"variants": {
+				"13120:exhibits/modern_abstract_bust/modern-abstract-bust.glb": {
+					"instances": 1,
+					"runtime_source": "res://maps/isg_museum/assets/models/exhibits/modern_abstract_bust/modern-abstract-bust.glb",
+					"triangles": 13120
+				}
+			}
+		},
+		"exhibits/pocket_watch/pocket_watch_2k.gltf": {
+			"instances": 1,
+			"selected_triangles_total": 15615,
+			"source_metadata": "res://maps/isg_museum/assets/models/exhibits/pocket_watch/source.json",
+			"variants": {
+				"15615:exhibits/pocket_watch/pocket_watch_2k.gltf": {
+					"instances": 1,
+					"runtime_source": "res://maps/isg_museum/assets/models/exhibits/pocket_watch/pocket_watch_2k.gltf",
+					"triangles": 15615
+				}
+			}
+		},
+		"exhibits/small_museum_display_case/small_museum_display_case.glb": {
+			"instances": 2,
+			"selected_triangles_total": 32,
+			"source_metadata": "res://maps/isg_museum/assets/models/exhibits/small_museum_display_case/source.json",
+			"variants": {
+				"16:derived/display_case_base.scn": {
+					"instances": 2,
+					"runtime_source": "res://maps/isg_museum/assets/models/derived/display_case_base.scn",
+					"triangles": 16
+				}
+			}
+		},
+		"exhibits/terpsichore_lyran/terpsichore_lyran_by_canova.glb": {
+			"instances": 4,
+			"selected_triangles_total": 114420,
+			"source_metadata": "res://maps/isg_museum/assets/models/exhibits/terpsichore_lyran/source.json",
+			"variants": {
+				"28605:derived/terpsichore.scn": {
+					"instances": 4,
+					"runtime_source": "res://maps/isg_museum/assets/models/derived/terpsichore.scn",
+					"triangles": 28605
+				}
+			}
+		},
+		"frames/fancy_picture_frame_01/fancy_picture_frame_01_2k.gltf": {
+			"instances": 3,
+			"selected_triangles_total": 2808,
+			"source_metadata": "res://maps/isg_museum/assets/models/frames/fancy_picture_frame_01/source.json",
+			"variants": {
+				"936:frames/fancy_picture_frame_01/fancy_picture_frame_01_2k.gltf": {
+					"instances": 3,
+					"runtime_source": "res://maps/isg_museum/assets/models/frames/fancy_picture_frame_01/fancy_picture_frame_01_2k.gltf",
+					"triangles": 936
+				}
+			}
+		},
+		"frames/hanging_picture_frame_01/hanging_picture_frame_01_2k.gltf": {
+			"instances": 3,
+			"selected_triangles_total": 7746,
+			"source_metadata": "res://maps/isg_museum/assets/models/frames/hanging_picture_frame_01/source.json",
+			"variants": {
+				"2582:frames/hanging_picture_frame_01/hanging_picture_frame_01_2k.gltf": {
+					"instances": 3,
+					"runtime_source": "res://maps/isg_museum/assets/models/frames/hanging_picture_frame_01/hanging_picture_frame_01_2k.gltf",
+					"triangles": 2582
+				}
+			}
+		},
+		"frames/standing_picture_frame_01/standing_picture_frame_01_2k.gltf": {
+			"instances": 1,
+			"selected_triangles_total": 1634,
+			"source_metadata": "res://maps/isg_museum/assets/models/frames/standing_picture_frame_01/source.json",
+			"variants": {
+				"1634:frames/standing_picture_frame_01/standing_picture_frame_01_2k.gltf": {
+					"instances": 1,
+					"runtime_source": "res://maps/isg_museum/assets/models/frames/standing_picture_frame_01/standing_picture_frame_01_2k.gltf",
+					"triangles": 1634
+				}
+			}
+		},
+		"furniture/dining_chair_02/dining_chair_02_2k.gltf": {
+			"instances": 2,
+			"selected_triangles_total": 44026,
+			"source_metadata": "res://maps/isg_museum/assets/models/furniture/dining_chair_02/source.json",
+			"variants": {
+				"22013:furniture/dining_chair_02/dining_chair_02_2k.gltf": {
+					"instances": 2,
+					"runtime_source": "res://maps/isg_museum/assets/models/furniture/dining_chair_02/dining_chair_02_2k.gltf",
+					"triangles": 22013
+				}
+			}
+		},
+		"furniture/metal_office_desk/metal_office_desk_2k.gltf": {
+			"instances": 2,
+			"selected_triangles_total": 13796,
+			"source_metadata": "res://maps/isg_museum/assets/models/furniture/metal_office_desk/source.json",
+			"variants": {
+				"6898:furniture/metal_office_desk/metal_office_desk_2k.gltf": {
+					"instances": 2,
+					"runtime_source": "res://maps/isg_museum/assets/models/furniture/metal_office_desk/metal_office_desk_2k.gltf",
+					"triangles": 6898
+				}
+			}
+		},
+		"furniture/vintage_wooden_drawer_01/vintage_wooden_drawer_01_2k.gltf": {
+			"instances": 2,
+			"selected_triangles_total": 10368,
+			"source_metadata": "res://maps/isg_museum/assets/models/furniture/vintage_wooden_drawer_01/source.json",
+			"variants": {
+				"5184:furniture/vintage_wooden_drawer_01/vintage_wooden_drawer_01_2k.gltf": {
+					"instances": 2,
+					"runtime_source": "res://maps/isg_museum/assets/models/furniture/vintage_wooden_drawer_01/vintage_wooden_drawer_01_2k.gltf",
+					"triangles": 5184
+				}
+			}
+		},
+		"furniture/wooden_display_shelves_01/wooden_display_shelves_01_2k.gltf": {
+			"instances": 1,
+			"selected_triangles_total": 3174,
+			"source_metadata": "res://maps/isg_museum/assets/models/furniture/wooden_display_shelves_01/source.json",
+			"variants": {
+				"3174:furniture/wooden_display_shelves_01/wooden_display_shelves_01_2k.gltf": {
+					"instances": 1,
+					"runtime_source": "res://maps/isg_museum/assets/models/furniture/wooden_display_shelves_01/wooden_display_shelves_01_2k.gltf",
+					"triangles": 3174
+				}
+			}
+		},
+		"lighting/desk_lamp_arm_01/desk_lamp_arm_01_2k.gltf": {
+			"instances": 2,
+			"selected_triangles_total": 48204,
+			"source_metadata": "res://maps/isg_museum/assets/models/lighting/desk_lamp_arm_01/source.json",
+			"variants": {
+				"24102:lighting/desk_lamp_arm_01/desk_lamp_arm_01_2k.gltf": {
+					"instances": 2,
+					"runtime_source": "res://maps/isg_museum/assets/models/lighting/desk_lamp_arm_01/desk_lamp_arm_01_2k.gltf",
+					"triangles": 24102
+				}
+			}
+		},
+		"lighting/modern_ceiling_lamp_01/modern_ceiling_lamp_01_2k.gltf": {
+			"instances": 1,
+			"selected_triangles_total": 5602,
+			"source_metadata": "res://maps/isg_museum/assets/models/lighting/modern_ceiling_lamp_01/source.json",
+			"variants": {
+				"5602:lighting/modern_ceiling_lamp_01/modern_ceiling_lamp_01_2k.gltf": {
+					"instances": 1,
+					"runtime_source": "res://maps/isg_museum/assets/models/lighting/modern_ceiling_lamp_01/modern_ceiling_lamp_01_2k.gltf",
+					"triangles": 5602
+				}
+			}
+		},
+		"security/power_box_01/power_box_01_2k.gltf": {
+			"instances": 1,
+			"selected_triangles_total": 21272,
+			"source_metadata": "res://maps/isg_museum/assets/models/security/power_box_01/source.json",
+			"variants": {
+				"21272:security/power_box_01/power_box_01_2k.gltf": {
+					"instances": 1,
+					"runtime_source": "res://maps/isg_museum/assets/models/security/power_box_01/power_box_01_2k.gltf",
+					"triangles": 21272
+				}
+			}
+		},
+		"storage/painted_wooden_cabinet/painted_wooden_cabinet_2k.gltf": {
+			"instances": 2,
+			"selected_triangles_total": 4454,
+			"source_metadata": "res://maps/isg_museum/assets/models/storage/painted_wooden_cabinet/source.json",
+			"variants": {
+				"2227:storage/painted_wooden_cabinet/painted_wooden_cabinet_2k.gltf": {
+					"instances": 2,
+					"runtime_source": "res://maps/isg_museum/assets/models/storage/painted_wooden_cabinet/painted_wooden_cabinet_2k.gltf",
+					"triangles": 2227
+				}
+			}
+		},
+		"storage/rope_coil/rope-coil.glb": {
+			"instances": 1,
+			"selected_triangles_total": 7928,
+			"source_metadata": "res://maps/isg_museum/assets/models/storage/rope_coil/source.json",
+			"variants": {
+				"7928:storage/rope_coil/rope-coil.glb": {
+					"instances": 1,
+					"runtime_source": "res://maps/isg_museum/assets/models/storage/rope_coil/rope-coil.glb",
+					"triangles": 7928
+				}
+			}
+		},
+		"storage/steel_frame_shelves_01/steel_frame_shelves_01_2k.gltf": {
+			"instances": 2,
+			"selected_triangles_total": 8696,
+			"source_metadata": "res://maps/isg_museum/assets/models/storage/steel_frame_shelves_01/source.json",
+			"variants": {
+				"4348:storage/steel_frame_shelves_01/steel_frame_shelves_01_2k.gltf": {
+					"instances": 2,
+					"runtime_source": "res://maps/isg_museum/assets/models/storage/steel_frame_shelves_01/steel_frame_shelves_01_2k.gltf",
+					"triangles": 4348
+				}
+			}
+		},
+		"vegetation/fern_02/fern_02_2k.gltf": {
+			"instances": 8,
+			"selected_triangles_total": 49856,
+			"source_metadata": "res://maps/isg_museum/assets/models/vegetation/fern_02/source.json",
+			"variants": {
+				"6232:vegetation/fern_02/fern_02_2k.gltf": {
+					"instances": 8,
+					"runtime_source": "res://maps/isg_museum/assets/models/vegetation/fern_02/fern_02_2k.gltf",
+					"triangles": 6232
+				}
+			}
+		},
+		"vegetation/potted_plant_01/potted_plant_01_2k.gltf": {
+			"instances": 3,
+			"selected_triangles_total": 31908,
+			"source_metadata": "res://maps/isg_museum/assets/models/vegetation/potted_plant_01/source.json",
+			"variants": {
+				"10636:derived/potted_plant_01.scn": {
+					"instances": 3,
+					"runtime_source": "res://maps/isg_museum/assets/models/derived/potted_plant_01.scn",
+					"triangles": 10636
+				}
+			}
+		},
+		"vegetation/shrub_04/shrub_04_2k.gltf": {
+			"instances": 64,
+			"selected_triangles_total": 146368,
+			"source_metadata": "res://maps/isg_museum/assets/models/vegetation/shrub_04/source.json",
+			"variants": {
+				"2287:derived/shrub_04.scn": {
+					"instances": 64,
+					"runtime_source": "res://maps/isg_museum/assets/models/derived/shrub_04.scn",
+					"triangles": 2287
+				}
+			}
+		},
+		"vegetation/tree_small_02/tree_small_02_2k.gltf": {
+			"instances": 4,
+			"selected_triangles_total": 38332,
+			"source_metadata": "res://maps/isg_museum/assets/models/vegetation/tree_small_02/source.json",
+			"variants": {
+				"18589:derived/tree_small_02_near.scn": {
+					"instances": 2,
+					"runtime_source": "res://maps/isg_museum/assets/models/derived/tree_small_02_near.scn",
+					"triangles": 18589
+				},
+				"577:derived/tree_small_02_far.scn": {
+					"instances": 2,
+					"runtime_source": "res://maps/isg_museum/assets/models/derived/tree_small_02_far.scn",
+					"triangles": 577
+				}
+			}
+		}
+	},
+	"tree_lod0_instanced": false,
+	"tree_reduction": {
+		"far_triangles": 577.0,
+		"method": "Godot ImporterMesh.generate_lods; compact referenced vertices; source transforms retained; CC0",
+		"near_triangles": 18589.0,
+		"source": "res://maps/isg_museum/assets/models/vegetation/tree_small_02/source.json",
+		"source_triangles": 2062487.0
+	}
+}

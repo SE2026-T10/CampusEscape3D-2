@@ -1,16 +1,16 @@
 {
     "schema_version":  1,
-    "updated_on":  "2026-11-10",
+    "updated_on":  "2026-11-11",
     "summary":  {
-                    "downloaded_models":  24,
+                    "downloaded_models":  27,
                     "downloaded_images":  1,
-                    "pending_entries":  4,
+                    "pending_entries":  1,
                     "downloaded_animation_clips":  9,
                     "reference_characters":  1
                 },
     "validation":  {
                        "godot_version":  "4.7.2",
-                       "parsed_models":  24,
+                       "parsed_models":  27,
                        "validated_poly_haven_files":  118,
                        "artwork_dimensions":  [
                                                   1959,
@@ -19,9 +19,9 @@
                        "parsed_fbx_files":  10,
                        "animation_skeleton_bones":  65,
                        "courtyard":  {
-                                         "checked_on":  "2026-11-10",
-                                         "parsed_models":  3,
-                                         "verified_files":  21,
+                                         "checked_on":  "2026-11-11",
+                                         "parsed_models":  6,
+                                         "verified_files":  24,
                                          "report":  "Source metadata validation in each downloaded asset folder"
                                      }
                    },
@@ -538,8 +538,8 @@
                        "title":  "Gothic Architectural Structures",
                        "kind":  "model",
                        "folder":  "models/architecture/gothic_architectural_structures",
-                       "status":  "pending_authentication",
-                       "main_file":  null,
+                       "status":  "downloaded",
+                       "main_file":  "gothic_architectural_structures.glb",
                        "metadata_file":  "models/architecture/gothic_architectural_structures/source.json",
                        "source_url":  "https://sketchfab.com/3d-models/gothic-architectural-structures-affc5b590531447788aafc23a011154c",
                        "provider":  "Sketchfab",
@@ -548,15 +548,19 @@
                        "batch":  "courtyard_garden_2026_11_10",
                        "author":  "Samuel F. Angrick-Johanns (Oneironauticus)",
                        "attribution":  "\"Gothic Architectural Structures\" by Samuel F. Angrick-Johanns (Oneironauticus), https://sketchfab.com/3d-models/gothic-architectural-structures-affc5b590531447788aafc23a011154c, licensed under CC BY 4.0.",
-                       "blocker":  "Official Sketchfab download API returned HTTP 401: Authentication credentials were not provided. Public metadata is accessible, but model files require an authenticated download."
+                       "format":  "GLB 2.0",
+                       "main_file_bytes":  17184512,
+                       "main_file_sha256":  "417dc69a55a53ee25560118c2ed380035c10d4064a5949f53b570c24721b9eeb",
+                       "triangles":  7890,
+                       "godot_parse_passed":  true
                    },
                    {
                        "id":  "balustrade_balcony",
                        "title":  "Balustrade Balcony",
                        "kind":  "model",
                        "folder":  "models/architecture/balustrade_balcony",
-                       "status":  "pending_authentication",
-                       "main_file":  null,
+                       "status":  "downloaded",
+                       "main_file":  "balustrade_balcony.glb",
                        "metadata_file":  "models/architecture/balustrade_balcony/source.json",
                        "source_url":  "https://sketchfab.com/3d-models/balustrade-balcony-83bf8e57aba441de9f2a9ef7442db59d",
                        "provider":  "Sketchfab",
@@ -565,7 +569,12 @@
                        "batch":  "courtyard_garden_2026_11_10",
                        "author":  "Esther3D",
                        "attribution":  "\"Balustrade Balcony\" by Esther3D, https://sketchfab.com/3d-models/balustrade-balcony-83bf8e57aba441de9f2a9ef7442db59d, licensed under CC BY 4.0.",
-                       "blocker":  "Official Sketchfab download API returned HTTP 401: Authentication credentials were not provided. Public metadata is accessible, but model files require an authenticated download."
+                       "format":  "GLB 2.0",
+                       "main_file_bytes":  13067628,
+                       "main_file_sha256":  "208215278d9f15e4d572854c947b1133a4cdd85a0929e1484df2eba8f2278a98",
+                       "triangles":  21842,
+                       "godot_parse_passed":  true,
+                       "needs_material_review":  true
                    },
                    {
                        "id":  "goddess_isis",
@@ -589,8 +598,8 @@
                        "title":  "Terpsichore Lyran by Canova",
                        "kind":  "model",
                        "folder":  "models/exhibits/terpsichore_lyran",
-                       "status":  "pending_browser_download",
-                       "main_file":  null,
+                       "status":  "downloaded",
+                       "main_file":  "terpsichore_lyran_by_canova.glb",
                        "metadata_file":  "models/exhibits/terpsichore_lyran/source.json",
                        "source_url":  "https://sketchfab.com/3d-models/terpsichore-lyran-by-canova-aef74272b36a48a5a4e35189b048034c",
                        "provider":  "Sketchfab",
@@ -599,7 +608,20 @@
                        "batch":  "courtyard_garden_2026_11_10",
                        "author":  "Glenn Gunhouse",
                        "attribution":  "\"Terpsichore Lyran by Canova\" by Glenn Gunhouse, https://sketchfab.com/3d-models/terpsichore-lyran-by-canova-aef74272b36a48a5a4e35189b048034c, licensed under CC-BY-SA-4.0.",
-                       "blocker":  "The official Sketchfab download API returned HTTP 401: Authentication credentials were not provided."
+                       "format":  "GLB 2.0",
+                       "main_file_bytes":  5277572,
+                       "main_file_sha256":  "dd1669cc8564a79682d7bc199581d7cda700469168ab06e7bfea48aaaf10000a",
+                       "triangles":  114430,
+                       "godot_parse_passed":  true,
+                       "needs_lit_material":  true
                    }
                ]
+,
+    "environment_art": {
+        "layout": "../resources/environment_art_layout.json",
+        "manifest": "../resources/environment_art_manifest.json",
+        "derived": "models/derived/",
+        "report": "../docs/environment-art-v1/REPORT.md",
+        "source_files_modified": false
+    }
 }

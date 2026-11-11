@@ -1,10 +1,12 @@
 # Thư viện asset bảo tàng
 
-Thư viện ngày 10/11/2026 đã lưu **24 model, 1 ảnh tác phẩm, 9 clip hoạt ảnh và 1 nhân vật tham chiếu Mixamo**. Có thêm **4 bản ghi model sân vườn chờ tải qua Sketchfab**. Trạng thái từng mục nằm trong `catalog.json` và `source.json` của thư mục tương ứng.
+Art môi trường v1 đã được áp dụng vào các scene museum bằng công cụ offline có thể chạy lại. Xem [báo cáo và ảnh Godot](../docs/environment-art-v1/REPORT.md), [mesh runtime đã giảm lưới](models/derived/README.md) và `../resources/environment_art_manifest.json`. Nguồn tải và giấy phép bên dưới được bảo tồn.
 
-Ba model sân vườn mới gồm **Shrub 04, Fern 02 và Tree Small 02**, có texture 2K và dữ liệu nguồn. Xem [hướng dẫn sân vườn](COURTYARD_GUIDE.md) để mở đúng tệp và tải bổ sung bốn mẫu còn thiếu. Tree Small 02 hiện là nguồn LOD0 cần giảm lưới trước khi dùng trong game.
+Thư viện cập nhật ngày 11/11/2026 đã lưu **27 model, 1 ảnh tác phẩm, 9 clip hoạt ảnh và 1 nhân vật tham chiếu Mixamo**. Còn **1 bản ghi model sân vườn chờ tải qua Sketchfab — Goddess Isis**. Trạng thái từng mục nằm trong `catalog.json` và `source.json` của thư mục tương ứng.
 
-Ba model mới đã được Godot 4.7.2 đọc thành công; 21 tệp model và phụ thuộc đã khớp kích thước, MD5 từ nguồn và SHA-256 lưu trong metadata. Đợt sân vườn thêm khoảng 117,4 MiB vào thư viện.
+Ba model cây sân vườn gồm **Shrub 04, Fern 02 và Tree Small 02**, có texture 2K và dữ liệu nguồn. Ngày 11/11/2026 bổ sung ba GLB người dùng tải — **Gothic Architectural Structures, Balustrade Balcony và Terpsichore Lyran by Canova**. Xem [hướng dẫn sân vườn](COURTYARD_GUIDE.md) để mở đúng tệp và tải bổ sung Goddess Isis. Tree Small 02 hiện là nguồn LOD0 cần giảm lưới trước khi dùng trong game.
+
+Ba model cây đã được Godot 4.7.2 đọc thành công trong đợt 10/11/2026; 21 tệp model và phụ thuộc đã khớp kích thước, MD5 từ nguồn và SHA-256 lưu trong metadata. Đợt cây sân vườn thêm khoảng 117,4 MiB vào thư viện. Ngày 11/11/2026, Godot cũng đọc thành công hình học của ba GLB bổ sung. Kết quả và các lưu ý vật liệu nằm trong `source.json` tương ứng.
 
 ```text
 assets/
@@ -18,7 +20,7 @@ assets/
 │   ├── storage/                Kệ thép, tủ gỗ và cuộn dây
 │   ├── security/               Hộp điều khiển
 │   ├── vegetation/             Cây trong chậu, bụi xanh, dương xỉ và cây tán cao
-│   ├── architecture/           Đài phun nước; bản ghi cột–vòm và lan can chờ tải
+│   ├── architecture/           Đài phun nước, cột–vòm và lan can
 │   └── characters/             Model bảo vệ cần gắn xương
 ├── images/artworks/            Ảnh tranh gốc của The Met
 ├── animations/mixamo/          9 clip FBX và nhân vật tham chiếu có bộ xương
@@ -27,7 +29,7 @@ assets/
 
 Mỗi model được tải xong có tệp `.gltf` hoặc `.glb`, `source.json` và `LICENSE.txt`. Model Poly Haven đi cùng tệp `.bin` và thư mục `textures/` chứa ảnh 2K. Các model giữ hình học và kích thước gốc từ nguồn.
 
-Đã kiểm tra 21 model bằng `GLTFDocument` của Godot 4.7.2 trong thư mục kiểm tra riêng. Các tệp phụ thuộc đều có sẵn ở máy, 97 tệp Poly Haven khớp mã MD5 từ nguồn và ảnh Turner đọc được ở kích thước 1959 × 1461 px. Godot chuyển vật liệu specular/glossiness của đài phun nước sang roughness/metallic khi đọc, nên màu và độ bóng cần đối chiếu thêm khi tích hợp.
+Đợt ban đầu ngày 10/11/2026 đã kiểm tra 21 model bằng `GLTFDocument` của Godot 4.7.2 trong thư mục kiểm tra riêng. Các tệp phụ thuộc đều có sẵn ở máy, 97 tệp Poly Haven khớp mã MD5 từ nguồn và ảnh Turner đọc được ở kích thước 1959 × 1461 px. Godot chuyển vật liệu specular/glossiness của đài phun nước sang roughness/metallic khi đọc, nên màu và độ bóng cần đối chiếu thêm khi tích hợp.
 
 Godot 4.7.2 cũng đã đọc thành công 10 tệp FBX Mixamo. Các clip có cùng hệ 65 xương với nhân vật tham chiếu và khai báo 30 FPS. Bộ đã nhận được trình bày trong [hướng dẫn hoạt ảnh](D:/IT/SE_GAME_3D/maps/isg_museum/assets/animations/mixamo/README.md).
 
@@ -60,9 +62,9 @@ Các hoạt ảnh nằm trong [animations/mixamo](D:/IT/SE_GAME_3D/maps/isg_muse
 
 Để xem một model trong Godot sau này, mở tệp `.gltf` hoặc `.glb` từ FileSystem. Giữ tệp `.gltf`, `.bin` và thư mục `textures/` cùng vị trí để Godot tìm đủ hình học và vật liệu. Với GLB, hình học và ảnh đã nằm trong một tệp.
 
-Thư viện này đang ở bước chuẩn bị asset. Khi triển khai vào map, cần căn kích thước, đặt vị trí và giữ các vùng tương tác của cơ chế đang dùng. Khung T1 cần tách mặt tranh để giữ khung trống, T2 cần mặt sau và cách cầm/đặt, tủ kính cần phần kính tách riêng. Bàn A cần mặt trước kín, ghế cần khớp tư thế G3, nhân vật cần kiểm tra bộ xương và chuyển hoạt ảnh. Model đèn sẽ cần nguồn sáng trong scene.
+Ghi chú từ đợt chuẩn bị asset: khi tích hợp cần căn kích thước, đặt vị trí và giữ các vùng tương tác của cơ chế đang dùng. Art v1 đã tách khung T1/canvas, giữ mặt sau và container mang/đặt T2, tách đế tủ kính với các trạng thái kính, thêm mặt kín bàn A và căn ghế G3. Nhân vật, bộ xương và hoạt ảnh tiếp tục thuộc đợt riêng.
 
-Các model Poly Haven, Innerscene và Grab3D đã tải dùng CC0. Tranh Turner được The Met xác nhận Public Domain. Ba model Sketchfab đã tải dùng CC BY 4.0 và cần ghi công tác giả khi đưa vào game. Bốn mẫu Sketchfab sân vườn đang chờ tải có giấy phép riêng trong từng thư mục, gồm CC0, CC BY và CC BY-SA. Thông tin tác giả, URL nguồn và mã kiểm tra SHA-256 của tệp đã tải nằm trong `source.json` của từng asset.
+Các model Poly Haven, Innerscene và Grab3D đã tải dùng CC0. Tranh Turner được The Met xác nhận Public Domain. Các model Sketchfab đã tải dùng CC BY 4.0 hoặc CC BY-SA 4.0; giữ thông tin ghi công và giấy phép tương ứng khi đưa vào game. Goddess Isis đang chờ tải dùng CC0. Thông tin tác giả, URL nguồn và mã kiểm tra SHA-256 của tệp đã tải nằm trong `source.json` của từng asset.
 
 Nhân vật tham chiếu và hoạt ảnh Mixamo dùng điều kiện Adobe Mixamo, được ghi trong `animations/mixamo/LICENSE.txt`. [Adobe Mixamo FAQ](https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html)
 

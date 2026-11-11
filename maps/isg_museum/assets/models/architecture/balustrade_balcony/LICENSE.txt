@@ -9,8 +9,8 @@ https://creativecommons.org/licenses/by/4.0/
 The provider requires attribution. Retain the source and license links
 and indicate changes when applicable.
 
-Attribution line for use after the model is downloaded:
+Attribution:
 "Balustrade Balcony" by Esther3D, https://sketchfab.com/3d-models/balustrade-balcony-83bf8e57aba441de9f2a9ef7442db59d, licensed under CC BY 4.0.
 
-STATUS: No model has been downloaded. The official download API requires
-Sketchfab authentication (HTTP 401). See source.json for download steps.
+STATUS: The user-provided GLB was prepared on 2026-11-11. Original model
+geometry and materials are retained. See source.json for its checksum.

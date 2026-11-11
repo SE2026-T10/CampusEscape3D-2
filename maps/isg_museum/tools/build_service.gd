@@ -147,6 +147,8 @@ func _build() -> void:
 	ticket_door("TicketGate_A",Vector3(9,4.5,27),1.6)
 	ticket_door("TicketGate_B",Vector3(27,4.5,3),2.0)
 	Palette.apply_service(scene)
+	var art := preload("res://maps/isg_museum/tools/environment_art_builder.gd").new()
+	art.apply_to_service(scene, art.load_layout())
 	var packed := PackedScene.new()
 	var error := packed.pack(scene)
 	if error == OK:

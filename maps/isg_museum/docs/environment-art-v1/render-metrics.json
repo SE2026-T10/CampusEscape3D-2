@@ -1,0 +1,110 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+	"renderer": "gl_compatibility",
+	"samples": [
+		{
+			"draw_calls": 1192.0,
+			"mean_fps": 144.023619873659,
+			"mean_frame_ms": 6.94330555555555,
+			"p95_frame_ms": 7.188,
+			"primitives": 1480617.0,
+			"shot": "01-courtyard",
+			"video_memory": 458629273.0,
+			"viewport": [
+				1280,
+				720
+			]
+		},
+		{
+			"draw_calls": 641.0,
+			"mean_fps": 144.023850349618,
+			"mean_frame_ms": 6.94329444444444,
+			"p95_frame_ms": 7.172,
+			"primitives": 1039991.0,
+			"shot": "02-cover",
+			"video_memory": 458629273.0,
+			"viewport": [
+				1280,
+				720
+			]
+		},
+		{
+			"draw_calls": 1647.0,
+			"mean_fps": 144.014401440144,
+			"mean_frame_ms": 6.94375,
+			"p95_frame_ms": 7.615,
+			"primitives": 1285880.0,
+			"shot": "04-floor-2",
+			"video_memory": 464335953.0,
+			"viewport": [
+				1280,
+				1280
+			]
+		},
+		{
+			"draw_calls": 1173.0,
+			"mean_fps": 144.022237033398,
+			"mean_frame_ms": 6.94337222222222,
+			"p95_frame_ms": 7.375,
+			"primitives": 752584.0,
+			"shot": "03-floor-1",
+			"video_memory": 464335953.0,
+			"viewport": [
+				1280,
+				1280
+			]
+		},
+		{
+			"draw_calls": 593.0,
+			"mean_fps": 143.996544082942,
+			"mean_frame_ms": 6.94461111111111,
+			"p95_frame_ms": 7.276,
+			"primitives": 478786.0,
+			"shot": "05-staff",
+			"video_memory": 458601553.0,
+			"viewport": [
+				1280,
+				720
+			]
+		},
+		{
+			"draw_calls": 269.0,
+			"mean_fps": 144.043328233133,
+			"mean_frame_ms": 6.94235555555555,
+			"p95_frame_ms": 7.204,
+			"primitives": 45728.0,
+			"shot": "06-broken-glass",
+			"video_memory": 486296009.0,
+			"viewport": [
+				1280,
+				720
+			]
+		},
+		{
+			"draw_calls": 1713.0,
+			"mean_fps": 143.993664278772,
+			"mean_frame_ms": 6.94475,
+			"p95_frame_ms": 7.308,
+			"primitives": 1951268.0,
+			"shot": "07-map-ui",
+			"video_memory": 486754971.0,
+			"viewport": [
+				1280,
+				720
+			]
+		},
+		{
+			"draw_calls": 1168.0,
+			"mean_fps": 144.021084686798,
+			"mean_frame_ms": 6.94342777777778,
+			"p95_frame_ms": 7.197,
+			"primitives": 1525597.0,
+			"shot": "08-calendar-ui",
+			"video_memory": 486761163.0,
+			"viewport": [
+				1280,
+				720
+			]
+		}
+	]
+}

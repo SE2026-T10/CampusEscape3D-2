@@ -1,0 +1,42 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/museum_door.gd" id="1_door"]
+[ext_resource type="Material" path="res://maps/isg_museum/assets/materials/presets/dark_wood.tres" id="2_0m4ks"]
+
+[sub_resource type="StandardMaterial3D" id="Material_door"]
+albedo_color = Color(0.3, 0.21, 0.13, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_panel"]
+material = SubResource("Material_door")
+size = Vector3(2, 2.8, 0.26)
+
+[sub_resource type="BoxShape3D" id="Shape_panel"]
+size = Vector3(2, 2.8, 0.26)
+
+[sub_resource type="BoxShape3D" id="Shape_interaction"]
+size = Vector3(2, 2.8, 0.5)
+
+[node name="EntranceDoor" type="Area3D" unique_id=1452988419]
+script = ExtResource("1_door")
+mode = 2
+door_name = "Cửa chính bảo tàng"
+
+[node name="Panel" type="StaticBody3D" parent="." unique_id=1878382565]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Panel" unique_id=1087880790]
+material_override = ExtResource("2_0m4ks")
+mesh = SubResource("Mesh_panel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Panel" unique_id=1599157835]
+shape = SubResource("Shape_panel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=48192168]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+shape = SubResource("Shape_interaction")
+
+[node name="Passage" type="NavigationLink3D" parent="." unique_id=1969421094]
+enabled = false
+start_position = Vector3(0, 0.45, -1.1)
+end_position = Vector3(0, 0.45, 1.1)

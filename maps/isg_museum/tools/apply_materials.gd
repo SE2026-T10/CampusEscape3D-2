@@ -21,6 +21,16 @@ func _apply() -> void:
 		var path := "res://maps/isg_museum/scenes/%s.tscn" % scene_name
 		var scene := (load(path) as PackedScene).instantiate()
 		palette.call(SCENES[scene_name], scene)
+		# Rebuild the owned art layer after the blockout palette so source materials
+		# and cover finishes survive both standalone palette runs and builder runs.
+		var art := preload("res://maps/isg_museum/tools/environment_art_builder.gd").new()
+		var layout := art.load_layout()
+		if scene_name == "museum_geometry":
+			art.apply_to_geometry(scene, layout)
+		elif scene_name == "exhibits_expansion":
+			art.apply_to_exhibits(scene, layout)
+		elif scene_name == "service_expansion":
+			art.apply_to_service(scene, layout)
 		var packed := PackedScene.new()
 		var result := packed.pack(scene)
 		if result == OK:

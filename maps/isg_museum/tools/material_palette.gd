@@ -194,11 +194,14 @@ static func _replace_group(scene: Node3D, node_name: String) -> Node3D:
 
 
 static func _set_material(scene: Node, path: String, mat: Material) -> void:
-	var mesh := scene.get_node(path) as MeshInstance3D
-	mesh.material_override = mat
+	var mesh := scene.get_node_or_null(path) as MeshInstance3D
+	if mesh and not mesh.get_meta("preserve_source_material", false):
+		mesh.material_override = mat
 
 
 static func _apply_tree(node: Node, mat: Material) -> void:
+	if node.get_meta("preserve_source_material", false):
+		return
 	if node is MeshInstance3D:
 		node.material_override = mat
 	for child in node.get_children():

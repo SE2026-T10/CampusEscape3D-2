@@ -15,24 +15,49 @@
     "attribution_required":  true,
     "attribution":  "\"Balustrade Balcony\" by Esther3D, https://sketchfab.com/3d-models/balustrade-balcony-83bf8e57aba441de9f2a9ef7442db59d, licensed under CC BY 4.0.",
     "checked_on":  "2026-11-10",
-    "status":  "pending_authentication",
-    "downloaded":  false,
+    "status":  "downloaded",
+    "downloaded":  true,
     "downloadable_on_provider":  true,
     "triangles":  21846,
     "vertices":  11381,
-    "files":  [
-
-              ],
-    "blocker":  "Official Sketchfab download API returned HTTP 401: Authentication credentials were not provided. Public metadata is accessible, but model files require an authenticated download.",
     "download_attempt":  {
                              "method":  "official_sketchfab_download_api",
                              "metadata_http_status":  200,
                              "download_http_status":  401
                          },
-    "manual_download_instructions":  [
-                                         "Open source_url in the browser where you are logged into Sketchfab.",
-                                         "Choose Download 3D Model and prefer GLB or glTF with textures.",
-                                         "Save the original archive under .local/downloads/museum_models/sketchfab/.",
-                                         "After receiving the files, unpack safely and validate before setting downloaded=true."
-                                     ]
+    "downloaded_on":  "2026-11-11",
+    "download_method":  "user_browser_download",
+    "original_download_file":  ".local/downloads/museum_models/balustrade_balcony.glb",
+    "model_file":  "balustrade_balcony.glb",
+    "format":  "GLB 2.0",
+    "gltf_details":  {
+                         "glb_version":  2,
+                         "mesh_count":  6,
+                         "material_count":  4,
+                         "embedded_image_count":  8,
+                         "external_dependencies":  0,
+                         "animations":  0
+                     },
+    "files":  [
+                  {
+                      "file":  "balustrade_balcony.glb",
+                      "bytes":  13067628,
+                      "sha256":  "208215278d9f15e4d572854c947b1133a4cdd85a0929e1484df2eba8f2278a98"
+                  }
+              ],
+    "downloaded_triangles":  21842,
+    "needs_material_review":  true,
+    "import_notes":  [
+                         "Godot 4.7.2 reports different UV sets for the normal and base color textures. It uses the base color UV set and ignores the normal texture UV set. Review the normal material during scene integration.",
+                         "The GLB includes compensating 0.01 and 100 scale transforms. Preserve the hierarchy when measuring or extracting modules."
+                     ],
+    "validation":  {
+                       "godot_parse_passed":  true,
+                       "godot_version":  "4.7.2-stable (official)",
+                       "id":  "balustrade_balcony",
+                       "main_file":  "models/architecture/balustrade_balcony/balustrade_balcony.glb",
+                       "mesh_instances":  6,
+                       "triangles":  21842,
+                       "vertices":  21331
+                   }
 }

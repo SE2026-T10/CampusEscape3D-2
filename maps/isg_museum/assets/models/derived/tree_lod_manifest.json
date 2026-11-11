@@ -1,0 +1,7 @@
+{
+	"far_triangles": 577,
+	"method": "Godot ImporterMesh.generate_lods; compact referenced vertices; source transforms retained; CC0",
+	"near_triangles": 18589,
+	"source": "res://maps/isg_museum/assets/models/vegetation/tree_small_02/source.json",
+	"source_triangles": 2062487
+}

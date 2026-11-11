@@ -529,6 +529,8 @@ func _build() -> void:
 
 func save_geometry() -> void:
 	Palette.apply_geometry(geometry)
+	var art := preload("res://maps/isg_museum/tools/environment_art_builder.gd").new()
+	art.apply_to_geometry(geometry, art.load_layout())
 	var packed := PackedScene.new()
 	var error := packed.pack(geometry)
 	if error == OK:

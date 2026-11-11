@@ -1,5 +1,9 @@
 # Map bảo tàng — hgmanh
 
+Art môi trường v1: sân Gothic hai tầng, mái kính, bốn tượng, đài phun thấp, cây LOD và nội thất đã được lưu vào scene. Công cụ authoring, ảnh Godot, baseline và giới hạn nghiệm thu: [environment-art-v1/REPORT.md](docs/environment-art-v1/REPORT.md).
+
+Sau khi chỉnh layout hoặc dựng lại, chạy `tools/apply_environment_art.gd`, rồi kiểm tra bằng cùng script với `-- --check`. Các builder geometry/exhibits/service và `apply_materials.gd` đều gọi art helper trước khi lưu; không cần tạo môi trường trong runtime.
+
 Người phụ trách: **hgmanh**. Nhánh phát triển: **`hgmanh-work`**.
 
 Map ID: **`isg_museum`**. Thư mục làm việc: `maps/isg_museum/`.

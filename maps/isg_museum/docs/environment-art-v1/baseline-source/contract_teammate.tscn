@@ -1,0 +1,110 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/contract_teammate.gd" id="1_xk7p5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u1nms"]
+size = Vector3(0.8, 1.9, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1gmot"]
+albedo_color = Color(0.14, 0.42, 0.47, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_inuq5"]
+material = SubResource("StandardMaterial3D_1gmot")
+size = Vector3(0.55, 0.65, 0.35)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_53k8r"]
+albedo_color = Color(0.73, 0.55, 0.37, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xwiyn"]
+material = SubResource("StandardMaterial3D_53k8r")
+size = Vector3(0.32, 0.36, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bsjs6"]
+albedo_color = Color(0.07, 0.1, 0.12, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xn2y4"]
+material = SubResource("StandardMaterial3D_bsjs6")
+size = Vector3(0.035, 0.04, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i102m"]
+albedo_color = Color(0.07, 0.1, 0.12, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lnp6m"]
+material = SubResource("StandardMaterial3D_i102m")
+size = Vector3(0.035, 0.04, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yp7o0"]
+albedo_color = Color(0.12, 0.17, 0.22, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_06vsk"]
+material = SubResource("StandardMaterial3D_yp7o0")
+size = Vector3(0.22, 0.7, 0.26)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_muvjt"]
+albedo_color = Color(0.12, 0.17, 0.22, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_b4dd3"]
+material = SubResource("StandardMaterial3D_muvjt")
+size = Vector3(0.22, 0.7, 0.26)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jhqvc"]
+albedo_color = Color(0.14, 0.42, 0.47, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1aest"]
+material = SubResource("StandardMaterial3D_jhqvc")
+size = Vector3(0.18, 0.62, 0.24)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_506nf"]
+albedo_color = Color(0.14, 0.42, 0.47, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_s7nag"]
+material = SubResource("StandardMaterial3D_506nf")
+size = Vector3(0.18, 0.62, 0.24)
+
+[node name="Teammate" type="Area3D" unique_id=1278643664]
+transform = Transform3D(0.90044713, 0, -0.43496552, 0, 1, 0, 0.43496552, 0, 0.90044713, 20.5, 1, 31.5)
+script = ExtResource("1_xk7p5")
+prompt = "Nói chuyện với N0 · nhận hợp đồng"
+
+[node name="Interaction" type="CollisionShape3D" parent="." unique_id=540313742]
+shape = SubResource("BoxShape3D_u1nms")
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1154784746]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+mesh = SubResource("BoxMesh_inuq5")
+
+[node name="Head" type="MeshInstance3D" parent="." unique_id=1236625034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68, 0)
+mesh = SubResource("BoxMesh_xwiyn")
+
+[node name="Eye3" type="MeshInstance3D" parent="." unique_id=631603692]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065, 0.71, 0.16)
+mesh = SubResource("BoxMesh_xn2y4")
+
+[node name="Eye4" type="MeshInstance3D" parent="." unique_id=1915745323]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.065, 0.71, 0.16)
+mesh = SubResource("BoxMesh_lnp6m")
+
+[node name="Leg5" type="MeshInstance3D" parent="." unique_id=1170634584]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, -0.58, 0)
+mesh = SubResource("BoxMesh_06vsk")
+
+[node name="Leg6" type="MeshInstance3D" parent="." unique_id=1249312951]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17, -0.58, 0)
+mesh = SubResource("BoxMesh_b4dd3")
+
+[node name="Arm7" type="MeshInstance3D" parent="." unique_id=873174845]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.38, -0.03, 0)
+mesh = SubResource("BoxMesh_1aest")
+
+[node name="Arm8" type="MeshInstance3D" parent="." unique_id=608821664]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38, -0.03, 0)
+mesh = SubResource("BoxMesh_s7nag")
+
+[node name="Label" type="Label3D" parent="." unique_id=1569123542]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12, 0)
+pixel_size = 0.002
+billboard = 1
+text = "N0 · ĐỒNG ĐỘI
+E: NHẬN HỢP ĐỒNG"
+font_size = 44

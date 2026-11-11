@@ -1,31 +1,63 @@
 {
-  "id": "terpsichore_lyran",
-  "title": "Terpsichore Lyran by Canova",
-  "provider": "Sketchfab",
-  "author": "Glenn Gunhouse",
-  "author_url": "https://sketchfab.com/ggunhouse",
-  "source": "https://sketchfab.com/3d-models/terpsichore-lyran-by-canova-aef74272b36a48a5a4e35189b048034c",
-  "source_url": "https://sketchfab.com/3d-models/terpsichore-lyran-by-canova-aef74272b36a48a5a4e35189b048034c",
-  "folder": "models/exhibits/terpsichore_lyran",
-  "license": "CC-BY-SA-4.0",
-  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-  "status": "pending_browser_download",
-  "downloaded": false,
-  "checked_on": "2026-11-10",
-  "intended_use": "Classical courtyard statue above a separate 1.2 m solid cover pedestal",
-  "suggested_model_file": "terpsichore_lyran.glb",
-  "source_triangles": 114430,
-  "blocker": "The official Sketchfab download API returned HTTP 401: Authentication credentials were not provided.",
-  "download_check": {
-    "endpoint": "https://api.sketchfab.com/v3/models/aef74272b36a48a5a4e35189b048034c/download",
-    "http_status": 401,
-    "metadata_http_status": 200,
-    "is_downloadable": true
-  },
-  "setup_notes": [
-    "Un-lit, mesh-repaired version by Glenn Gunhouse of the Cleveland Museum of Art scan.",
-    "Retain this version's CC BY-SA 4.0 license; do not label it CC0.",
-    "Reduce mesh detail before placing four copies; add a separate solid pedestal."
-  ],
-  "attribution": "\"Terpsichore Lyran by Canova\" by Glenn Gunhouse, https://sketchfab.com/3d-models/terpsichore-lyran-by-canova-aef74272b36a48a5a4e35189b048034c, licensed under CC-BY-SA-4.0."
+    "id":  "terpsichore_lyran",
+    "title":  "Terpsichore Lyran by Canova",
+    "provider":  "Sketchfab",
+    "author":  "Glenn Gunhouse",
+    "author_url":  "https://sketchfab.com/ggunhouse",
+    "source":  "https://sketchfab.com/3d-models/terpsichore-lyran-by-canova-aef74272b36a48a5a4e35189b048034c",
+    "source_url":  "https://sketchfab.com/3d-models/terpsichore-lyran-by-canova-aef74272b36a48a5a4e35189b048034c",
+    "folder":  "models/exhibits/terpsichore_lyran",
+    "license":  "CC-BY-SA-4.0",
+    "license_url":  "https://creativecommons.org/licenses/by-sa/4.0/",
+    "status":  "downloaded",
+    "downloaded":  true,
+    "checked_on":  "2026-11-10",
+    "intended_use":  "Classical courtyard statue above a separate 1.2 m solid cover pedestal",
+    "source_triangles":  114430,
+    "download_check":  {
+                           "endpoint":  "https://api.sketchfab.com/v3/models/aef74272b36a48a5a4e35189b048034c/download",
+                           "http_status":  401,
+                           "metadata_http_status":  200,
+                           "is_downloadable":  true
+                       },
+    "setup_notes":  [
+                        "Un-lit, mesh-repaired version by Glenn Gunhouse of the Cleveland Museum of Art scan.",
+                        "Retain this version\u0027s CC BY-SA 4.0 license; do not label it CC0.",
+                        "Reduce mesh detail before placing four copies; add a separate solid pedestal."
+                    ],
+    "attribution":  "\"Terpsichore Lyran by Canova\" by Glenn Gunhouse, https://sketchfab.com/3d-models/terpsichore-lyran-by-canova-aef74272b36a48a5a4e35189b048034c, licensed under CC-BY-SA-4.0.",
+    "downloaded_on":  "2026-11-11",
+    "download_method":  "user_browser_download",
+    "original_download_file":  ".local/downloads/museum_models/terpsichore_lyran_by_canova.glb",
+    "model_file":  "terpsichore_lyran_by_canova.glb",
+    "format":  "GLB 2.0",
+    "gltf_details":  {
+                         "glb_version":  2,
+                         "mesh_count":  2,
+                         "material_count":  1,
+                         "embedded_image_count":  1,
+                         "external_dependencies":  0,
+                         "animations":  0
+                     },
+    "files":  [
+                  {
+                      "file":  "terpsichore_lyran_by_canova.glb",
+                      "bytes":  5277572,
+                      "sha256":  "dd1669cc8564a79682d7bc199581d7cda700469168ab06e7bfea48aaaf10000a"
+                  }
+              ],
+    "downloaded_triangles":  114430,
+    "needs_lit_material":  true,
+    "import_notes":  [
+                         "The source material uses KHR_materials_unlit. Prepare a lit stone material when integrating with courtyard lighting; keep the original GLB and its CC BY-SA attribution."
+                     ],
+    "validation":  {
+                       "godot_parse_passed":  true,
+                       "godot_version":  "4.7.2-stable (official)",
+                       "id":  "terpsichore_lyran",
+                       "main_file":  "models/exhibits/terpsichore_lyran/terpsichore_lyran_by_canova.glb",
+                       "mesh_instances":  2,
+                       "triangles":  114430,
+                       "vertices":  104075
+                   }
 }

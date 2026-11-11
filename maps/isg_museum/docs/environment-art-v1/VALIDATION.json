@@ -1,0 +1,37 @@
+{
+    "engine":  "4.7.2.stable.official.ed1daf0bf",
+    "renderer":  "gl_compatibility",
+    "baseline_commit":  "99c43b3",
+    "museum_baseline_checks":  590,
+    "museum_after_checks":  652,
+    "museum_failures":  0,
+    "art_check_exit":  0,
+    "builder_rebuild_exit":  0,
+    "palette_exit":  0,
+    "navigation_polygons":  449,
+    "compiled_scripts":  335,
+    "integrated_initial":  {
+                               "cause":  "HUD settings cannot persist under unwritable default user://",
+                               "failures":  2,
+                               "exit":  1
+                           },
+    "integrated_writable":  {
+                                "result":  "All tests passed",
+                                "options":  "APPDATA under Temp; --fixed-fps 60",
+                                "exit":  0
+                            },
+    "layout_python":  {
+                          "status":  "not_run",
+                          "cause":  "Only zero-byte WindowsApps aliases; no usable Python interpreter"
+                      },
+    "capture_exit":  0,
+    "runtime_source_tree_lod0":  false,
+    "source_models_modified":  false,
+    "limitations":  [
+                        "Tree near below initial 30-60k target; far canopy sparse",
+                        "Visual lighting and foliage density need Manager acceptance",
+                        "VSync-capped static camera benchmark; no GPU timing/overdraw heatmap/low-end hardware validation",
+                        "Linux/WSL CI and Windows export not run"
+                    ],
+    "art_check_read_only_verified":  true
+}

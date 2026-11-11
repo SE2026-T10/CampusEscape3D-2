@@ -15,24 +15,50 @@
     "attribution_required":  true,
     "attribution":  "\"Gothic Architectural Structures\" by Samuel F. Angrick-Johanns (Oneironauticus), https://sketchfab.com/3d-models/gothic-architectural-structures-affc5b590531447788aafc23a011154c, licensed under CC BY 4.0.",
     "checked_on":  "2026-11-10",
-    "status":  "pending_authentication",
-    "downloaded":  false,
+    "status":  "downloaded",
+    "downloaded":  true,
     "downloadable_on_provider":  true,
     "triangles":  7890,
     "vertices":  4023,
-    "files":  [
-
-              ],
-    "blocker":  "Official Sketchfab download API returned HTTP 401: Authentication credentials were not provided. Public metadata is accessible, but model files require an authenticated download.",
     "download_attempt":  {
                              "method":  "official_sketchfab_download_api",
                              "metadata_http_status":  200,
                              "download_http_status":  401
                          },
-    "manual_download_instructions":  [
-                                         "Open source_url in the browser where you are logged into Sketchfab.",
-                                         "Choose Download 3D Model and prefer GLB or glTF with textures.",
-                                         "Save the original archive under .local/downloads/museum_models/sketchfab/.",
-                                         "After receiving the files, unpack safely and validate before setting downloaded=true."
-                                     ]
+    "downloaded_on":  "2026-11-11",
+    "download_method":  "user_browser_download",
+    "original_download_file":  ".local/downloads/museum_models/gothic_architectural_structures.glb",
+    "model_file":  "gothic_architectural_structures.glb",
+    "format":  "GLB 2.0",
+    "gltf_details":  {
+                         "glb_version":  2,
+                         "mesh_count":  6,
+                         "material_count":  2,
+                         "embedded_image_count":  6,
+                         "external_dependencies":  0,
+                         "animations":  0
+                     },
+    "files":  [
+                  {
+                      "file":  "gothic_architectural_structures.glb",
+                      "bytes":  17184512,
+                      "sha256":  "417dc69a55a53ee25560118c2ed380035c10d4064a5949f53b570c24721b9eeb"
+                  }
+              ],
+    "downloaded_triangles":  7890,
+    "author_aliases":  [
+                           "Samuel Francis Johnson (Oneironauticus)"
+                       ],
+    "setup_notes":  [
+                        "The source contains six mesh instances laid out as architecture modules. Select and recenter modules when assembling the courtyard; keep the original GLB unchanged."
+                    ],
+    "validation":  {
+                       "godot_parse_passed":  true,
+                       "godot_version":  "4.7.2-stable (official)",
+                       "id":  "gothic_architectural_structures",
+                       "main_file":  "models/architecture/gothic_architectural_structures/gothic_architectural_structures.glb",
+                       "mesh_instances":  6,
+                       "triangles":  7890,
+                       "vertices":  10032
+                   }
 }
