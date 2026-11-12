@@ -7,3 +7,8 @@ Mở `tree_small_02_2k.gltf` trong Godot để xem nguồn cây gốc. Giữ `.b
 Cây cao xấp xỉ 4,6 m, dùng tham khảo cho các góc sân. Khi tích hợp cần tạo phiên bản nhẹ, kiểm tra vật liệu lá và khoảng cách tới cột, lan can, mái kính. Chưa có collider hoặc logic che tầm nhìn.
 
 Nguồn gốc và mã kiểm tra nằm trong `source.json`; giấy phép CC0 trong `LICENSE.txt`. Hình học tải xuống giữ nguyên, chưa đặt vào scene chơi.
+
+Runtime v1.1 dùng ba bản dẫn xuất 42.820 / 11.384 / 3.189 tam giác, có tán lá
+bake thành cluster từ nguồn và trunk/branch LOD riêng. Tất cả dùng chung anchor
+và scale đồng đều; không preload LOD0 vào scene chơi. Xem
+[derived README](../../derived/README.md) và [manifest](../../derived/tree_lod_manifest.json).

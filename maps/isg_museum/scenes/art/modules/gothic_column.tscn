@@ -1,8 +1,6 @@
 [gd_scene format=4]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kid30"]
-albedo_color = Color(0.82, 0.77, 0.63, 1)
-roughness = 0.78
+[ext_resource type="Material" path="res://maps/isg_museum/assets/materials/presets/courtyard_stone_cream.tres" id="1_5iwxn"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_sb0pv"]
 _surfaces = [{
@@ -19,7 +17,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_5iwxn"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_770kt"]
 resource_name = "Sketchfab_Scene_Object_0"
 _surfaces = [{
 "aabb": AABB(-3.2979112, -10.498966, -3.2977526, 6.595664, 20.883705, 6.595664),
@@ -37,14 +35,17 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_sb0pv")
 
-[node name="GothicColumn" type="Node3D" unique_id=611676175]
+[node name="GothicColumn" type="Node3D" unique_id=872631960]
 metadata/preserve_source_material = true
 metadata/source = "architecture/gothic_architectural_structures/gothic_architectural_structures.glb"
+metadata/fit_scale = Vector3(0.08338809, 0.14604688, 0.08338807)
+metadata/fit_anchor = Vector3(0.00015830994, 0.063272476, 17.19984)
+metadata/fit_reference_bounds = AABB(-3.297675, 0.063272476, 13.902007, 6.5956664, 20.883705, 6.595668)
 
-[node name="VisualPivot" type="Node3D" parent="." unique_id=998878093]
+[node name="VisualPivot" type="Node3D" parent="." unique_id=161415260]
 transform = Transform3D(0.08338809, 0, 0, 0, 0.14604688, 0, 0, 0, 0.08338807, -1.3201163e-05, -0.009240747, -1.4342614)
 
-[node name="Object_4" type="MeshInstance3D" parent="VisualPivot" unique_id=708651339]
+[node name="Object_4" type="MeshInstance3D" parent="VisualPivot" unique_id=501732910]
 transform = Transform3D(-1, 0, -3.2584137e-07, 0, 1, 0, 3.2584137e-07, 0, -1, 7.908892e-05, 10.562239, 17.19992)
-material_override = SubResource("StandardMaterial3D_kid30")
-mesh = SubResource("ArrayMesh_5iwxn")
+material_override = ExtResource("1_5iwxn")
+mesh = SubResource("ArrayMesh_770kt")

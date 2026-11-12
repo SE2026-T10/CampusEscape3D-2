@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 621.14 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 6GB Laptop GPU
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+Course reached: lobby (18.0, 0.000182, 28.88053)
+Course reached: stair_a_bottom (7.648346, 0.000942, 28.06464)
+Course reached: stair_a_top (7.642237, 4.499883, 25.74785)
+Course reached: south_buffer (17.68504, 4.500932, 27.00027)
+Course reached: gallery_b (28.51715, 4.50094, 9.724546)
+Course reached: pickup_t2 (33.98086, 4.50094, 9.967884)
+Museum benchmark after-gameplay: {"before":false,"carried_render_frames":2,"chase_render_frames":2638,"course_valid":false,"engine":"4.7.2-stable (official)","events":[{"event":"lobby","position":"(18.0, 0.000182, 28.88053)","time_usec":19170826},{"event":"stair_a_bottom","position":"(7.648346, 0.000942, 28.06464)","time_usec":21536480},{"event":"stair_a_top","position":"(7.642237, 4.499883, 25.74785)","time_usec":26471200},{"event":"south_buffer","position":"(17.68504, 4.500932, 27.00027)","time_usec":29281716},{"event":"gallery_b","position":"(28.51715, 4.50094, 9.724546)","time_usec":82216603},{"event":"pickup_t2","position":"(33.98086, 4.50094, 9.967884)","time_usec":83216216}],"fixture":"V and K access granted; terminal catch disabled; actual input movement, T2 pickup/delivery; all actor collisions and perception unchanged","gpu":"NVIDIA GeForce RTX 3050 6GB Laptop GPU","guards":9,"low_processor_usage_mode":false,"max_fps":0,"mode":"gameplay","renderer":"gl_compatibility","samples":[{"draw_calls":{"p50":913.0,"p95":1435.0},"frame_interval_ms":{"p50":16.055,"p95":27.986,"p99":35.762},"frames":3857,"gpu_render_ms_p95":6.29899978637695,"mean_fps":59.3244226420141,"primitives":{"p50":1267580.0,"p95":1866041.0},"render_memory_bytes_peak":498081552.0,"seconds":65.0,"view":"active_9_guards"}],"settings_restored":true,"viewport":[1280,720],"visited":["lobby","stair_a_bottom","stair_a_top","south_buffer","gallery_b","pickup_t2"],"vsync_mode":0,"warmup_seconds":3,"window_mode":4}

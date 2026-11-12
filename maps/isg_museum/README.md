@@ -97,3 +97,9 @@ Khi cần cập nhật từ `main`, commit công việc đang làm trước, r�
 `git fetch origin` và `git merge origin/main` trên nhánh `hgmanh-work`.
 
 Hướng dẫn: [Làm việc theo từng map](../../docs/architecture/MAP_LAYOUT.md).
+
+Đồ họa sân v1.1: [báo cáo và ảnh Godot](docs/environment-art-v1_1/REPORT.md),
+[benchmark](docs/environment-art-v1_1/BENCHMARK.md). Ngân sách cây ba LOD, tỷ lệ tán
+và ánh sáng được cấu hình trong `resources/environment_art_layout.json`.
+Quy trình dựng lại và giấy phép dẫn xuất: [derived README](assets/models/derived/README.md).
+Báo cáo v1 giữ nguyên làm lịch sử kiểm thử.

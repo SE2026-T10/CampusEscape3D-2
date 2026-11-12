@@ -1,0 +1,115 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/museum_door.gd" id="1_door"]
+[ext_resource type="Material" path="res://maps/isg_museum/assets/materials/presets/dark_wood.tres" id="2_0m4ks"]
+
+[sub_resource type="StandardMaterial3D" id="Material_door"]
+albedo_color = Color(0.3, 0.21, 0.13, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_panel"]
+material = SubResource("Material_door")
+size = Vector3(2, 2.8, 0.26)
+
+[sub_resource type="BoxShape3D" id="Shape_panel"]
+size = Vector3(2, 2.8, 0.26)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0m4ks"]
+albedo_color = Color(0.25, 0.14, 0.07, 1)
+roughness = 0.78
+
+[sub_resource type="BoxMesh" id="BoxMesh_p12tk"]
+size = Vector3(1.44, 0.89599997, 0.025)
+
+[sub_resource type="BoxMesh" id="BoxMesh_venh5"]
+size = Vector3(1.44, 0.89599997, 0.025)
+
+[sub_resource type="BoxMesh" id="BoxMesh_e4rtm"]
+size = Vector3(1.44, 0.89599997, 0.025)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dlwqi"]
+size = Vector3(1.44, 0.89599997, 0.025)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nustx"]
+albedo_color = Color(0.65, 0.47, 0.17, 1)
+metallic = 0.7
+roughness = 0.78
+
+[sub_resource type="BoxMesh" id="BoxMesh_2q1ut"]
+size = Vector3(0.14, 0.055, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p1g5e"]
+size = Vector3(0.14, 0.055, 0.05)
+
+[sub_resource type="BoxShape3D" id="Shape_interaction"]
+size = Vector3(2, 2.8, 0.5)
+
+[node name="EntranceDoor" type="Area3D" unique_id=1452988419]
+script = ExtResource("1_door")
+mode = 2
+door_name = "Cửa chính bảo tàng"
+
+[node name="Panel" type="StaticBody3D" parent="." unique_id=1878382565]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Panel" unique_id=1087880790]
+material_override = ExtResource("2_0m4ks")
+mesh = SubResource("Mesh_panel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Panel" unique_id=1599157835]
+shape = SubResource("Shape_panel")
+
+[node name="EnvironmentArt" type="Node3D" parent="Panel" unique_id=598777675]
+metadata/environment_art = true
+metadata/preserve_source_material = true
+
+[node name="Inset0" type="Node3D" parent="Panel/EnvironmentArt" unique_id=799132389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.616, -0.145)
+
+[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Inset0" unique_id=1111656040]
+material_override = SubResource("StandardMaterial3D_0m4ks")
+mesh = SubResource("BoxMesh_p12tk")
+
+[node name="Inset1" type="Node3D" parent="Panel/EnvironmentArt" unique_id=1368382506]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.616, 0.145)
+
+[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Inset1" unique_id=288026065]
+material_override = SubResource("StandardMaterial3D_0m4ks")
+mesh = SubResource("BoxMesh_venh5")
+
+[node name="Inset2" type="Node3D" parent="Panel/EnvironmentArt" unique_id=1302259572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.616, -0.145)
+
+[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Inset2" unique_id=402243670]
+material_override = SubResource("StandardMaterial3D_0m4ks")
+mesh = SubResource("BoxMesh_e4rtm")
+
+[node name="Inset3" type="Node3D" parent="Panel/EnvironmentArt" unique_id=1533231327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.616, 0.145)
+
+[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Inset3" unique_id=977340447]
+material_override = SubResource("StandardMaterial3D_0m4ks")
+mesh = SubResource("BoxMesh_dlwqi")
+
+[node name="Handle4" type="Node3D" parent="Panel/EnvironmentArt" unique_id=496403279]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.64, 0, -0.17)
+
+[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Handle4" unique_id=1481397906]
+material_override = SubResource("StandardMaterial3D_nustx")
+mesh = SubResource("BoxMesh_2q1ut")
+
+[node name="Handle5" type="Node3D" parent="Panel/EnvironmentArt" unique_id=185275619]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.64, 0, 0.17)
+
+[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Handle5" unique_id=1951858902]
+material_override = SubResource("StandardMaterial3D_nustx")
+mesh = SubResource("BoxMesh_p1g5e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=48192168]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+shape = SubResource("Shape_interaction")
+
+[node name="Passage" type="NavigationLink3D" parent="." unique_id=1969421094]
+enabled = false
+start_position = Vector3(0, 0.45, -1.1)
+end_position = Vector3(0, 0.45, 1.1)

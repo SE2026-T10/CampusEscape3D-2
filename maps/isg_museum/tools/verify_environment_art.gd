@@ -4,10 +4,48 @@ extends "res://maps/isg_museum/tools/verify_blockout.gd"
 ## G3, two actual patrol loops, drawers, carrying, doors and restart end-to-end.
 const Art := preload("res://maps/isg_museum/tools/environment_art_builder.gd")
 const Apply := preload("res://maps/isg_museum/tools/apply_environment_art.gd")
+const TreeLod := preload("res://maps/isg_museum/tools/prepare_tree_lod.gd")
+
+func collision_signature(scene: Node3D) -> String:
+	var rows: Array[String] = []
+	for node in scene.find_children("*","Node3D",true,false):
+		if not node is CollisionObject3D and not node is CollisionShape3D:
+			continue
+		var row := str(scene.get_path_to(node))+str(node.get_class())+str(Art.new().relative_transform(scene,node))
+		if node is CollisionShape3D:
+			row += Apply.resource_key(node.shape)+str(node.disabled)
+		if node is CollisionObject3D:
+			row += str(node.collision_layer)+str(node.collision_mask)
+		rows.append(row)
+	rows.sort()
+	return "\n".join(rows).sha256_text()
 
 func _run() -> void:
 	var builder := Art.new()
 	var layout := builder.load_layout()
+	var column := load(Art.BASE+"scenes/art/modules/gothic_column.tscn").instantiate() as Node3D
+	check(column.get_node("VisualPivot").get_child(0).material_override == Art.COURTYARD_STONE,
+		"Prepared Gothic module keeps the shared textured cream stone preset")
+	column.free()
+	var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(Art.MODELS+"derived/tree_lod_manifest.json"))
+	var fit := Transform3D.IDENTITY
+	for i in manifest.levels.size():
+		var lod: Dictionary = manifest.levels[i]
+		var profile: Dictionary = TreeLod.lod_profiles(layout)[i]
+		check(int(lod.requested_budget) == int(profile.budget),"LOD reads the configured budget: "+lod.id)
+		check(lod.actual_triangles <= profile.budget*1.1,"LOD stays within its budget tolerance: "+lod.id)
+		var visual := builder.prepare_visual("derived/tree_small_02_%s.scn" % lod.id,
+			Vector3(4.4,5.2,4.8),0,[],null,layout.courtyard.tree)
+		var scale: Vector3 = visual.get_meta("fit_scale")
+		check(is_equal_approx(scale.x,scale.y) and is_equal_approx(scale.y,scale.z),"Vegetation uses uniform scale: "+lod.id)
+		if i == 0:
+			fit = visual.get_node("VisualPivot").transform
+		check(visual.get_node("VisualPivot").transform.is_equal_approx(fit),"LOD normalization/anchor matches near: "+lod.id)
+		visual.free()
+	var changed := layout.duplicate(true)
+	changed.quality.tree_near_triangle_budget = 32000
+	check(TreeLod.lod_profiles(changed)[0].budget == 32000 and TreeLod.leaf_grid_resolution(24000,117) < TreeLod.leaf_grid_resolution(36000,117),
+		"Changing JSON budget changes the generator policy and leaf tessellation")
 	for id in ["museum_geometry","exhibits_expansion","service_expansion"]:
 		var scene := (load(Art.BASE+"scenes/"+id+".tscn") as PackedScene).instantiate()
 		var method: String = {"museum_geometry":"apply_to_geometry","exhibits_expansion":"apply_to_exhibits",
@@ -18,7 +56,43 @@ func _run() -> void:
 		var once := Apply.signature(scene)
 		builder.call(method,scene,layout)
 		check(once == Apply.signature(scene),"Second art pass preserves nodes, resources and colliders: "+id)
+		if id == "museum_geometry":
+			var baseline := load(Art.BASE+"docs/environment-art-v1_1/before-source/museum_geometry.tscn").instantiate() as Node3D
+			check(collision_signature(baseline) == collision_signature(scene),"All collision shapes/transforms/layers match v1; no navigation rebake needed")
+			baseline.free()
+			var light := scene.get_node("EnvironmentArt/CourtyardLight_NW") as OmniLight3D
+			check(is_equal_approx(light.light_energy,layout.lighting.courtyard.energy) and is_equal_approx(light.omni_range,layout.lighting.courtyard.range),
+				"Courtyard light energy and range come from JSON")
+			check(scene.get_node("EnvironmentArt/Statue0/VisualPivot").get_child(0).material_override == Art.STATUE_STONE,"Statue uses the lit textured preset")
+			for batch in scene.get_node("EnvironmentArt/Arcade").get_children():
+				if batch is MeshInstance3D and batch.get_meta("art_batch",false):
+					check(batch.material_override == Art.COURTYARD_STONE and batch.material_override.normal_enabled,"Batch keeps detailed stone preset")
+			var palette = load(Art.BASE+"tools/material_palette.gd")
+			palette.apply_geometry(scene)
+			builder.apply_to_geometry(scene,layout)
+			check(once == Apply.signature(scene),"Palette plus art rebuild keeps materials, trees and lamps without duplication")
+			var shadows := layout.duplicate(true)
+			shadows.quality.shadows = false
+			shadows.lighting.courtyard.shadows = true
+			builder.apply_to_geometry(scene,shadows)
+			check(not scene.get_node("EnvironmentArt/CourtyardLight_NW").shadow_enabled,"Quality shadow switch controls local fixtures")
 		scene.free()
+	var main := load(SCENE).instantiate() as Node3D
+	builder.apply_to_main(main,layout)
+	check(is_equal_approx(main.get_node("WorldEnvironment").environment.ambient_light_energy,layout.lighting.ambient.energy),"Ambient energy comes from JSON")
+	var environment: Environment = main.get_node("WorldEnvironment").environment
+	var sun := main.get_node("DirectionalLight3D") as DirectionalLight3D
+	check(environment.ambient_light_color == builder.rgb(layout.lighting.ambient.color) and sun.light_color == builder.rgb(layout.lighting.sun.color)
+		and is_equal_approx(sun.light_energy,layout.lighting.sun.energy)
+		and environment.sky.sky_material.sky_top_color == builder.rgb(layout.lighting.sky.top),"Ambient, sun and sky colors come from JSON")
+	check(main.get_node("DirectionalLight3D").shadow_enabled and main.get_node("DirectionalLight3D").rotation_degrees.is_equal_approx(builder.vec(layout.lighting.sun.rotation_degrees)),"Sun direction and directional shadows come from JSON")
+	changed.lighting.ambient.energy = .27
+	changed.lighting.sun.energy = .63
+	changed.quality.shadows = false
+	builder.apply_to_main(main,changed)
+	check(is_equal_approx(main.get_node("WorldEnvironment").environment.ambient_light_energy,.27) and is_equal_approx(main.get_node("DirectionalLight3D").light_energy,.63) and not main.get_node("DirectionalLight3D").shadow_enabled,
+		"Lighting edits and master shadow switch actually change generated scene")
+	main.free()
 	level = load(SCENE).instantiate()
 	root.add_child(level)
 	current_scene = level

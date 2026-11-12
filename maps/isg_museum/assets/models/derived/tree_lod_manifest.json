@@ -1,7 +1,101 @@
 {
-	"far_triangles": 577,
-	"method": "Godot ImporterMesh.generate_lods; compact referenced vertices; source transforms retained; CC0",
-	"near_triangles": 18589,
+	"config": "res://maps/isg_museum/resources/environment_art_layout.json",
+	"leaf_cluster_grid": [
+		4.0,
+		3.0,
+		4.0
+	],
+	"levels": [
+		{
+			"actual_triangles": 42820,
+			"begin": 0.0,
+			"end": 18.0,
+			"id": "near",
+			"parts": {
+				"tree_small_02_branches": {
+					"clusters": 1,
+					"mean_occupancy_retained": 1.0,
+					"triangles": 5589
+				},
+				"tree_small_02_leaves": {
+					"atlas": "tree_leaf_clusters.png",
+					"clusters": 39,
+					"curved_card_divisions": 12,
+					"triangles": 33696
+				},
+				"tree_small_02_trunk": {
+					"clusters": 1,
+					"mean_occupancy_retained": 1.0,
+					"triangles": 3535
+				}
+			},
+			"requested_budget": 48000
+		},
+		{
+			"actual_triangles": 11384,
+			"begin": 18.0,
+			"end": 26.0,
+			"id": "mid",
+			"parts": {
+				"tree_small_02_branches": {
+					"clusters": 1,
+					"mean_occupancy_retained": 0.955223880597015,
+					"triangles": 2077
+				},
+				"tree_small_02_leaves": {
+					"atlas": "tree_leaf_clusters.png",
+					"clusters": 39,
+					"curved_card_divisions": 6,
+					"triangles": 8424
+				},
+				"tree_small_02_trunk": {
+					"clusters": 1,
+					"mean_occupancy_retained": 0.947368421052632,
+					"triangles": 883
+				}
+			},
+			"requested_budget": 12000.0
+		},
+		{
+			"actual_triangles": 3189,
+			"begin": 26.0,
+			"end": 0.0,
+			"id": "far",
+			"parts": {
+				"tree_small_02_branches": {
+					"clusters": 1,
+					"mean_occupancy_retained": 0.82089552238806,
+					"triangles": 848
+				},
+				"tree_small_02_leaves": {
+					"atlas": "tree_leaf_clusters.png",
+					"clusters": 39,
+					"curved_card_divisions": 3,
+					"triangles": 2106
+				},
+				"tree_small_02_trunk": {
+					"clusters": 1,
+					"mean_occupancy_retained": 0.552631578947368,
+					"triangles": 235
+				}
+			},
+			"requested_budget": 3200.0
+		}
+	],
+	"method": "Native nearest-budget wood LODs plus source-baked curved leaf cluster cards; no random face deletion; shared atlas/anchor across all levels",
+	"normalization": "shared source bounds; uniform height/canopy constrained scale; base-center anchor",
+	"reference_bounds": {
+		"position": [
+			-1.30899345874786,
+			-0.0241038464009762,
+			-1.38262677192688
+		],
+		"size": [
+			2.91669988632202,
+			4.55674076080322,
+			4.29247713088989
+		]
+	},
 	"source": "res://maps/isg_museum/assets/models/vegetation/tree_small_02/source.json",
 	"source_triangles": 2062487
 }

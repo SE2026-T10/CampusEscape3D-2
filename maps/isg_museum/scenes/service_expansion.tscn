@@ -453,70 +453,70 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ovtlx")
 
-[node name="ServiceExpansion" type="Node3D" unique_id=736629984]
+[node name="ServiceExpansion" type="Node3D" unique_id=55613099]
 script = ExtResource("1_slg5l")
 
-[node name="ReceptionCounter" type="StaticBody3D" parent="." unique_id=1181822089]
+[node name="ReceptionCounter" type="StaticBody3D" parent="." unique_id=1830301391]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8, 0.5, 27)
 collision_mask = 0
 
-[node name="Visual" type="MeshInstance3D" parent="ReceptionCounter" unique_id=842842876]
+[node name="Visual" type="MeshInstance3D" parent="ReceptionCounter" unique_id=1018164093]
 material_override = ExtResource("2_0uc82")
 mesh = SubResource("BoxMesh_s8uqq")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ReceptionCounter" unique_id=876880637]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ReceptionCounter" unique_id=1285094303]
 shape = SubResource("BoxShape3D_kj4xv")
 
-[node name="CounterTop" type="MeshInstance3D" parent="." unique_id=1413897740]
+[node name="CounterTop" type="MeshInstance3D" parent="." unique_id=1651601761]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8, 1.04, 27)
 material_override = ExtResource("2_0uc82")
 mesh = SubResource("BoxMesh_xda5v")
 
-[node name="ReceptionChair" type="StaticBody3D" parent="." unique_id=375738551]
+[node name="ReceptionChair" type="StaticBody3D" parent="." unique_id=912583509]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.05, 0.25, 27)
 collision_mask = 0
 
-[node name="Visual" type="MeshInstance3D" parent="ReceptionChair" unique_id=875236577]
+[node name="Visual" type="MeshInstance3D" parent="ReceptionChair" unique_id=2021790849]
 visible = false
 material_override = ExtResource("3_4c386")
 mesh = SubResource("BoxMesh_cyp3k")
 metadata/art_hidden = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ReceptionChair" unique_id=858475263]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ReceptionChair" unique_id=217946666]
 shape = SubResource("BoxShape3D_8j4uy")
 
-[node name="ChairBack" type="MeshInstance3D" parent="." unique_id=516405901]
+[node name="ChairBack" type="MeshInstance3D" parent="." unique_id=1698641403]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.35, 0.7, 27)
 visible = false
 material_override = ExtResource("2_0uc82")
 mesh = SubResource("BoxMesh_0urtn")
 metadata/art_hidden = true
 
-[node name="Receptionist" type="Area3D" parent="." unique_id=1057274224]
+[node name="Receptionist" type="Area3D" parent="." unique_id=1698814399]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.7, 1.15, 27)
 script = ExtResource("4_hs7y3")
 prompt = "Nói chuyện với nhân viên tiếp đón"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Receptionist" unique_id=925624759]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Receptionist" unique_id=1139803794]
 shape = SubResource("BoxShape3D_nkgqc")
 
-[node name="Torso" type="MeshInstance3D" parent="Receptionist" unique_id=1717810696]
+[node name="Torso" type="MeshInstance3D" parent="Receptionist" unique_id=827360847]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
 mesh = SubResource("BoxMesh_q05wp")
 
-[node name="Head" type="MeshInstance3D" parent="Receptionist" unique_id=163751168]
+[node name="Head" type="MeshInstance3D" parent="Receptionist" unique_id=1026275109]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, 0)
 mesh = SubResource("BoxMesh_mgryw")
 
-[node name="Eye0" type="MeshInstance3D" parent="Receptionist/Head" unique_id=1638422356]
+[node name="Eye0" type="MeshInstance3D" parent="Receptionist/Head" unique_id=1079419593]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.155, 0.025, -0.08)
 mesh = SubResource("BoxMesh_08gop")
 
-[node name="Eye1" type="MeshInstance3D" parent="Receptionist/Head" unique_id=236721279]
+[node name="Eye1" type="MeshInstance3D" parent="Receptionist/Head" unique_id=1681326385]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.155, 0.025, 0.08)
 mesh = SubResource("BoxMesh_jhqdg")
 
-[node name="WatchNotice" type="Label3D" parent="Receptionist" unique_id=1386540252]
+[node name="WatchNotice" type="Label3D" parent="Receptionist" unique_id=76755924]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0.85, 0)
 visible = false
 pixel_size = 0.0015
@@ -524,30 +524,30 @@ text = "Đang kiểm tra giấy hẹn..."
 font_size = 44
 outline_size = 3
 
-[node name="Thigh4" type="MeshInstance3D" parent="Receptionist" unique_id=1333942842]
+[node name="Thigh4" type="MeshInstance3D" parent="Receptionist" unique_id=1445124642]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14, -0.57, -0.18)
 mesh = SubResource("BoxMesh_rdbhj")
 
-[node name="Shin5" type="MeshInstance3D" parent="Receptionist" unique_id=278374713]
+[node name="Shin5" type="MeshInstance3D" parent="Receptionist" unique_id=918208628]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, -0.8, -0.18)
 mesh = SubResource("BoxMesh_di64g")
 
-[node name="Thigh6" type="MeshInstance3D" parent="Receptionist" unique_id=1880196429]
+[node name="Thigh6" type="MeshInstance3D" parent="Receptionist" unique_id=252481458]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14, -0.57, 0.18)
 mesh = SubResource("BoxMesh_7ahau")
 
-[node name="Shin7" type="MeshInstance3D" parent="Receptionist" unique_id=36754396]
+[node name="Shin7" type="MeshInstance3D" parent="Receptionist" unique_id=885207373]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, -0.8, 0.18)
 mesh = SubResource("BoxMesh_m1rvn")
 
-[node name="Name" type="Label3D" parent="Receptionist" unique_id=54127276]
+[node name="Name" type="Label3D" parent="Receptionist" unique_id=2012642580]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0.65, 0)
 pixel_size = 0.0018
 text = "N1 · TIẾP ĐÓN"
 font_size = 44
 outline_size = 3
 
-[node name="EventPoster" type="Area3D" parent="." unique_id=177694154]
+[node name="EventPoster" type="Area3D" parent="." unique_id=1635395515]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 22, 1.7, 29.72)
 script = ExtResource("5_7i1ew")
 title = "Áp phích sự kiện"
@@ -558,13 +558,13 @@ Khách có giấy hẹn vui lòng tới phòng dịch vụ để nhận vé tham
 Mang theo thông tin người phụ trách và giờ hẹn."
 prompt = "Đọc áp phích sự kiện"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="EventPoster" unique_id=1795932163]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EventPoster" unique_id=180675049]
 shape = SubResource("BoxShape3D_q0d2v")
 
-[node name="Paper" type="MeshInstance3D" parent="EventPoster" unique_id=669237281]
+[node name="Paper" type="MeshInstance3D" parent="EventPoster" unique_id=1535261113]
 mesh = SubResource("BoxMesh_q8orq")
 
-[node name="Caption" type="Label3D" parent="EventPoster" unique_id=1533280980]
+[node name="Caption" type="Label3D" parent="EventPoster" unique_id=2129173778]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.035)
 pixel_size = 0.0018
 text = "ĐÊM DI SẢN
@@ -572,23 +572,23 @@ Nhận vé tại phòng dịch vụ"
 font_size = 44
 outline_size = 3
 
-[node name="ReceptionNotice" type="Area3D" parent="." unique_id=1561154865]
+[node name="ReceptionNotice" type="Area3D" parent="." unique_id=1818593931]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 31.48, 1.23, 26.35)
 script = ExtResource("5_7i1ew")
 document_kind = "host"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ReceptionNotice" unique_id=430445058]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ReceptionNotice" unique_id=1986620257]
 shape = SubResource("BoxShape3D_wmi0d")
 
-[node name="Base" type="MeshInstance3D" parent="ReceptionNotice" unique_id=531264371]
+[node name="Base" type="MeshInstance3D" parent="ReceptionNotice" unique_id=699806804]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
 material_override = ExtResource("2_0uc82")
 mesh = SubResource("BoxMesh_5dfs2")
 
-[node name="Plate" type="MeshInstance3D" parent="ReceptionNotice" unique_id=1373536870]
+[node name="Plate" type="MeshInstance3D" parent="ReceptionNotice" unique_id=353746214]
 mesh = SubResource("BoxMesh_12npq")
 
-[node name="Caption" type="Label3D" parent="ReceptionNotice" unique_id=1896530494]
+[node name="Caption" type="Label3D" parent="ReceptionNotice" unique_id=414688473]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.03)
 pixel_size = 0.0011
 text = "NHÂN VIÊN
@@ -596,41 +596,41 @@ Tiếp đón"
 font_size = 44
 outline_size = 3
 
-[node name="WallMap" type="Area3D" parent="." unique_id=1780300245]
+[node name="WallMap" type="Area3D" parent="." unique_id=1674517135]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 1.65, 24.3)
 script = ExtResource("6_y5wbu")
 prompt = "Xem bản đồ hai tầng"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WallMap" unique_id=1655704598]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallMap" unique_id=1664293114]
 shape = SubResource("BoxShape3D_381ip")
 
-[node name="Frame" type="MeshInstance3D" parent="WallMap" unique_id=22259957]
+[node name="Frame" type="MeshInstance3D" parent="WallMap" unique_id=1458996626]
 visible = false
 material_override = ExtResource("2_0uc82")
 mesh = SubResource("BoxMesh_2hbvw")
 metadata/art_hidden = true
 
-[node name="Paper" type="MeshInstance3D" parent="WallMap" unique_id=813334622]
+[node name="Paper" type="MeshInstance3D" parent="WallMap" unique_id=2044074462]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.09)
 mesh = SubResource("BoxMesh_yhd44")
 
-[node name="Floor3" type="MeshInstance3D" parent="WallMap" unique_id=1110586261]
+[node name="Floor3" type="MeshInstance3D" parent="WallMap" unique_id=2145357275]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.52, 0, 0.12)
 mesh = SubResource("BoxMesh_sjukk")
 
-[node name="Courtyard4" type="MeshInstance3D" parent="WallMap" unique_id=668025803]
+[node name="Courtyard4" type="MeshInstance3D" parent="WallMap" unique_id=2077832718]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.52, 0, 0.14)
 mesh = SubResource("BoxMesh_lbuch")
 
-[node name="Floor5" type="MeshInstance3D" parent="WallMap" unique_id=200025148]
+[node name="Floor5" type="MeshInstance3D" parent="WallMap" unique_id=1110568306]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52, 0, 0.12)
 mesh = SubResource("BoxMesh_80ke4")
 
-[node name="Courtyard6" type="MeshInstance3D" parent="WallMap" unique_id=606058005]
+[node name="Courtyard6" type="MeshInstance3D" parent="WallMap" unique_id=634075009]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52, 0, 0.14)
 mesh = SubResource("BoxMesh_v33eb")
 
-[node name="Caption" type="Label3D" parent="WallMap" unique_id=732292626]
+[node name="Caption" type="Label3D" parent="WallMap" unique_id=1509685363]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.16)
 pixel_size = 0.0016
 text = "M · BẢN ĐỒ HAI TẦNG
@@ -638,136 +638,148 @@ E: XEM / LƯU"
 font_size = 44
 outline_size = 3
 
-[node name="EnvironmentArt" type="Node3D" parent="WallMap" unique_id=2046201144]
+[node name="EnvironmentArt" type="Node3D" parent="WallMap" unique_id=1141403911]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="MapFrame" type="Node3D" parent="WallMap/EnvironmentArt" unique_id=664354194]
+[node name="MapFrame" type="Node3D" parent="WallMap/EnvironmentArt" unique_id=494357832]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0)
 metadata/preserve_source_material = true
 metadata/source = "frames/hanging_picture_frame_01/hanging_picture_frame_01_2k.gltf"
+metadata/fit_scale = Vector3(3.8720539, 1.783591, 6.3494825)
+metadata/fit_anchor = Vector3(0, -0.42049998, 0.007979965)
+metadata/fit_reference_bounds = AABB(-0.297, -0.42049998, 0.00010530756, 0.594, 0.84099996, 0.015749315)
 
-[node name="VisualPivot" type="Node3D" parent="WallMap/EnvironmentArt/MapFrame" unique_id=681501300]
+[node name="VisualPivot" type="Node3D" parent="WallMap/EnvironmentArt/MapFrame" unique_id=12061469]
 transform = Transform3D(3.8720539, 0, 0, 0, 1.783591, 0, 0, 0, 6.3494825, 0, 0.75, -0.050668646)
 
-[node name="hanging_picture_frame_01" type="MeshInstance3D" parent="WallMap/EnvironmentArt/MapFrame/VisualPivot" unique_id=240165515]
+[node name="hanging_picture_frame_01" type="MeshInstance3D" parent="WallMap/EnvironmentArt/MapFrame/VisualPivot" unique_id=95392838]
 mesh = SubResource("ArrayMesh_slg5l")
 
-[node name="TicketGate_A" type="Area3D" parent="." unique_id=1168559445]
+[node name="TicketGate_A" type="Area3D" parent="." unique_id=3426111]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 9, 4.5, 27)
 script = ExtResource("10_jha0f")
 door_name = "Cửa vé tầng 2 · TicketGate_A"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_A" unique_id=524630385]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_A" unique_id=861117268]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 shape = SubResource("BoxShape3D_ve6e2")
 
-[node name="Panel" type="StaticBody3D" parent="TicketGate_A" unique_id=1663978625]
+[node name="Panel" type="StaticBody3D" parent="TicketGate_A" unique_id=594412271]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TicketGate_A/Panel" unique_id=1439071249]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TicketGate_A/Panel" unique_id=2118073513]
 material_override = ExtResource("3_4c386")
 mesh = SubResource("BoxMesh_qlkrh")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_A/Panel" unique_id=976175513]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_A/Panel" unique_id=228657346]
 shape = SubResource("BoxShape3D_mfv31")
 
-[node name="Passage" type="NavigationLink3D" parent="TicketGate_A" unique_id=394324748]
+[node name="Passage" type="NavigationLink3D" parent="TicketGate_A" unique_id=1163587036]
 enabled = false
 start_position = Vector3(0, 0.45, -1.1)
 end_position = Vector3(0, 0.45, 1.1)
 
-[node name="Label" type="Label3D" parent="TicketGate_A" unique_id=2030546380]
+[node name="Label" type="Label3D" parent="TicketGate_A" unique_id=1163226039]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 3.05, 0)
 pixel_size = 0.0021
 text = "V · CẦN VÉ TẦNG 2"
 font_size = 44
 outline_size = 3
 
-[node name="Reader" type="MeshInstance3D" parent="TicketGate_A" unique_id=1140011524]
+[node name="Reader" type="MeshInstance3D" parent="TicketGate_A" unique_id=2005306036]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.62, 1.4, -0.24)
 mesh = SubResource("BoxMesh_k1bj2")
 
-[node name="TicketGate_B" type="Area3D" parent="." unique_id=571877983]
+[node name="TicketGate_B" type="Area3D" parent="." unique_id=1777452548]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 27, 4.5, 3)
 script = ExtResource("10_jha0f")
 door_name = "Cửa vé tầng 2 · TicketGate_B"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_B" unique_id=28751224]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_B" unique_id=198418334]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 shape = SubResource("BoxShape3D_h08oy")
 
-[node name="Panel" type="StaticBody3D" parent="TicketGate_B" unique_id=444285345]
+[node name="Panel" type="StaticBody3D" parent="TicketGate_B" unique_id=589482540]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TicketGate_B/Panel" unique_id=572327407]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TicketGate_B/Panel" unique_id=1132136578]
 material_override = ExtResource("3_4c386")
 mesh = SubResource("BoxMesh_t4yvd")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_B/Panel" unique_id=1245494216]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TicketGate_B/Panel" unique_id=453398887]
 shape = SubResource("BoxShape3D_1itjn")
 
-[node name="Passage" type="NavigationLink3D" parent="TicketGate_B" unique_id=1905082389]
+[node name="Passage" type="NavigationLink3D" parent="TicketGate_B" unique_id=394123512]
 enabled = false
 start_position = Vector3(0, 0.45, -1.1)
 end_position = Vector3(0, 0.45, 1.1)
 
-[node name="Label" type="Label3D" parent="TicketGate_B" unique_id=175850569]
+[node name="Label" type="Label3D" parent="TicketGate_B" unique_id=441484391]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 3.05, 0)
 pixel_size = 0.0021
 text = "V · CẦN VÉ TẦNG 2"
 font_size = 44
 outline_size = 3
 
-[node name="Reader" type="MeshInstance3D" parent="TicketGate_B" unique_id=1108680764]
+[node name="Reader" type="MeshInstance3D" parent="TicketGate_B" unique_id=754861868]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.82, 1.4, -0.24)
 mesh = SubResource("BoxMesh_l7l04")
 
-[node name="EnvironmentArt" type="Node3D" parent="." unique_id=745365996]
+[node name="EnvironmentArt" type="Node3D" parent="." unique_id=1995384447]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Chair" type="Node3D" parent="EnvironmentArt" unique_id=775822291]
+[node name="Chair" type="Node3D" parent="EnvironmentArt" unique_id=905784119]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.05, 0, 27)
 metadata/preserve_source_material = true
 metadata/source = "furniture/dining_chair_02/dining_chair_02_2k.gltf"
+metadata/fit_scale = Vector3(1.214392, 1.2328205, 1.6144998)
+metadata/fit_anchor = Vector3(-0.042813748, 0.001285091, 0)
+metadata/fit_reference_bounds = AABB(-0.3310238, 0.001285091, -0.2167854, 0.5764201, 0.9733777, 0.4335708)
 
-[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/Chair" unique_id=2038597493]
+[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/Chair" unique_id=486726353]
 transform = Transform3D(-5.3082758e-08, 0, 1.214392, 0, 1.2328205, 0, -1.6144998, 0, -7.057203e-08, 0.05199267, -0.0015842866, 0)
 
-[node name="dining_chair_02" type="MeshInstance3D" parent="EnvironmentArt/Chair/VisualPivot" unique_id=904208531]
+[node name="dining_chair_02" type="MeshInstance3D" parent="EnvironmentArt/Chair/VisualPivot" unique_id=1915128728]
 mesh = SubResource("ArrayMesh_6ussv")
 
-[node name="ServicePlant" type="Node3D" parent="EnvironmentArt" unique_id=1688474684]
+[node name="ServicePlant" type="Node3D" parent="EnvironmentArt" unique_id=1242520426]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.9, 0, 29)
 metadata/preserve_source_material = true
 metadata/source = "vegetation/potted_plant_01/potted_plant_01_2k.gltf"
+metadata/fit_scale = Vector3(1.2051855, 1.2051855, 1.2051855)
+metadata/fit_anchor = Vector3(-0.044674367, 0, -0.04689637)
+metadata/fit_reference_bounds = AABB(-0.33836794, 0, -0.36367878, 0.58738714, 1.3275964, 0.63356483)
 
-[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/ServicePlant" unique_id=1619072748]
-transform = Transform3D(1.3619637, 0, 0, 0, 1.2051855, 0, 0, 0, 1.2626964, 0.06084487, 0, 0.059215873)
+[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/ServicePlant" unique_id=733566887]
+transform = Transform3D(1.2051855, 0, 0, 0, 1.2051855, 0, 0, 0, 1.2051855, 0.0538409, 0, 0.056518823)
 
-[node name="potted_plant_01_stem" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=1843145397]
+[node name="potted_plant_01_stem" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=1155839301]
 mesh = SubResource("ArrayMesh_1mktl")
 
-[node name="potted_plant_01_pebbles" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=1245173495]
+[node name="potted_plant_01_pebbles" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=1029007497]
 transform = Transform3D(1.0021868, 0, 0, 0, 1.0021868, 0, 0, 0, 1.0021868, 0, -0.013706686, 0)
 mesh = SubResource("ArrayMesh_3kkt1")
 
-[node name="potted_plant_01_pot" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=1428731437]
+[node name="potted_plant_01_pot" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=1195826735]
 mesh = SubResource("ArrayMesh_kmn2i")
 
-[node name="potted_plant_01_leaves" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=244643054]
+[node name="potted_plant_01_leaves" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=1536897942]
 mesh = SubResource("ArrayMesh_p26qs")
 
-[node name="CeilingLamp" type="Node3D" parent="EnvironmentArt" unique_id=1521107704]
+[node name="CeilingLamp" type="Node3D" parent="EnvironmentArt" unique_id=733148459]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 3.8, 27)
 metadata/preserve_source_material = true
 metadata/source = "lighting/modern_ceiling_lamp_01/modern_ceiling_lamp_01_2k.gltf"
+metadata/fit_scale = Vector3(1.8533564, 0.36782035, 1.8533072)
+metadata/fit_anchor = Vector3(2.8252602e-05, 0.22109216, 0.0015027374)
+metadata/fit_reference_bounds = AABB(-0.21579641, 0.22109216, -0.21432765, 0.43164933, 0.9515515, 0.43166077)
 
-[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/CeilingLamp" unique_id=1548456286]
+[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/CeilingLamp" unique_id=1971613578]
 transform = Transform3D(1.8533564, 0, 0, 0, 0.36782035, 0, 0, 0, 1.8533072, -5.236214e-05, -0.0813222, -0.002785034)
 
-[node name="modern_ceiling_lamp_01" type="MeshInstance3D" parent="EnvironmentArt/CeilingLamp/VisualPivot" unique_id=431441371]
+[node name="modern_ceiling_lamp_01" type="MeshInstance3D" parent="EnvironmentArt/CeilingLamp/VisualPivot" unique_id=398988554]
 mesh = SubResource("ArrayMesh_t5puh")

@@ -1,305 +1,451 @@
 {
-    "schema_version":  1,
-    "quality":  {
-                    "tree_source_lod0_allowed":  false,
-                    "tree_near_triangle_budget":  60000,
-                    "shadows":  false
-                },
-    "courtyard":  {
-                      "bounds":  [
-                                     12,
-                                     9,
-                                     12,
-                                     12
-                                 ],
-                      "roof_eave":  9.0,
-                      "roof_ridge":  11.2,
-                      "entrance_width":  2.0,
-                      "statues":  [
-                                      [
-                                          14,
-                                          0,
-                                          11
-                                      ],
-                                      [
-                                          22,
-                                          0,
-                                          11
-                                      ],
-                                      [
-                                          14,
-                                          0,
-                                          19
-                                      ],
-                                      [
-                                          22,
-                                          0,
-                                          19
-                                      ]
-                                  ]
-                  },
-    "geometry_props":  [
-                           {
-                               "id":  "desk_a",
-                               "source":  "furniture/metal_office_desk/metal_office_desk_2k.gltf",
-                               "position":  [
-                                                32.2,
-                                                0,
-                                                12
-                                            ],
-                               "size":  [
-                                            1.4,
-                                            1.1,
-                                            4.6
-                                        ],
-                               "yaw":  90,
-                               "hide":  [
-                                            "StaffInterior/Desk/Mesh",
-                                            "StaffInterior/DeskTop"
-                                        ]
-                           },
-                           {
-                               "id":  "g3_chair",
-                               "source":  "furniture/dining_chair_02/dining_chair_02_2k.gltf",
-                               "position":  [
-                                                34.1,
-                                                0,
-                                                12
-                                            ],
-                               "size":  [
-                                            0.7,
-                                            1.2,
-                                            0.7
-                                        ],
-                               "yaw":  90,
-                               "hide":  [
-                                            "StaffInterior/ChairSeat",
-                                            "StaffInterior/ChairBack"
-                                        ]
-                           },
-                           {
-                               "id":  "desk_lamp",
-                               "source":  "lighting/desk_lamp_arm_01/desk_lamp_arm_01_2k.gltf",
-                               "position":  [
-                                                32.2,
-                                                1.11,
-                                                10.5
-                                            ],
-                               "size":  [
-                                            0.55,
-                                            0.6,
-                                            0.45
-                                        ],
-                               "yaw":  90
-                           },
-                           {
-                               "id":  "cassette",
-                               "source":  "electronics/cassette_player/cassette_player_2k.gltf",
-                               "position":  [
-                                                32.2,
-                                                1.11,
-                                                13.5
-                                            ],
-                               "size":  [
-                                            0.48,
-                                            0.27,
-                                            0.25
-                                        ],
-                               "yaw":  -90
-                           },
-                           {
-                               "id":  "desk_photo",
-                               "source":  "frames/standing_picture_frame_01/standing_picture_frame_01_2k.gltf",
-                               "position":  [
-                                                32.1,
-                                                1.11,
-                                                11.1
-                                            ],
-                               "size":  [
-                                            0.3,
-                                            0.3,
-                                            0.16
-                                        ],
-                               "yaw":  90
-                           },
-                           {
-                               "id":  "storage_shelf",
-                               "source":  "storage/steel_frame_shelves_01/steel_frame_shelves_01_2k.gltf",
-                               "position":  [
-                                                31,
-                                                0,
-                                                18.65
-                                            ],
-                               "size":  [
-                                            4.1,
-                                            2.15,
-                                            0.7
-                                        ],
-                               "yaw":  0,
-                               "hide":  [
-                                            "StorageInterior/ToolShelves/Mesh"
-                                        ]
-                           },
-                           {
-                               "id":  "storage_cabinet",
-                               "source":  "storage/painted_wooden_cabinet/painted_wooden_cabinet_2k.gltf",
-                               "position":  [
-                                                31.5,
-                                                0,
-                                                23.525
-                                            ],
-                               "size":  [
-                                            3.4,
-                                            2.2,
-                                            0.65
-                                        ],
-                               "yaw":  0,
-                               "hide":  [
-                                            "StorageInterior/SteelCabinet/Mesh",
-                                            "StorageInterior/CabinetDoor",
-                                            "StorageInterior/CabinetHandle"
-                                        ]
-                           },
-                           {
-                               "id":  "history_shelves",
-                               "source":  "furniture/wooden_display_shelves_01/wooden_display_shelves_01_2k.gltf",
-                               "position":  [
-                                                4,
-                                                0,
-                                                0.7
-                                            ],
-                               "size":  [
-                                            3,
-                                            2.4,
-                                            0.8
-                                        ],
-                               "yaw":  0
-                           },
-                           {
-                               "id":  "restoration_cabinet",
-                               "source":  "storage/painted_wooden_cabinet/painted_wooden_cabinet_2k.gltf",
-                               "position":  [
-                                                35.1,
-                                                4.5,
-                                                20.2
-                                            ],
-                               "size":  [
-                                            1.3,
-                                            2.2,
-                                            0.65
-                                        ],
-                               "yaw":  -90
-                           },
-                           {
-                               "id":  "restoration_shelf",
-                               "source":  "storage/steel_frame_shelves_01/steel_frame_shelves_01_2k.gltf",
-                               "position":  [
-                                                30,
-                                                4.5,
-                                                18.65
-                                            ],
-                               "size":  [
-                                            3,
-                                            2.1,
-                                            0.7
-                                        ],
-                               "yaw":  0
-                           },
-                           {
-                               "id":  "restoration_desk",
-                               "source":  "furniture/metal_office_desk/metal_office_desk_2k.gltf",
-                               "position":  [
-                                                32.4,
-                                                4.5,
-                                                19.4
-                                            ],
-                               "size":  [
-                                            2.4,
-                                            0.95,
-                                            0.9
-                                        ],
-                               "yaw":  0
-                           },
-                           {
-                               "id":  "restoration_lamp",
-                               "source":  "lighting/desk_lamp_arm_01/desk_lamp_arm_01_2k.gltf",
-                               "position":  [
-                                                32.8,
-                                                5.45,
-                                                19.4
-                                            ],
-                               "size":  [
-                                            0.5,
-                                            0.6,
-                                            0.4
-                                        ],
-                               "yaw":  0
-                           },
-                           {
-                               "id":  "lobby_plant",
-                               "source":  "vegetation/potted_plant_01/potted_plant_01_2k.gltf",
-                               "position":  [
-                                                25.6,
-                                                0,
-                                                28.9
-                                            ],
-                               "size":  [
-                                            0.8,
-                                            1.7,
-                                            0.8
-                                        ],
-                               "yaw":  0
-                           },
-                           {
-                               "id":  "upper_plant",
-                               "source":  "vegetation/potted_plant_01/potted_plant_01_2k.gltf",
-                               "position":  [
-                                                25.5,
-                                                4.5,
-                                                28.9
-                                            ],
-                               "size":  [
-                                            0.8,
-                                            1.7,
-                                            0.8
-                                        ],
-                               "yaw":  0
-                           },
-                           {
-                               "id":  "history_drawer_1",
-                               "source":  "furniture/vintage_wooden_drawer_01/vintage_wooden_drawer_01_2k.gltf",
-                               "position":  [
-                                                10.5,
-                                                0,
-                                                2.8
-                                            ],
-                               "size":  [
-                                            3.4,
-                                            1.2,
-                                            1.4
-                                        ],
-                               "yaw":  0,
-                               "hide":  [
-                                            "Cover/NorthWest0/Mesh"
-                                        ]
-                           },
-                           {
-                               "id":  "history_drawer_2",
-                               "source":  "furniture/vintage_wooden_drawer_01/vintage_wooden_drawer_01_2k.gltf",
-                               "position":  [
-                                                22,
-                                                0,
-                                                2.8
-                                            ],
-                               "size":  [
-                                            3.4,
-                                            1.2,
-                                            1.4
-                                        ],
-                               "yaw":  0,
-                               "hide":  [
-                                            "Cover/NorthEast0/Mesh"
-                                        ]
-                           }
-                       ]
+	"schema_version": 1,
+	"quality": {
+		"tree_source_lod0_allowed": false,
+		"tree_near_triangle_budget": 48000,
+		"shadows": true,
+		"tree_lods": [
+			{
+				"id": "near",
+				"budget": 48000,
+				"foliage_fraction": 0.77,
+				"begin": 0,
+				"end": 18,
+				"coverage_weight": 1.2
+			},
+			{
+				"id": "mid",
+				"budget": 12000,
+				"foliage_fraction": 0.78,
+				"begin": 18,
+				"end": 26,
+				"coverage_weight": 1.5
+			},
+			{
+				"id": "far",
+				"budget": 3200,
+				"foliage_fraction": 0.8,
+				"begin": 26,
+				"end": 0,
+				"coverage_weight": 1.8
+			}
+		],
+		"leaf_cluster_grid": [
+			4,
+			3,
+			4
+		]
+	},
+	"courtyard": {
+		"bounds": [
+			12,
+			9,
+			12,
+			12
+		],
+		"roof_eave": 9.0,
+		"roof_ridge": 11.2,
+		"entrance_width": 2.0,
+		"statues": [
+			[
+				14,
+				0,
+				11
+			],
+			[
+				22,
+				0,
+				11
+			],
+			[
+				14,
+				0,
+				19
+			],
+			[
+				22,
+				0,
+				19
+			]
+		],
+		"tree": {
+			"target_height": 5.2,
+			"max_canopy_width": 4.4,
+			"max_canopy_depth": 4.8,
+			"preserve_aspect": true,
+			"positions": [
+				[
+					13.1,
+					0,
+					10.1
+				],
+				[
+					22.9,
+					0,
+					19.9
+				]
+			]
+		}
+	},
+	"geometry_props": [
+		{
+			"id": "desk_a",
+			"source": "furniture/metal_office_desk/metal_office_desk_2k.gltf",
+			"position": [
+				32.2,
+				0,
+				12
+			],
+			"size": [
+				1.4,
+				1.1,
+				4.6
+			],
+			"yaw": 90,
+			"hide": [
+				"StaffInterior/Desk/Mesh",
+				"StaffInterior/DeskTop"
+			]
+		},
+		{
+			"id": "g3_chair",
+			"source": "furniture/dining_chair_02/dining_chair_02_2k.gltf",
+			"position": [
+				34.1,
+				0,
+				12
+			],
+			"size": [
+				0.7,
+				1.2,
+				0.7
+			],
+			"yaw": 90,
+			"hide": [
+				"StaffInterior/ChairSeat",
+				"StaffInterior/ChairBack"
+			]
+		},
+		{
+			"id": "desk_lamp",
+			"source": "lighting/desk_lamp_arm_01/desk_lamp_arm_01_2k.gltf",
+			"position": [
+				32.2,
+				1.11,
+				10.5
+			],
+			"size": [
+				0.55,
+				0.6,
+				0.45
+			],
+			"yaw": 90
+		},
+		{
+			"id": "cassette",
+			"source": "electronics/cassette_player/cassette_player_2k.gltf",
+			"position": [
+				32.2,
+				1.11,
+				13.5
+			],
+			"size": [
+				0.48,
+				0.27,
+				0.25
+			],
+			"yaw": -90
+		},
+		{
+			"id": "desk_photo",
+			"source": "frames/standing_picture_frame_01/standing_picture_frame_01_2k.gltf",
+			"position": [
+				32.1,
+				1.11,
+				11.1
+			],
+			"size": [
+				0.3,
+				0.3,
+				0.16
+			],
+			"yaw": 90
+		},
+		{
+			"id": "storage_shelf",
+			"source": "storage/steel_frame_shelves_01/steel_frame_shelves_01_2k.gltf",
+			"position": [
+				31,
+				0,
+				18.65
+			],
+			"size": [
+				4.1,
+				2.15,
+				0.7
+			],
+			"yaw": 0,
+			"hide": [
+				"StorageInterior/ToolShelves/Mesh"
+			]
+		},
+		{
+			"id": "storage_cabinet",
+			"source": "storage/painted_wooden_cabinet/painted_wooden_cabinet_2k.gltf",
+			"position": [
+				31.5,
+				0,
+				23.525
+			],
+			"size": [
+				3.4,
+				2.2,
+				0.65
+			],
+			"yaw": 0,
+			"hide": [
+				"StorageInterior/SteelCabinet/Mesh",
+				"StorageInterior/CabinetDoor",
+				"StorageInterior/CabinetHandle"
+			]
+		},
+		{
+			"id": "history_shelves",
+			"source": "furniture/wooden_display_shelves_01/wooden_display_shelves_01_2k.gltf",
+			"position": [
+				4,
+				0,
+				0.7
+			],
+			"size": [
+				3,
+				2.4,
+				0.8
+			],
+			"yaw": 0
+		},
+		{
+			"id": "restoration_cabinet",
+			"source": "storage/painted_wooden_cabinet/painted_wooden_cabinet_2k.gltf",
+			"position": [
+				35.1,
+				4.5,
+				20.2
+			],
+			"size": [
+				1.3,
+				2.2,
+				0.65
+			],
+			"yaw": -90
+		},
+		{
+			"id": "restoration_shelf",
+			"source": "storage/steel_frame_shelves_01/steel_frame_shelves_01_2k.gltf",
+			"position": [
+				30,
+				4.5,
+				18.65
+			],
+			"size": [
+				3,
+				2.1,
+				0.7
+			],
+			"yaw": 0
+		},
+		{
+			"id": "restoration_desk",
+			"source": "furniture/metal_office_desk/metal_office_desk_2k.gltf",
+			"position": [
+				32.4,
+				4.5,
+				19.4
+			],
+			"size": [
+				2.4,
+				0.95,
+				0.9
+			],
+			"yaw": 0
+		},
+		{
+			"id": "restoration_lamp",
+			"source": "lighting/desk_lamp_arm_01/desk_lamp_arm_01_2k.gltf",
+			"position": [
+				32.8,
+				5.45,
+				19.4
+			],
+			"size": [
+				0.5,
+				0.6,
+				0.4
+			],
+			"yaw": 0
+		},
+		{
+			"id": "lobby_plant",
+			"source": "vegetation/potted_plant_01/potted_plant_01_2k.gltf",
+			"position": [
+				25.6,
+				0,
+				28.9
+			],
+			"size": [
+				0.8,
+				1.7,
+				0.8
+			],
+			"yaw": 0
+		},
+		{
+			"id": "upper_plant",
+			"source": "vegetation/potted_plant_01/potted_plant_01_2k.gltf",
+			"position": [
+				25.5,
+				4.5,
+				28.9
+			],
+			"size": [
+				0.8,
+				1.7,
+				0.8
+			],
+			"yaw": 0
+		},
+		{
+			"id": "history_drawer_1",
+			"source": "furniture/vintage_wooden_drawer_01/vintage_wooden_drawer_01_2k.gltf",
+			"position": [
+				10.5,
+				0,
+				2.8
+			],
+			"size": [
+				3.4,
+				1.2,
+				1.4
+			],
+			"yaw": 0,
+			"hide": [
+				"Cover/NorthWest0/Mesh"
+			]
+		},
+		{
+			"id": "history_drawer_2",
+			"source": "furniture/vintage_wooden_drawer_01/vintage_wooden_drawer_01_2k.gltf",
+			"position": [
+				22,
+				0,
+				2.8
+			],
+			"size": [
+				3.4,
+				1.2,
+				1.4
+			],
+			"yaw": 0,
+			"hide": [
+				"Cover/NorthEast0/Mesh"
+			]
+		}
+	],
+	"lighting": {
+		"ambient": {
+			"energy": 0.32,
+			"color": [
+				0.82,
+				0.86,
+				0.94
+			]
+		},
+		"sun": {
+			"energy": 0.85,
+			"color": [
+				1,
+				0.96,
+				0.88
+			],
+			"rotation_degrees": [
+				-48,
+				-28,
+				0
+			],
+			"shadows": true
+		},
+		"sky": {
+			"top": [
+				0.32,
+				0.44,
+				0.6
+			],
+			"horizon": [
+				0.67,
+				0.72,
+				0.77
+			],
+			"ground_horizon": [
+				0.48,
+				0.49,
+				0.46
+			]
+		},
+		"courtyard": {
+			"energy": 0.75,
+			"range": 5.5,
+			"color": [
+				1,
+				0.81,
+				0.58
+			],
+			"shadows": false,
+			"fixtures": [
+				{
+					"id": "NW",
+					"position": [
+						12.34,
+						2.65,
+						11.5
+					]
+				},
+				{
+					"id": "NE",
+					"position": [
+						23.66,
+						2.65,
+						11.5
+					]
+				},
+				{
+					"id": "SW",
+					"position": [
+						12.34,
+						2.65,
+						18.5
+					]
+				},
+				{
+					"id": "SE",
+					"position": [
+						23.66,
+						2.65,
+						18.5
+					]
+				}
+			]
+		}
+	},
+	"vegetation": {
+		"preserve_aspect": true,
+		"hedge_spacing": 0.65,
+		"hedge_core_height": 0.3,
+		"hedge_foliage_height": 0.32,
+		"hedge_foliage_depth": 0.62,
+		"prop_budgets": {
+			"shrub_04": 2400,
+			"potted_plant_01": 10000,
+			"terpsichore": 28000
+		}
+	}
 }

@@ -61,3 +61,11 @@ Các công cụ dựng map tự áp lại quy tắc gán vật liệu khi tạo 
 ```
 
 Lệnh này gán lại vật liệu của các mesh đã có trong quy tắc map, bao gồm những ô Material Override bạn đã đổi thủ công trên các mesh đó.
+
+Đợt art v1.1 bổ sung `courtyard_stone_cream.tres` và `courtyard_statue_stone.tres`.
+Hai preset nhận ánh sáng, dùng chung albedo Marble012 đã giảm tương phản và pha kem,
+giữ normal/roughness nguồn với normal strength 0,12 và 0,07. Albedo dẫn xuất được
+tạo offline bằng `tools/prepare_courtyard_materials.gd`; không sửa texture gốc.
+Module cột được sinh lại bằng `prepare_environment_modules.gd`, sau đó art pass
+gán đúng preset cho kiến trúc sân và tượng. Metadata của art giữ chúng qua palette.
+Xem [bằng chứng v1.1](../../docs/environment-art-v1_1/REPORT.md).

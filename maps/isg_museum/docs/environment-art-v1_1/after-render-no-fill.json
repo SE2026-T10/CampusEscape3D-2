@@ -1,0 +1,62 @@
+{
+	"before": false,
+	"engine": "4.7.2-stable (official)",
+	"gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+	"guards": 9,
+	"low_processor_usage_mode": false,
+	"max_fps": 0,
+	"mode": "render_diagnostic_no-fill",
+	"renderer": "gl_compatibility",
+	"samples": [
+		{
+			"draw_calls": {
+				"p50": 1400.0,
+				"p95": 1400.0
+			},
+			"frame_interval_ms": {
+				"p50": 2.672,
+				"p95": 4.211,
+				"p99": 4.853
+			},
+			"frames": 2098,
+			"gpu_render_ms_p95": 2.16300010681152,
+			"mean_fps": 349.631528698032,
+			"primitives": {
+				"p50": 2070593.0,
+				"p95": 2070593.0
+			},
+			"render_memory_bytes_peak": 501519894.0,
+			"seconds": 6.0,
+			"view": "courtyard"
+		},
+		{
+			"draw_calls": {
+				"p50": 952.0,
+				"p95": 952.0
+			},
+			"frame_interval_ms": {
+				"p50": 1.815,
+				"p95": 3.084,
+				"p99": 3.76
+			},
+			"frames": 3025,
+			"gpu_render_ms_p95": 1.19500005245209,
+			"mean_fps": 504.144316268644,
+			"primitives": {
+				"p50": 1014240.0,
+				"p95": 1014240.0
+			},
+			"render_memory_bytes_peak": 501519894.0,
+			"seconds": 6.0,
+			"view": "staff"
+		}
+	],
+	"settings_restored": true,
+	"viewport": [
+		1280,
+		720
+	],
+	"vsync_mode": 0,
+	"warmup_seconds": 3,
+	"window_mode": 4
+}

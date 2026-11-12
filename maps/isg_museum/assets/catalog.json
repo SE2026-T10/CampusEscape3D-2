@@ -622,6 +622,8 @@
         "manifest": "../resources/environment_art_manifest.json",
         "derived": "models/derived/",
         "report": "../docs/environment-art-v1/REPORT.md",
+        "report_v1_1": "../docs/environment-art-v1_1/REPORT.md",
+        "tree_lod_manifest": "models/derived/tree_lod_manifest.json",
         "source_files_modified": false
     }
 }

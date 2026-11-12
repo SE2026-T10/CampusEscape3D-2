@@ -3,11 +3,12 @@ extends "res://maps/isg_museum/tools/prepare_tree_lod.gd"
 ## Additional repeated props reduced offline; originals and attribution stay intact.
 func run() -> void:
 	DirAccess.make_dir_recursive_absolute(OUTPUT)
+	var config: Dictionary = Art.new().load_layout().vegetation.prop_budgets
 	var manifest := {}
 	for entry in [
-		["vegetation/shrub_04/shrub_04_2k.gltf","shrub_04",1800],
-		["vegetation/potted_plant_01/potted_plant_01_2k.gltf","potted_plant_01",10000],
-		["exhibits/terpsichore_lyran/terpsichore_lyran_by_canova.glb","terpsichore",28000]]:
+		["vegetation/shrub_04/shrub_04_2k.gltf","shrub_04",config.shrub_04],
+		["vegetation/potted_plant_01/potted_plant_01_2k.gltf","potted_plant_01",config.potted_plant_01],
+		["exhibits/terpsichore_lyran/terpsichore_lyran_by_canova.glb","terpsichore",config.terpsichore]]:
 		var art := Art.new()
 		var source := art.extract_visual_parts(entry[0],[],false)
 		var output := Node3D.new()
@@ -42,7 +43,8 @@ func run() -> void:
 		var packed := PackedScene.new()
 		assert(packed.pack(output) == OK)
 		assert(ResourceSaver.save(packed,OUTPUT+entry[1]+".scn") == OK)
-		manifest[entry[0]] = {"source_triangles":total,"derived_triangles":count,"derived":OUTPUT+entry[1]+".scn"}
+		manifest[entry[0]] = {"source_triangles":total,"derived_triangles":count,"requested_budget":entry[2],
+			"method":"ImporterMesh nearest budget per material surface","derived":OUTPUT+entry[1]+".scn"}
 		source.free()
 		output.free()
 	var file := FileAccess.open(OUTPUT+"prop_lod_manifest.json",FileAccess.WRITE)

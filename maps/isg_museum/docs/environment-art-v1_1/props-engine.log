@@ -1,0 +1,5 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+{ "vegetation/shrub_04/shrub_04_2k.gltf": { "source_triangles": 27327, "derived_triangles": 2287, "requested_budget": 2400.0, "method": "ImporterMesh nearest budget per material surface", "derived": "res://maps/isg_museum/assets/models/derived/shrub_04.scn" }, "vegetation/potted_plant_01/potted_plant_01_2k.gltf": { "source_triangles": 176226, "derived_triangles": 10636, "requested_budget": 10000.0, "method": "ImporterMesh nearest budget per material surface", "derived": "res://maps/isg_museum/assets/models/derived/potted_plant_01.scn" }, "exhibits/terpsichore_lyran/terpsichore_lyran_by_canova.glb": { "source_triangles": 114430, "derived_triangles": 28605, "requested_budget": 28000.0, "method": "ImporterMesh nearest budget per material surface", "derived": "res://maps/isg_museum/assets/models/derived/terpsichore.scn" } }

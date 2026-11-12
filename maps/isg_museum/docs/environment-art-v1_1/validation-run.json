@@ -1,0 +1,242 @@
+[
+	{
+		"id": "version",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--version"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T11:59:54.2306790+07:00",
+		"finished": "2026-11-12T11:59:54.8620091+07:00"
+	},
+	{
+		"id": "final-import",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--editor",
+			"--quit"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T11:59:55.2947454+07:00",
+		"finished": "2026-11-12T12:00:46.9833186+07:00"
+	},
+	{
+		"id": "check-scripts",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--script",
+			"res://tools/ci/check_scripts.gd"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T18:28:28.7127426+07:00",
+		"finished": "2026-11-12T18:28:42.1255864+07:00"
+	},
+	{
+		"id": "check-layout",
+		"executable": "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+		"arguments": [
+			"-B",
+			"tools/ci/check_layout.py"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T12:01:17.9161508+07:00",
+		"finished": "2026-11-12T12:01:19.5567304+07:00"
+	},
+	{
+		"id": "check-art",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--script",
+			"res://maps/isg_museum/tools/apply_environment_art.gd",
+			"--",
+			"--check"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T12:01:20.5318805+07:00",
+		"finished": "2026-11-12T12:02:19.2461106+07:00"
+	},
+	{
+		"id": "verify-environment_art",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--fixed-fps",
+			"60",
+			"--script",
+			"res://maps/isg_museum/tools/verify_environment_art.gd"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T18:28:42.5131802+07:00",
+		"finished": "2026-11-12T18:29:09.1576372+07:00"
+	},
+	{
+		"id": "verify-blockout",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--fixed-fps",
+			"60",
+			"--script",
+			"res://maps/isg_museum/tools/verify_blockout.gd"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T18:29:09.1605976+07:00",
+		"finished": "2026-11-12T18:29:19.7962634+07:00"
+	},
+	{
+		"id": "verify-contract_variants",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--fixed-fps",
+			"60",
+			"--script",
+			"res://maps/isg_museum/tools/verify_contract_variants.gd"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T18:29:19.7982691+07:00",
+		"finished": "2026-11-12T18:29:48.7306891+07:00"
+	},
+	{
+		"id": "verify-empty_frame",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--fixed-fps",
+			"60",
+			"--script",
+			"res://maps/isg_museum/tools/verify_empty_frame.gd"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T18:29:48.7461891+07:00",
+		"finished": "2026-11-12T18:30:13.0352232+07:00"
+	},
+	{
+		"id": "verify-carry",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--fixed-fps",
+			"60",
+			"--script",
+			"res://maps/isg_museum/tools/verify_carry.gd"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T18:30:13.0352232+07:00",
+		"finished": "2026-11-12T18:30:49.4722272+07:00"
+	},
+	{
+		"id": "verify-staff_room",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--fixed-fps",
+			"60",
+			"--script",
+			"res://maps/isg_museum/tools/verify_staff_room.gd"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T18:30:49.4722272+07:00",
+		"finished": "2026-11-12T18:31:25.6530174+07:00"
+	},
+	{
+		"id": "verify-storage",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--fixed-fps",
+			"60",
+			"--script",
+			"res://maps/isg_museum/tools/verify_storage.gd"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T18:31:25.6530174+07:00",
+		"finished": "2026-11-12T18:31:33.7696406+07:00"
+	},
+	{
+		"id": "verify-service",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--fixed-fps",
+			"60",
+			"--script",
+			"res://maps/isg_museum/tools/verify_service.gd"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T18:31:33.7696406+07:00",
+		"finished": "2026-11-12T18:31:38.6370426+07:00"
+	},
+	{
+		"id": "verify-exhibits",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--fixed-fps",
+			"60",
+			"--script",
+			"res://maps/isg_museum/tools/verify_exhibits.gd"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T18:31:38.6370426+07:00",
+		"finished": "2026-11-12T18:31:43.4132167+07:00"
+	},
+	{
+		"id": "verify-room_feedback",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--fixed-fps",
+			"60",
+			"--script",
+			"res://maps/isg_museum/tools/verify_room_feedback.gd"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T18:31:43.4132167+07:00",
+		"finished": "2026-11-12T18:31:48.1902889+07:00"
+	},
+	{
+		"id": "integrated",
+		"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+		"arguments": [
+			"--headless",
+			"--path",
+			".",
+			"--fixed-fps",
+			"60",
+			"res://tests/test_scene.tscn"
+		],
+		"exit_code": 0,
+		"started": "2026-11-12T18:31:48.1943259+07:00",
+		"finished": "2026-11-12T18:51:57.1065620+07:00"
+	}
+]

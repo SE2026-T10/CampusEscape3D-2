@@ -139,19 +139,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52, 0, 0.04)
 visible = false
 mesh = SubResource("Mesh_vertical_frame")
 
-[node name="EnvironmentArt" type="Node3D" parent="Frame" unique_id=1468657994]
+[node name="EnvironmentArt" type="Node3D" parent="Frame" unique_id=797394380]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Frame" type="Node3D" parent="Frame/EnvironmentArt" unique_id=631840212]
+[node name="Frame" type="Node3D" parent="Frame/EnvironmentArt" unique_id=1058289513]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0.015)
 metadata/preserve_source_material = true
 metadata/source = "frames/fancy_picture_frame_01/fancy_picture_frame_01_2k.gltf"
+metadata/fit_scale = Vector3(1.8904524, 1.9822184, 3.5012124)
+metadata/fit_anchor = Vector3(0, -0.23206323, 0.011895584)
+metadata/fit_reference_bounds = AABB(-0.30151513, -0.23206323, 0.0018990466, 0.60303026, 0.46412647, 0.019993074)
 
-[node name="VisualPivot" type="Node3D" parent="Frame/EnvironmentArt/Frame" unique_id=1282725078]
+[node name="VisualPivot" type="Node3D" parent="Frame/EnvironmentArt/Frame" unique_id=1159081786]
 transform = Transform3D(1.8904524, 0, 0, 0, 1.9822184, 0, 0, 0, 3.5012124, 0, 0.46, -0.041648965)
 
-[node name="fancy_picture_frame_01" type="MeshInstance3D" parent="Frame/EnvironmentArt/Frame/VisualPivot" unique_id=879213589]
+[node name="fancy_picture_frame_01" type="MeshInstance3D" parent="Frame/EnvironmentArt/Frame/VisualPivot" unique_id=438292456]
 mesh = SubResource("ArrayMesh_eu04g")
 
 [node name="Backing" type="MeshInstance3D" parent="." unique_id=1461610664]

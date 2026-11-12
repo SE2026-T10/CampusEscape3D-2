@@ -1,0 +1,38 @@
+﻿[
+    {
+        "command":  "prepare_environment_modules",
+        "exit_code":  0,
+        "started":  "2026-11-12T11:56:39.3197544+07:00",
+        "finished":  "2026-11-12T11:56:41.0233954+07:00"
+    },
+    {
+        "command":  "build_geometry",
+        "exit_code":  0,
+        "started":  "2026-11-12T11:56:41.5428857+07:00",
+        "finished":  "2026-11-12T11:56:55.3041036+07:00"
+    },
+    {
+        "command":  "build_exhibits",
+        "exit_code":  0,
+        "started":  "2026-11-12T11:56:55.3568436+07:00",
+        "finished":  "2026-11-12T11:56:57.4229926+07:00"
+    },
+    {
+        "command":  "build_service",
+        "exit_code":  0,
+        "started":  "2026-11-12T11:56:57.4312708+07:00",
+        "finished":  "2026-11-12T11:56:59.1931328+07:00"
+    },
+    {
+        "command":  "apply_environment_art",
+        "exit_code":  0,
+        "started":  "2026-11-12T11:56:59.2015541+07:00",
+        "finished":  "2026-11-12T11:58:27.5255432+07:00"
+    },
+    {
+        "command":  "apply_materials",
+        "exit_code":  0,
+        "started":  "2026-11-12T11:58:27.5301287+07:00",
+        "finished":  "2026-11-12T11:59:01.6367406+07:00"
+    }
+]

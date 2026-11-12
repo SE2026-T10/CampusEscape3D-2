@@ -63,10 +63,13 @@ static func resource_key(resource: Resource) -> String:
 		if resource.albedo_texture:
 			result += resource.albedo_texture.resource_path
 		result += str(resource.normal_enabled)
+		result += str(resource.normal_scale)+str(resource.uv1_scale)+str(resource.uv1_world_triplanar)
+		if resource.roughness_texture:
+			result += resource.roughness_texture.resource_path
 		if resource.normal_enabled and resource.normal_texture:
 			result += resource.normal_texture.resource_path
 	elif resource is Environment:
-		result += str(resource.background_mode)+str(resource.background_color)+str(resource.ambient_light_energy)
+		result += str(resource.background_mode)+str(resource.background_color)+str(resource.ambient_light_energy)+str(resource.ambient_light_color)
 		result += resource_key(resource.sky)
 	elif resource is Sky:
 		result += resource_key(resource.sky_material)
@@ -104,9 +107,11 @@ static func _signature(root_node: Node, node: Node, rows: Array[String]) -> void
 		row += str(node.visibility_range_begin)+str(node.visibility_range_end)
 	if node is Light3D:
 		row += str(node.light_color)+str(node.light_energy)+str(node.shadow_enabled)
+	if node is OmniLight3D:
+		row += str(node.omni_range)
 	if node is WorldEnvironment:
 		row += resource_key(node.environment)
-	for key in ["environment_art","preserve_source_material","source"]:
+	for key in ["environment_art","preserve_source_material","source","fit_scale","fit_anchor","fit_reference_bounds","tree_lod"]:
 		row += str(node.get_meta(key)) if node.has_meta(key) else "<none>"
 	rows.append(row)
 	for child in node.get_children():

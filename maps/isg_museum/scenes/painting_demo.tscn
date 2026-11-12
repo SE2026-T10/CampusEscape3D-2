@@ -86,22 +86,25 @@ billboard = 1
 text = "T1"
 font_size = 64
 
-[node name="EnvironmentArt" type="Node3D" parent="." unique_id=864821469]
+[node name="EnvironmentArt" type="Node3D" parent="." unique_id=632024938]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Frame" type="Node3D" parent="EnvironmentArt" unique_id=582856395]
+[node name="Frame" type="Node3D" parent="EnvironmentArt" unique_id=1753639958]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0.015)
 metadata/preserve_source_material = true
 metadata/source = "frames/fancy_picture_frame_01/fancy_picture_frame_01_2k.gltf"
+metadata/fit_scale = Vector3(1.8904524, 1.9822184, 3.5012124)
+metadata/fit_anchor = Vector3(0, -0.23206323, 0.011895584)
+metadata/fit_reference_bounds = AABB(-0.30151513, -0.23206323, 0.0018990466, 0.60303026, 0.46412647, 0.019993074)
 
-[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/Frame" unique_id=2090430534]
+[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/Frame" unique_id=190461845]
 transform = Transform3D(1.8904524, 0, 0, 0, 1.9822184, 0, 0, 0, 3.5012124, 0, 0.46, -0.041648965)
 
-[node name="fancy_picture_frame_01" type="MeshInstance3D" parent="EnvironmentArt/Frame/VisualPivot" unique_id=220688759]
+[node name="fancy_picture_frame_01" type="MeshInstance3D" parent="EnvironmentArt/Frame/VisualPivot" unique_id=2031090993]
 mesh = SubResource("ArrayMesh_eu04g")
 
-[node name="Artwork" type="MeshInstance3D" parent="EnvironmentArt" unique_id=1435766940]
+[node name="Artwork" type="MeshInstance3D" parent="EnvironmentArt" unique_id=815612360]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.06)
 material_override = SubResource("StandardMaterial3D_pdemg")
 mesh = SubResource("QuadMesh_jibbc")

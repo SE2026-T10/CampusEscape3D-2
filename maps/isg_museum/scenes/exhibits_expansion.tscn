@@ -938,212 +938,212 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_eavln")
 
-[node name="ExhibitsExpansion" type="Node3D" unique_id=1816012087]
+[node name="ExhibitsExpansion" type="Node3D" unique_id=376356234]
 
-[node name="S1" type="Area3D" parent="." unique_id=90704973]
+[node name="S1" type="Area3D" parent="." unique_id=1096522718]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.3, 1.7, 11.5)
 script = ExtResource("1_vy6hg")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="S1" unique_id=998742277]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="S1" unique_id=1108282640]
 shape = SubResource("BoxShape3D_bahuw")
 
-[node name="BasePlate" type="MeshInstance3D" parent="S1" unique_id=1295151596]
+[node name="BasePlate" type="MeshInstance3D" parent="S1" unique_id=1097545265]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
 material_override = ExtResource("2_44gru")
 mesh = SubResource("BoxMesh_ojdin")
 
-[node name="Glass" type="Node3D" parent="S1" unique_id=1179756707]
+[node name="Glass" type="Node3D" parent="S1" unique_id=2014406360]
 
-[node name="Side0" type="MeshInstance3D" parent="S1/Glass" unique_id=577345515]
+[node name="Side0" type="MeshInstance3D" parent="S1/Glass" unique_id=669566849]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.88, 0.08, 0)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_rppha")
 
-[node name="Side1" type="MeshInstance3D" parent="S1/Glass" unique_id=651314425]
+[node name="Side1" type="MeshInstance3D" parent="S1/Glass" unique_id=1348096414]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.88, 0.08, 0)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_water")
 
-[node name="Front2" type="MeshInstance3D" parent="S1/Glass" unique_id=390711798]
+[node name="Front2" type="MeshInstance3D" parent="S1/Glass" unique_id=2025863303]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, -1.25)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_sa3up")
 
-[node name="Front3" type="MeshInstance3D" parent="S1/Glass" unique_id=716733215]
+[node name="Front3" type="MeshInstance3D" parent="S1/Glass" unique_id=866885649]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 1.25)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_bb3cx")
 
-[node name="Top" type="MeshInstance3D" parent="S1/Glass" unique_id=719102656]
+[node name="Top" type="MeshInstance3D" parent="S1/Glass" unique_id=388491282]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58, 0)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_847h4")
 
-[node name="Shards" type="Node3D" parent="S1" unique_id=968971589]
+[node name="Shards" type="Node3D" parent="S1" unique_id=1521483812]
 visible = false
 
-[node name="Shard0" type="MeshInstance3D" parent="S1/Shards" unique_id=1365584463]
+[node name="Shard0" type="MeshInstance3D" parent="S1/Shards" unique_id=1179919274]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.74, -0.39, -0.85)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_wh5hx")
 
-[node name="Shard1" type="MeshInstance3D" parent="S1/Shards" unique_id=1653854511]
+[node name="Shard1" type="MeshInstance3D" parent="S1/Shards" unique_id=364036353]
 transform = Transform3D(0.7451744, 0, 0.66686964, 0, 1, 0, -0.66686964, 0, 0.7451744, -0.28, -0.39, -0.85)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_bg3ip")
 
-[node name="Shard2" type="MeshInstance3D" parent="S1/Shards" unique_id=1909516741]
+[node name="Shard2" type="MeshInstance3D" parent="S1/Shards" unique_id=279124603]
 transform = Transform3D(0.110569745, 0, 0.99386835, 0, 1, 0, -0.99386835, 0, 0.110569745, 0.18, -0.39, -0.85)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_oryjn")
 
-[node name="Shard3" type="MeshInstance3D" parent="S1/Shards" unique_id=853515290]
+[node name="Shard3" type="MeshInstance3D" parent="S1/Shards" unique_id=788511709]
 transform = Transform3D(-0.58038694, 0, 0.81434083, 0, 1, 0, -0.81434083, 0, -0.58038694, 0.64, -0.39, -0.85)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_n2fde")
 
-[node name="Shard4" type="MeshInstance3D" parent="S1/Shards" unique_id=2027939990]
+[node name="Shard4" type="MeshInstance3D" parent="S1/Shards" unique_id=187062685]
 transform = Transform3D(-0.9755487, 0, 0.21978354, 0, 1, 0, -0.21978354, 0, -0.9755487, -0.74, -0.39, -0.15)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_tl3p1")
 
-[node name="Shard5" type="MeshInstance3D" parent="S1/Shards" unique_id=955970153]
+[node name="Shard5" type="MeshInstance3D" parent="S1/Shards" unique_id=1404482786]
 transform = Transform3D(-0.87352085, 0, -0.48678672, 0, 1, 0, 0.48678672, 0, -0.87352085, -0.28, -0.39, -0.15)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_dvbtk")
 
-[node name="Shard6" type="MeshInstance3D" parent="S1/Shards" unique_id=977989678]
+[node name="Shard6" type="MeshInstance3D" parent="S1/Shards" unique_id=996151504]
 transform = Transform3D(-0.32630208, 0, -0.94526553, 0, 1, 0, 0.94526553, 0, -0.32630208, 0.18, -0.39, -0.15)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_dmklw")
 
-[node name="Shard7" type="MeshInstance3D" parent="S1/Shards" unique_id=1986431271]
+[node name="Shard7" type="MeshInstance3D" parent="S1/Shards" unique_id=541414634]
 transform = Transform3D(0.38721696, 0, -0.9219886, 0, 1, 0, 0.9219886, 0, 0.38721696, 0.64, -0.39, -0.15)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_1th7b")
 
-[node name="Shard8" type="MeshInstance3D" parent="S1/Shards" unique_id=2074025279]
+[node name="Shard8" type="MeshInstance3D" parent="S1/Shards" unique_id=545978027]
 transform = Transform3D(0.9033904, 0, -0.42881906, 0, 1, 0, 0.42881906, 0, 0.9033904, -0.74, -0.39, 0.55)
 material_override = SubResource("StandardMaterial3D_qo3w7")
 mesh = SubResource("BoxMesh_30smx")
 
-[node name="Artifact" type="Node3D" parent="S1" unique_id=309771820]
+[node name="Artifact" type="Node3D" parent="S1" unique_id=1018646081]
 
-[node name="Stand" type="MeshInstance3D" parent="S1/Artifact" unique_id=1007102965]
+[node name="Stand" type="MeshInstance3D" parent="S1/Artifact" unique_id=74721717]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.36, 0)
 material_override = ExtResource("3_6835f")
 mesh = SubResource("CylinderMesh_emdmo")
 
-[node name="Body" type="MeshInstance3D" parent="S1/Artifact" unique_id=1253525063]
+[node name="Body" type="MeshInstance3D" parent="S1/Artifact" unique_id=1393979776]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 0)
 material_override = SubResource("StandardMaterial3D_cpibn")
 mesh = SubResource("SphereMesh_pqtw0")
 
-[node name="Wing2" type="MeshInstance3D" parent="S1/Artifact" unique_id=56007691]
+[node name="Wing2" type="MeshInstance3D" parent="S1/Artifact" unique_id=1544301765]
 transform = Transform3D(0.9800666, 0.19866933, 0, -0.19866933, 0.9800666, 0, 0, 0, 1, -0.24, 0.03, 0.04)
 material_override = SubResource("StandardMaterial3D_cpibn")
 mesh = SubResource("BoxMesh_rsys2")
 
-[node name="Wing3" type="MeshInstance3D" parent="S1/Artifact" unique_id=2083534092]
+[node name="Wing3" type="MeshInstance3D" parent="S1/Artifact" unique_id=1128017837]
 transform = Transform3D(0.9800666, -0.19866933, 0, 0.19866933, 0.9800666, 0, 0, 0, 1, 0.24, 0.03, 0.04)
 material_override = SubResource("StandardMaterial3D_cpibn")
 mesh = SubResource("BoxMesh_yl4jt")
 
-[node name="Head" type="MeshInstance3D" parent="S1/Artifact" unique_id=791161010]
+[node name="Head" type="MeshInstance3D" parent="S1/Artifact" unique_id=365076576]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19, -0.15)
 material_override = SubResource("StandardMaterial3D_cpibn")
 mesh = SubResource("SphereMesh_rqc50")
 
-[node name="Beak" type="MeshInstance3D" parent="S1/Artifact" unique_id=1967607779]
+[node name="Beak" type="MeshInstance3D" parent="S1/Artifact" unique_id=1502596171]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.18, -0.34)
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("CylinderMesh_qavl5")
 
-[node name="Leg6" type="MeshInstance3D" parent="S1/Artifact" unique_id=202491804]
+[node name="Leg6" type="MeshInstance3D" parent="S1/Artifact" unique_id=1399676181]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, -0.24, 0)
 material_override = SubResource("StandardMaterial3D_cpibn")
 mesh = SubResource("CylinderMesh_ug1ur")
 
-[node name="Leg7" type="MeshInstance3D" parent="S1/Artifact" unique_id=1304339754]
+[node name="Leg7" type="MeshInstance3D" parent="S1/Artifact" unique_id=592485834]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, -0.24, 0)
 material_override = SubResource("StandardMaterial3D_cpibn")
 mesh = SubResource("CylinderMesh_7bw17")
 
-[node name="EnvironmentArt" type="Node3D" parent="S1/Artifact" unique_id=940659077]
+[node name="EnvironmentArt" type="Node3D" parent="S1/Artifact" unique_id=1845199623]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Feather0" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1477437921]
+[node name="Feather0" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1784649494]
 transform = Transform3D(0.90044713, 0.43496552, 0, -0.43496552, 0.90044713, 0, 0, 0, 0.42, -0.18, 0.08, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_44gru")
 
-[node name="Feather1" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1613641762]
+[node name="Feather1" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1738686735]
 transform = Transform3D(0.8364627, 0.54802394, 0, -0.54802394, 0.8364627, 0, 0, 0, 0.42, -0.235, 0.095, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_6835f")
 
-[node name="Feather2" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1045121605]
+[node name="Feather2" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1608150590]
 transform = Transform3D(0.7583619, 0.6518338, 0, -0.6518338, 0.7583619, 0, 0, 0, 0.42, -0.29, 0.11, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_qsrso")
 
-[node name="Feather3" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=869112951]
+[node name="Feather3" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1785534379]
 transform = Transform3D(0.6674628, 0.7446431, 0, -0.7446431, 0.6674628, 0, 0, 0, 0.42, -0.345, 0.125, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_lu12s")
 
-[node name="Feather4" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=160521517]
+[node name="Feather4" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=61402410]
 transform = Transform3D(0.5652995, 0.8248857, 0, -0.8248857, 0.5652995, 0, 0, 0, 0.42, -0.4, 0.14, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_sdh12")
 
-[node name="Feather5" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1973587737]
+[node name="Feather5" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=480837829]
 transform = Transform3D(0.4535961, 0.8912074, 0, -0.8912074, 0.4535961, 0, 0, 0, 0.42, -0.455, 0.155, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_qglte")
 
-[node name="Feather6" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=685743930]
+[node name="Feather6" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=553285398]
 transform = Transform3D(0.3342377, 0.9424888, 0, -0.9424888, 0.3342377, 0, 0, 0, 0.42, -0.51, 0.17, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_cg374")
 
-[node name="Feather7" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1546339668]
+[node name="Feather7" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1758723944]
 transform = Transform3D(0.90044713, -0.43496552, 0, 0.43496552, 0.90044713, 0, 0, 0, 0.42, 0.18, 0.08, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_nut7a")
 
-[node name="Feather8" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1661676505]
+[node name="Feather8" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=422966349]
 transform = Transform3D(0.8364627, -0.54802394, 0, 0.54802394, 0.8364627, 0, 0, 0, 0.42, 0.235, 0.095, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_ab5t8")
 
-[node name="Feather9" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=750924754]
+[node name="Feather9" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1339857378]
 transform = Transform3D(0.7583619, -0.6518338, 0, 0.6518338, 0.7583619, 0, 0, 0, 0.42, 0.29, 0.11, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_a8xtl")
 
-[node name="Feather10" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=894614751]
+[node name="Feather10" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=714716260]
 transform = Transform3D(0.6674628, -0.7446431, 0, 0.7446431, 0.6674628, 0, 0, 0, 0.42, 0.345, 0.125, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_ejrh5")
 
-[node name="Feather11" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=292675066]
+[node name="Feather11" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1508038007]
 transform = Transform3D(0.5652995, -0.8248857, 0, 0.8248857, 0.5652995, 0, 0, 0, 0.42, 0.4, 0.14, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_yxst6")
 
-[node name="Feather12" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1321248843]
+[node name="Feather12" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=999758305]
 transform = Transform3D(0.4535961, -0.8912074, 0, 0.8912074, 0.4535961, 0, 0, 0, 0.42, 0.455, 0.155, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_54qc2")
 
-[node name="Feather13" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1383796317]
+[node name="Feather13" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1936127599]
 transform = Transform3D(0.3342377, -0.9424888, 0, 0.9424888, 0.3342377, 0, 0, 0, 0.42, 0.51, 0.17, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_ehytp")
 
-[node name="Label3D" type="Label3D" parent="S1" unique_id=862525701]
+[node name="Label3D" type="Label3D" parent="S1" unique_id=2126957024]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.83, 0)
 pixel_size = 0.0018
 billboard = 1
@@ -1152,149 +1152,152 @@ E: đập kính → lấy"
 font_size = 36
 outline_size = 5
 
-[node name="S2" type="Area3D" parent="." unique_id=1855231098]
+[node name="S2" type="Area3D" parent="." unique_id=1033151726]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.3, 1.7, 18)
 script = ExtResource("1_vy6hg")
 objective_id = &"take_s2"
 exhibit_name = "S2 · Tượng bán thân đá"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="S2" unique_id=1893153928]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="S2" unique_id=370387738]
 shape = SubResource("BoxShape3D_5rwb6")
 
-[node name="BasePlate" type="MeshInstance3D" parent="S2" unique_id=1780531315]
+[node name="BasePlate" type="MeshInstance3D" parent="S2" unique_id=1152651343]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
 material_override = ExtResource("2_44gru")
 mesh = SubResource("BoxMesh_c8225")
 
-[node name="Glass" type="Node3D" parent="S2" unique_id=621991921]
+[node name="Glass" type="Node3D" parent="S2" unique_id=1525973108]
 
-[node name="Side0" type="MeshInstance3D" parent="S2/Glass" unique_id=1265406115]
+[node name="Side0" type="MeshInstance3D" parent="S2/Glass" unique_id=480032345]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.88, 0.08, 0)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_5nec1")
 
-[node name="Side1" type="MeshInstance3D" parent="S2/Glass" unique_id=702921922]
+[node name="Side1" type="MeshInstance3D" parent="S2/Glass" unique_id=1173775304]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.88, 0.08, 0)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_3g7io")
 
-[node name="Front2" type="MeshInstance3D" parent="S2/Glass" unique_id=393307466]
+[node name="Front2" type="MeshInstance3D" parent="S2/Glass" unique_id=1077550879]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, -1.25)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_bnoik")
 
-[node name="Front3" type="MeshInstance3D" parent="S2/Glass" unique_id=657348563]
+[node name="Front3" type="MeshInstance3D" parent="S2/Glass" unique_id=947860972]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 1.25)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_h6a2h")
 
-[node name="Top" type="MeshInstance3D" parent="S2/Glass" unique_id=705129000]
+[node name="Top" type="MeshInstance3D" parent="S2/Glass" unique_id=746257685]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58, 0)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_y6iit")
 
-[node name="Shards" type="Node3D" parent="S2" unique_id=1470655449]
+[node name="Shards" type="Node3D" parent="S2" unique_id=1523268322]
 visible = false
 
-[node name="Shard0" type="MeshInstance3D" parent="S2/Shards" unique_id=1370248523]
+[node name="Shard0" type="MeshInstance3D" parent="S2/Shards" unique_id=378319629]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.74, -0.39, -0.85)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_yyb6o")
 
-[node name="Shard1" type="MeshInstance3D" parent="S2/Shards" unique_id=1182698784]
+[node name="Shard1" type="MeshInstance3D" parent="S2/Shards" unique_id=1809158402]
 transform = Transform3D(0.7451744, 0, 0.66686964, 0, 1, 0, -0.66686964, 0, 0.7451744, -0.28, -0.39, -0.85)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_s2vje")
 
-[node name="Shard2" type="MeshInstance3D" parent="S2/Shards" unique_id=27407785]
+[node name="Shard2" type="MeshInstance3D" parent="S2/Shards" unique_id=1575005092]
 transform = Transform3D(0.110569745, 0, 0.99386835, 0, 1, 0, -0.99386835, 0, 0.110569745, 0.18, -0.39, -0.85)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_llg2l")
 
-[node name="Shard3" type="MeshInstance3D" parent="S2/Shards" unique_id=426702323]
+[node name="Shard3" type="MeshInstance3D" parent="S2/Shards" unique_id=314693367]
 transform = Transform3D(-0.58038694, 0, 0.81434083, 0, 1, 0, -0.81434083, 0, -0.58038694, 0.64, -0.39, -0.85)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_7nx8q")
 
-[node name="Shard4" type="MeshInstance3D" parent="S2/Shards" unique_id=51730276]
+[node name="Shard4" type="MeshInstance3D" parent="S2/Shards" unique_id=779261348]
 transform = Transform3D(-0.9755487, 0, 0.21978354, 0, 1, 0, -0.21978354, 0, -0.9755487, -0.74, -0.39, -0.15)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_8a2ui")
 
-[node name="Shard5" type="MeshInstance3D" parent="S2/Shards" unique_id=1786077253]
+[node name="Shard5" type="MeshInstance3D" parent="S2/Shards" unique_id=902772251]
 transform = Transform3D(-0.87352085, 0, -0.48678672, 0, 1, 0, 0.48678672, 0, -0.87352085, -0.28, -0.39, -0.15)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_48d0g")
 
-[node name="Shard6" type="MeshInstance3D" parent="S2/Shards" unique_id=530550380]
+[node name="Shard6" type="MeshInstance3D" parent="S2/Shards" unique_id=1855351654]
 transform = Transform3D(-0.32630208, 0, -0.94526553, 0, 1, 0, 0.94526553, 0, -0.32630208, 0.18, -0.39, -0.15)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_ipfch")
 
-[node name="Shard7" type="MeshInstance3D" parent="S2/Shards" unique_id=1554059225]
+[node name="Shard7" type="MeshInstance3D" parent="S2/Shards" unique_id=1364624487]
 transform = Transform3D(0.38721696, 0, -0.9219886, 0, 1, 0, 0.9219886, 0, 0.38721696, 0.64, -0.39, -0.15)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_2vjeb")
 
-[node name="Shard8" type="MeshInstance3D" parent="S2/Shards" unique_id=205211593]
+[node name="Shard8" type="MeshInstance3D" parent="S2/Shards" unique_id=403371842]
 transform = Transform3D(0.9033904, 0, -0.42881906, 0, 1, 0, 0.42881906, 0, 0.9033904, -0.74, -0.39, 0.55)
 material_override = SubResource("StandardMaterial3D_rhgbp")
 mesh = SubResource("BoxMesh_o8kyu")
 
-[node name="Artifact" type="Node3D" parent="S2" unique_id=645558595]
+[node name="Artifact" type="Node3D" parent="S2" unique_id=1372667757]
 
-[node name="Stand" type="MeshInstance3D" parent="S2/Artifact" unique_id=1491700774]
+[node name="Stand" type="MeshInstance3D" parent="S2/Artifact" unique_id=680988273]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.36, 0)
 material_override = ExtResource("3_6835f")
 mesh = SubResource("CylinderMesh_2tjpy")
 
-[node name="BustBase" type="MeshInstance3D" parent="S2/Artifact" unique_id=523101919]
+[node name="BustBase" type="MeshInstance3D" parent="S2/Artifact" unique_id=965163273]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.27, 0)
 visible = false
 material_override = ExtResource("3_6835f")
 mesh = SubResource("BoxMesh_gkilf")
 metadata/art_hidden = true
 
-[node name="Shoulders" type="MeshInstance3D" parent="S2/Artifact" unique_id=1478918384]
+[node name="Shoulders" type="MeshInstance3D" parent="S2/Artifact" unique_id=636388588]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
 visible = false
 material_override = ExtResource("3_6835f")
 mesh = SubResource("SphereMesh_6gs8r")
 metadata/art_hidden = true
 
-[node name="Neck" type="MeshInstance3D" parent="S2/Artifact" unique_id=783326073]
+[node name="Neck" type="MeshInstance3D" parent="S2/Artifact" unique_id=1229980162]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 visible = false
 material_override = ExtResource("3_6835f")
 mesh = SubResource("CylinderMesh_5cspu")
 metadata/art_hidden = true
 
-[node name="Head" type="MeshInstance3D" parent="S2/Artifact" unique_id=282484248]
+[node name="Head" type="MeshInstance3D" parent="S2/Artifact" unique_id=1476820980]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27, 0)
 visible = false
 material_override = ExtResource("3_6835f")
 mesh = SubResource("SphereMesh_frmbc")
 metadata/art_hidden = true
 
-[node name="EnvironmentArt" type="Node3D" parent="S2/Artifact" unique_id=898748964]
+[node name="EnvironmentArt" type="Node3D" parent="S2/Artifact" unique_id=332639100]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Bust" type="Node3D" parent="S2/Artifact/EnvironmentArt" unique_id=1271725415]
+[node name="Bust" type="Node3D" parent="S2/Artifact/EnvironmentArt" unique_id=1339530946]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
 metadata/preserve_source_material = true
 metadata/source = "exhibits/modern_abstract_bust/modern-abstract-bust.glb"
+metadata/fit_scale = Vector3(1.4872122, 1.2323585, 1.7724874)
+metadata/fit_anchor = Vector3(0, 0, -7.450581e-09)
+metadata/fit_reference_bounds = AABB(-0.1949957, 0, -0.118477575, 0.3899914, 0.6329327, 0.23695514)
 
-[node name="VisualPivot" type="Node3D" parent="S2/Artifact/EnvironmentArt/Bust" unique_id=855389088]
+[node name="VisualPivot" type="Node3D" parent="S2/Artifact/EnvironmentArt/Bust" unique_id=744654782]
 transform = Transform3D(1.4872122, 0, 0, 0, 1.2323585, 0, 0, 0, 1.7724874, 0, 0, 1.320606e-08)
 
-[node name="Abstract visage and shoulders" type="MeshInstance3D" parent="S2/Artifact/EnvironmentArt/Bust/VisualPivot" unique_id=69312574]
+[node name="Abstract visage and shoulders" type="MeshInstance3D" parent="S2/Artifact/EnvironmentArt/Bust/VisualPivot" unique_id=14988338]
 mesh = SubResource("ArrayMesh_oc17q")
 
-[node name="Turned marble bust socle" type="MeshInstance3D" parent="S2/Artifact/EnvironmentArt/Bust/VisualPivot" unique_id=299440566]
+[node name="Turned marble bust socle" type="MeshInstance3D" parent="S2/Artifact/EnvironmentArt/Bust/VisualPivot" unique_id=241313129]
 mesh = SubResource("ArrayMesh_4ndiw")
 
-[node name="Label3D" type="Label3D" parent="S2" unique_id=1041900758]
+[node name="Label3D" type="Label3D" parent="S2" unique_id=342256843]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.83, 0)
 pixel_size = 0.0018
 billboard = 1
@@ -1303,47 +1306,47 @@ E: đập kính → lấy"
 font_size = 36
 outline_size = 5
 
-[node name="H1" type="Area3D" parent="." unique_id=1764296506]
+[node name="H1" type="Area3D" parent="." unique_id=1308587943]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 1.35, 2.8)
 script = ExtResource("6_sdh12")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="H1" unique_id=197653670]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="H1" unique_id=62487303]
 shape = SubResource("BoxShape3D_qiwqk")
 
-[node name="Tray" type="MeshInstance3D" parent="H1" unique_id=1183356049]
+[node name="Tray" type="MeshInstance3D" parent="H1" unique_id=650311857]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 material_override = ExtResource("2_44gru")
 mesh = SubResource("BoxMesh_qhb4r")
 
-[node name="Lid" type="MeshInstance3D" parent="H1" unique_id=1250523033]
+[node name="Lid" type="MeshInstance3D" parent="H1" unique_id=1874464977]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0)
 material_override = ExtResource("2_44gru")
 mesh = SubResource("BoxMesh_hbpjj")
 
-[node name="Latch" type="MeshInstance3D" parent="H1" unique_id=76762547]
+[node name="Latch" type="MeshInstance3D" parent="H1" unique_id=356550056]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0.48)
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_oqbp8")
 
-[node name="Artifact" type="Node3D" parent="H1" unique_id=184625990]
+[node name="Artifact" type="Node3D" parent="H1" unique_id=1350684551]
 visible = false
 
-[node name="Medal" type="MeshInstance3D" parent="H1/Artifact" unique_id=16314503]
+[node name="Medal" type="MeshInstance3D" parent="H1/Artifact" unique_id=878430461]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, 0)
 material_override = SubResource("StandardMaterial3D_b2ow6")
 mesh = SubResource("CylinderMesh_o6io2")
 
-[node name="Ribbon" type="MeshInstance3D" parent="H1/Artifact" unique_id=1329529390]
+[node name="Ribbon" type="MeshInstance3D" parent="H1/Artifact" unique_id=2081609331]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -0.21)
 material_override = SubResource("StandardMaterial3D_eduvi")
 mesh = SubResource("BoxMesh_y3fea")
 
-[node name="Mark" type="MeshInstance3D" parent="H1/Artifact" unique_id=528353872]
+[node name="Mark" type="MeshInstance3D" parent="H1/Artifact" unique_id=925719078]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, 0)
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("CylinderMesh_i1cg8")
 
-[node name="Label3D" type="Label3D" parent="H1" unique_id=1824144973]
+[node name="Label3D" type="Label3D" parent="H1" unique_id=55551595]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.54, 0)
 pixel_size = 0.0018
 billboard = 1
@@ -1352,96 +1355,99 @@ Giữ E mở ngăn"
 font_size = 36
 outline_size = 5
 
-[node name="H2" type="Area3D" parent="." unique_id=293971578]
+[node name="H2" type="Area3D" parent="." unique_id=1941415477]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 1.35, 2.8)
 script = ExtResource("6_sdh12")
 objective_id = &"take_h2"
 exhibit_name = "H2 · Đồng hồ bỏ túi"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="H2" unique_id=1911461143]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="H2" unique_id=848751250]
 shape = SubResource("BoxShape3D_gl2do")
 
-[node name="Tray" type="MeshInstance3D" parent="H2" unique_id=95778621]
+[node name="Tray" type="MeshInstance3D" parent="H2" unique_id=816831877]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 material_override = ExtResource("2_44gru")
 mesh = SubResource("BoxMesh_gkxnl")
 
-[node name="Lid" type="MeshInstance3D" parent="H2" unique_id=1552183151]
+[node name="Lid" type="MeshInstance3D" parent="H2" unique_id=1304631298]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0)
 material_override = ExtResource("2_44gru")
 mesh = SubResource("BoxMesh_kshbt")
 
-[node name="Latch" type="MeshInstance3D" parent="H2" unique_id=932949115]
+[node name="Latch" type="MeshInstance3D" parent="H2" unique_id=1630472663]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0.48)
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_fyyni")
 
-[node name="Artifact" type="Node3D" parent="H2" unique_id=1439886116]
+[node name="Artifact" type="Node3D" parent="H2" unique_id=33787150]
 visible = false
 
-[node name="Watch" type="MeshInstance3D" parent="H2/Artifact" unique_id=2064583694]
+[node name="Watch" type="MeshInstance3D" parent="H2/Artifact" unique_id=273156624]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
 visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("CylinderMesh_q5o71")
 metadata/art_hidden = true
 
-[node name="Face" type="MeshInstance3D" parent="H2/Artifact" unique_id=1342513175]
+[node name="Face" type="MeshInstance3D" parent="H2/Artifact" unique_id=528602109]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
 visible = false
 material_override = SubResource("StandardMaterial3D_ksaql")
 mesh = SubResource("CylinderMesh_vbldn")
 metadata/art_hidden = true
 
-[node name="HourHand" type="MeshInstance3D" parent="H2/Artifact" unique_id=1948708427]
+[node name="HourHand" type="MeshInstance3D" parent="H2/Artifact" unique_id=1493411340]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, -0.04)
 visible = false
 material_override = SubResource("StandardMaterial3D_tg6nm")
 mesh = SubResource("BoxMesh_g83yq")
 metadata/art_hidden = true
 
-[node name="MinuteHand" type="MeshInstance3D" parent="H2/Artifact" unique_id=130967579]
+[node name="MinuteHand" type="MeshInstance3D" parent="H2/Artifact" unique_id=190643523]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0.075, 0)
 visible = false
 material_override = SubResource("StandardMaterial3D_tg6nm")
 mesh = SubResource("BoxMesh_3pmjs")
 metadata/art_hidden = true
 
-[node name="EnvironmentArt" type="Node3D" parent="H2/Artifact" unique_id=1124734522]
+[node name="EnvironmentArt" type="Node3D" parent="H2/Artifact" unique_id=948105750]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="PocketWatch" type="Node3D" parent="H2/Artifact/EnvironmentArt" unique_id=1969439865]
+[node name="PocketWatch" type="Node3D" parent="H2/Artifact/EnvironmentArt" unique_id=2090712749]
 metadata/preserve_source_material = true
 metadata/source = "exhibits/pocket_watch/pocket_watch_2k.gltf"
+metadata/fit_scale = Vector3(6.935034, 1.5874102, 28.156956)
+metadata/fit_anchor = Vector3(1.8626451e-09, -0.028975034, -1.0977499e-05)
+metadata/fit_reference_bounds = AABB(-0.02883908, -0.028975034, -0.007824322, 0.057678163, 0.07559483, 0.01562669)
 
-[node name="VisualPivot" type="Node3D" parent="H2/Artifact/EnvironmentArt/PocketWatch" unique_id=821813890]
+[node name="VisualPivot" type="Node3D" parent="H2/Artifact/EnvironmentArt/PocketWatch" unique_id=716416095]
 transform = Transform3D(6.935034, 0, 0, 0, 1.5874102, 0, 0, 0, 28.156956, -1.2917507e-08, 0.045995265, 0.00030909295)
 
-[node name="pocket_watch_button" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1115875233]
+[node name="pocket_watch_button" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1009752705]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.988981e-06)
 mesh = SubResource("ArrayMesh_6motf")
 
-[node name="pocket_watch_frame" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=93471404]
+[node name="pocket_watch_frame" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=18314321]
 mesh = SubResource("ArrayMesh_dwbiw")
 
-[node name="pocket_watch_hand_hours" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=927918201]
+[node name="pocket_watch_hand_hours" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=915588941]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0042881286)
 mesh = SubResource("ArrayMesh_tq5lj")
 
-[node name="pocket_watch_ring" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=44658766]
+[node name="pocket_watch_ring" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1575905199]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.036230266, 0)
 mesh = SubResource("ArrayMesh_ov5sh")
 
-[node name="pocket_watch_hand_secondes" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1568420244]
+[node name="pocket_watch_hand_secondes" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=327681848]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0047740955)
 mesh = SubResource("ArrayMesh_yp4yf")
 
-[node name="pocket_watch_hand_minutes" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=573216694]
+[node name="pocket_watch_hand_minutes" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1969914619]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0010715674)
 mesh = SubResource("ArrayMesh_pmthf")
 
-[node name="Label3D" type="Label3D" parent="H2" unique_id=1022809731]
+[node name="Label3D" type="Label3D" parent="H2" unique_id=911172046]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.54, 0)
 pixel_size = 0.0018
 billboard = 1
@@ -1450,240 +1456,246 @@ Giữ E mở ngăn"
 font_size = 36
 outline_size = 5
 
-[node name="A2" type="Area3D" parent="." unique_id=2088084802]
+[node name="A2" type="Area3D" parent="." unique_id=723410494]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.19, 6, 18)
 script = ExtResource("11_a8xtl")
 exhibit_name = "A2 · Phong cảnh nhỏ"
 objective_id = &"take_a2"
 prompt = "Lấy A2 · Phong cảnh nhỏ"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="A2" unique_id=1705344323]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="A2" unique_id=1424635848]
 shape = SubResource("BoxShape3D_15pcd")
 
-[node name="Canvas" type="Node3D" parent="A2" unique_id=728624395]
+[node name="Canvas" type="Node3D" parent="A2" unique_id=914475743]
 
-[node name="Painting" type="MeshInstance3D" parent="A2/Canvas" unique_id=2110929356]
+[node name="Painting" type="MeshInstance3D" parent="A2/Canvas" unique_id=767674091]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.035)
 visible = false
 material_override = SubResource("StandardMaterial3D_nkra0")
 mesh = SubResource("BoxMesh_pyjli")
 
-[node name="Landscape" type="MeshInstance3D" parent="A2/Canvas" unique_id=332111363]
+[node name="Landscape" type="MeshInstance3D" parent="A2/Canvas" unique_id=1260546808]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, 0.07)
 visible = false
 material_override = SubResource("StandardMaterial3D_mn33o")
 mesh = SubResource("BoxMesh_c1yxb")
 
-[node name="Sun" type="MeshInstance3D" parent="A2/Canvas" unique_id=1260476400]
+[node name="Sun" type="MeshInstance3D" parent="A2/Canvas" unique_id=1184675044]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.15, 0.25, 0.15, 0.08)
 visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("SphereMesh_gyqip")
 
-[node name="EnvironmentArt" type="Node3D" parent="A2/Canvas" unique_id=2132024471]
+[node name="EnvironmentArt" type="Node3D" parent="A2/Canvas" unique_id=467315464]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Artwork" type="MeshInstance3D" parent="A2/Canvas/EnvironmentArt" unique_id=1677299934]
+[node name="Artwork" type="MeshInstance3D" parent="A2/Canvas/EnvironmentArt" unique_id=855230439]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.035)
 material_override = SubResource("StandardMaterial3D_3limn")
 mesh = SubResource("QuadMesh_yctvn")
 
-[node name="Frame" type="Node3D" parent="A2" unique_id=1800470804]
+[node name="Frame" type="Node3D" parent="A2" unique_id=832186736]
 
-[node name="Side0" type="MeshInstance3D" parent="A2/Frame" unique_id=137989656]
+[node name="Side0" type="MeshInstance3D" parent="A2/Frame" unique_id=1056188804]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 0, 0.02)
 visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_e1qaj")
 
-[node name="Side1" type="MeshInstance3D" parent="A2/Frame" unique_id=1931904999]
+[node name="Side1" type="MeshInstance3D" parent="A2/Frame" unique_id=292701637]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0, 0.02)
 visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_htp2k")
 
-[node name="Edge2" type="MeshInstance3D" parent="A2/Frame" unique_id=896176544]
+[node name="Edge2" type="MeshInstance3D" parent="A2/Frame" unique_id=2032461276]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44, 0.02)
 visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_nqjqg")
 
-[node name="Edge3" type="MeshInstance3D" parent="A2/Frame" unique_id=987830437]
+[node name="Edge3" type="MeshInstance3D" parent="A2/Frame" unique_id=201976477]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44, 0.02)
 visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_s5rok")
 
-[node name="EnvironmentArt" type="Node3D" parent="A2/Frame" unique_id=1269123217]
+[node name="EnvironmentArt" type="Node3D" parent="A2/Frame" unique_id=215202145]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Frame" type="Node3D" parent="A2/Frame/EnvironmentArt" unique_id=578355546]
+[node name="Frame" type="Node3D" parent="A2/Frame/EnvironmentArt" unique_id=709445043]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0.015)
 metadata/preserve_source_material = true
 metadata/source = "frames/hanging_picture_frame_01/hanging_picture_frame_01_2k.gltf"
+metadata/fit_scale = Vector3(1.919192, 1.0939358, 4.444638)
+metadata/fit_anchor = Vector3(0, -0.42049998, 0.007979965)
+metadata/fit_reference_bounds = AABB(-0.297, -0.42049998, 0.00010530756, 0.594, 0.84099996, 0.015749315)
 
-[node name="VisualPivot" type="Node3D" parent="A2/Frame/EnvironmentArt/Frame" unique_id=1705781799]
+[node name="VisualPivot" type="Node3D" parent="A2/Frame/EnvironmentArt/Frame" unique_id=1576214772]
 transform = Transform3D(1.919192, 0, 0, 0, 1.0939358, 0, 0, 0, 4.444638, 0, 0.46, -0.035468053)
 
-[node name="hanging_picture_frame_01" type="MeshInstance3D" parent="A2/Frame/EnvironmentArt/Frame/VisualPivot" unique_id=1316209691]
+[node name="hanging_picture_frame_01" type="MeshInstance3D" parent="A2/Frame/EnvironmentArt/Frame/VisualPivot" unique_id=2102591032]
 mesh = SubResource("ArrayMesh_w05d3")
 
-[node name="Label3D" type="Label3D" parent="A2" unique_id=881144294]
+[node name="Label3D" type="Label3D" parent="A2" unique_id=2003264075]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0.09)
 pixel_size = 0.0018
 text = "A2 · Phong cảnh nhỏ"
 font_size = 36
 outline_size = 5
 
-[node name="B2" type="Area3D" parent="." unique_id=669148367]
+[node name="B2" type="Area3D" parent="." unique_id=1223989827]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 35.86, 6, 15)
 script = ExtResource("16_3limn")
 objective_id = &"take_b2"
 prompt = "Lấy B2 · Tranh cuộn phác thảo"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="B2" unique_id=1132148920]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="B2" unique_id=1771660314]
 shape = SubResource("BoxShape3D_h3a2u")
 
-[node name="Sheet" type="MeshInstance3D" parent="B2" unique_id=949236315]
+[node name="Sheet" type="MeshInstance3D" parent="B2" unique_id=998768122]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.045)
 material_override = SubResource("StandardMaterial3D_qhq0v")
 mesh = SubResource("BoxMesh_pi4gj")
 
-[node name="Sketch" type="MeshInstance3D" parent="B2" unique_id=207207303]
+[node name="Sketch" type="MeshInstance3D" parent="B2" unique_id=279856286]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, 0.075)
 material_override = SubResource("StandardMaterial3D_tg6nm")
 mesh = SubResource("BoxMesh_ktgfi")
 
-[node name="Roll3" type="MeshInstance3D" parent="B2" unique_id=838727808]
+[node name="Roll3" type="MeshInstance3D" parent="B2" unique_id=740482114]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.27, 0.1)
 material_override = SubResource("StandardMaterial3D_qhq0v")
 mesh = SubResource("CylinderMesh_iahrp")
 
-[node name="Roll4" type="MeshInstance3D" parent="B2" unique_id=983361498]
+[node name="Roll4" type="MeshInstance3D" parent="B2" unique_id=1418009838]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0.27, 0.1)
 material_override = SubResource("StandardMaterial3D_qhq0v")
 mesh = SubResource("CylinderMesh_74hdd")
 
-[node name="Label3D" type="Label3D" parent="B2" unique_id=129052880]
+[node name="Label3D" type="Label3D" parent="B2" unique_id=302349666]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0.09)
 pixel_size = 0.0018
 text = "B2 · TRANH CUỘN"
 font_size = 36
 outline_size = 5
 
-[node name="C2" type="Area3D" parent="." unique_id=184216741]
+[node name="C2" type="Area3D" parent="." unique_id=788931177]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 6, 0.19)
 script = ExtResource("11_a8xtl")
 exhibit_name = "C2 · Tĩnh vật hoa"
 objective_id = &"take_c2"
 prompt = "Lấy C2 · Tĩnh vật hoa"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="C2" unique_id=1454556600]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="C2" unique_id=360795221]
 shape = SubResource("BoxShape3D_7a0cl")
 
-[node name="Canvas" type="Node3D" parent="C2" unique_id=579514944]
+[node name="Canvas" type="Node3D" parent="C2" unique_id=867592516]
 
-[node name="Painting" type="MeshInstance3D" parent="C2/Canvas" unique_id=1555851200]
+[node name="Painting" type="MeshInstance3D" parent="C2/Canvas" unique_id=516348778]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.035)
 visible = false
 material_override = SubResource("StandardMaterial3D_n15wb")
 mesh = SubResource("BoxMesh_pb8rv")
 
-[node name="Landscape" type="MeshInstance3D" parent="C2/Canvas" unique_id=1792782146]
+[node name="Landscape" type="MeshInstance3D" parent="C2/Canvas" unique_id=338638618]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, 0.07)
 visible = false
 material_override = SubResource("StandardMaterial3D_preur")
 mesh = SubResource("BoxMesh_j18ob")
 
-[node name="Sun" type="MeshInstance3D" parent="C2/Canvas" unique_id=692249019]
+[node name="Sun" type="MeshInstance3D" parent="C2/Canvas" unique_id=1107418227]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.15, 0.25, 0.15, 0.08)
 visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("SphereMesh_7gvc7")
 
-[node name="EnvironmentArt" type="Node3D" parent="C2/Canvas" unique_id=878316461]
+[node name="EnvironmentArt" type="Node3D" parent="C2/Canvas" unique_id=401621689]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Artwork" type="MeshInstance3D" parent="C2/Canvas/EnvironmentArt" unique_id=530043481]
+[node name="Artwork" type="MeshInstance3D" parent="C2/Canvas/EnvironmentArt" unique_id=1571101780]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.035)
 material_override = SubResource("StandardMaterial3D_c3nhj")
 mesh = SubResource("QuadMesh_el3ok")
 
-[node name="Frame" type="Node3D" parent="C2" unique_id=1438268619]
+[node name="Frame" type="Node3D" parent="C2" unique_id=91112043]
 
-[node name="Side0" type="MeshInstance3D" parent="C2/Frame" unique_id=841654710]
+[node name="Side0" type="MeshInstance3D" parent="C2/Frame" unique_id=1191332592]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 0, 0.02)
 visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_0sdhb")
 
-[node name="Side1" type="MeshInstance3D" parent="C2/Frame" unique_id=1876555649]
+[node name="Side1" type="MeshInstance3D" parent="C2/Frame" unique_id=1796546390]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0, 0.02)
 visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_21dgo")
 
-[node name="Edge2" type="MeshInstance3D" parent="C2/Frame" unique_id=347945928]
+[node name="Edge2" type="MeshInstance3D" parent="C2/Frame" unique_id=266941781]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44, 0.02)
 visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_3vghc")
 
-[node name="Edge3" type="MeshInstance3D" parent="C2/Frame" unique_id=834715096]
+[node name="Edge3" type="MeshInstance3D" parent="C2/Frame" unique_id=1715454308]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44, 0.02)
 visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_g50vh")
 
-[node name="EnvironmentArt" type="Node3D" parent="C2/Frame" unique_id=1459771652]
+[node name="EnvironmentArt" type="Node3D" parent="C2/Frame" unique_id=957080840]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Frame" type="Node3D" parent="C2/Frame/EnvironmentArt" unique_id=1280838501]
+[node name="Frame" type="Node3D" parent="C2/Frame/EnvironmentArt" unique_id=1722238391]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0.015)
 metadata/preserve_source_material = true
 metadata/source = "frames/hanging_picture_frame_01/hanging_picture_frame_01_2k.gltf"
+metadata/fit_scale = Vector3(1.919192, 1.0939358, 4.444638)
+metadata/fit_anchor = Vector3(0, -0.42049998, 0.007979965)
+metadata/fit_reference_bounds = AABB(-0.297, -0.42049998, 0.00010530756, 0.594, 0.84099996, 0.015749315)
 
-[node name="VisualPivot" type="Node3D" parent="C2/Frame/EnvironmentArt/Frame" unique_id=139103777]
+[node name="VisualPivot" type="Node3D" parent="C2/Frame/EnvironmentArt/Frame" unique_id=657304544]
 transform = Transform3D(1.919192, 0, 0, 0, 1.0939358, 0, 0, 0, 4.444638, 0, 0.46, -0.035468053)
 
-[node name="hanging_picture_frame_01" type="MeshInstance3D" parent="C2/Frame/EnvironmentArt/Frame/VisualPivot" unique_id=1661486646]
+[node name="hanging_picture_frame_01" type="MeshInstance3D" parent="C2/Frame/EnvironmentArt/Frame/VisualPivot" unique_id=1178034585]
 mesh = SubResource("ArrayMesh_oqb18")
 
-[node name="Label3D" type="Label3D" parent="C2" unique_id=418549642]
+[node name="Label3D" type="Label3D" parent="C2" unique_id=619157212]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0.09)
 pixel_size = 0.0018
 text = "C2 · Tĩnh vật hoa"
 font_size = 36
 outline_size = 5
 
-[node name="GalleryAlarmSwitch" type="Area3D" parent="." unique_id=1678536681]
+[node name="GalleryAlarmSwitch" type="Area3D" parent="." unique_id=1112019066]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 25.7, 5.95, 5.7)
 script = ExtResource("17_yctvn")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GalleryAlarmSwitch" unique_id=1747005724]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GalleryAlarmSwitch" unique_id=1104127815]
 shape = SubResource("BoxShape3D_ikotl")
 
-[node name="Panel" type="MeshInstance3D" parent="GalleryAlarmSwitch" unique_id=1819219087]
+[node name="Panel" type="MeshInstance3D" parent="GalleryAlarmSwitch" unique_id=1386887475]
 visible = false
 material_override = ExtResource("18_w05d3")
 mesh = SubResource("BoxMesh_04bf1")
 metadata/art_hidden = true
 
-[node name="Indicator" type="MeshInstance3D" parent="GalleryAlarmSwitch" unique_id=1214664022]
+[node name="Indicator" type="MeshInstance3D" parent="GalleryAlarmSwitch" unique_id=352778409]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0.09)
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_oiah0")
 
-[node name="Switch" type="MeshInstance3D" parent="GalleryAlarmSwitch" unique_id=1640103663]
+[node name="Switch" type="MeshInstance3D" parent="GalleryAlarmSwitch" unique_id=1458003185]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, 0.1)
 material_override = SubResource("StandardMaterial3D_ksaql")
 mesh = SubResource("BoxMesh_jwhmy")
 
-[node name="Label3D" type="Label3D" parent="GalleryAlarmSwitch" unique_id=1259719276]
+[node name="Label3D" type="Label3D" parent="GalleryAlarmSwitch" unique_id=457471121]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56, 0.08)
 pixel_size = 0.0018
 text = "PHÒNG C
@@ -1691,21 +1703,24 @@ Tắt báo động trước khi lấy tranh"
 font_size = 36
 outline_size = 5
 
-[node name="EnvironmentArt" type="Node3D" parent="GalleryAlarmSwitch" unique_id=1616338348]
+[node name="EnvironmentArt" type="Node3D" parent="GalleryAlarmSwitch" unique_id=547978262]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="PowerBox" type="Node3D" parent="GalleryAlarmSwitch/EnvironmentArt" unique_id=1590645654]
+[node name="PowerBox" type="Node3D" parent="GalleryAlarmSwitch/EnvironmentArt" unique_id=192307432]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.275, 0)
 metadata/preserve_source_material = true
 metadata/source = "security/power_box_01/power_box_01_2k.gltf"
+metadata/fit_scale = Vector3(1.2970064, 1.0931292, 0.29854396)
+metadata/fit_anchor = Vector3(-0.05629447, -0.2515714, 0.15349434)
+metadata/fit_reference_bounds = AABB(-0.28759634, -0.2515714, -0.04748109, 0.46260375, 0.5031428, 0.40195087)
 
-[node name="VisualPivot" type="Node3D" parent="GalleryAlarmSwitch/EnvironmentArt/PowerBox" unique_id=1616160280]
+[node name="VisualPivot" type="Node3D" parent="GalleryAlarmSwitch/EnvironmentArt/PowerBox" unique_id=995871419]
 transform = Transform3D(1.2970064, 0, 0, 0, 1.0931292, 0, 0, 0, 0.29854396, 0.07301429, 0.275, -0.04582481)
 
-[node name="power_box_01_door" type="MeshInstance3D" parent="GalleryAlarmSwitch/EnvironmentArt/PowerBox/VisualPivot" unique_id=1312977989]
+[node name="power_box_01_door" type="MeshInstance3D" parent="GalleryAlarmSwitch/EnvironmentArt/PowerBox/VisualPivot" unique_id=1135719506]
 transform = Transform3D(-0.3293556, 0, -0.944206, 0, 1, 0, 0.944206, 0, -0.3293556, -0.16382971, 4.9956143e-06, 0.043181043)
 mesh = SubResource("ArrayMesh_x7gg5")
 
-[node name="power_box_01_box" type="MeshInstance3D" parent="GalleryAlarmSwitch/EnvironmentArt/PowerBox/VisualPivot" unique_id=1779120312]
+[node name="power_box_01_box" type="MeshInstance3D" parent="GalleryAlarmSwitch/EnvironmentArt/PowerBox/VisualPivot" unique_id=1944901891]
 mesh = SubResource("ArrayMesh_jo8a0")

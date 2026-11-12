@@ -1,0 +1,152 @@
+{
+	"before": false,
+	"carried_render_frames": 35208,
+	"chase_render_frames": 34027,
+	"course_valid": false,
+	"engine": "4.7.2-stable (official)",
+	"events": [
+		{
+			"event": "lobby",
+			"position": "(18.0, 0.000182, 28.88053)",
+			"time_usec": 11304544
+		},
+		{
+			"event": "stair_a_bottom",
+			"position": "(7.641765, 0.000942, 28.08658)",
+			"time_usec": 13707481
+		},
+		{
+			"event": "stair_a_top",
+			"position": "(7.633372, 4.500375, 25.76395)",
+			"time_usec": 19543723
+		},
+		{
+			"event": "south_buffer",
+			"position": "(17.60494, 4.500375, 27.0003)",
+			"time_usec": 22340504
+		},
+		{
+			"event": "gallery_b",
+			"position": "(28.44092, 4.500942, 9.72165)",
+			"time_usec": 55242257
+		},
+		{
+			"event": "pickup_t2",
+			"position": "(33.95475, 4.500942, 9.965439)",
+			"time_usec": 56276141
+		},
+		{
+			"event": "carry_corridor",
+			"position": "(25.85837, 4.500942, 9.833759)",
+			"time_usec": 64407294
+		},
+		{
+			"event": "carry_south",
+			"position": "(25.50868, 4.500942, 22.11152)",
+			"time_usec": 70567912
+		},
+		{
+			"event": "carry_buffer",
+			"position": "(18.0692, 4.500942, 26.61202)",
+			"time_usec": 75669412
+		}
+	],
+	"fixture": "V and K access granted; terminal catch disabled; actual input movement, T2 pickup/delivery; all actor collisions and perception unchanged",
+	"gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+	"guard_states_at_end": [
+		{
+			"id": "Guard_G1",
+			"physics_enabled": true,
+			"state": 0
+		},
+		{
+			"id": "Guard_G2",
+			"physics_enabled": true,
+			"state": 0
+		},
+		{
+			"id": "Guard_G3",
+			"physics_enabled": true,
+			"state": 0
+		},
+		{
+			"id": "Guard_G4",
+			"physics_enabled": true,
+			"state": 2
+		},
+		{
+			"id": "Guard_G5",
+			"physics_enabled": true,
+			"state": 0
+		},
+		{
+			"id": "Guard_G6",
+			"physics_enabled": true,
+			"state": 0
+		},
+		{
+			"id": "Guard_G7",
+			"physics_enabled": true,
+			"state": 0
+		},
+		{
+			"id": "Guard_G8",
+			"physics_enabled": true,
+			"state": 0
+		},
+		{
+			"id": "Guard_G9",
+			"physics_enabled": true,
+			"state": 2
+		}
+	],
+	"guards": 9,
+	"low_processor_usage_mode": false,
+	"max_fps": 0,
+	"mode": "gameplay",
+	"renderer": "gl_compatibility",
+	"samples": [
+		{
+			"draw_calls": {
+				"p50": 1353.0,
+				"p95": 2402.0
+			},
+			"frame_interval_ms": {
+				"p50": 4.544,
+				"p95": 9.458,
+				"p99": 16.396
+			},
+			"frames": 47733,
+			"gpu_render_ms_p95": 2.19600009918213,
+			"mean_fps": 198.883818991985,
+			"primitives": {
+				"p50": 1892974.0,
+				"p95": 2985483.0
+			},
+			"render_memory_bytes_peak": 490729482.0,
+			"seconds": 240.0,
+			"view": "active_9_guards"
+		}
+	],
+	"scene_tree_paused": false,
+	"settings_restored": true,
+	"t2_delivered": false,
+	"viewport": [
+		1280,
+		720
+	],
+	"visited": [
+		"lobby",
+		"stair_a_bottom",
+		"stair_a_top",
+		"south_buffer",
+		"gallery_b",
+		"pickup_t2",
+		"carry_corridor",
+		"carry_south",
+		"carry_buffer"
+	],
+	"vsync_mode": 0,
+	"warmup_seconds": 3,
+	"window_mode": 4
+}

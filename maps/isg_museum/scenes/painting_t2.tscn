@@ -136,19 +136,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.725, 0, 0.02)
 visible = false
 mesh = SubResource("Vertical")
 
-[node name="EnvironmentArt" type="Node3D" parent="Visual" unique_id=1035584118]
+[node name="EnvironmentArt" type="Node3D" parent="Visual" unique_id=23601230]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Frame" type="Node3D" parent="Visual/EnvironmentArt" unique_id=1806176155]
+[node name="Frame" type="Node3D" parent="Visual/EnvironmentArt" unique_id=1991553546]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.59, 0.015)
 metadata/preserve_source_material = true
 metadata/source = "frames/fancy_picture_frame_01/fancy_picture_frame_01_2k.gltf"
+metadata/fit_scale = Vector3(2.5537689, 2.5424104, 3.5012124)
+metadata/fit_anchor = Vector3(0, -0.23206323, 0.011895584)
+metadata/fit_reference_bounds = AABB(-0.30151513, -0.23206323, 0.0018990466, 0.60303026, 0.46412647, 0.019993074)
 
-[node name="VisualPivot" type="Node3D" parent="Visual/EnvironmentArt/Frame" unique_id=1629365024]
+[node name="VisualPivot" type="Node3D" parent="Visual/EnvironmentArt/Frame" unique_id=1846227330]
 transform = Transform3D(2.5537689, 0, 0, 0, 2.5424104, 0, 0, 0, 3.5012124, 0, 0.59, -0.041648965)
 
-[node name="fancy_picture_frame_01" type="MeshInstance3D" parent="Visual/EnvironmentArt/Frame/VisualPivot" unique_id=603459858]
+[node name="fancy_picture_frame_01" type="MeshInstance3D" parent="Visual/EnvironmentArt/Frame/VisualPivot" unique_id=2105576777]
 mesh = SubResource("ArrayMesh_eu04g")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=299806751]

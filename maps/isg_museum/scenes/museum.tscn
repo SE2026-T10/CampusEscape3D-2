@@ -56,20 +56,20 @@
 size = Vector3(0.36, 0.5, 0.22)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e2m2s"]
-sky_top_color = Color(0.13, 0.23, 0.4, 1)
-sky_horizon_color = Color(0.5, 0.57, 0.64, 1)
-ground_horizon_color = Color(0.5, 0.48, 0.4, 1)
+sky_top_color = Color(0.32, 0.44, 0.6, 1)
+sky_horizon_color = Color(0.67, 0.72, 0.77, 1)
+ground_horizon_color = Color(0.48, 0.49, 0.46, 1)
 
 [sub_resource type="Sky" id="Sky_ks0v8"]
 sky_material = SubResource("ProceduralSkyMaterial_e2m2s")
 
 [sub_resource type="Environment" id="Environment_ubg8b"]
 background_mode = 2
-background_color = Color(0.17, 0.23, 0.31, 1)
+background_color = Color(0.67, 0.72, 0.77, 1)
 sky = SubResource("Sky_ks0v8")
 ambient_light_source = 2
-ambient_light_color = Color(0.8, 0.83, 0.9, 1)
-ambient_light_energy = 0.58
+ambient_light_color = Color(0.82, 0.86, 0.94, 1)
+ambient_light_energy = 0.32
 
 [sub_resource type="CapsuleShape3D" id="Capsule_guard"]
 radius = 0.35
@@ -370,9 +370,9 @@ platform_floor_layers = 1
 script = ExtResource("24_player")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1237713027]
-transform = Transform3D(0.8660254, 0.43301272, -0.24999999, 0, 0.49999997, 0.86602545, 0.5, -0.75, 0.43301266, 0, 0, 0)
-light_color = Color(1, 0.9, 0.76, 1)
-light_energy = 0.55
+transform = Transform3D(0.8829473, 0.3488854, -0.3141378, 0, 0.66913056, 0.74314487, 0.46947145, -0.656158, 0.5908072, 0, 0, 0)
+light_color = Color(1, 0.96, 0.88, 1)
+light_energy = 0.85
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1870825592]
@@ -1013,22 +1013,25 @@ billboard = 1
 text = "T3 · NIÊM PHONG PHÒNG C"
 font_size = 64
 
-[node name="EnvironmentArt" parent="Interactables/Painting_T3" index="3" unique_id=864821469]
+[node name="EnvironmentArt" parent="Interactables/Painting_T3" index="3" unique_id=632024938]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Frame" parent="Interactables/Painting_T3/EnvironmentArt" index="0" unique_id=582856395]
+[node name="Frame" parent="Interactables/Painting_T3/EnvironmentArt" index="0" unique_id=1753639958]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0)
 metadata/preserve_source_material = true
 metadata/source = "frames/fancy_picture_frame_01/fancy_picture_frame_01_2k.gltf"
+metadata/fit_scale = Vector3(1.8904524, 1.9822184, 3.5012124)
+metadata/fit_anchor = Vector3(0, -0.23206323, 0.011895584)
+metadata/fit_reference_bounds = AABB(-0.30151513, -0.23206323, 0.0018990466, 0.60303026, 0.46412647, 0.019993074)
 
-[node name="VisualPivot" parent="Interactables/Painting_T3/EnvironmentArt/Frame" index="0" unique_id=2090430534]
+[node name="VisualPivot" parent="Interactables/Painting_T3/EnvironmentArt/Frame" index="0" unique_id=190461845]
 transform = Transform3D(1.8904524, 0, 0, 0, 1.9822184, 0, 0, 0, 3.5012124, 0, 0.46, -0.041648965)
 
-[node name="fancy_picture_frame_01" parent="Interactables/Painting_T3/EnvironmentArt/Frame/VisualPivot" index="0" unique_id=220688759]
+[node name="fancy_picture_frame_01" parent="Interactables/Painting_T3/EnvironmentArt/Frame/VisualPivot" index="0" unique_id=2031090993]
 mesh = SubResource("ArrayMesh_eu04g")
 
-[node name="Artwork" parent="Interactables/Painting_T3/EnvironmentArt" index="1" unique_id=1435766940]
+[node name="Artwork" parent="Interactables/Painting_T3/EnvironmentArt" index="1" unique_id=815612360]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.06)
 material_override = SubResource("StandardMaterial3D_jibbc")
 mesh = SubResource("QuadMesh_08s7b")
@@ -1094,19 +1097,22 @@ billboard = 1
 text = "R · DÂY"
 font_size = 56
 
-[node name="EnvironmentArt" type="Node3D" parent="Interactables/Rope" unique_id=53015325]
+[node name="EnvironmentArt" type="Node3D" parent="Interactables/Rope" unique_id=1700490178]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="RopeCoil" type="Node3D" parent="Interactables/Rope/EnvironmentArt" unique_id=1632448797]
+[node name="RopeCoil" type="Node3D" parent="Interactables/Rope/EnvironmentArt" unique_id=1362259794]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.32, 0)
 metadata/preserve_source_material = true
 metadata/source = "storage/rope_coil/rope-coil.glb"
+metadata/fit_scale = Vector3(0.36699614, 4.798008, 1.2580774)
+metadata/fit_anchor = Vector3(0, 0, 0)
+metadata/fit_reference_bounds = AABB(-0.21798594, 0, -0.25833067, 0.4359719, 0.13547288, 0.51666135)
 
-[node name="VisualPivot" type="Node3D" parent="Interactables/Rope/EnvironmentArt/RopeCoil" unique_id=1571891048]
+[node name="VisualPivot" type="Node3D" parent="Interactables/Rope/EnvironmentArt/RopeCoil" unique_id=1852590890]
 transform = Transform3D(-1.6041911e-08, 0, 0.36699614, 0, 4.798008, 0, -1.2580774, 0, -5.499231e-08, 0, 0, 0)
 
-[node name="rope-coil_body" type="MeshInstance3D" parent="Interactables/Rope/EnvironmentArt/RopeCoil/VisualPivot" unique_id=1943880776]
+[node name="rope-coil_body" type="MeshInstance3D" parent="Interactables/Rope/EnvironmentArt/RopeCoil/VisualPivot" unique_id=1744787087]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08641359, 0, 0.041415185)
 mesh = SubResource("ArrayMesh_mimb5")
 

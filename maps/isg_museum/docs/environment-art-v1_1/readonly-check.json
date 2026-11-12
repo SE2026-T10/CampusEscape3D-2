@@ -1,0 +1,111 @@
+﻿{
+    "unchanged":  true,
+    "before":  [
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\contract_teammate.tscn",
+                       "Hash":  "1D54C4038912F4CF5AD0C63B112D972DDE83A58A1453C31FD5E9374388055D9A"
+                   },
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\entrance_door.tscn",
+                       "Hash":  "0C74BAF21DE19996957F500E731C2F517929C3FC908F4AB60827D50993401B82"
+                   },
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\exhibits_expansion.tscn",
+                       "Hash":  "B95FFAC11905516E52DCC93052F2CB384D0AD3AC6C30D1223A5776765158786D"
+                   },
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\museum.tscn",
+                       "Hash":  "734275CCB8CF890942071D2654CEF7CD6BC056EA4D2E48BED1091550DCAC350C"
+                   },
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\museum_door.tscn",
+                       "Hash":  "0A5406387959BCF1AFD87789007A896A7542F26D9AE6F46875E1BD3C95A23DEB"
+                   },
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\museum_geometry.tscn",
+                       "Hash":  "22735DB586AC4B7439C0FD7232411F69FE3546A41495F4EE97A93308A1CED512"
+                   },
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\painting_demo.tscn",
+                       "Hash":  "546B1CCC131ED12C956B762A75D7D5D51940B5AEF0D5CECEA560E9A15753488F"
+                   },
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\painting_t1.tscn",
+                       "Hash":  "5C218502466056736B55E993B9E0ADD8A0CE62D7BD14AF925CDF8917FBA87069"
+                   },
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\painting_t2.tscn",
+                       "Hash":  "79C33B9648B1F85DD274E1437BA541BC270736977CA7AA114531763C5355FEC0"
+                   },
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\service_expansion.tscn",
+                       "Hash":  "21C0E871F1F3B8278E56B218C6E4BD4C85F7D28DDE4668E5B9310902F3982870"
+                   },
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\t2_depot.tscn",
+                       "Hash":  "586EB10EC5656A704E2459B24185E83C66FE0C519736E218AFCC3449D526BC1C"
+                   },
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\art\\modules\\gothic_column.tscn",
+                       "Hash":  "3E5563C592B3A4D0344CBF9DFF7201A5EECD0E84C0E942AA487F6DDF3BF1ED74"
+                   },
+                   {
+                       "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\resources\\environment_art_manifest.json",
+                       "Hash":  "CEC904F2F61AE48FEC3F5EC56D62B960C251BA11FC16BA3C84680BB892F2EA7B"
+                   }
+               ],
+    "after":  [
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\contract_teammate.tscn",
+                      "Hash":  "1D54C4038912F4CF5AD0C63B112D972DDE83A58A1453C31FD5E9374388055D9A"
+                  },
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\entrance_door.tscn",
+                      "Hash":  "0C74BAF21DE19996957F500E731C2F517929C3FC908F4AB60827D50993401B82"
+                  },
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\exhibits_expansion.tscn",
+                      "Hash":  "B95FFAC11905516E52DCC93052F2CB384D0AD3AC6C30D1223A5776765158786D"
+                  },
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\museum.tscn",
+                      "Hash":  "734275CCB8CF890942071D2654CEF7CD6BC056EA4D2E48BED1091550DCAC350C"
+                  },
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\museum_door.tscn",
+                      "Hash":  "0A5406387959BCF1AFD87789007A896A7542F26D9AE6F46875E1BD3C95A23DEB"
+                  },
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\museum_geometry.tscn",
+                      "Hash":  "22735DB586AC4B7439C0FD7232411F69FE3546A41495F4EE97A93308A1CED512"
+                  },
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\painting_demo.tscn",
+                      "Hash":  "546B1CCC131ED12C956B762A75D7D5D51940B5AEF0D5CECEA560E9A15753488F"
+                  },
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\painting_t1.tscn",
+                      "Hash":  "5C218502466056736B55E993B9E0ADD8A0CE62D7BD14AF925CDF8917FBA87069"
+                  },
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\painting_t2.tscn",
+                      "Hash":  "79C33B9648B1F85DD274E1437BA541BC270736977CA7AA114531763C5355FEC0"
+                  },
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\service_expansion.tscn",
+                      "Hash":  "21C0E871F1F3B8278E56B218C6E4BD4C85F7D28DDE4668E5B9310902F3982870"
+                  },
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\t2_depot.tscn",
+                      "Hash":  "586EB10EC5656A704E2459B24185E83C66FE0C519736E218AFCC3449D526BC1C"
+                  },
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\scenes\\art\\modules\\gothic_column.tscn",
+                      "Hash":  "3E5563C592B3A4D0344CBF9DFF7201A5EECD0E84C0E942AA487F6DDF3BF1ED74"
+                  },
+                  {
+                      "Path":  "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\resources\\environment_art_manifest.json",
+                      "Hash":  "CEC904F2F61AE48FEC3F5EC56D62B960C251BA11FC16BA3C84680BB892F2EA7B"
+                  }
+              ]
+}

@@ -1,0 +1,104 @@
+{
+	"before": false,
+	"engine": "4.7.2-stable (official)",
+	"gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+	"guards": 9,
+	"low_processor_usage_mode": false,
+	"max_fps": 0,
+	"mode": "render_only",
+	"renderer": "gl_compatibility",
+	"samples": [
+		{
+			"draw_calls": {
+				"p50": 1400.0,
+				"p95": 1400.0
+			},
+			"frame_interval_ms": {
+				"p50": 2.764,
+				"p95": 4.2,
+				"p99": 4.785
+			},
+			"frames": 2039,
+			"gpu_render_ms_p95": 2.14400005340576,
+			"mean_fps": 339.79012335598,
+			"primitives": {
+				"p50": 2070593.0,
+				"p95": 2070593.0
+			},
+			"render_memory_bytes_peak": 490868934.0,
+			"seconds": 6.0,
+			"view": "courtyard"
+		},
+		{
+			"draw_calls": {
+				"p50": 832.0,
+				"p95": 832.0
+			},
+			"frame_interval_ms": {
+				"p50": 1.829,
+				"p95": 3.04,
+				"p99": 3.932
+			},
+			"frames": 3030,
+			"gpu_render_ms_p95": 1.29700005054474,
+			"mean_fps": 504.863939168394,
+			"primitives": {
+				"p50": 1242773.0,
+				"p95": 1242773.0
+			},
+			"render_memory_bytes_peak": 490868934.0,
+			"seconds": 6.0,
+			"view": "cover"
+		},
+		{
+			"draw_calls": {
+				"p50": 952.0,
+				"p95": 952.0
+			},
+			"frame_interval_ms": {
+				"p50": 1.927,
+				"p95": 3.497,
+				"p99": 4.726
+			},
+			"frames": 2779,
+			"gpu_render_ms_p95": 1.19900000095367,
+			"mean_fps": 463.102063928748,
+			"primitives": {
+				"p50": 1014240.0,
+				"p95": 1014240.0
+			},
+			"render_memory_bytes_peak": 490868934.0,
+			"seconds": 6.0,
+			"view": "staff"
+		},
+		{
+			"draw_calls": {
+				"p50": 299.0,
+				"p95": 299.0
+			},
+			"frame_interval_ms": {
+				"p50": 1.434,
+				"p95": 2.313,
+				"p99": 3.027
+			},
+			"frames": 3956,
+			"gpu_render_ms_p95": 1.317999958992,
+			"mean_fps": 659.192046504698,
+			"primitives": {
+				"p50": 45962.0,
+				"p95": 45962.0
+			},
+			"render_memory_bytes_peak": 495129318.0,
+			"seconds": 6.0,
+			"view": "sculpture"
+		}
+	],
+	"settings_restored": true,
+	"viewport": [
+		1280,
+		720
+	],
+	"vsync_mode": 0,
+	"warmup_seconds": 3,
+	"window_mode": 4
+}

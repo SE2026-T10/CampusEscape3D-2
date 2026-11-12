@@ -6,8 +6,11 @@ const BASE := "res://maps/isg_museum/"
 const MODELS := BASE + "assets/models/"
 const LAYOUT := BASE + "resources/environment_art_layout.json"
 const STONE := preload("res://maps/isg_museum/assets/materials/presets/marble.tres")
+const COURTYARD_STONE := preload("res://maps/isg_museum/assets/materials/presets/courtyard_stone_cream.tres")
+const STATUE_STONE := preload("res://maps/isg_museum/assets/materials/presets/courtyard_statue_stone.tres")
 var sources: Dictionary = {}
 var stone_meshes: Dictionary = {}
+var hedge_material: StandardMaterial3D
 const DERIVED := {
 	"vegetation/shrub_04/shrub_04_2k.gltf":"derived/shrub_04.scn",
 	"vegetation/potted_plant_01/potted_plant_01_2k.gltf":"derived/potted_plant_01.scn",
@@ -20,10 +23,35 @@ func load_layout() -> Dictionary:
 	for entry in data.geometry_props:
 		assert(entry.id is String and entry.position.size() == 3 and entry.size.size() == 3)
 		assert(ResourceLoader.exists(MODELS + entry.source), "Missing art source: " + entry.source)
+	assert(data.quality.shadows is bool and data.quality.tree_near_triangle_budget > 0)
+	assert(data.quality.tree_lods.size() == 3 and data.courtyard.tree.preserve_aspect)
+	var previous_end := 0.0
+	var ids := {}
+	for lod in data.quality.tree_lods:
+		assert(lod.id is String and not ids.has(lod.id) and lod.budget > 0)
+		assert(lod.foliage_fraction > 0 and lod.foliage_fraction < 1)
+		assert(is_equal_approx(lod.begin,previous_end) and (lod.end == 0 or lod.end > lod.begin))
+		ids[lod.id] = true
+		previous_end = lod.end
+	assert(previous_end == 0, "Last tree LOD must cover the far distance")
+	for light in [data.lighting.ambient,data.lighting.sun,data.lighting.courtyard]:
+		assert(light.energy >= 0 and light.color.size() == 3)
+	assert(data.lighting.sun.rotation_degrees.size() == 3)
 	return data
 
 func vec(values: Array) -> Vector3:
 	return Vector3(values[0], values[1], values[2])
+
+func rgb(values: Array) -> Color:
+	return Color(values[0],values[1],values[2])
+
+func visual_fit(bounds: AABB, size: Vector3, options: Dictionary) -> Vector3:
+	if not options.get("preserve_aspect",false):
+		return size/bounds.size
+	var height: float = options.get("target_height",size.y)
+	var width: float = options.get("max_canopy_width",size.x)
+	var depth: float = options.get("max_canopy_depth",size.z)
+	return Vector3.ONE*minf(height/bounds.size.y,minf(width/bounds.size.x,depth/bounds.size.z))
 
 func add(parent: Node, child: Node, id: String) -> void:
 	child.name = id
@@ -88,7 +116,7 @@ func extract_visual_parts(source: String, selectors: Array = [], use_derived := 
 	return result
 
 func prepare_visual(source: String, size: Vector3, yaw := 0.0, selectors: Array = [],
-		mat: Material = null) -> Node3D:
+		mat: Material = null, options: Dictionary = {}) -> Node3D:
 	var wrapper := Node3D.new()
 	wrapper.set_meta("preserve_source_material", true)
 	wrapper.set_meta("source", source)
@@ -98,10 +126,20 @@ func prepare_visual(source: String, size: Vector3, yaw := 0.0, selectors: Array 
 	# Rotate before measuring, so target dimensions describe the map axes.
 	pivot.rotation.y = deg_to_rad(yaw)
 	var bounds := compute_visual_bounds(wrapper)
+	var fit_options := options.duplicate()
+	if source.begins_with("vegetation/"):
+		fit_options["preserve_aspect"] = true
+	if source.contains("tree_small_02"):
+		var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(MODELS+"derived/tree_lod_manifest.json"))
+		bounds = AABB(vec(data.reference_bounds.position),vec(data.reference_bounds.size))
+		fit_options.merge(load_layout().courtyard.tree,false)
 	assert(bounds.size.x > 0 and bounds.size.y > 0 and bounds.size.z > 0)
-	var fit := size / bounds.size
+	var fit := visual_fit(bounds,size,fit_options)
 	pivot.transform = Transform3D(Basis.from_scale(fit), Vector3.ZERO) * pivot.transform
 	pivot.position -= Vector3(bounds.get_center().x, bounds.position.y, bounds.get_center().z) * fit
+	wrapper.set_meta("fit_scale",fit)
+	wrapper.set_meta("fit_anchor",Vector3(bounds.get_center().x,bounds.position.y,bounds.get_center().z))
+	wrapper.set_meta("fit_reference_bounds",bounds)
 	if mat:
 		for mesh in pivot.get_children():
 			# Drop unused original texture references on lit stone adaptations.
@@ -117,7 +155,7 @@ func prepare_visual(source: String, size: Vector3, yaw := 0.0, selectors: Array 
 	return wrapper
 
 func place(parent: Node3D, id: String, source: String, size: Vector3, at: Vector3,
-		yaw := 0.0, selectors: Array = [], mat: Material = null) -> Node3D:
+		yaw := 0.0, selectors: Array = [], mat: Material = null, options: Dictionary = {}) -> Node3D:
 	var module := ""
 	if selectors == ["Object_4"] and size.is_equal_approx(Vector3(.55,3.05,.55)):
 		module = "gothic_column"
@@ -126,7 +164,7 @@ func place(parent: Node3D, id: String, source: String, size: Vector3, at: Vector
 		wrapper = load(BASE+"scenes/art/modules/"+module+".tscn").instantiate()
 		_record_source(source,wrapper.get_node("VisualPivot"))
 	else:
-		wrapper = prepare_visual(source, size, yaw, selectors, mat)
+		wrapper = prepare_visual(source, size, yaw, selectors, mat,options)
 	add(parent, wrapper, id)
 	wrapper.position = at
 	if module.is_empty():
@@ -174,7 +212,7 @@ func hide_legacy(root: Node, path: String) -> void:
 
 func apply_to_geometry(scene: Node3D, layout: Dictionary) -> void:
 	var art := replace_owned_visual(scene, "EnvironmentArt")
-	build_courtyard(scene, art, layout.courtyard)
+	build_courtyard(scene, art, layout.courtyard,layout)
 	var props := group(art, "Interiors")
 	for entry in layout.geometry_props:
 		place(props, entry.id, entry.source, vec(entry.size), vec(entry.position), entry.yaw)
@@ -272,9 +310,9 @@ func batch_visuals(parent: Node3D) -> void:
 		batch.set_meta("art_batch",true)
 		add(parent,batch,"Batch%d" % parent.get_child_count())
 
-func build_courtyard(scene: Node3D, art: Node3D, config: Dictionary) -> void:
-	var stone := colour(Color(.82,.77,.63))
-	var statue_mat := colour(Color(.86,.83,.73)) # Lit override replaces source unlit shader.
+func build_courtyard(scene: Node3D, art: Node3D, config: Dictionary, layout: Dictionary) -> void:
+	var stone: Material = COURTYARD_STONE
+	var statue_mat: Material = STATUE_STONE
 	var leaves := colour(Color(.12,.24,.065))
 	var metal := colour(Color(.16,.19,.19), .55)
 	var garden := scene.get_node("Courtyard")
@@ -346,15 +384,19 @@ func build_courtyard(scene: Node3D, art: Node3D, config: Dictionary) -> void:
 			mesh.material_override = stone
 			var size: Vector3 = child.get_node("Collision").shape.size
 			# Dense visible foliage core matches the top 0.3 m of solid sight cover.
-			box(art,"HedgeCore"+id,Vector3(size.x,.3,size.z),child.position+Vector3(0,.45,0),leaves)
+			var core := box(art,"HedgeCore"+id,Vector3(size.x,.3,size.z),child.position+Vector3(0,.45,0),leaves)
+			core.hide() # Collision remains in Ground*; visible leafy shell replaces cube.
+			core.set_meta("art_hidden",true)
+			build_hedge_shell(art,child.position,size,id,layout.vegetation)
 			var length := maxf(size.x,size.z)
-			for i in int(ceil(length/.65)):
+			var spacing: float = layout.vegetation.hedge_spacing
+			for i in int(ceil(length/spacing)):
 				var p: Vector3 = child.position + Vector3(0,.3,0)
 				if size.x > size.z:
-					p.x += -length/2+.33+i*.65
+					p.x += -length/2+spacing/2+i*spacing
 					p.z += .09 if p.z < 15 else -.09
 				else:
-					p.z += -length/2+.33+i*.65
+					p.z += -length/2+spacing/2+i*spacing
 					p.x += .09 if p.x < 18 else -.09
 				place(art,"Shrub%d" % art.get_child_count(),"vegetation/shrub_04/shrub_04_2k.gltf",
 					Vector3(.6,.3,.48) if size.x > size.z else Vector3(.48,.3,.6),p)
@@ -396,26 +438,29 @@ func build_courtyard(scene: Node3D, art: Node3D, config: Dictionary) -> void:
 	jet.position = Vector3(18,.57,15)
 	for p in [Vector3(13,.02,12.8),Vector3(23,.02,12.8),Vector3(13,.02,17.2),Vector3(23,.02,17.2)]:
 		place(art,"Fern%d" % art.get_child_count(),"vegetation/fern_02/fern_02_2k.gltf",Vector3(.9,.65,.9),p)
-	for p in [Vector3(13.1,0,10.1),Vector3(22.9,0,19.9)]:
-		var tree := place(art,"Tree%d" % art.get_child_count(),"vegetation/tree_small_02/tree_small_02_2k.gltf",
-			Vector3(2.1,5.8,2.1),p)
-		for mesh in tree.get_node("VisualPivot").get_children():
-			mesh.visibility_range_end = 19
-			mesh.visibility_range_end_margin = 1
-		var far_tree := place(art,"TreeFar%d" % art.get_child_count(),"derived/tree_small_02_far.scn",Vector3(2.1,5.8,2.1),p)
-		for mesh in far_tree.get_node("VisualPivot").get_children():
-			mesh.visibility_range_begin = 19
-			mesh.visibility_range_begin_margin = 1
+	for i in config.tree.positions.size():
+		for lod in layout.quality.tree_lods:
+			var tree := place(art,"Tree%d_%s" % [i,lod.id],"derived/tree_small_02_%s.scn" % lod.id,
+				Vector3(config.tree.max_canopy_width,config.tree.target_height,config.tree.max_canopy_depth),
+				vec(config.tree.positions[i]),0,[],null,config.tree)
+			tree.set_meta("tree_lod",lod.id)
+			for mesh in tree.get_node("VisualPivot").get_children():
+				mesh.visibility_range_begin = lod.begin
+				mesh.visibility_range_end = lod.end
+				# Identical cards/anchor remove silhouette pop; avoid overlapping levels.
+				mesh.visibility_range_begin_margin = 0
+				mesh.visibility_range_end_margin = 0
 	build_roof(art,config,metal)
-	for x in [12.5,23.5]:
-		for z in [10,20]:
-			var light := OmniLight3D.new()
-			add(art,light,"CourtyardLight%d" % art.get_child_count())
-			light.position = Vector3(x,3.4,z)
-			light.light_color = Color(1,.84,.62)
-			light.light_energy = 1.2
-			light.omni_range = 6
-			light.shadow_enabled = false
+	var lighting: Dictionary = layout.lighting.courtyard
+	for fixture in lighting.fixtures:
+		var light := OmniLight3D.new()
+		add(art,light,"CourtyardLight_"+fixture.id)
+		light.position = vec(fixture.position)
+		light.light_color = rgb(lighting.color)
+		light.light_energy = lighting.energy
+		light.omni_range = lighting.range
+		light.shadow_enabled = layout.quality.shadows and lighting.shadows
+		build_lantern(art,fixture.id,light.position,light.light_color,metal)
 
 func build_railings(art: Node3D, stone: Material) -> void:
 	var rails := group(art,"Balustrades")
@@ -436,6 +481,86 @@ func build_railings(art: Node3D, stone: Material) -> void:
 		for i in 48:
 			var spindle := box(rail,"Spindle%d" % i,Vector3(.12,.72,.2),Vector3(.125+i*.25,.6,0),stone,true)
 			spindle.set_meta("rail_spindle",true)
+
+func build_hedge_shell(parent: Node3D, at: Vector3, size: Vector3, id: String, config: Dictionary) -> void:
+	if hedge_material == null:
+		hedge_material = colour(Color.WHITE)
+		hedge_material.vertex_color_use_as_albedo = true
+		hedge_material.cull_mode = BaseMaterial3D.CULL_DISABLED
+		hedge_material.albedo_texture = load(MODELS+"vegetation/shrub_04/textures/shrub_04_diff_2k.jpg")
+	var along_x := size.x > size.z
+	var length := maxf(size.x,size.z)
+	var depth: float = config.hedge_foliage_depth
+	var inward := 1.0 if (at.z < 15 if along_x else at.x < 18) else -1.0
+	var center := at+Vector3(0,.3,0)
+	if along_x:
+		center.z += inward*(depth-size.z)/2
+	else:
+		center.x += inward*(depth-size.x)/2
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var steps := int(ceil(length/.075))
+	# Closed leafy volume with shallow bevels; the world collider is unchanged.
+	var profile := [Vector2(-.45,0),Vector2(-.45,.22),Vector2(-.4,.235),Vector2(0,.24),
+		Vector2(.4,.235),Vector2(.45,.22),Vector2(.45,0)]
+	for i in steps:
+		for j in profile.size()-1:
+			for corner in [Vector2i(0,0),Vector2i(1,0),Vector2i(1,1),Vector2i(0,0),Vector2i(1,1),Vector2i(0,1)]:
+				var t := -length/2+float(i+corner.x)/steps*length
+				var cross: Vector2 = profile[j+corner.y]
+				var variation := .015*sin(t*19+j*2)
+				var point := Vector3(t,clampf(cross.y+variation,0,.3),cross.x*depth)
+				if not along_x:
+					point = Vector3(point.z,point.y,point.x)
+				# Sample the green interior of the source leaf for the recessed fill.
+				surface.set_uv(Vector2(.17,.21)+Vector2(float(corner.x)*.02,float(corner.y)*.03))
+				surface.set_color(Color(.25,.42,.2))
+				surface.add_vertex(center+point)
+	# Dense individual folded leaves cover the top and both visible vertical faces.
+	for i in steps:
+		for j in 13:
+			var t := -length/2+(i+.5+.18*sin(i*3+j*2))/steps*length
+			var side := j >= 5
+			var sign_side := -1.0 if j < 9 else 1.0
+			var y := .275+.01*sin(i+j) if not side else .035+float((j-5)%4)*.075
+			var across := (float(j-2)/2*.46 if not side else sign_side*.49)*depth
+			var c := Vector3(t,y,across)
+			var axis := Vector3(.072,.008*sin(i+j),.018*sin(i*2+j))
+			var other := Vector3(.014,.062,.004) if side else Vector3(.014,.008,.069)
+			var fold := Vector3(0,0,sign_side*.02) if side else Vector3(0,.026,0)
+			# Eight-sided folded leaves use the actual Shrub 04 leaf UV island.
+			for k in 8:
+				for uv: Vector2 in [Vector2(cos(k*TAU/8),sin(k*TAU/8)),Vector2(cos((k+1)*TAU/8),sin((k+1)*TAU/8)),Vector2.ZERO]:
+					var offset := axis*uv.x+other*uv.y+(fold if uv == Vector2.ZERO else Vector3.ZERO)
+					var point: Vector3 = c+offset
+					point.x = clampf(point.x,-length/2,length/2)
+					point.y = clampf(point.y,0,.3)
+					if not along_x:
+						point = Vector3(point.z,point.y,point.x)
+					surface.set_uv(Vector2(.17,.215)+Vector2(uv.x*.059,uv.y*.105))
+					surface.set_color(Color(.52,.72,.4).darkened(.025*((i+j)%5)))
+					surface.add_vertex(center+point)
+	surface.generate_normals()
+	var visual := MeshInstance3D.new()
+	visual.mesh = surface.commit()
+	visual.material_override = hedge_material
+	add(parent,visual,"HedgeLeaves_"+id)
+
+func build_lantern(parent: Node3D, id: String, at: Vector3, tint: Color, metal: Material) -> void:
+	var fixture := group(parent,"Lantern_"+id)
+	fixture.position = at
+	var glass := colour(tint)
+	glass.emission_enabled = true
+	glass.emission = tint
+	glass.emission_energy_multiplier = 1.4
+	box(fixture,"GlowingPane",Vector3(.16,.32,.16),Vector3.ZERO,glass)
+	for y in [-.19,.19]:
+		box(fixture,"Rim%d" % fixture.get_child_count(),Vector3(.25,.04,.25),Vector3(0,y,0),metal)
+	for x in [-.11,.11]:
+		for z in [-.11,.11]:
+			box(fixture,"Bar%d" % fixture.get_child_count(),Vector3(.025,.36,.025),Vector3(x,0,z),metal)
+	var direction := -1.0 if at.x < 18 else 1.0
+	box(fixture,"Bracket",Vector3(.34,.045,.045),Vector3(direction*.18,.05,0),metal)
 
 func build_roof(art: Node3D, config: Dictionary, metal: Material) -> void:
 	var roof := group(art,"Roof")
@@ -568,27 +693,31 @@ func apply_to_service(scene: Node3D, _layout: Dictionary) -> void:
 		Vector3(2.3,1.5,.1),Vector3(0,-.75,0),0,["material:hanging_picture_frame_01"])
 	hide_legacy(scene,"WallMap/Frame")
 
-func apply_to_main(scene: Node3D, _layout: Dictionary) -> void:
+func apply_to_main(scene: Node3D, layout: Dictionary) -> void:
 	var rope := scene.get_node("Interactables/Rope")
 	var visual := replace_owned_visual(rope,"EnvironmentArt")
 	for id in ["MeshInstance3D","Coil2","Coil3"]:
 		hide_legacy(rope,id)
 	place(visual,"RopeCoil","storage/rope_coil/rope-coil.glb",Vector3(.16,.65,.65),Vector3(0,-.32,0),90)
 	var environment: Environment = scene.get_node("WorldEnvironment").environment.duplicate()
-	environment.background_color = Color(.17,.23,.31)
+	var lighting: Dictionary = layout.lighting
+	environment.background_color = rgb(lighting.sky.horizon)
 	var sky := Sky.new()
 	var sky_material := ProceduralSkyMaterial.new()
-	sky_material.sky_top_color = Color(.13,.23,.4)
-	sky_material.sky_horizon_color = Color(.5,.57,.64)
-	sky_material.ground_horizon_color = Color(.5,.48,.4)
+	sky_material.sky_top_color = rgb(lighting.sky.top)
+	sky_material.sky_horizon_color = rgb(lighting.sky.horizon)
+	sky_material.ground_horizon_color = rgb(lighting.sky.ground_horizon)
 	sky.sky_material = sky_material
 	environment.sky = sky
 	environment.background_mode = Environment.BG_SKY
-	environment.ambient_light_energy = .58
+	environment.ambient_light_color = rgb(lighting.ambient.color)
+	environment.ambient_light_energy = lighting.ambient.energy
 	scene.get_node("WorldEnvironment").environment = environment
 	var sunlight := scene.get_node("DirectionalLight3D") as DirectionalLight3D
-	sunlight.light_energy = .55
-	sunlight.light_color = Color(1,.9,.76)
+	sunlight.light_energy = lighting.sun.energy
+	sunlight.light_color = rgb(lighting.sun.color)
+	sunlight.rotation_degrees = vec(lighting.sun.rotation_degrees)
+	sunlight.shadow_enabled = layout.quality.shadows and lighting.sun.shadows
 
 func apply_to_door(scene: Node3D, _layout: Dictionary) -> void:
 	var panel := scene.get_node("Panel") as Node3D
@@ -631,8 +760,9 @@ func validate_clearances(geometry: Node3D) -> Array[String]:
 	return errors
 
 func _record_source(source: String, pivot: Node3D) -> void:
-	var canonical: String = {"derived/display_case_base.scn":"exhibits/small_museum_display_case/small_museum_display_case.glb",
-		"derived/tree_small_02_far.scn":"vegetation/tree_small_02/tree_small_02_2k.gltf"}.get(source,source)
+	var canonical: String = {"derived/display_case_base.scn":"exhibits/small_museum_display_case/small_museum_display_case.glb"}.get(source,source)
+	if source.begins_with("derived/tree_small_02_"):
+		canonical = "vegetation/tree_small_02/tree_small_02_2k.gltf"
 	var triangles := 0
 	for instance in pivot.get_children():
 		for i in instance.mesh.get_surface_count():
@@ -658,4 +788,6 @@ func write_manifest() -> void:
 		"notes":["Ancestor transforms baked into VisualPivot; source files unchanged.",
 		"Gothic and balustrade stone overrides; Terpsichore lit stone adaptation CC BY-SA 4.0.",
 		"Fountain basin extracted without upper tiers. No automatic trimesh colliders.",
-		"Trees use compact offline LOD meshes; runtime never instances original tree LOD0."]},"\t"))
+		"Trees use independently budgeted wood LODs and curved source leaf clusters; runtime never instances original tree LOD0.",
+		"Courtyard stone presets share a low-contrast derived Marble012 albedo and retain lit normal/roughness detail.",
+		"Hedge shell and folded source-UV leaves are visual-only; v1 world cover colliders remain unchanged."]},"\t"))
