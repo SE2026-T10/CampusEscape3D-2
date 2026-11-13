@@ -1,6 +1,6 @@
 # Phạm vi file xuất bản — VT-038
 
-Phạm vi được sinh viên duyệt có **105 file**, tính từ baseline `c9bf5d63080c86b67f9581b4bc15bb515b180816`, đóng gói trong hai commit trên [nhánh cá nhân](https://github.com/SE2026-T10/CampusEscape3D-2/tree/bt3/23001903-vt038-idempotency). Không merge. [Thông tin xuất bản và nội dung PR tham khảo](PR-review.md).
+Phạm vi được sinh viên duyệt có **105 file**, tính từ baseline `c9bf5d63080c86b67f9581b4bc15bb515b180816`, đóng gói trong hai commit chính và một commit hoàn thiện hiển thị liên kết PDF trên [nhánh cá nhân](https://github.com/SE2026-T10/CampusEscape3D-2/tree/bt3/23001903-vt038-idempotency). Không merge. [Thông tin xuất bản và nội dung PR tham khảo](PR-review.md).
 
 ## 1. `feat(isg_museum): deduplicate storage door keypad submissions`
 
@@ -18,7 +18,7 @@ Phạm vi được sinh viên duyệt có **105 file**, tính từ baseline `c9b
 
 ## 2. `docs(isg_museum): record VT-038 verification and report source`
 
-96 file gồm 86 file evidence/script thu kết quả, cùng tài liệu và source dựng báo cáo. Diff mutation chỉ xuất hiện dưới dạng evidence. PDF cuối nằm ở thư mục output cục bộ; source trong commit này cho phép dựng lại từ nhánh đã xuất bản. Cache, dữ liệu APPDATA và thư mục worktree không thuộc hai commit.
+96 file gồm 86 file evidence/script thu kết quả, cùng tài liệu và source dựng báo cáo. Diff mutation chỉ xuất hiện dưới dạng evidence. PDF cuối nằm ở thư mục output cục bộ; source trong nhánh này cho phép dựng lại bản cuối. Cache, dữ liệu APPDATA và thư mục worktree không thuộc phạm vi xuất bản.
 
 - `maps/isg_museum/docs/vt038/AI-Usage-Log.md`
 - `maps/isg_museum/docs/vt038/COMMIT-MANIFEST.md`
@@ -117,4 +117,4 @@ Phạm vi được sinh viên duyệt có **105 file**, tính từ baseline `c9b
 - `maps/isg_museum/docs/vt038/report_content.py`
 - `maps/isg_museum/docs/vt038/traceability.md`
 
-Một số raw log/JSON giữ nguyên tên tài khoản và đường dẫn Windows như đã thông báo khi duyệt phạm vi xuất bản. RED được chứng minh bằng baseline, snapshot, SHA-256 và log đúng thời điểm; hai commit đóng gói công việc sau kiểm chứng, không dựng lại lịch sử test-first.
+Một số raw log/JSON giữ nguyên tên tài khoản và đường dẫn Windows như đã thông báo khi duyệt phạm vi xuất bản. RED được chứng minh bằng baseline, snapshot, SHA-256 và log đúng thời điểm; các commit đóng gói công việc sau kiểm chứng, không dựng lại lịch sử test-first.

@@ -223,7 +223,7 @@ def main():
     trace_status = 'Chưa có commit của bài tập hoặc PR. Baseline xác định phiên bản trước patch.'
     if commit:
         branch_url = f'{REPOSITORY}/tree/{quote(args.published_branch)}'
-        submission_link = hyperlink(branch_url, branch_url)
+        submission_link = hyperlink(args.published_branch, branch_url)
         submission_ref = hyperlink(commit[:12], f'{REPOSITORY}/commit/{commit}')
         trace_status = f'Commit đã xác minh trên GitHub: {commit}.'
     replacements = {

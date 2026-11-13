@@ -19,7 +19,7 @@ git ls-remote --symref origin HEAD refs/heads/hgmanh-work refs/heads/bt3/2300190
 
 `HEAD` mặc định của remote trỏ đến `main`. Lịch sử từ `main` đến baseline có 26 commit sẵn có (`git rev-list --left-right --count refs/remotes/origin/main...HEAD` trả về `0 26`). Dùng `hgmanh-work` làm base để phạm vi PR bắt đầu tại baseline của bài.
 
-## Hai commit đóng gói
+## Các commit đóng gói
 
 1. `feat(isg_museum): deduplicate storage door keypad submissions`
    - Commit: [a61014093896bb78da42941d04c50e0ed0525479](https://github.com/SE2026-T10/CampusEscape3D-2/commit/a61014093896bb78da42941d04c50e0ed0525479).
@@ -34,8 +34,10 @@ git ls-remote --symref origin HEAD refs/heads/hgmanh-work refs/heads/bt3/2300190
    - `maps/isg_museum/tools/run_storage_submission_tests.gd.uid`
 2. `docs(isg_museum): record VT-038 verification and report source`
    - Tài liệu, evidence và source báo cáo theo [danh sách từng đường dẫn](COMMIT-MANIFEST.md).
+3. `fix(docs): keep published branch link readable in PDF`
+   - Dùng tên nhánh làm nhãn link ở trang đầu; đích HTTPS vẫn trỏ tới nhánh thật. Không đổi code, test, raw evidence hoặc số trang báo cáo.
 
-Trình tự test-first được ghi bằng baseline, snapshot/hash test và log [RED](RED.md), sau đó là diff và log [GREEN](GREEN.md). Hai commit đóng gói trạng thái sau kiểm chứng theo phạm vi đã duyệt; không dựng lại lịch sử. SHA chứa đầy đủ evidence được lấy từ nhánh trên remote khi xuất PDF cuối, tránh ghi SHA tự tham chiếu của commit tài liệu vào chính nó.
+Trình tự test-first được ghi bằng baseline, snapshot/hash test và log [RED](RED.md), sau đó là diff và log [GREEN](GREEN.md). Các commit đóng gói trạng thái sau kiểm chứng theo phạm vi đã duyệt; không dựng lại lịch sử. SHA chứa đầy đủ evidence được lấy từ nhánh trên remote khi xuất PDF cuối, tránh ghi SHA tự tham chiếu của commit tài liệu vào chính nó.
 
 ## Nội dung PR dự kiến
 
