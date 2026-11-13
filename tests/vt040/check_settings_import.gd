@@ -146,14 +146,14 @@ func _menu_regression() -> void:
 	var menu: MainMenu = MENU.instantiate()
 	root.add_child(menu)
 	await process_frame
-	menu.settings_button.pressed.emit()
+	menu.open_settings()
 	var panel := menu.settings_panel
 	_check(panel.visible, "T12: Settings menu opens")
 	panel.volume_slider.value = 55.0
 	Settings.load_settings(true)
 	_check(is_equal_approx(Settings.master_volume, 0.55), "T12: the existing slider saves and reloads")
 	_check(is_equal_approx(Settings.hud_scale, 1.0) and Settings.captions, "T12: the slider preserves other options")
-	panel.back_button.pressed.emit()
+	panel.close()
 	await process_frame
 	_check(not panel.visible and menu.settings_button.has_focus(), "T12: Back restores the Settings focus")
 	menu.queue_free()

@@ -1,0 +1,5 @@
+[
+  {"key": "hud_scale", "value": 1.25},
+  {"key": "master_volume", "value": 2.0},
+  {"key": "captions", "value": false}
+]
