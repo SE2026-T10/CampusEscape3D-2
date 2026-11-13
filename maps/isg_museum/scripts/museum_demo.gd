@@ -1,5 +1,8 @@
 extends Node3D
 
+## Scene-local authoring mode; inherited editing scene enables it at startup.
+@export var disable_guards_for_editing: bool = false
+
 ## Map-only progress flags; escape is the sole mandatory objective.
 const OBJECTIVES := [
 	{"id": &"take_key", "title": "Tìm chìa K cho phòng B",
@@ -26,6 +29,10 @@ var _restarting := false
 
 
 func _enter_tree() -> void:
+	# Parent enters first: remove actors synchronously before their AI, perception
+	# and noise listeners can enter/ready. This non-tool script leaves editor nodes.
+	if disable_guards_for_editing:
+		_remove_runtime_guards_for_editing()
 	# Configure before the manager's _ready(), avoiding the library defaults.
 	var definitions: Array[Dictionary] = []
 	for entry in OBJECTIVES:
@@ -46,11 +53,23 @@ func _enter_tree() -> void:
 	$ObjectiveManager.objectives.assign(definitions)
 
 
+func _remove_runtime_guards_for_editing() -> int:
+	var removed := 0
+	for child in get_children():
+		if child is Guard:
+			remove_child(child)
+			child.free()
+			removed += 1
+	return removed
+
+
 func _ready() -> void:
 	$NavigationRegion3D/Doors/Storage.rejected.connect(_on_guard_notice)
 	$ObjectiveManager.level_completed.connect($StealthDirector.finish_level)
-	$Guard_G6.notice.connect(_on_guard_notice)
-	$Guard_G3.notice.connect(_on_guard_notice)
+	for guard_path in [^"Guard_G6", ^"Guard_G3"]:
+		var guard := get_node_or_null(guard_path)
+		if guard != null:
+			guard.connect(&"notice", _on_guard_notice)
 	$Interactables/Painting_T2.notice.connect(_on_carry_notice)
 	# Keep the caught overlay, then reload everything, including hidden pickups.
 	$StealthDirector.level_reset.connect(_restart_demo)

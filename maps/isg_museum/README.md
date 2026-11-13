@@ -15,6 +15,23 @@ Theo [sơ đồ concept v2](docs/concept-v2/README.md), Player xuất phát ở 
 `(18, 0.1, 35)`, đi tới cửa chính và nhấn **E** để vào sảnh.
 Mở scene rồi nhấn **F6** để thử riêng; map chưa đăng ký trong menu chung.
 
+## Chỉnh map và thử stealth
+
+- **Chỉnh/duyệt map:** mở `scenes/museum_editing.tscn`, nhấn **F6**. Đây là scene
+  kế thừa `museum.tscn`, dùng cùng hình học, nội thất, collision, navmesh và nhiệm vụ.
+  Guard G1–G9 vẫn hiện trong editor để bố trí; khi chạy, root loại chúng trước khi
+  AI, hearing, collider và avoidance vào SceneTree. Nhãn nhỏ ghi “BẢO VỆ TẮT”.
+- **Thử stealth:** mở `scenes/museum.tscn`, nhấn **F6**; đủ chín guard hoạt động bình thường.
+
+Inspector của root có `disable_guards_for_editing`, mặc định **false**; scene editing
+đặt **true**. Cờ được đọc lúc khởi động, không có hotkey hoặc thiết lập toàn cục.
+Chế độ editing vẫn cần tự nhận hợp đồng, lấy K, trả lời để nhận vé V và nhập mã DDMM
+để lấy dây. Âm thanh kính/chai/báo động vẫn phát; các điều kiện tương tác và thoát giữ nguyên.
+Pause/Resume, Restart và Play Again tiếp tục dùng đúng scene đã mở.
+
+Kiểm tra riêng: `godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_editing_mode.gd`.
+Log kiểm tra hai chế độ: `docs/editing-mode/`. Thêm scene thử không cần bake navmesh.
+
 Đã thêm **[Bước 9 — Chín bảo vệ](docs/step-09-nine-guards.md)** theo sơ đồ mới:
 G1–G5 tầng 1, G6–G9 tầng 2; có nhãn số trên đầu để nhận biết khi chạy thử.
 Cơ chế **[phát hiện khung T1 trống](docs/step-07-empty-frame.md)** nay thuộc G6:
