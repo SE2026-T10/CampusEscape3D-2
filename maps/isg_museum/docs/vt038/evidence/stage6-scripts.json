@@ -1,0 +1,17 @@
+{
+  "command": [
+    "D:/IT/SE_GAME_3D/.local/godot/Godot_v4.7.2-stable_win64_console.exe",
+    "--headless",
+    "--path",
+    ".",
+    "--log-file",
+    "D:/IT/SE_GAME_3D/.local/vt038/stage6-mutation/stage6-scripts.engine.log",
+    "--script",
+    "res://tools/ci/check_scripts.gd"
+  ],
+  "working_directory": "D:\\IT\\SE_GAME_3D\\.local\\vt038\\worktree",
+  "start": "2026-11-13T16:38:51.516427+07:00",
+  "timeout_seconds": 120,
+  "exit_code": 0,
+  "end": "2026-11-13T16:39:00.213924+07:00"
+}

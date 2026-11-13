@@ -1,0 +1,8 @@
+﻿
+Hash                                                             Path                                                                                        
+----                                                             ----                                                                                        
+98C3FF7A6CA82D165B68BB27DD834EABDE9FA46C121B329D74710C2C234475CF D:\IT\SE_GAME_3D\.local\vt038\worktree\maps\isg_museum\tests\storage_submission_tests.gd    
+8CBE91E58AF7443593353D9A84E80D820A109D767BED14672E69442E958E29E2 D:\IT\SE_GAME_3D\.local\vt038\worktree\maps\isg_museum\tools\run_storage_submission_tests.gd
+
+
+

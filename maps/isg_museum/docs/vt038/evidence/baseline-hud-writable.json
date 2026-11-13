@@ -1,0 +1,17 @@
+{
+  "command": [
+    "D:/IT/SE_GAME_3D/.local/godot/Godot_v4.7.2-stable_win64_console.exe",
+    "--headless",
+    "--path",
+    ".",
+    "--log-file",
+    "D:/IT/SE_GAME_3D/.local/vt038/stage6-mutation/baseline-hud-writable.engine.log",
+    "--script",
+    "D:/IT/SE_GAME_3D/.local/vt038/stage6-mutation/baseline_hud_probe.gd"
+  ],
+  "working_directory": "D:\\IT\\SE_GAME_3D\\.local\\vt038\\mutation-worktree",
+  "start": "2026-11-13T16:36:35.766404+07:00",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "end": "2026-11-13T16:37:09.978624+07:00"
+}

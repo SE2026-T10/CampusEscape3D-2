@@ -1,0 +1,17 @@
+{
+  "command": [
+    "D:/IT/SE_GAME_3D/.local/godot/Godot_v4.7.2-stable_win64_console.exe",
+    "--headless",
+    "--path",
+    ".",
+    "--log-file",
+    "D:/IT/SE_GAME_3D/.local/vt038/stage6-mutation/mutation-field.engine.log",
+    "--script",
+    "res://maps/isg_museum/tools/run_storage_submission_tests.gd"
+  ],
+  "working_directory": "D:\\IT\\SE_GAME_3D\\.local\\vt038\\mutation-worktree",
+  "start": "2026-11-13T16:31:40.003356+07:00",
+  "timeout_seconds": 90,
+  "exit_code": 1,
+  "end": "2026-11-13T16:31:46.217690+07:00"
+}

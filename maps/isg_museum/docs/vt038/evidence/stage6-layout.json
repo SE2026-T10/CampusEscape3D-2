@@ -1,0 +1,11 @@
+{
+  "command": [
+    "C:\\Users\\Gia Manh\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "tools/ci/check_layout.py"
+  ],
+  "working_directory": "D:\\IT\\SE_GAME_3D\\.local\\vt038\\worktree",
+  "start": "2026-11-13T16:38:51.066697+07:00",
+  "timeout_seconds": 90,
+  "exit_code": 0,
+  "end": "2026-11-13T16:38:51.899012+07:00"
+}

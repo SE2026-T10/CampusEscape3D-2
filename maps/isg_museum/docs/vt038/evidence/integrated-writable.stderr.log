@@ -1,0 +1,60 @@
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+WARNING: StuckGuard is stuck on the way to its target (patrol point 1); moving on.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] notify_stuck (res://shared/scripts/npc/guard.gd:348)
+       [1] update (res://shared/scripts/npc/ai/patrol_state.gd:44)
+       [2] tick (res://shared/scripts/npc/ai/guard_state_machine.gd:106)
+       [3] _physics_process (res://shared/scripts/npc/guard.gd:150)
+WARNING: NoRouteGuard has no patrol route with points, so it will stand still while patrolling.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://shared/scripts/npc/guard.gd:141)
+       [1] _spawn_guard (res://tests/guard_tests.gd:312)
+       [2] _check_guard_without_route (res://tests/guard_tests.gd:206)
+       [3] run (res://tests/guard_tests.gd:42)
+       [4] _check_stuck_guard_moves_on (res://tests/guard_tests.gd:202)
+       [5] _free_test_nodes (res://tests/guard_tests.gd:323)
+       [6] _physics_frames (res://tests/guard_tests.gd:340)
+WARNING: VisionTestGuard has no patrol route with points, so it will stand still while patrolling.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://shared/scripts/npc/guard.gd:141)
+       [1] _build_arena (res://tests/vision_tests.gd:65)
+       [2] run (res://tests/vision_tests.gd:26)
+       [3] _ready (res://tests/test_scene.gd:81)
+       [4] run (res://tests/guard_tests.gd:48)
+       [5] _physics_frames (res://tests/guard_tests.gd:340)
+WARNING: VisionTestGuard: no navigation mesh found nearby after 120 frames.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] wait_for_navigation (res://shared/scripts/utilities/navigation_utils.gd:22)
+WARNING: GuardA has no patrol route with points, so it will stand still while patrolling.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://shared/scripts/npc/guard.gd:141)
+       [1] _guard (res://tests/hearing_tests.gd:78)
+       [2] _build_arena (res://tests/hearing_tests.gd:57)
+       [3] run (res://tests/hearing_tests.gd:26)
+       [4] _ready (res://tests/test_scene.gd:83)
+       [5] run (res://tests/ai_behavior_tests.gd:63)
+       [6] _physics_frames (res://tests/ai_behavior_tests.gd:144)
+WARNING: GuardB has no patrol route with points, so it will stand still while patrolling.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://shared/scripts/npc/guard.gd:141)
+       [1] _guard (res://tests/hearing_tests.gd:78)
+       [2] _build_arena (res://tests/hearing_tests.gd:58)
+       [3] run (res://tests/hearing_tests.gd:26)
+       [4] _ready (res://tests/test_scene.gd:83)
+       [5] run (res://tests/ai_behavior_tests.gd:63)
+       [6] _physics_frames (res://tests/ai_behavior_tests.gd:144)
+WARNING: GuardA: no navigation mesh found nearby after 120 frames.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] wait_for_navigation (res://shared/scripts/utilities/navigation_utils.gd:22)
+WARNING: GuardB: no navigation mesh found nearby after 120 frames.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] wait_for_navigation (res://shared/scripts/utilities/navigation_utils.gd:22)

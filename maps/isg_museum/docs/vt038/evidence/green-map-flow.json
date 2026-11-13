@@ -1,0 +1,17 @@
+{
+  "command": [
+    "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+    "--headless",
+    "--path",
+    ".",
+    "--log-file",
+    "D:\\IT\\SE_GAME_3D\\.local\\vt038\\green-evidence/green-map-flow.engine.log",
+    "--script",
+    "res://tools/map_flow.gd"
+  ],
+  "working_directory": "D:\\IT\\SE_GAME_3D\\.local\\vt038\\worktree",
+  "start": "2026-11-13T16:01:59.376011+07:00",
+  "timeout_seconds": 240,
+  "exit_code": 0,
+  "end": "2026-11-13T16:02:38.653409+07:00"
+}

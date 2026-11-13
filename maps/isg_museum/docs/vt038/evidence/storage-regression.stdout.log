@@ -1,0 +1,37 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: Storage starts locked with keypad hidden
+PASS: Only rope pickup has moved to ground-floor east rack
+PASS: Locked storage does not allow collecting rope
+PASS: Closed storage has no traversable nav connection
+PASS: Locked panel physically blocks player
+PASS: Physical wall keypad is selectable before the wall collider
+PASS: E on wall keypad opens the same code interface
+PASS: Camera E opens keypad without unlocking or pausing
+PASS: Keypad fits centred in viewport
+PASS: Movement input does not walk player away while entering code
+PASS: World simulation continues during keypad use
+PASS: Incomplete code cannot unlock or consume a failed attempt
+PASS: Wrong typed code leaves collision locked and clears entry
+PASS: Two wrong codes do not trigger the loud alarm
+PASS: Third wrong code emits alarm without opening door
+PASS: Nearby guard receives real keypad noise through NoiseSystem and hearing
+PASS: Alarm leaves keypad available for retry
+PASS: E cancels code entry without opening door
+PASS: Pause closes keypad and releases player control lock
+PASS: Correct keyboard code unlocks, opens and returns to play
+PASS: Unlock removes physical panel and enables nav link
+PASS: Open storage connects corridor navigation to rope
+PASS: Actual player walks through door and around furniture to rope
+PASS: Camera ray can select coiled rope on rack
+PASS: E collects rope and completes mission
+PASS: Empty rope rack remains after collection
+PASS: Rope cannot be collected twice
+PASS: Player can walk in front of cabinet placed against south wall
+PASS: Cabinet sits flush against south wall
+PASS: Open doorway exposes player in central aisle
+PASS: E closes storage from inside while retaining solved code
+PASS: Solved door reopens without requiring code again
+PASS: Storage cannot close through player in doorway
+PASS: Restart resets code lock and restores rope and objective together
+Storage verification: 34 checks, 0 failures

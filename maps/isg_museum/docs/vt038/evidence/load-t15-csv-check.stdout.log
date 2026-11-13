@@ -1,0 +1,13 @@
+burst=0 p95_usec=153241 n=100 max_usec=153246
+burst=1 p95_usec=151110 n=100 max_usec=151185
+burst=2 p95_usec=149710 n=100 max_usec=149786
+burst=3 p95_usec=149967 n=100 max_usec=150024
+burst=4 p95_usec=149934 n=100 max_usec=149946
+burst=5 p95_usec=153215 n=100 max_usec=153244
+burst=6 p95_usec=154645 n=100 max_usec=154673
+burst=7 p95_usec=148487 n=100 max_usec=148489
+burst=8 p95_usec=149839 n=100 max_usec=149936
+burst=9 p95_usec=151479 n=100 max_usec=151596
+burst=10 p95_usec=150851 n=100 max_usec=150897
+aggregate p95_usec=150024 n=1000 max_usec=154673
+CSV verification PASS

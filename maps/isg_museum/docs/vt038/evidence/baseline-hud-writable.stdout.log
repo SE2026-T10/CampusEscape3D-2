@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+user:// save: 0 OK at D:/IT/SE_GAME_3D/.local/vt038/stage6-mutation/writable-appdata/Godot/app_userdata/Campus Escape 3D/vt038-hud-write-probe.cfg
+workspace save: 0 OK at D:/IT/SE_GAME_3D/.local/vt038/stage6-mutation/hud-write-probe-writable.cfg
+  [expanded-hud] settings: defaults without a file; 125 %% / 40 %% / captions off saved and loaded; 0 %% mutes; broken values → defaults; the menu's screen changes and saves them, Back returns focus
+  [expanded-hud] reads the game: stamina bar, EXHAUSTED + caption while Shift is held after running dry; slots = inventory; checklist = objectives; journal = clues + documents only, on a portrait clipboard
+  [expanded-hud] ways out: none before entering; main entrance + dock on entering; badge place after the locker, [x] when carried; dock power/control/release only once met; POWER after the switch; passage after its plan; checkpoint name
+  [expanded-hud] exit messages: manuscript first; then only known requirements; unknown ones as a hint without names; the badge without its place; the drain silent before its plan; no codes on the HUD
+  [expanded-hud] after a capture: journal and clues kept (5), ways out and power recomputed from the restored state, objectives as stored
+  [expanded-hud] captions: alarm ↓, distraction ←, switch ↑, another floor 'above'; real switch, bottle, guard footsteps and being noticed; nothing out of earshot, nothing for your own steps, nothing when off
+  [expanded-hud] layout: 16 resolution × interface size combinations (1280×720, 1920×1080, 1024×768, 2560×1440 × 90–125 %), panels on screen, no overlaps, journal and status panel take turns, every journal entry reachable with J (6 pages at 1024×768 125 %)
+  [expanded-hud] completion: 'Time 0:00  ·  caught 0 times' / 'Mission objectives 8/8 complete · optional 1/4 | Optional: Open the security locker | Escape route: Loading dock'
+  [expanded-hud] tutorial: no stamina/slots/ways-out panel, checklist as before, captions shown, Settings in the pause menu, Esc closes it and stays paused
+Baseline ExpandedHudTests failures: 0

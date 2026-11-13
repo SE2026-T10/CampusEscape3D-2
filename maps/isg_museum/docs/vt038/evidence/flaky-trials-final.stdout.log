@@ -1,0 +1,1248 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[FLAKY TRIAL 01 START]
+[VT-038 ORDER] mode=original seed=0 order=["T02/T03/T11", "T04", "T05-T12/day", "T05-T12/year"]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[FLAKY TRIAL 01 END] failures=0
+[FLAKY TRIAL 02 START]
+[VT-038 ORDER] mode=original seed=0 order=["T02/T03/T11", "T04", "T05-T12/day", "T05-T12/year"]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[FLAKY TRIAL 02 END] failures=0
+[FLAKY TRIAL 03 START]
+[VT-038 ORDER] mode=original seed=0 order=["T02/T03/T11", "T04", "T05-T12/day", "T05-T12/year"]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[FLAKY TRIAL 03 END] failures=0
+[FLAKY TRIAL 04 START]
+[VT-038 ORDER] mode=original seed=0 order=["T02/T03/T11", "T04", "T05-T12/day", "T05-T12/year"]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[FLAKY TRIAL 04 END] failures=0
+[FLAKY TRIAL 05 START]
+[VT-038 ORDER] mode=original seed=0 order=["T02/T03/T11", "T04", "T05-T12/day", "T05-T12/year"]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[FLAKY TRIAL 05 END] failures=0
+[FLAKY TRIAL 06 START]
+[VT-038 ORDER] mode=reversed seed=0 order=["T05-T12/year", "T05-T12/day", "T04", "T02/T03/T11"]
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[FLAKY TRIAL 06 END] failures=0
+[FLAKY TRIAL 07 START]
+[VT-038 ORDER] mode=reversed seed=0 order=["T05-T12/year", "T05-T12/day", "T04", "T02/T03/T11"]
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[FLAKY TRIAL 07 END] failures=0
+[FLAKY TRIAL 08 START]
+[VT-038 ORDER] mode=reversed seed=0 order=["T05-T12/year", "T05-T12/day", "T04", "T02/T03/T11"]
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[FLAKY TRIAL 08 END] failures=0
+[FLAKY TRIAL 09 START]
+[VT-038 ORDER] mode=reversed seed=0 order=["T05-T12/year", "T05-T12/day", "T04", "T02/T03/T11"]
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[FLAKY TRIAL 09 END] failures=0
+[FLAKY TRIAL 10 START]
+[VT-038 ORDER] mode=reversed seed=0 order=["T05-T12/year", "T05-T12/day", "T04", "T02/T03/T11"]
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[FLAKY TRIAL 10 END] failures=0
+[FLAKY TRIAL 11 START]
+[VT-038 ORDER] mode=shuffle seed=17 order=["T05-T12/day", "T05-T12/year", "T02/T03/T11", "T04"]
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[FLAKY TRIAL 11 END] failures=0
+[FLAKY TRIAL 12 START]
+[VT-038 ORDER] mode=shuffle seed=38 order=["T04", "T05-T12/year", "T02/T03/T11", "T05-T12/day"]
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[FLAKY TRIAL 12 END] failures=0
+[FLAKY TRIAL 13 START]
+[VT-038 ORDER] mode=shuffle seed=73 order=["T05-T12/year", "T05-T12/day", "T04", "T02/T03/T11"]
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[FLAKY TRIAL 13 END] failures=0
+[FLAKY TRIAL 14 START]
+[VT-038 ORDER] mode=shuffle seed=103 order=["T05-T12/day", "T04", "T02/T03/T11", "T05-T12/year"]
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[FLAKY TRIAL 14 END] failures=0
+[FLAKY TRIAL 15 START]
+[VT-038 ORDER] mode=shuffle seed=903 order=["T05-T12/day", "T04", "T02/T03/T11", "T05-T12/year"]
+[T05-T12/day] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-11-07 -> 2026-11-08
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[T04] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T04] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T04 PASS] first wrong-guess effect
+[T04 PASS] first receipt
+[T04 PASS] receipt delivery 2
+[T04] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T04 PASS] receipt delivery 3
+[T04] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T04 PASS] receipt delivery 4
+[T04] delivery 4 receipt={ "status": &"WRONG_CODE", "request_id": "req-d", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] receipt delivery 5
+[T04] delivery 5 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[1, 1, 1, 4, 4]
+[T04 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 1, 1, 4, 4]
+[T02] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T02] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T02 PASS] first wrong-guess effect
+[T02 PASS] first receipt
+[T02 PASS] receipt delivery 2
+[T02] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-b", "alarm_triggered": false, "wrong_attempts_after": 2, "alarm_count_after": 0 } counters=[2, 0, 0, 2, 2]
+[T02 PASS] receipt delivery 3
+[T02] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-c", "alarm_triggered": true, "wrong_attempts_after": 0, "alarm_count_after": 1 } counters=[0, 1, 1, 3, 3]
+[T02 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [0, 1, 1, 3, 3]
+[T03] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T11 PASS] reject previous door instance scope
+[T11 PASS] previous scope had no effect on new door
+[T03] first delivery receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] first wrong-guess effect
+[T03 PASS] first receipt
+[T11 PASS] keypad reopened in the same door instance
+[T03 PASS] receipt delivery 2
+[T03] delivery 2 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] receipt delivery 3
+[T03] delivery 3 receipt={ "status": &"WRONG_CODE", "request_id": "req-a", "alarm_triggered": false, "wrong_attempts_after": 1, "alarm_count_after": 0 } counters=[1, 0, 0, 1, 1]
+[T03 PASS] [wrong_attempts, door_alarms, contract_alarms, rejected, keypad_noise] = [1, 0, 0, 1, 1]
+[T05-T12/year] fixture ready: PLAYING, within 3 m, locked, fixed calendar, counters=[0, 0, 0, 0, 0]
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T07 PASS] invalid input
+[T11 PASS] reject wrong scope
+[T11 PASS] reject actor outside player scope
+[T08 PASS] temporary refusal
+[T07/T08/T11 PASS] refusals did not execute
+[T08 PASS] payload bound after temporary refusal
+[T08 PASS] same payload executes once after refusal
+[T09 PASS] synchronous signal reentry
+[T06 PASS] completed ID cannot change payload
+[T10 CLOCK] fake rollover=2026-12-31 -> 2027-01-01
+[T10/T12 PASS] replay survives date rollover and caller mutation
+[T09/T10 PASS] only first guess executed
+[T05/T10 PASS] fresh ID uses today's code; BUSY did not bind it
+[T05 PASS] replay after unlock and moving away
+[T05 PASS] fresh request does not toggle unlocked door
+[T05 PASS] door opened exactly once
+[FLAKY TRIAL 15 END] failures=0
+VT-038 storage submission failures: 0

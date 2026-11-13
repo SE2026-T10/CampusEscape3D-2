@@ -1,0 +1,12 @@
+diff --git a/maps/isg_museum/scripts/storage_door.gd b/maps/isg_museum/scripts/storage_door.gd
+--- a/maps/isg_museum/scripts/storage_door.gd
++++ b/maps/isg_museum/scripts/storage_door.gd
+@@ -98,7 +98,7 @@
+ func _receipt(status: StringName, id: String, alarm := false) -> Dictionary:
+ 	var processed := status in [&"UNLOCKED", &"WRONG_CODE"]
+ 	return {"status": status, "request_id": id, "alarm_triggered": alarm,
+-		"wrong_attempts_after": wrong_attempts if processed else null,
++		"wrong_attempts_after": alarm_count if processed else null,
+ 		"alarm_count_after": alarm_count if processed else null}
+ 
+ 

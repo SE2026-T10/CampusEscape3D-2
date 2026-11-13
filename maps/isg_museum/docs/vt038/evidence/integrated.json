@@ -1,0 +1,16 @@
+{
+  "command": [
+    "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+    "--headless",
+    "--path",
+    ".",
+    "--log-file",
+    "D:\\IT\\SE_GAME_3D\\.local\\vt038\\green-evidence/green-integrated.engine.log",
+    "res://tests/test_scene.tscn"
+  ],
+  "working_directory": "D:\\IT\\SE_GAME_3D\\.local\\vt038\\worktree",
+  "start": "2026-11-13T16:02:50.696075+07:00",
+  "timeout_seconds": 2400,
+  "exit_code": 1,
+  "end": "2026-11-13T16:31:11.669484+07:00"
+}

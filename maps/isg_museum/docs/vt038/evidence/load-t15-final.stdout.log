@@ -1,0 +1,29 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+T15 environment: Godot=4.7.2-stable (official) OS=Windows version=10.0.26300 CPU=Intel(R) Core(TM) 5 210H logical_processors=12 physical_memory_bytes=16784982016 max_fps=60
+T15 config: outstanding=100, 50 new + 50 retries, 10/frame, one warm-up + 10 measured, timeout_usec=10000000
+T15 order: new 1..25, retries 1..25, new 26..50, retries 26..50; no shuffle
+T15 clock: Time.get_ticks_usec(); submit to receipt; p95 nearest-rank ceil(0.95*n)
+T15 gate: burst=0 phase=warmup queued=100 outstanding=100 peak=100 pre_release_effects=[0, 0, 0, 0, 0] gate_usec=6562032
+T15 burst: burst=0 phase=warmup samples=100 p95_usec=153241 errors=0 final=[2, 16, 16, 50, 50] outstanding=0
+T15 gate: burst=1 phase=measured queued=100 outstanding=100 peak=100 pre_release_effects=[0, 0, 0, 0, 0] gate_usec=6842818
+T15 burst: burst=1 phase=measured samples=100 p95_usec=151110 errors=0 final=[2, 16, 16, 50, 50] outstanding=0
+T15 gate: burst=2 phase=measured queued=100 outstanding=100 peak=100 pre_release_effects=[0, 0, 0, 0, 0] gate_usec=7092662
+T15 burst: burst=2 phase=measured samples=100 p95_usec=149710 errors=0 final=[2, 16, 16, 50, 50] outstanding=0
+T15 gate: burst=3 phase=measured queued=100 outstanding=100 peak=100 pre_release_effects=[0, 0, 0, 0, 0] gate_usec=7333248
+T15 burst: burst=3 phase=measured samples=100 p95_usec=149967 errors=0 final=[2, 16, 16, 50, 50] outstanding=0
+T15 gate: burst=4 phase=measured queued=100 outstanding=100 peak=100 pre_release_effects=[0, 0, 0, 0, 0] gate_usec=7575914
+T15 burst: burst=4 phase=measured samples=100 p95_usec=149934 errors=0 final=[2, 16, 16, 50, 50] outstanding=0
+T15 gate: burst=5 phase=measured queued=100 outstanding=100 peak=100 pre_release_effects=[0, 0, 0, 0, 0] gate_usec=7806852
+T15 burst: burst=5 phase=measured samples=100 p95_usec=153215 errors=0 final=[2, 16, 16, 50, 50] outstanding=0
+T15 gate: burst=6 phase=measured queued=100 outstanding=100 peak=100 pre_release_effects=[0, 0, 0, 0, 0] gate_usec=8041377
+T15 burst: burst=6 phase=measured samples=100 p95_usec=154645 errors=0 final=[2, 16, 16, 50, 50] outstanding=0
+T15 gate: burst=7 phase=measured queued=100 outstanding=100 peak=100 pre_release_effects=[0, 0, 0, 0, 0] gate_usec=8320431
+T15 burst: burst=7 phase=measured samples=100 p95_usec=148487 errors=0 final=[2, 16, 16, 50, 50] outstanding=0
+T15 gate: burst=8 phase=measured queued=100 outstanding=100 peak=100 pre_release_effects=[0, 0, 0, 0, 0] gate_usec=8594373
+T15 burst: burst=8 phase=measured samples=100 p95_usec=149839 errors=0 final=[2, 16, 16, 50, 50] outstanding=0
+T15 gate: burst=9 phase=measured queued=100 outstanding=100 peak=100 pre_release_effects=[0, 0, 0, 0, 0] gate_usec=8841554
+T15 burst: burst=9 phase=measured samples=100 p95_usec=151479 errors=0 final=[2, 16, 16, 50, 50] outstanding=0
+T15 gate: burst=10 phase=measured queued=100 outstanding=100 peak=100 pre_release_effects=[0, 0, 0, 0, 0] gate_usec=9090114
+T15 burst: burst=10 phase=measured samples=100 p95_usec=150851 errors=0 final=[2, 16, 16, 50, 50] outstanding=0
+T15 aggregate: samples=1000 p95_usec=150024 target_usec=3000000 errors=0

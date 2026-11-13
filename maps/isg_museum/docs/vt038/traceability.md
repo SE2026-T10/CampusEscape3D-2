@@ -1,0 +1,18 @@
+# Traceability — VT-038
+
+Risk coverage theo hành vi, không có số đo line/branch. Baseline `c9bf5d63080c86b67f9581b4bc15bb515b180816`; [commit code/test/harness a61014093896](https://github.com/SE2026-T10/CampusEscape3D-2/commit/a61014093896bb78da42941d04c50e0ed0525479) trên [nhánh nộp](https://github.com/SE2026-T10/CampusEscape3D-2/tree/bt3/23001903-vt038-idempotency). Cột Commit/PR dưới đây trỏ đến commit triển khai và test. Raw logs ở `evidence/` được đóng gói cùng tài liệu trong commit kế tiếp; PDF cuối ghim evidence theo SHA chứa đầy đủ hồ sơ đã được xác minh trên remote. `S` = `maps/isg_museum/tests/storage_submission_tests.gd`; `V` = `maps/isg_museum/tools/verify_storage.gd`.
+
+| AC / risk | Test ID / quyết định | File | Commit/PR | Kết quả / evidence |
+|---|---|---|---|---|
+| AC-01 / R1–R2: mã hợp lệ, side effect và output đúng | T02 ba ID sai độc lập; T05 mã đúng; T01 oracle sai lần đầu được thực thi trong T02/T03 | S | [a61014093896][code] | GREEN `green.*`, lặp `flaky-trials-final.*`; mutation bắt field sai tại assertion receipt đầu của T02/T03. |
+| AC-02 / R1–R2: replay cùng ID giữ kết quả và không gây tác động | T03 sai thường; T04 sai gây báo động rồi có yêu cầu mới; T05 replay sau mở khóa; T10 đổi ngày; T12 sửa bản sao | S | [a61014093896][code] | T03 RED `red.*` (legacy, side effect); GREEN `green.*` (keyed, cả receipt); T04/T05/T10/T12 pass. |
+| AC-03 / R1–R2: conflict, input và scope | T06 cùng ID khác mã; T07a–g input sai; T11 actor/scope sai và instance mới; T05 ID mới sau unlock | S | [a61014093896][code] | GREEN `green.*` và `flaky-trials-final.*`. |
+| AC-04 / R1,R4: retry sau từ chối, gọi lồng | T08 vị trí xa → vào gần, khác payload vẫn conflict; T09 pending/conflict/busy và legacy gọi lồng | S | [a61014093896][code] | GREEN `green.*` và `flaky-trials-final.*`. |
+| AC-05 / R2–R3: tương thích keypad và lifecycle | T11 đóng/mở panel, hai instance; T13 được kiểm tra qua verifier production scene cho mã thiếu, ba xác nhận, mở cửa và restart | S, V | [a61014093896][code] | GREEN; `storage-regression.*` 34/34, `room-feedback.*` 30/30. Không chạy replay từ UI. |
+| NFR-02 / R3: thời gian và thứ tự/shared state | T14: lịch giả chuyển ngày/năm, 15 trials gốc/đảo/shuffle; fixture riêng | S + `run_storage_submission_tests.gd` | [a61014093896][code] | 15/15, 75 fixtures, log đủ seed/order; không khẳng định hết flaky. |
+| NFR-01 / R5: 100 in-flight và p95 ≤ 3,0 s | T15: chốt 100 coroutine, 50 yêu cầu mới + 50 retry, oracle receipt và counters thật | `maps/isg_museum/tools/benchmark_storage_submission.gd` | [a61014093896][code] | `load-t15-final.*` và CSV: peak 100, 1.000 mẫu, p95 0,150024 s, không lỗi, 50 tác động mỗi burst. Phạm vi in-process. |
+| NFR-03: tương thích layout/runner | layout, compile, regression, integrated | `tools/ci/check_layout.py`, `tests/test_scene.gd`, `tests/test_scene.tscn` | [a61014093896][code] | Layout 795 tham chiếu, compile 343 script và full integrated Windows với `APPDATA` riêng exit 0 (`All tests passed`). [Command/exit](evidence/integrated-writable.json), [môi trường](evidence/integrated-writable.environment.json), [stdout](evidence/integrated-writable.stdout.log), [stderr](evidence/integrated-writable.stderr.log). Run giai đoạn 5 exit 1 do hai assertion lưu HUD tái hiện trên baseline trong môi trường cũ. CI Linux/WSL chưa chạy. |
+
+[code]: https://github.com/SE2026-T10/CampusEscape3D-2/commit/a61014093896bb78da42941d04c50e0ed0525479
+
+Phạm vi coverage không bao gồm crash/restart toàn tiến trình, network, multiplayer, line/branch hoặc UI tự gửi retry. Mutation chỉ kiểm tra một mapping được đề bài yêu cầu.

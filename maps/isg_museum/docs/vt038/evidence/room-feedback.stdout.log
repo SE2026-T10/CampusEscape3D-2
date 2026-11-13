@@ -1,0 +1,33 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: Calendar puts 7 November 2026 in the Saturday column
+PASS: Calendar and lock share one zero-padded DDMM code
+PASS: February day count follows leap-year rules for 2024
+PASS: February day count follows leap-year rules for 2025
+PASS: February day count follows leap-year rules for 2000
+PASS: February day count follows leap-year rules for 2100
+PASS: E opens the graphical month calendar
+PASS: Portrait calendar fits inside viewport
+PASS: Midnight updates wall calendar, reading sheet and lock together
+PASS: Yesterday's code no longer unlocks the closed door
+PASS: Today's code unlocks the door
+PASS: Already-solved door retains access after date rollover
+PASS: Unlocked door closes and reopens after midnight without entering code again
+PASS: Book replaced by key rack label
+PASS: Requested cart, board and maintenance date are removed
+PASS: Cabinet back sits against interior face of south wall
+PASS: Bench beside N0 removed
+PASS: B-to-restoration door and navigation link removed
+PASS: Full-height wall occupies former B shortcut
+PASS: Seated knees extend forward toward desk
+PASS: Calves point vertically down from knees
+PASS: Seated shoes rest on floor
+PASS: Debug description matches sleeping phase
+PASS: Standing restores original proportions and hides seated leg pieces
+PASS: Artwork sits within two centimetres of wall: Interactables/Painting_T1
+PASS: Artwork sits within two centimetres of wall: Interactables/Painting_T2
+PASS: Artwork sits within two centimetres of wall: Interactables/Painting_T3
+PASS: Artwork sits within two centimetres of wall: NavigationRegion3D/ExhibitsExpansion/A2
+PASS: Artwork sits within two centimetres of wall: NavigationRegion3D/ExhibitsExpansion/B2
+PASS: Artwork sits within two centimetres of wall: NavigationRegion3D/ExhibitsExpansion/C2
+Room feedback verification: 30 checks, 0 failures
