@@ -140,11 +140,17 @@ func _confirm() -> void:
 	if digits.length() != 4:
 		message.text = "Cần nhập đủ 4 số"
 		return
-	var alarms: int = door.alarm_count
-	if door.submit_code(digits,actor):
+	var target := door
+	var receipt: Dictionary = target.submit_code_request(target.get_instance_id(), target.next_keypad_request_id(), digits, actor)
+	if not visible or door != target:
+		return
+	if receipt.status == &"UNLOCKED":
 		close_panel()
 		return
-	message.text = "Cảnh báo! Sai mã ba lần" if door.alarm_count > alarms else "Sai mã · thử lại"
+	if receipt.status == &"WRONG_CODE":
+		message.text = "Cảnh báo! Sai mã ba lần" if receipt.alarm_triggered else "Sai mã · thử lại"
+	else:
+		message.text = "Chưa thể gửi mã · thử lại"
 	digits = ""
 	_update_display()
 
