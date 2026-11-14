@@ -1,0 +1,50 @@
+test_TC01_drop_then_undo_restores_exact_state (test_undo_contract_v1.ContractV1.test_TC01_drop_then_undo_restores_exact_state) ... ERROR
+test_TC02_drop_whole_stack_then_undo (test_undo_contract_v1.ContractV1.test_TC02_drop_whole_stack_then_undo) ... ERROR
+test_TC03_empty_name_rejected_state_unchanged (test_undo_contract_v1.ContractV1.test_TC03_empty_name_rejected_state_unchanged) ... FAIL
+test_TC09_min_qty_one_accepted (test_undo_contract_v1.ContractV1.test_TC09_min_qty_one_accepted) ... ok
+test_TC11_undo_with_empty_history (test_undo_contract_v1.ContractV1.test_TC11_undo_with_empty_history) ... ERROR
+
+======================================================================
+ERROR: test_TC01_drop_then_undo_restores_exact_state (test_undo_contract_v1.ContractV1.test_TC01_drop_then_undo_restores_exact_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/claude/vt037/tests/test_undo_contract_v1.py", line 17, in test_TC01_drop_then_undo_restores_exact_state
+    self.assertEqual(m.undo(), before)
+                     ^^^^^^^^
+  File "/home/claude/vt037/src/campus/undo.py", line 24, in undo
+    raise NotImplementedError("undo not implemented")
+NotImplementedError: undo not implemented
+
+======================================================================
+ERROR: test_TC02_drop_whole_stack_then_undo (test_undo_contract_v1.ContractV1.test_TC02_drop_whole_stack_then_undo)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/claude/vt037/tests/test_undo_contract_v1.py", line 23, in test_TC02_drop_whole_stack_then_undo
+    self.assertEqual(m.undo(), before)
+                     ^^^^^^^^
+  File "/home/claude/vt037/src/campus/undo.py", line 24, in undo
+    raise NotImplementedError("undo not implemented")
+NotImplementedError: undo not implemented
+
+======================================================================
+ERROR: test_TC11_undo_with_empty_history (test_undo_contract_v1.ContractV1.test_TC11_undo_with_empty_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/claude/vt037/tests/test_undo_contract_v1.py", line 38, in test_TC11_undo_with_empty_history
+    m.undo()
+  File "/home/claude/vt037/src/campus/undo.py", line 24, in undo
+    raise NotImplementedError("undo not implemented")
+NotImplementedError: undo not implemented
+
+======================================================================
+FAIL: test_TC03_empty_name_rejected_state_unchanged (test_undo_contract_v1.ContractV1.test_TC03_empty_name_rejected_state_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/claude/vt037/tests/test_undo_contract_v1.py", line 27, in test_TC03_empty_name_rejected_state_unchanged
+    with self.assertRaises(ValidationError):
+AssertionError: ValidationError not raised
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+FAILED (failures=1, errors=3)
