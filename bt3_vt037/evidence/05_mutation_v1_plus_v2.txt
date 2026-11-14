@@ -1,0 +1,6 @@
+original code with test*.py: PASS
+M1 undo swallows restore error, returns current data           KILLED    test_TC12_restore_failure_is_reported_not_swallowed
+M2 drop swallows over-drop error, returns current data         KILLED    test_TC07_qty_exceeds_owned,test_TC15_random_sequence_keeps_invariants_and_fully_undoes
+M3 qty validation swallows error, defaults qty=1               KILLED    test_TC05_qty_zero,test_TC06_qty_negative,test_TC08_qty_wrong_type,test_TC08b_qty_above_max
+M4 name validation swallows error, defaults name               KILLED    test_TC04b_blank_name_must_not_alias_another_item
+mutation score: 4/4
