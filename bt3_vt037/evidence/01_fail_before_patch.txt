@@ -1,23 +1,48 @@
-test_TC01_drop_then_undo_restores_exact_state (test_undo_contract_v1.ContractV1) ... ok
-test_TC02_drop_whole_stack_then_undo (test_undo_contract_v1.ContractV1) ... ok
-test_TC03_empty_name_rejected_state_unchanged (test_undo_contract_v1.ContractV1) ... ok
+test_TC01_drop_then_undo_restores_exact_state (test_undo_contract_v1.ContractV1) ... ERROR
+test_TC02_drop_whole_stack_then_undo (test_undo_contract_v1.ContractV1) ... ERROR
+test_TC03_empty_name_rejected_state_unchanged (test_undo_contract_v1.ContractV1) ... FAIL
 test_TC09_min_qty_one_accepted (test_undo_contract_v1.ContractV1) ... ok
-test_TC11_undo_with_empty_history (test_undo_contract_v1.ContractV1) ... ok
-test_TC12_restore_failure_is_reported_not_swallowed (test_undo_contract_v2.FailurePath) ... ok
-test_TC14_history_is_bounded (test_undo_contract_v2.HistoryAndInvariants) ... ok
-test_TC15_random_sequence_keeps_invariants_and_fully_undoes (test_undo_contract_v2.HistoryAndInvariants) ... ok
-test_TC16_concurrent_drops_and_undos_are_atomic (test_undo_contract_v2.HistoryAndInvariants) ... ok
-test_TC04_blank_or_none_name (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
-test_TC04b_blank_name_must_not_alias_another_item (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
-test_TC05_qty_zero (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
-test_TC06_qty_negative (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
-test_TC07_qty_exceeds_owned (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
-test_TC08_qty_wrong_type (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
-test_TC08b_qty_above_max (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
-test_TC09b_max_qty_accepted (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
-test_TC10_name_length_boundary (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
+test_TC11_undo_with_empty_history (test_undo_contract_v1.ContractV1) ... ERROR
+
+======================================================================
+ERROR: test_TC01_drop_then_undo_restores_exact_state (test_undo_contract_v1.ContractV1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\red_tmp\bt3_vt037\tests\test_undo_contract_v1.py", line 17, in test_TC01_drop_then_undo_restores_exact_state
+    self.assertEqual(m.undo(), before)
+  File "E:\red_tmp\bt3_vt037\src\campus\undo.py", line 24, in undo
+    raise NotImplementedError("undo not implemented")
+NotImplementedError: undo not implemented
+
+======================================================================
+ERROR: test_TC02_drop_whole_stack_then_undo (test_undo_contract_v1.ContractV1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\red_tmp\bt3_vt037\tests\test_undo_contract_v1.py", line 23, in test_TC02_drop_whole_stack_then_undo
+    self.assertEqual(m.undo(), before)
+  File "E:\red_tmp\bt3_vt037\src\campus\undo.py", line 24, in undo
+    raise NotImplementedError("undo not implemented")
+NotImplementedError: undo not implemented
+
+======================================================================
+ERROR: test_TC11_undo_with_empty_history (test_undo_contract_v1.ContractV1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\red_tmp\bt3_vt037\tests\test_undo_contract_v1.py", line 38, in test_TC11_undo_with_empty_history
+    m.undo()
+  File "E:\red_tmp\bt3_vt037\src\campus\undo.py", line 24, in undo
+    raise NotImplementedError("undo not implemented")
+NotImplementedError: undo not implemented
+
+======================================================================
+FAIL: test_TC03_empty_name_rejected_state_unchanged (test_undo_contract_v1.ContractV1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\red_tmp\bt3_vt037\tests\test_undo_contract_v1.py", line 27, in test_TC03_empty_name_rejected_state_unchanged
+    with self.assertRaises(ValidationError):
+AssertionError: ValidationError not raised
 
 ----------------------------------------------------------------------
-Ran 18 tests in 0.006s
+Ran 5 tests in 0.001s
 
-OK
+FAILED (failures=1, errors=3)
