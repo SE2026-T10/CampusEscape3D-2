@@ -1,0 +1,4 @@
+[order] 200 random-order runs, failures: 0
+[parallel] 100 runs in 8 threads, failures: 0
+[thread test] TC16 repeated 300x, failures: 0
+[static] time/sleep/network/unseeded random in tests: False
