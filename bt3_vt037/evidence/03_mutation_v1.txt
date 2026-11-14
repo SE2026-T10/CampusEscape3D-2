@@ -1,0 +1,6 @@
+original code with test_undo_contract_v1.py: PASS
+M1 undo swallows restore error, returns current data           SURVIVED  
+M2 drop swallows over-drop error, returns current data         SURVIVED  
+M3 qty validation swallows error, defaults qty=1               SURVIVED  
+M4 name validation swallows error, defaults name               SURVIVED  
+mutation score: 0/4
