@@ -1,0 +1,10 @@
+test_TC01_drop_then_undo_restores_exact_state (test_undo_contract_v1.ContractV1.test_TC01_drop_then_undo_restores_exact_state) ... ok
+test_TC02_drop_whole_stack_then_undo (test_undo_contract_v1.ContractV1.test_TC02_drop_whole_stack_then_undo) ... ok
+test_TC03_empty_name_rejected_state_unchanged (test_undo_contract_v1.ContractV1.test_TC03_empty_name_rejected_state_unchanged) ... ok
+test_TC09_min_qty_one_accepted (test_undo_contract_v1.ContractV1.test_TC09_min_qty_one_accepted) ... ok
+test_TC11_undo_with_empty_history (test_undo_contract_v1.ContractV1.test_TC11_undo_with_empty_history) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+OK
