@@ -1,4 +1,4 @@
 A: per-player manager, 20-60ms/op
-  n=200 errors=0 p50=0.080s p95=0.105s p99=0.108s max=0.111s  -> p95 <= 5.0s: PASS
+  n=200 errors=0 p50=0.095s p95=0.123s p99=0.124s max=0.138s  -> p95 <= 5.0s: PASS
 B: single shared manager, 15ms/op (lock held during I/O)
-  n=200 errors=0 p50=4.399s p95=5.928s p99=6.049s max=6.080s  -> p95 > 5.0s: FAIL
+  n=200 errors=0 p50=5.101s p95=9.030s p99=9.305s max=9.337s  -> p95 > 5.0s: FAIL

@@ -1,23 +1,23 @@
-test_TC01_drop_then_undo_restores_exact_state (test_undo_contract_v1.ContractV1.test_TC01_drop_then_undo_restores_exact_state) ... ok
-test_TC02_drop_whole_stack_then_undo (test_undo_contract_v1.ContractV1.test_TC02_drop_whole_stack_then_undo) ... ok
-test_TC03_empty_name_rejected_state_unchanged (test_undo_contract_v1.ContractV1.test_TC03_empty_name_rejected_state_unchanged) ... ok
-test_TC09_min_qty_one_accepted (test_undo_contract_v1.ContractV1.test_TC09_min_qty_one_accepted) ... ok
-test_TC11_undo_with_empty_history (test_undo_contract_v1.ContractV1.test_TC11_undo_with_empty_history) ... ok
-test_TC12_restore_failure_is_reported_not_swallowed (test_undo_contract_v2.FailurePath.test_TC12_restore_failure_is_reported_not_swallowed) ... ok
-test_TC14_history_is_bounded (test_undo_contract_v2.HistoryAndInvariants.test_TC14_history_is_bounded) ... ok
-test_TC15_random_sequence_keeps_invariants_and_fully_undoes (test_undo_contract_v2.HistoryAndInvariants.test_TC15_random_sequence_keeps_invariants_and_fully_undoes) ... ok
-test_TC16_concurrent_drops_and_undos_are_atomic (test_undo_contract_v2.HistoryAndInvariants.test_TC16_concurrent_drops_and_undos_are_atomic) ... ok
-test_TC04_blank_or_none_name (test_undo_contract_v2.RejectedDropKeepsStateAndHistory.test_TC04_blank_or_none_name) ... ok
-test_TC04b_blank_name_must_not_alias_another_item (test_undo_contract_v2.RejectedDropKeepsStateAndHistory.test_TC04b_blank_name_must_not_alias_another_item) ... ok
-test_TC05_qty_zero (test_undo_contract_v2.RejectedDropKeepsStateAndHistory.test_TC05_qty_zero) ... ok
-test_TC06_qty_negative (test_undo_contract_v2.RejectedDropKeepsStateAndHistory.test_TC06_qty_negative) ... ok
-test_TC07_qty_exceeds_owned (test_undo_contract_v2.RejectedDropKeepsStateAndHistory.test_TC07_qty_exceeds_owned) ... ok
-test_TC08_qty_wrong_type (test_undo_contract_v2.RejectedDropKeepsStateAndHistory.test_TC08_qty_wrong_type) ... ok
-test_TC08b_qty_above_max (test_undo_contract_v2.RejectedDropKeepsStateAndHistory.test_TC08b_qty_above_max) ... ok
-test_TC09b_max_qty_accepted (test_undo_contract_v2.RejectedDropKeepsStateAndHistory.test_TC09b_max_qty_accepted) ... ok
-test_TC10_name_length_boundary (test_undo_contract_v2.RejectedDropKeepsStateAndHistory.test_TC10_name_length_boundary) ... ok
+test_TC01_drop_then_undo_restores_exact_state (test_undo_contract_v1.ContractV1) ... ok
+test_TC02_drop_whole_stack_then_undo (test_undo_contract_v1.ContractV1) ... ok
+test_TC03_empty_name_rejected_state_unchanged (test_undo_contract_v1.ContractV1) ... ok
+test_TC09_min_qty_one_accepted (test_undo_contract_v1.ContractV1) ... ok
+test_TC11_undo_with_empty_history (test_undo_contract_v1.ContractV1) ... ok
+test_TC12_restore_failure_is_reported_not_swallowed (test_undo_contract_v2.FailurePath) ... ok
+test_TC14_history_is_bounded (test_undo_contract_v2.HistoryAndInvariants) ... ok
+test_TC15_random_sequence_keeps_invariants_and_fully_undoes (test_undo_contract_v2.HistoryAndInvariants) ... ok
+test_TC16_concurrent_drops_and_undos_are_atomic (test_undo_contract_v2.HistoryAndInvariants) ... ok
+test_TC04_blank_or_none_name (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
+test_TC04b_blank_name_must_not_alias_another_item (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
+test_TC05_qty_zero (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
+test_TC06_qty_negative (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
+test_TC07_qty_exceeds_owned (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
+test_TC08_qty_wrong_type (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
+test_TC08b_qty_above_max (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
+test_TC09b_max_qty_accepted (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
+test_TC10_name_length_boundary (test_undo_contract_v2.RejectedDropKeepsStateAndHistory) ... ok
 
 ----------------------------------------------------------------------
-Ran 18 tests in 0.009s
+Ran 18 tests in 0.010s
 
 OK
