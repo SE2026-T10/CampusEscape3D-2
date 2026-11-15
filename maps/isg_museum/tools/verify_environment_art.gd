@@ -9,6 +9,9 @@ const TreeLod := preload("res://maps/isg_museum/tools/prepare_tree_lod.gd")
 func collision_signature(scene: Node3D) -> String:
 	var rows: Array[String] = []
 	for node in scene.find_children("*","Node3D",true,false):
+		var path := str(scene.get_path_to(node))
+		if path.split("/").size() > 1 and path.split("/")[0] == "FrontYard" and path.split("/")[1] in ["Planter7","Planter8","Planter9","Planter10"]:
+			continue # Exactly the four requested exterior bodies, including shapes.
 		if not node is CollisionObject3D and not node is CollisionShape3D:
 			continue
 		var row := str(scene.get_path_to(node))+str(node.get_class())+str(Art.new().relative_transform(scene,node))
@@ -23,6 +26,41 @@ func collision_signature(scene: Node3D) -> String:
 func _run() -> void:
 	var builder := Art.new()
 	var layout := builder.load_layout()
+	var saved_geometry := load(Art.BASE+"scenes/museum_geometry.tscn").instantiate() as Node3D
+	var arcade := saved_geometry.get_node("EnvironmentArt/Arcade")
+	var foliage_valid := true
+	var foliage_count := 0
+	for leaves in saved_geometry.get_node("EnvironmentArt").get_children():
+		if not str(leaves.name).begins_with("HedgeLeaves_"):
+			continue
+		foliage_count += 1
+		var bounds: AABB = leaves.transform*leaves.get_aabb()
+		foliage_valid = foliage_valid and bounds.end.y <= 1.201
+		for column in arcade.get_children():
+			if str(column.name).begins_with("Column") and not column is StaticBody3D:
+				var column_bounds: AABB = column.transform*builder.compute_visual_bounds(column)
+				foliage_valid = foliage_valid and not bounds.intersects(column_bounds.grow(.035))
+	check(foliage_valid and foliage_count >= 16,"Dense hedge segments stay below 1.2m and outside transformed column exclusions")
+	var offsets_valid := true
+	var wood_count := 0
+	var paints: Array = saved_geometry.get_node("WallFinishes").get_children()
+	for node in saved_geometry.get_node("EnvironmentArt").get_children():
+		if node is MeshInstance3D and node.mesh is QuadMesh:
+			paints.append(node)
+	for panel in saved_geometry.get_node("EnvironmentArt/InteriorFinishes").get_children():
+		if not str(panel.name).begins_with("Wainscot") or absf(panel.position.y) > .01:
+			continue
+		for wood in panel.get_children():
+			wood_count += 1
+			var separation := INF
+			for paint in paints:
+				if wood.rotation.is_equal_approx(paint.rotation):
+					var delta: Vector3 = wood.position-paint.position
+					delta.y = 0
+					separation = minf(separation,delta.length())
+			offsets_valid = offsets_valid and separation >= .015 and separation <= .021
+	check(offsets_valid and wood_count > 10,"Every upper gallery wood face is separated from its matching paint by 15-21mm")
+	saved_geometry.free()
 	var column := load(Art.BASE+"scenes/art/modules/gothic_column.tscn").instantiate() as Node3D
 	check(column.get_node("VisualPivot").get_child(0).material_override == Art.COURTYARD_STONE,
 		"Prepared Gothic module keeps the shared textured cream stone preset")
@@ -58,7 +96,9 @@ func _run() -> void:
 		check(once == Apply.signature(scene),"Second art pass preserves nodes, resources and colliders: "+id)
 		if id == "museum_geometry":
 			var baseline := load(Art.BASE+"docs/environment-art-v1_1/before-source/museum_geometry.tscn").instantiate() as Node3D
-			check(collision_signature(baseline) == collision_signature(scene),"All collision shapes/transforms/layers match v1; no navigation rebake needed")
+			check(collision_signature(baseline) == collision_signature(scene),"Collision matches v1 excluding exactly FrontYard/Planter7..10; nav rebaked")
+			check(builder.validate_arcade_joints(scene.get_node("EnvironmentArt/Arcade")).is_empty(),"Saved transformed arcade spring points join actual capitals")
+			check(not scene.has_node("FrontYard/Planter7") and not scene.has_node("FrontYard/Planter8") and not scene.has_node("FrontYard/Planter9") and not scene.has_node("FrontYard/Planter10"),"Exactly four exterior planter bodies removed")
 			baseline.free()
 			var light := scene.get_node("EnvironmentArt/CourtyardLight_NW") as OmniLight3D
 			check(is_equal_approx(light.light_energy,layout.lighting.courtyard.energy) and is_equal_approx(light.omni_range,layout.lighting.courtyard.range),
@@ -106,6 +146,9 @@ func _run() -> void:
 	var player := level.get_node("Player") as FirstPersonPlayer
 	player.set_physics_process(false)
 	var geometry := level.get_node("NavigationRegion3D/Geometry")
+	for x in [6.0,11.0,25.0,30.0]:
+		var ground := ray(Vector3(x,2,34),Vector3(x,-1,34))
+		check(not ground.is_empty() and ground.position.y < .05,"Former front planter is flush walkable grass: "+str(x))
 	for batch in geometry.get_node("EnvironmentArt/Arcade").get_children():
 		if batch is MeshInstance3D and batch.get_meta("art_batch",false):
 			var bounds: AABB = batch.transform*batch.get_aabb()

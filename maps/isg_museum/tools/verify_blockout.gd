@@ -147,6 +147,10 @@ func _run() -> void:
 		rad_to_deg(player.floor_max_angle), rad_to_deg(guards[0].floor_max_angle), navigation.agent_max_slope])
 	for stair_name in ["StairA", "StairB"]:
 		for flight_name in ["LowerRamp", "UpperRamp"]:
+			var steps := level.get_node("NavigationRegion3D/Geometry/%s/%sSteps" % [stair_name,flight_name]) as MeshInstance3D
+			check(steps.visible and steps.get_meta("stair_step_count") == 15 and not steps.get_parent().get_node(flight_name+"/Mesh").visible,
+				"Fifteen visible steps replace ramp visual: "+stair_name+flight_name)
+			check(steps.find_children("*","CollisionShape3D",true,false).is_empty(),"Decorative steps have no collision: "+stair_name+flight_name)
 			var ramp := level.get_node("NavigationRegion3D/Geometry/%s/%s" % [stair_name,flight_name]) as StaticBody3D
 			var angle := ramp.global_basis.y.angle_to(Vector3.UP)
 			check(angle < player.floor_max_angle and angle < guards[0].floor_max_angle

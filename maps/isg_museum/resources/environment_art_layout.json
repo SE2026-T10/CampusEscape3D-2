@@ -120,7 +120,7 @@
 				1.2,
 				0.7
 			],
-			"yaw": 90,
+			"yaw": -90,
 			"hide": [
 				"StaffInterior/ChairSeat",
 				"StaffInterior/ChairBack"
@@ -202,7 +202,7 @@
 				2.2,
 				0.65
 			],
-			"yaw": 0,
+			"yaw": 180,
 			"hide": [
 				"StorageInterior/SteelCabinet/Mesh",
 				"StorageInterior/CabinetDoor",
@@ -440,12 +440,22 @@
 		"preserve_aspect": true,
 		"hedge_spacing": 0.65,
 		"hedge_core_height": 0.3,
-		"hedge_foliage_height": 0.32,
-		"hedge_foliage_depth": 0.62,
+		"hedge_foliage_height": 0.3,
+		"hedge_foliage_depth": 0.36,
 		"prop_budgets": {
 			"shrub_04": 2400,
 			"potted_plant_01": 10000,
 			"terpsichore": 28000
 		}
+	},
+	"visual_feedback": {
+		"stair_steps": 15,
+		"paint_offset": 0.002,
+		"wood_offset": 0.02,
+		"arch_rise": 1.25,
+		"arch_thickness": 0.14,
+		"arch_depth": 0.39,
+		"arch_segments": 24,
+		"foliage_clearance": 0.04
 	}
 }

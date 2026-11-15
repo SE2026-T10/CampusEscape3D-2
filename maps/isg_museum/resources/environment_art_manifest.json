@@ -51,19 +51,14 @@
 			}
 		},
 		"architecture/gothic_architectural_structures/gothic_architectural_structures.glb": {
-			"instances": 80,
-			"selected_triangles_total": 105200,
+			"instances": 40,
+			"selected_triangles_total": 92160,
 			"source_metadata": "res://maps/isg_museum/assets/models/architecture/gothic_architectural_structures/source.json",
 			"variants": {
 				"2304:architecture/gothic_architectural_structures/gothic_architectural_structures.glb": {
 					"instances": 40,
 					"runtime_source": "res://maps/isg_museum/assets/models/architecture/gothic_architectural_structures/gothic_architectural_structures.glb",
 					"triangles": 2304
-				},
-				"326:architecture/gothic_architectural_structures/gothic_architectural_structures.glb": {
-					"instances": 40,
-					"runtime_source": "res://maps/isg_museum/assets/models/architecture/gothic_architectural_structures/gothic_architectural_structures.glb",
-					"triangles": 326
 				}
 			}
 		},
@@ -296,12 +291,12 @@
 			}
 		},
 		"vegetation/fern_02/fern_02_2k.gltf": {
-			"instances": 8,
-			"selected_triangles_total": 49856,
+			"instances": 4,
+			"selected_triangles_total": 24928,
 			"source_metadata": "res://maps/isg_museum/assets/models/vegetation/fern_02/source.json",
 			"variants": {
 				"6232:vegetation/fern_02/fern_02_2k.gltf": {
-					"instances": 8,
+					"instances": 4,
 					"runtime_source": "res://maps/isg_museum/assets/models/vegetation/fern_02/fern_02_2k.gltf",
 					"triangles": 6232
 				}
@@ -316,18 +311,6 @@
 					"instances": 3,
 					"runtime_source": "res://maps/isg_museum/assets/models/derived/potted_plant_01.scn",
 					"triangles": 10636
-				}
-			}
-		},
-		"vegetation/shrub_04/shrub_04_2k.gltf": {
-			"instances": 64,
-			"selected_triangles_total": 146368,
-			"source_metadata": "res://maps/isg_museum/assets/models/vegetation/shrub_04/source.json",
-			"variants": {
-				"2287:derived/shrub_04.scn": {
-					"instances": 64,
-					"runtime_source": "res://maps/isg_museum/assets/models/derived/shrub_04.scn",
-					"triangles": 2287
 				}
 			}
 		},

@@ -638,11 +638,11 @@ E: XEM / LƯU"
 font_size = 44
 outline_size = 3
 
-[node name="EnvironmentArt" type="Node3D" parent="WallMap" unique_id=1141403911]
+[node name="EnvironmentArt" type="Node3D" parent="WallMap" unique_id=861545247]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="MapFrame" type="Node3D" parent="WallMap/EnvironmentArt" unique_id=494357832]
+[node name="MapFrame" type="Node3D" parent="WallMap/EnvironmentArt" unique_id=1651702059]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0)
 metadata/preserve_source_material = true
 metadata/source = "frames/hanging_picture_frame_01/hanging_picture_frame_01_2k.gltf"
@@ -650,10 +650,10 @@ metadata/fit_scale = Vector3(3.8720539, 1.783591, 6.3494825)
 metadata/fit_anchor = Vector3(0, -0.42049998, 0.007979965)
 metadata/fit_reference_bounds = AABB(-0.297, -0.42049998, 0.00010530756, 0.594, 0.84099996, 0.015749315)
 
-[node name="VisualPivot" type="Node3D" parent="WallMap/EnvironmentArt/MapFrame" unique_id=12061469]
+[node name="VisualPivot" type="Node3D" parent="WallMap/EnvironmentArt/MapFrame" unique_id=36893233]
 transform = Transform3D(3.8720539, 0, 0, 0, 1.783591, 0, 0, 0, 6.3494825, 0, 0.75, -0.050668646)
 
-[node name="hanging_picture_frame_01" type="MeshInstance3D" parent="WallMap/EnvironmentArt/MapFrame/VisualPivot" unique_id=95392838]
+[node name="hanging_picture_frame_01" type="MeshInstance3D" parent="WallMap/EnvironmentArt/MapFrame/VisualPivot" unique_id=1268932987]
 mesh = SubResource("ArrayMesh_slg5l")
 
 [node name="TicketGate_A" type="Area3D" parent="." unique_id=3426111]
@@ -728,11 +728,11 @@ outline_size = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.82, 1.4, -0.24)
 mesh = SubResource("BoxMesh_l7l04")
 
-[node name="EnvironmentArt" type="Node3D" parent="." unique_id=1995384447]
+[node name="EnvironmentArt" type="Node3D" parent="." unique_id=1397009572]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Chair" type="Node3D" parent="EnvironmentArt" unique_id=905784119]
+[node name="Chair" type="Node3D" parent="EnvironmentArt" unique_id=805337711]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.05, 0, 27)
 metadata/preserve_source_material = true
 metadata/source = "furniture/dining_chair_02/dining_chair_02_2k.gltf"
@@ -740,13 +740,13 @@ metadata/fit_scale = Vector3(1.214392, 1.2328205, 1.6144998)
 metadata/fit_anchor = Vector3(-0.042813748, 0.001285091, 0)
 metadata/fit_reference_bounds = AABB(-0.3310238, 0.001285091, -0.2167854, 0.5764201, 0.9733777, 0.4335708)
 
-[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/Chair" unique_id=486726353]
+[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/Chair" unique_id=774622385]
 transform = Transform3D(-5.3082758e-08, 0, 1.214392, 0, 1.2328205, 0, -1.6144998, 0, -7.057203e-08, 0.05199267, -0.0015842866, 0)
 
-[node name="dining_chair_02" type="MeshInstance3D" parent="EnvironmentArt/Chair/VisualPivot" unique_id=1915128728]
+[node name="dining_chair_02" type="MeshInstance3D" parent="EnvironmentArt/Chair/VisualPivot" unique_id=1843763487]
 mesh = SubResource("ArrayMesh_6ussv")
 
-[node name="ServicePlant" type="Node3D" parent="EnvironmentArt" unique_id=1242520426]
+[node name="ServicePlant" type="Node3D" parent="EnvironmentArt" unique_id=633055958]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.9, 0, 29)
 metadata/preserve_source_material = true
 metadata/source = "vegetation/potted_plant_01/potted_plant_01_2k.gltf"
@@ -754,23 +754,23 @@ metadata/fit_scale = Vector3(1.2051855, 1.2051855, 1.2051855)
 metadata/fit_anchor = Vector3(-0.044674367, 0, -0.04689637)
 metadata/fit_reference_bounds = AABB(-0.33836794, 0, -0.36367878, 0.58738714, 1.3275964, 0.63356483)
 
-[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/ServicePlant" unique_id=733566887]
+[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/ServicePlant" unique_id=1994301205]
 transform = Transform3D(1.2051855, 0, 0, 0, 1.2051855, 0, 0, 0, 1.2051855, 0.0538409, 0, 0.056518823)
 
-[node name="potted_plant_01_stem" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=1155839301]
+[node name="potted_plant_01_stem" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=1735206935]
 mesh = SubResource("ArrayMesh_1mktl")
 
-[node name="potted_plant_01_pebbles" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=1029007497]
+[node name="potted_plant_01_pebbles" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=700676653]
 transform = Transform3D(1.0021868, 0, 0, 0, 1.0021868, 0, 0, 0, 1.0021868, 0, -0.013706686, 0)
 mesh = SubResource("ArrayMesh_3kkt1")
 
-[node name="potted_plant_01_pot" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=1195826735]
+[node name="potted_plant_01_pot" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=970158864]
 mesh = SubResource("ArrayMesh_kmn2i")
 
-[node name="potted_plant_01_leaves" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=1536897942]
+[node name="potted_plant_01_leaves" type="MeshInstance3D" parent="EnvironmentArt/ServicePlant/VisualPivot" unique_id=150651588]
 mesh = SubResource("ArrayMesh_p26qs")
 
-[node name="CeilingLamp" type="Node3D" parent="EnvironmentArt" unique_id=733148459]
+[node name="CeilingLamp" type="Node3D" parent="EnvironmentArt" unique_id=1202886323]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 3.8, 27)
 metadata/preserve_source_material = true
 metadata/source = "lighting/modern_ceiling_lamp_01/modern_ceiling_lamp_01_2k.gltf"
@@ -778,8 +778,8 @@ metadata/fit_scale = Vector3(1.8533564, 0.36782035, 1.8533072)
 metadata/fit_anchor = Vector3(2.8252602e-05, 0.22109216, 0.0015027374)
 metadata/fit_reference_bounds = AABB(-0.21579641, 0.22109216, -0.21432765, 0.43164933, 0.9515515, 0.43166077)
 
-[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/CeilingLamp" unique_id=1971613578]
+[node name="VisualPivot" type="Node3D" parent="EnvironmentArt/CeilingLamp" unique_id=1679751326]
 transform = Transform3D(1.8533564, 0, 0, 0, 0.36782035, 0, 0, 0, 1.8533072, -5.236214e-05, -0.0813222, -0.002785034)
 
-[node name="modern_ceiling_lamp_01" type="MeshInstance3D" parent="EnvironmentArt/CeilingLamp/VisualPivot" unique_id=398988554]
+[node name="modern_ceiling_lamp_01" type="MeshInstance3D" parent="EnvironmentArt/CeilingLamp/VisualPivot" unique_id=481739584]
 mesh = SubResource("ArrayMesh_t5puh")

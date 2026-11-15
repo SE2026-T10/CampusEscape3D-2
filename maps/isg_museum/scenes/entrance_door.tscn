@@ -59,49 +59,49 @@ mesh = SubResource("Mesh_panel")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Panel" unique_id=1599157835]
 shape = SubResource("Shape_panel")
 
-[node name="EnvironmentArt" type="Node3D" parent="Panel" unique_id=1698207240]
+[node name="EnvironmentArt" type="Node3D" parent="Panel" unique_id=926867379]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Inset0" type="Node3D" parent="Panel/EnvironmentArt" unique_id=1570012379]
+[node name="Inset0" type="Node3D" parent="Panel/EnvironmentArt" unique_id=219814560]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.616, -0.145)
 
-[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Inset0" unique_id=1839345194]
+[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Inset0" unique_id=1412613021]
 material_override = SubResource("StandardMaterial3D_0m4ks")
 mesh = SubResource("BoxMesh_p12tk")
 
-[node name="Inset1" type="Node3D" parent="Panel/EnvironmentArt" unique_id=90015431]
+[node name="Inset1" type="Node3D" parent="Panel/EnvironmentArt" unique_id=1449246184]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.616, 0.145)
 
-[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Inset1" unique_id=211272996]
+[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Inset1" unique_id=1256436330]
 material_override = SubResource("StandardMaterial3D_0m4ks")
 mesh = SubResource("BoxMesh_venh5")
 
-[node name="Inset2" type="Node3D" parent="Panel/EnvironmentArt" unique_id=39798573]
+[node name="Inset2" type="Node3D" parent="Panel/EnvironmentArt" unique_id=1001952137]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.616, -0.145)
 
-[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Inset2" unique_id=1277611511]
+[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Inset2" unique_id=1816445331]
 material_override = SubResource("StandardMaterial3D_0m4ks")
 mesh = SubResource("BoxMesh_e4rtm")
 
-[node name="Inset3" type="Node3D" parent="Panel/EnvironmentArt" unique_id=1237164313]
+[node name="Inset3" type="Node3D" parent="Panel/EnvironmentArt" unique_id=1231033122]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.616, 0.145)
 
-[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Inset3" unique_id=376655659]
+[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Inset3" unique_id=748508668]
 material_override = SubResource("StandardMaterial3D_0m4ks")
 mesh = SubResource("BoxMesh_dlwqi")
 
-[node name="Handle4" type="Node3D" parent="Panel/EnvironmentArt" unique_id=1382346989]
+[node name="Handle4" type="Node3D" parent="Panel/EnvironmentArt" unique_id=558307202]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.64, 0, -0.17)
 
-[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Handle4" unique_id=1048940513]
+[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Handle4" unique_id=1396192866]
 material_override = SubResource("StandardMaterial3D_nustx")
 mesh = SubResource("BoxMesh_2q1ut")
 
-[node name="Handle5" type="Node3D" parent="Panel/EnvironmentArt" unique_id=913292503]
+[node name="Handle5" type="Node3D" parent="Panel/EnvironmentArt" unique_id=1767688492]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.64, 0, 0.17)
 
-[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Handle5" unique_id=390674897]
+[node name="Mesh" type="MeshInstance3D" parent="Panel/EnvironmentArt/Handle5" unique_id=467959]
 material_override = SubResource("StandardMaterial3D_nustx")
 mesh = SubResource("BoxMesh_p1g5e")
 

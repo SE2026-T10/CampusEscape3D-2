@@ -23,6 +23,8 @@ static func apply_geometry(scene: Node3D) -> void:
 	for stairs in ["StairA", "StairB"]:
 		for part in ["LowerRamp", "UpperRamp", "MidLanding"]:
 			_set_material(scene, stairs + "/" + part + "/Mesh", MARBLE)
+		for part in ["LowerRampSteps", "UpperRampSteps"]:
+			_apply_tree(scene.get_node(stairs+"/"+part), MARBLE)
 		for part in ["UpperLandingRail", "SlopeRail0", "SlopeRail1"]:
 			_set_material(scene, stairs + "/" + part + "/Mesh", STEEL)
 	for body in scene.get_node("Cover").get_children():
@@ -129,6 +131,7 @@ static func _floor(parent: Node3D, node_name: String, bounds: Rect2, y: float, m
 
 static func _wall_finishes(scene: Node3D) -> void:
 	var finishes := _replace_group(scene, "WallFinishes")
+	var offset: float = JSON.parse_string(FileAccess.get_file_as_string("res://maps/isg_museum/resources/environment_art_layout.json")).visual_feedback.paint_offset
 	# Only the room-facing upper-storey surfaces receive the gallery colours.
 	# Shared walls and the ground floor retain their cream finish.
 	for group in ["Exterior", "Floor2Rooms"]:
@@ -137,12 +140,12 @@ static func _wall_finishes(scene: Node3D) -> void:
 			if mesh == null or not mesh.mesh is BoxMesh:
 				continue
 			var bounds := AABB(body.position - mesh.mesh.size / 2.0, mesh.mesh.size)
-			_room_wall_faces(finishes, str(body.name), bounds, Rect2(0.15, 6.15, 8.7, 17.7), SAGE)
-			_room_wall_faces(finishes, str(body.name), bounds, Rect2(0.15, 0.15, 26.7, 5.7), BURGUNDY)
+			_room_wall_faces(finishes, str(body.name), bounds, Rect2(0.15, 6.15, 8.7, 17.7), SAGE, offset)
+			_room_wall_faces(finishes, str(body.name), bounds, Rect2(0.15, 0.15, 26.7, 5.7), BURGUNDY, offset)
 
 
 static func _room_wall_faces(parent: Node3D, prefix: String, wall: AABB,
-		room: Rect2, mat: Material) -> void:
+		room: Rect2, mat: Material, offset := 0.002) -> void:
 	var bottom := maxf(4.5, wall.position.y)
 	var top := minf(9.0, wall.end.y)
 	if top <= bottom:
@@ -155,17 +158,17 @@ static func _room_wall_faces(parent: Node3D, prefix: String, wall: AABB,
 	if z1 > z0:
 		if is_equal_approx(wall.end.x, room.position.x):
 			_wall_face(parent, prefix, Vector2(z1-z0, top-bottom),
-				Vector3(wall.end.x+0.002, mid_y, (z0+z1)/2), PI/2, mat)
+				Vector3(wall.end.x+offset, mid_y, (z0+z1)/2), PI/2, mat)
 		if is_equal_approx(wall.position.x, room.end.x):
 			_wall_face(parent, prefix, Vector2(z1-z0, top-bottom),
-				Vector3(wall.position.x-0.002, mid_y, (z0+z1)/2), -PI/2, mat)
+				Vector3(wall.position.x-offset, mid_y, (z0+z1)/2), -PI/2, mat)
 	if x1 > x0:
 		if is_equal_approx(wall.end.z, room.position.y):
 			_wall_face(parent, prefix, Vector2(x1-x0, top-bottom),
-				Vector3((x0+x1)/2, mid_y, wall.end.z+0.002), 0, mat)
+				Vector3((x0+x1)/2, mid_y, wall.end.z+offset), 0, mat)
 		if is_equal_approx(wall.position.z, room.end.y):
 			_wall_face(parent, prefix, Vector2(x1-x0, top-bottom),
-				Vector3((x0+x1)/2, mid_y, wall.position.z-0.002), PI, mat)
+				Vector3((x0+x1)/2, mid_y, wall.position.z-offset), PI, mat)
 
 
 static func _wall_face(parent: Node3D, prefix: String, size: Vector2,

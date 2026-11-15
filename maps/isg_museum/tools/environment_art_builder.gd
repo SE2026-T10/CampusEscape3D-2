@@ -23,6 +23,8 @@ func load_layout() -> Dictionary:
 	for entry in data.geometry_props:
 		assert(entry.id is String and entry.position.size() == 3 and entry.size.size() == 3)
 		assert(ResourceLoader.exists(MODELS + entry.source), "Missing art source: " + entry.source)
+	assert(data.visual_feedback.stair_steps == 15 and data.visual_feedback.wood_offset-data.visual_feedback.paint_offset >= .015)
+	assert(data.vegetation.hedge_foliage_depth <= .4 and data.vegetation.hedge_foliage_height <= .3)
 	assert(data.quality.shadows is bool and data.quality.tree_near_triangle_budget > 0)
 	assert(data.quality.tree_lods.size() == 3 and data.courtyard.tree.preserve_aspect)
 	var previous_end := 0.0
@@ -218,10 +220,6 @@ func apply_to_geometry(scene: Node3D, layout: Dictionary) -> void:
 		place(props, entry.id, entry.source, vec(entry.size), vec(entry.position), entry.yaw)
 		for path in entry.get("hide", []):
 			hide_legacy(scene, path)
-	for planter in scene.get_node("FrontYard").get_children():
-		if str(planter.name).begins_with("Planter"):
-			place(props,"FrontFern%d" % props.get_child_count(),"vegetation/fern_02/fern_02_2k.gltf",
-				Vector3(1.25,.8,1.25),planter.position+Vector3(0,.4,0))
 	# Keep original solid desk cover and locker/key anchors; only visuals change.
 	for i in 2:
 		var id := "WestNorth0" if i == 0 else "WestSouth0"
@@ -246,7 +244,7 @@ func apply_to_geometry(scene: Node3D, layout: Dictionary) -> void:
 			var mesh := body.get_node_or_null("Mesh") as MeshInstance3D
 			if mesh and mesh.mesh is BoxMesh:
 				palette._room_wall_faces(art, str(body.name), AABB(body.position-mesh.mesh.size/2, mesh.mesh.size),
-					Rect2(27.15,6.15,8.7,11.7), colour(Color(.27,.34,.36)))
+					Rect2(27.15,6.15,8.7,11.7), colour(Color(.27,.34,.36)),layout.visual_feedback.paint_offset)
 	batch_visuals(art.get_node("Arcade"))
 	batch_visuals(art.get_node("Balustrades"))
 	var finishes := group(art,"InteriorFinishes")
@@ -269,7 +267,7 @@ func apply_to_geometry(scene: Node3D, layout: Dictionary) -> void:
 					clipped.position.y = 4.5
 					clipped.size.y = .85
 					var panel := group(finishes,"Wainscot%d" % finishes.get_child_count())
-					palette._room_wall_faces(panel,str(body.name),clipped,room,wood)
+					palette._room_wall_faces(panel,str(body.name),clipped,room,wood,layout.visual_feedback.wood_offset)
 					panel.position.y = base-4.5
 
 func batch_visuals(parent: Node3D) -> void:
@@ -309,6 +307,95 @@ func batch_visuals(parent: Node3D) -> void:
 		batch.material_override = members[0].material_override
 		batch.set_meta("art_batch",true)
 		add(parent,batch,"Batch%d" % parent.get_child_count())
+
+func build_pointed_arch(width: float, config: Dictionary) -> Node3D:
+	var root := Node3D.new()
+	var path: Array[Vector3] = []
+	var n: int = config.arch_segments
+	for i in n+1:
+		var t := float(i)/n
+		var half := t*2 if t <= .5 else (1-t)*2
+		var x := -width/2+width/2*half*half
+		if t > .5:
+			x = -x
+		path.append(Vector3(x,config.arch_rise*(.65*half+.35*half*half),0))
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for i in n:
+		var a := path[i]
+		var b := path[i+1]
+		# Closed voussoir ribbon, with an exact shared apex and spring points.
+		var corners: Array[Vector3] = []
+		for p in [a,b]:
+			for offset in [Vector3(0,0,-config.arch_depth/2),Vector3(0,config.arch_thickness,-config.arch_depth/2),
+				Vector3(0,config.arch_thickness,config.arch_depth/2),Vector3(0,0,config.arch_depth/2)]:
+				corners.append(p+offset)
+		for j in 4:
+			for index in [j,(j+1)%4,4+(j+1)%4,j,4+(j+1)%4,4+j]:
+				surface.add_vertex(corners[index])
+	surface.generate_normals()
+	var mesh := MeshInstance3D.new()
+	mesh.mesh = surface.commit()
+	mesh.material_override = COURTYARD_STONE
+	add(root,mesh,"Ribbon")
+	for side in [-1,1]:
+		var joint := Marker3D.new()
+		add(root,joint,"Left" if side < 0 else "Right")
+		joint.position.x = side*width/2
+	return root
+
+func validate_arcade_joints(root: Node3D, tolerance := .005) -> Array[String]:
+	var errors: Array[String] = []
+	for arch in root.get_children():
+		if not str(arch.name).begins_with("Arch"):
+			continue
+		for id in ["Left","Right"]:
+			var at := relative_transform(root,arch.get_node(id)).origin
+			var joined := false
+			for column in root.get_children():
+				if str(column.name).begins_with("Column") and not column is StaticBody3D:
+					joined = joined or at.distance_to(column.position+Vector3.UP*3.05) <= tolerance
+			if not joined:
+				errors.append(str(arch.name)+"/"+id)
+	return errors
+
+func build_hedge_segments(at: Vector3, size: Vector3, arcade: Node3D, clearance: float) -> Array:
+	var along_x := size.x > size.z
+	var length := maxf(size.x,size.z)
+	var origin := at.x if along_x else at.z
+	var intervals: Array = [Vector2(origin-length/2,origin+length/2)]
+	for column in arcade.get_children():
+		if not str(column.name).begins_with("Column") or column is StaticBody3D or column.position.y > .1:
+			continue
+		var cross_distance := absf(column.position.z-at.z) if along_x else absf(column.position.x-at.x)
+		if cross_distance > .3:
+			continue
+		var bounds: AABB = column.transform*compute_visual_bounds(column)
+		var cut := Vector2(bounds.position.x-clearance,bounds.end.x+clearance) if along_x else Vector2(bounds.position.z-clearance,bounds.end.z+clearance)
+		var next: Array = []
+		for interval: Vector2 in intervals:
+			if cut.y <= interval.x or cut.x >= interval.y:
+				next.append(interval)
+			else:
+				if cut.x > interval.x:
+					next.append(Vector2(interval.x,cut.x))
+				if cut.y < interval.y:
+					next.append(Vector2(cut.y,interval.y))
+		intervals = next
+	var result: Array = []
+	for interval: Vector2 in intervals:
+		if interval.y-interval.x < .1:
+			continue
+		var p := at
+		var s := size
+		if along_x:
+			p.x = (interval.x+interval.y)/2
+			s.x = interval.y-interval.x
+		else:
+			p.z = (interval.x+interval.y)/2
+			s.z = interval.y-interval.x
+		result.append({"position":p,"size":s})
+	return result
 
 func build_courtyard(scene: Node3D, art: Node3D, config: Dictionary, layout: Dictionary) -> void:
 	var stone: Material = COURTYARD_STONE
@@ -358,14 +445,14 @@ func build_courtyard(scene: Node3D, art: Node3D, config: Dictionary, layout: Dic
 				foot.position.y = .1
 				add(body,foot,"Foot")
 			for pair in [[.0,2.5],[2.5,4.72],[4.72,7.28],[7.28,9.5],[9.5,12.0]]:
-				var mid: float = (pair[0]+pair[1])/2
-				var p := Vector3(12+mid,base_y+3.05,9 if side == 0 else 21)
-				var size := Vector3(pair[1]-pair[0],1.4,.39)
+				var width: float = pair[1]-pair[0]
+				var arch := build_pointed_arch(width,layout.visual_feedback)
+				add(arcade,arch,"Arch%d" % arcade.get_child_count())
+				assign_owners(arch,art.owner)
+				arch.position = Vector3(12+(pair[0]+pair[1])/2,base_y+3.05,9 if side == 0 else 21)
 				if side >= 2:
-					p = Vector3(12 if side == 2 else 24,base_y+3.05,9+mid)
-					size = Vector3(.39,1.4,pair[1]-pair[0])
-				place(arcade,"Arch%d" % arcade.get_child_count(),gothic,size,p,
-					90 if side < 2 else 0,["Object_5"],stone)
+					arch.position = Vector3(12 if side == 2 else 24,base_y+3.05,9+(pair[0]+pair[1])/2)
+					arch.rotation.y = PI/2
 	# Existing cover colliders remain exactly 1.3 x 1.2 x 1.3 m.
 	for index in config.statues.size():
 		var at := vec(config.statues[index])
@@ -387,19 +474,8 @@ func build_courtyard(scene: Node3D, art: Node3D, config: Dictionary, layout: Dic
 			var core := box(art,"HedgeCore"+id,Vector3(size.x,.3,size.z),child.position+Vector3(0,.45,0),leaves)
 			core.hide() # Collision remains in Ground*; visible leafy shell replaces cube.
 			core.set_meta("art_hidden",true)
-			build_hedge_shell(art,child.position,size,id,layout.vegetation)
-			var length := maxf(size.x,size.z)
-			var spacing: float = layout.vegetation.hedge_spacing
-			for i in int(ceil(length/spacing)):
-				var p: Vector3 = child.position + Vector3(0,.3,0)
-				if size.x > size.z:
-					p.x += -length/2+spacing/2+i*spacing
-					p.z += .09 if p.z < 15 else -.09
-				else:
-					p.z += -length/2+spacing/2+i*spacing
-					p.x += .09 if p.x < 18 else -.09
-				place(art,"Shrub%d" % art.get_child_count(),"vegetation/shrub_04/shrub_04_2k.gltf",
-					Vector3(.6,.3,.48) if size.x > size.z else Vector3(.48,.3,.6),p)
+			for segment in build_hedge_segments(child.position,size,arcade,layout.visual_feedback.foliage_clearance):
+				build_hedge_shell(art,segment.position,segment.size,id+"_%d" % art.get_child_count(),layout.vegetation)
 		elif id.begins_with("UpperRail"):
 			# Replace solid wall with real bars and spindles. Rays pass the visible gaps.
 			child.get_node("Mesh").hide()
@@ -491,6 +567,7 @@ func build_hedge_shell(parent: Node3D, at: Vector3, size: Vector3, id: String, c
 	var along_x := size.x > size.z
 	var length := maxf(size.x,size.z)
 	var depth: float = config.hedge_foliage_depth
+	var height: float = config.hedge_foliage_height
 	var inward := 1.0 if (at.z < 15 if along_x else at.x < 18) else -1.0
 	var center := at+Vector3(0,.3,0)
 	if along_x:
@@ -515,6 +592,7 @@ func build_hedge_shell(parent: Node3D, at: Vector3, size: Vector3, id: String, c
 				# Sample the green interior of the source leaf for the recessed fill.
 				surface.set_uv(Vector2(.17,.21)+Vector2(float(corner.x)*.02,float(corner.y)*.03))
 				surface.set_color(Color(.25,.42,.2))
+				point.y *= height/.3
 				surface.add_vertex(center+point)
 	# Dense individual folded leaves cover the top and both visible vertical faces.
 	for i in steps:
@@ -539,6 +617,9 @@ func build_hedge_shell(parent: Node3D, at: Vector3, size: Vector3, id: String, c
 						point = Vector3(point.z,point.y,point.x)
 					surface.set_uv(Vector2(.17,.215)+Vector2(uv.x*.059,uv.y*.105))
 					surface.set_color(Color(.52,.72,.4).darkened(.025*((i+j)%5)))
+					point.z = clampf(point.z,-depth/2,depth/2) if along_x else point.z
+					point.x = point.x if along_x else clampf(point.x,-depth/2,depth/2)
+					point.y *= height/.3
 					surface.add_vertex(center+point)
 	surface.generate_normals()
 	var visual := MeshInstance3D.new()
