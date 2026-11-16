@@ -46,15 +46,17 @@ func _run() -> void:
 	guard.go_to_sleep()
 	var presentation := guard.get_node("Presentation")
 	presentation._process(0)
-	var knee: Node3D = presentation._shins[0]
-	check((knee.global_position-guard.global_position).dot(-guard.global_basis.z) > .35,"Seated knees extend forward toward desk")
-	check(knee.global_basis.y.dot(Vector3.UP) > .99,"Calves point vertically down from knees")
-	var shoe: MeshInstance3D = knee.get_child(1)
-	check(absf(shoe.global_position.y-.04) < .01,"Seated shoes rest on floor")
+	presentation._anim.advance(0)
+	var knee: Vector3 = presentation.bone_position("LeftLeg")
+	var foot: Vector3 = presentation.bone_position("LeftFoot")
+	check((knee-guard.global_position).dot(Vector3.LEFT) > .2,"Skeletal seated knees extend toward the fixed desk/chair direction")
+	check((knee-foot).normalized().dot(Vector3.UP) > .85,"Skeletal calves point down from knees")
+	check(foot.y > -.03 and foot.y < .22,"Skeletal seated feet stay near the floor")
 	check(guard.get_debug_text().contains("sleeping") and not guard.get_debug_text().contains("returning to chair"),"Debug description matches sleeping phase")
 	guard.set_phase(&"searching")
 	presentation._process(0)
-	check(not knee.visible and is_equal_approx(guard.get_node("Model/Hips").position.y,.9),"Standing restores original proportions and hides seated leg pieces")
+	presentation._anim.advance(3)
+	check(presentation.bone_position("Hips").y > .8 and not guard.has_node("Model/Hips"),"Standing restores skeletal hip height without obsolete seated leg pieces")
 	var paintings := [
 		["Interactables/Painting_T1",0,.15,1.0],
 		["Interactables/Painting_T2",0,35.85,-1.0],

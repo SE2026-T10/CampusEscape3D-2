@@ -13,9 +13,4 @@ func _process(delta: float) -> void:
 	var watching: bool = ui != null and ui.cooldown_left > 0 and player != null \
 		and player.global_position.distance_to(npc.global_position) < 5.0
 	get_node("Receptionist/WatchNotice").visible = watching
-	var head := get_node("Receptionist/Head") as Node3D
-	var target_angle := 0.0
-	if watching:
-		var direction := player.global_position-npc.global_position
-		target_angle = atan2(direction.z,-direction.x)
-	head.rotation.y = lerp_angle(head.rotation.y,target_angle,delta*4)
+	npc.get_node("Presentation").set_watching(player,watching)

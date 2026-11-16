@@ -112,7 +112,8 @@ func _run() -> void:
 	check(guard.phase == &"sleeping" and guard.is_seated(),"G3 starts asleep and seated")
 	check(not guard.vision.is_physics_processing() and not guard._cone.visible,"Sleeping guard has no active sight or visible cone")
 	await frames(20)
-	check(guard.get_node("Model/Hips").position.y < 0.7,"Guard model actually uses a seated pose")
+	var seated_hips: Vector3 = guard.get_node("Presentation").bone_position("Hips")-guard.global_position
+	check(seated_hips.y > .4 and seated_hips.y < .75,"Skinned guard hips actually use the chair-height seated pose")
 	player.position = Vector3(33.3,0,12.2)
 	await frames(200)
 	check(guard.phase == &"sleeping" and not guard.vision.can_see_target,"Player in front of sleeping G3 is not visually detected")

@@ -25,14 +25,14 @@ func _initialize() -> void:
 	form.size = Vector3(0.8,1.9,0.8)
 	shape.shape = form
 	add(scene,shape,"Interaction")
-	cube("Body",Vector3(0,.08,0),Vector3(.55,.65,.35),Color(.14,.42,.47))
-	cube("Head",Vector3(0,.68,0),Vector3(.32,.36,.3),Color(.73,.55,.37))
-	for x in [-.065,.065]:
-		cube("Eye%d"%scene.get_child_count(),Vector3(x,.71,.16),Vector3(.035,.04,.02),Color(.07,.1,.12))
-	for x in [-.17,.17]:
-		cube("Leg%d"%scene.get_child_count(),Vector3(x,-.58,0),Vector3(.22,.7,.26),Color(.12,.17,.22))
-	for x in [-.38,.38]:
-		cube("Arm%d"%scene.get_child_count(),Vector3(x,-.03,0),Vector3(.18,.62,.24),Color(.14,.42,.47))
+	var visual := preload("res://maps/isg_museum/scenes/npc/museum_npc_visual.tscn").instantiate()
+	add(scene,visual,"Visual")
+	visual.position.y = -1
+	visual.rotation.y = PI
+	var presentation := Node.new()
+	presentation.set_script(load("res://maps/isg_museum/scripts/museum_npc_presentation.gd"))
+	presentation.set("role","teammate")
+	add(scene,presentation,"Presentation")
 	var label := Label3D.new()
 	label.text = "N0 · ĐỒNG ĐỘI\nE: NHẬN HỢP ĐỒNG"
 	label.pixel_size = .002

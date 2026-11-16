@@ -1,0 +1,17 @@
+[
+	{
+		"position": "(7.46338, 0.000205, 28.21117)",
+		"stair": "A",
+		"up_and_down": true
+	},
+	{
+		"position": "(28.54467, 0.000521, 4.209619)",
+		"stair": "B",
+		"up_and_down": true
+	},
+	{
+		"g6_reported": true,
+		"g6_sees_frame": true,
+		"missing": true
+	}
+]

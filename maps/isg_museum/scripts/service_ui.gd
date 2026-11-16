@@ -1,5 +1,9 @@
 extends CanvasLayer
 
+signal conversation_started(source: Node3D)
+signal conversation_ended(source: Node3D)
+var _conversation_source: Node3D
+
 var questions: Array[Dictionary] = []
 var saved_map := false
 var question_index := 0
@@ -97,6 +101,12 @@ func _open(next_mode: String, target: Node3D, by: Node3D) -> bool:
 		return false
 	if not visible and by != null and (bool(by.get("modal_active")) or bool(by.get("keypad_active"))):
 		return false
+	# Quiz -> ticket is one session. Preserve modal ownership, mouse restore
+	# mode and the talking clip instead of closing/reopening internally.
+	if visible and is_instance_valid(source) and source==target and actor==by \
+			and mode in ["quiz","ticket"] and next_mode in ["quiz","ticket"]:
+		mode = next_mode
+		return true
 	if visible:
 		close_panel()
 	actor = by
@@ -114,6 +124,7 @@ func _open(next_mode: String, target: Node3D, by: Node3D) -> bool:
 	if reader:
 		reader.close_document()
 	show()
+	_set_conversation_source(target if next_mode in ["quiz","ticket"] else null)
 	return true
 
 
@@ -244,6 +255,7 @@ func save_map() -> void:
 
 
 func close_panel() -> void:
+	_set_conversation_source(null)
 	if not visible:
 		return
 	hide()
@@ -255,6 +267,19 @@ func close_panel() -> void:
 	actor = null
 	source = null
 	mode = ""
+
+func _set_conversation_source(value: Node3D) -> void:
+	if is_instance_valid(_conversation_source) and _conversation_source==value: return
+	if is_instance_valid(_conversation_source):
+		if _conversation_source.has_method("set_conversation_active"): _conversation_source.set_conversation_active(false)
+		conversation_ended.emit(_conversation_source)
+	_conversation_source = value
+	if is_instance_valid(_conversation_source):
+		if _conversation_source.has_method("set_conversation_active"): _conversation_source.set_conversation_active(true)
+		conversation_started.emit(_conversation_source)
+
+func _exit_tree() -> void:
+	_set_conversation_source(null)
 
 
 func _on_flow_changed(_from: int,to: int) -> void:
@@ -271,7 +296,7 @@ func _process(delta: float) -> void:
 		return
 	var flow := GameFlow.find(self)
 	if flow == null or flow.state != GameStateMachine.State.PLAYING or flow.is_leaving() \
-			or not is_instance_valid(actor) or (is_instance_valid(source) and actor.global_position.distance_to(source.global_position) > 3.2):
+			or not is_instance_valid(actor) or (source != null and (not is_instance_valid(source) or actor.global_position.distance_to(source.global_position) > 3.2)):
 		close_panel()
 		return
 	_fit()

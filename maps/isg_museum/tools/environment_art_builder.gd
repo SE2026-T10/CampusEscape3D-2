@@ -764,7 +764,7 @@ func apply_painting(scene: Node3D) -> void:
 
 func apply_to_service(scene: Node3D, _layout: Dictionary) -> void:
 	var art := replace_owned_visual(scene,"EnvironmentArt")
-	place(art,"Chair","furniture/dining_chair_02/dining_chair_02_2k.gltf",Vector3(.7,1.2,.7),Vector3(33.05,0,27),90)
+	place(art,"Chair","furniture/dining_chair_02/dining_chair_02_2k.gltf",Vector3(.7,1.2,.7),Vector3(33.05,0,27),-90)
 	hide_legacy(scene,"ReceptionChair/Visual")
 	hide_legacy(scene,"ChairBack")
 	place(art,"ServicePlant","vegetation/potted_plant_01/potted_plant_01_2k.gltf",Vector3(.8,1.6,.8),Vector3(34.9,0,29))

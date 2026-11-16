@@ -1,6 +1,6 @@
 {
     "schema_version":  1,
-    "updated_on":  "2026-11-11",
+    "updated_on":  "2026-11-16",
     "summary":  {
                     "downloaded_models":  27,
                     "downloaded_images":  1,
@@ -625,5 +625,28 @@
         "report_v1_1": "../docs/environment-art-v1_1/REPORT.md",
         "tree_lod_manifest": "models/derived/tree_lod_manifest.json",
         "source_files_modified": false
+    },
+    "guard_derived_assets": {
+        "rig": "models/characters/low_poly_security_guard/derived/guard_rig.tscn",
+        "animations": "animations/mixamo/derived/guard_animations.res",
+        "manifest": "res://maps/isg_museum/resources/guard_animation_manifest.json",
+        "tool": "res://maps/isg_museum/tools/prepare_guard_assets.gd",
+        "source_attribution": "Low poly security guard by Jose Manuel, CC BY 4.0",
+        "animation_terms": "Adobe Mixamo terms",
+        "bones": 65,
+        "triangles_imported": 4776,
+        "height_m": 1.78
+    },
+    "npc_derived_assets": {
+        "visual": "res://maps/isg_museum/scenes/npc/museum_npc_visual.tscn",
+        "library": "animations/mixamo/derived/npc_animations.res",
+        "rig": "models/characters/low_poly_security_guard/derived/guard_rig.tscn",
+        "manifest": "res://maps/isg_museum/resources/npc_animation_manifest.json",
+        "roles": [
+            "teammate",
+            "receptionist"
+        ],
+        "source_attribution": "Jose Manuel CC BY 4.0; Adobe Mixamo animation terms",
+        "tool": "res://maps/isg_museum/tools/prepare_npc_assets.gd"
     }
 }

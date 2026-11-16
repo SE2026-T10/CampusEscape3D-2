@@ -118,15 +118,16 @@ func _build() -> void:
 	visual(scene,"ChairBack",Vector3(.12,.85,.65),Vector3(33.35,.7,27),wood)
 	var npc := interactive(scene,"Receptionist",Vector3(32.7,1.15,27),Vector3(.9,1.5,.9),"res://maps/isg_museum/scripts/service_npc.gd")
 	npc.set("prompt","Nói chuyện với nhân viên tiếp đón")
-	visual(npc,"Torso",Vector3(.42,.55,.5),Vector3(0,-.2,0),blue)
-	visual(npc,"Head",Vector3(.3,.33,.3),Vector3(0,.24,0),material(Color(.7,.5,.34)))
-	for z in [-.08,.08]:
-		visual(npc.get_node("Head"),"Eye%d"%npc.get_node("Head").get_child_count(),Vector3(.02,.035,.035),Vector3(-.155,.025,z),metal)
+	var model := preload("res://maps/isg_museum/scenes/npc/museum_npc_visual.tscn").instantiate()
+	attach(npc,model,"Visual")
+	model.position = Vector3(.35,-1.15,0)
+	model.rotation.y = PI/2
+	var presentation := Node.new()
+	presentation.set_script(load("res://maps/isg_museum/scripts/museum_npc_presentation.gd"))
+	presentation.set("role","receptionist")
+	attach(npc,presentation,"Presentation")
 	sign_label(npc,"WatchNotice","Đang kiểm tra giấy hẹn...",Vector3(0,.85,0),-PI/2,.0015)
 	npc.get_node("WatchNotice").visible = false
-	for z in [-.18,.18]:
-		visual(npc,"Thigh%d"%npc.get_child_count(),Vector3(.4,.18,.17),Vector3(-.14,-.57,z),metal)
-		visual(npc,"Shin%d"%npc.get_child_count(),Vector3(.15,.43,.17),Vector3(-.3,-.8,z),metal)
 	sign_label(npc,"Name","N1 · TIẾP ĐÓN",Vector3(0,.65,0),-PI/2,.0018)
 	document("EventPoster",Vector3(22,1.7,29.72),PI,"Áp phích sự kiện",
 		"BẢO TÀNG · ĐÊM DI SẢN\n\nKhách có giấy hẹn vui lòng tới phòng dịch vụ để nhận vé tham quan tầng 2.\n\nMang theo thông tin người phụ trách và giờ hẹn.","ĐÊM DI SẢN\nNhận vé tại phòng dịch vụ")

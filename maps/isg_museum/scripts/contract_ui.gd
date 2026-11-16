@@ -1,5 +1,8 @@
 extends CanvasLayer
 
+signal conversation_started(source: Node3D)
+signal conversation_ended(source: Node3D)
+
 class ArtifactIcon extends Control:
 	var kind := "painting"
 	func _draw() -> void:
@@ -139,15 +142,14 @@ func _button(text: String,action: Callable) -> Button:
 	return button
 
 
-func open_contract(source: Node3D = null) -> void:
+func open_contract(source: Node3D = null) -> bool:
 	var player := get_tree().get_first_node_in_group("player")
 	var flow := GameFlow.find(self)
 	if flow.state != GameStateMachine.State.PLAYING or flow.is_leaving() or player.keypad_active or player.modal_active:
-		return
+		return false
 	var reader := get_tree().get_first_node_in_group("staff_reader")
 	if reader:
 		reader.close_document()
-	_source = source
 	_is_result = false
 	_clear()
 	var contract = _contract()
@@ -178,6 +180,8 @@ func open_contract(source: Node3D = null) -> void:
 			close_sheet())
 	_button("Cất giấy (E / Esc / J)",close_sheet)
 	_open()
+	_set_conversation_source(source)
+	return true
 
 
 func show_result(summary: Dictionary) -> void:
@@ -229,6 +233,7 @@ func _open() -> void:
 
 
 func close_sheet() -> void:
+	_set_conversation_source(null)
 	if not visible:
 		return
 	hide()
@@ -239,6 +244,19 @@ func close_sheet() -> void:
 	if flow and flow.state == GameStateMachine.State.PLAYING and not flow.is_leaving():
 		Input.mouse_mode = _old_mouse
 	_source = null
+
+func _set_conversation_source(value: Node3D) -> void:
+	if is_instance_valid(_source) and _source==value: return
+	if is_instance_valid(_source):
+		if _source.has_method("set_conversation_active"): _source.set_conversation_active(false)
+		conversation_ended.emit(_source)
+	_source = value
+	if is_instance_valid(_source):
+		if _source.has_method("set_conversation_active"): _source.set_conversation_active(true)
+		conversation_started.emit(_source)
+
+func _exit_tree() -> void:
+	_set_conversation_source(null)
 
 
 func _fit() -> void:
@@ -254,7 +272,7 @@ func _process(_delta: float) -> void:
 	_fit()
 	if _is_result:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	elif is_instance_valid(_source) and _source.global_position.distance_to(get_tree().get_first_node_in_group("player").global_position) > 3.5:
+	elif _source != null and (not is_instance_valid(_source) or _source.global_position.distance_to(get_tree().get_first_node_in_group("player").global_position) > 3.5):
 		close_sheet()
 
 

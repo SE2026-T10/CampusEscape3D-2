@@ -49,6 +49,8 @@ const K17TestModeTests := preload("res://maps/intelligence/tests/k17_test_mode_t
 const K17ExpansionTests := preload("res://maps/intelligence/tests/k17_expansion_tests.gd")
 const K17V4Tests := preload("res://maps/intelligence/tests/k17_v4_tests.gd")
 const TestUtils := preload("res://tests/test_utils.gd")
+const MuseumGuardVisualTests := preload("res://maps/isg_museum/tests/guard_visual_tests.gd")
+const MuseumNpcVisualTests := preload("res://maps/isg_museum/tests/npc_visual_tests.gd")
 const MAIN_MENU_SCENE := "res://shared/scenes/ui/main_menu.tscn"
 const LIBRARY_SCENE := "res://maps/tutorial/scenes/library_graybox.tscn"
 const REQUIRED_DIRS := [
@@ -85,6 +87,8 @@ func _ready() -> void:
 	_failures.append_array(await GameFlowTests.new().run(self))
 	_failures.append_array(await LevelDesignTests.new().run(self))
 	_failures.append_array(await PresentationTests.new().run(self))
+	_failures.append_array(await MuseumGuardVisualTests.new().run(self))
+	_failures.append_array(await MuseumNpcVisualTests.new().run(self))
 	_failures.append_array(PerformanceTests.new().run(self))
 	_failures.append_array(await QAPlaythroughTests.new().run(self))
 	_failures.append_array(await QARegressionTests.new().run(self))

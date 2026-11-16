@@ -13,3 +13,6 @@ func can_interact(by: Node) -> bool:
 func _on_interact(by: Node) -> bool:
 	var ui := get_tree().get_first_node_in_group("museum_service_ui")
 	return ui != null and ui.open_quiz(self,by)
+
+func set_conversation_active(active: bool) -> void:
+	$Presentation.set_talking(active)

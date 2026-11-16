@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" path="res://shared/scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://shared/scripts/game/game_flow.gd" id="2_game_flow"]
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/contract_menus.gd" id="3_game_menus"]
-[ext_resource type="PackedScene" path="res://shared/scenes/npc/guard.tscn" id="4_guard"]
+[ext_resource type="PackedScene" path="res://maps/isg_museum/scenes/npc/museum_guard.tscn" id="4_guard"]
 [ext_resource type="NavigationMesh" path="res://maps/isg_museum/resources/museum_navigation.tres" id="5_navigation"]
 [ext_resource type="Script" path="res://maps/isg_museum/scripts/service_expansion.gd" id="6_p3sau"]
 [ext_resource type="Script" path="res://shared/scripts/npc/patrol_route.gd" id="6_route"]
@@ -527,96 +527,30 @@ patrol_route = NodePath("../PatrolRoute_G3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("Capsule_guard")
 
-[node name="Hips" parent="Guard_G3/Model" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 
-[node name="Pelvis" parent="Guard_G3/Model/Hips" index="0"]
-mesh = SubResource("Mesh_pelvis")
 
-[node name="Torso" parent="Guard_G3/Model/Hips" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 
-[node name="Chest" parent="Guard_G3/Model/Hips/Torso" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
-mesh = SubResource("Mesh_torso")
 
-[node name="Belt" parent="Guard_G3/Model/Hips/Torso" index="1"]
-mesh = SubResource("Mesh_belt")
 
-[node name="Badge" parent="Guard_G3/Model/Hips/Torso" index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, 0.38, -0.135)
-mesh = SubResource("Mesh_badge")
 
-[node name="Head" parent="Guard_G3/Model/Hips/Torso" index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52, 0)
 
-[node name="Face" parent="Guard_G3/Model/Hips/Torso/Head" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13, 0)
-mesh = SubResource("Mesh_head")
 
-[node name="EyeL" parent="Guard_G3/Model/Hips/Torso/Head" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.055, 0.15, -0.123)
-mesh = SubResource("Mesh_eye")
 
-[node name="EyeR" parent="Guard_G3/Model/Hips/Torso/Head" index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055, 0.15, -0.123)
-mesh = SubResource("Mesh_eye")
 
-[node name="Hair" parent="Guard_G3/Model/Hips/Torso/Head" index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.1)
-mesh = SubResource("Mesh_hair")
 
-[node name="Cap" parent="Guard_G3/Model/Hips/Torso/Head" index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
-mesh = SubResource("Mesh_cap")
 
-[node name="Brim" parent="Guard_G3/Model/Hips/Torso/Head" index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -0.18)
-mesh = SubResource("Mesh_brim")
 
-[node name="ArmL" parent="Guard_G3/Model/Hips/Torso" index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.29, 0.46, 0)
 
-[node name="Sleeve" parent="Guard_G3/Model/Hips/Torso/ArmL" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
-mesh = SubResource("Mesh_arm")
 
-[node name="Hand" parent="Guard_G3/Model/Hips/Torso/ArmL" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
-mesh = SubResource("Mesh_hand")
 
-[node name="ArmR" parent="Guard_G3/Model/Hips/Torso" index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29, 0.46, 0)
 
-[node name="Sleeve" parent="Guard_G3/Model/Hips/Torso/ArmR" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
-mesh = SubResource("Mesh_arm")
 
-[node name="Hand" parent="Guard_G3/Model/Hips/Torso/ArmR" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
-mesh = SubResource("Mesh_hand")
 
-[node name="LegL" parent="Guard_G3/Model/Hips" index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, -0.05, 0)
 
-[node name="Trouser" parent="Guard_G3/Model/Hips/LegL" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
-mesh = SubResource("Mesh_leg")
 
-[node name="Shoe" parent="Guard_G3/Model/Hips/LegL" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.81, -0.04)
-mesh = SubResource("Mesh_shoe")
 
-[node name="LegR" parent="Guard_G3/Model/Hips" index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, -0.05, 0)
 
-[node name="Trouser" parent="Guard_G3/Model/Hips/LegR" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
-mesh = SubResource("Mesh_leg")
 
-[node name="Shoe" parent="Guard_G3/Model/Hips/LegR" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.81, -0.04)
-mesh = SubResource("Mesh_shoe")
 
 [node name="Vision" parent="Guard_G3" index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)

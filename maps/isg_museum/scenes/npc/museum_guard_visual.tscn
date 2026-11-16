@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://maps/isg_museum/assets/models/characters/low_poly_security_guard/derived/guard_rig.tscn" id="1_j28oc"]
+[ext_resource type="AnimationLibrary" path="res://maps/isg_museum/assets/animations/mixamo/derived/guard_animations.res" id="2_e3ri0"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_02hsu"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_j2j7r"]
+nodes/Clip/node = SubResource("AnimationNodeAnimation_02hsu")
+nodes/Clip/position = Vector2(0, 0)
+node_connections = [&"output", 0, &"Clip"]
+
+[node name="MuseumGuardVisual" type="Node3D" unique_id=1645100823]
+
+[node name="VisualPivot" type="Node3D" parent="." unique_id=1871586501]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="GuardRig" type="Node3D" parent="VisualPivot" unique_id=1324105512 instance=ExtResource("1_j28oc")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2122642470]
+libraries/ = ExtResource("2_e3ri0")
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=508520950]
+active = false
+tree_root = SubResource("AnimationNodeBlendTree_j2j7r")
+anim_player = NodePath("../AnimationPlayer")
