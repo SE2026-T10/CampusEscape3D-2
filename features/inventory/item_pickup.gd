@@ -18,6 +18,11 @@ extends Interactable
 @export var objective_id: StringName = &""
 ## False while it is not there yet (e.g. inside a locked locker; CodeLock reveals it).
 @export var available := true
+## A floating "!" (PickupMarker) over it while it is there to take, as over the clue
+## documents (2026-11-02, on request). Never on a storage shelf (the player put it there).
+@export var show_marker := true
+## Where the "!" floats, from the item's base (in front of a cabinet for one inside it).
+@export var marker_offset := Vector3(0, 0.55, 0)
 
 ## True once taken (a level pickup stays hidden until a checkpoint restores it).
 var taken := false
@@ -41,6 +46,8 @@ func _ready() -> void:
 		shape.shape = box
 		shape.position.y = box.size.y / 2.0
 		add_child(shape)
+	if show_marker and storage == null:
+		add_child(PickupMarker.new(marker_offset))
 	_apply()
 	if objective_id != &"":
 		_connect_manager.call_deferred()
