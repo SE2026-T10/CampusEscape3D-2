@@ -176,14 +176,76 @@ func _check_hud_reads_game() -> void:
 	_expect(Array(_hud.get_listed_ids()) == expected, "The checklist lists the mission, then the visible optional objectives.")
 	_expect(_hud.get_lines()[0] == "[x] Enter the library" and _hud.get_lines().has("[>] Find the tool kit") == false and _hud.get_lines().has("[x] Find the tool kit"), "Checklist marks follow the objectives (%s)." % [_hud.get_lines()])
 	_expect(_hud.get_header_text() == "MISSION %d/8" % _objectives.get_mandatory_ids().filter(func(id): return _objectives.is_completed(id)).size(), "Header counts the mandatory objectives done.")
+	# The mission as a note on paper (2026-11-02): it shows the same as the checklist, the
+	# done objectives ticked and crossed out, the current ones arrowed, the optional ones
+	# under "Optional".
+	await _frames(2)
+	_hud._process(0.0)   # read what the HUD shows now, whatever the pause state
+	var note := _hud.get_layout_controls().objectives as PaperNote
+	_expect(note != null and note.visible, "Expanded Library: the mission is a paper note.")
+	if note:
+		var shown := note.get_shown()
+		_expect(shown.header == _hud.get_header_text() and shown.title == _hud.get_current_text() and shown.hint == _objectives.get_hint(_objectives.current()),
+			"The note's header and current objective are the HUD's (%s / %s)." % [shown.header, shown.title])
+		var want := []
+		var optional_seen := false
+		for id in _hud.get_listed_ids():
+			if _objectives.is_optional(id) and not optional_seen:
+				optional_seen = true
+				want.append(["Optional", -1])
+			var state := _objectives.get_state(id)
+			var mark := PaperNote.Mark.DONE if state == ObjectiveManager.State.COMPLETED else (PaperNote.Mark.CURRENT if state == ObjectiveManager.State.ACTIVE else PaperNote.Mark.TODO)
+			want.append([_objectives.get_title(id), mark])
+		_expect(str(shown.rows) == str(want), "The note's rows follow the objectives: done crossed out, current arrowed (%s)." % [shown.rows])
+		# K folds it into the small folded sheet (the progress on it) and opens it again.
+		var folded := _hud.get_layout_controls().mission_folded as FoldedNote
+		_expect(_hud.mission_open and not folded.visible, "The note starts open.")
+		await _press_key("toggle_mission")
+		_hud._process(0.0)
+		_expect(not _hud.mission_open and not note.visible and folded.visible and folded.progress == _hud.get_header_text().trim_prefix("MISSION "),
+			"K folds the note: the folded sheet shows the progress (%s)." % folded.progress)
+		var view := _hud.get_viewport().get_visible_rect()
+		_expect(view.encloses(folded.get_global_rect()) and not folded.get_global_rect().intersects(_hud.get_layout_controls().status.get_global_rect()),
+			"The folded sheet is on screen, clear of the status panel.")
+		await _press_key("toggle_mission")
+		_hud._process(0.0)
+		_expect(_hud.mission_open and note.visible and not folded.visible, "K again opens the note.")
+		var menus: GameMenus = _level.get_node("GameMenus")
+		_expect(menus.get_controls_text().ends_with(GameMenus.ITEM_CONTROLS + GameMenus.MISSION_CONTROLS), "The pause menu lists K (%s)." % menus.get_controls_text())
 	# Journal: only clues and documents.
 	_level.get_node("Expansion/Gameplay/Documents/PumpRoomLog").interact(_player)
 	await _frames(2)
-	var text := _hud.get_journal_text()
+	# Every page J shows (the clipboard is narrow: the clues may be on the next page).
+	var first := _hud.get_journal_text()
+	var text := first
+	var guard := 0
+	while guard < 12:
+		_hud.next_journal_page()
+		if not _hud.is_journal_open():
+			break
+		text += "\n" + _hud.get_journal_text()
+		guard += 1
+	_hud.open_journal(&"pump_room_log")
+	await _frames(1)
 	_expect(text.contains("CLUES") and text.contains("DOCUMENTS") and text.contains("Pump room log") and not text.contains("MISSION") and not text.contains("[>]"),
 		"The journal shows only clues and documents (%s)." % text.left(160))
+	# The journal on a clipboard (2026-11-02): a portrait page, the sheet holding the text,
+	# the headings in handwriting.
+	var journal := _hud.get_layout_controls().journal as JournalClipboard
+	_hud._process(0.0)
+	_expect(journal != null and journal.visible and _hud._journal_text.get_parent() == journal.sheet, "Expanded Library: the journal is a sheet on a clipboard.")
+	if journal:
+		var jr := journal.get_global_rect()
+		_expect(jr.size.x == JournalClipboard.WIDTH and jr.size.y > jr.size.x, "The clipboard is a page, longer than wide (%s)." % jr.size)
+		_expect(first.contains("Kalam-Bold.ttf") and first.contains("[b]Pump room log[/b]"), "Headings handwritten, the document's title typed.")
+	# The rest of the HUD on paper (2026-11-03): the ways-out index card, the item tags, the
+	# stamina strip; the same texts as before.
+	var card := (_hud.get_layout_controls().status as Control).get_node_or_null("Card")
+	var card_style := (_hud.get_layout_controls().status as PanelContainer).get_theme_stylebox("panel") as StyleBoxFlat
+	_expect(card != null and card_style.bg_color.is_equal_approx(PaperNote.PAPER) and not _hud.get_status_lines().is_empty(), "The ways-out panel is an index card.")
+	_expect(_stealth.paper_style, "The stamina bar is drawn on paper.")
 	_hud.close_journal()
-	print("  [expanded-hud] reads the game: stamina bar, EXHAUSTED + caption while Shift is held after running dry; slots = inventory; checklist = objectives; journal = clues + documents only")
+	print("  [expanded-hud] reads the game: stamina bar, EXHAUSTED + caption while Shift is held after running dry; slots = inventory; checklist = objectives; journal = clues + documents only, on a portrait clipboard")
 
 
 # --- C. Ways out, power, checkpoint ------------------------------------------------------------
@@ -447,7 +509,7 @@ func _check_completion() -> void:
 	var menus: GameMenus = _level.get_node("GameMenus")
 	menus.refresh()
 	var objectives_text := menus.get_objectives_text()
-	_expect(menus.win_panel.visible and menus.get_win_text().begins_with("Time ") and objectives_text == "Mission objectives 8/8 complete · optional 1/3\nOptional: Open the security locker\nEscape route: Loading dock",
+	_expect(menus.win_panel.visible and menus.get_win_text().begins_with("Time ") and objectives_text == "Mission objectives 8/8 complete · optional 1/4\nOptional: Open the security locker\nEscape route: Loading dock",
 		"The completion screen: time, optional objectives by name, the route (%s / %s)." % [menus.get_win_text(), objectives_text])
 	print("  [expanded-hud] completion: '%s' / '%s'" % [menus.get_win_text(), objectives_text.replace("\n", " | ")])
 
@@ -460,6 +522,12 @@ func _check_tutorial() -> void:
 	_expect(_hud.get_inventory() == null and not _hud._slots.visible, "Tutorial: no slots.")
 	_expect(_hud.get_status_lines().is_empty() and not _hud.get_layout_controls().status.visible, "Tutorial: no ways-out / power / checkpoint panel.")
 	_expect(_hud.get_header_text().begins_with("OBJECTIVE ") and _hud.get_lines().size() == _objectives.get_ids().size(), "Tutorial: its checklist as before (%s)." % _hud.get_header_text())
+	_expect(not (_hud.get_layout_controls().objectives is PaperNote), "Tutorial: its dark mission panel, not the Expanded Library's paper note.")
+	_expect(not (_hud.get_layout_controls().journal is JournalClipboard), "Tutorial: its dark journal panel, not the Expanded Library's clipboard.")
+	_expect(not _stealth.paper_style and (_hud.get_layout_controls().status as Control).get_node_or_null("Card") == null, "Tutorial: its dark stamina bar and status panel.")
+	await _press_key("toggle_mission")
+	_hud._process(0.0)
+	_expect(_hud.mission_open and _hud.get_layout_controls().objectives.visible and _hud.get_layout_controls().mission_folded == null, "Tutorial: K does nothing.")
 	_expect(_captions != null, "Tutorial: captions available.")
 	NoiseSystem.find(_level).emit_noise(_player.global_position + Vector3(0, 0, -4), NoiseEvent.Type.INTERACTION, "environment", 0.6, 9.0, -1.0, "Test clunk")
 	await _frames(1)
@@ -606,6 +674,20 @@ func _clear_guard() -> void:
 func _process_frames(count: int) -> void:
 	for i in count:
 		await _host.get_tree().process_frame
+
+
+## Presses and releases an input action as real input events (as the player's keys).
+func _press_key(action: String) -> void:
+	var press := InputEventAction.new()
+	press.action = action
+	press.pressed = true
+	Input.parse_input_event(press)
+	await _process_frames(2)
+	var release := InputEventAction.new()
+	release.action = action
+	release.pressed = false
+	Input.parse_input_event(release)
+	await _process_frames(2)
 
 
 func _frames(count: int) -> void:

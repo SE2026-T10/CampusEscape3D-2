@@ -54,6 +54,10 @@ var _stamina_bar: Control
 ## Expansion Phase 7: the sound captions (SoundCaptions).
 var captions: SoundCaptions
 
+## The paper-note levels (2026-11-03, the Expanded Library): the stamina bar on a strip of
+## paper, drawn in ink (fixes_x32.py turns it on there; the tutorial keeps its bar).
+@export var paper_style := false
+
 
 func _ready() -> void:
 	layer = 5
@@ -154,7 +158,8 @@ func _process(delta: float) -> void:
 	var stamina := get_stamina()
 	_stamina_bar.visible = stamina != null and status < StealthDirector.Status.CAUGHT
 	if _stamina_bar.visible:
-		_stamina_bar.modulate.a = move_toward(_stamina_bar.modulate.a, 0.45 if stamina.get_ratio() >= 1.0 else 1.0, delta * 3.0)
+		var rest := 0.8 if paper_style else 0.45   # a full bar fades (the paper strip less)
+		_stamina_bar.modulate.a = move_toward(_stamina_bar.modulate.a, rest if stamina.get_ratio() >= 1.0 else 1.0, delta * 3.0)
 		_stamina_bar.queue_redraw()
 	var level := get_detection_level()
 	_meter_alpha = move_toward(_meter_alpha, 1.0 if level > 0.0 and status < StealthDirector.Status.CAUGHT else 0.0, delta * 3.0)
@@ -206,6 +211,9 @@ func _draw_stamina() -> void:
 	var stamina := get_stamina()
 	if stamina == null:
 		return
+	if paper_style:
+		_draw_stamina_paper(stamina)
+		return
 	var bar := Rect2(Vector2(0, 16), STAMINA_SIZE)
 	var low := not stamina.can_start_sprint()
 	var colour := COLOUR_STAMINA_LOW if low else COLOUR_STAMINA
@@ -220,6 +228,31 @@ func _draw_stamina() -> void:
 		_stamina_bar.draw_rect(bar.grow(3.0), Color(COLOUR_STAMINA_LOW, 0.35 + 0.35 * sin(Time.get_ticks_msec() / 120.0)), false, 2.0)
 	_stamina_bar.draw_string_outline(font, Vector2(0, 12), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color.BLACK)
 	_stamina_bar.draw_string(font, Vector2(0, 12), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(colour, 0.95))
+
+
+## The stamina bar on a strip of paper: a pencil box, filled with ink hatching (red once it
+## is too low to sprint), the threshold ticked; the label in handwriting.
+func _draw_stamina_paper(stamina: PlayerStamina) -> void:
+	var bar := Rect2(Vector2(0, 17), Vector2(STAMINA_SIZE.x, 9))
+	var low := not stamina.can_start_sprint()
+	var ink := PaperNote.INK_RED if low else PaperNote.INK
+	var c := _stamina_bar
+	c.draw_rect(Rect2(-8, -3, STAMINA_SIZE.x + 16, 34).grow(0.0), Color(0, 0, 0, 0.3))
+	c.draw_rect(Rect2(-10, -5, STAMINA_SIZE.x + 16, 34), PaperNote.PAPER)
+	c.draw_rect(Rect2(-14, -8, 22, 12), PaperNote.TAPE)
+	var filled := bar.size.x * stamina.get_ratio()
+	var x := 0.0
+	while x < filled:
+		var x1 := minf(x + 6.0, filled)
+		c.draw_line(Vector2(bar.position.x + x, bar.end.y), Vector2(bar.position.x + x1, bar.position.y), ink, 1.6, true)
+		x += 3.0
+	c.draw_rect(bar, PaperNote.INK_SOFT, false, 1.5)
+	var mark := bar.position.x + bar.size.x * stamina.min_to_start / stamina.max_stamina
+	c.draw_line(Vector2(mark, bar.position.y - 4), Vector2(mark, bar.end.y + 3), PaperNote.INK_RED, 1.5)
+	if stamina.is_exhausted():
+		c.draw_rect(bar.grow(3.0), Color(PaperNote.INK_RED, 0.35 + 0.35 * sin(Time.get_ticks_msec() / 120.0)), false, 2.0)
+	var text := "Stamina" if not low else ("Exhausted · let go of Shift" if stamina.is_exhausted() else "Stamina · catch your breath")
+	c.draw_string(PaperNote.FONT_BOLD, Vector2(0, 13), text, HORIZONTAL_ALIGNMENT_LEFT, STAMINA_SIZE.x, 14, PaperNote.INK_RED if low else PaperNote.INK)
 
 
 ## One entry per guard that is noticing the player: where it is relative to

@@ -25,7 +25,7 @@ func show_objective_checklist() -> bool:
 
 
 ## Return BBCode for this map's extra status panel, without checkpoint text.
-func get_status_bbcode(_accent: Color, _done: Color, _todo: Color) -> String:
+func get_status_bbcode(_accent: Color, _done: Color, _todo: Color, _plain := Color.WHITE, _warn := Color("ff8a70")) -> String:
 	return "\n".join(get_status_lines())
 
 

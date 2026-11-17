@@ -34,7 +34,16 @@ const COLOUR_GOOD := Color(0.45, 0.95, 0.6)
 ## Seconds a message stays on screen (it fades during the last second).
 const MESSAGE_TIME := 3.5
 
+## The mission panel as a note on paper (PaperNote; the Expanded Library, requested by the
+## owner on 2026-11-02). Off: the dark panel (the tutorial). Only the look changes: the
+## header, the current objective and get_lines() are the same.
+@export var paper_note := false
+
 var _panel: PanelContainer
+var _paper: PaperNote
+## The note folded away (K; the paper note only), and whether the note is open.
+var _folded: FoldedNote
+var mission_open := true
 var _current: Label
 var _hint: Label
 var _list: RichTextLabel
@@ -120,6 +129,20 @@ func _connect_signals() -> void:
 			node.opened.connect(func(): show_message("%s opened" % node.get("door_name"), COLOUR_GOOD))
 
 
+## K: folds the mission note away into a small folded sheet, or opens it again (the paper
+## note only).
+func toggle_mission(open := not mission_open) -> void:
+	if _paper == null or open == mission_open:
+		return
+	mission_open = open
+	var show_note: Control = _panel if open else _folded
+	show_note.scale = Vector2(0.6, 0.6)
+	show_note.modulate.a = 0.0
+	var t := create_tween().set_parallel()
+	t.tween_property(show_note, "scale", Vector2.ONE, 0.16).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t.tween_property(show_note, "modulate:a", 1.0, 0.12)
+
+
 func _process(delta: float) -> void:
 	var objectives := ObjectiveManager.find(self)
 	var finished := objectives != null and objectives.is_finished()
@@ -133,7 +156,10 @@ func _process(delta: float) -> void:
 		_message.modulate.a = clampf(_message_left, 0.0, 1.0)
 		if _message_left <= 0.0:
 			_message.text = ""
-	_panel.visible = not finished
+	_panel.visible = not finished and (mission_open or _paper == null)
+	if _folded:
+		_folded.visible = not finished and not mission_open
+		_folded.set_progress(get_header_text().trim_prefix("MISSION "))
 	_prompt_box.visible = not finished
 	_message.visible = not finished
 	var inventory := get_inventory()
@@ -147,6 +173,10 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _paper and InputMap.has_action("toggle_mission") and event.is_action_pressed("toggle_mission"):
+		toggle_mission()
+		get_viewport().set_input_as_handled()
+		return
 	if InputMap.has_action("journal") and event.is_action_pressed("journal") and get_inventory() != null:
 		if not _journal.visible:
 			open_journal(&"")
@@ -267,6 +297,8 @@ func _journal_page_text(docs: Array, clues: Array, shown: int) -> String:
 		more = "J: more clues"
 	elif _journal_page < docs.size() - 1 and not _journal_from_read:
 		more = "J: next document (%d/%d)" % [_journal_page + 2, docs.size()]
+	if _journal is JournalClipboard:
+		return _journal_clipboard_text(docs, clues, shown, more, rest)
 	var text := "[b]JOURNAL[/b]  [color=#9aa3ad]%s[/color]\n" % more
 	if not _clues_only:
 		text += "\n[color=#ffd36b]DOCUMENTS (%d)[/color]\n" % docs.size()
@@ -285,6 +317,33 @@ func _journal_page_text(docs: Array, clues: Array, shown: int) -> String:
 	return text.strip_edges()
 
 
+## The same page on the clipboard's sheet, the same words in ink: headings handwritten in
+## red, the document typed, the clues handwritten in blue.
+func _journal_clipboard_text(docs: Array, clues: Array, shown: int, more: String, rest: int) -> String:
+	var hand := "res://shared/assets/fonts/kalam/Kalam-Regular.ttf"
+	var hand_bold := "res://shared/assets/fonts/kalam/Kalam-Bold.ttf"
+	var red := PaperNote.INK_RED.to_html(false)
+	var soft := Color(0.45, 0.46, 0.52).to_html(false)
+	var blue := PaperNote.INK.to_html(false)
+	var heading := func(t: String) -> String: return "[font=%s][font_size=18][color=#%s]%s[/color][/font_size][/font]" % [hand_bold, red, t]
+	var text := "%s  [color=#%s]%s[/color]\n" % [heading.call("JOURNAL"), soft, more]
+	if not _clues_only:
+		text += "%s\n" % heading.call("DOCUMENTS (%d)" % docs.size())
+		if docs.is_empty():
+			text += "[color=#%s]None yet. Read notes and notices to collect them here.[/color]\n" % soft
+		else:
+			var d: Dictionary = docs[clampi(_journal_page, 0, docs.size() - 1)]
+			text += "[b]%s[/b]\n%s\n" % [d.title, d.text]
+	if not clues.is_empty() and (shown > 0 or _clues_only):
+		text += "\n%s\n" % heading.call("CLUES (%d)%s" % [clues.size(), ", continued" if _clue_start > 0 else ""])
+		for i in shown:
+			var c: Dictionary = clues[_clue_start + i]
+			text += "[font_size=16][color=#%s][font=%s]· %s:[/font] [font=%s]%s[/font][/color][/font_size]\n" % [blue, hand_bold, c.title, hand, c.text]
+	if rest > 0:
+		text += "[color=#%s]… %d more clue%s: press J[/color]\n" % [soft, rest, "" if rest == 1 else "s"]
+	return text.strip_edges()
+
+
 ## Expansion Phase 7: the journal keeps clear of the objective panel (right) and
 ## the captions, stamina and stance (bottom left) at every interface size: it
 ## widens into the free space (up to 600 px); clues that do not fit go on the
@@ -294,14 +353,21 @@ func _fit_journal() -> void:
 	_journal_view = view
 	var width := clampf(view.x - 364.0 - 20.0 - 20.0 - 20.0, 420.0, 600.0)
 	var max_height := _journal_max_height()
+	var chrome := _journal_chrome()
+	# The clipboard is a page: narrow and long (JournalClipboard.WIDTH, up to PAGE_RATIO times
+	# as tall as wide, as far as the space above the captions allows).
+	var least_height := 0.0
+	if _journal is JournalClipboard:
+		width = JournalClipboard.WIDTH
+		least_height = minf(width * JournalClipboard.PAGE_RATIO - chrome.y, max_height)
 	_journal.custom_minimum_size = Vector2(width, 0)
-	_journal_text.custom_minimum_size = Vector2(width - 32.0, 0)
+	_journal_text.custom_minimum_size = Vector2(width - chrome.x, least_height)
 	_journal_text.fit_content = true
 	_journal.size = Vector2(width, 0)
 	var height := _journal_text.get_content_height()
 	if height > max_height:
 		_journal_text.fit_content = false
-		_journal_text.custom_minimum_size = Vector2(width - 32.0, max_height)
+		_journal_text.custom_minimum_size = Vector2(width - chrome.x, max_height)
 		_journal_text.size = _journal_text.custom_minimum_size
 	_journal.size = Vector2(width, 0)
 
@@ -311,7 +377,13 @@ func _journal_view_size() -> Vector2:
 
 
 func _journal_max_height() -> float:
-	return maxf(_journal_view_size().y - 20.0 - JOURNAL_BOTTOM_CLEARANCE - 32.0, 120.0)
+	return maxf(_journal_view_size().y - 20.0 - JOURNAL_BOTTOM_CLEARANCE - _journal_chrome().y, 120.0)
+
+
+## The width and height the journal panel adds round its text (the clipboard and its sheet
+## for the paper-note levels).
+func _journal_chrome() -> Vector2:
+	return JournalClipboard.CHROME if _journal is JournalClipboard else Vector2(32, 32)
 
 
 func close_journal() -> void:
@@ -335,7 +407,9 @@ func _draw_slots() -> void:
 		return
 	var font := ThemeDB.fallback_font
 	var texts := get_slot_texts()
-	for i in texts.size():
+	if paper_note:
+		_draw_slot_tags(inventory, texts)
+	for i in (0 if paper_note else texts.size()):
 		var rect := Rect2(Vector2(i * (SLOT_SIZE.x + 8), 0), SLOT_SIZE)
 		var chosen := i == inventory.selected
 		_slots.draw_rect(rect, Color(0.03, 0.04, 0.06, 0.72 if chosen else 0.55))
@@ -352,7 +426,9 @@ func _draw_slots() -> void:
 		_slots.draw_string(font, rect.position + Vector2(30, 27), label, HORIZONTAL_ALIGNMENT_LEFT, SLOT_SIZE.x - 36, font_size,
 			Color.WHITE if id != &"" else Color(1, 1, 1, 0.4))
 		_slots.draw_string(font, rect.position + Vector2(4, 12), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1, 1, 1, 0.6))
-	var hint := inventory_hint_format % inventory.documents.size()
+	var hint := "1–3 select  ·  F use / throw  ·  J journal (%d)" % inventory.documents.size()
+	if _paper:
+		hint += "  ·  K mission"
 	_slots.draw_string_outline(font, Vector2(0, SLOT_SIZE.y + 20), hint, HORIZONTAL_ALIGNMENT_CENTER, _slots.size.x, 13, 4, Color.BLACK)
 	_slots.draw_string(font, Vector2(0, SLOT_SIZE.y + 20), hint, HORIZONTAL_ALIGNMENT_CENTER, _slots.size.x, 13, Color(1, 1, 1, 0.75))
 
@@ -363,6 +439,14 @@ func _build_status_panel() -> void:
 	style.bg_color = Color(0.03, 0.04, 0.06, 0.62)
 	style.set_corner_radius_all(6)
 	style.set_content_margin_all(12)
+	if paper_note:
+		# The paper-note levels (2026-11-03): an index card held by a paper clip.
+		style.bg_color = PaperNote.PAPER
+		style.set_corner_radius_all(2)
+		style.shadow_color = Color(0, 0, 0, 0.4)
+		style.shadow_size = 5
+		style.shadow_offset = Vector2(2, 4)
+		style.content_margin_top = 16
 	_status_panel.add_theme_stylebox_override("panel", style)
 	_status_panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	_status_panel.position = Vector2(20, 20)
@@ -379,15 +463,83 @@ func _build_status_panel() -> void:
 	_status_text.add_theme_font_size_override("normal_font_size", 14)
 	_status_text.add_theme_constant_override("outline_size", 5)
 	_status_text.add_theme_color_override("font_outline_color", Color.BLACK)
+	if paper_note:
+		var card := Control.new()
+		card.name = "Card"
+		card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		card.draw.connect(_draw_status_card.bind(card))
+		_status_panel.add_child(card)
+		_status_panel.rotation_degrees = -0.6
+		_status_text.add_theme_constant_override("outline_size", 0)
+		_status_text.add_theme_color_override("default_color", PaperNote.INK)
+		_status_text.add_theme_font_override("normal_font", PaperNote.FONT)
+		_status_text.add_theme_font_size_override("normal_font_size", 15)
+		_status_text.add_theme_constant_override("line_separation", -3)
 	_status_panel.add_child(_status_text)
+
+
+## The index card's rules, its red top line and the paper clip (the card's content area;
+## drawn a little beyond it).
+func _draw_status_card(c: Control) -> void:
+	var w := c.size.x + 24.0
+	var x0 := -12.0
+	c.draw_line(Vector2(x0, -6), Vector2(x0 + w, -6), PaperNote.INK_RED, 1.5)
+	var y := 16.0
+	while y < c.size.y + 4.0:
+		c.draw_line(Vector2(x0, y), Vector2(x0 + w, y), PaperNote.RULE, 1.0)
+		y += 19.0
+	# The clip, over the top left corner.
+	var clip := Color(0.58, 0.6, 0.65)
+	var at := Vector2(14, -30)
+	var loop := PackedVector2Array([at + Vector2(0, 40), at + Vector2(0, 6), at + Vector2(7, -1), at + Vector2(14, 6), at + Vector2(14, 34), at + Vector2(9, 39), at + Vector2(4, 34), at + Vector2(4, 12)])
+	c.draw_polyline(loop, Color(0, 0, 0, 0.25), 3.0, true)
+	c.draw_polyline(loop, clip, 2.2, true)
+
+
+## The paper-note levels' slots (2026-11-03): three luggage tags on strings, the chosen one
+## lifted and ringed in red ink; its number in red, the item's colour and its name in ink.
+func _draw_slot_tags(inventory: PlayerInventory, texts: Array[String]) -> void:
+	for i in texts.size():
+		var chosen := i == inventory.selected
+		var r := Rect2(Vector2(i * (SLOT_SIZE.x + 8), -4.0 if chosen else 0.0), SLOT_SIZE)
+		var id := inventory.get_item(i)
+		var tag := PackedVector2Array([r.position + Vector2(16, 0), Vector2(r.end.x, r.position.y), r.end,
+			Vector2(r.position.x + 16, r.end.y), Vector2(r.position.x, r.end.y - 12), r.position + Vector2(0, 12)])
+		var shadow := PackedVector2Array()
+		for p in tag:
+			shadow.append(p + Vector2(2, 3))
+		_slots.draw_colored_polygon(shadow, Color(0, 0, 0, 0.35))
+		_slots.draw_colored_polygon(tag, PaperNote.PAPER if id != &"" else PaperNote.PAPER.darkened(0.08))
+		var outline := tag.duplicate()
+		outline.append(tag[0])
+		_slots.draw_polyline(outline, PaperNote.INK_RED if chosen else PaperNote.INK_SOFT, 2.0 if chosen else 1.0, true)
+		var hole := r.position + Vector2(10, r.size.y / 2.0)
+		_slots.draw_circle(hole, 5.0, Color(0.55, 0.48, 0.3))
+		_slots.draw_circle(hole, 3.2, Color(0.12, 0.1, 0.08))
+		_slots.draw_line(hole, hole + Vector2(-14, -16), Color(0.85, 0.82, 0.72), 1.5, true)
+		_slots.draw_string(PaperNote.FONT_BOLD, r.position + Vector2(22, 17), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, PaperNote.INK_RED)
+		if id != &"":
+			var info: Dictionary = ItemCatalog.ITEMS[id]
+			_slots.draw_rect(Rect2(r.position + Vector2(24, 24), Vector2(10, 10)), info.colour)
+			_slots.draw_rect(Rect2(r.position + Vector2(24, 24), Vector2(10, 10)), PaperNote.INK_SOFT, false, 1.0)
+		var label := texts[i].substr(2)
+		var font_size := 17
+		while font_size > 11 and PaperNote.FONT.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > SLOT_SIZE.x - 48:
+			font_size -= 1
+		_slots.draw_string(PaperNote.FONT, r.position + Vector2(40, 29), label, HORIZONTAL_ALIGNMENT_LEFT, SLOT_SIZE.x - 44, font_size,
+			PaperNote.INK if id != &"" else PaperNote.INK_DONE)
 
 
 ## The status panel (WAYS OUT, POWER, checkpoint) and the objective panel, for layout tests.
 func get_layout_controls() -> Dictionary:
-	return {"objectives": _panel, "status": _status_panel, "journal": _journal, "slots": _slots, "prompt": _prompt_box, "message": _message}
+	return {"objectives": _panel, "status": _status_panel, "journal": _journal, "slots": _slots, "prompt": _prompt_box, "message": _message,
+		"mission_folded": _folded}
 
 
 func _build_journal() -> void:
+	if paper_note:
+		_build_journal_board()
+		return
 	_journal = PanelContainer.new()
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.06, 0.05, 0.04, 0.86)
@@ -412,6 +564,28 @@ func _build_journal() -> void:
 	_journal_text.add_theme_font_size_override("normal_font_size", 13)
 	_journal_text.add_theme_font_size_override("bold_font_size", 18)
 	_journal.add_child(_journal_text)
+
+
+## The paper-note levels' journal: a sheet on a clipboard (JournalClipboard).
+func _build_journal_board() -> void:
+	var board := JournalClipboard.new()
+	_journal = board
+	_journal.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_journal.position = Vector2(20, 20)
+	_journal.custom_minimum_size = Vector2(JournalClipboard.WIDTH, 0)
+	_journal.size = Vector2(JournalClipboard.WIDTH, 0)
+	_journal.visible = false
+	add_child(_journal)
+	_journal_text = RichTextLabel.new()
+	_journal_text.bbcode_enabled = true
+	_journal_text.fit_content = true
+	_journal_text.scroll_active = false
+	_journal_text.custom_minimum_size = Vector2(JournalClipboard.WIDTH - JournalClipboard.CHROME.x, 0)
+	_journal_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_journal_text.add_theme_font_size_override("normal_font_size", 14)
+	_journal_text.add_theme_font_size_override("bold_font_size", 17)
+	_journal_text.add_theme_color_override("default_color", Color(0.16, 0.16, 0.2))
+	board.sheet.add_child(_journal_text)
 
 
 ## Current objective title, or "" when finished.
@@ -514,6 +688,15 @@ func _update_panel(objectives: ObjectiveManager) -> void:
 		if _last_objective != &"":
 			_flash = 0.8
 		_last_objective = id
+	if _paper:
+		var rows := []
+		for list_id in get_listed_ids():
+			var state := objectives.get_state(list_id)
+			var mark := PaperNote.Mark.DONE if state == ObjectiveManager.State.COMPLETED else (PaperNote.Mark.CURRENT if state == ObjectiveManager.State.ACTIVE else PaperNote.Mark.TODO)
+			rows.append([objectives.get_title(list_id), mark, objectives.is_optional(list_id)])
+		_paper.show_mission(get_header_text(), objectives.get_title(id), objectives.get_hint(id), rows)
+		_update_status(objectives)
+		return
 	# Expansion Phase 9: labels are only reassigned when their text changes (a
 	# RichTextLabel re-parses and re-lays out its BBCode on every assignment).
 	_set_text(_header, get_header_text())
@@ -531,8 +714,10 @@ func _update_panel(objectives: ObjectiveManager) -> void:
 			text += "[color=#%s]OPTIONAL[/color]\n" % Color(1.0, 0.82, 0.3).to_html(false)
 		text += "[color=#%s]%s[/color]\n" % [colours[objectives.get_state(ids[i])].to_html(false), lines[i]]
 	_set_text(_list, text.strip_edges())
-	var hud_provider := MapHudProvider.find_for(self)
-	_list.visible = hud_provider == null or hud_provider.show_objective_checklist()
+	_update_status(objectives)
+
+
+func _update_status(objectives: ObjectiveManager) -> void:
 	var status := _status_bbcode() if objectives.is_graph() or MapHudProvider.find_for(self) != null else ""
 	_set_text(_status_text, status.strip_edges())
 	_status_panel.visible = status != "" and not _journal.visible and not objectives.is_finished()
@@ -553,10 +738,20 @@ func get_status_lines() -> Array[String]:
 
 func _status_bbcode() -> String:
 	var accent := Color(1.0, 0.82, 0.3)
+	var done := COLOUR_DONE
+	var locked := COLOUR_LOCKED
+	var plain := Color.WHITE
+	var warn := Color("ff8a70")
+	if paper_note:   # ink on the index card
+		accent = PaperNote.INK_RED
+		done = Color(0.12, 0.45, 0.2)
+		locked = PaperNote.INK_SOFT
+		plain = PaperNote.INK
+		warn = PaperNote.INK_RED
 	var text := ""
 	var provider := MapHudProvider.find_for(self)
 	if provider:
-		text = provider.get_status_bbcode(accent, COLOUR_DONE, COLOUR_LOCKED)
+		text = provider.get_status_bbcode(accent, done, locked, plain, warn)
 		if text != "" and not text.ends_with("\n"):
 			text += "\n"
 	var checkpoints := CheckpointManager.find(self)
@@ -566,6 +761,19 @@ func _status_bbcode() -> String:
 
 
 func _build_panel() -> void:
+	if paper_note:
+		_paper = PaperNote.new()
+		_panel = _paper
+		_panel.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+		_panel.position = Vector2(-394, 30)
+		_panel.custom_minimum_size = Vector2(364, 0)
+		add_child(_panel)
+		_folded = FoldedNote.new()
+		_folded.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+		_folded.position = Vector2(-FoldedNote.SIZE.x - 22, 22)
+		_folded.visible = false
+		add_child(_folded)
+		return
 	_panel = PanelContainer.new()
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.03, 0.04, 0.06, 0.62)
