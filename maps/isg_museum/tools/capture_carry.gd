@@ -9,7 +9,7 @@ func save_view(name: String) -> void:
 	for tick in 5:
 		await process_frame
 	await RenderingServer.frame_post_draw
-	var output := "res://maps/isg_museum/docs/step-08-%s.png" % name
+	var output := "res://maps/isg_museum/docs/guides/steps/step-08-%s.png" % name
 	if root.get_texture().get_image().save_png(output) != OK:
 		push_error("Could not save " + output)
 		quit(1)

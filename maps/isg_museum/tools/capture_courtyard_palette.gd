@@ -1,7 +1,8 @@
 extends SceneTree
 
 const BASE := "res://maps/isg_museum/"
-const OUT := BASE+"docs/courtyard-palette-v1/"
+const ReportPaths := preload("res://maps/isg_museum/tools/report_paths.gd")
+const OUT := BASE+"docs/reports/courtyard-palette-v1/"
 var output_dir := OUT
 var image_prefix := "after-"
 var preview: Node3D
@@ -12,13 +13,14 @@ func _initialize() -> void:
 	run.call_deferred()
 
 func configure_output() -> bool:
+	output_dir = ReportPaths.output_root(output_dir)
 	# Optional revision folders keep the original A1 capture behavior intact.
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--output="):
 			output_dir = argument.trim_prefix("--output=").trim_suffix("/")+"/"
 		elif argument.begins_with("--prefix="):
 			image_prefix = argument.trim_prefix("--prefix=")
-	if not output_dir.begins_with(BASE+"docs/") or ".." in output_dir or "/" in image_prefix or "\\" in image_prefix:
+	if not output_dir.begins_with(BASE+"docs/reports/") or ".." in output_dir or "/" in image_prefix or "\\" in image_prefix:
 		push_error("Capture output must stay in museum docs; prefix must be a filename prefix")
 		return false
 	var error := DirAccess.make_dir_recursive_absolute(output_dir)
@@ -64,12 +66,12 @@ func lighting() -> Dictionary:
 func shot(id: String) -> void:
 	await frames(15)
 	await RenderingServer.frame_post_draw
-	var error := root.get_texture().get_image().save_png(output_dir+id+".png")
+	var error := root.get_texture().get_image().save_png(ReportPaths.artifact(output_dir,id+".png"))
 	if error!=OK:
 		push_error("Capture failed: "+id)
 		quit(1)
 		return
-	metadata.append({"id":id,"position":str(player.camera.global_position),"rotation":str(player.camera.global_rotation),
+	metadata.append({"id":id,"image":ReportPaths.artifact(output_dir,id+".png"),"position":str(player.camera.global_position),"rotation":str(player.camera.global_rotation),
 		"fov":player.camera.fov,"near":player.camera.near,"far":player.camera.far,"resolution":[root.size.x,root.size.y],
 		"renderer":RenderingServer.get_current_rendering_method(),"lighting":lighting(),"draw_calls":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),
 		"primitives":Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)})
@@ -109,10 +111,10 @@ func run() -> void:
 			# A new fixed closeup is captured for BOTH A1 and A2, without moving geometry.
 			view({"position":[10.5,1.55,12.5],"target":[12.1,.72,12.6]})
 			await shot(image_prefix+"garden-wall-closeup")
-		var file := FileAccess.open(output_dir+"camera-metadata.json",FileAccess.WRITE)
+		var file := FileAccess.open(ReportPaths.artifact(output_dir,"camera-metadata.json"),FileAccess.WRITE)
 		file.store_string(JSON.stringify(metadata,"\t")+"\n")
 		file.close()
-		file = FileAccess.open(output_dir+"capture-parameters.json",FileAccess.WRITE)
+		file = FileAccess.open(ReportPaths.artifact(output_dir,"capture-parameters.json"),FileAccess.WRITE)
 		file.store_string(JSON.stringify({"palette":preview.palette.config,"arguments":OS.get_cmdline_user_args(),"engine_arguments":OS.get_cmdline_args(),"engine":Engine.get_version_info()},"\t")+"\n")
 		file.close()
 		if "--walk" in OS.get_cmdline_user_args() or "--review-walk" in OS.get_cmdline_user_args(): await walk_video()
@@ -163,7 +165,7 @@ func walk_video() -> void:
 	for i in 90:
 		player.camera.rotate_y(.002)
 		await process_frame
-	var file := FileAccess.open(output_dir+"walk.json",FileAccess.WRITE)
+	var file := FileAccess.open(ReportPaths.artifact(output_dir,"walk.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(results,"\t")+"\n")
 	file.close()
 	print("Player input walk: ",results)
@@ -200,7 +202,7 @@ func benchmark() -> void:
 	var after := await measure()
 	var result := {"before":before,"after":after,"gpu":RenderingServer.get_video_adapter_name(),"cpu":OS.get_processor_name(),"viewport":[1280,720],
 		"renderer":RenderingServer.get_current_rendering_method(),"conditions":"same camera/light, editing map frozen, 120 display-frame warmup and 8 s each, VSync/cap disabled, not GPU timing"}
-	var file := FileAccess.open(output_dir+"benchmark.json",FileAccess.WRITE)
+	var file := FileAccess.open(ReportPaths.artifact(output_dir,"benchmark.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(result,"\t")+"\n")
 	file.close()
 	Engine.max_fps = old_cap

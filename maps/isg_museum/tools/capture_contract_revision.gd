@@ -4,7 +4,7 @@ func shot(name: String) -> void:
 	for i in 8:
 		await process_frame
 	await RenderingServer.frame_post_draw
-	root.get_texture().get_image().save_png("res://maps/isg_museum/docs/step-18-%s.png"%name)
+	root.get_texture().get_image().save_png("res://maps/isg_museum/docs/guides/steps/step-18-%s.png"%name)
 	print("Captured ",name)
 
 func run() -> void:

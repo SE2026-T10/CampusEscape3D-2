@@ -68,4 +68,4 @@ giữ normal/roughness nguồn với normal strength 0,12 và 0,07. Albedo dẫn
 tạo offline bằng `tools/prepare_courtyard_materials.gd`; không sửa texture gốc.
 Module cột được sinh lại bằng `prepare_environment_modules.gd`, sau đó art pass
 gán đúng preset cho kiến trúc sân và tượng. Metadata của art giữ chúng qua palette.
-Xem [bằng chứng v1.1](../../docs/environment-art-v1_1/REPORT.md).
+Xem [bằng chứng v1.1](../../docs/reports/environment-art-v1_1/REPORT.md).

@@ -1,0 +1,35 @@
+[
+  {
+    "command": [
+      "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+      "-B",
+      "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\tools\\organize_docs.py",
+      "--verify"
+    ],
+    "exit_code": 0,
+    "log": "logs/migration-verify.log",
+    "date": "2026-11-17T20:47:00.277111+07:00"
+  },
+  {
+    "command": [
+      "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+      "-B",
+      "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\tools\\organize_docs.py",
+      "--plan"
+    ],
+    "exit_code": 0,
+    "log": "logs/migration-plan.log",
+    "date": "2026-11-17T20:47:04.047792+07:00"
+  },
+  {
+    "command": [
+      "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+      "-B",
+      "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\tools\\organize_docs.py",
+      "--apply"
+    ],
+    "exit_code": 0,
+    "log": "logs/migration-apply.log",
+    "date": "2026-11-17T20:47:08.680645+07:00"
+  }
+]

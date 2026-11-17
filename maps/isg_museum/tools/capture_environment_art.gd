@@ -2,14 +2,22 @@ extends SceneTree
 
 ## Design/QA photos only. Timing lives in benchmark_environment_art.gd.
 const Art := preload("res://maps/isg_museum/tools/environment_art_builder.gd")
-const OUT := "res://maps/isg_museum/docs/environment-art-v1_1/"
+const BASELINE := "res://maps/isg_museum/docs/reports/environment-art-v1_1/snapshots/before-source/"
+const ReportPaths := preload("res://maps/isg_museum/tools/report_paths.gd")
+const OUT := "res://maps/isg_museum/docs/reports/environment-art-v1_1/"
 var level: Node3D
 var camera: Camera3D
 var prefix := "after-"
 var evidence: Array = []
 var art := Art.new()
 
+var output_dir := OUT
+
+func out_path(filename: String) -> String:
+	return ReportPaths.artifact(output_dir,filename)
+
 func _initialize() -> void:
+	output_dir = ReportPaths.output_root(OUT)
 	run.call_deferred()
 
 func shot(id: String, at: Vector3, target: Vector3, use_player := false) -> Image:
@@ -21,9 +29,9 @@ func shot(id: String, at: Vector3, target: Vector3, use_player := false) -> Imag
 		await process_frame
 	await RenderingServer.frame_post_draw
 	var pixels := root.get_texture().get_image()
-	pixels.save_png(OUT+prefix+id+".png")
+	pixels.save_png(out_path(prefix+id+".png"))
 	var active := root.get_camera_3d()
-	evidence.append({"image":prefix+id+".png","camera_path":str(active.get_path()),
+	evidence.append({"image":out_path(prefix+id+".png"),"camera_path":str(active.get_path()),
 		"camera_position":str(active.global_position),"fov":active.fov,"player_camera":use_player})
 	print("Captured ",prefix,id)
 	return pixels
@@ -33,7 +41,7 @@ func run() -> void:
 	root.content_scale_size = Vector2i(1280,720)
 	var before := "--before" in OS.get_cmdline_user_args()
 	prefix = "before-" if before else "after-"
-	level = load(OUT+"before-source/museum.tscn" if before else Art.BASE+"scenes/museum.tscn").instantiate()
+	level = load(BASELINE+"museum.tscn" if before else Art.BASE+"scenes/museum.tscn").instantiate()
 	root.add_child(level)
 	current_scene = level
 	await process_frame
@@ -101,7 +109,7 @@ func run() -> void:
 	markers.free()
 	if not before:
 		await column_comparison()
-	var file := FileAccess.open(OUT+prefix+"capture.json",FileAccess.WRITE)
+	var file := FileAccess.open(out_path(prefix+"capture.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify({"renderer":RenderingServer.get_current_rendering_method(),"images":evidence},"\t"))
 	camera.free()
 	level.free()
@@ -127,7 +135,7 @@ func column_comparison() -> void:
 	art.batch_visuals(columns)
 	var packed := PackedScene.new()
 	assert(packed.pack(fixture) == OK)
-	var path := OUT+"qa-column-batch.tscn"
+	var path := out_path("qa-column-batch.tscn")
 	assert(ResourceSaver.save(packed,path) == OK)
 	fixture.free()
 	fixture = load(path).instantiate()
@@ -140,7 +148,7 @@ func column_comparison() -> void:
 	for i in mini(a.size(),b.size()):
 		error_sum += absi(int(a[i])-int(b[i]))
 		changed += int(absi(int(a[i])-int(b[i])) > 8)
-	var output := FileAccess.open(OUT+"column-batch-comparison.json",FileAccess.WRITE)
+	var output := FileAccess.open(out_path("column-batch-comparison.json"),FileAccess.WRITE)
 	output.store_string(JSON.stringify({"mean_absolute_byte_error":error_sum/a.size(),
 		"fraction_bytes_delta_gt_8":float(changed)/a.size(),"same_camera_material_light":true,
 		"normal_tangent_changes_made":false},"\t"))

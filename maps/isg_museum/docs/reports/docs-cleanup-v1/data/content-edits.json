@@ -1,0 +1,623 @@
+[
+  {
+    "old_path": "maps/isg_museum/docs/asset-design-preview-v1/README.md",
+    "new_path": "maps/isg_museum/docs/design/asset-design-preview-v1/README.md",
+    "category": "design",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "2526248273cae503cb6b958cbb0c7ff25d56fc562de36d4ddf7cd21c1de58208",
+    "sha256_after": "28c2be97eefc399bacb6487eba8a0d5a52fdc9faa2b6f2cbb5c4169bd7c5af3d"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/asset-design-preview-v2/README.md",
+    "new_path": "maps/isg_museum/docs/design/asset-design-preview-v2/README.md",
+    "category": "design",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "3d296b71c6ed5005aea90803af16fcfd2991a841a4d204adbe36de7768acec12",
+    "sha256_after": "3a6d8f3a8d4ab249c82c7557fd8d8b0556b7ce798d48eb7b14f01bae8a3627fd"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/concept-v1/BEGINNER_GUIDE.md",
+    "new_path": "maps/isg_museum/docs/design/concept-v1/BEGINNER_GUIDE.md",
+    "category": "design",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "1ed0231d34161911d431905eaad18a7239f60ce89f665d4820a1974b577ad818",
+    "sha256_after": "10ea78901fec719115a06ec2784e20e07c3f6f0d29e3eb940851047add226129"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/concept-v1/build-floorplans.ps1",
+    "new_path": "maps/isg_museum/docs/design/concept-v1/build-floorplans.ps1",
+    "category": "design",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Resolve design image output from script location instead of the retired absolute directory",
+    "sha256_before": "8ffe656fe4df32af765733114bf184bc6a8f70784fdfd6c5722fd694e38b2fd0",
+    "sha256_after": "efc66ed943d15f7f8d5c6d53375c8cb786eb1edab8b2f5beb29d527531d97dee"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/concept-v1/floorplan-notes.md",
+    "new_path": "maps/isg_museum/docs/design/concept-v1/floorplan-notes.md",
+    "category": "design",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "b61c75af220099ed12bcdc91e88b2fdade22483d87c46a2281d9a925bc0ce05f",
+    "sha256_after": "34f65b64385d1a2393708005a7e9612c2287970acbbf0b057af8cf65df43e92d"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/concept-v1/README.md",
+    "new_path": "maps/isg_museum/docs/design/concept-v1/README.md",
+    "category": "design",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "5744ec18feb5513910d8600ff32b0c92fc3bffad135e264636afc8d22546c243",
+    "sha256_after": "42043a1bbabae7287813ac319dfa6ca3d42af73714b2a3d0fe9d10924f72a31a"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/concept-v2/patrol-9-guards.md",
+    "new_path": "maps/isg_museum/docs/design/concept-v2/patrol-9-guards.md",
+    "category": "design",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "e7c35fb2da028284fadd99e3a0985115af20fe494f0385858bb6c2fc7afae780",
+    "sha256_after": "abaaf8eec5c320a0a9d634005d4b10034465016682fa6b0e5dfa013c128a0ce0"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/concept-v3/README.md",
+    "new_path": "maps/isg_museum/docs/design/concept-v3/README.md",
+    "category": "design",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "836ce570f49ad071512336e0f4cfa08b69e6f8194564ebd014ef354feac1fce2",
+    "sha256_after": "8413d50a609236592f2b49dfe0bac04dcb0eeadeb408921c7e09ca9a631a728c"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/courtyard-palette-stage-b/REPORT.md",
+    "new_path": "maps/isg_museum/docs/reports/courtyard-palette-stage-b/REPORT.md",
+    "category": "main-report",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Add archival navigation to organized artifact groups; retain original conclusions and historical results",
+    "sha256_before": "20565ce265791cdaae221465ef1eba1002b1a35dbaa8cdaf4f9d20c8998f4c3d",
+    "sha256_after": "6c175b2920ed4e8893464566d4aea0ba7c38c4a3e80d0212ce6d9062a3d7cecf"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/courtyard-palette-v1/BENCHMARK.md",
+    "new_path": "maps/isg_museum/docs/reports/courtyard-palette-v1/data/BENCHMARK.md",
+    "category": "data",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "89653953ad649eaa88418842654209b80b2820703aca0df2048b0ef24be4999d",
+    "sha256_after": "10bbc57c86a9d0163d482fe27e41d0874d22b249815ab82ef731139f67fb57e5"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/courtyard-palette-v1/REPORT.md",
+    "new_path": "maps/isg_museum/docs/reports/courtyard-palette-v1/REPORT.md",
+    "category": "main-report",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Add archival navigation to organized artifact groups; retain original conclusions and historical results",
+    "sha256_before": "6a490b856c3c9ca992970371327e206d7a8643aca5396720e52f580ee0429010",
+    "sha256_after": "dcd74cb852cb3c9e0d441d0750ecf4d66f727f820c836ab9f6a6ca80ae2d9838"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/courtyard-palette-v1/revision-a2/REPORT.md",
+    "new_path": "maps/isg_museum/docs/reports/courtyard-palette-v1/revisions/revision-a2/REPORT.md",
+    "category": "main-report",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Add archival navigation to organized artifact groups; retain original conclusions and historical results",
+    "sha256_before": "8d0b14d764fb4a8098add173f0b35b232de654d41098448634a8a12ab112d2f6",
+    "sha256_after": "5c2e0463f41b4f0a22dd3525e38d655421e5455630dfe45a64083723e3d56cc8"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/editing-mode/REPORT.md",
+    "new_path": "maps/isg_museum/docs/reports/editing-mode/REPORT.md",
+    "category": "main-report",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Add archival navigation to organized artifact groups; retain original conclusions and historical results",
+    "sha256_before": "ea1fa2bbfb82060a1579e87bae3dd1b3e41cebcc9a248738398d0ff26bc1fe17",
+    "sha256_after": "0114df177744bed4e30a5b5d673dc0296f304223ff20e85b6a7817cdca33c246"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/environment-art-v1/baseline-source/museum.tscn",
+    "new_path": "maps/isg_museum/docs/reports/environment-art-v1/snapshots/baseline-source/museum.tscn",
+    "category": "snapshot",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "69ec67110dc4cd3a62e6b162a1bfcc9c6c278284f4c01d28084aa381ab106984",
+    "sha256_after": "7a1a0a88393786e77da987fc58f51962190dd2ded7f6c31b373411f5167bea14"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/environment-art-v1/REPORT.md",
+    "new_path": "maps/isg_museum/docs/reports/environment-art-v1/REPORT.md",
+    "category": "main-report",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Add archival navigation to organized artifact groups; retain original conclusions and historical results",
+    "sha256_before": "1a9102f920459a72c636fbacba678d5a942fc6c7cb143a0cf3df558b3fc35045",
+    "sha256_after": "871569705080592c50b58a132a03f1d0845088ae76c26d07e39e8e3376f4e380"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/environment-art-v1_1/before-source/museum.tscn",
+    "new_path": "maps/isg_museum/docs/reports/environment-art-v1_1/snapshots/before-source/museum.tscn",
+    "category": "snapshot",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "a448d9d215a6995e480f66d6e838bcaaa3cc8cfb9fde3d037ccb1172492b251a",
+    "sha256_after": "398706948f3f8e9f4ac2a118b544d8b363b6c94e108fa60f5d70b983c7b51bdc"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/environment-art-v1_1/before-source/museum_geometry.tscn",
+    "new_path": "maps/isg_museum/docs/reports/environment-art-v1_1/snapshots/before-source/museum_geometry.tscn",
+    "category": "snapshot",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "1973594a8848ae4d79d80ac2594f3c98a9ef2a4383de5469fbe6ef5c24a37ab3",
+    "sha256_after": "62afec3cc28eb434c65c486a9c6e6de037a349df9553670d4a7c00a1407ff196"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/environment-art-v1_1/iterations/README.md",
+    "new_path": "maps/isg_museum/docs/reports/environment-art-v1_1/revisions/iterations/REPORT.md",
+    "category": "revision-report",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Add archival navigation to organized artifact groups; retain original conclusions and historical results",
+    "sha256_before": "c59ae3fd2e7ed0ce0cd9a89145687d96985fe1a32fa6cae37514d2c2ccec1577",
+    "sha256_after": "b1db760bc79fcf1c89ec4ef7d90109d6733608fc0f3967e35f62058edfeb7288"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/environment-art-v1_1/REPORT.md",
+    "new_path": "maps/isg_museum/docs/reports/environment-art-v1_1/REPORT.md",
+    "category": "main-report",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Add archival navigation to organized artifact groups; retain original conclusions and historical results",
+    "sha256_before": "58fd68463b7c54b8d5142a48210a28f1da4db422b13c81e8a6b5816289531ff2",
+    "sha256_after": "172694be86d10a11ee0362903eb1dbb29ac3ace37f68516f797551635463df82"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/environment-art-v1_1/run-benchmark.ps1",
+    "new_path": "maps/isg_museum/docs/reports/environment-art-v1_1/reproduce/run-benchmark.ps1",
+    "category": "reproduce",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Discover repository/report roots after moving to reproduce; split logs/data; support read-only path checks and alternate report output; Validate reproduction output remains within the museum report workspace",
+    "sha256_before": "dab78cd9074a8063c5aa020566b11e29270cbd524b68272c59d29674097b0c41",
+    "sha256_after": "0f14c80c98e5fbeb02aa8e2266d1e14233fb92d2bcba69f3c2e8c5306306d92f"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/environment-art-v1_1/run-validation.ps1",
+    "new_path": "maps/isg_museum/docs/reports/environment-art-v1_1/reproduce/run-validation.ps1",
+    "category": "reproduce",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Discover repository/report roots after moving to reproduce; split logs/data; support read-only path checks and alternate report output; Validate reproduction output remains within the museum report workspace",
+    "sha256_before": "bb7b7c162cad6ef4cc7df3623823e1ec2965d72eb4ecc1ed3e346cea397e9f81",
+    "sha256_after": "e5ab08777c24d776bfcb1b01cdf8f2cff320f38b2f912242cdd22f0162e9f87b"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/environment-art-v1_1/summarize_evidence.py",
+    "new_path": "maps/isg_museum/docs/reports/environment-art-v1_1/reproduce/summarize_evidence.py",
+    "category": "reproduce",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Reproduction scripts discover repository/report roots; route raw reads and outputs to logs/data; add read-only --check-paths",
+    "sha256_before": "792a53c4f93dc89fde9e98181dc12500acf305554ed69adad5811bca3397edd9",
+    "sha256_after": "d995d8afb42d1f7922e2fd024b05a5cf0316d164a54538327ded7b2b91ae8d17"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/guard-art-v1/BENCHMARK.md",
+    "new_path": "maps/isg_museum/docs/reports/guard-art-v1/data/BENCHMARK.md",
+    "category": "data",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "4be39b8e774d1aa24dbb3abe046dfaa2bf9a5a9cfb86cc8fda35ed2885205170",
+    "sha256_after": "5761280f2148fcc694c660d39fc9da08d5eb98bd28c9c7e6637d68aafb6f1b5c"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/guard-art-v1/REPORT.md",
+    "new_path": "maps/isg_museum/docs/reports/guard-art-v1/REPORT.md",
+    "category": "main-report",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Add archival navigation to organized artifact groups; retain original conclusions and historical results",
+    "sha256_before": "4f31d6141929b4451eb62b8c062dff8ab0bc14c738ab4b93851657a17e054d33",
+    "sha256_after": "4c0bf939e389bde73eec2362658f738ab4720205e82aa9e2618a10816233778b"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/npc-art-v1/REPORT.md",
+    "new_path": "maps/isg_museum/docs/reports/npc-art-v1/REPORT.md",
+    "category": "main-report",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Add archival navigation to organized artifact groups; retain original conclusions and historical results",
+    "sha256_before": "9fcb859c35592b8bacdcb1fc1f5fd0edca3aac06d21f4c13f4d8ad2b792dde59",
+    "sha256_after": "eac47884540af186447c215642f2494834d9f2ecaafa813dc1c0f745d8bb76af"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/post-b-fixes-v1/REPORT.md",
+    "new_path": "maps/isg_museum/docs/reports/post-b-fixes-v1/REPORT.md",
+    "category": "main-report",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Add archival navigation to organized artifact groups; retain original conclusions and historical results",
+    "sha256_before": "1d7f5a9bf71586425d9bc6729506e8e4cb9c3b4d46aa597e61fad1bd554238aa",
+    "sha256_after": "ece062f37b5cb6c385fdaa86e66b128fcf5f7b31d378cd01e9ae1659a1a0f49d"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/step-06-blockout.md",
+    "new_path": "maps/isg_museum/docs/guides/steps/step-06-blockout.md",
+    "category": "development-guide",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "159df8226a5c6bc8bd59927d316eced7a719b92258a89f13fb6b9a3f0b7a7a3d",
+    "sha256_after": "75cd56e0f46065ebc96ed4f8ddd149a2da6778c3b74f03f70707d2b4684caa1d"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/step-16-aux-storage.md",
+    "new_path": "maps/isg_museum/docs/guides/steps/step-16-aux-storage.md",
+    "category": "development-guide",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "184240e577e769928ea6efeda55fcbcddfe0528662569d5ae01ff1cc90d50062",
+    "sha256_after": "3d2d6acdd5df501a39efd56e0412bf73779439c940af56914248ed9ced4e9bb0"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/visual-feedback-2026-11-15/before-source/museum.tscn",
+    "new_path": "maps/isg_museum/docs/reports/visual-feedback-2026-11-15/snapshots/before-source/museum.tscn",
+    "category": "snapshot",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "df576e96c66e04258cfce4eefe65cc391616056f5971a1aba6eb102186267eb0",
+    "sha256_after": "75bc8dc27e1fced45b8aeed69a8cbdec49e7a7e30d0f335e67cedd804623898f"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/visual-feedback-2026-11-15/before-source/museum_editing.tscn",
+    "new_path": "maps/isg_museum/docs/reports/visual-feedback-2026-11-15/snapshots/before-source/museum_editing.tscn",
+    "category": "snapshot",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "5f5375579f00347331591ab043585ed785c580f787059d14a336d1ba1dccaf59",
+    "sha256_after": "38305ea3fb6532179e7404e5b5c9fd8baf0df756230de46e96527a9ec2f30016"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/visual-feedback-2026-11-15/before-source/museum_geometry.tscn",
+    "new_path": "maps/isg_museum/docs/reports/visual-feedback-2026-11-15/snapshots/before-source/museum_geometry.tscn",
+    "category": "snapshot",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "05ba4df6945608bc28f602c11311726f50dbcbe74a07efb11d7d8a42b5959013",
+    "sha256_after": "c7f96456c418d36ed39d8d891b17de7951396010e01578da7c452bc656c2a3c1"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/visual-feedback-2026-11-15/gameplay.gd",
+    "new_path": "maps/isg_museum/docs/reports/visual-feedback-2026-11-15/reproduce/gameplay.gd",
+    "category": "reproduce",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Preserve reproduction gameplay fixture; separate relocated baseline input and grouped report outputs",
+    "sha256_before": "bfce7edf2f96fefd527b25eb52c5960c526d3bd097b867a6edf3ea95bd92fcb5",
+    "sha256_after": "007338ccab61913ec492ff529c05838be3858a30ae8d25da7cb90e0b3520f534"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/visual-feedback-2026-11-15/REPORT.md",
+    "new_path": "maps/isg_museum/docs/reports/visual-feedback-2026-11-15/REPORT.md",
+    "category": "main-report",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Add archival navigation to organized artifact groups; retain original conclusions and historical results",
+    "sha256_before": "cdffd8bbc71d4afbf055e45734880ff74b6b92304841c4af67c4f854f05674a3",
+    "sha256_after": "9f0e61d82fcd0330431d8c2015447c12fd8c4e0478b06780e42d456d65808de7"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/visual-feedback-2026-11-15/summarize.py",
+    "new_path": "maps/isg_museum/docs/reports/visual-feedback-2026-11-15/reproduce/summarize.py",
+    "category": "reproduce",
+    "content_changed": true,
+    "change_reason": "Relocate by artifact role; preserve bytes; Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Reproduction scripts discover repository/report roots; route raw reads and outputs to logs/data; add read-only --check-paths",
+    "sha256_before": "984b1ead6adb9b049cf3c925b912d11c2b96801257f2cfa3d84430c839435abc",
+    "sha256_after": "d524b83837f57bf681d740787536afed6a0bfb0198313b6b7fbc3d42a2e35b51"
+  },
+  {
+    "old_path": "maps/isg_museum/README.md",
+    "new_path": "maps/isg_museum/README.md",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Replace long development diary with concise entry points, current authoring links and team/author provenance; original preserved in migration manifest",
+    "sha256_before": "379c631ece4071d23035dece9c0e7447dc356a6352d0399dfa96c42a0e6e0108",
+    "sha256_after": "e7edd215c879a65554d5f4270c13a0bc7346f285a132d82cba6be2de5b37b43d"
+  },
+  {
+    "old_path": "maps/isg_museum/assets/COURTYARD_GUIDE.md",
+    "new_path": "maps/isg_museum/assets/COURTYARD_GUIDE.md",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "2f6378bc8b84d17ff31bab3a1cff45354e292b6d052dcba883d90574a355ecad",
+    "sha256_after": "5c2a2f629f31c3b27ed3f5ab517b2a343148077a87c6126e0e2c72857ed6d5bb"
+  },
+  {
+    "old_path": "maps/isg_museum/assets/README.md",
+    "new_path": "maps/isg_museum/assets/README.md",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "ec787858374d61220fa2d7d8fced22ebe8e0cd4a344f0ca9dfcef43ed74f60c2",
+    "sha256_after": "b69170ea9dfb19e790c12951594daf2bbc0a4925e5ac0bf87d1204eae8651a76"
+  },
+  {
+    "old_path": "maps/isg_museum/assets/materials/README.md",
+    "new_path": "maps/isg_museum/assets/materials/README.md",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "db242068f82094892c8b5ae462ae1f5b7b85e3794dad4afe557941d0f445801f",
+    "sha256_after": "b1dd2d41d66540871045359857ed15263c7191a92fed4bc208c8c88e12741f42"
+  },
+  {
+    "old_path": "maps/isg_museum/assets/models/derived/README.md",
+    "new_path": "maps/isg_museum/assets/models/derived/README.md",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "63ed3b405a27524a3eb1dec830632bdf228ed63c6f694be8a9d21bacfbae415f",
+    "sha256_after": "7b595fc764442be769c7876dce74cf74a4cfbf42d7b21835bc517c9e7b2fb166"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_blockout.gd",
+    "new_path": "maps/isg_museum/tools/capture_blockout.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Route development-step captures to guides/steps",
+    "sha256_before": "6b7d9d54edc997599885b6a0e07f2ef077b8163b9b4c5d5d7f55b82989f6360f",
+    "sha256_after": "a8b1e464ee17d71e880d30e767af63b032949f256d16d5b2142ec7a53de876f9"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/verify_environment_art.gd",
+    "new_path": "maps/isg_museum/tools/verify_environment_art.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "c3c5e70909c2072f480a38459bda9aa93d02af5514ad98b5d08dda474d285fa8",
+    "sha256_after": "a1ce0b537f4e13a1f720a7877cc776ad71dab7b182d365b6a0c442e61f4a9f66"
+  },
+  {
+    "old_path": "maps/isg_museum/tests/post_b_fixes_tests.gd",
+    "new_path": "maps/isg_museum/tests/post_b_fixes_tests.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Update resolved Markdown links or executable/snapshot resource paths; preserve historical results; Fixture teardown explicitly stops audio and clears streams, then observes two mixer ticks (bounded 250 ms); no shared runtime changes; Record observed audio mixer ticks and bounded drain times in fixture diagnostics",
+    "sha256_before": "1458777c7cd9bcbe4502f0cb041f5d35e604f138ad6ace4ca3f46a58fe9c5514",
+    "sha256_after": "6a04f8bdb15284fdfe13ca15cc6f79e1d43b460b9eb4e4a10f8758ee4ae865c9"
+  },
+  {
+    "old_path": "maps/isg_museum/assets/catalog.json",
+    "new_path": "maps/isg_museum/assets/catalog.json",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Update resolved Markdown links or executable/snapshot resource paths; preserve historical results",
+    "sha256_before": "b7e202130040bd4f5b9f531b2b02da629924817f16627ec386e3ed50b31fd22b",
+    "sha256_after": "46824c3101e64c51afff8f95bbcf52469fdd43e1824fdc2084e34644d39ff2e8"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_carry.gd",
+    "new_path": "maps/isg_museum/tools/capture_carry.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Route development-step captures to guides/steps",
+    "sha256_before": "bf99e0e75f0898710a524b4a1bd1c1f86291d0f13a0e888e3e1ee874640b0491",
+    "sha256_after": "e7acf6d4312d12bc33d61209bdd134df63a901da290bbbcad3c152f21e57f3cb"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_contract.gd",
+    "new_path": "maps/isg_museum/tools/capture_contract.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Route development-step captures to guides/steps",
+    "sha256_before": "d4272afa4213844b228d39d988ec0688809cd4a499ef3d22a23d6387a140332b",
+    "sha256_after": "ee020bcf5c22b88b0d4dee1285a28f17ca54af9c26e6bcc7152c90fb425b14c4"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_contract_revision.gd",
+    "new_path": "maps/isg_museum/tools/capture_contract_revision.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Route development-step captures to guides/steps",
+    "sha256_before": "185e136ea1b837d5b433a60eabf809c40f258e8be35582406a4a86e699b40de3",
+    "sha256_after": "97f8eee29cd2248dacc1ad9fe67cf099bf086df0a3f02747685767c9388fb915"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_room_feedback.gd",
+    "new_path": "maps/isg_museum/tools/capture_room_feedback.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Route development-step captures to guides/steps",
+    "sha256_before": "d60e87db9ee622c380c1d75dd2aecaf594e4d3fba90c0fbb91f0d3e969e475fc",
+    "sha256_after": "da7a5f7777cea55baf82b4c42834978ac2fb498286bd6c1a433ecb1570e1416b"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/benchmark_environment_art.gd",
+    "new_path": "maps/isg_museum/tools/benchmark_environment_art.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Separate fixed snapshot inputs from categorized report output; retain --output overrides",
+    "sha256_before": "a5b8b68654d109249b0ffabb227cb6b366f838753924b666a4e9d263678f280c",
+    "sha256_after": "2361ef6e01296c39d35c33de885b568ea55af6d40107015dbc34f32e062b0f68"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_environment_art.gd",
+    "new_path": "maps/isg_museum/tools/capture_environment_art.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Separate fixed snapshot inputs from categorized report output; retain --output overrides; New capture metadata points to the actual categorized image path; archived metadata stays immutable",
+    "sha256_before": "207103575c5a4f7e4ecc143ca019460b68ea25ec52bcb70b3fc86158ae3f20f6",
+    "sha256_after": "4b3d329638c0e11a40e2481485890babcc02eb7ee54084971405688f8a6d2e13"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_vegetation_lods.gd",
+    "new_path": "maps/isg_museum/tools/capture_vegetation_lods.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Separate fixed snapshot inputs from categorized report output; retain --output overrides; New capture metadata points to the actual categorized image path; archived metadata stays immutable",
+    "sha256_before": "8fdb99cb321790990840bfbb3aeb3b8dfe6ded5216587c0349ace37622e12b8e",
+    "sha256_after": "eb1077580013af2f732429309cc4505279024003eaec80b496dc0a5b4aeaa64b"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_visual_feedback.gd",
+    "new_path": "maps/isg_museum/tools/capture_visual_feedback.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Separate fixed snapshot inputs from categorized report output; retain --output overrides",
+    "sha256_before": "8604f1806b24a0ef5223afab0b8018925409e4e5ac247671d58947600c118d3a",
+    "sha256_after": "edd34a767c511b571a4440e1d47b9b4eb47aa42eadcae5acc086dd9ca9b41239"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_furniture_feedback.gd",
+    "new_path": "maps/isg_museum/tools/capture_furniture_feedback.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Separate fixed snapshot inputs from categorized report output; retain --output overrides",
+    "sha256_before": "596cdab1b28597b90f47364c6c0b5226fc78e96e9c667de68a1530027e30964d",
+    "sha256_after": "e97f38bdb95b0efff503680eaf94614daaa2f172c2ffc0b2221d2a0a0abdd2e8"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_guard_visuals.gd",
+    "new_path": "maps/isg_museum/tools/capture_guard_visuals.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Separate fixed snapshot inputs from categorized report output; retain --output overrides",
+    "sha256_before": "856e2605006a6ac664bcec9424bd75316e88ffc09e275a9dc8621233c3a6e402",
+    "sha256_after": "3d16ab1e8a479a47af948e31470a1c5205979ed1a0008d07476378c17059dd92"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_guard_routes.gd",
+    "new_path": "maps/isg_museum/tools/capture_guard_routes.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Separate fixed snapshot inputs from categorized report output; retain --output overrides",
+    "sha256_before": "f7e630f9e8acd2533f18a4031d7cff9e025be90c26314868dc7e9b6b35ecc7fa",
+    "sha256_after": "16799c6ece0e1ff1ddcc8607221267565cb2c88975dfd53061e91d4d227eb1bf"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_npc_visuals.gd",
+    "new_path": "maps/isg_museum/tools/capture_npc_visuals.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Separate fixed snapshot inputs from categorized report output; retain --output overrides",
+    "sha256_before": "3c5290e1727f4a7c52be0880d59da96b2f480e88cd68d50b59e3254593c0ff5b",
+    "sha256_after": "580512afeaba34383ae304251276ad78bf3a49b774c3b18e7d890d453c8e5fc9"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_courtyard_palette.gd",
+    "new_path": "maps/isg_museum/tools/capture_courtyard_palette.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Categorize inherited palette/Post-B captures and metadata; preserve output options; New capture metadata points to the actual categorized image path; archived metadata stays immutable",
+    "sha256_before": "88ff203c0d6ad981bf03c14d241b4a659ef46cb37f17b9e0ea7ca9715004cde0",
+    "sha256_after": "039b97a0369ea2288902201129213655c0bcda782d014217785d51fb4e5417fd"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_courtyard_stage_b.gd",
+    "new_path": "maps/isg_museum/tools/capture_courtyard_stage_b.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Use normalized report root and inherited artifact routing",
+    "sha256_before": "69655f9490e3bd66df0cb689915ec8e3f0fb27afefeee92c39e970252e9a1a4e",
+    "sha256_after": "f6a048a4d9a4d843ff55ecc2e8f2a135a5fcdf21230a5481f58e0dfee2d4b89c"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/capture_post_b_fixes.gd",
+    "new_path": "maps/isg_museum/tools/capture_post_b_fixes.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Use normalized report root and inherited artifact routing",
+    "sha256_before": "128d446111952ce10b2da684695e0de0a3228643f12b12a7ae04b2fbf5b64e21",
+    "sha256_after": "4717a087f63af382d3f5b7aaf755a8f3308001d92228532218ea34271a5e423e"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/verify_npc_visuals.gd",
+    "new_path": "maps/isg_museum/tools/verify_npc_visuals.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Write authoring snapshots into report data with optional QA output root",
+    "sha256_before": "760835f597678a465a22a65dd19ab078e70951c93348d530033779a036db06f7",
+    "sha256_after": "7e19521f50c6a5e76d4bbbac0764cf2dda936583f1c985754a8b85d665fe981d"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/README.md",
+    "new_path": "maps/isg_museum/docs/README.md",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Create three-part documentation index with current concepts/materials/characters and explicit historical-evidence/migration guidance",
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "9e805c01200d2087c04ae8c64034a9d064c6f99a8da94da96d01dbf60b9fc6d1"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/reports/editing-mode/VALIDATION.json",
+    "new_path": "maps/isg_museum/docs/reports/editing-mode/VALIDATION.json",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Add missing main validation index pointing to immutable historical result records; no fabricated rerun",
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "b278e478c3cc1199941479a101863994a3ae2bb894c526fc7ba0ae98d06c1ce9"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/organize_docs.py",
+    "new_path": "maps/isg_museum/tools/organize_docs.py",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Create migration/verification or categorized QA output helper; Finalize verification/path helpers and lifetime-audit instrumentation",
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "4208be945bf5166fc8a28ec26b2947573864de5e84af845ecd8ea99a11d4ebe7"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/report_paths.gd",
+    "new_path": "maps/isg_museum/tools/report_paths.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Create migration/verification or categorized QA output helper; Finalize verification/path helpers and lifetime-audit instrumentation",
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "a4ed934c4d373702c8d38a7281b59a0acc973df4bd664cbdc76839d699c31103"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/verify_docs_migration.gd",
+    "new_path": "maps/isg_museum/tools/verify_docs_migration.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Create migration/verification or categorized QA output helper; Finalize verification/path helpers and lifetime-audit instrumentation",
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "2362706834768fd491e6b567605fe1f315b668e4d2aca2805b3358a97950865c"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/audit_post_b_teardown.gd",
+    "new_path": "maps/isg_museum/tools/audit_post_b_teardown.gd",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Create migration/verification or categorized QA output helper; Finalize verification/path helpers and lifetime-audit instrumentation",
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "43cc23c8630af168285011918182168c73f2d91eff94391c31619071877c33cf"
+  },
+  {
+    "old_path": "maps/isg_museum/docs/reports/environment-art-v1_1/revisions/iterations/VALIDATION.json",
+    "new_path": "maps/isg_museum/docs/reports/environment-art-v1_1/revisions/iterations/VALIDATION.json",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Add navigation-only validation index for archived iterations; retain original results and acceptance status",
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "664cbeeca4c957bdccedcb3c93ca47742ec76a984186b062edc99b99ba89f4f4"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/report_paths.gd.uid",
+    "new_path": "maps/isg_museum/tools/report_paths.gd.uid",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Godot-generated identity for a new helper; existing UIDs remain unchanged",
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e400459c1a1c30c82716941d38f18bad8141989918aeca018da493db4d75b4b4"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/verify_docs_migration.gd.uid",
+    "new_path": "maps/isg_museum/tools/verify_docs_migration.gd.uid",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Godot-generated identity for a new helper; existing UIDs remain unchanged",
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "18bac09bd86b5e0b76d95eee24053a797e06f04e04ba4de46a2337b19a6c5661"
+  },
+  {
+    "old_path": "maps/isg_museum/tools/audit_post_b_teardown.gd.uid",
+    "new_path": "maps/isg_museum/tools/audit_post_b_teardown.gd.uid",
+    "category": "reference-source",
+    "content_changed": true,
+    "change_reason": "Godot-generated identity for a new helper; existing UIDs remain unchanged",
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "0a18e53b4b7b9f97fdb258fcabd60109bce3e6c32e501f468be2d7a7a14363db"
+  }
+]

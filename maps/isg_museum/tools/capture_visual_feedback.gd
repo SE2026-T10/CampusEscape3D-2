@@ -1,6 +1,8 @@
 extends SceneTree
 
-const OUT := "res://maps/isg_museum/docs/visual-feedback-2026-11-15/"
+const BASELINE := "res://maps/isg_museum/docs/reports/visual-feedback-2026-11-15/snapshots/before-source/"
+const ReportPaths := preload("res://maps/isg_museum/tools/report_paths.gd")
+const OUT := "res://maps/isg_museum/docs/reports/visual-feedback-2026-11-15/"
 const VIEWS := [
 	["yard",Vector3(18,1.65,36),Vector3(18,1.5,30)],
 	["yard-west",Vector3(12,1.65,36.5),Vector3(7,0,34)],
@@ -24,12 +26,18 @@ const VIEWS := [
 	["room-b",Vector3(34,6.15,16),Vector3(35.8,5.1,12)],
 	["room-c",Vector3(18,6.15,2),Vector3(14,5.1,.2)]]
 
+var output_dir := OUT
+
+func out_path(filename: String) -> String:
+	return ReportPaths.artifact(output_dir,filename)
+
 func _initialize() -> void:
+	output_dir = ReportPaths.output_root(OUT)
 	run.call_deferred()
 
 func run() -> void:
 	var before := "--before" in OS.get_cmdline_user_args()
-	var scene := OUT+"before-source/museum_editing.tscn" if before else "res://maps/isg_museum/scenes/museum_editing.tscn"
+	var scene := BASELINE+"museum_editing.tscn" if before else "res://maps/isg_museum/scenes/museum_editing.tscn"
 	var level := load(scene).instantiate() as Node3D
 	root.size = Vector2i(1280,720)
 	root.add_child(level)
@@ -82,7 +90,7 @@ func run() -> void:
 				player.camera.rotate_y(.001)
 			await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png(OUT+("before-" if before else "after-")+view[0]+".png")
+		root.get_texture().get_image().save_png(out_path(("before-" if before else "after-")+view[0]+".png"))
 		print("Player camera captured: ",view[0])
 	level.free()
 	quit()

@@ -6,6 +6,7 @@ const Apply := preload("res://maps/isg_museum/tools/apply_environment_art.gd")
 const Art := preload("res://maps/isg_museum/tools/environment_art_builder.gd")
 var checks := 0
 var failures: Array[String] = []
+var teardown_samples: Array[Dictionary] = []
 
 func check(ok: bool, label: String) -> void:
 	checks += 1
@@ -28,7 +29,7 @@ func collision_rows(scene: Node3D) -> Dictionary:
 func run(host: Node) -> Array[String]:
 	var tree := host.get_tree()
 	var geometry: Node3D = load(BASE+"scenes/museum_geometry.tscn").instantiate()
-	var baseline: Node3D = load(BASE+"docs/post-b-fixes-v1/before-source/museum_geometry.tscn").instantiate()
+	var baseline: Node3D = load(BASE+"docs/reports/post-b-fixes-v1/snapshots/before-source/museum_geometry.tscn").instantiate()
 	var old := collision_rows(baseline)
 	var current := collision_rows(geometry)
 	var preserved := true
@@ -91,7 +92,7 @@ func run(host: Node) -> Array[String]:
 		cores_valid = cores_valid and core.shape.size.x<=.301 and core.shape.size.z<=.301 and at.origin.y-core.shape.size.y/2>=base_y+3.549
 	check(cores_valid,"Numerical corner seals stay strictly inside the visible masonry, above every opening")
 	var navigation := load(BASE+"resources/museum_navigation.tres") as NavigationMesh
-	var baseline_navigation := load(BASE+"docs/post-b-fixes-v1/before-source/museum_navigation.tres") as NavigationMesh
+	var baseline_navigation := load(BASE+"docs/reports/post-b-fixes-v1/snapshots/before-source/museum_navigation.tres") as NavigationMesh
 	var old_max_y := -INF
 	for vertex in baseline_navigation.vertices: old_max_y = maxf(old_max_y,vertex.y)
 	var nav_valid := true
@@ -170,8 +171,7 @@ func run(host: Node) -> Array[String]:
 	player.position = Vector3(25,4.5,10)
 	await frames(tree,3)
 	check(door.interact(player) and not door.is_open and door.get_node("Panel").collision_layer==1 and not door.get_node("Passage").enabled,"Clear B doorway closes and restores its world body/link")
-	map.free()
-	await tree.process_frame
+	await _free_fixture(tree,map)
 	var gameplay: Node3D = load(BASE+"scenes/museum.tscn").instantiate()
 	host.add_child(gameplay)
 	await frames(tree,12)
@@ -207,10 +207,33 @@ func run(host: Node) -> Array[String]:
 			reached_both = reached_both and reached
 		check(reached_both,"Real guard navigation crosses gallery threshold in both directions: "+str(portal.center))
 		guard.set_physics_process(false)
-	gameplay.free()
-	await tree.process_frame
+	await _free_fixture(tree,gameplay)
 	print("Post-B fixes verification: %d checks, %d failures" % [checks,failures.size()])
 	return failures
+
+func _free_fixture(tree: SceneTree, fixture: Node) -> void:
+	# Physics-only freezing leaves presentation audio alive. Stop it explicitly
+	# before disposing the fixture; the audio thread owns playback until a mix.
+	fixture.process_mode = Node.PROCESS_MODE_DISABLED
+	var stopped := 0
+	for node in fixture.find_children("*","Node",true,false):
+		if node is AudioStreamPlayer or node is AudioStreamPlayer2D or node is AudioStreamPlayer3D:
+			node.stop()
+			node.stream = null
+			stopped += 1
+	fixture.free()
+	await tree.process_frame
+	var previous := AudioServer.get_time_since_last_mix()
+	var mixes := 0
+	var started := Time.get_ticks_msec()
+	var deadline := started+250
+	while mixes<2 and Time.get_ticks_msec()<deadline:
+		await tree.process_frame
+		var current := AudioServer.get_time_since_last_mix()
+		if current<previous: mixes += 1
+		previous = current
+	teardown_samples.append({"audio_players_stopped":stopped,"mixes_observed":mixes,"elapsed_wall_ms":Time.get_ticks_msec()-started})
+	print("Fixture audio teardown: ",teardown_samples[-1])
 
 func portal_data() -> Array[Dictionary]:
 	return [{"center":Vector3(9,4.5,9),"normal":Vector3.RIGHT},{"center":Vector3(9,4.5,19),"normal":Vector3.RIGHT},

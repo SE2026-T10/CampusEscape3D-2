@@ -129,21 +129,21 @@ func _capture() -> void:
 			level.get_node("NavigationRegion3D/Doors/Storage").keypad._fit()
 			await process_frame
 		await RenderingServer.frame_post_draw
-		var output := "res://maps/isg_museum/docs/step-06-%s.png" % shot[0]
+		var output := "res://maps/isg_museum/docs/guides/steps/step-06-%s.png" % shot[0]
 		if entrance_only:
-			output = "res://maps/isg_museum/docs/concept-v2/exterior-start-godot.png"
+			output = "res://maps/isg_museum/docs/design/concept-v2/exterior-start-godot.png"
 		if frame_only:
-			output = "res://maps/isg_museum/docs/step-07-%s.png" % shot[0]
+			output = "res://maps/isg_museum/docs/guides/steps/step-07-%s.png" % shot[0]
 		if courtyard_only:
-			output = "res://maps/isg_museum/docs/step-10-courtyard-cross.png"
+			output = "res://maps/isg_museum/docs/guides/steps/step-10-courtyard-cross.png"
 		if ring_only:
-			output = "res://maps/isg_museum/docs/step-11-courtyard-ring.png"
+			output = "res://maps/isg_museum/docs/guides/steps/step-11-courtyard-ring.png"
 		if staff_only:
-			output = "res://maps/isg_museum/docs/step-14-ah-%s.png" % shot[0]
+			output = "res://maps/isg_museum/docs/guides/steps/step-14-ah-%s.png" % shot[0]
 		if paper_only:
-			output = "res://maps/isg_museum/docs/step-15-%s.png" % shot[0]
+			output = "res://maps/isg_museum/docs/guides/steps/step-15-%s.png" % shot[0]
 		if storage_only:
-			output = "res://maps/isg_museum/docs/step-16-%s.png" % shot[0]
+			output = "res://maps/isg_museum/docs/guides/steps/step-16-%s.png" % shot[0]
 		var result := root.get_texture().get_image().save_png(output)
 		if result != OK:
 			push_error("Could not save screenshot: " + output)

@@ -1,0 +1,22 @@
+{
+	"alive_after_120_physics_frames": [],
+	"alive_immediately_after_fixture": 0,
+	"audio_teardown": [
+		{
+			"audio_players_stopped": 7,
+			"elapsed_wall_ms": 171,
+			"mixes_observed": 2
+		},
+		{
+			"audio_players_stopped": 25,
+			"elapsed_wall_ms": 131,
+			"mixes_observed": 2
+		}
+	],
+	"observed": {
+		"machine": 9,
+		"node": 7199,
+		"state": 27
+	},
+	"suite_failures": []
+}

@@ -1,6 +1,6 @@
 # Thư viện asset bảo tàng
 
-Art môi trường v1 đã được áp dụng vào các scene museum bằng công cụ offline có thể chạy lại. Xem [báo cáo và ảnh Godot](../docs/environment-art-v1/REPORT.md), [mesh runtime đã giảm lưới](models/derived/README.md) và `../resources/environment_art_manifest.json`. Nguồn tải và giấy phép bên dưới được bảo tồn.
+Art môi trường v1 đã được áp dụng vào các scene museum bằng công cụ offline có thể chạy lại. Xem [báo cáo và ảnh Godot](../docs/reports/environment-art-v1/REPORT.md), [mesh runtime đã giảm lưới](models/derived/README.md) và `../resources/environment_art_manifest.json`. Nguồn tải và giấy phép bên dưới được bảo tồn.
 
 Thư viện cập nhật ngày 11/11/2026 đã lưu **27 model, 1 ảnh tác phẩm, 9 clip hoạt ảnh và 1 nhân vật tham chiếu Mixamo**. Còn **1 bản ghi model sân vườn chờ tải qua Sketchfab — Goddess Isis**. Trạng thái từng mục nằm trong `catalog.json` và `source.json` của thư mục tương ứng.
 

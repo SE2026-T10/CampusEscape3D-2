@@ -28,7 +28,7 @@ Tree budgets and transition distances come from `resources/environment_art_layou
 
 Hedge foliage uses the CC0 Shrub 04 leaf UV island on folded leaves, plus a recessed fill and the existing reduced shrub branches. It does not use the tree atlas as an opaque surface. The visible shell stays inside the existing 1.2 m cover envelope.
 
-The cream stone albedo in `assets/materials/textures/derived/` is a low-contrast tint of the existing CC0 Marble012 texture. The two courtyard presets retain its normal and roughness maps at a gentle strength; they remain lit. See [v1.1 evidence](../../../docs/environment-art-v1_1/REPORT.md).
+The cream stone albedo in `assets/materials/textures/derived/` is a low-contrast tint of the existing CC0 Marble012 texture. The two courtyard presets retain its normal and roughness maps at a gentle strength; they remain lit. See [v1.1 evidence](../../../docs/reports/environment-art-v1_1/REPORT.md).
 
 Gothic columns are normalized into `scenes/art/modules/gothic_column.tscn`. Arches, fountain basin, and balusters are selected by source mesh name during authoring. All parent transforms are retained, including the balustrade's reciprocal scales. Repeated stone visuals are combined into static ArrayMesh batches; their simple collision stays independent. This also preserves the geometry when authoring through the headless dummy renderer.
 
@@ -36,4 +36,4 @@ Terpsichore is an adaptation of **Glenn Gunhouse's** version of the Cleveland Mu
 
 The display base is adapted from **Charlotte Kimberly Andreassen**, [Small Museum Display Case](https://sketchfab.com/3d-models/small-museum-display-case-bcc6c9850ce8455897196555418c6fa7), CC BY 4.0. Glass, shards and artifacts remain separate existing gameplay nodes.
 
-Full source attribution, URLs, and adaptation notes: [ATTRIBUTION.md](../../../docs/environment-art-v1/ATTRIBUTION.md). Original asset metadata and licenses remain beside each source file. Reduction manifests are stored here and included in `resources/environment_art_manifest.json`.
+Full source attribution, URLs, and adaptation notes: [ATTRIBUTION.md](../../../docs/reports/environment-art-v1/data/ATTRIBUTION.md). Original asset metadata and licenses remain beside each source file. Reduction manifests are stored here and included in `resources/environment_art_manifest.json`.

@@ -1,5 +1,7 @@
 extends SceneTree
 
+const ReportPaths := preload("res://maps/isg_museum/tools/report_paths.gd")
+
 func _initialize() -> void:
 	run.call_deferred()
 
@@ -16,7 +18,7 @@ func run() -> void:
 			_snapshot(scene,scene,path,data)
 			scene.free()
 		data.sort_custom(func(a,b): return a.path<b.path)
-		var file := FileAccess.open("res://maps/isg_museum/docs/npc-art-v1/authoring-"+args[index+1].validate_filename()+".json",FileAccess.WRITE)
+		var file := FileAccess.open(ReportPaths.artifact(ReportPaths.output_root("res://maps/isg_museum/docs/reports/npc-art-v1/"),"authoring-"+args[index+1].validate_filename()+".json"),FileAccess.WRITE)
 		file.store_string(JSON.stringify(data,"\t")+"\n")
 		file.close()
 		quit()

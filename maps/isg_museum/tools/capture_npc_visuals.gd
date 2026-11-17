@@ -1,14 +1,21 @@
 extends SceneTree
 
 const BASE := "res://maps/isg_museum/"
-const OUT := BASE+"docs/npc-art-v1/"
+const ReportPaths := preload("res://maps/isg_museum/tools/report_paths.gd")
+const OUT := BASE+"docs/reports/npc-art-v1/"
 var level: Node3D
 var camera: Camera3D
 var audit := []
 var n0: Node3D
 var receptionist: Node3D
 
+var output_dir := OUT
+
+func out_path(filename: String) -> String:
+	return ReportPaths.artifact(output_dir,filename)
+
 func _initialize() -> void:
+	output_dir = ReportPaths.output_root(OUT)
 	run.call_deferred()
 
 func frames(n: int) -> void:
@@ -16,7 +23,7 @@ func frames(n: int) -> void:
 
 func photo(id: String) -> void:
 	await RenderingServer.frame_post_draw
-	root.get_texture().get_image().save_png(OUT+id+".png")
+	root.get_texture().get_image().save_png(out_path(id+".png"))
 	var a = n0.get_node("Presentation")
 	var b = receptionist.get_node("Presentation")
 	audit.append({"id":id,"n0":a.current_animation,"reception":b.current_animation,"talking":[a.talking,b.talking],
@@ -111,7 +118,7 @@ func run() -> void:
 	camera.look_at(Vector3(21,.9,33))
 	await frames(30)
 	await photo("role-colours-qa")
-	var file := FileAccess.open(OUT+"capture.json",FileAccess.WRITE)
+	var file := FileAccess.open(out_path("capture.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(audit,"\t")+"\n")
 	file.close()
 	current_scene = null

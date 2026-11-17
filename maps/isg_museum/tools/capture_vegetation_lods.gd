@@ -3,7 +3,9 @@ extends SceneTree
 ## Isolated vegetation QA under one fixed lighting rig. Optional movie uses
 ## Godot's native --write-movie; it is never used as a timing benchmark.
 const Art := preload("res://maps/isg_museum/tools/environment_art_builder.gd")
-const OUT := Art.BASE+"docs/environment-art-v1_1/"
+const BASELINE := "res://maps/isg_museum/docs/reports/environment-art-v1_1/snapshots/before-source/"
+const ReportPaths := preload("res://maps/isg_museum/tools/report_paths.gd")
+const OUT := Art.BASE+"docs/reports/environment-art-v1_1/"
 var camera: Camera3D
 var trees: Array[Node3D] = []
 var labels: Array[String] = []
@@ -11,7 +13,13 @@ var before := false
 var caption: Label
 var evidence: Array = []
 
+var output_dir := OUT
+
+func out_path(filename: String) -> String:
+	return ReportPaths.artifact(output_dir,filename)
+
 func _initialize() -> void:
+	output_dir = ReportPaths.output_root(OUT)
 	run.call_deferred()
 
 func snap(id: String) -> void:
@@ -19,8 +27,8 @@ func snap(id: String) -> void:
 		await process_frame
 	await RenderingServer.frame_post_draw
 	var name := ("before-" if before else "after-")+id+".png"
-	root.get_texture().get_image().save_png(OUT+name)
-	evidence.append({"image":name,"camera":str(camera.position),"root_distance":camera.position.length(),"lighting":"v1.1 fixed rig"})
+	root.get_texture().get_image().save_png(out_path(name))
+	evidence.append({"image":out_path(name),"camera":str(camera.position),"root_distance":camera.position.length(),"lighting":"v1.1 fixed rig"})
 	print("LOD QA captured ",name)
 
 func set_camera(distance: float, angle := .55) -> void:
@@ -52,7 +60,7 @@ func run() -> void:
 	world.add_child(ground)
 	ground.position.y = -.025
 	if before:
-		var original: Node3D = load(OUT+"before-source/museum_geometry.tscn").instantiate()
+		var original: Node3D = load(BASELINE+"museum_geometry.tscn").instantiate()
 		for node in original.get_node("EnvironmentArt").get_children():
 			if not str(node.name).begins_with("Tree"):
 				continue
@@ -118,7 +126,7 @@ func run() -> void:
 		for distance in [12.0,18.0,22.0,30.0]:
 			set_camera(distance)
 			await snap("lod-auto-%dm" % int(distance))
-		var file := FileAccess.open(OUT+("before-" if before else "after-")+"lod-capture.json",FileAccess.WRITE)
+		var file := FileAccess.open(out_path(("before-" if before else "after-")+"lod-capture.json"),FileAccess.WRITE)
 		file.store_string(JSON.stringify({"snapshots":evidence,"normalization":"identical source reference bounds for all v1.1 levels"},"\t"))
 	world.free()
 	layer.free()

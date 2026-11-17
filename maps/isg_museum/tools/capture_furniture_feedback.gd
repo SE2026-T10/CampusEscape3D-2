@@ -3,11 +3,18 @@ extends SceneTree
 ## Offline visual QA: capture the normal scene after real G3 establishes its pose.
 ## Freeze only the capture instance; AI behavior is exercised by verify_staff_room.
 const Art := preload("res://maps/isg_museum/tools/environment_art_builder.gd")
-const OUT := "res://maps/isg_museum/docs/visual-feedback-2026-11-15/"
+const ReportPaths := preload("res://maps/isg_museum/tools/report_paths.gd")
+const OUT := "res://maps/isg_museum/docs/reports/visual-feedback-2026-11-15/"
 var camera: Camera3D
 var prefix := "furniture-before-"
 
+var output_dir := OUT
+
+func out_path(filename: String) -> String:
+	return ReportPaths.artifact(output_dir,filename)
+
 func _initialize() -> void:
+	output_dir = ReportPaths.output_root(OUT)
 	run.call_deferred()
 
 func shot(id: String, position: Vector3, target: Vector3) -> void:
@@ -16,7 +23,7 @@ func shot(id: String, position: Vector3, target: Vector3) -> void:
 	for i in 8:
 		await process_frame
 	await RenderingServer.frame_post_draw
-	root.get_texture().get_image().save_png(OUT+prefix+id+".png")
+	root.get_texture().get_image().save_png(out_path(prefix+id+".png"))
 	print("Captured ",prefix,id)
 
 func run() -> void:
@@ -62,7 +69,7 @@ func run() -> void:
 	for path in ["StorageInterior/SteelCabinet/Mesh", "StorageInterior/CabinetDoor",
 		"StorageInterior/CabinetHandle", "StaffInterior/ChairSeat", "StaffInterior/ChairBack"]:
 		audit.legacy_visible[path] = geometry.get_node(path).visible
-	FileAccess.open(OUT+prefix+"audit.json", FileAccess.WRITE).store_string(JSON.stringify(audit,"\t")+"\n")
+	FileAccess.open(out_path(prefix+"audit.json"),FileAccess.WRITE).store_string(JSON.stringify(audit,"\t")+"\n")
 	level.hide()
 	var sun := DirectionalLight3D.new()
 	root.add_child(sun)

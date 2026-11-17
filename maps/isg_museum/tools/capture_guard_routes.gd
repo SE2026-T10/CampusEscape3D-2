@@ -3,12 +3,19 @@ extends SceneTree
 ## Offline route QA: existing G1 with a temporary patrol route, unchanged
 ## navigation/collision/movement code. G6 then inspects a genuinely emptied T1.
 const BASE := "res://maps/isg_museum/"
-const OUT := BASE+"docs/guard-art-v1/"
+const ReportPaths := preload("res://maps/isg_museum/tools/report_paths.gd")
+const OUT := BASE+"docs/reports/guard-art-v1/"
 var level: Node3D
 var camera: Camera3D
 var results := []
 
+var output_dir := OUT
+
+func out_path(filename: String) -> String:
+	return ReportPaths.artifact(output_dir,filename)
+
 func _initialize() -> void:
+	output_dir = ReportPaths.output_root(OUT)
 	run.call_deferred()
 
 func frames(n: int) -> void:
@@ -70,7 +77,7 @@ func run() -> void:
 		results.append({"stair":"B" if mirror else "A","up_and_down":reached,"position":str(actor.position)})
 		print("STAIR ",results[-1])
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png(OUT+"stair-"+("b" if mirror else "a")+".png")
+		root.get_texture().get_image().save_png(out_path("stair-"+("b" if mirror else "a")+".png"))
 	actor.set_physics_process(false)
 	var inspector = level.get_node("Guard_G6")
 	var painting = level.get_node("Interactables/Painting_T1")
@@ -89,10 +96,10 @@ func run() -> void:
 	var reported: bool = inspector.report_missing()
 	await frames(45)
 	await RenderingServer.frame_post_draw
-	root.get_texture().get_image().save_png(OUT+"g6-empty-frame.png")
+	root.get_texture().get_image().save_png(out_path("g6-empty-frame.png"))
 	results.append({"g6_sees_frame":seen,"g6_reported":reported,"missing":painting.is_artwork_missing()})
 	print("G6 ",results[-1])
-	FileAccess.open(OUT+"routes.json",FileAccess.WRITE).store_string(JSON.stringify(results,"\t")+"\n")
+	FileAccess.open(out_path("routes.json"),FileAccess.WRITE).store_string(JSON.stringify(results,"\t")+"\n")
 	current_scene = null
 	level.free()
 	camera.free()

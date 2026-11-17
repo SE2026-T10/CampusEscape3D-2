@@ -32,7 +32,7 @@ func fixed_views() -> Dictionary:
 	return result
 
 func run() -> void:
-	output_dir = BASE+"docs/post-b-fixes-v1/"
+	output_dir = BASE+"docs/reports/post-b-fixes-v1/"
 	if not configure_output():
 		quit(1)
 		return

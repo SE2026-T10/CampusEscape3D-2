@@ -2,7 +2,9 @@ extends SceneTree
 
 ## Render and real-time gameplay measurement only. No screenshots or project edits.
 const BASE := "res://maps/isg_museum/"
-const OUT := BASE+"docs/environment-art-v1_1/"
+const BASELINE := "res://maps/isg_museum/docs/reports/environment-art-v1_1/snapshots/before-source/"
+const ReportPaths := preload("res://maps/isg_museum/tools/report_paths.gd")
+const OUT := BASE+"docs/reports/environment-art-v1_1/"
 const VIEWS := [
 	["courtyard",Vector3(18,1.65,22.5),Vector3(18,4.8,12)],
 	["cover",Vector3(13.55,.78,12.05),Vector3(14,1.15,10)],
@@ -26,7 +28,13 @@ var visited: Array[String] = []
 var live := false
 var before := false
 
+var output_dir := OUT
+
+func out_path(filename: String) -> String:
+	return ReportPaths.artifact(output_dir,filename)
+
 func _initialize() -> void:
+	output_dir = ReportPaths.output_root(OUT)
 	run.call_deferred()
 
 func percentile(values: Array, fraction: float) -> float:
@@ -86,7 +94,7 @@ func run() -> void:
 		if argument.begins_with("--seconds="):
 			seconds = float(argument.get_slice("=",1))
 	seed(110012)
-	var scene_path := OUT+"before-source/museum.tscn" if before else BASE+"scenes/museum.tscn"
+	var scene_path := BASELINE+"museum.tscn" if before else BASE+"scenes/museum.tscn"
 	root.size = Vector2i(1280,720)
 	root.content_scale_size = Vector2i(1280,720)
 	level = load(scene_path).instantiate()
@@ -177,7 +185,7 @@ func run() -> void:
 					if str(node.name).begins_with("Tree") or str(node.name).begins_with("HedgeLeaves_"):
 						node.hide()
 			elif diagnostic == "v1-sun":
-				var baseline := load(OUT+"before-source/museum.tscn").instantiate() as Node3D
+				var baseline := load(BASELINE+"museum.tscn").instantiate() as Node3D
 				level.get_node("DirectionalLight3D").rotation = baseline.get_node("DirectionalLight3D").rotation
 				baseline.free()
 			summary["mode"] = "render_diagnostic_"+diagnostic
@@ -203,8 +211,8 @@ func run() -> void:
 	if "--course-check" in OS.get_cmdline_user_args():
 		id = "course-check"
 		summary["mode"] = "headless_fixed_fps_course_check_not_a_benchmark"
-	var output := FileAccess.open(OUT+id+".json",FileAccess.WRITE)
-	var csv := FileAccess.open(OUT+id+"-frames.csv",FileAccess.WRITE)
+	var output := FileAccess.open(out_path(id+".json"),FileAccess.WRITE)
+	var csv := FileAccess.open(out_path(id+"-frames.csv"),FileAccess.WRITE)
 	csv.store_line("view,frame_interval_ms,draw_calls,primitives,render_memory_bytes,gpu_render_ms,guards_chasing,carrying")
 	for row in rows:
 		var fields := PackedStringArray()

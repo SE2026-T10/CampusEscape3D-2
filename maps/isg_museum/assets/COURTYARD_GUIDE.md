@@ -1,6 +1,6 @@
 # Asset sân vườn cột vòm
 
-Đã tích hợp art v1 vào scene chơi ngày 11–12/11/2026. Builder, LOD, kiểm thử và ảnh Godot nằm trong [báo cáo triển khai](../docs/environment-art-v1/REPORT.md). Các ghi chú chuẩn bị dưới đây mô tả tình trạng nguồn trước khi tích hợp; GLB/glTF nguồn vẫn giữ nguyên.
+Đã tích hợp art v1 vào scene chơi ngày 11–12/11/2026. Builder, LOD, kiểm thử và ảnh Godot nằm trong [báo cáo triển khai](../docs/reports/environment-art-v1/REPORT.md). Các ghi chú chuẩn bị dưới đây mô tả tình trạng nguồn trước khi tích hợp; GLB/glTF nguồn vẫn giữ nguyên.
 
 Đợt chuẩn bị ngày 10/11/2026 cho phương án `docs/asset-design-preview-v1/06-courtyard-garden.png` và bốn tượng thay chậu cây. Ngày 11/11/2026 bổ sung ba GLB người dùng tải — cột–vòm, lan can và tượng Terpsichore. Thư mục này chuẩn bị model và dữ liệu nguồn; chưa đặt các model mới vào scene chơi.
 

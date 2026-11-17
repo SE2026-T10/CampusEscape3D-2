@@ -14,7 +14,7 @@ func lighting() -> Dictionary:
 		"lights":lights,"camera_attributes":properties(player.camera.attributes)}
 
 func run() -> void:
-	output_dir = BASE+"docs/courtyard-palette-stage-b/"
+	output_dir = BASE+"docs/reports/courtyard-palette-stage-b/"
 	if not configure_output():
 		quit(1)
 		return
@@ -136,7 +136,7 @@ func write_collision() -> void:
 	write_json(image_prefix+"collision.json",{"sha256":"\n".join(rows).sha256_text(),"rows":rows})
 
 func write_json(path: String, data: Variant) -> void:
-	var file := FileAccess.open(output_dir+path,FileAccess.WRITE)
+	var file := FileAccess.open(ReportPaths.artifact(output_dir,path),FileAccess.WRITE)
 	file.store_string(JSON.stringify(data,"\t")+"\n")
 	file.close()
 

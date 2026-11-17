@@ -3,13 +3,20 @@ extends SceneTree
 ## Normal-scene QA fixture. Movie: live G3 and staged clip gallery. Benchmark:
 ## nine live AI actors, uncapped display frames, fixed courtyard camera.
 const BASE := "res://maps/isg_museum/"
-const OUT := BASE+"docs/guard-art-v1/"
+const ReportPaths := preload("res://maps/isg_museum/tools/report_paths.gd")
+const OUT := BASE+"docs/reports/guard-art-v1/"
 var level: Node3D
 var camera: Camera3D
 var g3
 var phases := []
 
+var output_dir := OUT
+
+func out_path(filename: String) -> String:
+	return ReportPaths.artifact(output_dir,filename)
+
 func _initialize() -> void:
+	output_dir = ReportPaths.output_root(OUT)
 	run.call_deferred()
 
 func frames(count: int) -> void:
@@ -22,7 +29,7 @@ func frames(count: int) -> void:
 
 func photo(name: String) -> void:
 	await RenderingServer.frame_post_draw
-	root.get_texture().get_image().save_png(OUT+name+".png")
+	root.get_texture().get_image().save_png(out_path(name+".png"))
 
 func run() -> void:
 	root.size = Vector2i(1280,720)
@@ -63,7 +70,7 @@ func tour() -> void:
 			await frames(1)
 		await photo("tour-"+String(child.name))
 		actors.append({"name":child.name,"physics_active":child.is_physics_processing(),"animation":child.get_node("Presentation").current_animation})
-	FileAccess.open(OUT+"tour.json",FileAccess.WRITE).store_string(JSON.stringify(actors,"\t")+"\n")
+	FileAccess.open(out_path("tour.json"),FileAccess.WRITE).store_string(JSON.stringify(actors,"\t")+"\n")
 
 func movie() -> void:
 	# Keep AI/sensors active; disable only the terminal caught overlay in this QA instance.
@@ -101,7 +108,7 @@ func movie() -> void:
 	await frames(15)
 	await photo("g3-returned")
 	print("Live G3 phases: ",phases)
-	FileAccess.open(OUT+"g3-phases.json",FileAccess.WRITE).store_string(JSON.stringify(phases,"\t")+"\n")
+	FileAccess.open(out_path("g3-phases.json"),FileAccess.WRITE).store_string(JSON.stringify(phases,"\t")+"\n")
 	# Isolated poses are labelled clip QA, distinct from the preceding live sequence.
 	level.process_mode = Node.PROCESS_MODE_DISABLED
 	var visual: Node3D = load(BASE+"scenes/npc/museum_guard_visual.tscn").instantiate()
@@ -154,7 +161,7 @@ func benchmark() -> void:
 		"process_frame_interval_ms":{"p50":percentile(intervals,.5),"p95":percentile(intervals,.95),"p99":percentile(intervals,.99)},
 		"draw_calls_p50":percentile(draws,.5),"primitives_p50":percentile(primitives,.5),"render_memory_mib_p50":percentile(memory,.5),
 		"gpu_timing":"not available; process intervals are not GPU times","conditions":"static courtyard camera, 9 AI active, player stationary outside"}
-	FileAccess.open(OUT+"benchmark.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t")+"\n")
+	FileAccess.open(out_path("benchmark.json"),FileAccess.WRITE).store_string(JSON.stringify(result,"\t")+"\n")
 	Engine.max_fps = old_cap
 	DisplayServer.window_set_vsync_mode(old_sync)
 	print("Benchmark complete: ",result.process_frame_interval_ms)

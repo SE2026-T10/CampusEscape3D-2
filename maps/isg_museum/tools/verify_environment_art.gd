@@ -98,7 +98,7 @@ func _run() -> void:
 		builder.call(method,scene,layout)
 		check(once == Apply.signature(scene),"Second art pass preserves nodes, resources and colliders: "+id)
 		if id == "museum_geometry":
-			var baseline := load(Art.BASE+"docs/environment-art-v1_1/before-source/museum_geometry.tscn").instantiate() as Node3D
+			var baseline := load(Art.BASE+"docs/reports/environment-art-v1_1/snapshots/before-source/museum_geometry.tscn").instantiate() as Node3D
 			check(collision_signature(baseline) == collision_signature(scene),"Old collision matches v1 excluding four removed planters and explicitly tagged new spandrels")
 			check(builder.validate_arcade_joints(scene.get_node("EnvironmentArt/Arcade")).is_empty(),"Saved transformed arcade spring points join actual capitals")
 			check(not scene.has_node("FrontYard/Planter7") and not scene.has_node("FrontYard/Planter8") and not scene.has_node("FrontYard/Planter9") and not scene.has_node("FrontYard/Planter10"),"Exactly four exterior planter bodies removed")
