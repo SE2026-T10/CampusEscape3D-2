@@ -1,0 +1,20 @@
+{
+    "folder":  "images/artworks/turner_venice",
+    "object_id":  437853,
+    "download":  "https://images.metmuseum.org/CRDImages/ep/original/DP169568.jpg",
+    "bytes":  2354666,
+    "credit_line":  "Bequest of Cornelius Vanderbilt, 1899",
+    "status":  "downloaded",
+    "license_url":  "https://www.metmuseum.org/hubs/open-access",
+    "source":  "https://www.metmuseum.org/art/collection/search/437853",
+    "file":  "turner_venice_original.jpg",
+    "object_number":  "99.31",
+    "downloaded_on":  "2026-11-10",
+    "license":  "Public Domain / CC0-1.0",
+    "sha256":  "05c6f7155da340471d9280e5be5ba9f01ba1589a83802f4fe9e396480a72e871",
+    "provider":  "The Metropolitan Museum of Art",
+    "format":  "JPG",
+    "author":  "Joseph Mallord William Turner",
+    "title":  "Venice, from the Porch of Madonna della Salute",
+    "id":  "turner_venice"
+}

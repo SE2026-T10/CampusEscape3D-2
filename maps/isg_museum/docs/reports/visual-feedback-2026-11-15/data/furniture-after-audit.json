@@ -1,0 +1,34 @@
+{
+	"g3_phase": "sleeping",
+	"g3_position": "(34.1, 0.000128, 12.0)",
+	"g3_yaw": 89.9999923706055,
+	"guards": 9,
+	"legacy_visible": {
+		"StaffInterior/ChairBack": false,
+		"StaffInterior/ChairSeat": false,
+		"StorageInterior/CabinetDoor": false,
+		"StorageInterior/CabinetHandle": false,
+		"StorageInterior/SteelCabinet/Mesh": false
+	},
+	"scene": "museum.tscn",
+	"visuals": {
+		"g3_chair": {
+			"normalized_bounds": "[P: (-0.35, 0.0, -0.35), S: (0.7, 1.2, 0.7)]",
+			"pivot": "[X: (-0.0, 0.0, 1.6145), Y: (0.0, 1.232821, 0.0), Z: (-1.214392, 0.0, -0.0), O: (-0.051993, -0.001584, 0.0)]",
+			"position": "(34.1, 0.0, 12.0)",
+			"yaw": -90.0
+		},
+		"restoration_cabinet": {
+			"normalized_bounds": "[P: (-0.65, 0.0, -0.325), S: (1.3, 2.2, 0.65)]",
+			"pivot": "[X: (-0.0, 0.0, 0.544081), Y: (0.0, 1.861457, 0.0), Z: (-2.108214, 0.0, -0.0), O: (0.054656, 0.00069, -0.001432)]",
+			"position": "(35.1, 4.5, 20.2)",
+			"yaw": -90.0
+		},
+		"storage_cabinet": {
+			"normalized_bounds": "[P: (-1.7, 0.0, -0.325), S: (3.4, 2.2, 0.65)]",
+			"pivot": "[X: (-2.845963, 0.0, 0.0), Y: (0.0, 1.861457, 0.0), Z: (-0.0, 0.0, -1.054107), O: (0.007492, 0.00069, 0.027328)]",
+			"position": "(31.5, 0.0, 23.525)",
+			"yaw": 180.0
+		}
+	}
+}

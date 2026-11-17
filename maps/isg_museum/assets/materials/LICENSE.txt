@@ -1,0 +1,6 @@
+All texture images in textures/ are by ambientCG and released under CC0 1.0 Universal.
+https://creativecommons.org/publicdomain/zero/1.0/
+https://docs.ambientcg.com/license/
+
+Original asset pages, download URLs and SHA-256 hashes are recorded in sources.json.
+Material presets are project-specific configurations of these textures.

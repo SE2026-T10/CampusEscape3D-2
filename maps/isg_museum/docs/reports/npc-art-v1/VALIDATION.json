@@ -1,0 +1,334 @@
+{
+  "date": "2026-11-16T19:18:15.655770+07:00",
+  "engine": "Godot 4.7.2 stable",
+  "renderer": "GL Compatibility",
+  "working_tree": "Existing uncommitted guard-art preserved",
+  "baseline_service": {
+    "checks": 31,
+    "failures": 0,
+    "log": "baseline-service.log"
+  },
+  "commands": [
+    {
+      "command": "godot --headless --path . --editor --quit",
+      "exit_code": 0,
+      "log": "import.log"
+    },
+    {
+      "command": "godot --headless --path . --script res://tools/ci/check_scripts.gd",
+      "exit_code": 0,
+      "log": "check-scripts-final.log"
+    },
+    {
+      "command": "godot --headless --path . --script res://maps/isg_museum/tools/prepare_npc_assets.gd",
+      "exit_code": 0,
+      "log": "prepare.log"
+    },
+    {
+      "command": "godot --headless --path . --script res://maps/isg_museum/tools/prepare_npc_assets.gd -- --check",
+      "exit_code": 0,
+      "log": "check-assets-final.log"
+    },
+    {
+      "command": "godot --headless --path . --script res://maps/isg_museum/tools/apply_environment_art.gd -- --check",
+      "exit_code": 0,
+      "log": "check-art.log"
+    },
+    {
+      "command": "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe -B tools/ci/check_layout.py",
+      "exit_code": 0,
+      "log": "check-layout.log"
+    }
+  ],
+  "scripts": 355,
+  "layout": "CHECK LAYOUT PASSED (816 runtime references)",
+  "suites": [
+    {
+      "date": "2026-11-16T19:03:21.0560001+07:00",
+      "id": "npc_visuals",
+      "exit_code": 0,
+      "log": "verify-npc_visuals.log",
+      "checks": 65,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_npc_visuals.gd"
+    },
+    {
+      "date": "2026-11-16T19:04:11.3961807+07:00",
+      "id": "contract",
+      "exit_code": 0,
+      "log": "verify-contract.log",
+      "checks": 42,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_contract.gd"
+    },
+    {
+      "date": "2026-11-16T19:05:03.2799711+07:00",
+      "id": "contract_variants",
+      "exit_code": 0,
+      "log": "verify-contract_variants.log",
+      "checks": 71,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_contract_variants.gd"
+    },
+    {
+      "date": "2026-11-16T19:05:11.0497760+07:00",
+      "id": "service",
+      "exit_code": 0,
+      "log": "verify-service.log",
+      "checks": 31,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_service.gd"
+    },
+    {
+      "date": "2026-11-16T19:05:26.3894547+07:00",
+      "id": "editing_mode",
+      "exit_code": 0,
+      "log": "verify-editing_mode.log",
+      "checks": 75,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_editing_mode.gd"
+    },
+    {
+      "date": "2026-11-16T19:05:39.8817946+07:00",
+      "id": "guard_visuals",
+      "exit_code": 0,
+      "log": "verify-guard_visuals.log",
+      "checks": 42,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_guard_visuals.gd"
+    },
+    {
+      "date": "2026-11-16T19:06:47.5101060+07:00",
+      "id": "staff_room",
+      "exit_code": 0,
+      "log": "verify-staff_room.log",
+      "checks": 55,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_staff_room.gd"
+    }
+  ],
+  "checks": 381,
+  "failures": 0,
+  "integrated": {
+    "exit_code": 0,
+    "date": "2026-11-16T19:08:36.3307820+07:00",
+    "command": "godot --headless --path . --fixed-fps 60 res://tests/test_scene.tscn",
+    "log": "integrated.log",
+    "all_passed": true
+  },
+  "read_only_check": {
+    "exit_code": 0,
+    "unchanged": true,
+    "hashes": {
+      "maps/isg_museum/assets/animations/mixamo/derived/npc_animations.res": "8a76df1419befb98b71db4a2e21f21af6218e954a70b245fe8c22a32b36bd46f",
+      "maps/isg_museum/scenes/npc/museum_npc_visual.tscn": "f53d75641d9b43aa41f6666a27098204ed922e0b1b88d27baaa288572e7e8363",
+      "maps/isg_museum/resources/npc_animation_manifest.json": "2d84fa8e7165af17cf9b0224131c91699015b841c1cfc05702efbe126bbec812"
+    }
+  },
+  "rebuild": {
+    "equal": true,
+    "nodes": 97,
+    "guard_artifacts_unchanged": true,
+    "exit_codes": {
+      "first": 0,
+      "service": 0,
+      "second": 0,
+      "teammate": 0
+    },
+    "palette_and_art": "build_service.gd invokes Palette.apply_service and Art.apply_to_service before saving"
+  },
+  "guard_artifacts": [
+    {
+      "file": "maps/isg_museum/assets/models/characters/low_poly_security_guard/derived/guard_rig.tscn",
+      "sha256": "36b3cfd8ff46c17fe12e1543d9a6b6b8214ef670f0a26bde8a3a646198c661d6",
+      "unchanged": true
+    },
+    {
+      "file": "maps/isg_museum/assets/animations/mixamo/derived/guard_animations.res",
+      "sha256": "3e2fff40ee690319c05e1cba918917e927f0c2e0cbbb5375068c14759da6a29b",
+      "unchanged": true
+    },
+    {
+      "file": "maps/isg_museum/scenes/npc/museum_guard_visual.tscn",
+      "sha256": "cb1cb71268dbd1bbd826d616e35088cddeb8e715d419afe0c63532323568438e",
+      "unchanged": true
+    },
+    {
+      "file": "maps/isg_museum/scenes/npc/museum_guard.tscn",
+      "sha256": "7c9bd20038a523a7ba1e7978f2aee4f7aa5ca368ed6dad371a7660311cc4a53e",
+      "unchanged": true
+    },
+    {
+      "file": "maps/isg_museum/resources/guard_animation_manifest.json",
+      "sha256": "f175ffa4b05ff5cf42dd3b5ab4c536a671e19bb32e1644d8409391a439e335c9",
+      "unchanged": true
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "maps/isg_museum/assets/animations/mixamo/derived/npc_animations.res",
+      "sha256": "8a76df1419befb98b71db4a2e21f21af6218e954a70b245fe8c22a32b36bd46f"
+    },
+    {
+      "file": "maps/isg_museum/resources/npc_animation_manifest.json",
+      "sha256": "2d84fa8e7165af17cf9b0224131c91699015b841c1cfc05702efbe126bbec812"
+    },
+    {
+      "file": "maps/isg_museum/scenes/npc/museum_npc_visual.tscn",
+      "sha256": "f53d75641d9b43aa41f6666a27098204ed922e0b1b88d27baaa288572e7e8363"
+    },
+    {
+      "file": "maps/isg_museum/scenes/contract_teammate.tscn",
+      "sha256": "60e7dcf44b319808b10f3f0d8ed0a8b1d0e2cd0a060ffc5b63d258484b8ad9b0"
+    },
+    {
+      "file": "maps/isg_museum/scenes/service_expansion.tscn",
+      "sha256": "e9dd92a1d0d9e1d7d2456a3dd02dba7a34898f4d4815d3ea957f39083d658fbf"
+    }
+  ],
+  "navigation": {
+    "rebaked": false,
+    "sha256": "9efa7029d1a69b43e70323af30d9119ffb2bd2b3cdbcaaaa8280bacea4cd3bfb",
+    "collision_changes": false
+  },
+  "capture": {
+    "exit_code": 0,
+    "log": "capture-final.log",
+    "file": "npc-showcase.avi",
+    "frames": 626,
+    "fps": 30,
+    "seconds": 20.866666666666667,
+    "actual_godot": true,
+    "states": [
+      {
+        "foot": "(32.67225, 0.076373, 27.22686)",
+        "hips": "(33.03523, 0.484749, 27.0)",
+        "id": "n0-idle",
+        "n0": "standing_idle",
+        "reception": "seated_idle",
+        "talking": [
+          false,
+          false
+        ],
+        "watch_yaw": 0.0
+      },
+      {
+        "foot": "(32.67348, 0.076125, 27.22675)",
+        "hips": "(33.03523, 0.485063, 27.0)",
+        "id": "n0-talking",
+        "n0": "standing_talk",
+        "reception": "seated_idle",
+        "talking": [
+          true,
+          false
+        ],
+        "watch_yaw": 0.0
+      },
+      {
+        "foot": "(32.67193, 0.076914, 27.22709)",
+        "hips": "(33.03523, 0.484267, 27.0)",
+        "id": "remote-contract",
+        "n0": "standing_idle",
+        "reception": "seated_idle",
+        "talking": [
+          false,
+          false
+        ],
+        "watch_yaw": 0.0
+      },
+      {
+        "foot": "(32.67194, 0.076981, 27.22683)",
+        "hips": "(33.03523, 0.484489, 27.0)",
+        "id": "reception-idle-side",
+        "n0": "standing_idle",
+        "reception": "seated_idle",
+        "talking": [
+          false,
+          false
+        ],
+        "watch_yaw": 0.0
+      },
+      {
+        "foot": "(32.64413, 0.114324, 27.13062)",
+        "hips": "(33.03523, 0.486245, 27.0)",
+        "id": "reception-talking-side",
+        "n0": "standing_idle",
+        "reception": "seated_talk",
+        "talking": [
+          false,
+          true
+        ],
+        "watch_yaw": 0.0
+      },
+      {
+        "foot": "(32.6442, 0.114743, 27.13077)",
+        "hips": "(33.03523, 0.485337, 27.0)",
+        "id": "reception-talking-front",
+        "n0": "standing_idle",
+        "reception": "seated_talk",
+        "talking": [
+          false,
+          true
+        ],
+        "watch_yaw": 0.0
+      },
+      {
+        "foot": "(32.67228, 0.076707, 27.2265)",
+        "hips": "(33.03523, 0.484981, 27.0)",
+        "id": "reception-watch",
+        "n0": "standing_idle",
+        "reception": "seated_watch",
+        "talking": [
+          false,
+          true
+        ],
+        "watch_yaw": 0.614497762516221
+      },
+      {
+        "foot": "(32.64376, 0.11438, 27.1309)",
+        "hips": "(33.03523, 0.485929, 27.0)",
+        "id": "reception-ticket-session",
+        "n0": "standing_idle",
+        "reception": "seated_talk",
+        "talking": [
+          false,
+          true
+        ],
+        "watch_yaw": 0.000908750016810337
+      },
+      {
+        "foot": "(32.67225, 0.076372, 27.22688)",
+        "hips": "(33.03523, 0.484743, 27.0)",
+        "id": "remote-ticket",
+        "n0": "standing_idle",
+        "reception": "seated_idle",
+        "talking": [
+          false,
+          false
+        ],
+        "watch_yaw": 6.12310944868609e-06
+      },
+      {
+        "foot": "(23.2265, 0.076707, 33.37772)",
+        "hips": "(23.0, 0.484981, 33.01477)",
+        "id": "role-colours-qa",
+        "n0": "standing_idle",
+        "reception": "seated_idle",
+        "talking": [
+          false,
+          false
+        ],
+        "watch_yaw": 4.12571869348464e-08
+      }
+    ],
+    "conditions": "QA camera, normal scene, guard AI/caught overlay disabled; actual UI source lifecycle; role-colour comparison repositions actors/chair only in capture instance"
+  },
+  "limitations": [
+    "Shared low-poly face/body; no finger performance, lip sync or hand-to-ticket event animation.",
+    "No performance claim from fixed-FPS capture; no export/CI Linux."
+  ],
+  "notes": [
+    "Guard visual editing assertion now accepts the two civilian skeletons at their exact subtrees and still rejects guard/orphan visuals.",
+    "Baseline Windows certificate diagnostic retained; initial test type-inference error fixed before final runs."
+  ]
+}

@@ -1,0 +1,60 @@
+[
+  {
+    "path": "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\environment-art-v1_1\\reproduce\\summarize_evidence.py",
+    "command": [
+      "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+      "-B",
+      "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\environment-art-v1_1\\reproduce\\summarize_evidence.py",
+      "--check-paths"
+    ],
+    "cwd": "D:\\IT\\SE_GAME_3D\\.local\\docs-reproduce-foreign-cwd",
+    "exit_code": 0,
+    "stdout": "{\"repository\": \"D:\\\\IT\\\\SE_GAME_3D\", \"report\": \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\", \"logs\": \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\\\\logs\", \"data\": \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\\\\data\"}\n",
+    "stderr": ""
+  },
+  {
+    "path": "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\visual-feedback-2026-11-15\\reproduce\\summarize.py",
+    "command": [
+      "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+      "-B",
+      "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\visual-feedback-2026-11-15\\reproduce\\summarize.py",
+      "--check-paths"
+    ],
+    "cwd": "D:\\IT\\SE_GAME_3D\\.local\\docs-reproduce-foreign-cwd",
+    "exit_code": 0,
+    "stdout": "{\"repository\": \"D:\\\\IT\\\\SE_GAME_3D\", \"report\": \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\visual-feedback-2026-11-15\", \"logs\": \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\visual-feedback-2026-11-15\\\\logs\", \"data\": \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\visual-feedback-2026-11-15\\\\data\"}\n",
+    "stderr": ""
+  },
+  {
+    "path": "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\environment-art-v1_1\\reproduce\\run-validation.ps1",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-File",
+      "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\environment-art-v1_1\\reproduce\\run-validation.ps1",
+      "-CheckPaths"
+    ],
+    "cwd": "D:\\IT\\SE_GAME_3D\\.local\\docs-reproduce-foreign-cwd",
+    "exit_code": 0,
+    "stdout": "{\n    \"repository\":  \"D:\\\\IT\\\\SE_GAME_3D\",\n    \"report\":  \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\",\n    \"logs\":  \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\\\\logs\",\n    \"data\":  \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\\\\data\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "path": "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\environment-art-v1_1\\reproduce\\run-benchmark.ps1",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-File",
+      "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\environment-art-v1_1\\reproduce\\run-benchmark.ps1",
+      "-CheckPaths"
+    ],
+    "cwd": "D:\\IT\\SE_GAME_3D\\.local\\docs-reproduce-foreign-cwd",
+    "exit_code": 0,
+    "stdout": "{\n    \"repository\":  \"D:\\\\IT\\\\SE_GAME_3D\",\n    \"report\":  \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\",\n    \"logs\":  \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\\\\logs\",\n    \"data\":  \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\\\\data\"\n}\n",
+    "stderr": ""
+  }
+]

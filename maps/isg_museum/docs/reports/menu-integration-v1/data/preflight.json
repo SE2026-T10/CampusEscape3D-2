@@ -1,0 +1,66 @@
+[
+	{
+		"closest_nav_point": "(18.0, 0.45, 35.0)",
+		"guards": 9,
+		"level_reset": [
+			{
+				"method": "_restart_demo",
+				"node": "."
+			},
+			{
+				"method": "_on_level_reset",
+				"node": "GameFlow"
+			}
+		],
+		"loaded": true,
+		"n0": true,
+		"nav_polygons": 402,
+		"nav_probe_valid": true,
+		"objective_manager": "ObjectiveManager",
+		"player_caught": [
+			{
+				"method": "_caught",
+				"node": "MuseumContract"
+			},
+			{
+				"method": "_on_player_caught",
+				"node": "GameFlow"
+			}
+		],
+		"probe": "(18.0, 0.05, 35.0)",
+		"receptionist": true,
+		"scene": "res://maps/isg_museum/scenes/museum.tscn"
+	},
+	{
+		"closest_nav_point": "(18.0, 0.45, 35.0)",
+		"guards": 0,
+		"level_reset": [
+			{
+				"method": "_restart_demo",
+				"node": "."
+			},
+			{
+				"method": "_on_level_reset",
+				"node": "GameFlow"
+			}
+		],
+		"loaded": true,
+		"n0": true,
+		"nav_polygons": 402,
+		"nav_probe_valid": true,
+		"objective_manager": "ObjectiveManager",
+		"player_caught": [
+			{
+				"method": "_caught",
+				"node": "MuseumContract"
+			},
+			{
+				"method": "_on_player_caught",
+				"node": "GameFlow"
+			}
+		],
+		"probe": "(18.0, 0.05, 35.0)",
+		"receptionist": true,
+		"scene": "res://maps/isg_museum/scenes/museum_editing.tscn"
+	}
+]

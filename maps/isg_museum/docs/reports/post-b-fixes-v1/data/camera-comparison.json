@@ -1,0 +1,385 @@
+{
+  "matched_views": 23,
+  "fields": [
+    "position",
+    "rotation",
+    "fov",
+    "near",
+    "far",
+    "resolution",
+    "renderer",
+    "lighting"
+  ],
+  "results": {
+    "arcade-lower": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "arcade-upper": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "corner-lower": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "corner-upper": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "threshold-a-north-room": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "threshold-a-north-hall": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "threshold-a-south-room": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "threshold-a-south-hall": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "threshold-b-room": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "threshold-b-hall": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "threshold-c-west-room": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "threshold-c-west-hall": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "threshold-c-east-room": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "threshold-c-east-hall": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "door-entrance-back": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "door-entrance-front": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "door-staff-back": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "door-staff-front": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "door-storage-back": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "door-storage-front": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "door-service-back": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "door-service-front": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    },
+    "door-handle": {
+      "position": true,
+      "rotation": true,
+      "fov": true,
+      "near": true,
+      "far": true,
+      "resolution": true,
+      "renderer": true,
+      "lighting": true
+    }
+  },
+  "static_monitors": {
+    "arcade-lower": {
+      "before_draw_calls": 710.0,
+      "after_draw_calls": 707.0,
+      "before_primitives": 1199098.0,
+      "after_primitives": 1213606.0
+    },
+    "arcade-upper": {
+      "before_draw_calls": 688.0,
+      "after_draw_calls": 685.0,
+      "before_primitives": 1210604.0,
+      "after_primitives": 1225079.0
+    },
+    "corner-lower": {
+      "before_draw_calls": 340.0,
+      "after_draw_calls": 344.0,
+      "before_primitives": 724718.0,
+      "after_primitives": 732878.0
+    },
+    "corner-upper": {
+      "before_draw_calls": 136.0,
+      "after_draw_calls": 140.0,
+      "before_primitives": 194894.0,
+      "after_primitives": 202742.0
+    },
+    "threshold-a-north-room": {
+      "before_draw_calls": 2253.0,
+      "after_draw_calls": 2206.0,
+      "before_primitives": 2720296.0,
+      "after_primitives": 2755071.0
+    },
+    "threshold-a-north-hall": {
+      "before_draw_calls": 242.0,
+      "after_draw_calls": 242.0,
+      "before_primitives": 50000.0,
+      "after_primitives": 50323.0
+    },
+    "threshold-a-south-room": {
+      "before_draw_calls": 2220.0,
+      "after_draw_calls": 2170.0,
+      "before_primitives": 2837872.0,
+      "after_primitives": 2873642.0
+    },
+    "threshold-a-south-hall": {
+      "before_draw_calls": 217.0,
+      "after_draw_calls": 217.0,
+      "before_primitives": 40908.0,
+      "after_primitives": 41237.0
+    },
+    "threshold-b-room": {
+      "before_draw_calls": 885.0,
+      "after_draw_calls": 888.0,
+      "before_primitives": 1572586.0,
+      "after_primitives": 1587262.0
+    },
+    "threshold-b-hall": {
+      "before_draw_calls": 1413.0,
+      "after_draw_calls": 1370.0,
+      "before_primitives": 1559011.0,
+      "after_primitives": 1589196.0
+    },
+    "threshold-c-west-room": {
+      "before_draw_calls": 973.0,
+      "after_draw_calls": 952.0,
+      "before_primitives": 1519863.0,
+      "after_primitives": 1538996.0
+    },
+    "threshold-c-west-hall": {
+      "before_draw_calls": 1735.0,
+      "after_draw_calls": 1710.0,
+      "before_primitives": 2124691.0,
+      "after_primitives": 2149446.0
+    },
+    "threshold-c-east-room": {
+      "before_draw_calls": 1026.0,
+      "after_draw_calls": 999.0,
+      "before_primitives": 1534955.0,
+      "after_primitives": 1555626.0
+    },
+    "threshold-c-east-hall": {
+      "before_draw_calls": 1771.0,
+      "after_draw_calls": 1747.0,
+      "before_primitives": 2141305.0,
+      "after_primitives": 2166867.0
+    },
+    "door-entrance-back": {
+      "before_draw_calls": 66.0,
+      "after_draw_calls": 60.0,
+      "before_primitives": 6010.0,
+      "after_primitives": 7657.0
+    },
+    "door-entrance-front": {
+      "before_draw_calls": 2253.0,
+      "after_draw_calls": 2206.0,
+      "before_primitives": 2618586.0,
+      "after_primitives": 2654948.0
+    },
+    "door-staff-back": {
+      "before_draw_calls": 615.0,
+      "after_draw_calls": 599.0,
+      "before_primitives": 522489.0,
+      "after_primitives": 531239.0
+    },
+    "door-staff-front": {
+      "before_draw_calls": 928.0,
+      "after_draw_calls": 922.0,
+      "before_primitives": 1437806.0,
+      "after_primitives": 1453401.0
+    },
+    "door-storage-back": {
+      "before_draw_calls": 441.0,
+      "after_draw_calls": 429.0,
+      "before_primitives": 230449.0,
+      "after_primitives": 233637.0
+    },
+    "door-storage-front": {
+      "before_draw_calls": 816.0,
+      "after_draw_calls": 807.0,
+      "before_primitives": 1276511.0,
+      "after_primitives": 1292558.0
+    },
+    "door-service-back": {
+      "before_draw_calls": 282.0,
+      "after_draw_calls": 275.0,
+      "before_primitives": 120694.0,
+      "after_primitives": 123152.0
+    },
+    "door-service-front": {
+      "before_draw_calls": 627.0,
+      "after_draw_calls": 618.0,
+      "before_primitives": 1091536.0,
+      "after_primitives": 1107588.0
+    },
+    "door-handle": {
+      "before_draw_calls": 831.0,
+      "after_draw_calls": 831.0,
+      "before_primitives": 1383521.0,
+      "after_primitives": 1397272.0
+    }
+  }
+}

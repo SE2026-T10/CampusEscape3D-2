@@ -1,0 +1,23 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/dark_metal.png" id="color"]
+[ext_resource type="Texture2D" path="res://maps/isg_museum/assets/materials/textures/metal_032/Metal032_2K-JPG_NormalGL.jpg" id="normal"]
+[ext_resource type="Texture2D" path="res://maps/isg_museum/assets/materials/textures/metal_032/Metal032_2K-JPG_Roughness.jpg" id="roughness"]
+
+[resource]
+resource_name = "Gardner preview: dark_metal"
+albedo_texture = ExtResource("color")
+normal_enabled = true
+normal_texture = ExtResource("normal")
+normal_scale = 0.12
+roughness = 0.84
+metallic = 0.65
+metallic_specular = 0.25
+roughness_texture = ExtResource("roughness")
+roughness_texture_channel = 0
+uv1_scale = Vector3(1.0, 1.0, 1.0)
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv1_triplanar_sharpness = 8.0
+texture_filter = 5
+metadata/material_role = "dark_metal"

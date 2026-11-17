@@ -1,0 +1,122 @@
+[
+	{
+		"foot": "(32.67225, 0.076373, 27.22686)",
+		"hips": "(33.03523, 0.484749, 27.0)",
+		"id": "n0-idle",
+		"n0": "standing_idle",
+		"reception": "seated_idle",
+		"talking": [
+			false,
+			false
+		],
+		"watch_yaw": 0.0
+	},
+	{
+		"foot": "(32.67348, 0.076125, 27.22675)",
+		"hips": "(33.03523, 0.485063, 27.0)",
+		"id": "n0-talking",
+		"n0": "standing_talk",
+		"reception": "seated_idle",
+		"talking": [
+			true,
+			false
+		],
+		"watch_yaw": 0.0
+	},
+	{
+		"foot": "(32.67193, 0.076914, 27.22709)",
+		"hips": "(33.03523, 0.484267, 27.0)",
+		"id": "remote-contract",
+		"n0": "standing_idle",
+		"reception": "seated_idle",
+		"talking": [
+			false,
+			false
+		],
+		"watch_yaw": 0.0
+	},
+	{
+		"foot": "(32.67194, 0.076981, 27.22683)",
+		"hips": "(33.03523, 0.484489, 27.0)",
+		"id": "reception-idle-side",
+		"n0": "standing_idle",
+		"reception": "seated_idle",
+		"talking": [
+			false,
+			false
+		],
+		"watch_yaw": 0.0
+	},
+	{
+		"foot": "(32.64413, 0.114324, 27.13062)",
+		"hips": "(33.03523, 0.486245, 27.0)",
+		"id": "reception-talking-side",
+		"n0": "standing_idle",
+		"reception": "seated_talk",
+		"talking": [
+			false,
+			true
+		],
+		"watch_yaw": 0.0
+	},
+	{
+		"foot": "(32.6442, 0.114743, 27.13077)",
+		"hips": "(33.03523, 0.485337, 27.0)",
+		"id": "reception-talking-front",
+		"n0": "standing_idle",
+		"reception": "seated_talk",
+		"talking": [
+			false,
+			true
+		],
+		"watch_yaw": 0.0
+	},
+	{
+		"foot": "(32.67228, 0.076707, 27.2265)",
+		"hips": "(33.03523, 0.484981, 27.0)",
+		"id": "reception-watch",
+		"n0": "standing_idle",
+		"reception": "seated_watch",
+		"talking": [
+			false,
+			true
+		],
+		"watch_yaw": 0.614497762516221
+	},
+	{
+		"foot": "(32.64376, 0.11438, 27.1309)",
+		"hips": "(33.03523, 0.485929, 27.0)",
+		"id": "reception-ticket-session",
+		"n0": "standing_idle",
+		"reception": "seated_talk",
+		"talking": [
+			false,
+			true
+		],
+		"watch_yaw": 0.000908750016810337
+	},
+	{
+		"foot": "(32.67225, 0.076372, 27.22688)",
+		"hips": "(33.03523, 0.484743, 27.0)",
+		"id": "remote-ticket",
+		"n0": "standing_idle",
+		"reception": "seated_idle",
+		"talking": [
+			false,
+			false
+		],
+		"watch_yaw": 0.00000612310944868609
+	},
+	{
+		"foot": "(23.2265, 0.076707, 33.37772)",
+		"hips": "(23.0, 0.484981, 33.01477)",
+		"id": "role-colours-qa",
+		"n0": "standing_idle",
+		"reception": "seated_idle",
+		"talking": [
+			false,
+			false
+		],
+		"watch_yaw": 0.0000000412571869348464
+	}
+]

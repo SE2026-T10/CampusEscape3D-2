@@ -1,0 +1,426 @@
+{
+  "date": "2026-11-17T19:02:49.218429+07:00",
+  "status": "complete",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "renderer": "gl_compatibility",
+  "viewport": [
+    1280,
+    720
+  ],
+  "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+  "stage": "B_production",
+  "latest_commands": [
+    {
+      "id": "import",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--editor",
+        "--quit"
+      ],
+      "exit_code": 0,
+      "seconds": 12.352394199988339,
+      "log": "import.log",
+      "checks": null
+    },
+    {
+      "id": "scripts",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://tools/ci/check_scripts.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 6.782536100014113,
+      "log": "scripts.log",
+      "checks": null
+    },
+    {
+      "id": "materials_check",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 3.5257861000136472,
+      "log": "materials_check.log",
+      "checks": null
+    },
+    {
+      "id": "art_check",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://maps/isg_museum/tools/apply_environment_art.gd",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 11.104414400004316,
+      "log": "art_check.log",
+      "checks": null
+    },
+    {
+      "id": "verify_courtyard_palette",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_courtyard_palette.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 14.352754099993035,
+      "log": "verify_courtyard_palette.log",
+      "checks": 43
+    },
+    {
+      "id": "verify_post_b_fixes",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 17.231098699965514,
+      "log": "verify_post_b_fixes.log",
+      "checks": 31
+    },
+    {
+      "id": "verify_environment_art",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_environment_art.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 29.536780999973416,
+      "log": "verify_environment_art.log",
+      "checks": 97
+    },
+    {
+      "id": "verify_blockout",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_blockout.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 18.10086450004019,
+      "log": "verify_blockout.log",
+      "checks": 114
+    },
+    {
+      "id": "verify_service",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_service.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 6.360763999982737,
+      "log": "verify_service.log",
+      "checks": 31
+    },
+    {
+      "id": "verify_staff_room",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_staff_room.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 42.74409509997349,
+      "log": "verify_staff_room.log",
+      "checks": 55
+    },
+    {
+      "id": "verify_empty_frame",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_empty_frame.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 27.876390099991113,
+      "log": "verify_empty_frame.log",
+      "checks": 48
+    },
+    {
+      "id": "verify_carry",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_carry.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 39.82794519996969,
+      "log": "verify_carry.log",
+      "checks": 83
+    },
+    {
+      "id": "verify_guard_visuals",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_guard_visuals.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 9.075440200045705,
+      "log": "verify_guard_visuals.log",
+      "checks": 42
+    },
+    {
+      "id": "verify_npc_visuals",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_npc_visuals.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 9.078065000008792,
+      "log": "verify_npc_visuals.log",
+      "checks": 65
+    },
+    {
+      "id": "verify_editing_mode",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_editing_mode.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 10.100379000010435,
+      "log": "verify_editing_mode.log",
+      "checks": 75
+    },
+    {
+      "id": "verify_room_feedback",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_room_feedback.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 5.234583300014492,
+      "log": "verify_room_feedback.log",
+      "checks": 30
+    },
+    {
+      "id": "verify_contract_variants",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_contract_variants.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 31.03698890004307,
+      "log": "verify_contract_variants.log",
+      "checks": 71
+    },
+    {
+      "id": "runner",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "res://tests/test_scene.tscn"
+      ],
+      "exit_code": 0,
+      "seconds": 206.27870060002897,
+      "log": "runner.log",
+      "checks": 31
+    }
+  ],
+  "layout": {
+    "command": [
+      "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+      "-B",
+      "tools/ci/check_layout.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.874833345413208
+  },
+  "captures": {
+    "photos": {
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--path",
+        ".",
+        "--script",
+        "res://maps/isg_museum/tools/capture_post_b_fixes.gd",
+        "--",
+        "--prefix=after-",
+        "--output=res://maps/isg_museum/docs/post-b-fixes-v1"
+      ],
+      "exit_code": 0,
+      "seconds": 17.205399751663208
+    },
+    "details": {
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--path",
+        ".",
+        "--script",
+        "res://maps/isg_museum/tools/capture_post_b_fixes.gd",
+        "--",
+        "--prefix=after-",
+        "--arcade-details",
+        "--output=res://maps/isg_museum/docs/post-b-fixes-v1"
+      ],
+      "exit_code": 0,
+      "seconds": 14.199058532714844
+    },
+    "inspection": {
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "30",
+        "--write-movie",
+        "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\post-b-fixes-v1\\inspection\\inspection.avi",
+        "--script",
+        "res://maps/isg_museum/tools/capture_post_b_fixes.gd",
+        "--",
+        "--prefix=after-",
+        "--movie",
+        "--output=res://maps/isg_museum/docs/post-b-fixes-v1/inspection"
+      ],
+      "exit_code": 0,
+      "seconds": 36.38838481903076
+    },
+    "gameplay": {
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "30",
+        "--write-movie",
+        "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\post-b-fixes-v1\\gameplay\\gameplay.avi",
+        "--script",
+        "res://maps/isg_museum/tools/capture_post_b_fixes.gd",
+        "--",
+        "--prefix=after-",
+        "--gameplay",
+        "--output=res://maps/isg_museum/docs/post-b-fixes-v1/gameplay"
+      ],
+      "exit_code": 0,
+      "seconds": 29.90937066078186
+    }
+  },
+  "museum_checks": 785,
+  "new_checks": 31,
+  "protected_files_unchanged": 364,
+  "prior_evidence_unchanged": 254,
+  "readonly_files_unchanged": 63,
+  "rebuild_equal": true,
+  "collision": {
+    "before_rows": 832,
+    "after_rows": 936,
+    "preserved_old_rows": 832,
+    "new_bodies": 48,
+    "new_shapes": 56,
+    "before_collision_sha256": "e2874a406a25e34477fa03a8eb260f4bc3125ee80d2eae2fc33132f9253ee354",
+    "after_collision_sha256": "17a7a07b3018bc40aa52c05279acea3758e180535813203ebb3858197602462f",
+    "navigation_before": "9efa7029d1a69b43e70323af30d9119ffb2bd2b3cdbcaaaa8280bacea4cd3bfb",
+    "navigation_after": "9efa7029d1a69b43e70323af30d9119ffb2bd2b3cdbcaaaa8280bacea4cd3bfb",
+    "navigation_byte_identical": true,
+    "navigation_polygons": 402
+  },
+  "camera_matched_views": 23,
+  "inspection_actions": 19,
+  "gameplay_actions": 23,
+  "active_guards": 9,
+  "visual_review": {
+    "stills": "23 same-camera pairs, four sides on two floors, eight corners, five portals on both sides, eight door faces and handle closeup",
+    "motion": "Native Player camera/input: inspection AVI 1186 frames; gameplay AVI 914 frames. Reviewed exported original MJPEG frames including consecutive 330–334 and 600–604."
+  },
+  "limitations": [
+    "Movie Maker uses fixed 30 FPS and includes encoding; these recordings are not an uncapped performance benchmark.",
+    "QA anchor cuts and temporary GalleryB unlock apply only in inspection capture. Gameplay capture keeps nine guard AI active and suppresses terminal capture only in the QA process.",
+    "Windows certificate-store warning remains. Standalone post-B suite reports 8 ObjectDB / 3 resource teardown warnings despite exit 0; no gameplay/shared runtime change was made for this tooling cleanup."
+  ],
+  "attempt_history": "results.json"
+}

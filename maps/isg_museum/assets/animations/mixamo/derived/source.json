@@ -1,0 +1,16 @@
+{
+  "source_directory": "../clips",
+  "reference_take": "reference_tpose.fbx:mixamo_com",
+  "license": "Adobe Mixamo terms; see ../LICENSE.txt",
+  "tool": "res://maps/isg_museum/tools/prepare_guard_assets.gd",
+  "manifest": "res://maps/isg_museum/resources/guard_animation_manifest.json",
+  "derived_file": "guard_animations.res",
+  "changes": [
+    "rest-aware retarget",
+    "fixed horizontal root anchor",
+    "loop seam matching",
+    "sleep derived from sitting idle",
+    "target skeleton stance speed measurement"
+  ],
+  "date": "2026-11-16"
+}

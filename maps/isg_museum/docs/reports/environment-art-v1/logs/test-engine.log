@@ -1,0 +1,112 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: Navigation bakes only world static colliders
+Slope limits: Player 45.0, Guard 45.0, Navigation 40.0 degrees
+PASS: StairA/LowerRamp smooth collision slope 24.23 degrees is below all climb limits
+PASS: StairA/UpperRamp smooth collision slope 24.23 degrees is below all climb limits
+PASS: StairB/LowerRamp smooth collision slope 24.23 degrees is below all climb limits
+PASS: StairB/UpperRamp smooth collision slope 24.23 degrees is below all climb limits
+PASS: Player starts outside in front yard facing main entrance (-Z)
+PASS: Closed main entrance separates front yard from indoor navigation
+PASS: New spawn has solid ground at Y=0
+PASS: Yard sides and street gate block walking off the level
+PASS: Player walks from exterior spawn up to main door
+PASS: Closed main door physically stops Player before E
+PASS: Main door is selectable by camera ray from outside
+PASS: E opens main door freely without museum key
+PASS: Open main door links exterior and interior navmesh
+PASS: Player walks through opened main entrance into lobby
+PASS: Courtyard has ground floor and no upper slab
+PASS: Upper floor band at (18.0, 8.0, 4.5)
+PASS: Upper floor band at (18.0, 8.0, 25.5)
+PASS: Upper floor band at (6.0, 8.0, 15.0)
+PASS: Upper floor band at (30.0, 8.0, 15.0)
+PASS: Open stair headroom above (4.5, 8.0, 28.25)
+PASS: Open stair headroom above (4.5, 8.0, 25.75)
+PASS: Open stair headroom above (31.5, 8.0, 4.25)
+PASS: Open stair headroom above (31.5, 8.0, 1.75)
+PASS: Upper courtyard collision railing (18.0, 5.0, 8.0)
+PASS: Upper courtyard collision railing (18.0, 5.0, 22.0)
+PASS: Upper courtyard collision railing (11.0, 5.0, 15.0)
+PASS: Upper courtyard collision railing (25.0, 5.0, 15.0)
+PASS: Closed Staff door isolates room navigation
+PASS: Opened Staff door connects room navigation
+PASS: Navmesh reaches room/goal (6.5, 0.1, 12.0)
+PASS: Navmesh reaches room/goal (18.0, 0.1, 3.0)
+PASS: Navmesh reaches room/goal (18.0, 0.1, 18.0)
+PASS: Closed Storage door isolates room navigation
+PASS: Opened Storage door connects room navigation
+PASS: Closed Service door isolates room navigation
+PASS: Opened Service door connects room navigation
+PASS: Navmesh reaches room/goal (3.0, 4.6, 12.0)
+PASS: Navmesh reaches room/goal (18.0, 4.6, 2.0)
+PASS: Closed RestorationEntrance door isolates room navigation
+PASS: Opened RestorationEntrance door connects room navigation
+PASS: Closed RestorationEntrance door isolates room navigation
+PASS: Opened RestorationEntrance door connects room navigation
+PASS: Former southern staff entrance is now solid wall
+PASS: Closed Staff door physically stops player
+PASS: Camera E opens Staff from corridor
+PASS: Player crosses opened Staff doorway
+PASS: Camera E closes Staff from inside and blocks sight
+PASS: Camera E reopens Staff from inside
+PASS: Player returns through Staff doorway
+PASS: Closed RestorationEntrance door physically stops player
+PASS: Camera E opens RestorationEntrance from corridor
+PASS: Player crosses opened RestorationEntrance doorway
+PASS: Camera E closes RestorationEntrance from inside and blocks sight
+PASS: Camera E reopens RestorationEntrance from inside
+PASS: Player returns through RestorationEntrance doorway
+PASS: Closed doors isolate B from both corridor and restoration
+PASS: Player opens free restoration entrance and reaches T2 depot before key or either locked door opens
+PASS: Locked gallery panel physically stops Player walking east
+PASS: Unopened shortcut physically blocks entry from restoration
+PASS: Key opens gallery door
+PASS: Opening gallery door enables traversable navigation link
+PASS: Player physically passes through opened gallery door
+PASS: B-to-restoration shortcut has been removed
+PASS: Navigation reaches restoration by corridor detour
+PASS: Solid wall blocks the former shortcut from inside B
+PASS: Stair A navmesh connects both levels locally
+PASS: Real standing Player walks UP stair A through upper doorway
+PASS: Real standing Player walks DOWN stair A
+PASS: Guard follows stair A navigation to (8.0, 4.6, 25.75)
+PASS: Guard follows stair A navigation to (8.0, 0.1, 28.25)
+PASS: Stair B navmesh connects both levels locally
+PASS: Real standing Player walks UP stair B through upper doorway
+PASS: Real standing Player walks DOWN stair B
+PASS: Guard follows stair B navigation to (28.0, 4.6, 1.75)
+PASS: Guard follows stair B navigation to (28.0, 0.1, 4.25)
+PASS: Fountain is restored to courtyard centre
+PASS: Central fountain remains a solid obstacle on north-south
+PASS: Navigation goes around the fountain on north-south
+PASS: Player traverses circular courtyard path north-south
+PASS: Guard navigates around fountain on north-south
+PASS: Central fountain remains a solid obstacle on west-east
+PASS: Navigation goes around the fountain on west-east
+PASS: Player traverses circular courtyard path west-east
+PASS: Guard navigates around fountain on west-east
+PASS: Exactly nine guards are present
+PASS: Patrol verification starts with gallery and shortcut closed
+PASS: Guard G1 completes two ordered patrol loops with no stuck events (23 arrivals)
+PASS: Guard G1 stays on its assigned floor and patrol area
+PASS: Guard G2 completes two ordered patrol loops with no stuck events (15 arrivals)
+PASS: Guard G2 stays on its assigned floor and patrol area
+PASS: G3 stays asleep at chair instead of walking patrol loops
+PASS: G3 stays in staff room
+PASS: Guard G4 completes two ordered patrol loops with no stuck events (14 arrivals)
+PASS: Guard G4 stays on its assigned floor and patrol area
+PASS: Guard G5 completes two ordered patrol loops with no stuck events (31 arrivals)
+PASS: Guard G5 stays on its assigned floor and patrol area
+PASS: Guard G6 completes two ordered patrol loops with no stuck events (26 arrivals)
+PASS: Guard G6 stays on its assigned floor and patrol area
+PASS: Guard G7 completes two ordered patrol loops with no stuck events (15 arrivals)
+PASS: Guard G7 stays on its assigned floor and patrol area
+PASS: Guard G8 completes two ordered patrol loops with no stuck events (29 arrivals)
+PASS: Guard G8 stays on its assigned floor and patrol area
+PASS: Guard G9 completes two ordered patrol loops with no stuck events (25 arrivals)
+PASS: Guard G9 stays on its assigned floor and patrol area
+PASS: G8 remains inside gallery B on patrol
+Museum blockout: 106 checks, 0 failures

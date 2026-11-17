@@ -1,0 +1,121 @@
+[
+  {
+    "id": "split_surfaces",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://.local/test_palette_split.gd"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "split_surfaces.log"
+  },
+  {
+    "id": "stage_A_preview_only",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "stage_A_preview_only.log",
+    "fixture_stage": "A_preview_only"
+  },
+  {
+    "id": "stage_invalid_stage",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 1,
+    "expected_exit": 1,
+    "log": "stage_invalid_stage.log",
+    "fixture_stage": "invalid_stage"
+  },
+  {
+    "id": "prepare_final",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "prepare_final.log"
+  },
+  {
+    "id": "materials_check_final",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "materials_check_final.log"
+  },
+  {
+    "id": "art_check_final",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "art_check_final.log"
+  },
+  {
+    "id": "scripts_final",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "scripts_final.log"
+  },
+  {
+    "id": "layout",
+    "command": [
+      "C:\\Users\\Gia Manh\\AppData\\Roaming\\uv\\python\\cpython-3.15-windows-x86_64-none\\python.exe",
+      "-B",
+      "tools/ci/check_layout.py"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "check-layout.log"
+  }
+]

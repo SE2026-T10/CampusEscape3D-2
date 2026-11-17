@@ -1,0 +1,64 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: G3 starts asleep and seated
+PASS: Sleeping guard has no active sight or visible cone
+PASS: Skinned guard hips actually use the chair-height seated pose
+PASS: Player in front of sleeping G3 is not visually detected
+PASS: Ordinary walking noise does not wake G3
+PASS: Out-of-range loud noise cannot wake G3
+PASS: Nearby loud noise wakes G3 without standing or instantly searching
+PASS: Awake guard enables real vision and visible cone
+PASS: Noise does not invent a player sighting or immediate chase
+PASS: Pause freezes G3 observation timer
+PASS: No sighting after wake leads back to sleep
+PASS: Obsolete tall cabinet is removed from room centre
+PASS: Desk A is north-south in right half of room
+PASS: Key is on locker D instead of desk A
+PASS: Desk visibility fixture wakes G3 through a clear sound path
+PASS: Solid desk A actually hides crouched player from awake G3
+PASS: Standing behind the same desk exposes player head
+PASS: Actual Player follows safe A-H concept route to locker D
+PASS: Safe route does not wake G3
+PASS: New key position is reachable by camera
+PASS: Taking K quietly completes objective without waking G3
+PASS: E opens the monthly calendar
+PASS: Reading keeps world running
+PASS: Calendar and door code follow current date
+PASS: Live calendar rolls over day, month and year
+PASS: Puzzle code changes with the calendar date
+PASS: E closes document without immediately reopening it
+PASS: G is a small loose paper on desk instead of wall
+PASS: Code note explains day/month puzzle
+PASS: Paper reading sheet is centred on viewport
+PASS: Shift handover book has been removed
+PASS: Key rack has the room B label
+PASS: Escape closes document before opening pause menu
+PASS: Bumping a visible bottle emits a noise that wakes G3
+PASS: Bottle noise supplies player-facing sound caption
+PASS: Actual suspicious sight causes G3 to stand and search
+PASS: Suspicion uses investigation, not immediate red chase
+PASS: H search physically passes west side of A
+PASS: G3 physically visits all six H waypoints in order
+PASS: Unsuccessful H inspection returns to chair B and sleeps
+PASS: Confirmed real sight triggers red pursuit
+PASS: Chase is backed by an actual last sighting
+PASS: G3 pursuit can actually catch player
+PASS: Caught reload restores sleeping G3, key and room state
+PASS: Actual sprint footsteps from PlayerNoise wake G3
+PASS: G3 settles back to sleep after runner withdraws
+PASS: Escape fixture reaches genuine red pursuit
+PASS: Losing player during chase leads through search and return to chair, not permanent pursuit
+PASS: G3 stranded outside opens its staff door and physically returns to chair
+PASS: Real sprint in west side of staff room wakes G3: (28.5, 0.0, 8.0)
+PASS: Real sprint in west side of staff room wakes G3: (28.5, 0.0, 12.0)
+PASS: Real sprint in west side of staff room wakes G3: (28.5, 0.0, 16.0)
+PASS: Same-room sprint boost does not leak through corridor walls or upper floor, and restores listener settings
+PASS: Actual quiet movement remains safe for sleeping G3: walk
+PASS: Actual quiet movement remains safe for sleeping G3: crouch
+Staff room verification: 55 checks, 0 failures
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

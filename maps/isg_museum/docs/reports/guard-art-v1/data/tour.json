@@ -1,0 +1,47 @@
+[
+	{
+		"animation": "walk",
+		"name": "Guard_G1",
+		"physics_active": true
+	},
+	{
+		"animation": "walk",
+		"name": "Guard_G2",
+		"physics_active": true
+	},
+	{
+		"animation": "sleep",
+		"name": "Guard_G3",
+		"physics_active": true
+	},
+	{
+		"animation": "walk",
+		"name": "Guard_G4",
+		"physics_active": true
+	},
+	{
+		"animation": "walk",
+		"name": "Guard_G5",
+		"physics_active": true
+	},
+	{
+		"animation": "walk",
+		"name": "Guard_G6",
+		"physics_active": true
+	},
+	{
+		"animation": "walk",
+		"name": "Guard_G7",
+		"physics_active": true
+	},
+	{
+		"animation": "walk",
+		"name": "Guard_G8",
+		"physics_active": true
+	},
+	{
+		"animation": "walk",
+		"name": "Guard_G9",
+		"physics_active": true
+	}
+]

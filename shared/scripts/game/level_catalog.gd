@@ -9,6 +9,7 @@ extends RefCounted
 const TUTORIAL := &"library_tutorial"
 const EXPANDED := &"expanded_library"
 const INTELLIGENCE := &"intelligence_k17"
+const MUSEUM := &"isg_museum"
 
 const LEVELS := [
 	{"id": TUTORIAL, "title": "Library Tutorial", "scene": "res://maps/tutorial/scenes/library_graybox.tscn",
@@ -20,6 +21,11 @@ const LEVELS := [
 		"test_scene": "res://maps/intelligence/scenes/intelligence_k17_test.tscn",
 		"test_title": "K17 — Test map không lính gác",
 		"test_description": "Tự do kiểm tra đường đi và tương tác. Cảm biến, checkpoint và đồng hồ vẫn hoạt động."},
+	{"id": MUSEUM, "title": "ISG Museum — Phi vụ bảo tàng", "scene": "res://maps/isg_museum/scenes/museum.tscn",
+		"description": "Nhận hợp đồng, lấy hiện vật và tìm dây thoát khỏi bảo tàng.",
+		"test_scene": "res://maps/isg_museum/scenes/museum_editing.tscn",
+		"test_title": "ISG Museum — Chỉnh map không bảo vệ",
+		"test_description": "Kiểm tra bố cục và tương tác; đồng đội và nhân viên tiếp đón vẫn hoạt động."},
 ]
 
 

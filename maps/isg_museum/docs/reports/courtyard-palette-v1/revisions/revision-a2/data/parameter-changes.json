@@ -1,0 +1,70 @@
+[
+  {
+    "role": "courtyard_plaster",
+    "parameter": "tint",
+    "a1": [
+      0.59,
+      0.335,
+      0.275
+    ],
+    "a2": [
+      0.67,
+      0.43,
+      0.36
+    ]
+  },
+  {
+    "role": "corridor_floor",
+    "parameter": "tint",
+    "a1": [
+      0.43,
+      0.405,
+      0.365
+    ],
+    "a2": [
+      0.5,
+      0.46,
+      0.39
+    ]
+  },
+  {
+    "role": "corridor_floor",
+    "parameter": "contrast",
+    "a1": 1.45,
+    "a2": 1.0
+  },
+  {
+    "role": "balustrade_cap",
+    "parameter": "tint",
+    "a1": [
+      0.46,
+      0.435,
+      0.375
+    ],
+    "a2": [
+      0.52,
+      0.495,
+      0.43
+    ]
+  },
+  {
+    "role": "garden_wall_stone",
+    "parameter": "tint",
+    "a1": [
+      0.36,
+      0.335,
+      0.285
+    ],
+    "a2": [
+      0.47,
+      0.43,
+      0.36
+    ]
+  },
+  {
+    "role": "garden_wall_stone",
+    "parameter": "normal_strength",
+    "a1": 0.32,
+    "a2": 0.2
+  }
+]

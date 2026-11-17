@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/contract_teammate.gd" id="1_1gmot"]
+[ext_resource type="PackedScene" path="res://maps/isg_museum/scenes/npc/museum_npc_visual.tscn" id="2_inuq5"]
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/museum_npc_presentation.gd" id="3_53k8r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xwiyn"]
+size = Vector3(0.8, 1.9, 0.8)
+
+[node name="Teammate" type="Area3D" unique_id=666905253]
+transform = Transform3D(0.90044713, 0, -0.43496552, 0, 1, 0, 0.43496552, 0, 0.90044713, 20.5, 1, 31.5)
+script = ExtResource("1_1gmot")
+prompt = "Nói chuyện với N0 · nhận hợp đồng"
+
+[node name="Interaction" type="CollisionShape3D" parent="." unique_id=1949417927]
+shape = SubResource("BoxShape3D_xwiyn")
+
+[node name="Visual" type="Node3D" parent="." unique_id=522613779 instance=ExtResource("2_inuq5")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -1, 0)
+metadata/preserve_source_material = true
+
+[node name="Presentation" type="Node" parent="." unique_id=1489506228]
+script = ExtResource("3_53k8r")
+
+[node name="Label" type="Label3D" parent="." unique_id=854552496]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12, 0)
+pixel_size = 0.002
+billboard = 1
+text = "N0 · ĐỒNG ĐỘI
+E: NHẬN HỢP ĐỒNG"
+font_size = 44

@@ -1,0 +1,79 @@
+{
+    "id":  "hanging_picture_frame_01",
+    "title":  "Hanging Picture Frame 01",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/hanging_picture_frame_01",
+    "metadata_api":  "https://api.polyhaven.com/info/hanging_picture_frame_01",
+    "download_api":  "https://api.polyhaven.com/files/hanging_picture_frame_01",
+    "authors":  [
+                    "James Ray Cock"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "hanging_picture_frame_01_2k.gltf",
+    "original_triangles":  2586,
+    "mesh_count":  1,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "hanging_picture_frame_01_2k.gltf",
+                      "bytes":  6495,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/hanging_picture_frame_01/hanging_picture_frame_01_2k.gltf",
+                      "source_md5":  "bb3a24b798979d796917c698493f342d",
+                      "sha256":  "6661770628e5527ceaa7d9457ea07c7b6eeae1a15ee63177e74765e181e38203"
+                  },
+                  {
+                      "file":  "textures/hanging_picture_frame_01_diff_2k.jpg",
+                      "bytes":  355335,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/hanging_picture_frame_01/hanging_picture_frame_01_diff_2k.jpg",
+                      "source_md5":  "85b15d6ddac811110e9abaa838110fa7",
+                      "sha256":  "2b51f42b1112838d53ac44187535e4e75909c48230b922073cd214c9313ac870"
+                  },
+                  {
+                      "file":  "textures/hanging_picture_frame_01_artwork_diff_2k.jpg",
+                      "bytes":  140005,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/hanging_picture_frame_01/hanging_picture_frame_01_artwork_diff_2k.jpg",
+                      "source_md5":  "f03b557dbe54b81a3bdebe4c580347c0",
+                      "sha256":  "7a51f2580d2ea2872e532f06d698a722696d7b3a1f6b52f1f731d0122c7faaf3"
+                  },
+                  {
+                      "file":  "textures/hanging_picture_frame_01_arm_2k.jpg",
+                      "bytes":  368238,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/hanging_picture_frame_01/hanging_picture_frame_01_arm_2k.jpg",
+                      "source_md5":  "8965f477239f6c1f34e490226f041952",
+                      "sha256":  "66a1406a80fe475d781ef02977061a7e1548ecb34ddf955e4879c36e13836bd0"
+                  },
+                  {
+                      "file":  "hanging_picture_frame_01.bin",
+                      "bytes":  86448,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/hanging_picture_frame_01/hanging_picture_frame_01.bin",
+                      "source_md5":  "ed2c512ea5e3dcdcfc70c53b4de24099",
+                      "sha256":  "27ec66baf3b227d004d2d325e18c77df6b7a1a7f74afd7d5dbd4f950bc2f5ca6"
+                  },
+                  {
+                      "file":  "textures/hanging_picture_frame_01_artwork_roughness_2k.jpg",
+                      "bytes":  49548,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/hanging_picture_frame_01/hanging_picture_frame_01_artwork_roughness_2k.jpg",
+                      "source_md5":  "8ee25a87fbcc4d46dd5985e37b5ec99e",
+                      "sha256":  "8415728143b9270913ae3d79351400fbd5295bb56e6571ea8c829b68792d9ae4"
+                  },
+                  {
+                      "file":  "textures/hanging_picture_frame_01_nor_gl_2k.jpg",
+                      "bytes":  166602,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/hanging_picture_frame_01/hanging_picture_frame_01_nor_gl_2k.jpg",
+                      "source_md5":  "d1721ca9c87267a2f28d3d84cc714048",
+                      "sha256":  "faffc5cb26d37933e30386c023e544ab28557ccb76fec75e51537e98ce523ac2"
+                  },
+                  {
+                      "file":  "textures/hanging_picture_frame_01_artwork_nor_gl_2k.jpg",
+                      "bytes":  66928,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/hanging_picture_frame_01/hanging_picture_frame_01_artwork_nor_gl_2k.jpg",
+                      "source_md5":  "f5f15614387ee8e1558f392d096ab21f",
+                      "sha256":  "c28b6cc82a8640dbde92f7e6dd9bf415aeaa22185adc77dbb4f795938d9e4634"
+                  }
+              ]
+}

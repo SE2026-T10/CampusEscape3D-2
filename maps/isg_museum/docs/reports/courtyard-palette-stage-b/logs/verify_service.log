@@ -1,0 +1,36 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: Receptionist reachable by actual camera ray above counter
+PASS: E opens service quiz without pausing world
+PASS: Service quiz fits in viewport
+PASS: Incorrect answer offers clue and gives no ticket
+PASS: Three wrong answers start temporary cooldown
+PASS: Cooldown prevents rapid retry
+PASS: Cooldown expires with no permanent lock
+PASS: First two correct answers do not grant ticket early
+PASS: All three evidence answers grant ticket
+PASS: E closes quiz and restores player control
+PASS: Map cannot overlap another modal dialogue
+PASS: Quiz cannot overlap storage keypad
+PASS: Ticket gate refuses entry without ticket
+PASS: First ticket interaction scans and opens gate A
+PASS: One scan grants rights at both upper landing gates
+PASS: Gate B covers full two-metre opening
+PASS: Opening ticket gate clears collision and enables nav link
+PASS: Solved ticket door still closes physically
+PASS: Solved ticket door can reopen
+PASS: Real player crosses upper gate A on flat landing without falling
+PASS: Real player returns through upper gate A
+PASS: Real player crosses upper gate B on flat landing without falling
+PASS: Real player returns through upper gate B
+PASS: Open gate B has a connected baked navigation path
+PASS: Wall map reachable by actual camera ray
+PASS: E opens centred map on floor one
+PASS: Two-floor map UI fits in viewport
+PASS: Map tab switches to upper floor
+PASS: Save stores map access for this attempt
+PASS: M reopens saved map away from wall
+PASS: Pause closes map and releases modal lock
+Service verification: 31 checks, 0 failures

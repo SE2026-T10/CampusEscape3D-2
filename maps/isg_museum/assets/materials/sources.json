@@ -1,0 +1,311 @@
+{
+  "provider": "ambientCG",
+  "license_url": "https://docs.ambientcg.com/license/",
+  "downloaded_on": "2026-11-09",
+  "assets": [
+    {
+      "id": "WoodFloor051",
+      "source": "https://ambientcg.com/view?id=WoodFloor051",
+      "download": "https://ambientcg.com/get?file=WoodFloor051_2K-JPG.zip",
+      "license": "CC0-1.0",
+      "resolution": "2K-JPG",
+      "archive_sha256": "eb7d1cee763bb17a59feb89b0fd16398d3673a071a76fed289111cf81013ac25",
+      "files": [
+        {
+          "file": "textures/wood_floor_051/WoodFloor051_2K-JPG_AmbientOcclusion.jpg",
+          "sha256": "fba851b50446fd04ef25b70a3d1dbf77ffae47d18560e778abe12c8dbf8012a6",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/wood_floor_051/WoodFloor051_2K-JPG_Color.jpg",
+          "sha256": "cd20f4039f62ca2b2430b8a4521774572a31ee586babac058a3afe178ed9ef5f",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/wood_floor_051/WoodFloor051_2K-JPG_NormalGL.jpg",
+          "sha256": "4c49e6dad811b850ddf496cbab5c247292d4df61f25ba3108ba43d83aa242780",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/wood_floor_051/WoodFloor051_2K-JPG_Roughness.jpg",
+          "sha256": "136fafdf901678e5959d4690b812ad4ef654c53db05295eb07e1efa24337cd61",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Plaster002",
+      "source": "https://ambientcg.com/view?id=Plaster002",
+      "download": "https://ambientcg.com/get?file=Plaster002_2K-JPG.zip",
+      "license": "CC0-1.0",
+      "resolution": "2K-JPG",
+      "archive_sha256": "c364e72a39ea894c6455cdb2c6b584f9b94f90cd48286578427acd1be0cd489f",
+      "files": [
+        {
+          "file": "textures/plaster_002/Plaster002_2K-JPG_Color.jpg",
+          "sha256": "1f765dd2ef3f4bd820b7691febbd611fc9dc7394f504acb0f2560d166940738c",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/plaster_002/Plaster002_2K-JPG_NormalGL.jpg",
+          "sha256": "a3fb96aac05d1b827648c908b00998d818bb65464f82e6669dabe90edeb370bd",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/plaster_002/Plaster002_2K-JPG_Roughness.jpg",
+          "sha256": "15f106b4182525f65b169cdb8e7bc8b63fc41081015e64d7608a66ca0a1bb24d",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Marble012",
+      "source": "https://ambientcg.com/view?id=Marble012",
+      "download": "https://ambientcg.com/get?file=Marble012_2K-JPG.zip",
+      "license": "CC0-1.0",
+      "resolution": "2K-JPG",
+      "archive_sha256": "585c73d1e2dc8747074ef4fa4027795e3556fbe0fa43362c90c90b633f6956db",
+      "files": [
+        {
+          "file": "textures/marble_012/Marble012_2K-JPG_Color.jpg",
+          "sha256": "1e1ef2d556dcda237181590b4a7543a66ea49223ccf2d455000e05f37e8a8ec5",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/marble_012/Marble012_2K-JPG_NormalGL.jpg",
+          "sha256": "0e295859c9e55ba2dd147aed37a674aba90decaf91d3622d5aa8386441020649",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/marble_012/Marble012_2K-JPG_Roughness.jpg",
+          "sha256": "d4a906a9739f30f386914a8b8393e64100f340851dc50328e5b91e24fa95ce7a",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Wood051",
+      "source": "https://ambientcg.com/view?id=Wood051",
+      "download": "https://ambientcg.com/get?file=Wood051_2K-JPG.zip",
+      "license": "CC0-1.0",
+      "resolution": "2K-JPG",
+      "archive_sha256": "ef50cd051a1d998bf2a03e243e991474415d948af6d4b76d291c937654c97d4b",
+      "files": [
+        {
+          "file": "textures/wood_051/Wood051_2K-JPG_Color.jpg",
+          "sha256": "c6d61f6bfd2537f7dcb8e4c2264f77e3d8fdfbca14dcf5ff7bade7637d2125b5",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/wood_051/Wood051_2K-JPG_NormalGL.jpg",
+          "sha256": "3b175af16c417245ff8fa950de0f7dee6fc77804845825d7d5b988b30946e5e8",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/wood_051/Wood051_2K-JPG_Roughness.jpg",
+          "sha256": "b4855f803bbbad6fbe8a78d514f453ba1c9989b2972775f46f835402de302b44",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PavingStones001",
+      "source": "https://ambientcg.com/view?id=PavingStones001",
+      "download": "https://ambientcg.com/get?file=PavingStones001_2K-JPG.zip",
+      "license": "CC0-1.0",
+      "resolution": "2K-JPG",
+      "archive_sha256": "c67fc1796a4b08a367266f7c30bfa4ae7cfaddb42b69e0bca6657313bbc4b2c5",
+      "files": [
+        {
+          "file": "textures/paving_stones_001/PavingStones001_2K-JPG_Color.jpg",
+          "sha256": "005353aa1c67eb349eaa9c108e7a9e5adcb7f9ada412c775592ad402b61d7a12",
+          "dimensions": [
+            2048,
+            1825
+          ]
+        },
+        {
+          "file": "textures/paving_stones_001/PavingStones001_2K-JPG_NormalGL.jpg",
+          "sha256": "be98947ab731d3a2ceab7ac5022ca1a6436fc4756331eefde48458bf57fab0ea",
+          "dimensions": [
+            2048,
+            1825
+          ]
+        },
+        {
+          "file": "textures/paving_stones_001/PavingStones001_2K-JPG_Roughness.jpg",
+          "sha256": "253e201ff704f052b153e9f919ee83ecc174ac481be745964d225ce3b9153a85",
+          "dimensions": [
+            2048,
+            1825
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Grass001",
+      "source": "https://ambientcg.com/view?id=Grass001",
+      "download": "https://ambientcg.com/get?file=Grass001_2K-JPG.zip",
+      "license": "CC0-1.0",
+      "resolution": "2K-JPG",
+      "archive_sha256": "a47570077b55f260a6c54890a560087caffb9eb8b2b78a84f8247ba1966d7d1d",
+      "files": [
+        {
+          "file": "textures/grass_001/Grass001_2K-JPG_AmbientOcclusion.jpg",
+          "sha256": "7aa2c5ac4db77005b92bed77399189c9219300ada2f3d86c3c0fea51bba5a3f1",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/grass_001/Grass001_2K-JPG_Color.jpg",
+          "sha256": "8a8bfcffd087134caad2a7def216f3dd2d307fbe02340ca47e3c5c71f49d50b4",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/grass_001/Grass001_2K-JPG_NormalGL.jpg",
+          "sha256": "7ccaf9e28ea7a533e590c2e07a39e141017a5a5db8b7241730a3c287c540e881",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/grass_001/Grass001_2K-JPG_Roughness.jpg",
+          "sha256": "2a2a3f9220a351f14858075d4c6ba1ff7fde8bedd7009c94cb432bc2b9a362e4",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Metal032",
+      "source": "https://ambientcg.com/view?id=Metal032",
+      "download": "https://ambientcg.com/get?file=Metal032_2K-JPG.zip",
+      "license": "CC0-1.0",
+      "resolution": "2K-JPG",
+      "archive_sha256": "4b8884843c490963d5734be036c35639d064e7a817eb61145322f69c6c19895a",
+      "files": [
+        {
+          "file": "textures/metal_032/Metal032_2K-JPG_Color.jpg",
+          "sha256": "f444c07a08de291049d0dda880d6fca9faae4b172f293f604c87e5e96ad30370",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/metal_032/Metal032_2K-JPG_Metalness.jpg",
+          "sha256": "b65d6b9091747bd81ee58adedcb6209d8ee21b2bde9298d7216989ada85ef622",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/metal_032/Metal032_2K-JPG_NormalGL.jpg",
+          "sha256": "b84a0bfe4639b7e3fac36d04adf1844e0e2654f987a36ece5c966ad77921cd27",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/metal_032/Metal032_2K-JPG_Roughness.jpg",
+          "sha256": "8a0570593c028cf0eca32a0107d7bc936817f0de7076f1b8b8f48ea7745aee27",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Concrete025",
+      "source": "https://ambientcg.com/view?id=Concrete025",
+      "download": "https://ambientcg.com/get?file=Concrete025_2K-JPG.zip",
+      "license": "CC0-1.0",
+      "resolution": "2K-JPG",
+      "archive_sha256": "494cc4ff3070fe30325745fb37f7e183c421d319552d1098cc3f3b6c2cb9643d",
+      "files": [
+        {
+          "file": "textures/concrete_025/Concrete025_2K-JPG_AmbientOcclusion.jpg",
+          "sha256": "f9c21b78bcb15e9b9e2e9d1cb58c9bcc5444508140972365c23caa3792744111",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/concrete_025/Concrete025_2K-JPG_Color.jpg",
+          "sha256": "e9ef7c3a45938e07d1222f1cc7ed2a3411c1bba02cc991dc1779198d86761d92",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/concrete_025/Concrete025_2K-JPG_NormalGL.jpg",
+          "sha256": "080d1164c2dcf0f93071715317b3081f6c705fae2e4c46f78c27be8c970167f5",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "file": "textures/concrete_025/Concrete025_2K-JPG_Roughness.jpg",
+          "sha256": "669a2b5ed32de31279a491e29a6a1e55e9fd5df86671d31470796d149ec2f883",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        }
+      ]
+    }
+  ]
+}

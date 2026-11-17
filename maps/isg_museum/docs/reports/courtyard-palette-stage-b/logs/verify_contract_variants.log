@@ -1,0 +1,76 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: Independent draws sample all four contracts at approximately 25 percent
+PASS: Sampling permits consecutive duplicate contracts instead of excluding previous pick
+PASS: Variant 1 supplies its own targets, event, time and host
+PASS: Poster matches event for variant 1
+PASS: Small desk nameplate shows correct host and no ticket details
+PASS: Desk nameplate can be read with actual camera E ray
+PASS: N0 stands to right of entrance clear of main doorway
+PASS: Paper title matches selected contract
+PASS: Compact paper and accept action fit 1280x720
+PASS: Paper omits long dialogue and item IDs while keeping appointment
+PASS: Reopening contract in same attempt never rerolls
+PASS: Quiz starts without showing or granting ticket
+PASS: Question 1 correct answer follows active contract
+PASS: Question 2 correct answer follows active contract
+PASS: Question 3 correct answer follows active contract
+PASS: Third correct answer hands over readable ticket with matching details
+PASS: Ticket stays centred and inside screen
+PASS: V reopens saved ticket without returning to NPC
+PASS: Caught restart clears progress and draws a valid fresh contract
+PASS: Variant 2 supplies its own targets, event, time and host
+PASS: Poster matches event for variant 2
+PASS: Small desk nameplate shows correct host and no ticket details
+PASS: Desk nameplate can be read with actual camera E ray
+PASS: N0 stands to right of entrance clear of main doorway
+PASS: Paper title matches selected contract
+PASS: Compact paper and accept action fit 1280x720
+PASS: Paper omits long dialogue and item IDs while keeping appointment
+PASS: Reopening contract in same attempt never rerolls
+PASS: Quiz starts without showing or granting ticket
+PASS: Question 1 correct answer follows active contract
+PASS: Question 2 correct answer follows active contract
+PASS: Question 3 correct answer follows active contract
+PASS: Third correct answer hands over readable ticket with matching details
+PASS: Ticket stays centred and inside screen
+PASS: V reopens saved ticket without returning to NPC
+PASS: Caught restart clears progress and draws a valid fresh contract
+PASS: Variant 3 supplies its own targets, event, time and host
+PASS: Poster matches event for variant 3
+PASS: Small desk nameplate shows correct host and no ticket details
+PASS: Desk nameplate can be read with actual camera E ray
+PASS: N0 stands to right of entrance clear of main doorway
+PASS: Paper title matches selected contract
+PASS: Compact paper and accept action fit 1280x720
+PASS: Paper omits long dialogue and item IDs while keeping appointment
+PASS: Reopening contract in same attempt never rerolls
+PASS: Quiz starts without showing or granting ticket
+PASS: Question 1 correct answer follows active contract
+PASS: Question 2 correct answer follows active contract
+PASS: Question 3 correct answer follows active contract
+PASS: Third correct answer hands over readable ticket with matching details
+PASS: Ticket stays centred and inside screen
+PASS: V reopens saved ticket without returning to NPC
+PASS: Caught restart clears progress and draws a valid fresh contract
+PASS: Variant 4 supplies its own targets, event, time and host
+PASS: Poster matches event for variant 4
+PASS: Small desk nameplate shows correct host and no ticket details
+PASS: Desk nameplate can be read with actual camera E ray
+PASS: N0 stands to right of entrance clear of main doorway
+PASS: Paper title matches selected contract
+PASS: Compact paper and accept action fit 1280x720
+PASS: Paper omits long dialogue and item IDs while keeping appointment
+PASS: Reopening contract in same attempt never rerolls
+PASS: Quiz starts without showing or granting ticket
+PASS: Question 1 correct answer follows active contract
+PASS: Question 2 correct answer follows active contract
+PASS: Question 3 correct answer follows active contract
+PASS: Third correct answer hands over readable ticket with matching details
+PASS: Ticket stays centred and inside screen
+PASS: V reopens saved ticket without returning to NPC
+PASS: Caught restart clears progress and draws a valid fresh contract
+PASS: Answer positions vary rather than hard-coding a fixed button
+Contract variants verification: 71 checks, 0 failures; draws [2574, 2421, 2530, 2475]

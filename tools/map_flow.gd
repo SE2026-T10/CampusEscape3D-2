@@ -20,6 +20,7 @@ extends SceneTree
 ## Prints "MAP FLOW PASSED" or the failed steps, and exits 0 / 1.
 
 const MAIN_MENU := "res://shared/scenes/ui/main_menu.tscn"
+const SceneChecks := preload("res://tests/map_scene_checks.gd")
 const CYCLES := 3
 const G := GameStateMachine.State
 ## Groups of the level-wide systems: exactly one in every level, none on the menu.
@@ -79,6 +80,14 @@ func _run() -> void:
 			_press("pause")
 			await _wait(0.2)
 			_check(GameFlow.find(level).state == G.PAUSED and paused, "Cycle %d: %s — Esc pauses." % [cycle + 1, title])
+			(level.get_node("GameMenus") as GameMenus).resume_button.pressed.emit()
+			await _wait(0.1)
+			_check(GameFlow.find(level).state==G.PLAYING and not paused
+				and GameFlow.find(level).applied_mouse_mode==Input.MOUSE_MODE_CAPTURED,
+				"Cycle %d: %s — Resume restores play and the captured cursor." % [cycle+1,title])
+			_press("pause")
+			await _wait(0.2)
+			_check(GameFlow.find(level).state==G.PAUSED and paused,"Cycle %d: %s — pause again before Restart." % [cycle+1,title])
 			(level.get_node("GameMenus") as GameMenus).restart_button.pressed.emit()
 			level = await _wait_for_scene(before_id, true)
 			_check_level(level, path, before, "Cycle %d: %s restarted (Pause → Restart level)" % [cycle + 1, title])
@@ -126,27 +135,41 @@ func _check_level(level: Node, path: String, previous: WeakRef, what: String) ->
 	var flow := GameFlow.find(level) if level else null
 	ok = ok and flow != null and flow.state == G.PLAYING and not paused
 	var counts := _group_counts()
-	for g in LEVEL_SYSTEMS:
-		ok = ok and counts[g] == 1
-	var has_mission := level != null and level.has_node("Gameplay/ObjectiveManager")
-	for g in MISSION_SYSTEMS:
-		ok = ok and counts[g] == (1 if has_mission else 0)
+	for g in LEVEL_SYSTEMS + MISSION_SYSTEMS:
+		ok = ok and counts[g] == SceneChecks.expected_systems(level,g)
+	if level and SceneChecks.is_museum(level):
+		var guard_count := 0 if path==LevelCatalog.test_scene_of(LevelCatalog.MUSEUM) else 9
+		ok = ok and get_nodes_in_group("guards").size()==guard_count
+		ok = ok and level.has_node("NavigationRegion3D/Teammate") and level.has_node("NavigationRegion3D/ServiceExpansion/Receptionist")
+	if flow: ok = ok and flow.applied_mouse_mode==Input.MOUSE_MODE_CAPTURED
 	ok = ok and _count_nodes(root, func(n): return n is MainMenu) == 0
 	# Each connection made once: the same counts every time this map loads.
 	var connections := _connections(level) if level else {}
 	if not _connection_counts.has(path):
 		_connection_counts[path] = connections
 	var same: bool = connections == _connection_counts[path]
-	ok = ok and same and connections.get("player_caught", 0) == 1
+	var museum := level!=null and SceneChecks.is_museum(level)
+	var expected_reset := 2 if museum or SceneChecks.expected_systems(level,"checkpoint_manager")==1 else 1
+	ok = ok and same and connections.get("player_caught", 0) == (2 if museum else 1)
+	ok = ok and connections.get("level_reset",0)==expected_reset
+	var callbacks := SceneChecks.required_callbacks(level) if level else {"missing_level":0}
+	ok = ok and callbacks.values().all(func(count): return count==1)
 	_check(ok, "%s: loads %s, previous scene freed, playing and unpaused, one of each system %s, connections %s%s." % [
 		what, path.get_file(), counts, connections, "" if same else " (first load: %s)" % [_connection_counts[path]]])
 
 
 ## Completes the first two objectives and opens every access door. True if anything changed.
 func _make_progress(level: Node) -> bool:
-	var objectives := level.get_node_or_null("Gameplay/ObjectiveManager") as ObjectiveManager
+	var objectives := SceneChecks.objectives(level)
 	if objectives == null:
 		return false
+	if SceneChecks.is_museum(level):
+		var contract := SceneChecks.owned_system(level,&"museum_contract")
+		if contract==null: return false
+		contract.accept_contract()
+		contract.grant_ticket()
+		return contract.accepted and contract.has_ticket and objectives.is_completed(&"accept_contract") \
+			and objectives.is_completed(&"get_ticket") and objectives.completed_count()>=2
 	var ids := objectives.get_ids()
 	objectives.complete(ids[0])
 	objectives.complete(ids[1])
@@ -158,9 +181,16 @@ func _make_progress(level: Node) -> bool:
 
 
 func _mission_is_clean(level: Node) -> bool:
-	var objectives := level.get_node_or_null("Gameplay/ObjectiveManager") as ObjectiveManager
-	var checkpoints := level.get_node_or_null("Gameplay/CheckpointManager") as CheckpointManager
-	if objectives == null or checkpoints == null:
+	var objectives := SceneChecks.objectives(level)
+	if objectives==null: return false
+	if SceneChecks.is_museum(level):
+		var contract := SceneChecks.owned_system(level,&"museum_contract")
+		return contract!=null and not contract.accepted and not contract.has_ticket and not contract.ticket_scanned \
+			and objectives.completed_count()==0 and objectives.current()==&"escape" and objectives.is_optional(&"take_key") \
+			and not objectives.is_completed(&"take_key") and contract.collected_ids().is_empty() \
+			and get_nodes_in_group("museum_doors").all(func(door): return not door.is_open)
+	var checkpoints := SceneChecks.owned_system(level,&"checkpoint_manager") as CheckpointManager
+	if checkpoints == null:
 		return false
 	var doors_closed := get_nodes_in_group("access_doors").all(func(d): return not d.is_open)
 	return objectives.completed_count() == 0 and objectives.current() == objectives.get_ids()[0] \
@@ -194,6 +224,7 @@ func _connections(level: Node) -> Dictionary:
 		result.status_changed = director.status_changed.get_connections().size()
 	if flow:
 		result.state_changed = flow.state_changed.get_connections().size()
+	result.required_callbacks = SceneChecks.required_callbacks(level)
 	return result
 
 

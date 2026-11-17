@@ -1,0 +1,13 @@
+{
+  "license": "Adobe Mixamo terms; see ../LICENSE.txt",
+  "rig_author": "Jose Manuel",
+  "rig_license": "CC-BY-4.0",
+  "rig_source": "https://sketchfab.com/3d-models/low-poly-security-guard-abaf0f47b2c4413986919bb5c673face",
+  "sources": [
+    "../clips/npc_talking.fbx",
+    "../clips/receptionist_talking.fbx"
+  ],
+  "derived": "npc_animations.res",
+  "tool": "res://maps/isg_museum/tools/prepare_npc_assets.gd",
+  "date": "2026-11-16"
+}

@@ -1,0 +1,458 @@
+{
+	"before": false,
+	"carried_render_frames": 7096,
+	"chase_render_frames": 25595,
+	"course_valid": true,
+	"engine": "4.7.2-stable (official)",
+	"events": [
+		{
+			"event": "lobby",
+			"position": "(18.0, 0.000182, 28.74442)",
+			"time_usec": 8982676
+		},
+		{
+			"event": "stair_a_entry",
+			"position": "(10.66105, 0.000942, 27.03506)",
+			"time_usec": 10557457
+		},
+		{
+			"event": "stair_a_door",
+			"position": "(8.188645, 0.000942, 27.00076)",
+			"time_usec": 11000616
+		},
+		{
+			"event": "stair_a_bottom",
+			"position": "(7.169601, 0.000942, 28.25153)",
+			"time_usec": 11451110
+		},
+		{
+			"event": "stair_a_landing_s",
+			"position": "(1.445863, 2.24991, 28.2785)",
+			"time_usec": 12906676
+		},
+		{
+			"event": "stair_a_landing_n",
+			"position": "(1.130002, 2.24991, 25.89717)",
+			"time_usec": 13550555
+		},
+		{
+			"event": "stair_a_top",
+			"position": "(7.251669, 4.500674, 25.72577)",
+			"time_usec": 14919226
+		},
+		{
+			"event": "stair_a_exit",
+			"position": "(8.228661, 4.500674, 26.98281)",
+			"time_usec": 15324483
+		},
+		{
+			"event": "upper_south_entry",
+			"position": "(10.26432, 4.500803, 27.05339)",
+			"time_usec": 16005194
+		},
+		{
+			"event": "south_buffer",
+			"position": "(17.77787, 4.500803, 27.00076)",
+			"time_usec": 17371877
+		},
+		{
+			"event": "south_portal",
+			"position": "(18.03584, 4.500803, 22.6641)",
+			"time_usec": 18370717
+		},
+		{
+			"event": "upper_southeast",
+			"position": "(25.26345, 4.500803, 22.46783)",
+			"time_usec": 19955566
+		},
+		{
+			"event": "gallery_b_approach",
+			"position": "(25.52573, 4.500842, 10.1859)",
+			"time_usec": 22507170
+		},
+		{
+			"event": "gallery_b",
+			"position": "(28.53991, 4.500841, 9.977961)",
+			"time_usec": 23436158
+		},
+		{
+			"event": "pickup_t2",
+			"position": "(34.13089, 4.500841, 9.999586)",
+			"time_usec": 24461439
+		},
+		{
+			"event": "carry_wall_north",
+			"position": "(34.29357, 4.500841, 8.721664)",
+			"time_usec": 25162996
+		},
+		{
+			"event": "carry_room_west",
+			"position": "(28.91833, 4.500942, 8.496042)",
+			"time_usec": 27941884
+		},
+		{
+			"event": "carry_room_exit",
+			"position": "(28.71438, 4.500942, 9.77838)",
+			"time_usec": 28642155
+		},
+		{
+			"event": "carry_corridor",
+			"position": "(25.7253, 4.500942, 9.992754)",
+			"time_usec": 30193004
+		},
+		{
+			"event": "carry_southeast",
+			"position": "(25.50186, 4.500942, 22.27392)",
+			"time_usec": 36394794
+		},
+		{
+			"event": "carry_south",
+			"position": "(18.22503, 4.500942, 22.49694)",
+			"time_usec": 40087521
+		},
+		{
+			"event": "carry_buffer",
+			"position": "(18.01776, 4.500942, 26.76469)",
+			"time_usec": 42322018
+		},
+		{
+			"event": "depot_approach",
+			"position": "(25.28159, 4.500942, 26.98037)",
+			"time_usec": 46090093
+		},
+		{
+			"event": "warehouse_entry",
+			"position": "(28.28137, 4.500942, 26.99867)",
+			"time_usec": 47594858
+		},
+		{
+			"event": "depot",
+			"position": "(31.78291, 4.500942, 27.47074)",
+			"time_usec": 49356920
+		},
+		{
+			"event": "warehouse_exit",
+			"position": "(25.71846, 4.500942, 27.01711)",
+			"time_usec": 50702875
+		},
+		{
+			"event": "return_buffer",
+			"position": "(18.23885, 4.500942, 26.95571)",
+			"time_usec": 52395173
+		},
+		{
+			"event": "return_south",
+			"position": "(17.96384, 4.500942, 22.66114)",
+			"time_usec": 53441663
+		},
+		{
+			"event": "return_southeast",
+			"position": "(25.26162, 4.500942, 22.47399)",
+			"time_usec": 54906924
+		},
+		{
+			"event": "upper_north_ring",
+			"position": "(25.5101, 4.500942, 7.672804)",
+			"time_usec": 57824080
+		},
+		{
+			"event": "gallery_c_approach",
+			"position": "(23.17941, 4.500942, 7.405375)",
+			"time_usec": 58476863
+		},
+		{
+			"event": "gallery_c",
+			"position": "(22.92788, 4.500942, 4.711997)",
+			"time_usec": 59338039
+		},
+		{
+			"event": "north_room_east",
+			"position": "(25.30055, 4.500942, 4.417746)",
+			"time_usec": 59904672
+		},
+		{
+			"event": "stair_b_approach",
+			"position": "(25.65849, 4.500942, 3.176043)",
+			"time_usec": 60532613
+		},
+		{
+			"event": "stair_b_entry",
+			"position": "(27.81081, 4.500942, 2.938447)",
+			"time_usec": 61353016
+		},
+		{
+			"event": "stair_b_top",
+			"position": "(28.52143, 4.500942, 1.933169)",
+			"time_usec": 61766140
+		},
+		{
+			"event": "stair_b_landing_n",
+			"position": "(34.60793, 2.250355, 1.723985)",
+			"time_usec": 63101119
+		},
+		{
+			"event": "stair_b_landing_s",
+			"position": "(34.87245, 2.250355, 4.106504)",
+			"time_usec": 63738412
+		},
+		{
+			"event": "stair_b_bottom",
+			"position": "(28.80469, 0.00016, 4.270555)",
+			"time_usec": 64923067
+		},
+		{
+			"event": "history_approach",
+			"position": "(27.79094, 0.00016, 3.051069)",
+			"time_usec": 65309102
+		},
+		{
+			"event": "history_entry",
+			"position": "(25.70342, 0.00016, 2.917342)",
+			"time_usec": 65928636
+		},
+		{
+			"event": "history_east",
+			"position": "(25.25162, 0.00016, 4.487313)",
+			"time_usec": 66350280
+		},
+		{
+			"event": "history_south",
+			"position": "(15.1861, 0.00016, 4.512838)",
+			"time_usec": 68524645
+		},
+		{
+			"event": "history",
+			"position": "(14.77337, 0.00016, 3.054715)",
+			"time_usec": 69067667
+		},
+		{
+			"event": "history_south_portal",
+			"position": "(15.03117, 0.00016, 7.297665)",
+			"time_usec": 70176978
+		},
+		{
+			"event": "courtyard_approach",
+			"position": "(17.80573, 0.00016, 7.575305)",
+			"time_usec": 70961647
+		},
+		{
+			"event": "courtyard",
+			"position": "(18.05099, 0.000848, 11.26348)",
+			"time_usec": 71968371
+		},
+		{
+			"event": "ring_east",
+			"position": "(20.92307, 0.000848, 14.83131)",
+			"time_usec": 72859475
+		},
+		{
+			"event": "ring_south",
+			"position": "(18.15289, 0.000848, 18.00273)",
+			"time_usec": 73837068
+		},
+		{
+			"event": "ring_west",
+			"position": "(15.01591, 0.000848, 15.17596)",
+			"time_usec": 74755055
+		},
+		{
+			"event": "ring_north",
+			"position": "(17.76993, 0.000942, 11.96668)",
+			"time_usec": 75768636
+		},
+		{
+			"event": "yard_exit",
+			"position": "(18.05932, 0.000942, 7.69756)",
+			"time_usec": 76687347
+		},
+		{
+			"event": "ground_northeast",
+			"position": "(25.25367, 0.000942, 7.467565)",
+			"time_usec": 78289409
+		},
+		{
+			"event": "staff_approach",
+			"position": "(25.59799, 0.000942, 9.791957)",
+			"time_usec": 78904712
+		},
+		{
+			"event": "staff_entry",
+			"position": "(28.75528, 0.000841, 10.01512)",
+			"time_usec": 79905890
+		},
+		{
+			"event": "staff",
+			"position": "(29.14042, 0.000841, 11.81191)",
+			"time_usec": 80517696
+		},
+		{
+			"event": "staff_exit",
+			"position": "(28.94922, 0.000841, 10.16507)",
+			"time_usec": 81293077
+		},
+		{
+			"event": "ground_east",
+			"position": "(25.41896, 0.000942, 9.813783)",
+			"time_usec": 83360339
+		},
+		{
+			"event": "south_ring",
+			"position": "(25.49897, 0.000942, 22.26412)",
+			"time_usec": 85633989
+		},
+		{
+			"event": "lobby_approach",
+			"position": "(18.17638, 0.000942, 22.52083)",
+			"time_usec": 87176015
+		}
+	],
+	"fixture": "V and K access granted; terminal catch disabled; actual input movement, T2 pickup/delivery; all actor collisions and perception unchanged",
+	"gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+	"guard_states_at_end": [
+		{
+			"id": "Guard_G1",
+			"physics_enabled": true,
+			"state": 0
+		},
+		{
+			"id": "Guard_G2",
+			"physics_enabled": true,
+			"state": 1
+		},
+		{
+			"id": "Guard_G3",
+			"physics_enabled": true,
+			"state": 1
+		},
+		{
+			"id": "Guard_G4",
+			"physics_enabled": true,
+			"state": 0
+		},
+		{
+			"id": "Guard_G5",
+			"physics_enabled": true,
+			"state": 1
+		},
+		{
+			"id": "Guard_G6",
+			"physics_enabled": true,
+			"state": 0
+		},
+		{
+			"id": "Guard_G7",
+			"physics_enabled": true,
+			"state": 2
+		},
+		{
+			"id": "Guard_G8",
+			"physics_enabled": true,
+			"state": 1
+		},
+		{
+			"id": "Guard_G9",
+			"physics_enabled": true,
+			"state": 2
+		}
+	],
+	"guards": 9,
+	"low_processor_usage_mode": false,
+	"max_fps": 0,
+	"mode": "gameplay",
+	"renderer": "gl_compatibility",
+	"samples": [
+		{
+			"draw_calls": {
+				"p50": 707.0,
+				"p95": 1665.0
+			},
+			"frame_interval_ms": {
+				"p50": 3.562,
+				"p95": 6.942,
+				"p99": 9.075
+			},
+			"frames": 61365,
+			"gpu_render_ms_p95": 2.04099988937378,
+			"mean_fps": 255.682595155548,
+			"primitives": {
+				"p50": 824329.0,
+				"p95": 2192218.0
+			},
+			"render_memory_bytes_peak": 475067358.0,
+			"seconds": 240.0,
+			"view": "active_9_guards"
+		}
+	],
+	"scene_tree_paused": false,
+	"settings_restored": true,
+	"t2_delivered": true,
+	"viewport": [
+		1280,
+		720
+	],
+	"visited": [
+		"lobby",
+		"stair_a_entry",
+		"stair_a_door",
+		"stair_a_bottom",
+		"stair_a_landing_s",
+		"stair_a_landing_n",
+		"stair_a_top",
+		"stair_a_exit",
+		"upper_south_entry",
+		"south_buffer",
+		"south_portal",
+		"upper_southeast",
+		"gallery_b_approach",
+		"gallery_b",
+		"pickup_t2",
+		"carry_wall_north",
+		"carry_room_west",
+		"carry_room_exit",
+		"carry_corridor",
+		"carry_southeast",
+		"carry_south",
+		"carry_buffer",
+		"depot_approach",
+		"warehouse_entry",
+		"depot",
+		"warehouse_exit",
+		"return_buffer",
+		"return_south",
+		"return_southeast",
+		"upper_north_ring",
+		"gallery_c_approach",
+		"gallery_c",
+		"north_room_east",
+		"stair_b_approach",
+		"stair_b_entry",
+		"stair_b_top",
+		"stair_b_landing_n",
+		"stair_b_landing_s",
+		"stair_b_bottom",
+		"history_approach",
+		"history_entry",
+		"history_east",
+		"history_south",
+		"history",
+		"history_south_portal",
+		"courtyard_approach",
+		"courtyard",
+		"ring_east",
+		"ring_south",
+		"ring_west",
+		"ring_north",
+		"yard_exit",
+		"ground_northeast",
+		"staff_approach",
+		"staff_entry",
+		"staff",
+		"staff_exit",
+		"ground_east",
+		"south_ring",
+		"lobby_approach"
+	],
+	"vsync_mode": 0,
+	"warmup_seconds": 3,
+	"window_mode": 4
+}

@@ -1,0 +1,30 @@
+{
+  "id": "goddess_isis",
+  "title": "Goddess Isis, 1st century CE",
+  "provider": "Sketchfab",
+  "author": "Minneapolis Institute of Art",
+  "author_url": "https://sketchfab.com/artsmia",
+  "source": "https://sketchfab.com/3d-models/goddess-isis-1st-century-ce-fef83e3711e248689702f953e02809a0",
+  "source_url": "https://sketchfab.com/3d-models/goddess-isis-1st-century-ce-fef83e3711e248689702f953e02809a0",
+  "folder": "models/exhibits/goddess_isis",
+  "license": "CC0-1.0",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "status": "pending_browser_download",
+  "downloaded": false,
+  "checked_on": "2026-11-10",
+  "intended_use": "Classical courtyard statue above a separate 1.2 m solid cover pedestal",
+  "suggested_model_file": "goddess_isis.glb",
+  "source_triangles": 64000,
+  "blocker": "The official Sketchfab download API returned HTTP 401: Authentication credentials were not provided.",
+  "download_check": {
+    "endpoint": "https://api.sketchfab.com/v3/models/fef83e3711e248689702f953e02809a0/download",
+    "http_status": 401,
+    "metadata_http_status": 200,
+    "is_downloadable": true
+  },
+  "setup_notes": [
+    "The original is bronze; a light stone material and a separate solid pedestal are proposed for the courtyard.",
+    "Preserve the original model; make a separate adapted scene when integrating."
+  ],
+  "attribution": "\"Goddess Isis, 1st century CE\" by Minneapolis Institute of Art, https://sketchfab.com/3d-models/goddess-isis-1st-century-ce-fef83e3711e248689702f953e02809a0, licensed under CC0-1.0."
+}
