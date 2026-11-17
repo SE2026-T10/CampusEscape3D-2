@@ -3,6 +3,7 @@
 Người phụ trách: **hgmanh**, nhánh **hgmanh-work**, map ID `isg_museum`.
 Workspace bắt đầu từ `main` tại `13807bd` ngày 27/10/2026. Godot **4.7.2 stable**, GL Compatibility.
 
+- Nhấn **F5** để mở menu Campus Escape 3D, chọn **ISG Museum — Phi vụ bảo tàng** hoặc **ISG Museum — Chỉnh map không bảo vệ**. [Kiểm tra tích hợp menu](docs/reports/menu-integration-v1/REPORT.md).
 - Gameplay/stealth: mở [museum.tscn](scenes/museum.tscn), nhấn **F6**; có đủ chín guard.
 - Chỉnh đồ họa và tương tác: mở [museum_editing.tscn](scenes/museum_editing.tscn), nhấn **F6**; scene kế thừa, loại guard trước khởi tạo, giữ NPC và luật nhiệm vụ.
 - [Mục lục tài liệu](docs/README.md): thiết kế, hướng dẫn và toàn bộ báo cáo/bằng chứng.

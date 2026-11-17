@@ -34,6 +34,7 @@ Các step là **lịch sử phát triển**, không thay thế hướng dẫn au
 
 **Hiện hành:** Gardner B, guard art, NPC art và Post-B ở các liên kết dưới đây. Mỗi đợt có `REPORT.md`, `VALIDATION.json`; chỉ tạo nhóm `images/videos/logs/data/snapshots/reproduce/revisions` khi có nội dung.
 
+- **[menu-integration-v1](reports/menu-integration-v1/REPORT.md)** — Hai chế độ museum trong menu F5, lifecycle/Restart và ảnh Godot.
 - **[post-b-fixes-v1](reports/post-b-fixes-v1/REPORT.md)** — Sửa phần xây trên vòm, ngưỡng A/B/C và cửa.
 - **[courtyard-palette-stage-b](reports/courtyard-palette-stage-b/REPORT.md)** — Gardner B — bảng vật liệu đã lưu trong sản phẩm.
 - **[courtyard-palette-v1](reports/courtyard-palette-v1/REPORT.md)** — Gardner A1/A2 — góc thử và đối chiếu.

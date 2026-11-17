@@ -14,6 +14,7 @@ extends RefCounted
 
 const MAIN_MENU := "res://shared/scenes/ui/main_menu.tscn"
 const TestUtils := preload("res://tests/test_utils.gd")
+const SceneChecks := preload("res://tests/map_scene_checks.gd")
 const LEVEL_SYSTEMS := ["game_flow", "stealth_director", "noise_system", "audio_director", "player"]
 const MISSION_SYSTEMS := ["objective_manager", "checkpoint_manager"]
 ## A point on each map's navmesh, to wait for navigation (the spawn).
@@ -21,6 +22,7 @@ const NAV_PROBE := {
 	&"library_tutorial": Vector3(0, 0, 18),
 	&"expanded_library": Vector3(0, 0.05, 32),
 	&"intelligence_k17": Vector3(-36, 0.05, 51),
+	&"isg_museum": Vector3(18, 0.05, 35),
 }
 
 var failures: Array[String] = []
@@ -39,6 +41,13 @@ func run(host: Node) -> Array[String]:
 			level.title, second, first])
 		print("  [maps] %s: one of each system, Restart → %s, Main menu → menu, connections %s, all freed on leaving (loaded twice)" % [
 			level.title, String(level.scene).get_file(), first])
+		if level.get("test_scene","")!="":
+			var variant: Dictionary = level.duplicate()
+			variant.scene = level.test_scene
+			variant.title = level.test_title
+			var test_first := await _check_level(variant)
+			var test_second := await _check_level(variant)
+			_expect(test_first==test_second,"%s: repeated test-scene loads must preserve connection counts." % variant.title)
 	return failures
 
 
@@ -62,6 +71,8 @@ func _check_catalog() -> void:
 			_expect(load(level.test_scene) is PackedScene, "Map %s: its test scene must load." % level.id)
 		_expect(LevelCatalog.id_of_scene(level.scene) == level.id, "Map %s: id_of_scene must find it again." % level.id)
 	_expect(unique.size() == LevelCatalog.LEVELS.size(), "Map ids must be unique.")
+	_expect(ids.has(LevelCatalog.MUSEUM) and ids.find(LevelCatalog.MUSEUM)==ids.find(LevelCatalog.INTELLIGENCE)+1,
+		"ISG Museum must follow K17 in the catalog.")
 	_expect(LevelCatalog.scene_of(LevelCatalog.TUTORIAL) == MainMenu.LEVEL_SCENE, "The tutorial entry must be the scene the menu always started.")
 	_expect(LevelCatalog.scene_of(&"no_such_map") == "", "An unknown map has no scene.")
 	_expect(LevelCatalog.test_scene_of(&"no_such_map") == "" and LevelCatalog.test_scene_of(LevelCatalog.TUTORIAL) == "", "Unknown maps and maps without a test variant have no test scene.")
@@ -80,11 +91,21 @@ func _check_menu() -> void:
 		_expect(menu.expanded_button == menu.level_buttons[LevelCatalog.EXPANDED] and menu.expanded_button.text == "Expanded Library",
 			"expanded_button must be the Expanded Library button.")
 		_expect(menu.start_button.has_focus(), "The Library Tutorial button should have keyboard focus.")
+		_expect(menu.level_buttons[LevelCatalog.MUSEUM].text=="ISG Museum — Phi vụ bảo tàng"
+			and menu.test_buttons[LevelCatalog.MUSEUM].text=="ISG Museum — Chỉnh map không bảo vệ",
+			"Both museum titles must match the catalog's playable modes.")
 		# Derive keyboard navigation from the catalog, including newly added maps.
 		var ordered: Array[Button] = []
 		for entry in LevelCatalog.LEVELS:
 			ordered.append(menu.level_buttons[entry.id])
 			if menu.test_buttons.has(entry.id): ordered.append(menu.test_buttons[entry.id])
+			var normal_button: Button = menu.level_buttons[entry.id]
+			var description := normal_button.get_parent().get_child(normal_button.get_index()+1) as Label
+			_expect(description!=null and description.text==entry.description,"Map description must match the catalog: "+String(entry.id))
+			if menu.test_buttons.has(entry.id):
+				var test_button: Button = menu.test_buttons[entry.id]
+				var test_description := test_button.get_parent().get_child(test_button.get_index()+1) as Label
+				_expect(test_description!=null and test_description.text==entry.test_description,"Test description must match the catalog: "+String(entry.id))
 		ordered.append(menu.settings_button)
 		ordered.append(menu.quit_button)
 		for i in range(ordered.size() - 1):
@@ -185,23 +206,32 @@ func _check_level(level: Dictionary) -> Dictionary:
 	_expect(ready, "%s: navigation never became ready." % level.title)
 	await _frames(3)
 	# Exactly one of each level system, and none left over from earlier loads.
-	var has_mission := scene.has_node("Gameplay/ObjectiveManager")
 	for g in LEVEL_SYSTEMS + MISSION_SYSTEMS:
-		var expected := 1 if g in LEVEL_SYSTEMS or has_mission else 0
+		var expected := SceneChecks.expected_systems(scene,g)
 		var all := _host.get_tree().get_nodes_in_group(g)
 		var mine := all.filter(func(n): return scene.is_ancestor_of(n))
 		_expect(mine.size() == expected and all.size() == expected, "%s: expected %d node(s) in group '%s', found %d (%d in the whole tree)." % [
 			level.title, expected, g, mine.size(), all.size()])
 	var flow := GameFlow.find(scene)
 	var director := StealthDirector.find(scene)
+	if SceneChecks.is_museum(scene):
+		var expected_guards := 0 if level.scene==LevelCatalog.test_scene_of(LevelCatalog.MUSEUM) else 9
+		_expect(_host.get_tree().get_nodes_in_group("guards").size()==expected_guards,"Museum mode must retain exactly %d guards." % expected_guards)
+		_expect(scene.has_node("NavigationRegion3D/Teammate") and scene.has_node("NavigationRegion3D/ServiceExpansion/Receptionist"),
+			"Both museum modes must retain N0 and the receptionist.")
 	var connections := {}
 	if flow and director:
 		connections = {"player_caught": director.player_caught.get_connections().size(),
 			"level_reset": director.level_reset.get_connections().size(),
 			"state_changed": flow.state_changed.get_connections().size()}
-		_expect(connections.player_caught == 1, "%s: GameFlow must listen to player_caught exactly once." % level.title)
-		_expect(connections.level_reset == (2 if has_mission else 1), "%s: level_reset should reach GameFlow%s once each." % [
-			level.title, " and CheckpointManager" if has_mission else ""])
+		var museum := SceneChecks.is_museum(scene)
+		_expect(connections.player_caught == (2 if museum else 1), "%s: player_caught must have exactly the map's required listeners." % level.title)
+		var expected_resets := 2 if museum or SceneChecks.expected_systems(scene,"checkpoint_manager")==1 else 1
+		_expect(connections.level_reset == expected_resets,"%s: level_reset must reach each required listener exactly once." % level.title)
+		var callbacks := SceneChecks.required_callbacks(scene)
+		for callback in callbacks:
+			_expect(callbacks[callback]==1,"%s: callback %s must connect exactly once." % [level.title,callback])
+		connections.required_callbacks = callbacks
 		# Restart reloads this map; Main menu goes to the menu (scene changes recorded, not made).
 		var requests: Array[String] = []
 		flow.change_scene = func(path: String): requests.append(path)
@@ -220,6 +250,7 @@ func _check_level(level: Dictionary) -> Dictionary:
 		_expect(r.get_ref() == null, "%s: %s was not freed when the map was left." % [level.title, r])
 	for g in LEVEL_SYSTEMS + MISSION_SYSTEMS:
 		_expect(_host.get_tree().get_nodes_in_group(g).is_empty(), "%s: group '%s' still has nodes after leaving." % [level.title, g])
+	_expect(_host.get_tree().get_nodes_in_group("guards").is_empty(),"%s: guards must also be freed on leaving." % level.title)
 	return connections
 
 
