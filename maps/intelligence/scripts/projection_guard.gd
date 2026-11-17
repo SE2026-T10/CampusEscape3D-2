@@ -65,10 +65,12 @@ func _physics_process(delta: float) -> void:
 	_observe_rig(delta)
 	var mission := MapHudProvider.find_for(self) as K17MissionController
 	if posted and mission and mission.has_file and not _alarm_responded and machine.current==GuardStateMachine.PATROL:
-		_alarm_responded = true
-		# The alarm identifies the cabinet, not the player's current coordinates.
-		machine.request_transition(GuardStateMachine.INVESTIGATE,"niêm phong hồ sơ báo động",Config.FILE-Vector3(0,1.15,0))
-		check_left=0
+		if mission.escape_duration - mission.time_left >= Config.SEAL_VERIFY_SECONDS:
+			_alarm_responded = true
+			# The post verifies the seal alarm before checking the cabinet.
+			# Ordinary sight and hearing still run during that interval.
+			machine.request_transition(GuardStateMachine.INVESTIGATE,"niêm phong hồ sơ báo động",Config.FILE-Vector3(0,1.15,0))
+			check_left=0
 	_clear_blocked_rig(delta,mission)
 	super(delta)
 

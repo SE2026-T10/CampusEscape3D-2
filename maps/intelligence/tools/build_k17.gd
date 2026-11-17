@@ -1,6 +1,6 @@
 extends SceneTree
 
-## Build V6 from shared actors and map-local geometry; runtime needs no tools.
+## Build K17 from shared actors and map-local geometry; runtime needs no tools.
 const BASE := "res://maps/intelligence/"
 const Layout := preload("res://maps/intelligence/resources/layout/k17_layout.gd")
 const Expansion := preload("res://maps/intelligence/tools/k17_expansion_builder.gd")
@@ -84,7 +84,7 @@ func _build() -> void:
 		push_error("K17: scene save failed")
 		quit(1)
 		return
-	print("K17 BUILT V6: ", nav.get_polygon_count(), " navmesh polygons; projection + optional sabotage; 6 guards + 4 reinforcements")
+	print("K17 BUILT: ", nav.get_polygon_count(), " navmesh polygons; projection + optional sabotage; 6 guards + 4 reinforcements")
 	level.free()
 	quit(0)
 
@@ -249,6 +249,8 @@ func _gameplay() -> bool:
 		_shape(trigger, Vector3(5, 2, 3))
 	_pickup(gameplay, "AccessPass", Mission.PASS, Layout.PASS, "Lấy giấy thông hành", "Vào cơ sở trước", Color("c1b893"), Vector3(0.4, 0.035, 0.26))
 	_pickup(gameplay, "IntelligenceFile", Mission.FILE, Layout.FILE, "Lấy Mật lệnh 04 — bắt đầu 120 giây", "Mở B1 và tiếp cận phòng hồ sơ trước khi thu hồi", Color(0.8, 0.25, 0.12), Vector3(0.5, 0.08, 0.35))
+	_add(gameplay,preload("res://maps/intelligence/scenes/props/k17_v7_presentation.tscn").instantiate())
+	_add(gameplay,preload("res://maps/intelligence/scenes/props/k17_v8_documents.tscn").instantiate())
 	var door := AccessDoor.new()
 	door.name = "ArchiveDoor"
 	door.position = Vector3(4, 1.2, 0)
@@ -394,11 +396,11 @@ func _systems() -> void:
 	for entry in [
 		["StealthDirector", Node.new(), BASE+"scripts/stealth_director.gd"],
 		["NoiseSystem", Node3D.new(), "res://shared/scripts/noise/noise_system.gd"],
-		["StealthHud", CanvasLayer.new(), "res://shared/scripts/ui/stealth_hud.gd"],
+		["StealthHud", CanvasLayer.new(), BASE+"scripts/stealth_hud.gd"],
 		["ObjectiveHud", CanvasLayer.new(), BASE+"scripts/objective_hud.gd"],
 		["GameFlow", Node.new(), "res://shared/scripts/game/game_flow.gd"],
 		["GameMenus", CanvasLayer.new(), BASE+"scripts/game_menus.gd"],
-		["AudioDirector", Node.new(), "res://shared/scripts/presentation/audio_director.gd"],
+		["AudioDirector", Node.new(), BASE+"scripts/audio_director.gd"],
 		["MilitaryAppearance", Node.new(), BASE+"scripts/military_appearance.gd"],
 	]:
 		var node := _script(level, entry[0], entry[1], entry[2])
@@ -435,6 +437,10 @@ func _pickup(parent: Node, node_name: String, id: StringName, pos: Vector3, prom
 	stencil.pixel_size = .0010
 	stencil.outline_size = 0
 	stencil.modulate = Color("1e2829")
+	if id == Mission.FILE:
+		stencil.rotation.y = PI
+		stencil.font_size = 29
+		stencil.pixel_size = .0016
 	_add(model, stencil)
 
 

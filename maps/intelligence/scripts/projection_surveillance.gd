@@ -16,7 +16,6 @@ var _layer: CanvasLayer
 var _panel: PanelContainer
 var _image: TextureRect
 var _title: Label
-var _status: Label
 var _tick:=0.0
 var _meter:=0.0
 var _mission: K17MissionController
@@ -42,7 +41,6 @@ func hack() -> bool:
 	if hacked or revoked or not can_play(): return false
 	hacked=true
 	feed_mode=1
-	_mission.queue_radio("Lam: Kênh B1 đã chiếm. V đổi camera trước/C1/ẩn; R gửi yêu cầu kiểm tra. Đợi chốt quay sang máy rồi mới rẽ vào hốc. W1 và W2 vẫn có lính quan sát.",5,"b1_hacked")
 	return true
 
 func cycle_feed() -> void:
@@ -62,19 +60,32 @@ func show_front_on_grip() -> void:
 		feed_mode=1
 		_tick=0
 
+func hide_feed() -> void:
+	feed_mode=0
+
 func post() -> Node:
 	return get_tree().get_first_node_in_group("k17_projection_post")
 
+func feed_status() -> String:
+	if revoked: return "V · Mất kết nối"
+	if not hacked: return "Giữ E ở bảng B1 để kết nối"
+	match feed_mode:
+		1: return "V · Camera trước"
+		2: return "V · C1"
+	return "V · Đã ẩn"
+
 func call_status() -> String:
-	if revoked: return "Kênh đã thu hồi"
-	if not hacked: return "Chưa chiếm kênh"
-	if pending>0: return "Đã gửi / đang chờ"
+	if _mission.is_test_mode(): return "Bản test · Không có chốt"
+	if revoked: return "R · Kênh đã thu hồi"
+	if not hacked: return ""
+	if pending>0: return "R · Đã gửi, đang chờ"
 	var guard:=post()
-	if guard and guard.check_left>0: return "Chốt kiểm tra máy / %d giây · nhìn C1"%ceili(guard.check_left)
-	if lockout>0: return "Đối chiếu kênh / %d giây"%ceili(lockout)
-	if cooldown>0: return "Hồi / %d giây"%ceili(cooldown)
-	if guard==null: return "Bản thử không có chốt"
-	return "R / gửi yêu cầu kiểm tra"
+	if guard and guard.check_left>0:
+		if absf(angle_difference(guard.rotation.y,0.0))>=.08: return "R · Chốt đang quay"
+		return "R · Chốt nhìn máy · %d giây"%ceili(guard.check_left)
+	if lockout>0: return "R · Đối chiếu kênh · %d giây"%ceili(lockout)
+	if cooldown>0: return "R · Đang hồi · %d giây"%ceili(cooldown)
+	return "R · Gửi yêu cầu kiểm tra"
 
 func request_call() -> bool:
 	if not can_play() or not hacked or revoked or pending>0 or cooldown>0 or lockout>0: return false
@@ -116,7 +127,7 @@ func _physics_process(delta: float) -> void:
 		revoked=true
 		pending=0
 		feed_mode=0
-		_notify("B1 / báo động niêm phong: kênh CCTV và yêu cầu giả đã bị thu hồi.")
+		_notify("CCTV B1 · Mất kết nối do niêm phong.",Color("ffcb81"))
 	if pending>0:
 		pending=maxf(0,pending-delta)
 		if pending==0:
@@ -175,10 +186,16 @@ func _build_feed() -> void:
 	_image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
 	_image.custom_minimum_size=Vector2(256,144)
 	column.add_child(_image)
-	_status=Label.new()
-	_status.add_theme_font_size_override("font_size",13)
-	_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(_status)
+	_panel.hide()
+
+func place_feed(at: Vector2, width: float) -> void:
+	if not _panel: return
+	_panel.position=at
+	var dimensions:=Vector2(width-16.0,(width-16.0)*.5625)
+	if _image.custom_minimum_size!=dimensions:
+		_image.custom_minimum_size=dimensions
+	var minimum := _panel.get_combined_minimum_size()
+	if _panel.size!=minimum: _panel.size=minimum
 
 func _process(delta: float) -> void:
 	if _viewport==null: return
@@ -188,18 +205,8 @@ func _process(delta: float) -> void:
 	_panel.visible=shown
 	_viewport.render_target_update_mode=SubViewport.UPDATE_DISABLED
 	if not shown: return
-	var size_:=get_viewport().get_visible_rect().size
-	var left:=350.0
-	var right:=size_.x-390
-	if hud:
-		left=hud._status_panel.get_global_rect().end.x
-		right=hud._panel.get_global_rect().position.x
-	var width_:=minf(272,maxf(160,right-left-24))
-	_panel.position=Vector2(left+12,20)
-	_image.custom_minimum_size=Vector2(width_-16,(width_-16)*.5625)
-	_panel.size=Vector2(width_,0)
-	_title.text="CẢNH THẬT / "+("CAMERA TRƯỚC" if feed_mode==1 else "C1 / TRÊN CHỐT")+" · V đổi"
-	_status.text=call_status()
+	var caption: String="CẢNH THẬT  /  "+("CAMERA TRƯỚC" if feed_mode==1 else "C1 · TRÊN CHỐT")
+	if _title.text!=caption: _title.text=caption
 	_tick-=delta
 	if _tick>0: return
 	_tick=.1
@@ -213,9 +220,9 @@ func _process(delta: float) -> void:
 	_viewport.render_target_update_mode=SubViewport.UPDATE_ONCE
 	updates+=1
 
-func _notify(message: String) -> void:
+func _notify(message: String,colour := Color("65ed8f")) -> void:
 	var hud:=get_parent().get_parent().get_node_or_null("ObjectiveHud")
-	if hud: hud.show_message(message)
+	if hud: hud.show_message(message,colour)
 
 func get_checkpoint_state() -> Dictionary:
 	return {"hacked":hacked}

@@ -131,7 +131,7 @@ func _interaction_and_reset() -> void:
 	target=await _aim()
 	var inventory := PlayerInventory.find(level)
 	var before: Dictionary = inventory.get_checkpoint_state().duplicate(true)
-	_expect(objectives.get_mandatory_ids().size()==7 and objectives.get_optional_ids().size()==3 and objectives.is_optional(M.SABOTAGE),"Seven mandatory and three optional objectives")
+	_expect(objectives.get_mandatory_ids().size()==7 and objectives.get_optional_ids().size()==4 and objectives.is_optional(M.SABOTAGE),"Seven mandatory and four optional objectives")
 	_expect(objectives.get_requires(M.ESCAPE)==[M.FILE],"Sabotage never becomes a dependency of escape")
 	_expect(is_equal_approx(target.hold_duration,5.0),"Planting uses a five-second shared hold")
 	var interactor := player.get_node("Interactor") as PlayerInteractor

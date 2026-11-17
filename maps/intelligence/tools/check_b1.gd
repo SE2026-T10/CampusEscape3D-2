@@ -142,6 +142,13 @@ func _run() -> void:
 	system._physics_process(.1)
 	_expect(system.revoked and system.pending==0 and system.feed_mode==0,"Seal alarm revokes live feed and cancels pending calls")
 	_expect(lock.is_open and not system.request_call(),"Alarm retains opened doorway but refuses forged requests")
+	post.machine.request_transition(GuardStateMachine.PATROL,"fixture")
+	mission.time_left=mission.escape_duration-C.SEAL_VERIFY_SECONDS+.1
+	post._physics_process(0.0)
+	_expect(not post._alarm_responded,"The posted guard verifies the seal before automatically leaving")
+	mission.time_left=mission.escape_duration-C.SEAL_VERIFY_SECONDS
+	post._physics_process(0.0)
+	_expect(post._alarm_responded,"Seal verification leads to a real investigation after four seconds")
 	post.position=Vector3(C.DOCK.x-1.4,-4,-47)
 	_expect(rig.clear_by_guard(post),"Nearby guard physically folds discovered obstacle after alarm")
 	await frames(90)

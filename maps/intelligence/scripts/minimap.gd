@@ -3,6 +3,8 @@ extends Control
 const Data := preload("res://maps/intelligence/resources/layout/minimap_layout.gd")
 const DEFAULT_LAYOUT := preload("res://maps/intelligence/resources/k17_minimap_layout.tres")
 const Marker := preload("res://maps/intelligence/scripts/minimap_marker.gd")
+const Layout := preload("res://maps/intelligence/resources/layout/k17_layout.gd")
+const B1_ROUTES := [Vector3(4,-4,-33),Vector3(10,-4,-35.5)]
 const ACTION := &"k17_minimap"
 var layout: Data = DEFAULT_LAYOUT
 var floor_id := 0
@@ -17,6 +19,8 @@ var _footer: Label
 var _flow: GameFlow
 var _hud: ObjectiveHud
 var _stair := false
+var _mission: K17MissionController
+var _route_marks := Vector2i(-1,-1)
 
 func _ready() -> void:
 	process_mode=Node.PROCESS_MODE_ALWAYS
@@ -36,6 +40,7 @@ func _ready() -> void:
 	map_root=_hud.get_parent() as Node3D
 	player=map_root.get_node_or_null("Player") as FirstPersonPlayer
 	_flow=GameFlow.find(self)
+	_mission=MapHudProvider.find_for(self) as K17MissionController
 	resized.connect(_resize)
 	_resize()
 	update_marker()
@@ -76,7 +81,12 @@ func update_marker() -> void:
 	marker.show()
 	_stair=layout.stairs.any(func(area: Rect2): return area.has_point(Vector2(marker_local.x,marker_local.z)))
 	_header.text="K17 / "+("B1" if floor_id==1 else "TRỆT")+"         BẮC ↑"
-	_footer.text="Cầu thang TRỆT ↔ B1" if _stair else "▲ Bạn   ·   M: ẩn bản đồ"
+	var exfil := _mission!=null and _mission.has_file
+	var route_marks := Vector2i(_mission.route_state(0),_mission.route_state(1)) if exfil else Vector2i(-1,-1)
+	if route_marks!=_route_marks:
+		_route_marks=route_marks
+		queue_redraw()
+	_footer.text="A Sân   ·   B Bảo trì   ·   M ẩn" if exfil else ("Cầu thang TRỆT ↔ B1" if _stair else "▲ Bạn   ·   M: ẩn bản đồ")
 	if not layout.bounds_for(floor_id).has_point(Vector2(marker_local.x,marker_local.z)):
 		_footer.text="Bạn đang ngoài sơ đồ"
 
@@ -123,6 +133,13 @@ func _draw() -> void:
 		for p in [Vector3(4,0,-38),Vector3(4,0,-42.4)]:
 			var point:=project_local(p)
 			draw_line(point-Vector2(4,0),point+Vector2(4,0),Color("e3a85b"),2)
+	if _route_marks.x>=0:
+		var positions := B1_ROUTES if floor_id==1 else Layout.GATES
+		for route in 2:
+			var point := project_local(positions[route])
+			draw_circle(point,8,Color("0b151a"))
+			draw_arc(point,8,0,TAU,18,_mission.route_colour(route),1.5,true)
+			draw_string(ThemeDB.fallback_font,point+Vector2(-3.5,4),["A","B"][route],HORIZONTAL_ALIGNMENT_LEFT,-1,11,_mission.route_colour(route))
 
 func _label(at: Vector2,font_size: int,colour: Color) -> Label:
 	var label := Label.new()

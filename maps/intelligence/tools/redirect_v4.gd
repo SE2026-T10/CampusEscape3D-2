@@ -3,6 +3,8 @@ extends "res://maps/intelligence/tools/playthrough_k17.gd"
 ## The fixture sets the elapsed clock and the previously prepared backdoor;
 ## player input, AI, cameras, gates and the remaining clock then run normally.
 func _run() -> void:
+	# The shared driver brakes before each waypoint. Reapply sprint on the next leg.
+	sprint_exfil=true
 	for elapsed in [70.0,90.0]:
 		change_scene_to_file(SCENE)
 		await _frames(45)
@@ -34,7 +36,6 @@ func _run() -> void:
 		var correct_gate: bool=mission.lockdown_warned and (main_gate.is_closed if elapsed>=90 else not main_gate.is_closed)
 		player.set_physics_process(true)
 		mission.set_physics_process(true)
-		Input.action_press("sprint")
 		_route_failed=false
 		await _route([Vector3(16,0,7),Vector3(16,0,18),Vector3(26,0,21),Vector3(26,0,28),Vector3(36,0,42),Vector3(36,0,44.35)])
 		await _use("Gameplay/Security/MaintenanceGate")
