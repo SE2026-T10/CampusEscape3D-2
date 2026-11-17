@@ -457,5 +457,13 @@
 		"arch_depth": 0.39,
 		"arch_segments": 24,
 		"foliage_clearance": 0.04
+	},
+	"post_b": {
+		"spandrel_top_y": [
+			4.5,
+			9.12
+		],
+		"corner_core_bottom": 3.55,
+		"corner_core_depth": 0.3
 	}
 }

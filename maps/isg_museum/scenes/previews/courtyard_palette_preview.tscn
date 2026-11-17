@@ -1,0 +1,12 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/courtyard_palette_preview.gd" id="1_n4cbu"]
+[ext_resource type="PackedScene" path="res://maps/isg_museum/scenes/museum_editing.tscn" id="2_ndr3q"]
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/museum_demo.gd" id="3_vnmol"]
+
+[node name="CourtyardPalettePreview" type="Node3D" unique_id=651899666]
+script = ExtResource("1_n4cbu")
+
+[node name="Map" type="Node3D" parent="." unique_id=602987684 instance=ExtResource("2_ndr3q")]
+script = ExtResource("3_vnmol")
+disable_guards_for_editing = true

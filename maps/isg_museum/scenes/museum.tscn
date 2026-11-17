@@ -75,81 +75,6 @@ ambient_light_energy = 0.32
 radius = 0.35
 height = 1.8
 
-[sub_resource type="StandardMaterial3D" id="Material_trousers"]
-albedo_color = Color(0.08, 0.1, 0.2, 1)
-
-[sub_resource type="BoxMesh" id="Mesh_pelvis"]
-material = SubResource("Material_trousers")
-size = Vector3(0.36, 0.2, 0.22)
-
-[sub_resource type="StandardMaterial3D" id="Material_uniform"]
-albedo_color = Color(0.12, 0.18, 0.38, 1)
-
-[sub_resource type="BoxMesh" id="Mesh_torso"]
-material = SubResource("Material_uniform")
-size = Vector3(0.44, 0.5, 0.26)
-
-[sub_resource type="StandardMaterial3D" id="Material_cap"]
-albedo_color = Color(0.05, 0.06, 0.1, 1)
-
-[sub_resource type="BoxMesh" id="Mesh_belt"]
-material = SubResource("Material_cap")
-size = Vector3(0.46, 0.07, 0.28)
-
-[sub_resource type="StandardMaterial3D" id="Material_badge"]
-albedo_color = Color(0.95, 0.78, 0.25, 1)
-metallic = 0.6
-roughness = 0.4
-
-[sub_resource type="BoxMesh" id="Mesh_badge"]
-material = SubResource("Material_badge")
-size = Vector3(0.07, 0.08, 0.02)
-
-[sub_resource type="StandardMaterial3D" id="Material_skin"]
-albedo_color = Color(0.86, 0.68, 0.54, 1)
-
-[sub_resource type="BoxMesh" id="Mesh_head"]
-material = SubResource("Material_skin")
-size = Vector3(0.24, 0.26, 0.24)
-
-[sub_resource type="StandardMaterial3D" id="Material_shoe"]
-albedo_color = Color(0.04, 0.04, 0.05, 1)
-
-[sub_resource type="BoxMesh" id="Mesh_eye"]
-material = SubResource("Material_shoe")
-size = Vector3(0.04, 0.035, 0.01)
-
-[sub_resource type="StandardMaterial3D" id="Material_hair"]
-albedo_color = Color(0.22, 0.14, 0.08, 1)
-
-[sub_resource type="BoxMesh" id="Mesh_hair"]
-material = SubResource("Material_hair")
-size = Vector3(0.25, 0.12, 0.06)
-
-[sub_resource type="BoxMesh" id="Mesh_cap"]
-material = SubResource("Material_cap")
-size = Vector3(0.27, 0.09, 0.27)
-
-[sub_resource type="BoxMesh" id="Mesh_brim"]
-material = SubResource("Material_cap")
-size = Vector3(0.25, 0.03, 0.12)
-
-[sub_resource type="BoxMesh" id="Mesh_arm"]
-material = SubResource("Material_uniform")
-size = Vector3(0.12, 0.52, 0.14)
-
-[sub_resource type="BoxMesh" id="Mesh_hand"]
-material = SubResource("Material_skin")
-size = Vector3(0.1, 0.1, 0.1)
-
-[sub_resource type="BoxMesh" id="Mesh_leg"]
-material = SubResource("Material_trousers")
-size = Vector3(0.15, 0.8, 0.17)
-
-[sub_resource type="BoxMesh" id="Mesh_shoe"]
-material = SubResource("Material_shoe")
-size = Vector3(0.16, 0.08, 0.26)
-
 [sub_resource type="StandardMaterial3D" id="Material_painting"]
 albedo_color = Color(0.76, 0.46, 0.14, 1)
 roughness = 0.8
@@ -523,46 +448,21 @@ platform_floor_layers = 1
 script = ExtResource("26_staff_guard")
 patrol_route = NodePath("../PatrolRoute_G3")
 
-[node name="CollisionShape3D" parent="Guard_G3" index="0"]
+[node name="CollisionShape3D" parent="Guard_G3" index="0" unique_id=726184034]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("Capsule_guard")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[node name="Vision" parent="Guard_G3" index="2"]
+[node name="Vision" parent="Guard_G3" index="2" unique_id=1535822983]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 script = ExtResource("28_7mkxw")
 target_sample_heights = PackedFloat32Array(1.5, 0.9, 0.3)
 
-[node name="Hearing" parent="Guard_G3" index="3"]
+[node name="Hearing" parent="Guard_G3" index="3" unique_id=2048674632]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 script = ExtResource("29_staff_hearing")
 ignored_source_groups = PackedStringArray("guards")
 
-[node name="AlertIcon" parent="Guard_G3" index="4"]
+[node name="AlertIcon" parent="Guard_G3" index="4" unique_id=878810597]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
 visible = false
 billboard = 1
@@ -570,7 +470,7 @@ text = "?"
 font_size = 96
 outline_size = 18
 
-[node name="DebugLabel" parent="Guard_G3" index="5"]
+[node name="DebugLabel" parent="Guard_G3" index="5" unique_id=1563673911]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
 billboard = 1
 no_depth_test = true
@@ -578,7 +478,7 @@ text = "Guard"
 font_size = 36
 outline_size = 8
 
-[node name="NavigationAgent3D" parent="Guard_G3" index="6"]
+[node name="NavigationAgent3D" parent="Guard_G3" index="6" unique_id=1373030883]
 path_desired_distance = 0.5
 target_desired_distance = 0.5
 avoidance_enabled = true
@@ -586,7 +486,7 @@ height = 1.8
 radius = 0.4
 neighbor_distance = 6.0
 
-[node name="Presentation" parent="Guard_G3" index="7"]
+[node name="Presentation" parent="Guard_G3" index="7" unique_id=1176427220]
 script = ExtResource("27_staff_presentation")
 
 [node name="GuardId" type="Label3D" parent="Guard_G3" unique_id=126100968]
@@ -947,11 +847,11 @@ billboard = 1
 text = "T3 · NIÊM PHONG PHÒNG C"
 font_size = 64
 
-[node name="EnvironmentArt" parent="Interactables/Painting_T3" index="3" unique_id=616020296]
+[node name="EnvironmentArt" parent="Interactables/Painting_T3" index="3" unique_id=432011744]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Frame" parent="Interactables/Painting_T3/EnvironmentArt" index="0" unique_id=507429959]
+[node name="Frame" parent="Interactables/Painting_T3/EnvironmentArt" index="0" unique_id=1710738785]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0)
 metadata/preserve_source_material = true
 metadata/source = "frames/fancy_picture_frame_01/fancy_picture_frame_01_2k.gltf"
@@ -959,13 +859,13 @@ metadata/fit_scale = Vector3(1.8904524, 1.9822184, 3.5012124)
 metadata/fit_anchor = Vector3(0, -0.23206323, 0.011895584)
 metadata/fit_reference_bounds = AABB(-0.30151513, -0.23206323, 0.0018990466, 0.60303026, 0.46412647, 0.019993074)
 
-[node name="VisualPivot" parent="Interactables/Painting_T3/EnvironmentArt/Frame" index="0" unique_id=2137997478]
+[node name="VisualPivot" parent="Interactables/Painting_T3/EnvironmentArt/Frame" index="0" unique_id=1332510763]
 transform = Transform3D(1.8904524, 0, 0, 0, 1.9822184, 0, 0, 0, 3.5012124, 0, 0.46, -0.041648965)
 
-[node name="fancy_picture_frame_01" parent="Interactables/Painting_T3/EnvironmentArt/Frame/VisualPivot" index="0" unique_id=1812301323]
+[node name="fancy_picture_frame_01" parent="Interactables/Painting_T3/EnvironmentArt/Frame/VisualPivot" index="0" unique_id=985015132]
 mesh = SubResource("ArrayMesh_eu04g")
 
-[node name="Artwork" parent="Interactables/Painting_T3/EnvironmentArt" index="1" unique_id=1282665516]
+[node name="Artwork" parent="Interactables/Painting_T3/EnvironmentArt" index="1" unique_id=130526225]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.06)
 material_override = SubResource("StandardMaterial3D_jibbc")
 mesh = SubResource("QuadMesh_08s7b")
@@ -1031,11 +931,11 @@ billboard = 1
 text = "R · DÂY"
 font_size = 56
 
-[node name="EnvironmentArt" type="Node3D" parent="Interactables/Rope" unique_id=278287936]
+[node name="EnvironmentArt" type="Node3D" parent="Interactables/Rope" unique_id=1017726211]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="RopeCoil" type="Node3D" parent="Interactables/Rope/EnvironmentArt" unique_id=1310550629]
+[node name="RopeCoil" type="Node3D" parent="Interactables/Rope/EnvironmentArt" unique_id=811509313]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.32, 0)
 metadata/preserve_source_material = true
 metadata/source = "storage/rope_coil/rope-coil.glb"
@@ -1043,10 +943,10 @@ metadata/fit_scale = Vector3(0.36699614, 4.798008, 1.2580774)
 metadata/fit_anchor = Vector3(0, 0, 0)
 metadata/fit_reference_bounds = AABB(-0.21798594, 0, -0.25833067, 0.4359719, 0.13547288, 0.51666135)
 
-[node name="VisualPivot" type="Node3D" parent="Interactables/Rope/EnvironmentArt/RopeCoil" unique_id=1159696651]
+[node name="VisualPivot" type="Node3D" parent="Interactables/Rope/EnvironmentArt/RopeCoil" unique_id=570120165]
 transform = Transform3D(-1.6041911e-08, 0, 0.36699614, 0, 4.798008, 0, -1.2580774, 0, -5.499231e-08, 0, 0, 0)
 
-[node name="rope-coil_body" type="MeshInstance3D" parent="Interactables/Rope/EnvironmentArt/RopeCoil/VisualPivot" unique_id=1993861998]
+[node name="rope-coil_body" type="MeshInstance3D" parent="Interactables/Rope/EnvironmentArt/RopeCoil/VisualPivot" unique_id=743883767]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08641359, 0, 0.041415185)
 mesh = SubResource("ArrayMesh_mimb5")
 

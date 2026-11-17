@@ -1,4 +1,347 @@
 {
+	"courtyard_palette": {
+		"border_width": 0.22,
+		"description": "Gardner palette baked offline into courtyard/corridors/lobby and south buffer; gameplay unchanged.",
+		"floor_finish": {
+			"threshold_role": "corridor_border",
+			"upper_y": 4.5
+		},
+		"preview": {
+			"anchors": [
+				[
+					25.4,
+					0.05,
+					22.8
+				],
+				[
+					10.5,
+					0.05,
+					12.7
+				],
+				[
+					10.5,
+					4.55,
+					17.8
+				]
+			],
+			"cameras": {
+				"floor-border": {
+					"position": [
+						10.4,
+						1.65,
+						11.0
+					],
+					"target": [
+						10.9,
+						0.1,
+						8.0
+					]
+				},
+				"player-eye": {
+					"position": [
+						10.5,
+						1.65,
+						17.8
+					],
+					"target": [
+						18.0,
+						2.0,
+						12.0
+					]
+				},
+				"upper-balustrade": {
+					"position": [
+						10.5,
+						6.15,
+						17.8
+					],
+					"target": [
+						18.0,
+						4.9,
+						12.0
+					]
+				},
+				"wall-column-closeup": {
+					"position": [
+						10.6,
+						1.7,
+						12.2
+					],
+					"target": [
+						11.6,
+						2.2,
+						9.0
+					]
+				}
+			},
+			"overview": {
+				"position": [
+					25.4,
+					1.65,
+					23.3
+				],
+				"target": [
+					12.2,
+					3.5,
+					8.4
+				]
+			},
+			"source": "res://maps/isg_museum/scenes/museum_editing.tscn"
+		},
+		"roles": {
+			"architectural_stone": {
+				"contrast": 0.13,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/architectural_stone.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/architectural_stone.tres",
+				"metallic": 0.0,
+				"mottle": 0.012,
+				"normal_strength": 0.075,
+				"roughness": 0.86,
+				"seed": 5214.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_Roughness.jpg",
+				"tile_m": 1.5,
+				"tint": [
+					0.77,
+					0.72,
+					0.615
+				]
+			},
+			"balustrade_cap": {
+				"contrast": 0.13,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/balustrade_cap.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/balustrade_cap.tres",
+				"metallic": 0.0,
+				"mottle": 0.012,
+				"normal_strength": 0.08,
+				"roughness": 0.82,
+				"seed": 5476.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Roughness.jpg",
+				"tile_m": 1.4,
+				"tint": [
+					0.56,
+					0.535,
+					0.465
+				]
+			},
+			"balustrade_stone": {
+				"contrast": 0.18,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/balustrade_stone.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/balustrade_stone.tres",
+				"metallic": 0.0,
+				"mottle": 0.012,
+				"normal_strength": 0.1,
+				"roughness": 0.9,
+				"seed": 5345.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Roughness.jpg",
+				"tile_m": 1.4,
+				"tint": [
+					0.56,
+					0.535,
+					0.465
+				]
+			},
+			"corridor_border": {
+				"contrast": 0.4,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/corridor_border.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/corridor_border.tres",
+				"metallic": 0.0,
+				"mottle": 0.012,
+				"normal_strength": 0.16,
+				"roughness": 0.92,
+				"seed": 5083.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_Roughness.jpg",
+				"tile_m": 2.4,
+				"tint": [
+					0.28,
+					0.26,
+					0.23
+				]
+			},
+			"corridor_floor": {
+				"contrast": 1.0,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/corridor_floor.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/corridor_floor.tres",
+				"metallic": 0.0,
+				"mottle": 0.012,
+				"normal_strength": 0.45,
+				"roughness": 0.93,
+				"seed": 4952.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_Roughness.jpg",
+				"tile_m": 2.4,
+				"tint": [
+					0.5,
+					0.46,
+					0.39
+				]
+			},
+			"courtyard_plaster": {
+				"contrast": 0.1,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/courtyard_plaster.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/courtyard_plaster.tres",
+				"metallic": 0.0,
+				"mottle": 0.065,
+				"normal_strength": 0.05,
+				"roughness": 0.96,
+				"seed": 4821.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/plaster_002/Plaster002_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/plaster_002/Plaster002_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/plaster_002/Plaster002_2K-JPG_Roughness.jpg",
+				"tile_m": 8.0,
+				"tint": [
+					0.67,
+					0.43,
+					0.36
+				]
+			},
+			"dark_metal": {
+				"contrast": 0.28,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/dark_metal.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/dark_metal.tres",
+				"metallic": 0.65,
+				"mottle": 0.012,
+				"normal_strength": 0.12,
+				"roughness": 0.84,
+				"seed": 6000.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/metal_032/Metal032_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/metal_032/Metal032_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/metal_032/Metal032_2K-JPG_Roughness.jpg",
+				"tile_m": 1.0,
+				"tint": [
+					0.17,
+					0.135,
+					0.09
+				]
+			},
+			"door_brass": {
+				"contrast": 0.2,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/door_brass.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/door_brass.tres",
+				"metallic": 0.75,
+				"mottle": 0.012,
+				"normal_strength": 0.08,
+				"roughness": 0.42,
+				"seed": 13872.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/metal_032/Metal032_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/metal_032/Metal032_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/metal_032/Metal032_2K-JPG_Roughness.jpg",
+				"tile_m": 1.0,
+				"tint": [
+					0.64,
+					0.46,
+					0.19
+				]
+			},
+			"door_trim": {
+				"contrast": 0.65,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/door_trim.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/door_trim.tres",
+				"metallic": 0.0,
+				"mottle": 0.012,
+				"normal_strength": 0.16,
+				"roughness": 0.78,
+				"seed": 13741.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_Roughness.jpg",
+				"tile_m": 2.0,
+				"tint": [
+					0.35,
+					0.22,
+					0.11
+				]
+			},
+			"door_wood": {
+				"contrast": 0.65,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/door_wood.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/door_wood.tres",
+				"metallic": 0.0,
+				"mottle": 0.012,
+				"normal_strength": 0.16,
+				"roughness": 0.78,
+				"seed": 13610.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_Roughness.jpg",
+				"tile_m": 2.0,
+				"tint": [
+					0.43,
+					0.285,
+					0.155
+				]
+			},
+			"garden_wall_stone": {
+				"albedo_lowpass_size": 128.0,
+				"contrast": 0.28,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/garden_wall_stone.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/garden_wall_stone.tres",
+				"metallic": 0.0,
+				"mottle": 0.012,
+				"normal_strength": 0.2,
+				"roughness": 0.98,
+				"seed": 5607.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Roughness.jpg",
+				"tile_m": 1.6,
+				"tint": [
+					0.47,
+					0.43,
+					0.36
+				]
+			},
+			"sculpture_stone": {
+				"contrast": 0.08,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/sculpture_stone.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/sculpture_stone.tres",
+				"metallic": 0.0,
+				"mottle": 0.012,
+				"normal_strength": 0.05,
+				"roughness": 0.84,
+				"seed": 5738.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_Roughness.jpg",
+				"tile_m": 1.4,
+				"tint": [
+					0.83,
+					0.79,
+					0.7
+				]
+			},
+			"walnut_wood": {
+				"contrast": 1.05,
+				"derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/walnut_wood.png",
+				"material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/walnut_wood.tres",
+				"metallic": 0.0,
+				"mottle": 0.012,
+				"normal_strength": 0.2,
+				"roughness": 0.87,
+				"seed": 5869.0,
+				"source_color": "res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_Color.jpg",
+				"source_normal": "res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_NormalGL.jpg",
+				"source_roughness": "res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_Roughness.jpg",
+				"tile_m": 2.0,
+				"tint": [
+					0.22,
+					0.125,
+					0.07
+				]
+			}
+		},
+		"schema_version": 1.0,
+		"stage": "B_production",
+		"texture_size": 512.0
+	},
 	"derived": {
 		"exhibits/terpsichore_lyran/terpsichore_lyran_by_canova.glb": "derived/terpsichore.scn",
 		"vegetation/potted_plant_01/potted_plant_01_2k.gltf": "derived/potted_plant_01.scn",
@@ -10,9 +353,17 @@
 		"Gothic and balustrade stone overrides; Terpsichore lit stone adaptation CC BY-SA 4.0.",
 		"Fountain basin extracted without upper tiers. No automatic trimesh colliders.",
 		"Trees use independently budgeted wood LODs and curved source leaf clusters; runtime never instances original tree LOD0.",
-		"Courtyard stone presets share a low-contrast derived Marble012 albedo and retain lit normal/roughness detail.",
+		"Gardner role registry is baked offline: plaster, paving, ivory architecture, concrete-derived balustrade/garden wall and sculpture stone remain distinct.",
 		"Hedge shell and folded source-UV leaves are visual-only; v1 world cover colliders remain unchanged."
 	],
+	"post_b_fixes": {
+		"corner_core_bottom": 3.55,
+		"corner_core_depth": 0.3,
+		"spandrel_top_y": [
+			4.5,
+			9.12
+		]
+	},
 	"prop_reduction": {
 		"exhibits/terpsichore_lyran/terpsichore_lyran_by_canova.glb": {
 			"derived": "res://maps/isg_museum/assets/models/derived/terpsichore.scn",

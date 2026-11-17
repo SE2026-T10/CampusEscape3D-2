@@ -1,0 +1,23 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/sculpture_stone.png" id="color"]
+[ext_resource type="Texture2D" path="res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_NormalGL.jpg" id="normal"]
+[ext_resource type="Texture2D" path="res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_Roughness.jpg" id="roughness"]
+
+[resource]
+resource_name = "Gardner preview: sculpture_stone"
+albedo_texture = ExtResource("color")
+normal_enabled = true
+normal_texture = ExtResource("normal")
+normal_scale = 0.05
+roughness = 0.84
+metallic = 0.0
+metallic_specular = 0.25
+roughness_texture = ExtResource("roughness")
+roughness_texture_channel = 0
+uv1_scale = Vector3(0.71428571428571, 0.71428571428571, 0.71428571428571)
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv1_triplanar_sharpness = 8.0
+texture_filter = 5
+metadata/material_role = "sculpture_stone"

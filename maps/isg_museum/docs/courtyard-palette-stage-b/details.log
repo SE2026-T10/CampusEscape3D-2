@@ -1,0 +1,16 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 621.14 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 6GB Laptop GPU
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+Captured detail-north-lower
+Captured detail-north-upper
+Captured detail-south-lower
+Captured detail-south-upper
+Captured detail-west-lower
+Captured detail-west-upper
+Captured detail-east-lower
+Captured detail-east-upper
+Captured detail-gallery-a
+Captured detail-gallery-b
+Captured detail-gallery-c

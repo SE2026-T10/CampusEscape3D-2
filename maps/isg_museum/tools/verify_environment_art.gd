@@ -12,6 +12,9 @@ func collision_signature(scene: Node3D) -> String:
 		var path := str(scene.get_path_to(node))
 		if path.split("/").size() > 1 and path.split("/")[0] == "FrontYard" and path.split("/")[1] in ["Planter7","Planter8","Planter9","Planter10"]:
 			continue # Exactly the four requested exterior bodies, including shapes.
+		if node.get_meta("arch_spandrel_collision",false) or node.get_parent().get_meta("arch_spandrel_collision",false):
+			# Only the new masonry bodies/shapes; their count, bounds and rays have a dedicated suite.
+			continue
 		if not node is CollisionObject3D and not node is CollisionShape3D:
 			continue
 		var row := str(scene.get_path_to(node))+str(node.get_class())+str(Art.new().relative_transform(scene,node))
@@ -62,8 +65,8 @@ func _run() -> void:
 	check(offsets_valid and wood_count > 10,"Every upper gallery wood face is separated from its matching paint by 15-21mm")
 	saved_geometry.free()
 	var column := load(Art.BASE+"scenes/art/modules/gothic_column.tscn").instantiate() as Node3D
-	check(column.get_node("VisualPivot").get_child(0).material_override == Art.COURTYARD_STONE,
-		"Prepared Gothic module keeps the shared textured cream stone preset")
+	check(column.get_node("VisualPivot").get_child(0).material_override.get_meta("material_role","") == "architectural_stone",
+		"Prepared Gothic module keeps the shared lit architectural stone role")
 	column.free()
 	var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(Art.MODELS+"derived/tree_lod_manifest.json"))
 	var fit := Transform3D.IDENTITY
@@ -96,17 +99,17 @@ func _run() -> void:
 		check(once == Apply.signature(scene),"Second art pass preserves nodes, resources and colliders: "+id)
 		if id == "museum_geometry":
 			var baseline := load(Art.BASE+"docs/environment-art-v1_1/before-source/museum_geometry.tscn").instantiate() as Node3D
-			check(collision_signature(baseline) == collision_signature(scene),"Collision matches v1 excluding exactly FrontYard/Planter7..10; nav rebaked")
+			check(collision_signature(baseline) == collision_signature(scene),"Old collision matches v1 excluding four removed planters and explicitly tagged new spandrels")
 			check(builder.validate_arcade_joints(scene.get_node("EnvironmentArt/Arcade")).is_empty(),"Saved transformed arcade spring points join actual capitals")
 			check(not scene.has_node("FrontYard/Planter7") and not scene.has_node("FrontYard/Planter8") and not scene.has_node("FrontYard/Planter9") and not scene.has_node("FrontYard/Planter10"),"Exactly four exterior planter bodies removed")
 			baseline.free()
 			var light := scene.get_node("EnvironmentArt/CourtyardLight_NW") as OmniLight3D
 			check(is_equal_approx(light.light_energy,layout.lighting.courtyard.energy) and is_equal_approx(light.omni_range,layout.lighting.courtyard.range),
 				"Courtyard light energy and range come from JSON")
-			check(scene.get_node("EnvironmentArt/Statue0/VisualPivot").get_child(0).material_override == Art.STATUE_STONE,"Statue uses the lit textured preset")
+			check(scene.get_node("EnvironmentArt/Statue0/VisualPivot").get_child(0).material_override.get_meta("material_role","") == "sculpture_stone","Statue uses the lit textured sculpture role")
 			for batch in scene.get_node("EnvironmentArt/Arcade").get_children():
 				if batch is MeshInstance3D and batch.get_meta("art_batch",false):
-					check(batch.material_override == Art.COURTYARD_STONE and batch.material_override.normal_enabled,"Batch keeps detailed stone preset")
+					check(batch.material_override.get_meta("material_role","") in ["architectural_stone","courtyard_plaster"] and batch.material_override.normal_enabled,"Batch keeps its own lit stone/plaster role")
 			var palette = load(Art.BASE+"tools/material_palette.gd")
 			palette.apply_geometry(scene)
 			builder.apply_to_geometry(scene,layout)

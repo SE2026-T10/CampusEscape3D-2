@@ -1,0 +1,16 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 621.14 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 6GB Laptop GPU
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+Captured editing-overview
+Captured editing-player-eye
+Captured editing-wall-column-closeup
+Captured editing-floor-border
+Captured editing-upper-balustrade
+Captured editing-garden-wall-closeup
+Captured editing-lobby
+Captured editing-south-buffer
+Captured editing-staff
+Captured editing-teammate
+Captured editing-receptionist

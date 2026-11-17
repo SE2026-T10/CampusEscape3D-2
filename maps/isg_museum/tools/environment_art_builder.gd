@@ -8,6 +8,7 @@ const LAYOUT := BASE + "resources/environment_art_layout.json"
 const STONE := preload("res://maps/isg_museum/assets/materials/presets/marble.tres")
 const COURTYARD_STONE := preload("res://maps/isg_museum/assets/materials/presets/courtyard_stone_cream.tres")
 const STATUE_STONE := preload("res://maps/isg_museum/assets/materials/presets/courtyard_statue_stone.tres")
+const Gardner := preload("res://maps/isg_museum/tools/courtyard_palette.gd")
 var sources: Dictionary = {}
 var stone_meshes: Dictionary = {}
 var hedge_material: StandardMaterial3D
@@ -39,6 +40,7 @@ func load_layout() -> Dictionary:
 	for light in [data.lighting.ambient,data.lighting.sun,data.lighting.courtyard]:
 		assert(light.energy >= 0 and light.color.size() == 3)
 	assert(data.lighting.sun.rotation_degrees.size() == 3)
+	assert(data.post_b.spandrel_top_y == [4.5,9.12])
 	return data
 
 func vec(values: Array) -> Vector3:
@@ -245,11 +247,14 @@ func apply_to_geometry(scene: Node3D, layout: Dictionary) -> void:
 			if mesh and mesh.mesh is BoxMesh:
 				palette._room_wall_faces(art, str(body.name), AABB(body.position-mesh.mesh.size/2, mesh.mesh.size),
 					Rect2(27.15,6.15,8.7,11.7), colour(Color(.27,.34,.36)),layout.visual_feedback.paint_offset)
+	var gardner := Gardner.new()
+	gardner.assign_architecture_roles(scene)
 	batch_visuals(art.get_node("Arcade"))
 	batch_visuals(art.get_node("Balustrades"))
 	var finishes := group(art,"InteriorFinishes")
-	for rect in [Rect2(9,6,18,3),Rect2(9,21,18,3),Rect2(9,9,3,12),Rect2(24,9,3,12),Rect2(9,24,18,6)]:
-		palette._floor(finishes,"Marble%d" % finishes.get_child_count(),rect,4.504,STONE)
+	if gardner.config.stage!="B_production":
+		for rect in [Rect2(9,6,18,3),Rect2(9,21,18,3),Rect2(9,9,3,12),Rect2(24,9,3,12),Rect2(9,24,18,6)]:
+			palette._floor(finishes,"Marble%d" % finishes.get_child_count(),rect,4.504,STONE)
 	var wood := preload("res://maps/isg_museum/assets/materials/presets/dark_wood.tres")
 	for floor_index in 2:
 		for room in [Rect2(.15,.15,26.7,5.7),Rect2(.15,6.15,8.7,17.7),Rect2(27.15,6.15,8.7,11.7)]:
@@ -269,6 +274,7 @@ func apply_to_geometry(scene: Node3D, layout: Dictionary) -> void:
 					var panel := group(finishes,"Wainscot%d" % finishes.get_child_count())
 					palette._room_wall_faces(panel,str(body.name),clipped,room,wood,layout.visual_feedback.wood_offset)
 					panel.position.y = base-4.5
+	gardner.apply_geometry_palette(scene)
 
 func batch_visuals(parent: Node3D) -> void:
 	# Static batching also works with Godot's headless dummy renderer, which does
@@ -278,10 +284,18 @@ func batch_visuals(parent: Node3D) -> void:
 	for visual in parent.find_children("*","MeshInstance3D",true,false):
 		if not visual.visible:
 			continue
+		# A batch has one override. Preserve multi-surface materials independently.
+		if visual.mesh.get_surface_count()!=1: continue
+		var material: Material = visual.material_override if visual.material_override else visual.mesh.surface_get_material(0)
+		var material_key := str(material.get_rid()) if material else "null"
 		var key := str(visual.mesh.get_rid())+str(visual.material_override.get_rid() if visual.material_override else "")
+		if visual.mesh is BoxMesh:
+			key = "box:"+str(visual.mesh.size)+":"+material_key+":"+str(visual.get_meta("material_role",""))
 		# Identical primitive spindles are created separately by box().
 		if visual.get_parent().get_meta("rail_spindle",false):
-			key = "spindles"
+			key = "spindles:"+material_key+str(visual.mesh.get_aabb())+str(visual.get_meta("material_role",""))
+		if visual.get_meta("arch_spandrel",false): key = "spandrels:"+material_key
+		if visual.get_meta("door_detail",false): key = "door-role:"+material_key
 		if not batches.has(key):
 			batches[key] = []
 		batches[key].append(visual)
@@ -304,12 +318,25 @@ func batch_visuals(parent: Node3D) -> void:
 			hidden_root.hide()
 			hidden_root.set_meta("art_hidden",true)
 		batch.mesh = surface.commit()
+		if members[0].get_meta("arch_spandrel",false):
+			# Different rotated bay transforms produced sub-micrometre gaps/overlaps
+			# at 13.72/16.28 m, visible as bright raster seams. Weld their final X/Z
+			# coordinates after transformation; keep the shared arch profile's Y.
+			var arrays := batch.mesh.surface_get_arrays(0)
+			var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+			for vertex in vertices.size():
+				vertices[vertex].x = snappedf(vertices[vertex].x,.00001)
+				vertices[vertex].z = snappedf(vertices[vertex].z,.00001)
+			arrays[Mesh.ARRAY_VERTEX] = vertices
+			var welded := ArrayMesh.new()
+			welded.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+			batch.mesh = welded
 		batch.material_override = members[0].material_override
 		batch.set_meta("art_batch",true)
+		if members[0].has_meta("material_role"): batch.set_meta("material_role",members[0].get_meta("material_role"))
 		add(parent,batch,"Batch%d" % parent.get_child_count())
 
-func build_pointed_arch(width: float, config: Dictionary) -> Node3D:
-	var root := Node3D.new()
+func arch_profile(width: float, config: Dictionary) -> Array[Vector3]:
 	var path: Array[Vector3] = []
 	var n: int = config.arch_segments
 	for i in n+1:
@@ -319,6 +346,12 @@ func build_pointed_arch(width: float, config: Dictionary) -> Node3D:
 		if t > .5:
 			x = -x
 		path.append(Vector3(x,config.arch_rise*(.65*half+.35*half*half),0))
+	return path
+
+func build_pointed_arch(width: float, config: Dictionary) -> Node3D:
+	var root := Node3D.new()
+	var path := arch_profile(width,config)
+	var n := path.size()-1
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	for i in n:
@@ -342,6 +375,105 @@ func build_pointed_arch(width: float, config: Dictionary) -> Node3D:
 		var joint := Marker3D.new()
 		add(root,joint,"Left" if side < 0 else "Right")
 		joint.position.x = side*width/2
+	return root
+
+func _spandrel_face(tool: SurfaceTool, polygon: Array, planes: Array[Plane]) -> void:
+	# Miter the four perimeter walls into disjoint sectors at the courtyard corners.
+	for plane in planes:
+		var clipped := []
+		if polygon.is_empty(): return
+		var previous: Vector3 = polygon[-1]
+		var before := plane.distance_to(previous)
+		for current: Vector3 in polygon:
+			var distance := plane.distance_to(current)
+			if (distance>=0)!=(before>=0): clipped.append(previous.lerp(current,before/(before-distance)))
+			if distance>=0: clipped.append(current)
+			previous = current
+			before = distance
+		polygon = clipped
+	if polygon.size()<3: return
+	for i in range(1,polygon.size()-1):
+		if (polygon[i]-polygon[0]).cross(polygon[i+1]-polygon[0]).length()<.000001: continue
+		for p: Vector3 in [polygon[0],polygon[i],polygon[i+1]]:
+			tool.set_uv(Vector2(p.x+p.z,p.y+p.z))
+			tool.add_vertex(p)
+
+func build_arch_spandrel(width: float, path: Array[Vector3], top_y: float,
+		config: Dictionary, placement: Transform3D, side: int, first: bool, last: bool) -> Node3D:
+	top_y = snappedf(top_y,.00001)
+	var root := Node3D.new()
+	var depth: float = config.arch_depth
+	var outer: Array[Vector3] = []
+	for point in path: outer.append(point+Vector3.UP*config.arch_thickness)
+	assert(top_y>config.arch_rise+config.arch_thickness)
+	# Extend only the perimeter ends, then clip to the exact 45-degree corner seam.
+	if (first and side<2) or (last and side>=2): outer.push_front(outer[0]-Vector3.RIGHT*depth/2)
+	if (last and side<2) or (first and side>=2): outer.append(outer[-1]+Vector3.RIGHT*depth/2)
+	var sectors := [[Vector3(1,0,-1),3.0,Vector3(-1,0,-1),-33.0],
+		[Vector3(1,0,1),33.0,Vector3(-1,0,1),-3.0],
+		[Vector3(-1,0,1),-3.0,Vector3(-1,0,-1),-33.0],
+		[Vector3(1,0,1),33.0,Vector3(1,0,-1),3.0]]
+	var planes: Array[Plane] = []
+	for i in [0,2]:
+		var normal: Vector3 = sectors[side][i].normalized()
+		var d: float = sectors[side][i+1]/sqrt(2)
+		planes.append(Plane(placement.basis.transposed()*normal,d-normal.dot(placement.origin)))
+	var tool := SurfaceTool.new()
+	tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	# Plaster faces meet their horizontal cap at a hard masonry edge. Smoothing
+	# only the cap's endpoint vertices creates bright slivers down each bay end.
+	tool.set_smooth_group(-1)
+	var contact := SurfaceTool.new()
+	contact.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for i in outer.size()-1:
+		var a := outer[i]
+		var b := outer[i+1]
+		for face in [-1,1]:
+			var z: float = face*depth/2
+			var polygon := [Vector3(a.x,a.y,z),Vector3(b.x,b.y,z),Vector3(b.x,top_y,z),Vector3(a.x,top_y,z)]
+			if face==1: polygon.reverse()
+			_spandrel_face(tool,polygon,planes)
+		# Internal stone/plaster contact is collision-only, never a duplicate render face.
+		_spandrel_face(contact,[a+Vector3(0,0,depth/2),b+Vector3(0,0,depth/2),b-Vector3(0,0,depth/2),a-Vector3(0,0,depth/2)],planes)
+	var cap := [Vector3(outer[0].x,top_y,-depth/2),Vector3(outer[-1].x,top_y,-depth/2),Vector3(outer[-1].x,top_y,depth/2),Vector3(outer[0].x,top_y,depth/2)]
+	var cap_planes := planes.duplicate()
+	if placement.origin.y<4:
+		# The real upper floor owns the corridor half of this horizontal interface.
+		for edge in [[Vector3.RIGHT,12.0],[Vector3.LEFT,-24.0],[Vector3.BACK,9.0],[Vector3.FORWARD,-21.0]]:
+			var normal: Vector3 = edge[0]
+			cap_planes.append(Plane(placement.basis.transposed()*normal,edge[1]-normal.dot(placement.origin)))
+	_spandrel_face(tool,cap,cap_planes)
+	_spandrel_face(contact,cap,planes)
+	for end in [0,outer.size()-1]:
+		var p := outer[end]
+		var polygon := [p-Vector3(0,0,depth/2),p+Vector3(0,0,depth/2),Vector3(p.x,top_y,depth/2),Vector3(p.x,top_y,-depth/2)]
+		if end==0: polygon.reverse()
+		# Adjacent bays meet here. An internal render cap would smooth the front
+		# normal toward its end face and expose a bright seam at grazing angles.
+		_spandrel_face(contact,polygon,planes)
+	tool.generate_normals()
+	tool.generate_tangents()
+	var mesh := MeshInstance3D.new()
+	mesh.mesh = tool.commit()
+	mesh.material_override = Gardner.new().material_for_role("courtyard_plaster")
+	mesh.set_meta("material_role","courtyard_plaster")
+	mesh.set_meta("arch_spandrel",true)
+	add(root,mesh,"Masonry")
+	root.set_meta("outer_profile",outer)
+	root.set_meta("top_y",top_y)
+	var body := StaticBody3D.new()
+	body.collision_layer = 1
+	body.collision_mask = 0
+	body.set_meta("arch_spandrel_collision",true)
+	add(root,body,"World")
+	var collision := CollisionShape3D.new()
+	var shape := ConcavePolygonShape3D.new()
+	var faces := mesh.mesh.get_faces()
+	faces.append_array(contact.commit().get_faces())
+	shape.set_faces(faces)
+	shape.backface_collision = true
+	collision.shape = shape
+	add(body,collision,"Collision")
 	return root
 
 func validate_arcade_joints(root: Node3D, tolerance := .005) -> Array[String]:
@@ -453,6 +585,28 @@ func build_courtyard(scene: Node3D, art: Node3D, config: Dictionary, layout: Dic
 				if side >= 2:
 					arch.position = Vector3(12 if side == 2 else 24,base_y+3.05,9+(pair[0]+pair[1])/2)
 					arch.rotation.y = PI/2
+				var top: float = layout.post_b.spandrel_top_y[0 if base_y==0 else 1]
+				var spandrel := build_arch_spandrel(width,arch_profile(width,layout.visual_feedback),top-arch.position.y,
+					layout.visual_feedback,arch.transform,side,pair[0]==0,pair[1]==12)
+				add(arch,spandrel,"Spandrel")
+				assign_owners(arch,art.owner)
+	# A small stone junction caps each unchanged column and closes the outer miter.
+	for base_y in [0.0,4.5]:
+		for corner in [Vector3(12,0,9),Vector3(24,0,9),Vector3(12,0,21),Vector3(24,0,21)]:
+			var cap := box(arcade,"SpandrelCorner%d" % arcade.get_child_count(),
+				Vector3(layout.visual_feedback.arch_depth,layout.visual_feedback.arch_thickness,layout.visual_feedback.arch_depth),
+				corner+Vector3.UP*(base_y+3.05+layout.visual_feedback.arch_thickness/2),stone,true)
+			cap.set_meta("arch_spandrel_collision",true)
+			# This box stays inside the visible masonry union, above the curved opening.
+			# It seals numerical ray leaks exactly on cross-body triangle-edge miters.
+			var core := CollisionShape3D.new()
+			var core_shape := BoxShape3D.new()
+			var bottom: float = base_y+layout.post_b.corner_core_bottom
+			var top: float = layout.post_b.spandrel_top_y[0 if base_y==0 else 1]
+			core_shape.size = Vector3(layout.post_b.corner_core_depth,top-bottom,layout.post_b.corner_core_depth)
+			core.shape = core_shape
+			core.position.y = (bottom+top)/2-cap.position.y
+			add(cap,core,"MasonryCore")
 	# Existing cover colliders remain exactly 1.3 x 1.2 x 1.3 m.
 	for index in config.statues.size():
 		var at := vec(config.statues[index])
@@ -805,16 +959,51 @@ func apply_to_door(scene: Node3D, _layout: Dictionary) -> void:
 	var art := replace_owned_visual(panel,"EnvironmentArt")
 	var mesh := panel.get_node("MeshInstance3D") as MeshInstance3D
 	var size: Vector3 = mesh.mesh.size
-	var wood := colour(Color(.25,.14,.07))
-	var brass := colour(Color(.65,.47,.17),.7)
+	var palette := Gardner.new()
+	var wood := palette.material_for_role("door_wood")
+	var trim := palette.material_for_role("door_trim")
+	var brass := palette.material_for_role("door_brass")
 	# Decorations inherit Panel rotation and opening state; no additional collider.
 	for y in [-size.y*.22,size.y*.22]:
 		for face in [-1,1]:
 			var p := mesh.position+Vector3(0,y,face*(size.z/2+.015))
-			box(art,"Inset%d" % art.get_child_count(),Vector3(size.x*.72,size.y*.32,.025),p,wood)
+			_door_box(art,"Inset%d" % art.get_child_count(),Vector3(size.x*.72,size.y*.32,.025),p,wood)
+			for x in [-1,1]:
+				_door_box(art,"Stile%d" % art.get_child_count(),Vector3(.055,size.y*.32+.055,.035),
+					p+Vector3(x*size.x*.36,0,face*.013),trim)
+			for edge in [-1,1]:
+				_door_box(art,"Rail%d" % art.get_child_count(),Vector3(size.x*.72,.055,.035),
+					p+Vector3(0,edge*size.y*.16,face*.013),trim)
 	for face in [-1,1]:
-		box(art,"Handle%d" % art.get_child_count(),Vector3(.14,.055,.05),
-			mesh.position+Vector3(size.x*.32,0,face*(size.z/2+.04)),brass)
+		var lock := mesh.position+Vector3(size.x*.32,-.06,face*(size.z/2+.018))
+		_door_box(art,"Escutcheon%d" % art.get_child_count(),Vector3(.105,.27,.025),lock,brass)
+		_door_cylinder(art,"HandleStem%d" % art.get_child_count(),.027,.075,
+			lock+Vector3(0,.04,face*.04),Vector3(PI/2,0,0),brass)
+		_door_cylinder(art,"HandleLever%d" % art.get_child_count(),.023,.17,
+			lock+Vector3(-.065,.04,face*.076),Vector3(0,0,PI/2),brass)
+	# These map-local templates are used only by the six scoped museum doors.
+	Gardner.new().apply_door_palette(scene)
+	batch_visuals(art)
+
+func _door_box(parent: Node3D, id: String, size: Vector3, at: Vector3, material: Material) -> void:
+	var wrapper := box(parent,id,size,at,material)
+	wrapper.get_node("Mesh").set_meta("material_role",material.get_meta("material_role"))
+	wrapper.get_node("Mesh").set_meta("door_detail",true)
+
+func _door_cylinder(parent: Node3D, id: String, radius: float, length: float, at: Vector3, angles: Vector3, material: Material) -> void:
+	var mesh := MeshInstance3D.new()
+	var cylinder := CylinderMesh.new()
+	cylinder.top_radius = radius
+	cylinder.bottom_radius = radius
+	cylinder.height = length
+	cylinder.radial_segments = 12
+	mesh.mesh = cylinder
+	mesh.material_override = material
+	mesh.position = at
+	mesh.rotation = angles
+	mesh.set_meta("material_role",material.get_meta("material_role"))
+	mesh.set_meta("door_detail",true)
+	add(parent,mesh,id)
 
 func validate_clearances(geometry: Node3D) -> Array[String]:
 	var errors: Array[String] = []
@@ -863,6 +1052,8 @@ func _record_source(source: String, pivot: Node3D) -> void:
 func write_manifest() -> void:
 	var file := FileAccess.open(BASE+"resources/environment_art_manifest.json",FileAccess.WRITE)
 	file.store_string(JSON.stringify({"schema_version":1,"sources":sources,
+		"post_b_fixes":load_layout().post_b,
+		"courtyard_palette":JSON.parse_string(FileAccess.get_file_as_string(Gardner.CONFIG)),
 		"tree_lod0_instanced":false,"derived":DERIVED,
 		"tree_reduction":JSON.parse_string(FileAccess.get_file_as_string(MODELS+"derived/tree_lod_manifest.json")),
 		"prop_reduction":JSON.parse_string(FileAccess.get_file_as_string(MODELS+"derived/prop_lod_manifest.json")),
@@ -870,5 +1061,5 @@ func write_manifest() -> void:
 		"Gothic and balustrade stone overrides; Terpsichore lit stone adaptation CC BY-SA 4.0.",
 		"Fountain basin extracted without upper tiers. No automatic trimesh colliders.",
 		"Trees use independently budgeted wood LODs and curved source leaf clusters; runtime never instances original tree LOD0.",
-		"Courtyard stone presets share a low-contrast derived Marble012 albedo and retain lit normal/roughness detail.",
+		"Gardner role registry is baked offline: plaster, paving, ivory architecture, concrete-derived balustrade/garden wall and sculpture stone remain distinct.",
 		"Hedge shell and folded source-UV leaves are visual-only; v1 world cover colliders remain unchanged."]},"\t"))

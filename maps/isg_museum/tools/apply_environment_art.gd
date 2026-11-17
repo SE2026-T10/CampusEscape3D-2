@@ -79,6 +79,8 @@ static func resource_key(resource: Resource) -> String:
 		result += str(resource.size)
 	elif resource is CylinderShape3D:
 		result += str(resource.radius)+str(resource.height)
+	elif resource is ConcavePolygonShape3D:
+		result += str(hash(resource.get_faces()))+str(resource.backface_collision)
 	else:
 		result += resource.resource_path
 	return result
@@ -111,7 +113,8 @@ static func _signature(root_node: Node, node: Node, rows: Array[String]) -> void
 		row += str(node.omni_range)
 	if node is WorldEnvironment:
 		row += resource_key(node.environment)
-	for key in ["environment_art","preserve_source_material","source","fit_scale","fit_anchor","fit_reference_bounds","tree_lod"]:
+	for key in ["environment_art","preserve_source_material","source","fit_scale","fit_anchor","fit_reference_bounds","tree_lod",
+			"material_role","material_roles","arch_spandrel","arch_spandrel_collision","floor_shell","floor_partition_hidden","outer_profile","top_y"]:
 		row += str(node.get_meta(key)) if node.has_meta(key) else "<none>"
 	rows.append(row)
 	for child in node.get_children():

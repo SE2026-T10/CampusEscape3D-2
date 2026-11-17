@@ -1,0 +1,19 @@
+{
+  "command": [
+    "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+    "--path",
+    ".",
+    "--fixed-fps",
+    "30",
+    "--write-movie",
+    "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\post-b-fixes-v1\\gameplay\\gameplay.avi",
+    "--script",
+    "res://maps/isg_museum/tools/capture_post_b_fixes.gd",
+    "--",
+    "--prefix=after-",
+    "--gameplay",
+    "--output=res://maps/isg_museum/docs/post-b-fixes-v1/gameplay"
+  ],
+  "exit_code": 0,
+  "seconds": 29.90937066078186
+}

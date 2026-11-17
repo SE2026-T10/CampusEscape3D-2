@@ -1,0 +1,13 @@
+{
+  "before_rows": 832,
+  "after_rows": 936,
+  "preserved_old_rows": 832,
+  "new_bodies": 48,
+  "new_shapes": 56,
+  "before_collision_sha256": "e2874a406a25e34477fa03a8eb260f4bc3125ee80d2eae2fc33132f9253ee354",
+  "after_collision_sha256": "17a7a07b3018bc40aa52c05279acea3758e180535813203ebb3858197602462f",
+  "navigation_before": "9efa7029d1a69b43e70323af30d9119ffb2bd2b3cdbcaaaa8280bacea4cd3bfb",
+  "navigation_after": "9efa7029d1a69b43e70323af30d9119ffb2bd2b3cdbcaaaa8280bacea4cd3bfb",
+  "navigation_byte_identical": true,
+  "navigation_polygons": 402
+}

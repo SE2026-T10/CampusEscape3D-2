@@ -12,6 +12,7 @@ const GRASS := preload("res://maps/isg_museum/assets/materials/presets/grass.tre
 const STEEL := preload("res://maps/isg_museum/assets/materials/presets/steel.tres")
 const PAINTED_STEEL := preload("res://maps/isg_museum/assets/materials/presets/painted_steel.tres")
 const CONCRETE := preload("res://maps/isg_museum/assets/materials/presets/concrete.tres")
+const Gardner := preload("res://maps/isg_museum/tools/courtyard_palette.gd")
 
 
 static func apply_geometry(scene: Node3D) -> void:
@@ -55,6 +56,7 @@ static func apply_geometry(scene: Node3D) -> void:
 	_storage_materials(scene)
 	_floor_finishes(scene)
 	_wall_finishes(scene)
+	Gardner.new().apply_geometry_palette(scene)
 
 
 static func apply_service(scene: Node3D) -> void:
@@ -81,6 +83,7 @@ static func apply_exhibits(scene: Node3D) -> void:
 
 static func apply_door(scene: Node3D) -> void:
 	_set_material(scene, "Panel/MeshInstance3D", WOOD)
+	Gardner.new().apply_door_palette(scene)
 
 
 static func _staff_materials(scene: Node3D) -> void:

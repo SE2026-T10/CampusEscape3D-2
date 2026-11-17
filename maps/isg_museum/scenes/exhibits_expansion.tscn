@@ -1069,76 +1069,76 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, -0.24, 0)
 material_override = SubResource("StandardMaterial3D_cpibn")
 mesh = SubResource("CylinderMesh_7bw17")
 
-[node name="EnvironmentArt" type="Node3D" parent="S1/Artifact" unique_id=940368926]
+[node name="EnvironmentArt" type="Node3D" parent="S1/Artifact" unique_id=1236354449]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Feather0" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1701117652]
+[node name="Feather0" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=522294050]
 transform = Transform3D(0.90044713, 0.43496552, 0, -0.43496552, 0.90044713, 0, 0, 0, 0.42, -0.18, 0.08, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_44gru")
 
-[node name="Feather1" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1981859462]
+[node name="Feather1" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=606390550]
 transform = Transform3D(0.8364627, 0.54802394, 0, -0.54802394, 0.8364627, 0, 0, 0, 0.42, -0.235, 0.095, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_6835f")
 
-[node name="Feather2" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=403040804]
+[node name="Feather2" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=2620498]
 transform = Transform3D(0.7583619, 0.6518338, 0, -0.6518338, 0.7583619, 0, 0, 0, 0.42, -0.29, 0.11, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_qsrso")
 
-[node name="Feather3" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1277554042]
+[node name="Feather3" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=125062843]
 transform = Transform3D(0.6674628, 0.7446431, 0, -0.7446431, 0.6674628, 0, 0, 0, 0.42, -0.345, 0.125, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_lu12s")
 
-[node name="Feather4" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1488859739]
+[node name="Feather4" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1469272410]
 transform = Transform3D(0.5652995, 0.8248857, 0, -0.8248857, 0.5652995, 0, 0, 0, 0.42, -0.4, 0.14, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_sdh12")
 
-[node name="Feather5" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1131656283]
+[node name="Feather5" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=587316236]
 transform = Transform3D(0.4535961, 0.8912074, 0, -0.8912074, 0.4535961, 0, 0, 0, 0.42, -0.455, 0.155, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_qglte")
 
-[node name="Feather6" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1038093521]
+[node name="Feather6" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=340460295]
 transform = Transform3D(0.3342377, 0.9424888, 0, -0.9424888, 0.3342377, 0, 0, 0, 0.42, -0.51, 0.17, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_cg374")
 
-[node name="Feather7" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1756570195]
+[node name="Feather7" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=765842919]
 transform = Transform3D(0.90044713, -0.43496552, 0, 0.43496552, 0.90044713, 0, 0, 0, 0.42, 0.18, 0.08, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_nut7a")
 
-[node name="Feather8" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1039412644]
+[node name="Feather8" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=635058848]
 transform = Transform3D(0.8364627, -0.54802394, 0, 0.54802394, 0.8364627, 0, 0, 0, 0.42, 0.235, 0.095, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_ab5t8")
 
-[node name="Feather9" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=178628592]
+[node name="Feather9" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=2106431896]
 transform = Transform3D(0.7583619, -0.6518338, 0, 0.6518338, 0.7583619, 0, 0, 0, 0.42, 0.29, 0.11, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_a8xtl")
 
-[node name="Feather10" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1758261947]
+[node name="Feather10" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=968030561]
 transform = Transform3D(0.6674628, -0.7446431, 0, 0.7446431, 0.6674628, 0, 0, 0, 0.42, 0.345, 0.125, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_ejrh5")
 
-[node name="Feather11" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=82384724]
+[node name="Feather11" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=1699823942]
 transform = Transform3D(0.5652995, -0.8248857, 0, 0.8248857, 0.5652995, 0, 0, 0, 0.42, 0.4, 0.14, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_yxst6")
 
-[node name="Feather12" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=632620284]
+[node name="Feather12" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=508361565]
 transform = Transform3D(0.4535961, -0.8912074, 0, 0.8912074, 0.4535961, 0, 0, 0, 0.42, 0.455, 0.155, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_54qc2")
 
-[node name="Feather13" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=515552067]
+[node name="Feather13" type="MeshInstance3D" parent="S1/Artifact/EnvironmentArt" unique_id=538030880]
 transform = Transform3D(0.3342377, -0.9424888, 0, 0.9424888, 0.3342377, 0, 0, 0, 0.42, 0.51, 0.17, 0.07)
 material_override = SubResource("StandardMaterial3D_vy6hg")
 mesh = SubResource("SphereMesh_ehytp")
@@ -1276,11 +1276,11 @@ material_override = ExtResource("3_6835f")
 mesh = SubResource("SphereMesh_frmbc")
 metadata/art_hidden = true
 
-[node name="EnvironmentArt" type="Node3D" parent="S2/Artifact" unique_id=1352880146]
+[node name="EnvironmentArt" type="Node3D" parent="S2/Artifact" unique_id=680092374]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Bust" type="Node3D" parent="S2/Artifact/EnvironmentArt" unique_id=1472331529]
+[node name="Bust" type="Node3D" parent="S2/Artifact/EnvironmentArt" unique_id=306366973]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
 metadata/preserve_source_material = true
 metadata/source = "exhibits/modern_abstract_bust/modern-abstract-bust.glb"
@@ -1288,13 +1288,13 @@ metadata/fit_scale = Vector3(1.4872122, 1.2323585, 1.7724874)
 metadata/fit_anchor = Vector3(0, 0, -7.450581e-09)
 metadata/fit_reference_bounds = AABB(-0.1949957, 0, -0.118477575, 0.3899914, 0.6329327, 0.23695514)
 
-[node name="VisualPivot" type="Node3D" parent="S2/Artifact/EnvironmentArt/Bust" unique_id=965846136]
+[node name="VisualPivot" type="Node3D" parent="S2/Artifact/EnvironmentArt/Bust" unique_id=487803462]
 transform = Transform3D(1.4872122, 0, 0, 0, 1.2323585, 0, 0, 0, 1.7724874, 0, 0, 1.320606e-08)
 
-[node name="Abstract visage and shoulders" type="MeshInstance3D" parent="S2/Artifact/EnvironmentArt/Bust/VisualPivot" unique_id=1282754391]
+[node name="Abstract visage and shoulders" type="MeshInstance3D" parent="S2/Artifact/EnvironmentArt/Bust/VisualPivot" unique_id=307632408]
 mesh = SubResource("ArrayMesh_oc17q")
 
-[node name="Turned marble bust socle" type="MeshInstance3D" parent="S2/Artifact/EnvironmentArt/Bust/VisualPivot" unique_id=1559942538]
+[node name="Turned marble bust socle" type="MeshInstance3D" parent="S2/Artifact/EnvironmentArt/Bust/VisualPivot" unique_id=715787642]
 mesh = SubResource("ArrayMesh_4ndiw")
 
 [node name="Label3D" type="Label3D" parent="S2" unique_id=342256843]
@@ -1410,40 +1410,40 @@ material_override = SubResource("StandardMaterial3D_tg6nm")
 mesh = SubResource("BoxMesh_3pmjs")
 metadata/art_hidden = true
 
-[node name="EnvironmentArt" type="Node3D" parent="H2/Artifact" unique_id=2061662361]
+[node name="EnvironmentArt" type="Node3D" parent="H2/Artifact" unique_id=43947032]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="PocketWatch" type="Node3D" parent="H2/Artifact/EnvironmentArt" unique_id=926375466]
+[node name="PocketWatch" type="Node3D" parent="H2/Artifact/EnvironmentArt" unique_id=1411127801]
 metadata/preserve_source_material = true
 metadata/source = "exhibits/pocket_watch/pocket_watch_2k.gltf"
 metadata/fit_scale = Vector3(6.935034, 1.5874102, 28.156956)
 metadata/fit_anchor = Vector3(1.8626451e-09, -0.028975034, -1.0977499e-05)
 metadata/fit_reference_bounds = AABB(-0.02883908, -0.028975034, -0.007824322, 0.057678163, 0.07559483, 0.01562669)
 
-[node name="VisualPivot" type="Node3D" parent="H2/Artifact/EnvironmentArt/PocketWatch" unique_id=1563117828]
+[node name="VisualPivot" type="Node3D" parent="H2/Artifact/EnvironmentArt/PocketWatch" unique_id=2000195656]
 transform = Transform3D(6.935034, 0, 0, 0, 1.5874102, 0, 0, 0, 28.156956, -1.2917507e-08, 0.045995265, 0.00030909295)
 
-[node name="pocket_watch_button" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1094209484]
+[node name="pocket_watch_button" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1846144646]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.988981e-06)
 mesh = SubResource("ArrayMesh_6motf")
 
-[node name="pocket_watch_frame" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1160253897]
+[node name="pocket_watch_frame" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1434714297]
 mesh = SubResource("ArrayMesh_dwbiw")
 
-[node name="pocket_watch_hand_hours" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=91915701]
+[node name="pocket_watch_hand_hours" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=271898567]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0042881286)
 mesh = SubResource("ArrayMesh_tq5lj")
 
-[node name="pocket_watch_ring" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=943491989]
+[node name="pocket_watch_ring" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1014863706]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.036230266, 0)
 mesh = SubResource("ArrayMesh_ov5sh")
 
-[node name="pocket_watch_hand_secondes" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1719474124]
+[node name="pocket_watch_hand_secondes" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=2129916650]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0047740955)
 mesh = SubResource("ArrayMesh_yp4yf")
 
-[node name="pocket_watch_hand_minutes" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1520107269]
+[node name="pocket_watch_hand_minutes" type="MeshInstance3D" parent="H2/Artifact/EnvironmentArt/PocketWatch/VisualPivot" unique_id=1422210982]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0010715674)
 mesh = SubResource("ArrayMesh_pmthf")
 
@@ -1486,11 +1486,11 @@ visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("SphereMesh_gyqip")
 
-[node name="EnvironmentArt" type="Node3D" parent="A2/Canvas" unique_id=839718584]
+[node name="EnvironmentArt" type="Node3D" parent="A2/Canvas" unique_id=507836631]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Artwork" type="MeshInstance3D" parent="A2/Canvas/EnvironmentArt" unique_id=1458819253]
+[node name="Artwork" type="MeshInstance3D" parent="A2/Canvas/EnvironmentArt" unique_id=234782876]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.035)
 material_override = SubResource("StandardMaterial3D_3limn")
 mesh = SubResource("QuadMesh_yctvn")
@@ -1521,11 +1521,11 @@ visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_s5rok")
 
-[node name="EnvironmentArt" type="Node3D" parent="A2/Frame" unique_id=1107008095]
+[node name="EnvironmentArt" type="Node3D" parent="A2/Frame" unique_id=990416045]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Frame" type="Node3D" parent="A2/Frame/EnvironmentArt" unique_id=1583175628]
+[node name="Frame" type="Node3D" parent="A2/Frame/EnvironmentArt" unique_id=294360469]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0.015)
 metadata/preserve_source_material = true
 metadata/source = "frames/hanging_picture_frame_01/hanging_picture_frame_01_2k.gltf"
@@ -1533,10 +1533,10 @@ metadata/fit_scale = Vector3(1.919192, 1.0939358, 4.444638)
 metadata/fit_anchor = Vector3(0, -0.42049998, 0.007979965)
 metadata/fit_reference_bounds = AABB(-0.297, -0.42049998, 0.00010530756, 0.594, 0.84099996, 0.015749315)
 
-[node name="VisualPivot" type="Node3D" parent="A2/Frame/EnvironmentArt/Frame" unique_id=114220348]
+[node name="VisualPivot" type="Node3D" parent="A2/Frame/EnvironmentArt/Frame" unique_id=1024968540]
 transform = Transform3D(1.919192, 0, 0, 0, 1.0939358, 0, 0, 0, 4.444638, 0, 0.46, -0.035468053)
 
-[node name="hanging_picture_frame_01" type="MeshInstance3D" parent="A2/Frame/EnvironmentArt/Frame/VisualPivot" unique_id=625082079]
+[node name="hanging_picture_frame_01" type="MeshInstance3D" parent="A2/Frame/EnvironmentArt/Frame/VisualPivot" unique_id=1234209744]
 mesh = SubResource("ArrayMesh_w05d3")
 
 [node name="Label3D" type="Label3D" parent="A2" unique_id=2003264075]
@@ -1612,11 +1612,11 @@ visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("SphereMesh_7gvc7")
 
-[node name="EnvironmentArt" type="Node3D" parent="C2/Canvas" unique_id=723016698]
+[node name="EnvironmentArt" type="Node3D" parent="C2/Canvas" unique_id=1086142925]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Artwork" type="MeshInstance3D" parent="C2/Canvas/EnvironmentArt" unique_id=442394565]
+[node name="Artwork" type="MeshInstance3D" parent="C2/Canvas/EnvironmentArt" unique_id=1763259903]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.035)
 material_override = SubResource("StandardMaterial3D_c3nhj")
 mesh = SubResource("QuadMesh_el3ok")
@@ -1647,11 +1647,11 @@ visible = false
 material_override = SubResource("StandardMaterial3D_iwx63")
 mesh = SubResource("BoxMesh_g50vh")
 
-[node name="EnvironmentArt" type="Node3D" parent="C2/Frame" unique_id=1398914048]
+[node name="EnvironmentArt" type="Node3D" parent="C2/Frame" unique_id=1471032698]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="Frame" type="Node3D" parent="C2/Frame/EnvironmentArt" unique_id=905493062]
+[node name="Frame" type="Node3D" parent="C2/Frame/EnvironmentArt" unique_id=1687646803]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0.015)
 metadata/preserve_source_material = true
 metadata/source = "frames/hanging_picture_frame_01/hanging_picture_frame_01_2k.gltf"
@@ -1659,10 +1659,10 @@ metadata/fit_scale = Vector3(1.919192, 1.0939358, 4.444638)
 metadata/fit_anchor = Vector3(0, -0.42049998, 0.007979965)
 metadata/fit_reference_bounds = AABB(-0.297, -0.42049998, 0.00010530756, 0.594, 0.84099996, 0.015749315)
 
-[node name="VisualPivot" type="Node3D" parent="C2/Frame/EnvironmentArt/Frame" unique_id=532096159]
+[node name="VisualPivot" type="Node3D" parent="C2/Frame/EnvironmentArt/Frame" unique_id=299689063]
 transform = Transform3D(1.919192, 0, 0, 0, 1.0939358, 0, 0, 0, 4.444638, 0, 0.46, -0.035468053)
 
-[node name="hanging_picture_frame_01" type="MeshInstance3D" parent="C2/Frame/EnvironmentArt/Frame/VisualPivot" unique_id=770492069]
+[node name="hanging_picture_frame_01" type="MeshInstance3D" parent="C2/Frame/EnvironmentArt/Frame/VisualPivot" unique_id=1560612633]
 mesh = SubResource("ArrayMesh_oqb18")
 
 [node name="Label3D" type="Label3D" parent="C2" unique_id=619157212]
@@ -1703,11 +1703,11 @@ Tắt báo động trước khi lấy tranh"
 font_size = 36
 outline_size = 5
 
-[node name="EnvironmentArt" type="Node3D" parent="GalleryAlarmSwitch" unique_id=753178632]
+[node name="EnvironmentArt" type="Node3D" parent="GalleryAlarmSwitch" unique_id=253208519]
 metadata/environment_art = true
 metadata/preserve_source_material = true
 
-[node name="PowerBox" type="Node3D" parent="GalleryAlarmSwitch/EnvironmentArt" unique_id=1574030809]
+[node name="PowerBox" type="Node3D" parent="GalleryAlarmSwitch/EnvironmentArt" unique_id=1333069907]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.275, 0)
 metadata/preserve_source_material = true
 metadata/source = "security/power_box_01/power_box_01_2k.gltf"
@@ -1715,12 +1715,12 @@ metadata/fit_scale = Vector3(1.2970064, 1.0931292, 0.29854396)
 metadata/fit_anchor = Vector3(-0.05629447, -0.2515714, 0.15349434)
 metadata/fit_reference_bounds = AABB(-0.28759634, -0.2515714, -0.04748109, 0.46260375, 0.5031428, 0.40195087)
 
-[node name="VisualPivot" type="Node3D" parent="GalleryAlarmSwitch/EnvironmentArt/PowerBox" unique_id=356195657]
+[node name="VisualPivot" type="Node3D" parent="GalleryAlarmSwitch/EnvironmentArt/PowerBox" unique_id=1320276734]
 transform = Transform3D(1.2970064, 0, 0, 0, 1.0931292, 0, 0, 0, 0.29854396, 0.07301429, 0.275, -0.04582481)
 
-[node name="power_box_01_door" type="MeshInstance3D" parent="GalleryAlarmSwitch/EnvironmentArt/PowerBox/VisualPivot" unique_id=1409274662]
+[node name="power_box_01_door" type="MeshInstance3D" parent="GalleryAlarmSwitch/EnvironmentArt/PowerBox/VisualPivot" unique_id=631934008]
 transform = Transform3D(-0.3293556, 0, -0.944206, 0, 1, 0, 0.944206, 0, -0.3293556, -0.16382971, 4.9956143e-06, 0.043181043)
 mesh = SubResource("ArrayMesh_x7gg5")
 
-[node name="power_box_01_box" type="MeshInstance3D" parent="GalleryAlarmSwitch/EnvironmentArt/PowerBox/VisualPivot" unique_id=294511029]
+[node name="power_box_01_box" type="MeshInstance3D" parent="GalleryAlarmSwitch/EnvironmentArt/PowerBox/VisualPivot" unique_id=596706403]
 mesh = SubResource("ArrayMesh_jo8a0")

@@ -1,0 +1,1542 @@
+[
+  {
+    "id": "before",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/capture_post_b_fixes.gd",
+      "--",
+      "--prefix=before-"
+    ],
+    "exit_code": 0,
+    "log": "before.log"
+  },
+  {
+    "id": "diagnostic",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/capture_post_b_fixes.gd",
+      "--",
+      "--output=res://maps/isg_museum/docs/post-b-fixes-v1/diagnostics/",
+      "--diagnose"
+    ],
+    "exit_code": 0,
+    "log": "diagnostic.log"
+  },
+  {
+    "id": "isolation",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "30",
+      "--write-movie",
+      "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\post-b-fixes-v1\\threshold-isolation.avi",
+      "--script",
+      "res://maps/isg_museum/tools/capture_post_b_fixes.gd",
+      "--",
+      "--output=res://maps/isg_museum/docs/post-b-fixes-v1/diagnostics/",
+      "--prefix=diag-",
+      "--diagnostic-movie"
+    ],
+    "exit_code": 0,
+    "log": "isolation.log"
+  },
+  {
+    "id": "prepare_courtyard_palette",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 4.358895699959248,
+    "log": "prepare_courtyard_palette.log"
+  },
+  {
+    "id": "import",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--editor",
+      "--quit"
+    ],
+    "exit_code": 0,
+    "seconds": 13.728476399963256,
+    "log": "import-attempt-1.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 1,
+    "seconds": 6.983350900001824,
+    "log": "scripts-attempt-1.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 7.3315569999977015,
+    "log": "scripts-attempt-2.log"
+  },
+  {
+    "id": "prepare_environment_modules",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_environment_modules.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 0.5317184999585152,
+    "log": "prepare_environment_modules-attempt-2.log"
+  },
+  {
+    "id": "build_geometry",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/build_geometry.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 2.769681900041178,
+    "log": "build_geometry-attempt-1.log"
+  },
+  {
+    "id": "apply_materials",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_materials.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 7.124096399988048,
+    "log": "apply_materials-attempt-1.log"
+  },
+  {
+    "id": "apply_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 16.293811699957587,
+    "log": "apply_environment_art-attempt-1.log"
+  },
+  {
+    "id": "bake_navigation",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/bake_navigation.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 5.089055300049949,
+    "log": "bake_navigation-attempt-1.log"
+  },
+  {
+    "id": "art_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 1,
+    "seconds": 11.9524491999764,
+    "log": "art_check-attempt-1.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 6.935339700023178,
+    "log": "scripts-attempt-3.log"
+  },
+  {
+    "id": "apply_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 15.64351969998097,
+    "log": "apply_environment_art-attempt-2.log"
+  },
+  {
+    "id": "art_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 1,
+    "seconds": 12.217350899998564,
+    "log": "art_check-attempt-2.log"
+  },
+  {
+    "id": "prepare_environment_modules",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_environment_modules.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 0.5902900999644771,
+    "log": "prepare_environment_modules-attempt-3.log"
+  },
+  {
+    "id": "apply_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 15.636478699976578,
+    "log": "apply_environment_art-attempt-3.log"
+  },
+  {
+    "id": "art_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 11.768132700002752,
+    "log": "art_check-attempt-3.log"
+  },
+  {
+    "id": "materials_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 3.52590720000444,
+    "log": "materials_check-attempt-1.log"
+  },
+  {
+    "id": "verify_courtyard_palette",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_courtyard_palette.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 14.161095899995416,
+    "log": "verify_courtyard_palette-attempt-1.log"
+  },
+  {
+    "id": "verify_post_b_fixes",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "exit_code": 1,
+    "seconds": 12.046641500026453,
+    "log": "verify_post_b_fixes-attempt-1.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 7.135864100011531,
+    "log": "scripts-attempt-4.log"
+  },
+  {
+    "id": "apply_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 16.47900380002102,
+    "log": "apply_environment_art-attempt-4.log"
+  },
+  {
+    "id": "bake_navigation",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/bake_navigation.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 5.1801214999868535,
+    "log": "bake_navigation-attempt-2.log"
+  },
+  {
+    "id": "art_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 12.159922099963296,
+    "log": "art_check-attempt-4.log"
+  },
+  {
+    "id": "verify_post_b_fixes",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "exit_code": 1,
+    "seconds": 11.851050800003577,
+    "log": "verify_post_b_fixes-attempt-2.log"
+  },
+  {
+    "id": "apply_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 15.73526079999283,
+    "log": "apply_environment_art-attempt-5.log"
+  },
+  {
+    "id": "bake_navigation",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/bake_navigation.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 5.269282200024463,
+    "log": "bake_navigation-attempt-3.log"
+  },
+  {
+    "id": "art_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 11.77633970003808,
+    "log": "art_check-attempt-5.log"
+  },
+  {
+    "id": "verify_post_b_fixes",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 13.344926499994472,
+    "log": "verify_post_b_fixes-attempt-3.log"
+  },
+  {
+    "id": "verify_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 29.08028299995931,
+    "log": "verify_environment_art-attempt-1.log"
+  },
+  {
+    "id": "verify_blockout",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_blockout.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 16.388207300042268,
+    "log": "verify_blockout-attempt-1.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 7.496505499992054,
+    "log": "scripts-attempt-5.log"
+  },
+  {
+    "id": "verify_post_b_fixes",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "exit_code": 1,
+    "seconds": 21.719970699981786,
+    "log": "verify_post_b_fixes-attempt-4.log"
+  },
+  {
+    "id": "verify_post_b_fixes",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 17.60974200000055,
+    "log": "verify_post_b_fixes-attempt-5.log"
+  },
+  {
+    "id": "verify_service",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_service.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 5.748144700017292,
+    "log": "verify_service-attempt-1.log"
+  },
+  {
+    "id": "verify_staff_room",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_staff_room.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 43.15330399997765,
+    "log": "verify_staff_room-attempt-1.log"
+  },
+  {
+    "id": "verify_empty_frame",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_empty_frame.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 29.638318700017408,
+    "log": "verify_empty_frame-attempt-1.log"
+  },
+  {
+    "id": "verify_carry",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_carry.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 42.62619450001512,
+    "log": "verify_carry-attempt-1.log"
+  },
+  {
+    "id": "verify_guard_visuals",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_guard_visuals.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 10.014401499996893,
+    "log": "verify_guard_visuals-attempt-1.log"
+  },
+  {
+    "id": "verify_npc_visuals",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_npc_visuals.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 10.011405800003558,
+    "log": "verify_npc_visuals-attempt-1.log"
+  },
+  {
+    "id": "verify_editing_mode",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_editing_mode.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 10.576311199984048,
+    "log": "verify_editing_mode-attempt-1.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 7.006777600036003,
+    "log": "scripts-attempt-6.log"
+  },
+  {
+    "id": "apply_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 16.50270009995438,
+    "log": "apply_environment_art-attempt-6.log"
+  },
+  {
+    "id": "bake_navigation",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/bake_navigation.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 5.370167699991725,
+    "log": "bake_navigation-attempt-4.log"
+  },
+  {
+    "id": "art_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 11.668897999974433,
+    "log": "art_check-attempt-6.log"
+  },
+  {
+    "id": "verify_courtyard_palette",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_courtyard_palette.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 14.363512200012337,
+    "log": "verify_courtyard_palette-attempt-2.log"
+  },
+  {
+    "id": "verify_post_b_fixes",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 16.592370499973185,
+    "log": "verify_post_b_fixes-attempt-6.log"
+  },
+  {
+    "id": "verify_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 28.435627200000454,
+    "log": "verify_environment_art-attempt-2.log"
+  },
+  {
+    "id": "verify_blockout",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_blockout.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 17.048557000001892,
+    "log": "verify_blockout-attempt-2.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 6.789551800000481,
+    "log": "scripts-attempt-7.log"
+  },
+  {
+    "id": "prepare_environment_modules",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_environment_modules.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 0.5391336000175215,
+    "log": "prepare_environment_modules-attempt-4.log"
+  },
+  {
+    "id": "build_geometry",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/build_geometry.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 2.854871599993203,
+    "log": "build_geometry-attempt-2.log"
+  },
+  {
+    "id": "apply_materials",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_materials.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 7.308889199979603,
+    "log": "apply_materials-attempt-2.log"
+  },
+  {
+    "id": "apply_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 15.797125999990385,
+    "log": "apply_environment_art-attempt-7.log"
+  },
+  {
+    "id": "bake_navigation",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/bake_navigation.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 5.29142339999089,
+    "log": "bake_navigation-attempt-5.log"
+  },
+  {
+    "id": "art_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 11.760626500006765,
+    "log": "art_check-attempt-7.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 1,
+    "seconds": 7.3129650999908336,
+    "log": "scripts-attempt-8.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 6.940418099984527,
+    "log": "scripts-attempt-9.log"
+  },
+  {
+    "id": "materials_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 3.5331467000069097,
+    "log": "materials_check-attempt-2.log"
+  },
+  {
+    "id": "verify_courtyard_palette",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_courtyard_palette.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 14.356193499988876,
+    "log": "verify_courtyard_palette-attempt-3.log"
+  },
+  {
+    "id": "verify_post_b_fixes",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 20.786840600019787,
+    "log": "verify_post_b_fixes-attempt-7.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 6.850747699965723,
+    "log": "scripts-attempt-10.log"
+  },
+  {
+    "id": "apply_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 16.01624680001987,
+    "log": "apply_environment_art-attempt-8.log"
+  },
+  {
+    "id": "art_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 11.855982700013556,
+    "log": "art_check-attempt-8.log"
+  },
+  {
+    "id": "verify_post_b_fixes",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 16.565611199999694,
+    "log": "verify_post_b_fixes-attempt-8.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 6.938967099995352,
+    "log": "scripts-attempt-11.log"
+  },
+  {
+    "id": "apply_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 16.47493950003991,
+    "log": "apply_environment_art-attempt-9.log"
+  },
+  {
+    "id": "art_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 11.754575599974487,
+    "log": "art_check-attempt-9.log"
+  },
+  {
+    "id": "snapshot_one",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://.local/snapshot_post_b.gd",
+      "--",
+      "--label=one"
+    ],
+    "exit_code": 0,
+    "seconds": 13.863003400037996,
+    "log": "snapshot_one.log"
+  },
+  {
+    "id": "prepare_environment_modules",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_environment_modules.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 0.6249803999671713,
+    "log": "prepare_environment_modules.log"
+  },
+  {
+    "id": "build_geometry",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/build_geometry.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 2.9548388000112027,
+    "log": "build_geometry.log"
+  },
+  {
+    "id": "apply_materials",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_materials.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 9.85680849995697,
+    "log": "apply_materials-attempt-3.log"
+  },
+  {
+    "id": "apply_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 14.92642390000401,
+    "log": "apply_environment_art-attempt-10.log"
+  },
+  {
+    "id": "snapshot_two",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://.local/snapshot_post_b.gd",
+      "--",
+      "--label=two"
+    ],
+    "exit_code": 0,
+    "seconds": 9.168616999988444,
+    "log": "snapshot_two.log"
+  },
+  {
+    "id": "apply_materials",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_materials.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 6.846585299994331,
+    "log": "apply_materials.log"
+  },
+  {
+    "id": "apply_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 15.087381199991796,
+    "log": "apply_environment_art.log"
+  },
+  {
+    "id": "snapshot_three",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://.local/snapshot_post_b.gd",
+      "--",
+      "--label=three"
+    ],
+    "exit_code": 0,
+    "seconds": 9.264942100038752,
+    "log": "snapshot_three.log"
+  },
+  {
+    "id": "bake_navigation",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/bake_navigation.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 5.085879400023259,
+    "log": "bake_navigation.log"
+  },
+  {
+    "id": "import",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--editor",
+      "--quit"
+    ],
+    "exit_code": 0,
+    "seconds": 12.352394199988339,
+    "log": "import.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 6.782536100014113,
+    "log": "scripts.log"
+  },
+  {
+    "id": "materials_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 3.5257861000136472,
+    "log": "materials_check.log"
+  },
+  {
+    "id": "art_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/apply_environment_art.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 11.104414400004316,
+    "log": "art_check.log"
+  },
+  {
+    "id": "verify_courtyard_palette",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_courtyard_palette.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 14.352754099993035,
+    "log": "verify_courtyard_palette.log"
+  },
+  {
+    "id": "verify_post_b_fixes",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 17.231098699965514,
+    "log": "verify_post_b_fixes.log"
+  },
+  {
+    "id": "verify_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_environment_art.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 29.536780999973416,
+    "log": "verify_environment_art.log"
+  },
+  {
+    "id": "verify_blockout",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_blockout.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 18.10086450004019,
+    "log": "verify_blockout.log"
+  },
+  {
+    "id": "verify_service",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_service.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 6.360763999982737,
+    "log": "verify_service.log"
+  },
+  {
+    "id": "verify_staff_room",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_staff_room.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 42.74409509997349,
+    "log": "verify_staff_room.log"
+  },
+  {
+    "id": "verify_empty_frame",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_empty_frame.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 27.876390099991113,
+    "log": "verify_empty_frame.log"
+  },
+  {
+    "id": "verify_carry",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_carry.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 39.82794519996969,
+    "log": "verify_carry.log"
+  },
+  {
+    "id": "verify_guard_visuals",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_guard_visuals.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 9.075440200045705,
+    "log": "verify_guard_visuals.log"
+  },
+  {
+    "id": "verify_npc_visuals",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_npc_visuals.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 9.078065000008792,
+    "log": "verify_npc_visuals.log"
+  },
+  {
+    "id": "verify_editing_mode",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_editing_mode.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 10.100379000010435,
+    "log": "verify_editing_mode.log"
+  },
+  {
+    "id": "verify_room_feedback",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_room_feedback.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 5.234583300014492,
+    "log": "verify_room_feedback.log"
+  },
+  {
+    "id": "verify_contract_variants",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_contract_variants.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 31.03698890004307,
+    "log": "verify_contract_variants.log"
+  },
+  {
+    "id": "runner",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "res://tests/test_scene.tscn"
+    ],
+    "exit_code": 0,
+    "seconds": 206.27870060002897,
+    "log": "runner.log"
+  }
+]

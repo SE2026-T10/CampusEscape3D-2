@@ -1,0 +1,28 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 621.14 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 6GB Laptop GPU
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+Captured before-arcade-lower
+Captured before-arcade-upper
+Captured before-corner-lower
+Captured before-corner-upper
+Captured before-threshold-a-north-room
+Captured before-threshold-a-north-hall
+Captured before-threshold-a-south-room
+Captured before-threshold-a-south-hall
+Captured before-threshold-b-room
+Captured before-threshold-b-hall
+Captured before-threshold-c-west-room
+Captured before-threshold-c-west-hall
+Captured before-threshold-c-east-room
+Captured before-threshold-c-east-hall
+Captured before-door-entrance-back
+Captured before-door-entrance-front
+Captured before-door-staff-back
+Captured before-door-staff-front
+Captured before-door-storage-back
+Captured before-door-storage-front
+Captured before-door-service-back
+Captured before-door-service-front
+Captured before-door-handle

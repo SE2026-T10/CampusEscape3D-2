@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: Production stage is explicit
+PASS: Saved geometry has Gardner finishes and intact primitive authoring walls
+PASS: Lit textured production role: courtyard_plaster
+PASS: Lit textured production role: corridor_floor
+PASS: Lit textured production role: corridor_border
+PASS: Lit textured production role: architectural_stone
+PASS: Lit textured production role: balustrade_stone
+PASS: Lit textured production role: balustrade_cap
+PASS: Lit textured production role: garden_wall_stone
+PASS: Lit textured production role: sculpture_stone
+PASS: Lit textured production role: walnut_wood
+PASS: Lit textured production role: dark_metal
+PASS: Each finish covers exactly ring plus lobby/buffer, with no overlapping cells
+PASS: Corridor paving saved on floor 0.004
+PASS: Lobby/south-buffer paving saved on floor 0.004
+PASS: Separate 22cm border saved on floor 0.004
+PASS: Courtyard void and gallery floors excluded on floor 0.004
+PASS: Corridor paving saved on floor 4.504
+PASS: Lobby/south-buffer paving saved on floor 4.504
+PASS: Separate 22cm border saved on floor 4.504
+PASS: Courtyard void and gallery floors excluded on floor 4.504
+PASS: Pink finish only on four correct corridor faces, with both storeys and lintels
+PASS: Original BoxMesh bounds and original outside-scope surface materials are retained
+PASS: Gallery A/C room-facing finishes retain their distinct palettes
+PASS: Restoration concrete finish remains unchanged
+PASS: Batches preserve separate balustrade/cap materials after save/reload
+PASS: Offline palette pass is idempotent, without SceneTree or stale preview bindings
+PASS: Unmanaged meshes/materials are not rewritten by the palette
+PASS: Production palette packs with stable owners
+PASS: Save/reload preserves material roles and finish structure
+PASS: Art rebuild retains the complete production palette
+PASS: Rebuilding finishes and art never changes collision
+PASS: museum.tscn loads coloured without any preview controller
+PASS: All nine guard actors remain in the product
+PASS: Scoped door palette is saved in the main scene
+PASS: Editing F6 retains the saved palette and removes guards
+PASS: Both skeletal NPCs are retained in editing mode
+PASS: Actual Player traverses the saved product finish and courtyard entrance
+Courtyard palette verification: 38 checks, 0 failures
+WARNING: 7 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 3 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

@@ -1,6 +1,6 @@
 [gd_scene format=4]
 
-[ext_resource type="Material" path="res://maps/isg_museum/assets/materials/presets/courtyard_stone_cream.tres" id="1_5iwxn"]
+[ext_resource type="Material" path="res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/architectural_stone.tres" id="1_5iwxn"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_sb0pv"]
 _surfaces = [{
@@ -35,22 +35,23 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_sb0pv")
 
-[node name="GothicColumn" type="Node3D" unique_id=983509764]
+[node name="GothicColumn" type="Node3D" unique_id=758883095]
 metadata/preserve_source_material = true
 metadata/source = "architecture/gothic_architectural_structures/gothic_architectural_structures.glb"
 metadata/fit_scale = Vector3(0.08338809, 0.14604688, 0.08338807)
 metadata/fit_anchor = Vector3(0.00015830994, 0.063272476, 17.19984)
 metadata/fit_reference_bounds = AABB(-3.297675, 0.063272476, 13.902007, 6.5956664, 20.883705, 6.595668)
 
-[node name="VisualPivot" type="Node3D" parent="." unique_id=352262306]
+[node name="VisualPivot" type="Node3D" parent="." unique_id=732285110]
 transform = Transform3D(0.08338809, 0, 0, 0, 0.14604688, 0, 0, 0, 0.08338807, -1.3201163e-05, -0.009240747, -1.4342614)
 
-[node name="Object_4" type="MeshInstance3D" parent="VisualPivot" unique_id=219565269]
+[node name="Object_4" type="MeshInstance3D" parent="VisualPivot" unique_id=1780771289]
 transform = Transform3D(-1, 0, -3.2584137e-07, 0, 1, 0, 3.2584137e-07, 0, -1, 7.908892e-05, 10.562239, 17.19992)
 material_override = ExtResource("1_5iwxn")
 mesh = SubResource("ArrayMesh_770kt")
+metadata/material_role = "architectural_stone"
 
-[node name="Foot" type="Marker3D" parent="." unique_id=1507933118]
+[node name="Foot" type="Marker3D" parent="." unique_id=884275851]
 
-[node name="Capital" type="Marker3D" parent="." unique_id=1459529056]
+[node name="Capital" type="Marker3D" parent="." unique_id=1468991395]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.05, 0)

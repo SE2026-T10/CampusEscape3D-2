@@ -1,0 +1,56 @@
+{
+	"entrance_door": {
+		"colliders": 2,
+		"meshes": 7,
+		"nodes": 18,
+		"signature": "a1f01227bfee8fc3dc80f4af20fa459e8988d447051c83967a8ab278d4953e07"
+	},
+	"exhibits_expansion": {
+		"colliders": 8,
+		"meshes": 105,
+		"nodes": 159,
+		"signature": "48471b2f37b803cb3d9e66b25d914107d1cc6322e0b5ba8a199d2a6eccc2e001"
+	},
+	"museum": {
+		"colliders": 485,
+		"meshes": 1087,
+		"nodes": 3015,
+		"signature": "e9894e41bf53a3950743096742b3acaf1b95c1b73eacfc892a0a740f9db87d33"
+	},
+	"museum_door": {
+		"colliders": 2,
+		"meshes": 7,
+		"nodes": 18,
+		"signature": "732965c79de940b3be90d17ee39820f97131490a7d2a8618eeac258e752cc073"
+	},
+	"museum_geometry": {
+		"colliders": 436,
+		"meshes": 788,
+		"nodes": 2272,
+		"signature": "68321a1c2250784a837c0395d4a0619b1673da026a7e5a756ddf44320997b249"
+	},
+	"painting_demo": {
+		"colliders": 1,
+		"meshes": 3,
+		"nodes": 8,
+		"signature": "72540a422bdc4baff1b464d0b7f40c79f355744e96b402d53b82c56c10deb142"
+	},
+	"painting_t1": {
+		"colliders": 1,
+		"meshes": 9,
+		"nodes": 16,
+		"signature": "4ae8f93b5d782fdff8e76b9f1283f4886630d7b4642e66f89a602bab6436d21c"
+	},
+	"painting_t2": {
+		"colliders": 1,
+		"meshes": 8,
+		"nodes": 14,
+		"signature": "60fc9a88863a26c48a09d9e0aba4f878c9b931ed713c5f4ca3ecfea549650060"
+	},
+	"service_expansion": {
+		"colliders": 10,
+		"meshes": 33,
+		"nodes": 78,
+		"signature": "43ff49814cb92d68816cb24e3a14110abd1a18ea7a023f50de81cc784d97008e"
+	}
+}

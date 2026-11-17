@@ -1,0 +1,262 @@
+{
+  "courtyard_plaster": {
+    "material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/courtyard_plaster.tres",
+    "source_color": "res://maps/isg_museum/assets/materials/textures/plaster_002/Plaster002_2K-JPG_Color.jpg",
+    "source_normal": "res://maps/isg_museum/assets/materials/textures/plaster_002/Plaster002_2K-JPG_NormalGL.jpg",
+    "source_roughness": "res://maps/isg_museum/assets/materials/textures/plaster_002/Plaster002_2K-JPG_Roughness.jpg",
+    "derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/courtyard_plaster.png",
+    "tint": [
+      0.59,
+      0.335,
+      0.275
+    ],
+    "contrast": 0.1,
+    "normal_strength": 0.05,
+    "roughness": 0.96,
+    "tile_m": 8.0,
+    "metallic": 0,
+    "seed": 4821,
+    "mottle": 0.065,
+    "hashes": {
+      "source_color": "1f765dd2ef3f4bd820b7691febbd611fc9dc7394f504acb0f2560d166940738c",
+      "source_normal": "a3fb96aac05d1b827648c908b00998d818bb65464f82e6669dabe90edeb370bd",
+      "source_roughness": "15f106b4182525f65b169cdb8e7bc8b63fc41081015e64d7608a66ca0a1bb24d",
+      "derived_color": "bc5b9c4b80635b5954cb67f2290d71f218ae492f4f1fd00f1aab58eac81db883",
+      "material": "b825a842a4727878e86cc6940a0698ec9e63a27a594dd77e521f4e17070f89cf"
+    }
+  },
+  "corridor_floor": {
+    "material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/corridor_floor.tres",
+    "source_color": "res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_Color.jpg",
+    "source_normal": "res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_NormalGL.jpg",
+    "source_roughness": "res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_Roughness.jpg",
+    "derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/corridor_floor.png",
+    "tint": [
+      0.43,
+      0.405,
+      0.365
+    ],
+    "contrast": 1.45,
+    "normal_strength": 0.45,
+    "roughness": 0.93,
+    "tile_m": 2.4,
+    "metallic": 0,
+    "seed": 4952,
+    "mottle": 0.012,
+    "hashes": {
+      "source_color": "005353aa1c67eb349eaa9c108e7a9e5adcb7f9ada412c775592ad402b61d7a12",
+      "source_normal": "be98947ab731d3a2ceab7ac5022ca1a6436fc4756331eefde48458bf57fab0ea",
+      "source_roughness": "253e201ff704f052b153e9f919ee83ecc174ac481be745964d225ce3b9153a85",
+      "derived_color": "de04e09aef51c7a61d8bc79a108d97ae313bf27a94b463fffa5e734397dd584c",
+      "material": "076233c324623e637f62306768d8c566ee2a8b1887bb80e4fa7092a520bbf1ae"
+    }
+  },
+  "corridor_border": {
+    "material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/corridor_border.tres",
+    "source_color": "res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_Color.jpg",
+    "source_normal": "res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_NormalGL.jpg",
+    "source_roughness": "res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_Roughness.jpg",
+    "derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/corridor_border.png",
+    "tint": [
+      0.28,
+      0.26,
+      0.23
+    ],
+    "contrast": 0.4,
+    "normal_strength": 0.16,
+    "roughness": 0.92,
+    "tile_m": 2.4,
+    "metallic": 0,
+    "seed": 5083,
+    "mottle": 0.012,
+    "hashes": {
+      "source_color": "005353aa1c67eb349eaa9c108e7a9e5adcb7f9ada412c775592ad402b61d7a12",
+      "source_normal": "be98947ab731d3a2ceab7ac5022ca1a6436fc4756331eefde48458bf57fab0ea",
+      "source_roughness": "253e201ff704f052b153e9f919ee83ecc174ac481be745964d225ce3b9153a85",
+      "derived_color": "722df706aadc081b966a3a8a3d679cf0cd3f7acd1e1024cf32f462245a81a6e8",
+      "material": "2a91e6b9dd8d37353a48768dc836abfa5ce3b1b82929b8137fc1a25e68239078"
+    }
+  },
+  "architectural_stone": {
+    "material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/architectural_stone.tres",
+    "source_color": "res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_Color.jpg",
+    "source_normal": "res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_NormalGL.jpg",
+    "source_roughness": "res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_Roughness.jpg",
+    "derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/architectural_stone.png",
+    "tint": [
+      0.77,
+      0.72,
+      0.615
+    ],
+    "contrast": 0.13,
+    "normal_strength": 0.075,
+    "roughness": 0.86,
+    "tile_m": 1.5,
+    "metallic": 0,
+    "seed": 5214,
+    "mottle": 0.012,
+    "hashes": {
+      "source_color": "1e1ef2d556dcda237181590b4a7543a66ea49223ccf2d455000e05f37e8a8ec5",
+      "source_normal": "0e295859c9e55ba2dd147aed37a674aba90decaf91d3622d5aa8386441020649",
+      "source_roughness": "d4a906a9739f30f386914a8b8393e64100f340851dc50328e5b91e24fa95ce7a",
+      "derived_color": "98eea67f0d3931c3e0e7dfb17b7ff75b9b3c98853039c2b569e23e28474385f2",
+      "material": "02c650210c5f192edde8f27d301ddfaf3c73c5cbb7611c76df0b0f289a95ee9e"
+    }
+  },
+  "balustrade_stone": {
+    "material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/balustrade_stone.tres",
+    "source_color": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Color.jpg",
+    "source_normal": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_NormalGL.jpg",
+    "source_roughness": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Roughness.jpg",
+    "derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/balustrade_stone.png",
+    "tint": [
+      0.56,
+      0.535,
+      0.465
+    ],
+    "contrast": 0.18,
+    "normal_strength": 0.1,
+    "roughness": 0.9,
+    "tile_m": 1.4,
+    "metallic": 0,
+    "seed": 5345,
+    "mottle": 0.012,
+    "hashes": {
+      "source_color": "e9ef7c3a45938e07d1222f1cc7ed2a3411c1bba02cc991dc1779198d86761d92",
+      "source_normal": "080d1164c2dcf0f93071715317b3081f6c705fae2e4c46f78c27be8c970167f5",
+      "source_roughness": "669a2b5ed32de31279a491e29a6a1e55e9fd5df86671d31470796d149ec2f883",
+      "derived_color": "9c0bde37ff3d97bc9f104909bf6086008bfc4988c19e33a31aea54c0fca2f638",
+      "material": "eb37eb7db6013444ec32b6a38c991b175f1dc5d6c573088f7a6554adf34682c7"
+    }
+  },
+  "balustrade_cap": {
+    "material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/balustrade_cap.tres",
+    "source_color": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Color.jpg",
+    "source_normal": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_NormalGL.jpg",
+    "source_roughness": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Roughness.jpg",
+    "derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/balustrade_cap.png",
+    "tint": [
+      0.46,
+      0.435,
+      0.375
+    ],
+    "contrast": 0.13,
+    "normal_strength": 0.08,
+    "roughness": 0.82,
+    "tile_m": 1.4,
+    "metallic": 0,
+    "seed": 5476,
+    "mottle": 0.012,
+    "hashes": {
+      "source_color": "e9ef7c3a45938e07d1222f1cc7ed2a3411c1bba02cc991dc1779198d86761d92",
+      "source_normal": "080d1164c2dcf0f93071715317b3081f6c705fae2e4c46f78c27be8c970167f5",
+      "source_roughness": "669a2b5ed32de31279a491e29a6a1e55e9fd5df86671d31470796d149ec2f883",
+      "derived_color": "99812a9bf875ff3cdb266e1e764aade9ec9a02bfeda04830ef9288ac6e719496",
+      "material": "21ebdded255caafbf457606a8a93758e291d65a71f75c38f155690b6fd2225bc"
+    }
+  },
+  "garden_wall_stone": {
+    "material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/garden_wall_stone.tres",
+    "source_color": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Color.jpg",
+    "source_normal": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_NormalGL.jpg",
+    "source_roughness": "res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Roughness.jpg",
+    "derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/garden_wall_stone.png",
+    "tint": [
+      0.36,
+      0.335,
+      0.285
+    ],
+    "contrast": 0.45,
+    "normal_strength": 0.32,
+    "roughness": 0.98,
+    "tile_m": 1.6,
+    "metallic": 0,
+    "seed": 5607,
+    "mottle": 0.012,
+    "hashes": {
+      "source_color": "e9ef7c3a45938e07d1222f1cc7ed2a3411c1bba02cc991dc1779198d86761d92",
+      "source_normal": "080d1164c2dcf0f93071715317b3081f6c705fae2e4c46f78c27be8c970167f5",
+      "source_roughness": "669a2b5ed32de31279a491e29a6a1e55e9fd5df86671d31470796d149ec2f883",
+      "derived_color": "0bb5e67f03ae75c3fba3633382262208d740ba5234ea815fe3b907eb69b57b43",
+      "material": "76b0ec50f184faaa97efb28ce6112d2d4e4711c5794e5846898c8a2b19116253"
+    }
+  },
+  "sculpture_stone": {
+    "material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/sculpture_stone.tres",
+    "source_color": "res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_Color.jpg",
+    "source_normal": "res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_NormalGL.jpg",
+    "source_roughness": "res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_Roughness.jpg",
+    "derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/sculpture_stone.png",
+    "tint": [
+      0.83,
+      0.79,
+      0.7
+    ],
+    "contrast": 0.08,
+    "normal_strength": 0.05,
+    "roughness": 0.84,
+    "tile_m": 1.4,
+    "metallic": 0,
+    "seed": 5738,
+    "mottle": 0.012,
+    "hashes": {
+      "source_color": "1e1ef2d556dcda237181590b4a7543a66ea49223ccf2d455000e05f37e8a8ec5",
+      "source_normal": "0e295859c9e55ba2dd147aed37a674aba90decaf91d3622d5aa8386441020649",
+      "source_roughness": "d4a906a9739f30f386914a8b8393e64100f340851dc50328e5b91e24fa95ce7a",
+      "derived_color": "021fae41f714f67ae2b3f7175043e2da3dcd6fe93798db3f2cdc5d673e22d6cd",
+      "material": "242b0526d69e3962b58cc96459fe26c4d8c0ffbf287ef3f440cc9c6faf64287f"
+    }
+  },
+  "walnut_wood": {
+    "material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/walnut_wood.tres",
+    "source_color": "res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_Color.jpg",
+    "source_normal": "res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_NormalGL.jpg",
+    "source_roughness": "res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_Roughness.jpg",
+    "derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/walnut_wood.png",
+    "tint": [
+      0.22,
+      0.125,
+      0.07
+    ],
+    "contrast": 1.05,
+    "normal_strength": 0.2,
+    "roughness": 0.87,
+    "tile_m": 2.0,
+    "metallic": 0,
+    "seed": 5869,
+    "mottle": 0.012,
+    "hashes": {
+      "source_color": "c6d61f6bfd2537f7dcb8e4c2264f77e3d8fdfbca14dcf5ff7bade7637d2125b5",
+      "source_normal": "3b175af16c417245ff8fa950de0f7dee6fc77804845825d7d5b988b30946e5e8",
+      "source_roughness": "b4855f803bbbad6fbe8a78d514f453ba1c9989b2972775f46f835402de302b44",
+      "derived_color": "ddbdbbe8e664b4d4a648a271268a4a585e9e149e49db829254814b12f6486b8d",
+      "material": "472fdf16edbd21b44f506bb472e6116b95dcb46fbd787e3ede0cba124fe16fb6"
+    }
+  },
+  "dark_metal": {
+    "material": "res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/dark_metal.tres",
+    "source_color": "res://maps/isg_museum/assets/materials/textures/metal_032/Metal032_2K-JPG_Color.jpg",
+    "source_normal": "res://maps/isg_museum/assets/materials/textures/metal_032/Metal032_2K-JPG_NormalGL.jpg",
+    "source_roughness": "res://maps/isg_museum/assets/materials/textures/metal_032/Metal032_2K-JPG_Roughness.jpg",
+    "derived_color": "res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/dark_metal.png",
+    "tint": [
+      0.17,
+      0.135,
+      0.09
+    ],
+    "contrast": 0.28,
+    "normal_strength": 0.12,
+    "roughness": 0.84,
+    "tile_m": 1.0,
+    "metallic": 0.65,
+    "seed": 6000,
+    "mottle": 0.012,
+    "hashes": {
+      "source_color": "f444c07a08de291049d0dda880d6fca9faae4b172f293f604c87e5e96ad30370",
+      "source_normal": "b84a0bfe4639b7e3fac36d04adf1844e0e2654f987a36ece5c966ad77921cd27",
+      "source_roughness": "8a0570593c028cf0eca32a0107d7bc936817f0de7076f1b8b8f48ea7745aee27",
+      "derived_color": "e28dc0fbdf5fe97cd716243fc2dfe94cf00e46b683903d119ff6d9b3f7c3e40d",
+      "material": "a31c0375f2ef8e2741a757e8e19bf95199d344c753b59d5ce132fbe81f1eedbd"
+    }
+  }
+}

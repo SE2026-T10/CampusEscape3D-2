@@ -1,0 +1,115 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/courtyard_plaster.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:47)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/plaster_002/Plaster002_2K-JPG_Color.jpg'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] derive_albedo (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:56)
+       [1] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:48)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/corridor_floor.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:47)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_Color.jpg'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] derive_albedo (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:56)
+       [1] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:48)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/corridor_border.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:47)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/paving_stones_001/PavingStones001_2K-JPG_Color.jpg'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] derive_albedo (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:56)
+       [1] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:48)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/architectural_stone.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:47)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_Color.jpg'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] derive_albedo (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:56)
+       [1] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:48)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/balustrade_stone.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:47)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Color.jpg'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] derive_albedo (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:56)
+       [1] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:48)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/balustrade_cap.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:47)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Color.jpg'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] derive_albedo (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:56)
+       [1] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:48)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/garden_wall_stone.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:47)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/concrete_025/Concrete025_2K-JPG_Color.jpg'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] derive_albedo (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:56)
+       [1] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:48)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/sculpture_stone.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:47)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/marble_012/Marble012_2K-JPG_Color.jpg'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] derive_albedo (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:56)
+       [1] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:48)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/walnut_wood.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:47)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/wood_051/Wood051_2K-JPG_Color.jpg'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] derive_albedo (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:56)
+       [1] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:48)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/dark_metal.png'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:47)
+WARNING: Loaded resource as image file, this will not work on export: 'res://maps/isg_museum/assets/materials/textures/metal_032/Metal032_2K-JPG_Color.jpg'. Instead, import the image file as an Image resource and load it normally as a resource.
+   at: load_from_file (core/io/image.cpp:2780)
+   GDScript backtrace (most recent call first):
+       [0] derive_albedo (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:56)
+       [1] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:48)
+ERROR: Albedo does not match JSON courtyard_plaster
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:51)
+ERROR: Albedo does not match JSON corridor_floor
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:51)
+ERROR: Albedo does not match JSON balustrade_cap
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:51)
+ERROR: Surface parameters mismatch garden_wall_stone
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:51)
+ERROR: Albedo does not match JSON garden_wall_stone
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/prepare_courtyard_palette.gd:51)
+Courtyard palette checked: 10 roles, 5 failures
