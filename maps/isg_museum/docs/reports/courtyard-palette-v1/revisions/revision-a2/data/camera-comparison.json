@@ -1,0 +1,56 @@
+[
+  {
+    "a1": "a1-overview",
+    "a2": "a2-overview",
+    "camera_lighting_equal": true,
+    "draw_calls_a1": 1215.0,
+    "draw_calls_a2": 1215.0,
+    "primitives_a1": 1646967.0,
+    "primitives_a2": 1646967.0
+  },
+  {
+    "a1": "a1-player-eye",
+    "a2": "a2-player-eye",
+    "camera_lighting_equal": true,
+    "draw_calls_a1": 1772.0,
+    "draw_calls_a2": 1772.0,
+    "primitives_a1": 2129786.0,
+    "primitives_a2": 2129786.0
+  },
+  {
+    "a1": "a1-wall-column-closeup",
+    "a2": "a2-wall-column-closeup",
+    "camera_lighting_equal": true,
+    "draw_calls_a1": 766.0,
+    "draw_calls_a2": 766.0,
+    "primitives_a1": 1213010.0,
+    "primitives_a2": 1213010.0
+  },
+  {
+    "a1": "a1-floor-border",
+    "a2": "a2-floor-border",
+    "camera_lighting_equal": true,
+    "draw_calls_a1": 2142.0,
+    "draw_calls_a2": 2142.0,
+    "primitives_a1": 2434153.0,
+    "primitives_a2": 2434153.0
+  },
+  {
+    "a1": "a1-upper-balustrade",
+    "a2": "a2-upper-balustrade",
+    "camera_lighting_equal": true,
+    "draw_calls_a1": 2009.0,
+    "draw_calls_a2": 2009.0,
+    "primitives_a1": 2523498.0,
+    "primitives_a2": 2523498.0
+  },
+  {
+    "a1": "a1-garden-wall-closeup",
+    "a2": "a2-garden-wall-closeup",
+    "camera_lighting_equal": true,
+    "draw_calls_a1": 2142.0,
+    "draw_calls_a2": 2142.0,
+    "primitives_a1": 2619561.0,
+    "primitives_a2": 2619569.0
+  }
+]

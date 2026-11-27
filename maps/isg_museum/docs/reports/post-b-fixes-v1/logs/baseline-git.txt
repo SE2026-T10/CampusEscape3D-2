@@ -1,0 +1,39 @@
+ M maps/isg_museum/resources/environment_art_manifest.json
+ M maps/isg_museum/scenes/art/modules/gothic_column.tscn
+ M maps/isg_museum/scenes/entrance_door.tscn
+ M maps/isg_museum/scenes/exhibits_expansion.tscn
+ M maps/isg_museum/scenes/museum.tscn
+ M maps/isg_museum/scenes/museum_door.tscn
+ M maps/isg_museum/scenes/museum_geometry.tscn
+ M maps/isg_museum/scenes/painting_demo.tscn
+ M maps/isg_museum/scenes/painting_t1.tscn
+ M maps/isg_museum/scenes/painting_t2.tscn
+ M maps/isg_museum/scenes/service_expansion.tscn
+ M maps/isg_museum/tools/environment_art_builder.gd
+ M maps/isg_museum/tools/material_palette.gd
+ M maps/isg_museum/tools/prepare_environment_modules.gd
+ M maps/isg_museum/tools/verify_environment_art.gd
+ M tests/test_scene.gd
+?? maps/isg_museum/assets/materials/presets/gardner_palette_v1/
+?? maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/
+?? maps/isg_museum/docs/courtyard-palette-stage-b/
+?? maps/isg_museum/docs/courtyard-palette-v1/
+?? maps/isg_museum/docs/post-b-fixes-v1/
+?? maps/isg_museum/resources/courtyard_palette.json
+?? maps/isg_museum/scenes/previews/
+?? maps/isg_museum/scripts/courtyard_palette_preview.gd
+?? maps/isg_museum/scripts/courtyard_palette_preview.gd.uid
+?? maps/isg_museum/tests/courtyard_palette_tests.gd
+?? maps/isg_museum/tests/courtyard_palette_tests.gd.uid
+?? maps/isg_museum/tools/build_courtyard_palette_preview.gd
+?? maps/isg_museum/tools/build_courtyard_palette_preview.gd.uid
+?? maps/isg_museum/tools/capture_courtyard_palette.gd
+?? maps/isg_museum/tools/capture_courtyard_palette.gd.uid
+?? maps/isg_museum/tools/capture_courtyard_stage_b.gd
+?? maps/isg_museum/tools/capture_courtyard_stage_b.gd.uid
+?? maps/isg_museum/tools/courtyard_palette.gd
+?? maps/isg_museum/tools/courtyard_palette.gd.uid
+?? maps/isg_museum/tools/prepare_courtyard_palette.gd
+?? maps/isg_museum/tools/prepare_courtyard_palette.gd.uid
+?? maps/isg_museum/tools/verify_courtyard_palette.gd
+?? maps/isg_museum/tools/verify_courtyard_palette.gd.uid

@@ -1,0 +1,77 @@
+[
+	{
+		"frames": 45,
+		"mode": "current",
+		"portal": "a-north"
+	},
+	{
+		"frames": 45,
+		"mode": "no_stone",
+		"portal": "a-north"
+	},
+	{
+		"frames": 45,
+		"mode": "no_wood",
+		"portal": "a-north"
+	},
+	{
+		"frames": 45,
+		"mode": "current",
+		"portal": "a-south"
+	},
+	{
+		"frames": 45,
+		"mode": "no_stone",
+		"portal": "a-south"
+	},
+	{
+		"frames": 45,
+		"mode": "no_wood",
+		"portal": "a-south"
+	},
+	{
+		"frames": 45,
+		"mode": "current",
+		"portal": "b"
+	},
+	{
+		"frames": 45,
+		"mode": "no_stone",
+		"portal": "b"
+	},
+	{
+		"frames": 45,
+		"mode": "no_wood",
+		"portal": "b"
+	},
+	{
+		"frames": 45,
+		"mode": "current",
+		"portal": "c-west"
+	},
+	{
+		"frames": 45,
+		"mode": "no_stone",
+		"portal": "c-west"
+	},
+	{
+		"frames": 45,
+		"mode": "no_wood",
+		"portal": "c-west"
+	},
+	{
+		"frames": 45,
+		"mode": "current",
+		"portal": "c-east"
+	},
+	{
+		"frames": 45,
+		"mode": "no_stone",
+		"portal": "c-east"
+	},
+	{
+		"frames": 45,
+		"mode": "no_wood",
+		"portal": "c-east"
+	}
+]

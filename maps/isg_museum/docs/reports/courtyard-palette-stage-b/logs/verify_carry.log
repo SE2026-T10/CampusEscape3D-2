@@ -1,0 +1,88 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: T2 begins on the wall with ordinary sprint available and transport locked by K
+PASS: Without K, E cannot take or complete transport of T2
+PASS: Empty-handed depot interaction cannot fabricate a delivery
+PASS: Camera E collects staff-room key before T2 transport
+PASS: T2 becomes a carried world item after K
+PASS: Initial T2 pickup does not credit transport while optional escape objective stays available
+PASS: Taking T2 immediately removes residual sprint momentum
+PASS: Held T2 is visible under the camera and cannot intercept further E rays
+PASS: Persistent carry HUD explains the drop control while T2 is held
+PASS: Repeated E cannot create a second held T2
+PASS: Carrying slows walking and Shift does not increase target speed
+PASS: Carry speed cap also applies to diagonals and walking backward
+PASS: Crouching remains available at a lower carry speed
+PASS: Actual W/Shift movement covers the same short distance while carrying
+PASS: Carrying never reports sprinting in the stamina state
+PASS: Holding Shift with enabled stamina cannot consume sprint energy while carrying
+PASS: Repeated keyboard Q events cannot accidentally drop the painting
+PASS: Q places T2 safely on clear floor and makes it available to pick up again
+PASS: Dropped T2 remains one visible world object and transport stays unfinished
+PASS: Putting T2 down restores ordinary sprint speed
+PASS: Putting T2 down clears the persistent carry HUD
+PASS: Camera ray can reacquire the dropped painting
+PASS: E picks up the same dropped T2 for another transport attempt
+PASS: Regrabbing T2 does not complete its delivery
+PASS: Unsafe drop at outer wall is refused while T2 remains in hand
+PASS: Unsafe drop at closed shortcut is refused while T2 remains in hand
+PASS: Unsafe drop at courtyard railing and opening is refused while T2 remains in hand
+PASS: Unsafe drop at sloping stair flight is refused while T2 remains in hand
+PASS: Unsafe drop at gallery plinth is refused while T2 remains in hand
+PASS: Crouched player can put T2 on flat floor
+PASS: A painting dropped while crouched is reachable again while standing
+PASS: Former shortcut has no door interaction
+PASS: Carrying player is stopped by the new wall between B and restoration
+PASS: Depot cannot accept T2 remotely from another room
+PASS: Depot remains selectable with T2 visible in front of the camera
+PASS: Standing at depot still requires an explicit E delivery
+PASS: Depot E completes transport exactly when T2 is delivered
+PASS: Delivered T2 remains visibly staged at the depot and cannot be removed
+PASS: Delivered T2 cannot be taken or credited twice
+PASS: Delivery restores normal sprinting immediately
+PASS: Delivering T2 alone does not end the level or bypass the required rope
+PASS: Restart restores T2 wall, movement, objectives, exterior spawn and doors
+PASS: Camera E collects staff-room key before T2 transport
+PASS: Camera ray selects the large T2 on its wall
+PASS: E takes T2 into the player's hands
+PASS: Rope permits retreat with T2 in hand, but report never credits undelivered T2
+PASS: T1 retains its empty frame and T3 remains an ordinary immediate pickup
+PASS: Restart restores T2 wall, movement, objectives, exterior spawn and doors
+PASS: Camera E collects staff-room key before T2 transport
+PASS: Camera ray selects the large T2 on its wall
+PASS: E takes T2 into the player's hands
+PASS: Restart restores T2 wall, movement, objectives, exterior spawn and doors
+PASS: Camera E collects staff-room key before T2 transport
+PASS: Camera ray selects the large T2 on its wall
+PASS: E takes T2 into the player's hands
+PASS: Restart fixture leaves T2 on a valid floor position
+PASS: Restart restores T2 wall, movement, objectives, exterior spawn and doors
+PASS: Camera E collects staff-room key before T2 transport
+PASS: Camera ray selects the large T2 on its wall
+PASS: E takes T2 into the player's hands
+PASS: Carrying player walks across B to the gallery door
+PASS: Gallery door can open with K while carrying, leaving the shortcut latched
+PASS: Carrying player opens new south restoration door with E
+PASS: Real carry movement follows the longer ring hall and free southern store entrance without opening the shortcut
+PASS: Long-route T2 delivery succeeds with the B-to-store latch still closed
+PASS: Camera E collects staff-room key before T2 transport
+PASS: Camera ray selects the large T2 on its wall
+PASS: E takes T2 into the player's hands
+PASS: Transport and delivery are blocked and carry HUD hides in gameplay state 2
+PASS: Camera E collects staff-room key before T2 transport
+PASS: Camera ray selects the large T2 on its wall
+PASS: E takes T2 into the player's hands
+PASS: Transport and delivery are blocked and carry HUD hides in gameplay state 1
+PASS: Camera E collects staff-room key before T2 transport
+PASS: Camera ray selects the large T2 on its wall
+PASS: E takes T2 into the player's hands
+PASS: Transport and delivery are blocked and carry HUD hides in gameplay state 3
+PASS: Camera E collects staff-room key before T2 transport
+PASS: Camera ray selects the large T2 on its wall
+PASS: E takes T2 into the player's hands
+PASS: Real guard sight, chase and capture still catch a player carrying T2
+PASS: Caught T2 attempt remains on result screen beyond the former reset delay
+PASS: Restart restores T2 wall, movement, objectives, exterior spawn and doors
+Museum carry verification: 83 checks, 0 failures

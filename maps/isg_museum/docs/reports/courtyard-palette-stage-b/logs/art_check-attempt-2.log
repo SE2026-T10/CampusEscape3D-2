@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+Environment art checked: museum_geometry
+Environment art checked: exhibits_expansion
+Environment art checked: service_expansion
+Environment art checked: painting_t1
+Environment art checked: painting_t2
+Environment art checked: painting_demo
+Environment art checked: museum_door
+Environment art checked: entrance_door
+Environment art checked: museum
+
+================================================================
+CrashHandlerException: Program crashed with signal 11
+Engine version: Godot Engine v4.7.2.stable.official (ed1daf0bf001b61586d9930840f2f1394092c079)
+Dumping the backtrace. Please include this when reporting the bug on: https://github.com/godotengine/godot/issues

@@ -1,0 +1,29 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 621.14 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 6GB Laptop GPU
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  [ok] 1. F5 still opens the shared main menu.
+  [ok] 2. GUI selected museum normal: loads museum.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 3. N0 opens a direct contract conversation normal
+  [ok] 4. Contract UI is visible normal
+  [ok] 5. Receptionist opens the quiz normal
+  [ok] 6. Service quiz is visible normal
+  [ok] 7. Three correct answers grant the museum ticket normal
+  [ok] 8. GUI Esc pauses normal
+  [ok] 9. GUI Resume works normal
+  [ok] 10. GUI Restart preserves museum normal: loads museum.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 11. GUI Restart resets contract/ticket/progress normal
+  [ok] 12. GUI Main menu frees museum normal
+  [ok] 13. GUI selected museum editing: loads museum_editing.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 14. N0 opens a direct contract conversation editing
+  [ok] 15. Contract UI is visible editing
+  [ok] 16. Receptionist opens the quiz editing
+  [ok] 17. Service quiz is visible editing
+  [ok] 18. Three correct answers grant the museum ticket editing
+  [ok] 19. GUI Esc pauses editing
+  [ok] 20. GUI Resume works editing
+  [ok] 21. GUI Restart preserves museum editing: loads museum_editing.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 22. GUI Restart resets contract/ticket/progress editing
+  [ok] 23. GUI Main menu frees museum editing
+MENU CAPTURE: 23 checks, 0 failures

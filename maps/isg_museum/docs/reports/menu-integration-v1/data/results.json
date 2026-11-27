@@ -1,0 +1,193 @@
+[
+  {
+    "id": "import",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--editor",
+      "--quit"
+    ],
+    "exit_code": 0,
+    "seconds": 22.68825888633728,
+    "date": "2026-11-17T21:44:30.777094+07:00",
+    "log": "logs/import.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 12.101948738098145,
+    "date": "2026-11-17T21:44:42.899009+07:00",
+    "log": "logs/scripts.log"
+  },
+  {
+    "id": "selection",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://.local/verify_menu_selection.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 53.06315588951111,
+    "date": "2026-11-17T21:45:35.993446+07:00",
+    "log": "logs/selection.log"
+  },
+  {
+    "id": "flow",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/map_flow.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 157.1595494747162,
+    "date": "2026-11-17T21:48:13.186810+07:00",
+    "log": "logs/flow.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 1,
+    "seconds": 10.07379698753357,
+    "date": "2026-11-17T21:48:39.423602+07:00",
+    "log": "logs/scripts-attempt-1.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 8.961425542831421,
+    "date": "2026-11-17T21:49:54.974446+07:00",
+    "log": "logs/scripts-attempt-2.log"
+  },
+  {
+    "id": "layout",
+    "command": [
+      "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+      "-B",
+      "tools/ci/check_layout.py"
+    ],
+    "exit_code": 1,
+    "seconds": 0.6228306293487549,
+    "date": "2026-11-17T21:49:55.611609+07:00",
+    "log": "logs/layout.log"
+  },
+  {
+    "id": "import",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--editor",
+      "--quit"
+    ],
+    "exit_code": 0,
+    "seconds": 20.980697870254517,
+    "date": "2026-11-17T21:50:24.582815+07:00",
+    "log": "logs/import-attempt-1.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 10.367332696914673,
+    "date": "2026-11-17T21:50:34.987991+07:00",
+    "log": "logs/scripts-attempt-3.log"
+  },
+  {
+    "id": "layout",
+    "command": [
+      "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+      "-B",
+      "tools/ci/check_layout.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.603034496307373,
+    "date": "2026-11-17T21:50:35.609569+07:00",
+    "log": "logs/layout-attempt-1.log"
+  },
+  {
+    "id": "runner",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "res://tests/test_scene.tscn"
+    ],
+    "exit_code": 0,
+    "seconds": 431.0442934036255,
+    "date": "2026-11-17T21:57:46.684987+07:00",
+    "log": "logs/runner.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 6.782737970352173,
+    "date": "2026-11-17T22:00:38.408410+07:00",
+    "log": "logs/scripts-attempt-4.log"
+  },
+  {
+    "id": "runner-requested",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "res://tests/test_scene.tscn"
+    ],
+    "exit_code": 0,
+    "seconds": 1854.6672377586365,
+    "date": "2026-11-17T22:35:14.718088+07:00",
+    "log": "logs/runner-requested.log"
+  }
+]

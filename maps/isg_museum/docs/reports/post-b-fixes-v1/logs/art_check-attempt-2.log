@@ -1,0 +1,17 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+ERROR: Saved environment differs: museum_geometry
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://maps/isg_museum/tools/apply_environment_art.gd:28)
+Environment art checked: museum_geometry
+Environment art checked: exhibits_expansion
+Environment art checked: service_expansion
+Environment art checked: painting_t1
+Environment art checked: painting_t2
+Environment art checked: painting_demo
+Environment art checked: museum_door
+Environment art checked: entrance_door
+Environment art checked: museum

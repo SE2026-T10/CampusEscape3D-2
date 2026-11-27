@@ -1,0 +1,59 @@
+﻿[
+    {
+        "id":  "before-render",
+        "arguments":  [
+                          "--path",
+                          ".",
+                          "--rendering-method",
+                          "gl_compatibility",
+                          "--resolution",
+                          "1280x720",
+                          "--script",
+                          "res://maps/isg_museum/tools/benchmark_environment_art.gd",
+                          "--",
+                          "--exclusive",
+                          "--before"
+                      ],
+        "exit_code":  0,
+        "started":  "2026-11-12T18:53:04.1558635+07:00",
+        "finished":  "2026-11-12T18:53:48.9318662+07:00"
+    },
+    {
+        "id":  "after-render",
+        "arguments":  [
+                          "--path",
+                          ".",
+                          "--rendering-method",
+                          "gl_compatibility",
+                          "--resolution",
+                          "1280x720",
+                          "--script",
+                          "res://maps/isg_museum/tools/benchmark_environment_art.gd",
+                          "--",
+                          "--exclusive"
+                      ],
+        "exit_code":  0,
+        "started":  "2026-11-12T18:53:48.9682752+07:00",
+        "finished":  "2026-11-12T18:54:33.1166297+07:00"
+    },
+    {
+        "id":  "after-gameplay",
+        "arguments":  [
+                          "--path",
+                          ".",
+                          "--rendering-method",
+                          "gl_compatibility",
+                          "--resolution",
+                          "1280x720",
+                          "--script",
+                          "res://maps/isg_museum/tools/benchmark_environment_art.gd",
+                          "--",
+                          "--exclusive",
+                          "--gameplay",
+                          "--seconds=240"
+                      ],
+        "exit_code":  1,
+        "started":  "2026-11-12T18:54:33.1258520+07:00",
+        "finished":  "2026-11-12T18:58:44.6234196+07:00"
+    }
+]

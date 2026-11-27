@@ -1,0 +1,60 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://shared/scripts/npc/guard.gd" id="1_ih2oa"]
+[ext_resource type="PackedScene" path="res://maps/isg_museum/scenes/npc/museum_guard_visual.tscn" id="2_bwxen"]
+[ext_resource type="Script" path="res://shared/scripts/npc/guard_vision.gd" id="3_qnroe"]
+[ext_resource type="Script" path="res://shared/scripts/npc/guard_hearing.gd" id="4_rv4dp"]
+[ext_resource type="Script" path="res://maps/isg_museum/scripts/museum_guard_presentation.gd" id="5_xbdjw"]
+
+[sub_resource type="CapsuleShape3D" id="Capsule_guard"]
+radius = 0.35
+height = 1.8
+
+[node name="MuseumGuard" type="CharacterBody3D" unique_id=663858537]
+collision_layer = 4
+collision_mask = 7
+platform_floor_layers = 1
+script = ExtResource("1_ih2oa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=726184034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("Capsule_guard")
+
+[node name="Model" type="Node3D" parent="." unique_id=1645100823 instance=ExtResource("2_bwxen")]
+
+[node name="Vision" type="Node3D" parent="." unique_id=1535822983]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+script = ExtResource("3_qnroe")
+target_sample_heights = PackedFloat32Array(1.5, 0.9, 0.3)
+
+[node name="Hearing" type="Node3D" parent="." unique_id=2048674632]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+script = ExtResource("4_rv4dp")
+ignored_source_groups = PackedStringArray("guards")
+
+[node name="AlertIcon" type="Label3D" parent="." unique_id=878810597]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
+visible = false
+billboard = 1
+text = "?"
+font_size = 96
+outline_size = 18
+
+[node name="DebugLabel" type="Label3D" parent="." unique_id=1563673911]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+billboard = 1
+no_depth_test = true
+text = "Guard"
+font_size = 36
+outline_size = 8
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1373030883]
+path_desired_distance = 0.5
+target_desired_distance = 0.5
+avoidance_enabled = true
+height = 1.8
+radius = 0.4
+neighbor_distance = 6.0
+
+[node name="Presentation" type="Node" parent="." unique_id=1176427220]
+script = ExtResource("5_xbdjw")

@@ -1,0 +1,42 @@
+[
+	{
+		"animation": "sleep",
+		"phase": "sleeping",
+		"position": "(34.1, 0.1, 12.0)"
+	},
+	{
+		"animation": "sleep",
+		"phase": "observing",
+		"position": "(34.1, 0.000128, 12.0)"
+	},
+	{
+		"animation": "sitting_idle",
+		"phase": "searching",
+		"position": "(34.09569, 0.000128, 11.95688)"
+	},
+	{
+		"animation": "look_around",
+		"phase": "chasing",
+		"position": "(33.72056, 0.000844, 10.63805)"
+	},
+	{
+		"animation": "look_around",
+		"phase": "searching",
+		"position": "(33.70631, 0.000936, 10.27121)"
+	},
+	{
+		"animation": "look_around",
+		"phase": "returning",
+		"position": "(33.80294, 0.000936, 11.49905)"
+	},
+	{
+		"animation": "walk",
+		"phase": "settling",
+		"position": "(34.1, 0.0, 12.0)"
+	},
+	{
+		"animation": "sitting_idle",
+		"phase": "sleeping",
+		"position": "(34.1, 0.0, 12.0)"
+	}
+]

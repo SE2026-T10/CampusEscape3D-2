@@ -1,0 +1,198 @@
+[
+  {
+    "id": "capture_a1",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/capture_courtyard_palette.gd",
+      "--",
+      "--output=res://maps/isg_museum/docs/courtyard-palette-v1/revision-a2/a1-reference/",
+      "--prefix=a1-",
+      "--garden-wall"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "capture-a1.log"
+  },
+  {
+    "id": "stale_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 1,
+    "expected_exit": 1,
+    "log": "stale_check.log"
+  },
+  {
+    "id": "prepare",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "prepare.log"
+  },
+  {
+    "id": "import",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--editor",
+      "--quit"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "import.log"
+  },
+  {
+    "id": "build",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/build_courtyard_palette_preview.gd"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "build.log"
+  },
+  {
+    "id": "materials_check",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "materials_check.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "scripts.log"
+  },
+  {
+    "id": "verify",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/verify_courtyard_palette.gd"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "verify.log"
+  },
+  {
+    "id": "layout",
+    "command": [
+      "C:\\Users\\Gia Manh\\AppData\\Roaming\\uv\\python\\cpython-3.15-windows-x86_64-none\\python.exe",
+      "-B",
+      "tools/ci/check_layout.py"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "check-layout.log"
+  },
+  {
+    "id": "prepare_repeat",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "prepare_repeat.log"
+  },
+  {
+    "id": "materials_check_repeat",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "materials_check_repeat.log"
+  },
+  {
+    "id": "capture_a2",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      ".",
+      "--write-movie",
+      "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\courtyard-palette-v1\\revision-a2\\a2-preview-walk.avi",
+      "--fixed-fps",
+      "30",
+      "--script",
+      "res://maps/isg_museum/tools/capture_courtyard_palette.gd",
+      "--",
+      "--output=res://maps/isg_museum/docs/courtyard-palette-v1/revision-a2/",
+      "--prefix=a2-",
+      "--garden-wall",
+      "--review-walk"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "capture-a2.log"
+  },
+  {
+    "id": "scripts_final",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "exit_code": 0,
+    "expected_exit": 0,
+    "log": "scripts-final.log"
+  }
+]

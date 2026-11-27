@@ -1,0 +1,68 @@
+{
+	"images": [
+		{
+			"camera_path": "/root/@Camera3D@204",
+			"camera_position": "(18.0, 1.65, 22.5)",
+			"fov": 78.0,
+			"image": "before-01-courtyard.png",
+			"player_camera": false
+		},
+		{
+			"camera_path": "/root/@Camera3D@204",
+			"camera_position": "(18.0, 1.65, 20.0)",
+			"fov": 78.0,
+			"image": "before-02-fountain-trees.png",
+			"player_camera": false
+		},
+		{
+			"camera_path": "/root/@Camera3D@204",
+			"camera_position": "(23.7, 6.15, 17.2)",
+			"fov": 78.0,
+			"image": "before-03-upper-canopy.png",
+			"player_camera": false
+		},
+		{
+			"camera_path": "/root/@Camera3D@204",
+			"camera_position": "(18.0, 1.55, 10.5)",
+			"fov": 78.0,
+			"image": "before-04-hedge.png",
+			"player_camera": false
+		},
+		{
+			"camera_path": "/root/Museum/Player/Head/Camera3D",
+			"camera_position": "(14.0, 1.6, 17.4)",
+			"fov": 75.0,
+			"image": "before-05-player-standing.png",
+			"player_camera": true
+		},
+		{
+			"camera_path": "/root/Museum/Player/Head/Camera3D",
+			"camera_position": "(14.0, 0.95, 17.4)",
+			"fov": 75.0,
+			"image": "before-06-player-crouching.png",
+			"player_camera": true
+		},
+		{
+			"camera_path": "/root/@Camera3D@204",
+			"camera_position": "(18.6, 2.8, 17.2)",
+			"fov": 78.0,
+			"image": "before-07-cover-qa.png",
+			"player_camera": false
+		},
+		{
+			"camera_path": "/root/@Camera3D@204",
+			"camera_position": "(18.0, 3.8, 18.0)",
+			"fov": 78.0,
+			"image": "before-08-roof-glass-on.png",
+			"player_camera": false
+		},
+		{
+			"camera_path": "/root/@Camera3D@204",
+			"camera_position": "(18.0, 3.8, 18.0)",
+			"fov": 78.0,
+			"image": "before-09-roof-glass-off.png",
+			"player_camera": false
+		}
+	],
+	"renderer": "gl_compatibility"
+}

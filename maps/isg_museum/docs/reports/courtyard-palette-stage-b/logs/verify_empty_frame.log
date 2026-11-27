@@ -1,0 +1,53 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: T1 initially contains a canvas and persistent frame
+PASS: G6 can see the frame from the west gallery aisle
+PASS: A frame behind G6 is outside its vision cone
+PASS: A frame beyond inspection sight range is not visible
+PASS: G6 cannot inspect the upper frame from the lower floor
+PASS: World collision blocks G6's line of sight to the frame
+PASS: Removing an occluder restores actual frame line of sight
+PASS: G6 naturally reaches its scheduled intact-painting inspection
+PASS: Intact-frame inspection stays on PATROL and reports no missing art
+PASS: Pause freezes inspection timers and guard movement
+PASS: Intact inspection finishes and patrol resumes after unpausing
+PASS: Camera ray reaches T1 on its wall
+PASS: Taking T1 removes only canvas and interaction while leaving a visible empty frame
+PASS: T1 completes once and cannot be collected twice
+PASS: Taking T1 does not remotely notify G6
+PASS: Taking T1 just after inspection leaves time to withdraw before next visit
+PASS: Next patrol inspection detects the missing canvas after real visual confirmation
+PASS: Missing T1 is reported exactly once
+PASS: Frame evidence starts investigation without inventing a player sighting or CHASE
+PASS: Discovery feedback names G6 and reaches the mission HUD
+PASS: G6 displays a readable spoken line about missing T1
+PASS: G6 stops to examine missing artwork before searching the room
+PASS: Pause also freezes the missing-art examination
+PASS: Missing-art examination leads to a room search
+PASS: G6 physically searches predefined gallery locations, never the unseen player's position
+PASS: Room search ends and G6 returns to its patrol route
+PASS: G6 checks T1 again on a later patrol loop
+PASS: Already-discovered empty frame does not repeatedly alarm or restart search
+PASS: Camera ray reaches T1 on its wall
+PASS: G6 route contains a real Inspect_T1 patrol stop
+PASS: G6 reaches inspection while the empty frame is physically occluded
+PASS: Even a scheduled inspection cannot discover a missing canvas through a wall
+PASS: G6 route contains a real Inspect_T1 patrol stop
+PASS: A later unoccluded inspection can legitimately discover the same missing canvas
+PASS: Camera ray reaches T1 on its wall
+PASS: G6 route contains a real Inspect_T1 patrol stop
+PASS: Fixture reaches frame phase checking
+PASS: Actual player sight interrupts checking with CHASE
+PASS: CHASE is backed by real player line of sight, not the empty-frame event
+PASS: Frame logic does not override an active chase after checking
+PASS: Camera ray reaches T1 on its wall
+PASS: G6 route contains a real Inspect_T1 patrol stop
+PASS: Fixture reaches frame phase searching
+PASS: Actual player sight interrupts searching with CHASE
+PASS: CHASE is backed by real player line of sight, not the empty-frame event
+PASS: Frame logic does not override an active chase after searching
+PASS: Restart restores canvas and clears frame discovery/search state
+PASS: Restart also restores mission, exterior spawn and main entrance
+Museum empty-frame verification: 48 checks, 0 failures

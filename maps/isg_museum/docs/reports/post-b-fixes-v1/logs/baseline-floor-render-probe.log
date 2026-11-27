@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+POINT (8.9, 4.5, 9.137)
+Floors/UpperWestMiddle/Mesh surface 0 height 4.5 material res://maps/isg_museum/assets/materials/presets/wood_floor.tres
+Floor1Rooms/WestPartition_Lintel0/Mesh surface 0 height 4.5 material res://maps/isg_museum/assets/materials/presets/plaster_cream.tres
+POINT (9.0, 4.5, 9.137)
+Floors/UpperWestMiddle/Mesh surface 0 height 4.5 material res://maps/isg_museum/assets/materials/presets/wood_floor.tres
+Floor1Rooms/WestPartition_Lintel0/Mesh surface 0 height 4.5 material res://maps/isg_museum/assets/materials/presets/plaster_cream.tres
+GardnerPalette/Floor2 surface 0 height 4.50400018692017 material res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/corridor_border.tres
+POINT (9.1, 4.5, 9.137)
+Floors/UpperWestMiddle/Mesh surface 0 height 4.5 material res://maps/isg_museum/assets/materials/presets/wood_floor.tres
+Floor1Rooms/WestPartition_Lintel0/Mesh surface 0 height 4.5 material res://maps/isg_museum/assets/materials/presets/plaster_cream.tres
+GardnerPalette/Floor2 surface 0 height 4.50400018692017 material res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/corridor_border.tres
+POINT (9.25, 4.5, 9.137)
+Floors/UpperWestMiddle/Mesh surface 0 height 4.5 material res://maps/isg_museum/assets/materials/presets/wood_floor.tres
+GardnerPalette/Floor2 surface 1 height 4.50400018692017 material res://maps/isg_museum/assets/materials/presets/gardner_palette_v1/corridor_floor.tres

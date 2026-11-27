@@ -1,0 +1,30 @@
+[
+    {
+        "id":  "prepare",
+        "exit_code":  0
+    },
+    {
+        "id":  "import",
+        "exit_code":  0
+    },
+    {
+        "id":  "build",
+        "exit_code":  0
+    },
+    {
+        "id":  "materials_check",
+        "exit_code":  0
+    },
+    {
+        "id":  "scripts",
+        "exit_code":  0
+    },
+    {
+        "id":  "verify",
+        "exit_code":  0
+    },
+    {
+        "id":  "layout",
+        "exit_code":  0
+    }
+]

@@ -1,0 +1,391 @@
+{
+  "date": "2026-11-17T14:32:59.593591+07:00",
+  "stage": "A_preview_only",
+  "revision": "A2",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "renderer": "GL Compatibility",
+  "commands": [
+    {
+      "id": "capture_a1",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--path",
+        ".",
+        "--script",
+        "res://maps/isg_museum/tools/capture_courtyard_palette.gd",
+        "--",
+        "--output=res://maps/isg_museum/docs/courtyard-palette-v1/revision-a2/a1-reference/",
+        "--prefix=a1-",
+        "--garden-wall"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "log": "capture-a1.log"
+    },
+    {
+      "id": "stale_check",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+        "--",
+        "--check"
+      ],
+      "exit_code": 1,
+      "expected_exit": 1,
+      "log": "stale_check.log"
+    },
+    {
+      "id": "prepare",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://maps/isg_museum/tools/prepare_courtyard_palette.gd"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "log": "prepare.log"
+    },
+    {
+      "id": "import",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--editor",
+        "--quit"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "log": "import.log"
+    },
+    {
+      "id": "build",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://maps/isg_museum/tools/build_courtyard_palette_preview.gd"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "log": "build.log"
+    },
+    {
+      "id": "materials_check",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "log": "materials_check.log"
+    },
+    {
+      "id": "scripts",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://tools/ci/check_scripts.gd"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "log": "scripts.log"
+    },
+    {
+      "id": "verify",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://maps/isg_museum/tools/verify_courtyard_palette.gd"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "log": "verify.log"
+    },
+    {
+      "id": "layout",
+      "command": [
+        "C:\\Users\\Gia Manh\\AppData\\Roaming\\uv\\python\\cpython-3.15-windows-x86_64-none\\python.exe",
+        "-B",
+        "tools/ci/check_layout.py"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "log": "check-layout.log"
+    },
+    {
+      "id": "prepare_repeat",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://maps/isg_museum/tools/prepare_courtyard_palette.gd"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "log": "prepare_repeat.log"
+    },
+    {
+      "id": "materials_check_repeat",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://maps/isg_museum/tools/prepare_courtyard_palette.gd",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "log": "materials_check_repeat.log"
+    },
+    {
+      "id": "capture_a2",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--path",
+        ".",
+        "--write-movie",
+        "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\courtyard-palette-v1\\revision-a2\\a2-preview-walk.avi",
+        "--fixed-fps",
+        "30",
+        "--script",
+        "res://maps/isg_museum/tools/capture_courtyard_palette.gd",
+        "--",
+        "--output=res://maps/isg_museum/docs/courtyard-palette-v1/revision-a2/",
+        "--prefix=a2-",
+        "--garden-wall",
+        "--review-walk"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "log": "capture-a2.log"
+    },
+    {
+      "id": "scripts_final",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://tools/ci/check_scripts.gd"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "log": "scripts-final.log"
+    }
+  ],
+  "checks": 39,
+  "failures": 0,
+  "scripts": 362,
+  "layout": "CHECK LAYOUT PASSED (854 runtime references)",
+  "parameter_changes": [
+    {
+      "role": "courtyard_plaster",
+      "parameter": "tint",
+      "a1": [
+        0.59,
+        0.335,
+        0.275
+      ],
+      "a2": [
+        0.67,
+        0.43,
+        0.36
+      ]
+    },
+    {
+      "role": "corridor_floor",
+      "parameter": "tint",
+      "a1": [
+        0.43,
+        0.405,
+        0.365
+      ],
+      "a2": [
+        0.5,
+        0.46,
+        0.39
+      ]
+    },
+    {
+      "role": "corridor_floor",
+      "parameter": "contrast",
+      "a1": 1.45,
+      "a2": 1.0
+    },
+    {
+      "role": "balustrade_cap",
+      "parameter": "tint",
+      "a1": [
+        0.46,
+        0.435,
+        0.375
+      ],
+      "a2": [
+        0.52,
+        0.495,
+        0.43
+      ]
+    },
+    {
+      "role": "garden_wall_stone",
+      "parameter": "tint",
+      "a1": [
+        0.36,
+        0.335,
+        0.285
+      ],
+      "a2": [
+        0.47,
+        0.43,
+        0.36
+      ]
+    },
+    {
+      "role": "garden_wall_stone",
+      "parameter": "normal_strength",
+      "a1": 0.32,
+      "a2": 0.2
+    }
+  ],
+  "only_requested_fields_changed": true,
+  "protected_product_files": 199,
+  "protected_product_unchanged": true,
+  "a1_evidence_files": 42,
+  "a1_evidence_unchanged": true,
+  "generated_files_changed": [
+    "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/courtyard_plaster.png",
+    "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/corridor_floor.png",
+    "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/balustrade_cap.png",
+    "maps/isg_museum/assets/materials/presets/gardner_palette_v1/garden_wall_stone.tres",
+    "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/garden_wall_stone.png"
+  ],
+  "generated_files_unchanged": 15,
+  "rebuild": {
+    "files": 20,
+    "deterministic": true,
+    "check_read_only": true
+  },
+  "camera_pairs": [
+    {
+      "a1": "a1-overview",
+      "a2": "a2-overview",
+      "camera_lighting_equal": true,
+      "draw_calls_a1": 1215.0,
+      "draw_calls_a2": 1215.0,
+      "primitives_a1": 1646967.0,
+      "primitives_a2": 1646967.0
+    },
+    {
+      "a1": "a1-player-eye",
+      "a2": "a2-player-eye",
+      "camera_lighting_equal": true,
+      "draw_calls_a1": 1772.0,
+      "draw_calls_a2": 1772.0,
+      "primitives_a1": 2129786.0,
+      "primitives_a2": 2129786.0
+    },
+    {
+      "a1": "a1-wall-column-closeup",
+      "a2": "a2-wall-column-closeup",
+      "camera_lighting_equal": true,
+      "draw_calls_a1": 766.0,
+      "draw_calls_a2": 766.0,
+      "primitives_a1": 1213010.0,
+      "primitives_a2": 1213010.0
+    },
+    {
+      "a1": "a1-floor-border",
+      "a2": "a2-floor-border",
+      "camera_lighting_equal": true,
+      "draw_calls_a1": 2142.0,
+      "draw_calls_a2": 2142.0,
+      "primitives_a1": 2434153.0,
+      "primitives_a2": 2434153.0
+    },
+    {
+      "a1": "a1-upper-balustrade",
+      "a2": "a2-upper-balustrade",
+      "camera_lighting_equal": true,
+      "draw_calls_a1": 2009.0,
+      "draw_calls_a2": 2009.0,
+      "primitives_a1": 2523498.0,
+      "primitives_a2": 2523498.0
+    },
+    {
+      "a1": "a1-garden-wall-closeup",
+      "a2": "a2-garden-wall-closeup",
+      "camera_lighting_equal": true,
+      "draw_calls_a1": 2142.0,
+      "draw_calls_a2": 2142.0,
+      "primitives_a1": 2619561.0,
+      "primitives_a2": 2619569.0
+    }
+  ],
+  "movie": {
+    "frames": 494,
+    "fps": 30,
+    "duration_seconds": 16.466666666666665,
+    "source": "Godot Movie Maker MJPEG AVI, real Player input, QA anchor cuts between sections"
+  },
+  "player_walk": [
+    {
+      "reached": true,
+      "section": "corridor_to_garden"
+    },
+    {
+      "reached": true,
+      "section": "garden_path"
+    },
+    {
+      "reached": true,
+      "section": "along_column_wall"
+    },
+    {
+      "reached": true,
+      "section": "west_corridor"
+    }
+  ],
+  "navmesh_baked": false,
+  "not_run": [
+    "Phase B product pipeline and regression suites",
+    "Full integrated test runner",
+    "New uncapped frame-time benchmark"
+  ],
+  "diagnostics": [
+    "Windows root certificate store read error, also seen in A1.",
+    "Two OpenGL texture shutdown diagnostics, 349524 bytes each, also seen in A1; capture exit 0, unresolved source."
+  ],
+  "review_notes": [
+    "Cap remains relatively dark in upper corridor shadow under unchanged lighting.",
+    "Garden wall colour grain remains visible; texture contrast was intentionally unchanged."
+  ]
+}

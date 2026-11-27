@@ -1,0 +1,118 @@
+{
+	"attribution": "Low poly security guard by Jose Manuel, CC BY 4.0; Mixamo clips under Adobe Mixamo terms",
+	"binding": "A-pose landmarks; segment-distance smooth weights; baked A-to-T rest conversion; inverse global-rest skin binds",
+	"blend_seconds": 0.2,
+	"bones": 65,
+	"clips": [
+		{
+			"duration": 8.33333333333333,
+			"loop": true,
+			"name": "idle",
+			"reference_speed": 0.0,
+			"root_motion": "XZ ground trajectory removed; hips height retained; local positions rest-adjusted",
+			"sha256": "a5bb7cde7e67b889a93b2a97fe2390642c03bba4f32fcc5608026019d2850c8a",
+			"source": "clips/guard_idle.fbx",
+			"source_travel": 0.0000000347970825487209,
+			"speed_method": "stationary",
+			"take": "mixamo_com"
+		},
+		{
+			"duration": 1.03333333333333,
+			"loop": true,
+			"name": "walk",
+			"reference_speed": 1.46379947662354,
+			"root_motion": "XZ ground trajectory removed; hips height retained; local positions rest-adjusted",
+			"sha256": "5987ff80cb8770434ef6bed89940491302dfca585cc635c76039bc669254e2c6",
+			"source": "clips/guard_walk.fbx",
+			"source_travel": 1.84522438049316,
+			"speed_method": "median horizontal foot velocity during low stance, sampled on target skeleton at 120 Hz",
+			"take": "mixamo_com"
+		},
+		{
+			"duration": 0.633333333333333,
+			"loop": true,
+			"name": "run",
+			"reference_speed": 4.59834069013596,
+			"root_motion": "XZ ground trajectory removed; hips height retained; local positions rest-adjusted",
+			"sha256": "76cbbd0c605a9082e1af3fdf5b9a65afbd924c3db9cad3159cd2363b7377785f",
+			"source": "clips/guard_run.fbx",
+			"source_travel": 3.74849772453308,
+			"speed_method": "median horizontal foot velocity during low stance, sampled on target skeleton at 120 Hz",
+			"take": "mixamo_com"
+		},
+		{
+			"duration": 6.33333333333333,
+			"loop": true,
+			"name": "look_around",
+			"reference_speed": 0.0,
+			"root_motion": "XZ ground trajectory removed; hips height retained; local positions rest-adjusted",
+			"sha256": "b476e5cbe35a7168e377308bd90b752101ac39de14e0ee943b901881d818a6d7",
+			"source": "clips/guard_look_around.fbx",
+			"source_travel": 0.00000053708777159045,
+			"speed_method": "stationary",
+			"take": "mixamo_com"
+		},
+		{
+			"duration": 6.4,
+			"loop": true,
+			"name": "sitting_idle",
+			"reference_speed": 0.0,
+			"root_motion": "XZ ground trajectory removed; hips height retained; local positions rest-adjusted",
+			"sha256": "689a97a72654a1d21e78964e2177a0957d0b23dae33bede0971e1e50b6c6550e",
+			"source": "clips/guard_sitting_idle.fbx",
+			"source_travel": 0.0000000353914550998979,
+			"speed_method": "stationary",
+			"take": "mixamo_com"
+		},
+		{
+			"duration": 2.23333333333333,
+			"loop": false,
+			"name": "sit_down",
+			"reference_speed": 0.0,
+			"root_motion": "XZ ground trajectory removed; hips height retained; local positions rest-adjusted",
+			"sha256": "b523e11b1f4e3b71121e480b8c40df1e25fa6998005b8e46c60101d8cd16419a",
+			"source": "clips/guard_sit_down.fbx",
+			"source_travel": 0.485117197036743,
+			"speed_method": "stationary",
+			"take": "mixamo_com"
+		},
+		{
+			"duration": 2.26666666666667,
+			"loop": false,
+			"name": "stand_up",
+			"reference_speed": 0.0,
+			"root_motion": "XZ ground trajectory removed; hips height retained; local positions rest-adjusted",
+			"sha256": "288589415eb200bf47d6a4313b15e12698ed2d101b8e033022eb4092779e2167",
+			"source": "clips/guard_stand_up.fbx",
+			"source_travel": 0.479420930147171,
+			"speed_method": "stationary",
+			"take": "mixamo_com"
+		}
+	],
+	"engine": "4.7.2-stable (official)",
+	"front": "source +Z, VisualPivot yaw 180, actor -Z",
+	"height": 1.78,
+	"library": "res://maps/isg_museum/assets/animations/mixamo/derived/guard_animations.res",
+	"line_segments": 2,
+	"retarget": "Same hierarchy and global axes; source local rest quaternion delta applied to target local rest; translations length-adjusted",
+	"rig": "res://maps/isg_museum/assets/models/characters/low_poly_security_guard/derived/guard_rig.tscn",
+	"schema_version": 1,
+	"seat": {
+		"foot_height": 0.076,
+		"forward_offset": 0.0,
+		"hips_height": 0.49,
+		"yaw_anchor": "actor._seat_yaw"
+	},
+	"sleep": {
+		"duration": 6.4,
+		"head_nod_radians": 0.3,
+		"loop": true,
+		"source": "sitting_idle",
+		"spine_nod_radians": 0.1
+	},
+	"source": "res://maps/isg_museum/assets/models/characters/low_poly_security_guard/low_poly_security_guard.glb",
+	"source_sha256": "9ca42b4a18c8856bdac8e3bd9e658c4c4687039eea426f33175410754940c38b",
+	"tool": "prepare_guard_assets.gd",
+	"triangles": 4776,
+	"visual": "res://maps/isg_museum/scenes/npc/museum_guard_visual.tscn"
+}

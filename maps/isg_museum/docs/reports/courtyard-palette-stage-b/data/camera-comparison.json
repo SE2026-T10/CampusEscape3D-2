@@ -1,0 +1,57 @@
+[
+  {
+    "before": "before-overview",
+    "after": "after-overview",
+    "camera_lighting_equal": true
+  },
+  {
+    "before": "before-player-eye",
+    "after": "after-player-eye",
+    "camera_lighting_equal": true
+  },
+  {
+    "before": "before-wall-column-closeup",
+    "after": "after-wall-column-closeup",
+    "camera_lighting_equal": true
+  },
+  {
+    "before": "before-floor-border",
+    "after": "after-floor-border",
+    "camera_lighting_equal": true
+  },
+  {
+    "before": "before-upper-balustrade",
+    "after": "after-upper-balustrade",
+    "camera_lighting_equal": true
+  },
+  {
+    "before": "before-garden-wall-closeup",
+    "after": "after-garden-wall-closeup",
+    "camera_lighting_equal": true
+  },
+  {
+    "before": "before-lobby",
+    "after": "after-lobby",
+    "camera_lighting_equal": true
+  },
+  {
+    "before": "before-south-buffer",
+    "after": "after-south-buffer",
+    "camera_lighting_equal": true
+  },
+  {
+    "before": "before-staff",
+    "after": "after-staff",
+    "camera_lighting_equal": true
+  },
+  {
+    "before": "before-teammate",
+    "after": "after-teammate",
+    "camera_lighting_equal": true
+  },
+  {
+    "before": "before-receptionist",
+    "after": "after-receptionist",
+    "camera_lighting_equal": true
+  }
+]

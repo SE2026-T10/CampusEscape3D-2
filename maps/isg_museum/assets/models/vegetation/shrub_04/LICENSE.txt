@@ -1,0 +1,9 @@
+Shrub 04
+Authors: Rico Cilliers
+Source: https://polyhaven.com/a/shrub_04
+License: Creative Commons CC0 1.0 Universal
+https://creativecommons.org/publicdomain/zero/1.0/
+https://polyhaven.com/license
+
+Original model and its published 2K glTF dependencies downloaded without geometry edits.
+source.json records source checksums, URLs, local SHA-256 hashes and integration notes.

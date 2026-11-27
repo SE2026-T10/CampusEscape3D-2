@@ -1,0 +1,18 @@
+[
+	{
+		"reached": true,
+		"section": "corridor_to_garden"
+	},
+	{
+		"reached": true,
+		"section": "garden_path"
+	},
+	{
+		"reached": true,
+		"section": "along_column_wall"
+	},
+	{
+		"reached": true,
+		"section": "west_corridor"
+	}
+]

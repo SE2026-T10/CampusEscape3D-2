@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "kind": "historical-iteration-index",
+  "note": "Archived development iterations, not accepted benchmark results. Original logs and samples are unchanged.",
+  "report": "REPORT.md",
+  "data": "data/",
+  "logs": "logs/"
+}

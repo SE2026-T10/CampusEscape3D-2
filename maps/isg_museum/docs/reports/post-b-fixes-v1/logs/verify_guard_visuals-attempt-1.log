@@ -1,0 +1,49 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: Nine original guard actors contain skeletal visuals
+PASS: Skeleton pose instances are independent
+PASS: Guard_G1 has unit scale and no old box model
+PASS: 65 target bones: Guard_G1
+PASS: Guard_G2 has unit scale and no old box model
+PASS: 65 target bones: Guard_G2
+PASS: Guard_G3 has unit scale and no old box model
+PASS: 65 target bones: Guard_G3
+PASS: Guard_G4 has unit scale and no old box model
+PASS: 65 target bones: Guard_G4
+PASS: Guard_G5 has unit scale and no old box model
+PASS: 65 target bones: Guard_G5
+PASS: Guard_G6 has unit scale and no old box model
+PASS: 65 target bones: Guard_G6
+PASS: Guard_G7 has unit scale and no old box model
+PASS: 65 target bones: Guard_G7
+PASS: Guard_G8 has unit scale and no old box model
+PASS: 65 target bones: Guard_G8
+PASS: Guard_G9 has unit scale and no old box model
+PASS: 65 target bones: Guard_G9
+PASS: Every rendered vertex has normalized valid weights and inverse-rest Skin binds
+PASS: Vest and trousers cannot be pulled by nearby A-pose arms
+PASS: All clips resolve to target bones, no procedural object tracks
+TRIANGLES source=4776 derived=4776
+PASS: All actual imported source triangles retained; no X Bot mesh substituted
+PASS: Immutable skin mesh resource shared across actors
+PASS: Walk animation rotates actual knee bones
+PASS: Weighted mesh vertex actually deforms with skeleton
+PASS: Animating one guard leaves another pose unchanged
+PASS: No horizontal root drift: walk
+PASS: No horizontal root drift: run
+PASS: Repeated locomotion updates do not restart same clip
+PASS: Presentation never moves world actor or adds double root motion
+PASS: Stopped chase observes instead of running in place
+PASS: Actual chase movement overrides seated phase
+PASS: Pause stops skeletal playback
+PASS: Reset clears transition and reestablishes visual state
+SEAT hips=(-0.014767, 0.485005, 0.0) knee=(-0.390686, 0.445758, 0.189363) foot=(-0.376759, 0.076294, 0.227148)
+PASS: G3 hips rest at chair height and feet near floor
+PASS: Observing AI yaw does not rotate seated body away from chair
+PASS: Seated guard emits no footsteps
+PASS: Repeated sit/stand cycles never accumulate root offsets
+PASS: Moving G3 interrupts one-shot immediately without locking AI
+PASS: Editing mode removes guard actors/skins while preserving civilian NPCs
+Guard visual verification: 42 checks, 0 failures

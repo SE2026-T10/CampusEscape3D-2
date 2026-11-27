@@ -1,0 +1,361 @@
+{
+  "date": "2026-11-17T20:53:57.630210+07:00",
+  "status": "complete",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "branch": "hgmanh-work",
+  "original_files": 1268,
+  "moved_files": 1266,
+  "bytes_before": 1115195725,
+  "original_text_files_changed": 34,
+  "immutable_media": 501,
+  "immutable_raw_data_nav": 667,
+  "protected_runtime_shared_files": 886,
+  "migration_errors": 0,
+  "second_plan_moves": 0,
+  "markdown_files_checked": 56,
+  "broken_markdown_links": 0,
+  "snapshot_resources_loaded": 41,
+  "reproduction_gd_scripts_compiled": 3,
+  "reproduction_entrypoint_checks": [
+    {
+      "path": "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\environment-art-v1_1\\reproduce\\summarize_evidence.py",
+      "command": [
+        "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+        "-B",
+        "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\environment-art-v1_1\\reproduce\\summarize_evidence.py",
+        "--check-paths"
+      ],
+      "cwd": "D:\\IT\\SE_GAME_3D\\.local\\docs-reproduce-foreign-cwd",
+      "exit_code": 0,
+      "stdout": "{\"repository\": \"D:\\\\IT\\\\SE_GAME_3D\", \"report\": \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\", \"logs\": \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\\\\logs\", \"data\": \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\\\\data\"}\n",
+      "stderr": ""
+    },
+    {
+      "path": "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\visual-feedback-2026-11-15\\reproduce\\summarize.py",
+      "command": [
+        "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+        "-B",
+        "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\visual-feedback-2026-11-15\\reproduce\\summarize.py",
+        "--check-paths"
+      ],
+      "cwd": "D:\\IT\\SE_GAME_3D\\.local\\docs-reproduce-foreign-cwd",
+      "exit_code": 0,
+      "stdout": "{\"repository\": \"D:\\\\IT\\\\SE_GAME_3D\", \"report\": \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\visual-feedback-2026-11-15\", \"logs\": \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\visual-feedback-2026-11-15\\\\logs\", \"data\": \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\visual-feedback-2026-11-15\\\\data\"}\n",
+      "stderr": ""
+    },
+    {
+      "path": "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\environment-art-v1_1\\reproduce\\run-validation.ps1",
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\environment-art-v1_1\\reproduce\\run-validation.ps1",
+        "-CheckPaths"
+      ],
+      "cwd": "D:\\IT\\SE_GAME_3D\\.local\\docs-reproduce-foreign-cwd",
+      "exit_code": 0,
+      "stdout": "{\n    \"repository\":  \"D:\\\\IT\\\\SE_GAME_3D\",\n    \"report\":  \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\",\n    \"logs\":  \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\\\\logs\",\n    \"data\":  \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\\\\data\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "path": "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\environment-art-v1_1\\reproduce\\run-benchmark.ps1",
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\docs\\reports\\environment-art-v1_1\\reproduce\\run-benchmark.ps1",
+        "-CheckPaths"
+      ],
+      "cwd": "D:\\IT\\SE_GAME_3D\\.local\\docs-reproduce-foreign-cwd",
+      "exit_code": 0,
+      "stdout": "{\n    \"repository\":  \"D:\\\\IT\\\\SE_GAME_3D\",\n    \"report\":  \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\",\n    \"logs\":  \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\\\\logs\",\n    \"data\":  \"D:\\\\IT\\\\SE_GAME_3D\\\\maps\\\\isg_museum\\\\docs\\\\reports\\\\environment-art-v1_1\\\\data\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "latest_commands": [
+    {
+      "id": "import",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--editor",
+        "--quit"
+      ],
+      "date": "2026-11-17T20:34:46.286949+07:00",
+      "seconds": 11.78186821937561,
+      "exit_code": 0,
+      "log": "logs/import.log"
+    },
+    {
+      "id": "scripts",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://tools/ci/check_scripts.gd"
+      ],
+      "date": "2026-11-17T20:49:38.700991+07:00",
+      "seconds": 5.807385206222534,
+      "exit_code": 0,
+      "log": "logs/scripts-attempt-4.log"
+    },
+    {
+      "id": "layout",
+      "command": [
+        "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+        "-B",
+        "tools/ci/check_layout.py"
+      ],
+      "date": "2026-11-17T20:49:39.249610+07:00",
+      "seconds": 0.5468745231628418,
+      "exit_code": 0,
+      "log": "logs/layout-attempt-1.log"
+    },
+    {
+      "id": "verify_docs_migration",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_docs_migration.gd"
+      ],
+      "date": "2026-11-17T20:35:10.770344+07:00",
+      "seconds": 17.75449252128601,
+      "exit_code": 0,
+      "log": "logs/verify_docs_migration-attempt-1.log"
+    },
+    {
+      "id": "verify_environment_art",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_environment_art.gd"
+      ],
+      "date": "2026-11-17T20:35:34.549071+07:00",
+      "seconds": 23.776628494262695,
+      "exit_code": 0,
+      "log": "logs/verify_environment_art.log"
+    },
+    {
+      "id": "post_verbose_after_final",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--verbose",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+      ],
+      "date": "2026-11-17T20:35:49.898857+07:00",
+      "seconds": 15.347236156463623,
+      "exit_code": 0,
+      "log": "logs/post_verbose_after_final.log"
+    },
+    {
+      "id": "audit_post_b_teardown",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/audit_post_b_teardown.gd"
+      ],
+      "date": "2026-11-17T20:36:04.785102+07:00",
+      "seconds": 14.879363298416138,
+      "exit_code": 0,
+      "log": "logs/audit_post_b_teardown-attempt-2.log"
+    },
+    {
+      "id": "verify_courtyard_palette",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://maps/isg_museum/tools/verify_courtyard_palette.gd"
+      ],
+      "date": "2026-11-17T20:36:16.895764+07:00",
+      "seconds": 12.102906465530396,
+      "exit_code": 0,
+      "log": "logs/verify_courtyard_palette.log"
+    },
+    {
+      "id": "smoke_main",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--quit-after",
+        "120",
+        "res://maps/isg_museum/scenes/museum.tscn"
+      ],
+      "date": "2026-11-17T20:36:21.699914+07:00",
+      "seconds": 4.787620306015015,
+      "exit_code": 0,
+      "log": "logs/smoke_main.log"
+    },
+    {
+      "id": "smoke_editing",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--quit-after",
+        "120",
+        "res://maps/isg_museum/scenes/museum_editing.tscn"
+      ],
+      "date": "2026-11-17T20:36:26.304760+07:00",
+      "seconds": 4.602929353713989,
+      "exit_code": 0,
+      "log": "logs/smoke_editing.log"
+    },
+    {
+      "id": "runner",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "res://tests/test_scene.tscn"
+      ],
+      "date": "2026-11-17T20:39:28.468482+07:00",
+      "seconds": 182.16188216209412,
+      "exit_code": 0,
+      "log": "logs/runner.log"
+    }
+  ],
+  "migration_commands": [
+    {
+      "command": [
+        "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+        "-B",
+        "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\tools\\organize_docs.py",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "logs/migration-verify.log",
+      "date": "2026-11-17T20:47:00.277111+07:00"
+    },
+    {
+      "command": [
+        "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+        "-B",
+        "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\tools\\organize_docs.py",
+        "--plan"
+      ],
+      "exit_code": 0,
+      "log": "logs/migration-plan.log",
+      "date": "2026-11-17T20:47:04.047792+07:00"
+    },
+    {
+      "command": [
+        "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+        "-B",
+        "D:\\IT\\SE_GAME_3D\\maps\\isg_museum\\tools\\organize_docs.py",
+        "--apply"
+      ],
+      "exit_code": 0,
+      "log": "logs/migration-apply.log",
+      "date": "2026-11-17T20:47:08.680645+07:00"
+    }
+  ],
+  "capture": {
+    "command": [
+      ".local/godot/Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/capture_post_b_fixes.gd",
+      "--",
+      "--prefix=smoke-",
+      "--output=res://maps/isg_museum/docs/reports/docs-cleanup-v1/revisions/capture-smoke"
+    ],
+    "exit_code": 0,
+    "seconds": 32.18351650238037
+  },
+  "teardown": {
+    "reproduced": true,
+    "before_log": "logs/post_verbose_repeat.log",
+    "before_objects": {
+      "AudioStreamWAV": 3,
+      "AudioStreamPlaybackWAV": 5
+    },
+    "before_resources": [
+      "res://shared/assets/audio/guard_keys.wav",
+      "res://shared/assets/audio/guard_radio.wav",
+      "res://shared/assets/audio/guard_step_4.wav"
+    ],
+    "cause": "Test exits while audio mixer still holds active/queued playback references after fixture disposal; weak-reference audit shows nodes/AI objects already freed.",
+    "fix": "Map-local fixture stops audio players, clears streams, frees nodes and observes two mixer ticks with 250 ms wall-clock bound.",
+    "after_logs": [
+      "logs/post_verbose_after.log",
+      "logs/post_verbose_after_repeat.log",
+      "logs/post_verbose_after_final.log",
+      "logs/audit_post_b_teardown-attempt-2.log"
+    ],
+    "remaining_objectdb_or_resource_warnings": false,
+    "audit": {
+      "alive_after_120_physics_frames": [],
+      "alive_immediately_after_fixture": 0,
+      "audio_teardown": [
+        {
+          "audio_players_stopped": 7,
+          "elapsed_wall_ms": 171,
+          "mixes_observed": 2
+        },
+        {
+          "audio_players_stopped": 25,
+          "elapsed_wall_ms": 131,
+          "mixes_observed": 2
+        }
+      ],
+      "observed": {
+        "machine": 9,
+        "node": 7199,
+        "state": 27
+      },
+      "suite_failures": []
+    },
+    "shared_runtime_changed": false
+  },
+  "commit_or_push": false,
+  "limitations": [
+    "Historical raw JSON/logs/argv/hash manifests intentionally retain old paths; use path-migration.json.",
+    "Archived baseline resources were loaded/instantiated offline; full historical benchmarks and videos were not rerun.",
+    "Windows certificate-store diagnostic remains; no ObjectDB/resource leak warning in the post-fix Post-B verification logs."
+  ]
+}

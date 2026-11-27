@@ -1,0 +1,98 @@
+{
+	"config": "res://maps/isg_museum/resources/environment_art_layout.json",
+	"leaf_cluster_grid": [
+		4.0,
+		3.0,
+		4.0
+	],
+	"levels": [
+		{
+			"actual_triangles": 57149,
+			"begin": 0.0,
+			"end": 18.0,
+			"id": "near",
+			"parts": {
+				"tree_small_02_branches": {
+					"clusters": 1,
+					"mean_occupancy_retained": 1.0,
+					"triangles": 5589
+				},
+				"tree_small_02_leaves": {
+					"clusters": 39,
+					"mean_occupancy_retained": 0.132004848183991,
+					"triangles": 48025
+				},
+				"tree_small_02_trunk": {
+					"clusters": 1,
+					"mean_occupancy_retained": 1.0,
+					"triangles": 3535
+				}
+			},
+			"requested_budget": 48000
+		},
+		{
+			"actual_triangles": 42293,
+			"begin": 18.0,
+			"end": 26.0,
+			"id": "mid",
+			"parts": {
+				"tree_small_02_branches": {
+					"clusters": 1,
+					"mean_occupancy_retained": 0.955223880597015,
+					"triangles": 2077
+				},
+				"tree_small_02_leaves": {
+					"clusters": 39,
+					"mean_occupancy_retained": 0.0545239837726322,
+					"triangles": 39333
+				},
+				"tree_small_02_trunk": {
+					"clusters": 1,
+					"mean_occupancy_retained": 0.947368421052632,
+					"triangles": 883
+				}
+			},
+			"requested_budget": 12000.0
+		},
+		{
+			"actual_triangles": 40062,
+			"begin": 26.0,
+			"end": 0.0,
+			"id": "far",
+			"parts": {
+				"tree_small_02_branches": {
+					"clusters": 1,
+					"mean_occupancy_retained": 0.82089552238806,
+					"triangles": 848
+				},
+				"tree_small_02_leaves": {
+					"clusters": 39,
+					"mean_occupancy_retained": 0.045722058747303,
+					"triangles": 38979
+				},
+				"tree_small_02_trunk": {
+					"clusters": 1,
+					"mean_occupancy_retained": 0.552631578947368,
+					"triangles": 235
+				}
+			},
+			"requested_budget": 3200.0
+		}
+	],
+	"method": "ImporterMesh per spatial leaf cluster; budget distance plus voxel canopy occupancy; no random face deletion",
+	"normalization": "shared source bounds; uniform height/canopy constrained scale; base-center anchor",
+	"reference_bounds": {
+		"position": [
+			-1.30899345874786,
+			-0.0241038464009762,
+			-1.38262677192688
+		],
+		"size": [
+			2.91669988632202,
+			4.55674076080322,
+			4.29247713088989
+		]
+	},
+	"source": "res://maps/isg_museum/assets/models/vegetation/tree_small_02/source.json",
+	"source_triangles": 2062487
+}

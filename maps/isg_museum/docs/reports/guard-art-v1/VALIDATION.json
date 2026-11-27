@@ -1,0 +1,280 @@
+{
+  "date": "2026-11-16T16:19:33.438858+07:00",
+  "engine": "Godot 4.7.2 stable",
+  "renderer": "GL Compatibility",
+  "baseline_commit": "640d538d24b6c13a4f3bc3fe0b7134d2379ea4b2",
+  "baseline_staff": {
+    "checks": 55,
+    "failures": 0,
+    "log": "baseline-staff.log"
+  },
+  "preflight": {
+    "scripts_exit": 0,
+    "assets_exit": 0,
+    "import_exit": 0,
+    "layout_exit": 0
+  },
+  "scripts": 349,
+  "layout": "CHECK LAYOUT PASSED (803 runtime references)",
+  "asset_check": {
+    "exit_code": 0,
+    "unchanged": true
+  },
+  "suites": [
+    {
+      "date": "2026-11-16T16:02:20.2685575+07:00",
+      "id": "guard_visuals",
+      "exit_code": 0,
+      "log": "accepted-guard_visuals.log",
+      "checks": 42,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_guard_visuals.gd"
+    },
+    {
+      "date": "2026-11-16T16:04:50.2078815+07:00",
+      "id": "staff_room",
+      "exit_code": 0,
+      "log": "accepted-staff_room.log",
+      "checks": 55,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_staff_room.gd"
+    },
+    {
+      "date": "2026-11-16T16:05:03.3888800+07:00",
+      "id": "room_feedback",
+      "exit_code": 0,
+      "log": "accepted-room_feedback.log",
+      "checks": 30,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_room_feedback.gd"
+    },
+    {
+      "date": "2026-11-16T16:06:06.7204803+07:00",
+      "id": "empty_frame",
+      "exit_code": 0,
+      "log": "accepted-empty_frame.log",
+      "checks": 48,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_empty_frame.gd"
+    },
+    {
+      "date": "2026-11-16T16:06:40.0859541+07:00",
+      "id": "blockout",
+      "exit_code": 0,
+      "log": "accepted-blockout.log",
+      "checks": 114,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_blockout.gd"
+    },
+    {
+      "date": "2026-11-16T16:07:10.7709508+07:00",
+      "id": "editing_mode",
+      "exit_code": 0,
+      "log": "accepted-editing_mode.log",
+      "checks": 75,
+      "failures": 0,
+      "command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_editing_mode.gd"
+    }
+  ],
+  "checks": 364,
+  "failures": 0,
+  "integrated": {
+    "exit_code": 0,
+    "date": "2026-11-16T16:10:53.4467026+07:00"
+  },
+  "integrated_log": "integrated-accepted.log",
+  "source_glb_unchanged": true,
+  "source_hash": "9ca42b4a18c8856bdac8e3bd9e658c4c4687039eea426f33175410754940c38b",
+  "artifacts": [
+    {
+      "file": "maps/isg_museum/assets/models/characters/low_poly_security_guard/derived/guard_rig.tscn",
+      "sha256": "36b3cfd8ff46c17fe12e1543d9a6b6b8214ef670f0a26bde8a3a646198c661d6"
+    },
+    {
+      "file": "maps/isg_museum/assets/animations/mixamo/derived/guard_animations.res",
+      "sha256": "3e2fff40ee690319c05e1cba918917e927f0c2e0cbbb5375068c14759da6a29b"
+    },
+    {
+      "file": "maps/isg_museum/scenes/npc/museum_guard_visual.tscn",
+      "sha256": "cb1cb71268dbd1bbd826d616e35088cddeb8e715d419afe0c63532323568438e"
+    },
+    {
+      "file": "maps/isg_museum/scenes/npc/museum_guard.tscn",
+      "sha256": "7c9bd20038a523a7ba1e7978f2aee4f7aa5ca368ed6dad371a7660311cc4a53e"
+    },
+    {
+      "file": "maps/isg_museum/resources/guard_animation_manifest.json",
+      "sha256": "f175ffa4b05ff5cf42dd3b5ab4c536a671e19bb32e1644d8409391a439e335c9"
+    }
+  ],
+  "navigation": {
+    "rebaked": false,
+    "unchanged_from_HEAD": true,
+    "sha256": "9efa7029d1a69b43e70323af30d9119ffb2bd2b3cdbcaaaa8280bacea4cd3bfb"
+  },
+  "captures": {
+    "movie": {
+      "exit_code": 0
+    },
+    "routes": {
+      "exit_code": 0
+    },
+    "tour": {
+      "exit_code": 0
+    },
+    "runtime_guard_count": 9,
+    "files": [
+      "guard-final.avi",
+      "routes-accepted.avi",
+      "nine-guards.avi"
+    ],
+    "phases": [
+      {
+        "animation": "sleep",
+        "phase": "sleeping",
+        "position": "(34.1, 0.1, 12.0)"
+      },
+      {
+        "animation": "sleep",
+        "phase": "observing",
+        "position": "(34.1, 0.000128, 12.0)"
+      },
+      {
+        "animation": "sitting_idle",
+        "phase": "searching",
+        "position": "(34.09569, 0.000128, 11.95688)"
+      },
+      {
+        "animation": "look_around",
+        "phase": "chasing",
+        "position": "(33.72056, 0.000844, 10.63805)"
+      },
+      {
+        "animation": "look_around",
+        "phase": "searching",
+        "position": "(33.70631, 0.000936, 10.27121)"
+      },
+      {
+        "animation": "look_around",
+        "phase": "returning",
+        "position": "(33.80294, 0.000936, 11.49905)"
+      },
+      {
+        "animation": "walk",
+        "phase": "settling",
+        "position": "(34.1, 0.0, 12.0)"
+      },
+      {
+        "animation": "sitting_idle",
+        "phase": "sleeping",
+        "position": "(34.1, 0.0, 12.0)"
+      }
+    ],
+    "route_results": [
+      {
+        "position": "(7.46338, 0.000205, 28.21117)",
+        "stair": "A",
+        "up_and_down": true
+      },
+      {
+        "position": "(28.54467, 0.000521, 4.209619)",
+        "stair": "B",
+        "up_and_down": true
+      },
+      {
+        "g6_reported": true,
+        "g6_sees_frame": true,
+        "missing": true
+      }
+    ],
+    "video_frames": {
+      "guard-final.avi": 1161,
+      "routes-accepted.avi": 938,
+      "nine-guards.avi": 406
+    }
+  },
+  "benchmark": {
+    "conditions": "static courtyard camera, 9 AI active, player stationary outside",
+    "cpu": "Intel(R) Core(TM) 5 210H",
+    "draw_calls_p50": 1159.0,
+    "duration_seconds": 30,
+    "frame_cap": 0,
+    "frames": 3073,
+    "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "gpu_timing": "not available; process intervals are not GPU times",
+    "guards": [
+      {
+        "animation": "walk",
+        "name": "Guard_G1",
+        "physics_active": true
+      },
+      {
+        "animation": "walk",
+        "name": "Guard_G2",
+        "physics_active": true
+      },
+      {
+        "animation": "sleep",
+        "name": "Guard_G3",
+        "physics_active": true
+      },
+      {
+        "animation": "walk",
+        "name": "Guard_G4",
+        "physics_active": true
+      },
+      {
+        "animation": "walk",
+        "name": "Guard_G5",
+        "physics_active": true
+      },
+      {
+        "animation": "walk",
+        "name": "Guard_G6",
+        "physics_active": true
+      },
+      {
+        "animation": "walk",
+        "name": "Guard_G7",
+        "physics_active": true
+      },
+      {
+        "animation": "walk",
+        "name": "Guard_G8",
+        "physics_active": true
+      },
+      {
+        "animation": "walk",
+        "name": "Guard_G9",
+        "physics_active": true
+      }
+    ],
+    "primitives_p50": 1830188.0,
+    "process_frame_interval_ms": {
+      "p50": 9.724,
+      "p95": 13.414,
+      "p99": 16.888
+    },
+    "render_memory_mib_p50": 457.110203742981,
+    "renderer": "GL Compatibility",
+    "viewport": [
+      1280,
+      720
+    ],
+    "vsync": false
+  },
+  "benchmark_exit": 0,
+  "limitations": [
+    "Geometric skin weights, no cinematic finger performance.",
+    "AnimationPlayer owns blending; AnimationTree supplied as inactive authoring graph.",
+    "No pre/post matched performance comparison or worst-case nine visible guards; no export/CI Linux."
+  ],
+  "diagnostics": [
+    "Windows certificate store message already present in baseline.",
+    "Prototype inference/JSON flush/primitive/garment and route camera issues fixed; accepted logs are final evidence."
+  ],
+  "additional_checks": {
+    "environment_art_check_exit": 0,
+    "log": "check-environment-art.log"
+  }
+}

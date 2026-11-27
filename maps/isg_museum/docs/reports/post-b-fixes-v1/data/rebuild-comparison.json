@@ -1,0 +1,60 @@
+{
+  "first_matches_full_rebuild": true,
+  "rebuild_matches_repeat": true,
+  "scenes": {
+    "entrance_door": {
+      "meshes": 30,
+      "nodes": 57,
+      "shapes": 2,
+      "signature": "af815922056e25e7438676f3dc40a99fcb740114b20895c8ea0cf4d7973a4fac"
+    },
+    "exhibits_expansion": {
+      "meshes": 105,
+      "nodes": 159,
+      "shapes": 8,
+      "signature": "8e904dbb6bf4b13ccda604d277dcb8398b790752eed3b3075d05492b9a464d32"
+    },
+    "museum": {
+      "meshes": 1309,
+      "nodes": 3479,
+      "shapes": 541,
+      "signature": "8b41af50be7967fe9733ab6a9c9ab8e9bbc6c7fe397015a86ddaaad00f81335c"
+    },
+    "museum_door": {
+      "meshes": 30,
+      "nodes": 57,
+      "shapes": 2,
+      "signature": "d3f59324fc87458a5544a0e350f6c4573011c5a7e700c7014c62d71fcd81be15"
+    },
+    "museum_geometry": {
+      "meshes": 872,
+      "nodes": 2502,
+      "shapes": 492,
+      "signature": "41a81e0fbf8b7ca30387cfcd47c2f20f094f17943936e689b1cb71bbb3d6f6f3"
+    },
+    "painting_demo": {
+      "meshes": 3,
+      "nodes": 8,
+      "shapes": 1,
+      "signature": "9465ec106c3f4bc826ba8f8343be3c368cf1061a408642953875a557a488622f"
+    },
+    "painting_t1": {
+      "meshes": 9,
+      "nodes": 16,
+      "shapes": 1,
+      "signature": "5fe672de936e68902abb79c5d1a477cf3cb1ead4477212bad2e16bbce3aca6a7"
+    },
+    "painting_t2": {
+      "meshes": 8,
+      "nodes": 14,
+      "shapes": 1,
+      "signature": "46d0300adb86d6465a06d50b2f99931eea3888d808ad8e179794cfd09d24f9c4"
+    },
+    "service_expansion": {
+      "meshes": 33,
+      "nodes": 78,
+      "shapes": 10,
+      "signature": "84bce9a37368117781c65d447eb69892649a9b1e03cf19bde952625636f2e82a"
+    }
+  }
+}

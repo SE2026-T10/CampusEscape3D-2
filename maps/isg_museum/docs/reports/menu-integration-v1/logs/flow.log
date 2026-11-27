@@ -1,0 +1,189 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  [ok] 1. The game opens at the main menu.
+  [ok] 2. Menu (visit 1): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 3. Cycle 1: Library Tutorial selected from the menu: loads library_graybox.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 4. Cycle 1: Library Tutorial starts with a clean mission.
+  [ok] 5. Cycle 1: Library Tutorial — progress made before restarting.
+  [ok] 6. Cycle 1: Library Tutorial — Esc pauses.
+  [ok] 7. Cycle 1: Library Tutorial — Resume restores play and the captured cursor.
+  [ok] 8. Cycle 1: Library Tutorial — pause again before Restart.
+  [ok] 9. Cycle 1: Library Tutorial restarted (Pause → Restart level): loads library_graybox.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 10. Cycle 1: Library Tutorial restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 11. Cycle 1: Library Tutorial → Main menu: back at the menu, the level freed.
+  [ok] 12. Menu (visit 2): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 13. Cycle 1: Expanded Library selected from the menu: loads expanded_library.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 14. Cycle 1: Expanded Library starts with a clean mission.
+  [ok] 15. Cycle 1: Expanded Library — progress made before restarting.
+  [ok] 16. Cycle 1: Expanded Library — Esc pauses.
+  [ok] 17. Cycle 1: Expanded Library — Resume restores play and the captured cursor.
+  [ok] 18. Cycle 1: Expanded Library — pause again before Restart.
+  [ok] 19. Cycle 1: Expanded Library restarted (Pause → Restart level): loads expanded_library.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 20. Cycle 1: Expanded Library restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 21. Cycle 1: Expanded Library → Main menu: back at the menu, the level freed.
+  [ok] 22. Menu (visit 3): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 23. Cycle 1: K17 — 120 giây cuối selected from the menu: loads intelligence_k17.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 24. Cycle 1: K17 — 120 giây cuối starts with a clean mission.
+  [ok] 25. Cycle 1: K17 — 120 giây cuối — progress made before restarting.
+  [ok] 26. Cycle 1: K17 — 120 giây cuối — Esc pauses.
+  [ok] 27. Cycle 1: K17 — 120 giây cuối — Resume restores play and the captured cursor.
+  [ok] 28. Cycle 1: K17 — 120 giây cuối — pause again before Restart.
+  [ok] 29. Cycle 1: K17 — 120 giây cuối restarted (Pause → Restart level): loads intelligence_k17.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 30. Cycle 1: K17 — 120 giây cuối restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 31. Cycle 1: K17 — 120 giây cuối → Main menu: back at the menu, the level freed.
+  [ok] 32. Menu (visit 4): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 33. Cycle 1: ISG Museum — Phi vụ bảo tàng selected from the menu: loads museum.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 34. Cycle 1: ISG Museum — Phi vụ bảo tàng starts with a clean mission.
+  [ok] 35. Cycle 1: ISG Museum — Phi vụ bảo tàng — progress made before restarting.
+  [ok] 36. Cycle 1: ISG Museum — Phi vụ bảo tàng — Esc pauses.
+  [ok] 37. Cycle 1: ISG Museum — Phi vụ bảo tàng — Resume restores play and the captured cursor.
+  [ok] 38. Cycle 1: ISG Museum — Phi vụ bảo tàng — pause again before Restart.
+  [ok] 39. Cycle 1: ISG Museum — Phi vụ bảo tàng restarted (Pause → Restart level): loads museum.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 40. Cycle 1: ISG Museum — Phi vụ bảo tàng restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 41. Cycle 1: ISG Museum — Phi vụ bảo tàng → Main menu: back at the menu, the level freed.
+  [ok] 42. Menu (visit 5): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 43. Cycle 1: K17 — Test map không lính gác selected from the menu: loads intelligence_k17_test.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 44. Cycle 1: K17 — Test map không lính gác starts with a clean mission.
+  [ok] 45. Cycle 1: K17 — Test map không lính gác — progress made before restarting.
+  [ok] 46. Cycle 1: K17 — Test map không lính gác — Esc pauses.
+  [ok] 47. Cycle 1: K17 — Test map không lính gác — Resume restores play and the captured cursor.
+  [ok] 48. Cycle 1: K17 — Test map không lính gác — pause again before Restart.
+  [ok] 49. Cycle 1: K17 — Test map không lính gác restarted (Pause → Restart level): loads intelligence_k17_test.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 50. Cycle 1: K17 — Test map không lính gác restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 51. Cycle 1: K17 — Test map không lính gác → Main menu: back at the menu, the level freed.
+  [ok] 52. Menu (visit 6): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 53. Cycle 1: ISG Museum — Chỉnh map không bảo vệ selected from the menu: loads museum_editing.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 54. Cycle 1: ISG Museum — Chỉnh map không bảo vệ starts with a clean mission.
+  [ok] 55. Cycle 1: ISG Museum — Chỉnh map không bảo vệ — progress made before restarting.
+  [ok] 56. Cycle 1: ISG Museum — Chỉnh map không bảo vệ — Esc pauses.
+  [ok] 57. Cycle 1: ISG Museum — Chỉnh map không bảo vệ — Resume restores play and the captured cursor.
+  [ok] 58. Cycle 1: ISG Museum — Chỉnh map không bảo vệ — pause again before Restart.
+  [ok] 59. Cycle 1: ISG Museum — Chỉnh map không bảo vệ restarted (Pause → Restart level): loads museum_editing.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 60. Cycle 1: ISG Museum — Chỉnh map không bảo vệ restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 61. Cycle 1: ISG Museum — Chỉnh map không bảo vệ → Main menu: back at the menu, the level freed.
+  [ok] 62. Menu (visit 7): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 63. Cycle 2: Library Tutorial selected from the menu: loads library_graybox.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 64. Cycle 2: Library Tutorial starts with a clean mission.
+  [ok] 65. Cycle 2: Library Tutorial — progress made before restarting.
+  [ok] 66. Cycle 2: Library Tutorial — Esc pauses.
+  [ok] 67. Cycle 2: Library Tutorial — Resume restores play and the captured cursor.
+  [ok] 68. Cycle 2: Library Tutorial — pause again before Restart.
+  [ok] 69. Cycle 2: Library Tutorial restarted (Pause → Restart level): loads library_graybox.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 70. Cycle 2: Library Tutorial restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 71. Cycle 2: Library Tutorial → Main menu: back at the menu, the level freed.
+  [ok] 72. Menu (visit 8): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 73. Cycle 2: Expanded Library selected from the menu: loads expanded_library.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 74. Cycle 2: Expanded Library starts with a clean mission.
+  [ok] 75. Cycle 2: Expanded Library — progress made before restarting.
+  [ok] 76. Cycle 2: Expanded Library — Esc pauses.
+  [ok] 77. Cycle 2: Expanded Library — Resume restores play and the captured cursor.
+  [ok] 78. Cycle 2: Expanded Library — pause again before Restart.
+  [ok] 79. Cycle 2: Expanded Library restarted (Pause → Restart level): loads expanded_library.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 80. Cycle 2: Expanded Library restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 81. Cycle 2: Expanded Library → Main menu: back at the menu, the level freed.
+  [ok] 82. Menu (visit 9): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 83. Cycle 2: K17 — 120 giây cuối selected from the menu: loads intelligence_k17.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 84. Cycle 2: K17 — 120 giây cuối starts with a clean mission.
+  [ok] 85. Cycle 2: K17 — 120 giây cuối — progress made before restarting.
+  [ok] 86. Cycle 2: K17 — 120 giây cuối — Esc pauses.
+  [ok] 87. Cycle 2: K17 — 120 giây cuối — Resume restores play and the captured cursor.
+  [ok] 88. Cycle 2: K17 — 120 giây cuối — pause again before Restart.
+  [ok] 89. Cycle 2: K17 — 120 giây cuối restarted (Pause → Restart level): loads intelligence_k17.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 90. Cycle 2: K17 — 120 giây cuối restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 91. Cycle 2: K17 — 120 giây cuối → Main menu: back at the menu, the level freed.
+  [ok] 92. Menu (visit 10): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 93. Cycle 2: ISG Museum — Phi vụ bảo tàng selected from the menu: loads museum.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 94. Cycle 2: ISG Museum — Phi vụ bảo tàng starts with a clean mission.
+  [ok] 95. Cycle 2: ISG Museum — Phi vụ bảo tàng — progress made before restarting.
+  [ok] 96. Cycle 2: ISG Museum — Phi vụ bảo tàng — Esc pauses.
+  [ok] 97. Cycle 2: ISG Museum — Phi vụ bảo tàng — Resume restores play and the captured cursor.
+  [ok] 98. Cycle 2: ISG Museum — Phi vụ bảo tàng — pause again before Restart.
+  [ok] 99. Cycle 2: ISG Museum — Phi vụ bảo tàng restarted (Pause → Restart level): loads museum.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 100. Cycle 2: ISG Museum — Phi vụ bảo tàng restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 101. Cycle 2: ISG Museum — Phi vụ bảo tàng → Main menu: back at the menu, the level freed.
+  [ok] 102. Menu (visit 11): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 103. Cycle 2: K17 — Test map không lính gác selected from the menu: loads intelligence_k17_test.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 104. Cycle 2: K17 — Test map không lính gác starts with a clean mission.
+  [ok] 105. Cycle 2: K17 — Test map không lính gác — progress made before restarting.
+  [ok] 106. Cycle 2: K17 — Test map không lính gác — Esc pauses.
+  [ok] 107. Cycle 2: K17 — Test map không lính gác — Resume restores play and the captured cursor.
+  [ok] 108. Cycle 2: K17 — Test map không lính gác — pause again before Restart.
+  [ok] 109. Cycle 2: K17 — Test map không lính gác restarted (Pause → Restart level): loads intelligence_k17_test.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 110. Cycle 2: K17 — Test map không lính gác restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 111. Cycle 2: K17 — Test map không lính gác → Main menu: back at the menu, the level freed.
+  [ok] 112. Menu (visit 12): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 113. Cycle 2: ISG Museum — Chỉnh map không bảo vệ selected from the menu: loads museum_editing.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 114. Cycle 2: ISG Museum — Chỉnh map không bảo vệ starts with a clean mission.
+  [ok] 115. Cycle 2: ISG Museum — Chỉnh map không bảo vệ — progress made before restarting.
+  [ok] 116. Cycle 2: ISG Museum — Chỉnh map không bảo vệ — Esc pauses.
+  [ok] 117. Cycle 2: ISG Museum — Chỉnh map không bảo vệ — Resume restores play and the captured cursor.
+  [ok] 118. Cycle 2: ISG Museum — Chỉnh map không bảo vệ — pause again before Restart.
+  [ok] 119. Cycle 2: ISG Museum — Chỉnh map không bảo vệ restarted (Pause → Restart level): loads museum_editing.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 120. Cycle 2: ISG Museum — Chỉnh map không bảo vệ restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 121. Cycle 2: ISG Museum — Chỉnh map không bảo vệ → Main menu: back at the menu, the level freed.
+  [ok] 122. Menu (visit 13): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 123. Cycle 3: Library Tutorial selected from the menu: loads library_graybox.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 124. Cycle 3: Library Tutorial starts with a clean mission.
+  [ok] 125. Cycle 3: Library Tutorial — progress made before restarting.
+  [ok] 126. Cycle 3: Library Tutorial — Esc pauses.
+  [ok] 127. Cycle 3: Library Tutorial — Resume restores play and the captured cursor.
+  [ok] 128. Cycle 3: Library Tutorial — pause again before Restart.
+  [ok] 129. Cycle 3: Library Tutorial restarted (Pause → Restart level): loads library_graybox.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 130. Cycle 3: Library Tutorial restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 131. Cycle 3: Library Tutorial → Main menu: back at the menu, the level freed.
+  [ok] 132. Menu (visit 14): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 133. Cycle 3: Expanded Library selected from the menu: loads expanded_library.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 134. Cycle 3: Expanded Library starts with a clean mission.
+  [ok] 135. Cycle 3: Expanded Library — progress made before restarting.
+  [ok] 136. Cycle 3: Expanded Library — Esc pauses.
+  [ok] 137. Cycle 3: Expanded Library — Resume restores play and the captured cursor.
+  [ok] 138. Cycle 3: Expanded Library — pause again before Restart.
+  [ok] 139. Cycle 3: Expanded Library restarted (Pause → Restart level): loads expanded_library.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 2, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 140. Cycle 3: Expanded Library restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 141. Cycle 3: Expanded Library → Main menu: back at the menu, the level freed.
+  [ok] 142. Menu (visit 15): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 143. Cycle 3: K17 — 120 giây cuối selected from the menu: loads intelligence_k17.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 144. Cycle 3: K17 — 120 giây cuối starts with a clean mission.
+  [ok] 145. Cycle 3: K17 — 120 giây cuối — progress made before restarting.
+  [ok] 146. Cycle 3: K17 — 120 giây cuối — Esc pauses.
+  [ok] 147. Cycle 3: K17 — 120 giây cuối — Resume restores play and the captured cursor.
+  [ok] 148. Cycle 3: K17 — 120 giây cuối — pause again before Restart.
+  [ok] 149. Cycle 3: K17 — 120 giây cuối restarted (Pause → Restart level): loads intelligence_k17.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 150. Cycle 3: K17 — 120 giây cuối restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 151. Cycle 3: K17 — 120 giây cuối → Main menu: back at the menu, the level freed.
+  [ok] 152. Menu (visit 16): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 153. Cycle 3: ISG Museum — Phi vụ bảo tàng selected from the menu: loads museum.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 154. Cycle 3: ISG Museum — Phi vụ bảo tàng starts with a clean mission.
+  [ok] 155. Cycle 3: ISG Museum — Phi vụ bảo tàng — progress made before restarting.
+  [ok] 156. Cycle 3: ISG Museum — Phi vụ bảo tàng — Esc pauses.
+  [ok] 157. Cycle 3: ISG Museum — Phi vụ bảo tàng — Resume restores play and the captured cursor.
+  [ok] 158. Cycle 3: ISG Museum — Phi vụ bảo tàng — pause again before Restart.
+  [ok] 159. Cycle 3: ISG Museum — Phi vụ bảo tàng restarted (Pause → Restart level): loads museum.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 160. Cycle 3: ISG Museum — Phi vụ bảo tàng restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 161. Cycle 3: ISG Museum — Phi vụ bảo tàng → Main menu: back at the menu, the level freed.
+  [ok] 162. Menu (visit 17): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 163. Cycle 3: K17 — Test map không lính gác selected from the menu: loads intelligence_k17_test.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 164. Cycle 3: K17 — Test map không lính gác starts with a clean mission.
+  [ok] 165. Cycle 3: K17 — Test map không lính gác — progress made before restarting.
+  [ok] 166. Cycle 3: K17 — Test map không lính gác — Esc pauses.
+  [ok] 167. Cycle 3: K17 — Test map không lính gác — Resume restores play and the captured cursor.
+  [ok] 168. Cycle 3: K17 — Test map không lính gác — pause again before Restart.
+  [ok] 169. Cycle 3: K17 — Test map không lính gác restarted (Pause → Restart level): loads intelligence_k17_test.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 1, "player": 1, "objective_manager": 1, "checkpoint_manager": 1 }, connections { &"player_caught": 1, &"level_reset": 2, &"status_changed": 1, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "CheckpointManager.level_reset": 1 } }.
+  [ok] 170. Cycle 3: K17 — Test map không lính gác restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 171. Cycle 3: K17 — Test map không lính gác → Main menu: back at the menu, the level freed.
+  [ok] 172. Menu (visit 18): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 173. Cycle 3: ISG Museum — Chỉnh map không bảo vệ selected from the menu: loads museum_editing.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 174. Cycle 3: ISG Museum — Chỉnh map không bảo vệ starts with a clean mission.
+  [ok] 175. Cycle 3: ISG Museum — Chỉnh map không bảo vệ — progress made before restarting.
+  [ok] 176. Cycle 3: ISG Museum — Chỉnh map không bảo vệ — Esc pauses.
+  [ok] 177. Cycle 3: ISG Museum — Chỉnh map không bảo vệ — Resume restores play and the captured cursor.
+  [ok] 178. Cycle 3: ISG Museum — Chỉnh map không bảo vệ — pause again before Restart.
+  [ok] 179. Cycle 3: ISG Museum — Chỉnh map không bảo vệ restarted (Pause → Restart level): loads museum_editing.tscn, previous scene freed, playing and unpaused, one of each system { "game_flow": 1, "stealth_director": 1, "noise_system": 1, "audio_director": 0, "player": 1, "objective_manager": 1, "checkpoint_manager": 0 }, connections { &"player_caught": 2, &"level_reset": 2, &"status_changed": 0, &"state_changed": 4, &"required_callbacks": { "GameFlow.player_caught": 1, "GameFlow.level_reset": 1, "GameFlow.level_completed": 1, "MuseumContract.player_caught": 1, "MuseumDemo.level_reset": 1 } }.
+  [ok] 180. Cycle 3: ISG Museum — Chỉnh map không bảo vệ restarted with a clean mission (no progress, every access door closed, no checkpoint).
+  [ok] 181. Cycle 3: ISG Museum — Chỉnh map không bảo vệ → Main menu: back at the menu, the level freed.
+  [ok] 182. Menu (visit 19): one menu, no level systems left, unpaused, Library Tutorial focused, 4 maps offered; nodes 57, orphans 0.
+  [ok] 183. No leftovers from cycle 1 to cycle 3 (menu after the full catalog cycle): nodes 57 → 57, orphan nodes 0 → 0, root children 1 → 1.
+  [ok] 184. Quit quits.
+MAP FLOW PASSED (184 checks, 36 levels loaded, 3 cycles)

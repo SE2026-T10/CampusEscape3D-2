@@ -1,0 +1,44 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: Preview uses actual editing map without guards
+PASS: Completed NPC presentation retained
+PASS: Preview Environment and sky are independent resources
+PASS: Existing ambient/exposure retained
+PASS: Surface partitions retain original bounds and total triangle area without overlapping layers
+PASS: Ten independent material roles loaded
+PASS: Complete textured role: courtyard_plaster
+PASS: Role actually assigned to real map geometry: courtyard_plaster
+PASS: Complete textured role: corridor_floor
+PASS: Role actually assigned to real map geometry: corridor_floor
+PASS: Complete textured role: corridor_border
+PASS: Role actually assigned to real map geometry: corridor_border
+PASS: Complete textured role: architectural_stone
+PASS: Role actually assigned to real map geometry: architectural_stone
+PASS: Complete textured role: balustrade_stone
+PASS: Role actually assigned to real map geometry: balustrade_stone
+PASS: Complete textured role: balustrade_cap
+PASS: Role actually assigned to real map geometry: balustrade_cap
+PASS: Complete textured role: garden_wall_stone
+PASS: Role actually assigned to real map geometry: garden_wall_stone
+PASS: Complete textured role: sculpture_stone
+PASS: Role actually assigned to real map geometry: sculpture_stone
+PASS: Complete textured role: walnut_wood
+PASS: Role actually assigned to real map geometry: walnut_wood
+PASS: Complete textured role: dark_metal
+PASS: Role actually assigned to real map geometry: dark_metal
+PASS: Plaster is not tinted marble
+PASS: Garden wall uses a different source surface from column stone
+PASS: Dark border occupies its own floor region
+PASS: Main corridor region uses paving
+PASS: Rooms and garden ground are outside corridor replacement
+PASS: Terracotta only appears on corridor-facing wall surfaces, including lintels and both floors
+PASS: Repeated prepare/apply does not duplicate geometry or role bindings
+PASS: F7 baseline restores original mesh/material resources exactly
+PASS: Material toggles and surface partitions do not change any collision
+PASS: Leaves, glass, room finishes, characters and exhibits outside registry stay unchanged
+PASS: Actual Player walks from corridor through original courtyard opening
+PASS: Actual Player returns through the same opening
+PASS: F8 upper preview anchor stands on existing floor without falling
+Courtyard palette verification: 39 checks, 0 failures

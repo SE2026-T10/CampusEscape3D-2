@@ -1,0 +1,90 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: LOD reads the configured budget: near
+PASS: LOD stays within its budget tolerance: near
+PASS: Vegetation uses uniform scale: near
+PASS: LOD normalization/anchor matches near: near
+PASS: LOD reads the configured budget: mid
+PASS: LOD stays within its budget tolerance: mid
+PASS: Vegetation uses uniform scale: mid
+PASS: LOD normalization/anchor matches near: mid
+PASS: LOD reads the configured budget: far
+PASS: LOD stays within its budget tolerance: far
+PASS: Vegetation uses uniform scale: far
+PASS: LOD normalization/anchor matches near: far
+PASS: Changing JSON budget changes the generator policy and leaf tessellation
+PASS: Saved art matches authoring: museum_geometry
+PASS: Second art pass preserves nodes, resources and colliders: museum_geometry
+PASS: All collision shapes/transforms/layers match v1; no navigation rebake needed
+PASS: Courtyard light energy and range come from JSON
+PASS: Statue uses the lit textured preset
+PASS: Batch keeps detailed stone preset
+PASS: Batch keeps detailed stone preset
+PASS: Palette plus art rebuild keeps materials, trees and lamps without duplication
+PASS: Quality shadow switch controls local fixtures
+PASS: Saved art matches authoring: exhibits_expansion
+PASS: Second art pass preserves nodes, resources and colliders: exhibits_expansion
+PASS: Saved art matches authoring: service_expansion
+PASS: Second art pass preserves nodes, resources and colliders: service_expansion
+PASS: Ambient energy comes from JSON
+PASS: Sun direction and directional shadows come from JSON
+PASS: Lighting edits and master shadow switch actually change generated scene
+PASS: Saved arcade batch retains real geometry and all instance transforms
+PASS: Saved arcade batch retains real geometry and all instance transforms
+PASS: Offline collision bounds preserve four full-width entrances
+PASS: Pedestal visible footprint equals preserved cover collider 0
+PASS: Crouched player is covered from same-floor observer at pedestal 0
+PASS: Standing player can be seen over pedestal 0
+PASS: Player stepping out of cover becomes exposed 0
+PASS: Actual guard vision cannot see crouched player behind pedestal 0
+PASS: Actual guard vision sees standing player over pedestal 0
+PASS: Pedestal visible footprint equals preserved cover collider 1
+PASS: Crouched player is covered from same-floor observer at pedestal 1
+PASS: Standing player can be seen over pedestal 1
+PASS: Player stepping out of cover becomes exposed 1
+PASS: Actual guard vision cannot see crouched player behind pedestal 1
+PASS: Actual guard vision sees standing player over pedestal 1
+PASS: Pedestal visible footprint equals preserved cover collider 2
+PASS: Crouched player is covered from same-floor observer at pedestal 2
+PASS: Standing player can be seen over pedestal 2
+PASS: Player stepping out of cover becomes exposed 2
+PASS: Actual guard vision cannot see crouched player behind pedestal 2
+PASS: Actual guard vision sees standing player over pedestal 2
+PASS: Pedestal visible footprint equals preserved cover collider 3
+PASS: Crouched player is covered from same-floor observer at pedestal 3
+PASS: Standing player can be seen over pedestal 3
+PASS: Player stepping out of cover becomes exposed 3
+PASS: Actual guard vision cannot see crouched player behind pedestal 3
+PASS: Actual guard vision sees standing player over pedestal 3
+PASS: Entrance has no invisible wall: (18.0, 0.0, 8.0)
+PASS: Player walks through courtyard entrance: (18.0, 0.0, 8.0)
+PASS: Entrance has no invisible wall: (18.0, 0.0, 22.0)
+PASS: Player walks through courtyard entrance: (18.0, 0.0, 22.0)
+PASS: Entrance has no invisible wall: (11.0, 0.0, 15.0)
+PASS: Player walks through courtyard entrance: (11.0, 0.0, 15.0)
+PASS: Entrance has no invisible wall: (25.0, 0.0, 15.0)
+PASS: Player walks through courtyard entrance: (25.0, 0.0, 15.0)
+PASS: Player completes the full fountain ring without snagging or falling
+PASS: Dense hedge blocks actual sight ray
+PASS: Visible balustrade gap passes sight ray
+PASS: Stone balustrade post blocks sight ray
+PASS: Decoration uses world collision and never steals interaction rays
+PASS: Statues receive lighting
+PASS: T1 imported frame and gameplay anchors preserved
+PASS: T2 frame remains inside reparented Visual
+PASS: T2 remains inside carry placement envelope
+PASS: Independent case states: S1
+PASS: Independent case states: S2
+PASS: Runtime scene has no original tree LOD0 dependency
+PASS: No authoring-only runtime dependency: museum_geometry
+PASS: No authoring-only runtime dependency: exhibits_expansion
+PASS: No authoring-only runtime dependency: service_expansion
+PASS: No authoring-only runtime dependency: painting_t1
+PASS: No authoring-only runtime dependency: painting_t2
+PASS: No authoring-only runtime dependency: painting_demo
+PASS: No authoring-only runtime dependency: museum_door
+PASS: No authoring-only runtime dependency: entrance_door
+PASS: No authoring-only runtime dependency: museum
+Environment art verification: 85 checks, 0 failures

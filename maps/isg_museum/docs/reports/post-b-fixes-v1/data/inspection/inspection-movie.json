@@ -1,0 +1,99 @@
+{
+	"fixture": "Actual editing scene / Player camera and input. Anchor cuts between portals. B held open for QA; storage opens with the current calendar code. No temporary state saved.",
+	"results": [
+		{
+			"ok": true,
+			"section": "walk_arcade"
+		},
+		{
+			"ok": true,
+			"portal": "a-north",
+			"stance": "standing"
+		},
+		{
+			"ok": true,
+			"portal": "a-north",
+			"stance": "crouched"
+		},
+		{
+			"ok": true,
+			"portal": "a-south",
+			"stance": "standing"
+		},
+		{
+			"ok": true,
+			"portal": "a-south",
+			"stance": "crouched"
+		},
+		{
+			"ok": true,
+			"portal": "b",
+			"stance": "standing"
+		},
+		{
+			"ok": true,
+			"portal": "b",
+			"stance": "crouched"
+		},
+		{
+			"ok": true,
+			"portal": "c-west",
+			"stance": "standing"
+		},
+		{
+			"ok": true,
+			"portal": "c-west",
+			"stance": "crouched"
+		},
+		{
+			"ok": true,
+			"portal": "c-east",
+			"stance": "standing"
+		},
+		{
+			"ok": true,
+			"portal": "c-east",
+			"stance": "crouched"
+		},
+		{
+			"action": "open",
+			"door": "Entrance",
+			"ok": true
+		},
+		{
+			"action": "close",
+			"door": "Entrance",
+			"ok": true
+		},
+		{
+			"action": "open",
+			"door": "Staff",
+			"ok": true
+		},
+		{
+			"action": "close",
+			"door": "Staff",
+			"ok": true
+		},
+		{
+			"action": "open",
+			"door": "Storage",
+			"ok": true
+		},
+		{
+			"action": "close",
+			"door": "Storage",
+			"ok": true
+		},
+		{
+			"action": "open",
+			"door": "Service",
+			"ok": true
+		},
+		{
+			"action": "close",
+			"door": "Service",
+			"ok": true
+		}
+	]
+}

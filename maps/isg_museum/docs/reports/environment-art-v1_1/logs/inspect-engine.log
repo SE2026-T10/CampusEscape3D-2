@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+BOUNDS [P: (-1.308993, -0.024104, -1.382627), S: (2.9167, 4.556741, 4.292477)]
+tree_small_02_branches original=94814 LODS [47406, 23312, 11408, 5589, 2077, 848, 206, 80, 29]
+tree_small_02_leaves original=1939380 LODS [912300, 389430, 177711, 16075, 136, 4]
+tree_small_02_trunk original=28293 LODS [14145, 7071, 3535, 1767, 883, 437, 235]

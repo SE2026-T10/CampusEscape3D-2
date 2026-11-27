@@ -1,0 +1,80 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: Only the inherited editing scene enables the exported startup flag
+PASS: Editing keeps museum_demo and objective initialization
+PASS: Inherited editor guard keeps its placement: Guard_G1
+PASS: Inherited editor guard keeps its placement: Guard_G2
+PASS: Inherited editor guard keeps its placement: Guard_G3
+PASS: Inherited editor guard keeps its placement: Guard_G4
+PASS: Inherited editor guard keeps its placement: Guard_G5
+PASS: Inherited editor guard keeps its placement: Guard_G6
+PASS: Inherited editor guard keeps its placement: Guard_G7
+PASS: Inherited editor guard keeps its placement: Guard_G8
+PASS: Inherited editor guard keeps its placement: Guard_G9
+PASS: Both scene sources retain nine editable guards
+PASS: Editing shares geometry and the original navmesh
+PASS: Removal helper returns nine, then zero when repeated
+PASS: Guard bodies, perception and agents are freed before entering SceneTree
+PASS: Editing has no guard group, NPC collider, avoidance agent or noise listener
+PASS: Editing retains Player
+PASS: Editing retains GameFlow
+PASS: Editing retains StealthDirector
+PASS: Editing retains NoiseSystem
+PASS: Editing retains ObjectiveManager
+PASS: Editing retains ObjectiveHud
+PASS: Editing retains NavigationRegion3D/Teammate
+PASS: Editing retains NavigationRegion3D/ServiceExpansion/Receptionist
+PASS: Editing retains EditingNotice
+PASS: Editing starts without granting contracts, K, V, rope or objectives
+PASS: GameFlow resolves restart to the inherited scene
+PASS: Editing pauses normally
+PASS: Editing resumes normally
+PASS: Pause menu Restart reloads the editing scene
+PASS: Pause menu Restart restores progress without resurrecting guards
+PASS: Editing still enforces V and K door requirements
+PASS: T2 and rope retain their prerequisites
+PASS: Escape still requires rope
+PASS: N0 opens the normal contract sheet
+PASS: Opening N0 does not silently accept the contract
+PASS: Normal N0 acceptance button works without guards
+PASS: Receptionist remains selectable by the real camera
+PASS: Answering the normal service quiz grants V
+PASS: Staff door still opens normally
+PASS: K is collected through its existing interaction
+PASS: Live calendar still opens
+PASS: Real player overlap still bumps the bottle and emits noise
+PASS: Glass still breaks with no guard listener present
+PASS: Glass produces real noise and keeps the separate artifact
+PASS: Three wrong codes still sound the storage alarm
+PASS: Keypad still follows the live calendar
+PASS: Normal keypad unlocks storage and releases the input modal
+PASS: Player walks into storage normally
+PASS: Rope remains reachable and collectible
+PASS: Main entrance keeps its normal interaction
+PASS: Real player runs through the main entrance
+PASS: Running still emits normal footsteps
+PASS: Player climbs both flights to floor two with original collision
+PASS: V opens the landing gate and player crosses
+PASS: T1 leaves its frame without a missing G6 reference
+PASS: Protected artwork still triggers the real room C alarm
+PASS: Restoration door remains usable
+PASS: Collected K opens gallery B
+PASS: T2 uses the original carry controller and visual reparenting
+PASS: Player carries T2 along the original corridor and warehouse route
+PASS: T2 delivers at the real depot
+PASS: Running, glass, T1, bottles and alarms never investigate, chase or catch in editing
+PASS: Existing rope escape and result sheet work with an empty guard group
+PASS: Result Play Again reloads the editing scene
+PASS: Result Play Again restores progress without resurrecting guards
+PASS: StealthDirector reset reloads the editing scene
+PASS: StealthDirector reset restores progress without resurrecting guards
+PASS: Opening the main scene after editing restores all nine guards
+PASS: Main scene retains guard hearing and navigation agents
+PASS: Normal guard remains active and connected: Guard_G3
+PASS: Normal guard remains active and connected: Guard_G6
+PASS: Main G3 still starts asleep, with sight off
+PASS: Main G3 still wakes from real noise after visiting editing mode
+PASS: Main gameplay has no editing overlay
+Editing mode verification: 75 checks, 0 failures

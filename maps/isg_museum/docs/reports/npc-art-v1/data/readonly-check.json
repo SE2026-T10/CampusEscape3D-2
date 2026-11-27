@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "unchanged": true,
+  "hashes": {
+    "maps/isg_museum/assets/animations/mixamo/derived/npc_animations.res": "8a76df1419befb98b71db4a2e21f21af6218e954a70b245fe8c22a32b36bd46f",
+    "maps/isg_museum/scenes/npc/museum_npc_visual.tscn": "f53d75641d9b43aa41f6666a27098204ed922e0b1b88d27baaa288572e7e8363",
+    "maps/isg_museum/resources/npc_animation_manifest.json": "2d84fa8e7165af17cf9b0224131c91699015b841c1cfc05702efbe126bbec812"
+  }
+}

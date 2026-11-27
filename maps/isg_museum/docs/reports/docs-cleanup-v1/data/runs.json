@@ -1,0 +1,411 @@
+[
+  {
+    "id": "post_verbose_before",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--verbose",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "date": "2026-11-17T20:20:42.676377+07:00",
+    "seconds": 29.481239318847656,
+    "exit_code": 0,
+    "log": "logs/post_verbose_before.log"
+  },
+  {
+    "id": "post_verbose_repeat",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--verbose",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "date": "2026-11-17T20:23:03.806699+07:00",
+    "seconds": 27.76522731781006,
+    "exit_code": 0,
+    "log": "logs/post_verbose_repeat.log"
+  },
+  {
+    "id": "verify_post_b_fixes",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "date": "2026-11-17T20:23:29.261967+07:00",
+    "seconds": 25.438538789749146,
+    "exit_code": 0,
+    "log": "logs/verify_post_b_fixes.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "date": "2026-11-17T20:25:07.383456+07:00",
+    "seconds": 5.843975067138672,
+    "exit_code": 1,
+    "log": "logs/scripts.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "date": "2026-11-17T20:25:24.520686+07:00",
+    "seconds": 5.7039268016815186,
+    "exit_code": 0,
+    "log": "logs/scripts-attempt-1.log"
+  },
+  {
+    "id": "verify_docs_migration",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_docs_migration.gd"
+    ],
+    "date": "2026-11-17T20:25:42.181068+07:00",
+    "seconds": 17.654335021972656,
+    "exit_code": 0,
+    "log": "logs/verify_docs_migration.log"
+  },
+  {
+    "id": "audit_post_b_teardown",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/audit_post_b_teardown.gd"
+    ],
+    "date": "2026-11-17T20:25:56.787887+07:00",
+    "seconds": 14.601386070251465,
+    "exit_code": 0,
+    "log": "logs/audit_post_b_teardown.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "date": "2026-11-17T20:28:33.234837+07:00",
+    "seconds": 5.79125189781189,
+    "exit_code": 0,
+    "log": "logs/scripts-attempt-2.log"
+  },
+  {
+    "id": "post_verbose_after",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--verbose",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "date": "2026-11-17T20:28:48.673247+07:00",
+    "seconds": 15.436314582824707,
+    "exit_code": 0,
+    "log": "logs/post_verbose_after.log"
+  },
+  {
+    "id": "post_verbose_after_repeat",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--verbose",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "date": "2026-11-17T20:29:04.127881+07:00",
+    "seconds": 15.43773865699768,
+    "exit_code": 0,
+    "log": "logs/post_verbose_after_repeat.log"
+  },
+  {
+    "id": "verify_post_b_fixes",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "date": "2026-11-17T20:29:19.104184+07:00",
+    "seconds": 14.958218812942505,
+    "exit_code": 0,
+    "log": "logs/verify_post_b_fixes-attempt-1.log"
+  },
+  {
+    "id": "audit_post_b_teardown",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/audit_post_b_teardown.gd"
+    ],
+    "date": "2026-11-17T20:29:33.806164+07:00",
+    "seconds": 14.699953079223633,
+    "exit_code": 0,
+    "log": "logs/audit_post_b_teardown-attempt-1.log"
+  },
+  {
+    "id": "import",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--editor",
+      "--quit"
+    ],
+    "date": "2026-11-17T20:34:46.286949+07:00",
+    "seconds": 11.78186821937561,
+    "exit_code": 0,
+    "log": "logs/import.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "date": "2026-11-17T20:34:52.107509+07:00",
+    "seconds": 5.80554461479187,
+    "exit_code": 0,
+    "log": "logs/scripts-attempt-3.log"
+  },
+  {
+    "id": "layout",
+    "command": [
+      "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+      "-B",
+      "tools/ci/check_layout.py"
+    ],
+    "date": "2026-11-17T20:34:53.003115+07:00",
+    "seconds": 0.8936238288879395,
+    "exit_code": 0,
+    "log": "logs/layout.log"
+  },
+  {
+    "id": "verify_docs_migration",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_docs_migration.gd"
+    ],
+    "date": "2026-11-17T20:35:10.770344+07:00",
+    "seconds": 17.75449252128601,
+    "exit_code": 0,
+    "log": "logs/verify_docs_migration-attempt-1.log"
+  },
+  {
+    "id": "verify_environment_art",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_environment_art.gd"
+    ],
+    "date": "2026-11-17T20:35:34.549071+07:00",
+    "seconds": 23.776628494262695,
+    "exit_code": 0,
+    "log": "logs/verify_environment_art.log"
+  },
+  {
+    "id": "post_verbose_after_final",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--verbose",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_post_b_fixes.gd"
+    ],
+    "date": "2026-11-17T20:35:49.898857+07:00",
+    "seconds": 15.347236156463623,
+    "exit_code": 0,
+    "log": "logs/post_verbose_after_final.log"
+  },
+  {
+    "id": "audit_post_b_teardown",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/audit_post_b_teardown.gd"
+    ],
+    "date": "2026-11-17T20:36:04.785102+07:00",
+    "seconds": 14.879363298416138,
+    "exit_code": 0,
+    "log": "logs/audit_post_b_teardown-attempt-2.log"
+  },
+  {
+    "id": "verify_courtyard_palette",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://maps/isg_museum/tools/verify_courtyard_palette.gd"
+    ],
+    "date": "2026-11-17T20:36:16.895764+07:00",
+    "seconds": 12.102906465530396,
+    "exit_code": 0,
+    "log": "logs/verify_courtyard_palette.log"
+  },
+  {
+    "id": "smoke_main",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--quit-after",
+      "120",
+      "res://maps/isg_museum/scenes/museum.tscn"
+    ],
+    "date": "2026-11-17T20:36:21.699914+07:00",
+    "seconds": 4.787620306015015,
+    "exit_code": 0,
+    "log": "logs/smoke_main.log"
+  },
+  {
+    "id": "smoke_editing",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "--quit-after",
+      "120",
+      "res://maps/isg_museum/scenes/museum_editing.tscn"
+    ],
+    "date": "2026-11-17T20:36:26.304760+07:00",
+    "seconds": 4.602929353713989,
+    "exit_code": 0,
+    "log": "logs/smoke_editing.log"
+  },
+  {
+    "id": "runner",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--fixed-fps",
+      "60",
+      "res://tests/test_scene.tscn"
+    ],
+    "date": "2026-11-17T20:39:28.468482+07:00",
+    "seconds": 182.16188216209412,
+    "exit_code": 0,
+    "log": "logs/runner.log"
+  },
+  {
+    "id": "scripts",
+    "command": [
+      "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "res://tools/ci/check_scripts.gd"
+    ],
+    "date": "2026-11-17T20:49:38.700991+07:00",
+    "seconds": 5.807385206222534,
+    "exit_code": 0,
+    "log": "logs/scripts-attempt-4.log"
+  },
+  {
+    "id": "layout",
+    "command": [
+      "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+      "-B",
+      "tools/ci/check_layout.py"
+    ],
+    "date": "2026-11-17T20:49:39.249610+07:00",
+    "seconds": 0.5468745231628418,
+    "exit_code": 0,
+    "log": "logs/layout-attempt-1.log"
+  }
+]
