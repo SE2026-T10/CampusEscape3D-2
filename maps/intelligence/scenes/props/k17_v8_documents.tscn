@@ -1,0 +1,233 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://maps/intelligence/scripts/annex_pickup.gd" id="1_annex"]
+[ext_resource type="Script" path="res://maps/intelligence/scripts/mission_note.gd" id="2_note"]
+[ext_resource type="Script" path="res://maps/intelligence/scripts/desk_phone.gd" id="3_phone"]
+[ext_resource type="AudioStream" path="res://maps/intelligence/assets/audio/desk_phone_ring.wav" id="4_ring"]
+
+[sub_resource type="StandardMaterial3D" id="Steel"]
+albedo_color = Color(0.12, 0.18, 0.17, 1)
+metallic = 0.3
+roughness = 0.77
+
+[sub_resource type="StandardMaterial3D" id="Paper"]
+albedo_color = Color(0.88, 0.81, 0.62, 1)
+roughness = 0.94
+
+[sub_resource type="StandardMaterial3D" id="SealTape"]
+albedo_color = Color(0.64, 0.24, 0.16, 1)
+roughness = 0.82
+
+[sub_resource type="BoxMesh" id="TrayBottom"]
+material = SubResource("Steel")
+size = Vector3(0.48, 0.025, 0.31)
+
+[sub_resource type="BoxMesh" id="TraySide"]
+material = SubResource("Steel")
+size = Vector3(0.025, 0.085, 0.31)
+
+[sub_resource type="BoxMesh" id="TraySeal"]
+material = SubResource("SealTape")
+size = Vector3(0.46, 0.018, 0.30)
+
+[sub_resource type="BoxMesh" id="Folder"]
+material = SubResource("Paper")
+size = Vector3(0.40, 0.024, 0.25)
+
+[sub_resource type="BoxShape3D" id="FolderReach"]
+size = Vector3(0.43, 0.21, 0.29)
+
+[sub_resource type="BoxMesh" id="BookCover"]
+material = SubResource("Steel")
+size = Vector3(0.47, 0.03, 0.35)
+
+[sub_resource type="BoxMesh" id="BookPages"]
+material = SubResource("Paper")
+size = Vector3(0.40, 0.018, 0.29)
+
+[sub_resource type="BoxMesh" id="LooseSlip"]
+material = SubResource("Paper")
+size = Vector3(0.31, 0.006, 0.08)
+
+[sub_resource type="BoxShape3D" id="BookReach"]
+size = Vector3(0.46, 0.18, 0.34)
+
+[sub_resource type="BoxMesh" id="StatusBoard"]
+material = SubResource("Steel")
+size = Vector3(0.68, 0.33, 0.055)
+
+[sub_resource type="BoxMesh" id="BoardFoot"]
+material = SubResource("Steel")
+size = Vector3(0.45, 0.05, 0.20)
+
+[sub_resource type="BoxMesh" id="PhoneBody"]
+material = SubResource("Steel")
+size = Vector3(0.36, 0.105, 0.26)
+
+[sub_resource type="CapsuleMesh" id="PhoneReceiver"]
+material = SubResource("Steel")
+radius = 0.046
+height = 0.34
+
+[sub_resource type="BoxShape3D" id="PhoneProximity"]
+size = Vector3(5.2, 2.4, 5.4)
+
+[node name="V8Documents" type="Node3D"]
+
+[node name="ArchiveDesk" type="Node3D" parent="."]
+position = Vector3(-19.87, -3.0, -41.46)
+
+[node name="Tray" type="Node3D" parent="ArchiveDesk"]
+
+[node name="Base" type="MeshInstance3D" parent="ArchiveDesk/Tray"]
+position = Vector3(0, 0.0125, 0)
+gi_mode = 0
+mesh = SubResource("TrayBottom")
+
+[node name="Left" type="MeshInstance3D" parent="ArchiveDesk/Tray"]
+position = Vector3(-0.228, 0.046, 0)
+gi_mode = 0
+mesh = SubResource("TraySide")
+
+[node name="Right" type="MeshInstance3D" parent="ArchiveDesk/Tray"]
+position = Vector3(0.228, 0.046, 0)
+gi_mode = 0
+mesh = SubResource("TraySide")
+
+[node name="Seal" type="MeshInstance3D" parent="ArchiveDesk/Tray"]
+position = Vector3(0, 0.091, 0)
+gi_mode = 0
+mesh = SubResource("TraySeal")
+
+[node name="Stamp" type="Label3D" parent="ArchiveDesk/Tray/Seal"]
+position = Vector3(0, 0.022, 0)
+rotation = Vector3(-1.570796, 3.141593, 0)
+modulate = Color(0.98, 0.86, 0.72, 1)
+pixel_size = 0.002
+font_size = 32
+outline_size = 3
+text = "04-B"
+
+[node name="Annex" type="Area3D" parent="ArchiveDesk"]
+position = Vector3(0, 0.075, 0)
+visible = false
+script = ExtResource("1_annex")
+objective_id = &"take_intelligence_annex"
+spin_speed = 0.0
+hold_duration = 3.0
+enabled = false
+prompt = "Lấy 04-B · Giờ phong tỏa đã sửa"
+
+[node name="Shape" type="CollisionShape3D" parent="ArchiveDesk/Annex"]
+shape = SubResource("FolderReach")
+
+[node name="Model" type="Node3D" parent="ArchiveDesk/Annex"]
+position = Vector3(0, -0.036, 0)
+
+[node name="Folder" type="MeshInstance3D" parent="ArchiveDesk/Annex/Model"]
+gi_mode = 0
+mesh = SubResource("Folder")
+
+[node name="Title" type="Label3D" parent="ArchiveDesk/Annex/Model"]
+position = Vector3(0, 0.014, 0)
+rotation = Vector3(-1.570796, 3.141593, 0)
+modulate = Color(0.14, 0.13, 0.10, 1)
+pixel_size = 0.00165
+font_size = 26
+outline_size = 0
+text = "PHỤ LỤC 04-B"
+
+[node name="GuardDesk" type="Node3D" parent="."]
+position = Vector3(-36, 0.8, 4)
+
+[node name="StatusBoardFoot" type="MeshInstance3D" parent="GuardDesk"]
+position = Vector3(-0.20, 0.025, -0.43)
+gi_mode = 0
+mesh = SubResource("BoardFoot")
+
+[node name="StatusBoard" type="MeshInstance3D" parent="GuardDesk"]
+position = Vector3(-0.20, 0.21, -0.43)
+gi_mode = 0
+mesh = SubResource("StatusBoard")
+
+[node name="StatusBoardText" type="Label3D" parent="GuardDesk/StatusBoard"]
+position = Vector3(0, 0, 0.031)
+modulate = Color(0.84, 0.92, 0.80, 1)
+pixel_size = 0.0019
+font_size = 24
+outline_size = 0
+text = "PHÒNG TRỰC K17\nTÌNH TRẠNG · CA ĐÊM"
+
+[node name="HandoverLog" type="Area3D" parent="GuardDesk"]
+position = Vector3(-0.64, 0.067, 0.11)
+rotation = Vector3(0, -0.09, 0)
+script = ExtResource("2_note")
+document_id = &"k17_handover_04b"
+title = "Sổ bàn giao ca trực"
+text = "Ca đêm đã nhận bản đính chính 04-B. Lưu ở ngăn niêm phong cạnh Mật lệnh 04 tại B1.\n\nGiờ phong tỏa tuyến sơ tán được đẩy sớm hơn 20 phút. Chuyển 04-B cho đoàn sơ tán để họ đổi tuyến kịp thời."
+
+[node name="Shape" type="CollisionShape3D" parent="GuardDesk/HandoverLog"]
+shape = SubResource("BookReach")
+
+[node name="Model" type="Node3D" parent="GuardDesk/HandoverLog"]
+
+[node name="Cover" type="MeshInstance3D" parent="GuardDesk/HandoverLog/Model"]
+position = Vector3(0, -0.052, 0)
+gi_mode = 0
+mesh = SubResource("BookCover")
+
+[node name="Pages" type="MeshInstance3D" parent="GuardDesk/HandoverLog/Model"]
+position = Vector3(0, -0.028, 0)
+gi_mode = 0
+mesh = SubResource("BookPages")
+
+[node name="TornSlip" type="MeshInstance3D" parent="GuardDesk/HandoverLog/Model"]
+position = Vector3(0.11, -0.018, 0.12)
+rotation = Vector3(0, -0.23, 0)
+gi_mode = 0
+mesh = SubResource("LooseSlip")
+
+[node name="Title" type="Label3D" parent="GuardDesk/HandoverLog/Model"]
+position = Vector3(0, -0.017, -0.016)
+rotation = Vector3(-1.570796, 0, 0)
+modulate = Color(0.14, 0.13, 0.10, 1)
+pixel_size = 0.00115
+font_size = 24
+outline_size = 0
+text = "SỔ BÀN GIAO\nĐã nhận phụ lục 04-B"
+
+[node name="DeskPhone" type="Area3D" parent="GuardDesk"]
+position = Vector3(0.76, 0, -0.27)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("3_phone")
+
+[node name="Proximity" type="CollisionShape3D" parent="GuardDesk/DeskPhone"]
+shape = SubResource("PhoneProximity")
+
+[node name="Body" type="MeshInstance3D" parent="GuardDesk/DeskPhone"]
+position = Vector3(0, 0.0525, 0)
+gi_mode = 0
+mesh = SubResource("PhoneBody")
+
+[node name="Receiver" type="MeshInstance3D" parent="GuardDesk/DeskPhone"]
+position = Vector3(0, 0.138, -0.025)
+rotation = Vector3(0, 0, 1.570796)
+gi_mode = 0
+mesh = SubResource("PhoneReceiver")
+
+[node name="Plate" type="Label3D" parent="GuardDesk/DeskPhone"]
+position = Vector3(0, 0.055, 0.132)
+modulate = Color(0.84, 0.92, 0.80, 1)
+pixel_size = 0.0014
+font_size = 18
+outline_size = 0
+text = "NỘI BỘ"
+
+[node name="Ring" type="AudioStreamPlayer3D" parent="GuardDesk/DeskPhone"]
+position = Vector3(0, 0.1, 0)
+stream = ExtResource("4_ring")
+volume_db = -8.0
+max_distance = 8.0
+bus = &"SFX"

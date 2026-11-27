@@ -6,6 +6,7 @@ extends SceneTree
 const SCENE := "res://maps/intelligence/scenes/intelligence_k17.tscn"
 const Cleanup := preload("res://tests/test_utils.gd")
 const ProjectionConfig := preload("res://maps/intelligence/resources/layout/k17_projection.gd")
+const Layout := preload("res://maps/intelligence/resources/layout/k17_layout.gd")
 var failures: Array[String] = []
 var out := ""
 var level: Node3D
@@ -33,6 +34,8 @@ var watch_patrol := false
 var walk_exfil := false
 var sprint_exfil := false
 var sabotage := false
+var collect_annex := false
+var read_handover := false
 
 
 func _init() -> void:
@@ -43,6 +46,8 @@ func _init() -> void:
 func _run() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg == "--sabotage": sabotage=true
+		if arg == "--annex": collect_annex=true
+		if arg == "--handover": read_handover=true
 		if arg == "--camera-off": camera_off=true
 		if arg == "--watch-patrol": watch_patrol=true
 		if arg == "--walk-exfil": walk_exfil=true
@@ -109,6 +114,10 @@ func _run() -> void:
 		await _use("Gameplay/IntelligenceFile")
 		await _shot(route+"_02_file")
 		if not mission.has_file: failures.append("Document not acquired: "+route)
+		if collect_annex and not _route_failed:
+			var before_annex: float=mission.time_left
+			await _use("Gameplay/V8Documents/ArchiveDesk/Annex")
+			print("[K17 annex] elapsed=",snappedf(before_annex-mission.time_left,.01))
 		await _escape(route)
 		if sabotage and not _route_failed:
 			for i in 400:
@@ -117,8 +126,10 @@ func _run() -> void:
 		await _frames(10)
 		var director:=StealthDirector.find(level)
 		if flow.state!=GameStateMachine.State.WIN: failures.append("Extraction failed: "+route)
-		if sabotage and not ObjectiveManager.find(level).is_completed(K17MissionController.SABOTAGE): failures.append("Sabotage not completed: "+route)
-		print("[K17 walking V6] route=",route," sabotage=",sabotage," remaining=",snappedf(mission.time_left,.1)," state=",flow.state," catches=",director.catches," sensors=",mission.sensor_trips," reinforcements=",level.get_node("Gameplay/Reinforcements").spawned_count)
+		var objectives := ObjectiveManager.find(level)
+		if sabotage and not objectives.is_completed(K17MissionController.SABOTAGE): failures.append("Sabotage not completed: "+route)
+		if collect_annex != objectives.is_completed(K17MissionController.ANNEX): failures.append("Unexpected annex state: "+route)
+		print("[K17 walking] route=",route," annex=",collect_annex," sabotage=",sabotage," remaining=",snappedf(mission.time_left,.1)," state=",flow.state," catches=",director.catches," sensors=",mission.sensor_trips," reinforcements=",level.get_node("Gameplay/Reinforcements").spawned_count)
 		await _frames(50)
 		await _shot(route+"_03_victory")
 		Input.action_release("crouch")
@@ -134,10 +145,15 @@ func _run() -> void:
 
 func _approach() -> void:
 	if entry_route=="maintenance":
-		await _route([Vector3(-36,0,53),Vector3(36,0,53),Vector3(36,0,42),Vector3(26,0,42),Vector3(26,0,21),Vector3(-26,0,21),Vector3(-26,0,7),Vector3(-36,0,7),Vector3(-36,0,5.6)])
+		# Approach the inner service lane diagonally around the cargo return.
+		await _route([Vector3(-36,0,53),Vector3(36,0,53),Vector3(36,0,42),Vector3(26,0,28),Vector3(26,0,21),Vector3(-26,0,21),Vector3(-26,0,7),Vector3(-36,0,7),Vector3(-36,0,5.6)])
 	else:
 		await _route([Vector3(-36,0,42),Vector3(-36,0,22),Vector3(-36,0,16),Vector3(-36,0,5.6)])
 	await _use("Gameplay/AccessPass")
+	if read_handover and not _route_failed:
+		await _use("Gameplay/V8Documents/GuardDesk/HandoverLog")
+		if not PlayerInventory.find(level).has_document(&"k17_handover_04b"):
+			failures.append("Handover log missing from journal")
 	if camera_off:
 		await _route([Vector3(-36,0,8.2),Vector3(-26,0,8.2),Vector3(-26,0,16)])
 		await _nav_walk(Vector3(16,0,18))
@@ -260,12 +276,14 @@ func _wait_file_window() -> void:
 	for i in 12000:
 		_resume_background()
 		if flow.state!=GameStateMachine.State.PLAYING: break
-		# Footsteps leaving W2 are audible through the nearby archive doorway.
-		if patrol.machine.current==GuardStateMachine.PATROL and patrol.current_point==5 and patrol.position.z< -40 and patrol.velocity.z>.5:
-			print("[B1 pickup timing] waited=",i/60.0," footsteps leaving W2 at ",patrol.position)
+		# Start earlier for the extra hold, using the footsteps approaching W2.
+		var ready := patrol.current_point==4 and patrol.position.z< -41 and patrol.velocity.z< -.5 if collect_annex \
+			else patrol.current_point==5 and patrol.position.z< -40 and patrol.velocity.z>.5
+		if patrol.machine.current==GuardStateMachine.PATROL and ready:
+			print("[B1 pickup timing] waited=",i/60.0," footsteps ", "approaching" if collect_annex else "leaving"," W2 at ",patrol.position)
 			return
 		await _frames(1)
-	failures.append("No pickup window after W2 footsteps")
+	failures.append("No pickup window around W2 footsteps")
 	_route_failed=true
 
 func _wait_b1_window(index: int) -> void:
@@ -362,8 +380,7 @@ func _escape(route: String) -> void:
 			if wait_for_radio: await _frames(480)
 			await _route([Vector3(0,0,10.7),Vector3(0,0,7)])
 		if yard_flank:
-			await _route([Vector3(16,0,7),Vector3(16,0,18),Vector3(16,0,44)])
-			await _route([Vector3(-24,0,44),Vector3(-36,0,44),Vector3(-36,0,51)])
+			await _route(Layout.COURTYARD_BYPASS.slice(1))
 		else:
 			await _route([Vector3(-12,0,7),Vector3(-12,0,18),Vector3(-16,0,22),Vector3(-20,0,26),Vector3(-24,0,26),Vector3(-24,0,42),Vector3(-36,0,42),Vector3(-36,0,51)])
 
@@ -461,7 +478,7 @@ func _should_wait_for_sensor(target: Vector3) -> bool:
 func _use(path: String,retry_after_focus_pause:=true) -> void:
 	if _route_failed: return
 	var target := level.get_node(path) as Interactable
-	if path.ends_with("VaultCode") or path.ends_with("IntelligenceFile") or "VaultKeypad" in path:
+	if path.ends_with("VaultCode") or path.ends_with("IntelligenceFile") or path.ends_with("/Annex") or "VaultKeypad" in path:
 		Input.action_release("crouch")
 		await _frames(20)
 	player.camera.look_at(target.global_position)

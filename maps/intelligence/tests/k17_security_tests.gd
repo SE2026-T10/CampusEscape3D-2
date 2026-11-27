@@ -29,19 +29,36 @@ func run(parent: Node) -> Array[String]:
 	var noise := NoiseSystem.find(level)
 	player.global_position = Vector3(4,-3.95,-38)
 	await _frames(3)
-	for phase in [1.0,4.5]:
-		sensor.phase_clock = phase
+	for phase in [[1.0,"✓ QUA"],[4.5,"△ CHỜ"]]:
+		sensor.phase_clock = phase[0]
 		sensor._physics_process(0.0)
+		_expect(sensor.get_node("Status").text.contains(phase[1]) and sensor.get_node("StatusBack").text.contains(phase[1]),"Both sensor signs show a non-colour phase cue")
 	_expect(sensor.trips == 0,"Safe and warning phases do not alarm")
+	_expect(sensor.lane_name=="S1" and sensor2.lane_name=="S2","Sensor lane names match the B1 route")
+	var surveillance := level.get_node("Gameplay/B1Surveillance")
+	_expect(surveillance.hack(), "The B1 status panel can stay open while crossing S1")
 	sensor.phase_clock = 5.5
 	var noises := noise.emitted_count
 	sensor._physics_process(0.0)
 	_expect(sensor.trips == 1 and mission.sensor_trips == 1 and noise.emitted_count == noises+1,"Live beam intersection raises one real alarm noise")
+	_expect(sensor.get_node("Status").text.contains("× DỪNG") and SecurityAlarm.find(level).last_reason.contains("S1"),"Active red phase and alarm identify the actual emitter")
+	_expect(mission.get_status_lines().has(sensor.status_text()) and not mission.get_status_lines().has(sensor2.status_text()),"HUD shows only the nearby lane even when the farther sign is visible")
 	_expect(StealthDirector.find(level).catches == 0,"Sensor is not an instant guard capture")
 	var event := noise.get_active_events()[-1]
 	_expect(event.position.distance_to(sensor.global_position) < .01,"Alarm noise originates at the sensor")
 	sensor._physics_process(0.0)
 	_expect(sensor.trips == 1,"Continuous contact is debounced")
+	await _frames(3)
+	var hud := level.get_node("ObjectiveHud")
+	var radio_line := hud._projection_panel.find_child("Radio", true, false) as Label
+	var warning := mission.radio_message
+	_expect(radio_line != null and radio_line.is_visible_in_tree() and radio_line.text == warning and warning.contains("S1"),
+		"The open B1 panel displays Lam's live S1 warning")
+	_expect(not hud._status_panel.visible, "The B1 warning uses a single status column")
+	mission._update_dialogue(5.0)
+	await _frames(3)
+	_expect(radio_line != null and not radio_line.visible, "The B1 panel hides the expired radio line")
+	surveillance.restore_checkpoint_state({})
 	var wall := StaticBody3D.new()
 	wall.position = Vector3(3.2,-3.4,-38)
 	var collision := CollisionShape3D.new()

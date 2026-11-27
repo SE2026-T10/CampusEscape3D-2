@@ -51,6 +51,7 @@ func build() -> Node3D:
 func _sensor(index: int, position: Vector3) -> void:
 	var sensor := _script("Sensor%d"%index,Node3D.new(),"sensor_lane.gd") as Node3D
 	sensor.position = position
+	sensor.set("lane_name","S%d"%(index+1))
 	sensor.set("phase_offset",index*4.0)
 	var area := Area3D.new()
 	area.name = "Detection"

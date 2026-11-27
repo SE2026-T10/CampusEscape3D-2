@@ -47,7 +47,7 @@ bash tools/ci/export_windows.sh
 
 | Event | What runs |
 |---|---|
-| push to `Development` or `main`, pull request into them, or **Run workflow** by hand | **Validate and test** → **Export Windows x64** (uploads the build as an artifact) |
+| push or pull request to `Development`, `main` or `twp`, or **Run workflow** by hand | **Validate and test** → **Export Windows x64** (uploads the build as an artifact) |
 | push of a tag `vX.Y.Z` | the same, then **GitHub Release**: creates the release for the tag with the zipped build and `docs/release-notes/vX.Y.Z.md` |
 
 **Failure rules:**

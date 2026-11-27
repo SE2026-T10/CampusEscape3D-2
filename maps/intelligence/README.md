@@ -18,6 +18,18 @@ Bản V4 giữ khuôn viên **96 × 108 m**, tám khu chức năng, kho mật **
 
 Đợt [sửa camera B1 ngày 29/10](docs/camera-feed-fix/VALIDATION.md) tự bật lại góc trước khi nắm tay đẩy hoặc khôi phục checkpoint đã hack; V/R không bị GUI đang giữ bàn phím chặn. Nhấn V khi chưa kết nối hoặc đã mất quyền có thông báo. Bản không lính vẫn có feed quan sát nhưng không có cảnh vệ.
 
+**V7 — Mật lệnh 04:** HUD B1 gom trạng thái màn chiếu, camera và yêu cầu kiểm tra vào một góc. Đọc dấu **A · Sân** và **B · Bảo trì** trên biển, HUD và minimap trong đoạn rút. Trong phòng hồ sơ, camera tự ẩn để nhìn rõ mặt bàn và vẫn mở lại được bằng **V** trước báo động. Xem [kế hoạch V7](docs/gameplay-v7/PLAN.md).
+
+Khi bảng B1 hiện, lời Lam đang phát nằm cùng bảng với trạng thái màn chiếu và cảm biến. Hết thời gian phát, dòng lời thoại tự ẩn. Rời B1 hoặc bắt đầu rút lui thì bảng trạng thái nhiệm vụ tiếp tục hiển thị lời đang phát.
+
+**V8 — Bản đính chính 04-B:** Sổ bàn giao ở cạnh giấy thông hành gợi ý có phụ lục. Sau khi lấy Mật lệnh 04, ngăn trên bàn mở niêm phong. Giữ **E 3 giây** để lấy 04-B hoặc rút ngay với bản chính. Hai lựa chọn có lời xác nhận riêng ở tập kết. Có thể thu hồi phụ lục và thực hiện V5 trong cùng lượt.
+
+**Cải tiến tháng 11/2026:** HUD phân biệt độ khớp hình chiếu, hướng nhìn của chốt và tuần tra W1/W2. Cảm biến có ký hiệu riêng cho mỗi pha. Lối vòng A xuất hiện trên biển và minimap, B luôn ghi hướng bảo trì phía đông. Sổ bàn giao giải thích vì sao 04-B cần tới đoàn sơ tán. Bóng động của bốn đèn sân mờ dần theo khoảng cách.
+
+Khi niêm phong báo động, chốt B1 xác minh tín hiệu trong 4 giây trước khi tự rời vị trí kiểm tra. Phát hiện qua nhìn và nghe vẫn hoạt động trong khoảng này.
+
+Điện thoại bàn phòng trực sử dụng âm chuông tự tổng hợp trong `assets/audio/desk_phone_ring.wav`. Chuông cảnh trí phát khi người chơi đến gần bàn và không tạo sự kiện tiếng động cho lính.
+
 ## Mở và tự chơi
 
 Mở `project.godot` bằng **Godot 4.7.2 official**, nhấn F5 rồi chọn **K17 — 120 giây cuối**. Hoặc mở `scenes/intelligence_k17.tscn`, nhấn F6.
@@ -37,16 +49,16 @@ WASD di chuyển, chuột nhìn, Shift chạy, C/Ctrl cúi, E/giữ E tương t�
 3. Đọc **chỉ dẫn kho B1** trên bàn vô tuyến ở khối chỉ huy. Có thể đọc trước khi lấy thẻ. Phía sau vách che có checkpoint đầu tiên, được lưu khi đủ thẻ và chỉ dẫn.
 4. Có thể ghé **trạm điện phía đông**: tắt công tắc nguồn camera, đọc ghi chú dự phòng và giữ E **2,5 giây** ở **CHỐT CỬA HẬU**. Cửa hậu đã chuẩn bị mở ngay khi rút; nếu chưa chuẩn bị phải giữ E tám giây. Hai bước chuẩn bị là mục tiêu tùy chọn.
 5. Mang thẻ để mở cửa khu hồ sơ. Đi hành lang bên phải đến **checkpoint khu mật**, đọc **bảng ca trực** rồi đối chiếu với chỉ dẫn trong J để suy ra bốn chữ số. Đến keypad cạnh cửa B1, E đổi từng số và xác nhận. Sai ba lần khóa tạm 20 giây, sau đó được thử lại; chưa tính 120 giây ở bước này.
-6. Qua hai dải cảm biến kín ngang: **xanh được qua, vàng sắp quét, đỏ dừng lại**. Cả hai cầu thang đều dẫn tới sảnh trước S1, không có đường vòng sau cảm biến. Tới hốc chuẩn bị, lưu checkpoint và giữ E **3 giây** ở bảng **CHIẾM KÊNH B1**. Mạch B1 độc lập với công tắc camera mặt đất. Giữ E **2 giây** tại tay cầm để dựng màn; E lần nữa để nắm. **W/S tiến/lùi, A/D chỉnh ngang theo xe; chuột nhìn tự do, E thả tay từ mọi hướng.** Xe hỗ trợ giữ tâm khi đi dọc; chạy và ném chai chưa dùng được khi đang nắm. Thiết bị không tốn ô đồ.
-7. Dùng **V** xem camera trước/C1. **R** gửi yêu cầu tới máy trực: chờ phản hồi và xác nhận chốt thực sự quay đi trước khi chuyển ngang vào/ra hốc. Chốt cũng tự kiểm tra máy định kỳ. Lời gọi chỉ chuyển sự chú ý của chốt; cần quan sát nhịp tuần tra W1/W2 riêng. Đỗ sâu sau vách chữ L để che **cả khung màn lẫn người**; đứng ở miệng hốc vẫn bị thấy. Chữ khớp/gần lệch/lệch dưới minimap chỉ nói về mắt chốt. C1 không nhìn xuyên màn và góc C1 không trùng góc mắt lính. Lạm dụng các yêu cầu được chấp nhận có thể khiến kênh tạm bị đối chiếu.
+6. Hai dải cảm biến S1/S2 có biển hai mặt ghi **✓ QUA**, **△ CHỜ** hoặc **× DỪNG**, kèm số giây đến pha kế tiếp. Cả hai cầu thang đều dẫn tới sảnh trước S1. Tới hốc chuẩn bị, lưu checkpoint và giữ E **3 giây** ở bảng **CHIẾM KÊNH B1**. Mạch B1 độc lập với công tắc camera mặt đất. Giữ E **2 giây** tại tay cầm để dựng màn rồi nhấn E lần nữa để nắm. **W/S tiến/lùi, A/D chỉnh ngang theo xe.** Chuột nhìn tự do, E thả tay từ mọi hướng. Xe hỗ trợ giữ tâm khi đi dọc. Chạy và ném chai chưa dùng được khi đang nắm. Thiết bị không tốn ô đồ.
+7. Dùng **V** lần lượt xem camera trước, C1 hoặc ẩn hình. **R** gửi yêu cầu tới máy trực. HUD gợi ý R tại hốc khi chốt sẵn sàng, ghi thời điểm chốt quay sang máy, thời gian còn lại và thời gian hồi. Xác nhận qua C1 trước khi chuyển vào/ra hốc. Quan sát W1/W2 riêng vì tuần tra bên hông vẫn nhìn. Đỗ sâu sau vách chữ L để che cả khung màn lẫn người. Chữ khớp/gần lệch/lệch trong bảng B1 chỉ nói về góc của chốt. Bản thử vẫn có camera và độ khớp, đồng thời báo không có chốt khi dùng R.
 8. Đẩy màn tới dấu dừng **vượt toàn bộ cửa hồ sơ**, cách chốt 10 m. Thả tay, giữ E **6 giây** ở đầu đọc gắn trụ trái cửa để mở khóa. Cửa trượt lên, giữ nguyên đầu đọc trên tường; bước vào phòng từ phía sau màn. Mở khóa chưa chạy đồng hồ. Nghe bước chân tuần tra rời W2, rồi giữ E **3,5 giây** tại bàn để lấy tài liệu. Nhả E, nhìn lệch, rời tầm hoặc pause sẽ hủy thao tác đang giữ.
 9. Khi nhận hồ sơ, đồng hồ **120 giây** bắt đầu, kênh CCTV/yêu cầu giả B1 bị thu hồi. **Quay ra đúng cửa vừa vào**, đi về sảnh cảm biến rồi chọn cầu thang sân hoặc bảo trì; cửa thoát sau hồ sơ cũ đã bít bằng tường. Không cần mang màn về; chốt có thể tiếp cận, thu và gạt thiết bị chắn đường sau báo động. Đi nhẹ ở đoạn B1 để hạn chế tiếng động, tận dụng chỗ che khi ra mặt đất. Mang tài liệu vào vùng đèn xanh ngoài hàng rào để thắng.
 
-Có **bảy mục tiêu bắt buộc** và **ba mục tiêu tùy chọn**: chuẩn bị cửa hậu, ngắt camera chính và phá hoại cụm tình báo. Thiết bị phá hoại được cấp sẵn, không chiếm ô đồ và chỉ tiêu hao khi giữ E hoàn tất; nhả E, nhìn lệch, rời tầm hoặc pause sẽ hủy thao tác. Chỉ đặt sau khi có hồ sơ; đặt xong vẫn chưa được tính phá hoại thành công cho đến khi thoát và kích hoạt. Bị bắt/hết giờ rồi thử lại sẽ trả thiết bị và tủ về trạng thái trước khi lấy hồ sơ.
+Có **bảy mục tiêu bắt buộc** và **bốn mục tiêu tùy chọn** gồm chuẩn bị cửa hậu, ngắt camera chính, thu hồi 04-B và phá hoại cụm tình báo. Thiết bị phá hoại được cấp sẵn, không chiếm ô đồ và chỉ tiêu hao khi giữ E hoàn tất. Nhả E, nhìn lệch, rời tầm hoặc pause sẽ hủy thao tác. Chỉ đặt sau khi có hồ sơ. Phá hoại được tính khi đã thoát và kích hoạt thiết bị. Bị bắt hoặc hết giờ rồi thử lại sẽ trả thiết bị và tủ về trạng thái trước khi lấy hồ sơ.
 
 Túi ba ô đủ cho giấy thông hành và hai chai rỗng có sẵn trong map. Hồ sơ và ghi chú không chiếm ô. Chai chỉ mất khi ném thành công; thẻ không bị tiêu hao. Nhật ký giữ kiến thức sau khi bị bắt; đồ mang theo, nguồn điện, cửa và tiến độ trở về checkpoint. Ghi chú nguồn điện có hướng dẫn vị trí và luật phá hoại để xem lại bằng J.
 
-**Rút qua sân:** quay lại cầu thang chính, qua khối giữa và ra sân. Có thể dùng lối kỹ thuật ra sân để tránh phòng trực; dùng xe, kiện hàng và mép sân để tránh chốt tiếp viện. Cổng chính sẽ đóng theo lịch.
+**Rút qua sân**. Quay lại cầu thang chính, qua khối giữa và theo biển **A · Vòng sân**. Ở cổng rìa sân, theo **A · Vòng mép nam** và vạch đứt trên minimap về cổng A. Khi cổng bắt đầu đóng, minimap gỡ vạch chỉ đường A và HUD nhắc lối B phía đông.
 
 **Rút bảo trì:** từ phòng hồ sơ quay về sảnh **trước S1**, rẽ đông vào hành lang ngầm rồi lên cầu thang thứ hai. Qua các vách kiểm soát của tuyến dịch vụ/xưởng để đến cửa hậu phía đông. Tuyến này có chỗ che và vẫn dùng được sau khi cổng chính khóa.
 
@@ -112,10 +124,11 @@ godot --headless --path . --script res://maps/intelligence/tools/check_art.gd
 godot --headless --path . --script res://maps/intelligence/tools/check_attachments.gd
 godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/check_projection.gd
 godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/check_b1.gd
+godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/check_v8.gd
 godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/check_navigation.gd
 godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/check_sabotage.gd
 godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/playthrough_k17.gd -- --crouch --camera-off --sprint-exfil --sabotage
-godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/playthrough_k17.gd -- --live-guards --crouch --prepare --camera-off --radio --wait-radio --sprint-exfil --watch-patrol --route=courtyard --utilities-north --natural-post
+godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/playthrough_k17.gd -- --live-guards --crouch --prepare --camera-off --radio --wait-radio --sprint-exfil --watch-patrol --route=courtyard --utilities-north --natural-post --yard-flank
 godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intelligence/tools/playthrough_k17.gd -- --live-guards --crouch --prepare --camera-off --radio --wait-radio --sprint-exfil --watch-patrol --route=maintenance --utilities-north
 godot --headless --path . --script res://maps/intelligence/tools/guard_soak_k17.gd
 godot --headless --path . --script res://maps/intelligence/tools/guard_soak_k17.gd -- --reinforced
@@ -125,6 +138,8 @@ godot --path . --script res://maps/intelligence/tools/benchmark_v4.gd
 ```
 
 Tool đi bộ dùng điều khiển và giữ E thật, không dịch chuyển giữa waypoint. Mặc định chạy scene không lính để kiểm tra hình học; `--live-guards` giữ nhận thức/AI và tiếp viện thật. `--entry=maintenance` kiểm tra hướng vào hậu cần; `--route=courtyard|maintenance` chọn đường rút; bỏ `--prepare` để kiểm tra mở cửa hậu tám giây. `--yard-flank` chọn đường vòng sân và dùng radio trước lúc lấy hồ sơ. Soak tiếp viện kiểm tra riêng tuyến đường với nhận thức nhìn tạm dừng; E2E có lính kiểm tra đầy đủ nhìn/nghe/truy đuổi.
+
+Dùng `--annex` để lấy phụ lục và đo thời gian đã dùng. Trong lượt có lính, lựa chọn này bắt đầu mở niêm phong khi tuần tra tiến đến W2. `--handover` thử riêng việc đọc sổ bàn giao và ghi vào nhật ký. Các cờ này có thể kết hợp với `--sabotage`.
 
 Thêm `--sabotage` để tool rẽ vào tủ, giữ E thật và chờ kết quả phá hoại. Tuyến bảo trì là tuyến khuyến nghị; đi chậm vòng qua xưởng rồi quay ra sân có thể gặp cổng đã đóng ở T+90. Đường sân vẫn nhận kết thúc phá hoại nếu tới kịp. Tool `--watch-patrol` quan sát thêm từ checkpoint trước khi tới keypad; không đổi tốc độ, tầm nhìn hay lịch lính.
 
@@ -144,4 +159,4 @@ Khi chạy QA có render trong nền, thêm `--background` để tool tự tiế
 
 `preview_expansion.gd` chụp góc dàn sẵn để xem mỹ thuật, không thay bằng chứng thắng. `benchmark_v4.gd` đo thời gian thực 30 giây/góc, bốn góc và 6/8/10 NPC với camera ON/OFF. Có cờ `--seconds`, `--counts`, `--views`, `--power=on|off`, `--repeats`, `--out`; không dùng `--headless`/`--fixed-fps` cho số đo renderer.
 
-Xem [nghiệm thu V4](docs/upgrade-v4/VALIDATION.md), [kiểm tra V3](docs/expansion-v3/VALIDATION.md) và [nguồn tài nguyên miễn phí](assets/CREDITS.md). Thời lượng lần đầu, cân bằng truy đuổi và stamina cần người chơi mới đánh giá thêm. Chưa có chiến đấu, bắn súng, leo dây hoặc xe lái được.
+Xem [nghiệm thu bản cải tiến](docs/improvements-2026-11-27/VALIDATION.md), [báo cáo gốc và kịch bản chơi thử](docs/audit-2026-11-27/REPORT.md), [nghiệm thu V4](docs/upgrade-v4/VALIDATION.md), [kiểm tra V3](docs/expansion-v3/VALIDATION.md) và [nguồn tài nguyên miễn phí](assets/CREDITS.md). Thời lượng lần đầu, cân bằng truy đuổi và stamina cần người chơi mới đánh giá thêm. Chưa có chiến đấu, bắn súng, leo dây hoặc xe lái được.
