@@ -24,7 +24,7 @@ Bản V4 giữ khuôn viên **96 × 108 m**, tám khu chức năng, kho mật **
 
 Khi bảng B1 hiện, lời Lam đang phát nằm cùng bảng với trạng thái màn chiếu và cảm biến. Hết thời gian phát, dòng lời thoại tự ẩn. Rời B1 hoặc bắt đầu rút lui thì bảng trạng thái nhiệm vụ tiếp tục hiển thị lời đang phát.
 
-**V8 — Bản đính chính 04-B:** Sổ bàn giao ở cạnh giấy thông hành gợi ý có phụ lục. Sau khi lấy Mật lệnh 04, ngăn trên bàn mở niêm phong. Giữ **E 3 giây** để lấy 04-B hoặc rút ngay với bản chính. Hai lựa chọn có lời xác nhận riêng ở tập kết. Có thể thu hồi phụ lục và thực hiện V5 trong cùng lượt.
+**V8 — Bản đính chính 04-B:** Sổ bàn giao cạnh giấy thông hành cho biết tuyến chính của đoàn sơ tán bị phong tỏa sớm hơn **20 phút**. Sau khi lấy Mật lệnh 04, ngăn mở niêm phong và hiện lời nhắc **giữ E 3 giây** để lấy 04-B. Bàn giao 04-B giúp đoàn chuyển sang đường dự phòng. Nếu rút với bản chính, đoàn chờ xác minh giờ phong tỏa. Có thể thu hồi phụ lục và thực hiện V5 trong cùng lượt. Xem [kiểm thử hai kết quả tập kết](docs/annex-handoff-2026-11-27/VALIDATION.md).
 
 **Cải tiến tháng 11/2026:** HUD phân biệt độ khớp hình chiếu, hướng nhìn của chốt và tuần tra W1/W2. Cảm biến có ký hiệu riêng cho mỗi pha. Lối vòng A xuất hiện trên biển và minimap, B luôn ghi hướng bảo trì phía đông. Sổ bàn giao giải thích vì sao 04-B cần tới đoàn sơ tán. Bóng động của bốn đèn sân mờ dần theo khoảng cách.
 

@@ -1528,7 +1528,7 @@ objectives = Array[Dictionary]([{
 "title": "Ngắt nguồn camera mặt đất"
 }, {
 "done": "Đã lấy 04-B · Giờ phong tỏa sớm hơn 20 phút",
-"hint": "Giữ E 3 giây tại ngăn cạnh bản chính. 04-B cho đội sơ tán biết giờ phong tỏa đã sửa.",
+"hint": "Giữ E 3 giây tại ngăn cạnh bản chính. Tuyến chính đóng sớm 20 phút. Giao 04-B để đoàn sơ tán đi đường dự phòng.",
 "id": &"take_intelligence_annex",
 "optional": true,
 "requires": [&"take_intelligence"],

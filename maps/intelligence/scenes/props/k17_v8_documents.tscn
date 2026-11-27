@@ -116,7 +116,7 @@ objective_id = &"take_intelligence_annex"
 spin_speed = 0.0
 hold_duration = 3.0
 enabled = false
-prompt = "Lấy 04-B · Giờ phong tỏa đã sửa"
+prompt = "Lấy 04-B\nTuyến chính đóng sớm 20 phút.\nĐoàn sơ tán sẽ đi đường dự phòng."
 
 [node name="Shape" type="CollisionShape3D" parent="ArchiveDesk/Annex"]
 shape = SubResource("FolderReach")
@@ -164,7 +164,7 @@ rotation = Vector3(0, -0.09, 0)
 script = ExtResource("2_note")
 document_id = &"k17_handover_04b"
 title = "Sổ bàn giao ca trực"
-text = "Ca đêm đã nhận bản đính chính 04-B. Lưu ở ngăn niêm phong cạnh Mật lệnh 04 tại B1.\n\nGiờ phong tỏa tuyến sơ tán được đẩy sớm hơn 20 phút. Chuyển 04-B cho đoàn sơ tán để họ đổi tuyến kịp thời."
+text = "Ca đêm đã nhận bản đính chính 04-B. Lưu ở ngăn niêm phong cạnh Mật lệnh 04 tại B1.\n\nTuyến chính của đoàn sơ tán sẽ bị phong tỏa sớm hơn 20 phút. Giao 04-B tại điểm tập kết để đoàn chuyển sang đường dự phòng trước giờ phong tỏa."
 
 [node name="Shape" type="CollisionShape3D" parent="GuardDesk/HandoverLog"]
 shape = SubResource("BookReach")
