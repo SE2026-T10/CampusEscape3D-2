@@ -1,5 +1,5 @@
 extends SceneTree
-## Stages two saves to exercise 04-B's real hold input, restoration and results.
+## Exercise 04-B hold, retry and both handoff outcomes in each mode.
 const M := preload("res://maps/intelligence/scripts/mission_controller.gd")
 const Cleanup := preload("res://tests/test_utils.gd")
 const MAP := "res://maps/intelligence/scenes/intelligence_k17%s.tscn"
@@ -22,14 +22,15 @@ func _run() -> void:
 		if arg.begins_with("--out="): _out=arg.trim_prefix("--out=")
 	if not _out.is_empty(): DirAccess.make_dir_recursive_absolute(_out)
 	for test_mode in [false,true]:
-		await _check_scene(test_mode)
+		for collect_annex in [false,true]:
+			await _check_scene(test_mode,collect_annex)
 	await Cleanup.settle_async_audio(self)
 	for failure in _failures: printerr(failure)
 	print("K17 V8: %d checks; %d failures" % [_checks,_failures.size()])
 	quit(0 if _failures.is_empty() else 1)
 
 
-func _check_scene(test_mode: bool) -> void:
+func _check_scene(test_mode: bool,collect_annex: bool) -> void:
 	change_scene_to_file(MAP % ("_test" if test_mode else ""))
 	await _frames(40)
 	var level := current_scene
@@ -49,7 +50,7 @@ func _check_scene(test_mode: bool) -> void:
 	var primary := level.get_node("Gameplay/IntelligenceFile") as AccessCard
 	var hud := level.get_node("ObjectiveHud") as ObjectiveHud
 	var inventory := PlayerInventory.find(level)
-	var suffix := "test" if test_mode else "normal"
+	var suffix := "%s_%s" % ["test" if test_mode else "normal","take" if collect_annex else "skip"]
 	_expect(objectives.is_optional(M.ANNEX) and objectives.get_mandatory_ids().size()==7,"04-B leaves seven mandatory objectives / "+suffix)
 	_expect(seal.visible and not annex.visible and not annex.enabled and annex.collision_layer==0,"Sealed Annex does not intercept focus / "+suffix)
 	_expect(not annex.interact(_player),"04-B cannot be taken early / "+suffix)
@@ -68,10 +69,10 @@ func _check_scene(test_mode: bool) -> void:
 		# The archive tabletop mesh is 10 cm above its simplified collision box.
 		_expect(not hit.is_empty() and absf(hit.position.y-desk.global_position.y)<.13,"New props align with the existing desk / "+str(desk.name))
 	if not test_mode:
-		await _shot("guard_desk")
+		await _shot("guard_desk_"+suffix)
 		await _hold(1)
 		_expect(inventory.has_document(&"k17_handover_04b") and hud.is_journal_open(),"Reading the log stores the clue in J")
-		await _shot("handover_log")
+		await _shot("handover_log_"+suffix)
 		hud.close_journal()
 
 	for id in [M.ENTER,M.PASS,M.CODE,M.ARCHIVE,M.VAULT]:
@@ -85,13 +86,18 @@ func _check_scene(test_mode: bool) -> void:
 	_expect(not test_mode or not inventory.has_document(&"k17_handover_04b"),"Reading the clue is optional / "+suffix)
 
 	await _aim(annex)
+	var prompt := hud.get_prompt_text()
+	_expect(prompt.begins_with("[E] Giữ 3.0 giây · Lấy 04-B"),"The tray displays its three-second cost before E is held / "+suffix)
+	_expect(prompt.contains("Tuyến chính đóng sớm 20 phút") and prompt.contains("Đoàn sơ tán sẽ đi đường dự phòng"),"The tray explains the evacuation decision before pickup / "+suffix)
 	await _shot("annex_"+suffix)
+	if DisplayServer.get_name()!="headless":
+		_expect(hud._prompt.text.contains("Giữ 3.0 giây") and hud._prompt.text.contains("đường dự phòng") and root.get_visible_rect().encloses(hud._prompt_box.get_global_rect()),"The visible tray prompt fits with time and outcome / "+suffix)
 	await _hold(48)
 	_expect(not annex.is_taken() and annex.visible,"Releasing E early leaves 04-B in the tray / "+suffix)
 	var interactor := _player.get_node("Interactor") as PlayerInteractor
 	_key(true)
 	await _frames(20)
-	_expect(interactor.hold_target==annex,"The full hold starts through real player input / "+suffix)
+	_expect(interactor.hold_target==annex and is_equal_approx(interactor.hold_required,3.0),"Real input starts a three-second hold / "+suffix)
 	_flow.pause()
 	var paused_time := mission.time_left
 	await _frames(12,false)
@@ -121,7 +127,7 @@ func _check_scene(test_mode: bool) -> void:
 	_player.position = ARCHIVE_STAND
 	await _aim(primary)
 	await _hold(216)
-	if test_mode:
+	if collect_annex:
 		await _aim(annex)
 		await _hold(184)
 	var route := &"maintenance" if test_mode else &"courtyard"
@@ -129,14 +135,19 @@ func _check_scene(test_mode: bool) -> void:
 	_player.position = zone.global_position-Vector3.UP
 	await _frames(40,false)
 	_expect(mission.escaped and objectives.escape_route==route,"Both outcomes trigger extraction / "+suffix)
+	_expect(objectives.is_completed(M.ANNEX)==collect_annex,"Handoff preserves the player's optional choice / "+suffix)
 	var menus := level.get_node("GameMenus") as GameMenus
-	var ending := "Đoàn sơ tán đã đổi tuyến" if test_mode else "Đang xác minh giờ phong tỏa"
-	_expect(_flow.state==GameStateMachine.State.WIN and menus.get_win_text().contains(ending),"Results confirm the correct handoff / "+suffix)
+	var ending := "Đoàn sơ tán đã chuyển sang đường dự phòng." if collect_annex else "Đoàn sơ tán chờ xác minh giờ phong tỏa."
+	var handoff := "04-B đã bàn giao. Tuyến chính đóng sớm 20 phút." if collect_annex else "Mật lệnh 04 đã bàn giao. Chưa nhận 04-B."
+	var win_text := menus.get_win_text()
+	_expect(_flow.state==GameStateMachine.State.WIN and win_text.contains(handoff) and win_text.contains(ending),"Results confirm the correct handoff / "+suffix)
+	print("[V8 handoff] ",suffix," ",handoff," ",ending)
+	await _shot("win_"+suffix)
 	if DisplayServer.get_name()!="headless":
 		var view := root.get_visible_rect()
-		_expect(view.encloses(menus.play_again_button.get_global_rect()) and view.encloses(menus._win_stats.get_global_rect()),"Results and buttons remain on-screen / "+suffix)
+		_expect(menus.win_panel.visible and menus._win_stats.text.contains(handoff) and menus._win_stats.text.contains(ending),"The win panel displays the handoff and outcome / "+suffix)
+		_expect(view.encloses(menus.play_again_button.get_global_rect()) and view.encloses(menus.win_menu_button.get_global_rect()) and view.encloses(menus._win_stats.get_global_rect()),"Results and buttons remain on-screen / "+suffix)
 	_expect(not annex.interact(_player),"The annex cannot be collected after extraction / "+suffix)
-	await _shot("win_"+suffix)
 	_flow = null
 	current_scene = null
 	level.queue_free()
@@ -172,9 +183,12 @@ func _frames(count: int,resume := true) -> void:
 
 
 func _shot(name_: String) -> void:
-	if _out.is_empty() or DisplayServer.get_name()=="headless": return
+	if DisplayServer.get_name()=="headless": return
+	# The render tick must have applied the HUD and result text before checking it.
+	await process_frame
 	await RenderingServer.frame_post_draw
-	root.get_texture().get_image().save_png(_out.path_join(name_+".png"))
+	if not _out.is_empty():
+		root.get_texture().get_image().save_png(_out.path_join(name_+".png"))
 
 
 func _expect(condition: bool,message: String) -> void:
