@@ -37,13 +37,8 @@ for needed in project.binary shared/scenes/ui/main_menu.tscn.remap shared/script
               shared/scripts/ui/paper_note.gd shared/scripts/ui/journal_clipboard.gd shared/assets/fonts/kalam/Kalam-Regular.ttf shared/assets/fonts/kalam/Kalam-Bold.ttf; do
   grep -aq "$needed" build/CampusEscape3D.pck || { echo "::error::$needed is missing from the pack"; exit 1; }
 done
-if grep -aqE "(^|[^a-z_])(tests|tools)/[a-z_]+\.gd" build/CampusEscape3D.pck; then
-  echo "::error::Tests or tools were exported into the pack"; exit 1
-fi
-
-# Exercise the exported resource namespace, so missing dependencies cannot be
-# hidden by files still present in the source checkout. Unload before quitting
-# to let the AudioServer release its streams cleanly.
+# Inspect the exported resource namespace for development files and load the
+# levels there, so source files cannot hide missing dependencies.
 pack_file="$(pwd)/build/CampusEscape3D.pck"
 pack_checker="$(pwd)/tools/ci/check_pack.gd"
 pack_check_dir="$(mktemp -d)"
