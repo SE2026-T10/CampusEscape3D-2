@@ -9,6 +9,8 @@ const PREP := Vector3(8,.05,-20)
 const LATCH := Vector3(42.9,1.2,5)
 const EXITS := [Vector3(-36,1,51),Vector3(36,1,51)]
 const GATES := [Vector3(-36,1.1,46),Vector3(36,1.1,46)]
+const COURTYARD_BYPASS := [Vector3(4,0,7), Vector3(16,0,7), Vector3(16,0,18), Vector3(16,0,44),
+	Vector3(-24,0,44), Vector3(-36,0,44), Vector3(-36,0,51)]
 const SENSORS := [Vector3(4,-2.8,-38),Vector3(4,-2.8,-42.4)]
 const PATROLS := [
 	[Vector3(-30,0,22),Vector3(-22,0,22),Vector3(-22,0,38),Vector3(-26,0,38)],

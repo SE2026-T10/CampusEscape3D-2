@@ -1508,7 +1508,7 @@ objectives = Array[Dictionary]([{
 "title": "Thu hồi Mật lệnh 04"
 }, {
 "done": "Đã đưa hồ sơ ra khỏi K17",
-"hint": "Trở ra ngoài qua sân hoặc bảo trì. Tìm đèn xanh trước khi hết giờ.",
+"hint": "Rút qua cửa vừa vào. Theo biển A hoặc B tới đèn xanh.",
 "id": &"extract_k17",
 "requires": [&"take_intelligence"],
 "title": "Đến điểm tập kết"
@@ -1528,7 +1528,7 @@ objectives = Array[Dictionary]([{
 "title": "Ngắt nguồn camera mặt đất"
 }, {
 "done": "Đã lấy 04-B · Giờ phong tỏa sớm hơn 20 phút",
-"hint": "Sau khi lấy bản chính, giữ E 3 giây tại ngăn bên cạnh để lấy giờ phong tỏa đã sửa.",
+"hint": "Giữ E 3 giây tại ngăn cạnh bản chính. 04-B cho đội sơ tán biết giờ phong tỏa đã sửa.",
 "id": &"take_intelligence_annex",
 "optional": true,
 "requires": [&"take_intelligence"],

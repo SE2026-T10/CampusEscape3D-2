@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://maps/intelligence/scenes/props/route_board.tscn" id="1_board"]
+[ext_resource type="Script" path="res://maps/intelligence/scripts/route_board.gd" id="2_board_script"]
 
 [sub_resource type="StandardMaterial3D" id="Material_Lamp"]
 albedo_color = Color(0.14, 0.2, 0.19, 1)
@@ -33,6 +34,14 @@ size = Vector3(0.83, 0.26, 0.04)
 material = SubResource("Material_DeskCard")
 size = Vector3(0.24, 0.24, 0.16)
 
+[sub_resource type="StandardMaterial3D" id="Material_RoutePlate"]
+albedo_color = Color(0.075, 0.13, 0.12, 1)
+roughness = 0.84
+
+[sub_resource type="BoxMesh" id="Mesh_YardRoutePlate"]
+material = SubResource("Material_RoutePlate")
+size = Vector3(3.96, 0.48, 0.06)
+
 [node name="V7Presentation" type="Node3D"]
 
 [node name="B1Fork" parent="." instance=ExtResource("1_board")]
@@ -41,6 +50,36 @@ position = Vector3(4, -4, -36.3)
 [node name="GroundFork" parent="." instance=ExtResource("1_board")]
 position = Vector3(4, 0, 8.9)
 ground_fork = true
+
+[node name="YardSplit" type="Node3D" parent="."]
+position = Vector3(16, 2.8, 21.89)
+script = ExtResource("2_board_script")
+yard_split = true
+
+[node name="Backplate" type="MeshInstance3D" parent="YardSplit"]
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("Mesh_YardRoutePlate")
+
+[node name="Yard" type="Label3D" parent="YardSplit"]
+position = Vector3(-0.97, 0, -0.034)
+rotation = Vector3(0, 3.141593, 0)
+modulate = Color(0.76, 0.9, 0.85, 1)
+double_sided = false
+text = "A · VÒNG MÉP NAM   ↑"
+font_size = 29
+outline_size = 2
+pixel_size = 0.00385
+
+[node name="Service" type="Label3D" parent="YardSplit"]
+position = Vector3(0.97, 0, -0.034)
+rotation = Vector3(0, 3.141593, 0)
+modulate = Color(0.76, 0.9, 0.85, 1)
+double_sided = false
+text = "←   B · BẢO TRÌ"
+font_size = 29
+outline_size = 2
+pixel_size = 0.00385
 
 [node name="ArchiveDesk" type="Node3D" parent="."]
 position = Vector3(-19, -3.08, -41.2)
@@ -87,4 +126,4 @@ modulate = Color(0.96, 0.87, 0.65, 1)
 pixel_size = 0.0019
 font_size = 25
 outline_size = 1
-text = "K17 / BẢN ĐÃ DUYỆT\nGIỜ PHONG TỎA TUYẾN SƠ TÁN"
+text = "K17 / MẬT LỆNH 04\nBẢN CHÍNH · GIỜ PHONG TỎA"

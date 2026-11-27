@@ -67,25 +67,27 @@ func post() -> Node:
 	return get_tree().get_first_node_in_group("k17_projection_post")
 
 func feed_status() -> String:
-	if revoked: return "V · Mất kết nối"
-	if not hacked: return "Giữ E ở bảng B1 để kết nối"
+	if revoked: return "Camera B1 · Mất kết nối"
+	if not hacked: return "Giữ E tại bảng Chiếm kênh B1"
 	match feed_mode:
-		1: return "V · Camera trước"
-		2: return "V · C1"
-	return "V · Đã ẩn"
+		1: return "Camera trước · V xem C1"
+		2: return "C1 trên chốt · V ẩn camera"
+	return "Đã ẩn camera · V bật lại"
 
-func call_status() -> String:
-	if _mission.is_test_mode(): return "Bản test · Không có chốt"
-	if revoked: return "R · Kênh đã thu hồi"
+func call_status(offer_request := true) -> String:
+	if _mission.is_test_mode(): return "Bản thử · Không có chốt"
+	if revoked: return "Yêu cầu · Kênh đã thu hồi"
 	if not hacked: return ""
-	if pending>0: return "R · Đã gửi, đang chờ"
+	if pending>0: return "Yêu cầu đã gửi · đang chờ"
 	var guard:=post()
 	if guard and guard.check_left>0:
-		if absf(angle_difference(guard.rotation.y,0.0))>=.08: return "R · Chốt đang quay"
-		return "R · Chốt nhìn máy · %d giây"%ceili(guard.check_left)
-	if lockout>0: return "R · Đối chiếu kênh · %d giây"%ceili(lockout)
-	if cooldown>0: return "R · Đang hồi · %d giây"%ceili(cooldown)
-	return "R · Gửi yêu cầu kiểm tra"
+		if absf(angle_difference(guard.rotation.y,0.0))>=.08: return "Chốt đang quay sang máy"
+		return "Chốt nhìn máy · %d giây"%ceili(guard.check_left)
+	if lockout>0: return "Đang đối chiếu kênh · %d giây"%ceili(lockout)
+	if cooldown>0: return "Đang hồi yêu cầu · %d giây"%ceili(cooldown)
+	if guard and guard.can_check_terminal():
+		return "R · Gọi chốt nhìn máy" if offer_request else "Chốt quan sát hành lang"
+	return "Chốt chưa nhận yêu cầu"
 
 func request_call() -> bool:
 	if not can_play() or not hacked or revoked or pending>0 or cooldown>0 or lockout>0: return false
@@ -144,7 +146,7 @@ func _physics_process(delta: float) -> void:
 			_meter+=delta*30
 			if _meter>=100:
 				_meter=0
-				_mission.record_sensor_trip(C.CCTV)
+				_mission.record_sensor_trip(C.CCTV,"Camera C1 B1")
 		else: _meter=maxf(0,_meter-delta*20)
 
 func cctv_sees(player: FirstPersonPlayer) -> bool:

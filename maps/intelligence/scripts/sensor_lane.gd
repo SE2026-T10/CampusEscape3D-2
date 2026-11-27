@@ -1,6 +1,7 @@
 class_name K17SensorLane
 extends Node3D
 ## The beam volume and warning cycle are gameplay; the emissive rods show that state.
+@export var lane_name := "S1"
 @export var cycle_duration := 8.0
 @export var safe_duration := 4.0
 @export var warning_duration := 1.0
@@ -26,6 +27,13 @@ func seconds_until_change() -> float:
 	var t := fposmod(phase_clock + phase_offset, cycle_duration)
 	return (safe_duration if get_phase() == 0 else safe_duration + warning_duration if get_phase() == 1 else cycle_duration) - t
 
+func status_text() -> String:
+	return "%s   %s   %d GIÂY" % [lane_name,["✓ QUA","△ CHỜ","× DỪNG"][get_phase()],ceili(seconds_until_change())]
+
+func is_near_feet(feet: Vector3) -> bool:
+	var offset := to_local(feet)
+	return absf(offset.x)<=2.2 and absf(offset.y)<=1.8 and absf(offset.z)<1.9
+
 func _physics_process(delta: float) -> void:
 	var flow := GameFlow.find(self)
 	if flow == null or flow.state != GameStateMachine.State.PLAYING:
@@ -43,7 +51,7 @@ func _physics_process(delta: float) -> void:
 	trips += 1
 	cooldown_left = cycle_duration
 	var mission := MapHudProvider.find_for(self) as K17MissionController
-	if mission: mission.record_sensor_trip(global_position)
+	if mission: mission.record_sensor_trip(global_position,"Cảm biến " + lane_name)
 
 func _update_visual() -> void:
 	var phase := get_phase()
@@ -56,7 +64,7 @@ func _update_visual() -> void:
 			beam.material_override = _material
 		if phase == 1 and _last_phase >= 0: $Relay.play()
 		_last_phase = phase
-	var text := "%s / %d GIÂY" % [["XANH: ĐƯỢC QUA","VÀNG: SẮP QUÉT","ĐỎ: DỪNG LẠI"][phase],ceili(seconds_until_change())]
+	var text := status_text()
 	if $Status.text != text: $Status.text = text
 	if $StatusBack.text != text: $StatusBack.text = text
 

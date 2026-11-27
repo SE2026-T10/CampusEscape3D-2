@@ -29,14 +29,18 @@ func run(parent: Node) -> Array[String]:
 	var noise := NoiseSystem.find(level)
 	player.global_position = Vector3(4,-3.95,-38)
 	await _frames(3)
-	for phase in [1.0,4.5]:
-		sensor.phase_clock = phase
+	for phase in [[1.0,"✓ QUA"],[4.5,"△ CHỜ"]]:
+		sensor.phase_clock = phase[0]
 		sensor._physics_process(0.0)
+		_expect(sensor.get_node("Status").text.contains(phase[1]) and sensor.get_node("StatusBack").text.contains(phase[1]),"Both sensor signs show a non-colour phase cue")
 	_expect(sensor.trips == 0,"Safe and warning phases do not alarm")
+	_expect(sensor.lane_name=="S1" and sensor2.lane_name=="S2","Sensor lane names match the B1 route")
 	sensor.phase_clock = 5.5
 	var noises := noise.emitted_count
 	sensor._physics_process(0.0)
 	_expect(sensor.trips == 1 and mission.sensor_trips == 1 and noise.emitted_count == noises+1,"Live beam intersection raises one real alarm noise")
+	_expect(sensor.get_node("Status").text.contains("× DỪNG") and SecurityAlarm.find(level).last_reason.contains("S1"),"Active red phase and alarm identify the actual emitter")
+	_expect(mission.get_status_lines().has(sensor.status_text()) and not mission.get_status_lines().has(sensor2.status_text()),"HUD shows only the nearby lane even when the farther sign is visible")
 	_expect(StealthDirector.find(level).catches == 0,"Sensor is not an instant guard capture")
 	var event := noise.get_active_events()[-1]
 	_expect(event.position.distance_to(sensor.global_position) < .01,"Alarm noise originates at the sensor")

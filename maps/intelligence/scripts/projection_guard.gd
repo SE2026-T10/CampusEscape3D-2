@@ -82,6 +82,7 @@ func begin_terminal_check(duration: float) -> bool:
 	check_left=duration
 	natural_left=Config.NATURAL_INTERVAL
 	_terminal_audio.play()
+	SoundCaptions.cue(self,"k17_b1_terminal","Bíp máy trực B1",Config.TERMINAL,_terminal_audio.max_distance)
 	return true
 
 func _clear_blocked_rig(delta: float,mission: K17MissionController) -> void:

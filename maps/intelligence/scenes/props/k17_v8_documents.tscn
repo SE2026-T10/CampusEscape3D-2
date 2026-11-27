@@ -100,13 +100,13 @@ gi_mode = 0
 mesh = SubResource("TraySeal")
 
 [node name="Stamp" type="Label3D" parent="ArchiveDesk/Tray/Seal"]
-position = Vector3(0, 0.011, 0)
+position = Vector3(0, 0.022, 0)
 rotation = Vector3(-1.570796, 3.141593, 0)
 modulate = Color(0.98, 0.86, 0.72, 1)
-pixel_size = 0.00145
-font_size = 24
-outline_size = 0
-text = "NIÊM PHONG"
+pixel_size = 0.002
+font_size = 32
+outline_size = 3
+text = "04-B"
 
 [node name="Annex" type="Area3D" parent="ArchiveDesk"]
 position = Vector3(0, 0.075, 0)
@@ -116,7 +116,7 @@ objective_id = &"take_intelligence_annex"
 spin_speed = 0.0
 hold_duration = 3.0
 enabled = false
-prompt = "Lấy phụ lục 04-B (tùy chọn)"
+prompt = "Lấy 04-B · Giờ phong tỏa đã sửa"
 
 [node name="Shape" type="CollisionShape3D" parent="ArchiveDesk/Annex"]
 shape = SubResource("FolderReach")
@@ -164,7 +164,7 @@ rotation = Vector3(0, -0.09, 0)
 script = ExtResource("2_note")
 document_id = &"k17_handover_04b"
 title = "Sổ bàn giao ca trực"
-text = "Liên phiếu bị xé, còn lại một dòng.\n\nĐã nhận phụ lục 04-B. Xếp cùng Mật lệnh 04 tại B1."
+text = "Ca đêm đã nhận bản đính chính 04-B. Lưu ở ngăn niêm phong cạnh Mật lệnh 04 tại B1.\n\nGiờ phong tỏa tuyến sơ tán được đẩy sớm hơn 20 phút. Chuyển 04-B cho đoàn sơ tán để họ đổi tuyến kịp thời."
 
 [node name="Shape" type="CollisionShape3D" parent="GuardDesk/HandoverLog"]
 shape = SubResource("BookReach")

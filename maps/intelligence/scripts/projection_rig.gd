@@ -245,11 +245,11 @@ func inspection_point_for(observer: Guard) -> Vector3:
 	return NavigationServer3D.map_get_closest_point(observer.agent.get_navigation_map(),desired)
 
 func status_text() -> String:
-	if not deployed: return "Màn chiếu · Giữ E ở tay cầm"
+	if not deployed: return "Màn chiếu · Giữ E để dựng"
 	if not powered: return "Màn chiếu · Tắt hình"
-	if not calibration_valid(observer_eye()): return "Màn chiếu · Lệch hình"
-	if near_calibration_limit(): return "Màn chiếu · Gần lệch"
-	return "Màn chiếu · Khớp hướng chốt"
+	if not calibration_valid(observer_eye()): return "Hình chiếu với chốt · Đã lệch"
+	if near_calibration_limit(): return "Hình chiếu với chốt · Gần lệch"
+	return "Hình chiếu với chốt · Khớp"
 
 func near_calibration_limit() -> bool:
 	var local_eye := to_local(observer_eye())

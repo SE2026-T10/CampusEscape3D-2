@@ -40,6 +40,11 @@ func run(parent: Node) -> Array[String]:
 	mission.time_left=110
 	team._physics_process(0)
 	_expect(team.spawned_count==2 and level.get_node("Guards").get_child_count()==8,"First dispatch adds two physical guards at T+10.")
+	var overlay := level.get_node_or_null("NavigationDebug") as Node3D
+	if overlay:
+		var first_guard := level.get_node("Guards/Reinforcement0") as Guard
+		_expect(not first_guard.debug_label.visible,"Late guard labels stay hidden with F3 off.")
+		overlay.call("set_debug_visible",true)
 	team._physics_process(0)
 	_expect(team.spawned_count==2,"Repeated processing cannot duplicate a wave.")
 	var flow:=GameFlow.find(level)
@@ -50,6 +55,10 @@ func run(parent: Node) -> Array[String]:
 	flow.resume()
 	team._physics_process(0)
 	_expect(team.spawned_count==4 and level.get_node("Guards").get_child_count()==10,"Second dispatch adds two more guards at T+45.")
+	if overlay:
+		var late_guard := level.get_node("Guards/Reinforcement2") as Guard
+		_expect(late_guard.debug_label.visible,"Late guard labels inherit F3 on as well.")
+		overlay.call("set_debug_visible",false)
 	for guard in level.get_node("Guards").get_children():
 		if not str(guard.name).begins_with("Reinforcement"): continue
 		_expect(guard.has_meta("military_applied") and guard.has_node("Model/Hips/Torso/MilitaryChest"),"Late-spawned guards receive the military appearance.")

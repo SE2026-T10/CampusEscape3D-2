@@ -6,6 +6,7 @@ extends SceneTree
 const SCENE := "res://maps/intelligence/scenes/intelligence_k17.tscn"
 const Cleanup := preload("res://tests/test_utils.gd")
 const ProjectionConfig := preload("res://maps/intelligence/resources/layout/k17_projection.gd")
+const Layout := preload("res://maps/intelligence/resources/layout/k17_layout.gd")
 var failures: Array[String] = []
 var out := ""
 var level: Node3D
@@ -379,8 +380,7 @@ func _escape(route: String) -> void:
 			if wait_for_radio: await _frames(480)
 			await _route([Vector3(0,0,10.7),Vector3(0,0,7)])
 		if yard_flank:
-			await _route([Vector3(16,0,7),Vector3(16,0,18),Vector3(16,0,44)])
-			await _route([Vector3(-24,0,44),Vector3(-36,0,44),Vector3(-36,0,51)])
+			await _route(Layout.COURTYARD_BYPASS.slice(1))
 		else:
 			await _route([Vector3(-12,0,7),Vector3(-12,0,18),Vector3(-16,0,22),Vector3(-20,0,26),Vector3(-24,0,26),Vector3(-24,0,42),Vector3(-36,0,42),Vector3(-36,0,51)])
 
