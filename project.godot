@@ -17,6 +17,10 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 config/engine_version="4.7.2 Stable [ed1daf0bf]"
 target/platform="Windows Desktop"
 
+[audio]
+
+buses/default_bus_layout="res://shared/assets/audio/default_bus_layout.tres"
+
 [display]
 
 window/size/viewport_width=1280
