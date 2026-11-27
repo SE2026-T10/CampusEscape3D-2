@@ -60,3 +60,11 @@ Benchmark B1 mở lại kênh sau ca kiểm tra thu hồi và xác nhận mỗi 
 Dùng bản thử để thực hiện các cảnh C2–C5 trong báo cáo gốc. Driver hiện ghi bốn lần chờ cửa sổ B1 mỗi lượt. Tổng thời gian chờ là 171,9 giây với nhịp tự nhiên và 126,2–138,7 giây qua ba cấu hình có R. Lượt có R vẫn có một lần chờ 75,3 giây. Đây là đường cơ sở theo quy tắc của driver.
 
 Dữ liệu sáu người mới vẫn cần thu để xác nhận họ đọc đúng W1/W2, cách đổi B và giá trị 04-B. Điều chỉnh pha chốt và tuần tra khi người chơi vẫn gặp chờ dài, rồi so sánh trước/sau với mục tiêu giảm tối thiểu 25% thời gian chờ trung vị. Kiểm tra ngưỡng 720p trên máy cấu hình thấp trong vòng chơi thử phát hành.
+
+## Sửa hồi quy lời thoại B1
+
+HUD nhiệm vụ và bảng B1 đọc cùng lời radio đang còn thời gian từ mission controller. Khi bảng B1 thay bảng trạng thái, lời Lam xuất hiện cùng các dòng camera và cảm biến. Dòng radio hết hạn tự ẩn. Tiêu đề video nhận diện góc trước và C1 trong chiều rộng còn lại bên trên phụ đề.
+
+Kiểm tra Godot 4.7.2 trên Windows bằng dải S1 ở pha đỏ. Cả bản thường và bản không lính hiển thị lời Lam trong B1 và tiếp tục hiển thị khi rời B1 trong lúc lời còn hạn. `k17_security_tests.gd` xác nhận thêm lời hết hạn và chỉ một bảng trạng thái hiện. `check_k17.gd` đạt 621 phép kiểm và `map_flow.gd` đạt 100 phép kiểm. `preview_b1.gd` đạt 12/12 ca có render với hai góc video, ba kích thước cửa sổ, HUD 100%/125%, lời Lam và bốn phụ đề. Số liệu hiệu năng góc sân vẫn lấy theo đợt đo trước.
+
+Workflow Build nhận thêm PR nhắm `twp` để chạy validate/test và export Windows trên cây merge thử của PR.

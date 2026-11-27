@@ -9,6 +9,7 @@ var _projection_status: Label
 var _camera_status: Label
 var _call_status: Label
 var _b1_hint: Label
+var _b1_radio: Label
 
 func _ready() -> void:
 	super()
@@ -42,7 +43,7 @@ func _build_projection_panel() -> void:
 	var column:=VBoxContainer.new()
 	column.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	_projection_panel.add_child(column)
-	for id in ["Alignment","Camera","Request","Hint"]:
+	for id in ["Alignment","Camera","Request","Hint","Radio"]:
 		var line:=_make_label(14,HORIZONTAL_ALIGNMENT_LEFT)
 		line.name=id
 		line.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -51,6 +52,7 @@ func _build_projection_panel() -> void:
 	_camera_status=column.get_node("Camera")
 	_call_status=column.get_node("Request")
 	_b1_hint=column.get_node("Hint")
+	_b1_radio=column.get_node("Radio")
 	_projection_panel.hide()
 
 func _update_projection_panel() -> void:
@@ -87,6 +89,9 @@ func _update_projection_panel() -> void:
 			hint = "W1/W2 · Kiểm tra tuần tra trước khi rẽ."
 	_set_text(_b1_hint,hint)
 	_b1_hint.visible=not hint.is_empty()
+	var radio := mission.get_active_radio_message()
+	_set_text(_b1_radio, radio)
+	_b1_radio.visible = not radio.is_empty()
 	var panel_size := _projection_panel.get_combined_minimum_size()
 	if _projection_panel.size!=panel_size: _projection_panel.size=panel_size
 	var feed_top := _projection_panel.get_global_rect().end.y + 8.0

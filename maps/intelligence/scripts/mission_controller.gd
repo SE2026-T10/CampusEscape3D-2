@@ -214,9 +214,12 @@ func get_status_lines() -> Array[String]:
 			lines.append("Cửa hậu đã chuẩn bị")
 	var sensor := nearby_sensor_status(get_tree().get_first_node_in_group("player") as Node3D)
 	if not sensor.is_empty(): lines.append(sensor)
-	if _dialogue_left > 0.0 and not radio_message.is_empty():
-		lines.append(radio_message)
+	var radio := get_active_radio_message()
+	if not radio.is_empty(): lines.append(radio)
 	return lines
+
+func get_active_radio_message() -> String:
+	return radio_message if _dialogue_left > 0.0 else ""
 
 func nearby_sensor_status(player: Node3D) -> String:
 	if player == null or player.global_position.y >= -2.0: return ""

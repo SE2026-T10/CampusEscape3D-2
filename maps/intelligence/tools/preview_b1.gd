@@ -2,6 +2,7 @@ extends SceneTree
 ## Deliberately staged renderer inspection, not walking proof.
 const C:=preload("res://maps/intelligence/resources/layout/k17_projection.gd")
 const OUT:="res://maps/intelligence/docs/b1-refinement/screens"
+const RADIO_LINE := "Lam: Qua cảm biến khi bảng ghi QUA. Quan sát tuần tra qua ô bên hông trước khi rẽ."
 var player: FirstPersonPlayer
 var flow: GameFlow
 var layouts: Array[Dictionary]=[]
@@ -24,6 +25,7 @@ func _run() -> void:
 	for id in [K17MissionController.ENTER,K17MissionController.PASS,K17MissionController.CODE,K17MissionController.ARCHIVE,K17MissionController.VAULT]: ObjectiveManager.find(current_scene).complete(id)
 	var rig:=current_scene.get_node("Gameplay/ProjectionRig")
 	var system:=current_scene.get_node("Gameplay/B1Surveillance")
+	var mission := current_scene.get_node("Gameplay/Mission") as K17MissionController
 	view(Vector3(4,-4,-36),Vector3(4,-2.8,-43))
 	await shot("01_sensors")
 	view(Vector3(4.05,-4,-50.6),C.HACK)
@@ -58,6 +60,7 @@ func _run() -> void:
 		for scale_ in [1.0,1.25]:
 			root.content_scale_factor=scale_
 			view(Vector3(-14.4,-4,-47),C.ROOM_LOCK)
+			mission.queue_radio(RADIO_LINE, 100)
 			for i in 4: SoundCaptions.cue(current_scene,"b1_qa_"+str(i),["Bước chân bên hông","Máy trực xác nhận","Tiếng bánh xe","Vô tuyến tuần tra"][i],Vector3(-10,-2.4,-43),100)
 			for feed in [1,2]:
 				system.feed_mode=feed
@@ -106,12 +109,21 @@ func _run() -> void:
 
 func check_ui(window: Vector2i,scale_: float,feed: int) -> void:
 	var hud:=current_scene.get_node("ObjectiveHud")
-	var panel: Control=current_scene.get_node("Gameplay/B1Surveillance")._panel
+	var surveillance := current_scene.get_node("Gameplay/B1Surveillance")
+	var panel := surveillance._panel as Control
+	var title := surveillance._title as Label
 	var bad: Array[String]=[]
-	for control: Control in [hud._status_panel,hud._panel,hud.minimap,hud._projection_status,hud._slots,current_scene.get_node("StealthHud").captions]:
+	for control: Control in [hud._status_panel,hud._panel,hud.minimap,hud._projection_panel,hud._slots,current_scene.get_node("StealthHud").captions]:
 		if control.visible and panel.get_global_rect().intersects(control.get_global_rect()): bad.append(str(control.name))
 	var view_:=root.get_visible_rect()
 	if not view_.encloses(panel.get_global_rect()): bad.append("outside viewport")
+	var title_width := title.get_theme_font("font").get_string_size(title.text, HORIZONTAL_ALIGNMENT_LEFT,
+		-1.0, title.get_theme_font_size("font_size")).x
+	if title.text.is_empty() or title.size.x < title_width: bad.append("feed title clipped")
+	if not hud._b1_radio.is_visible_in_tree() or hud._b1_radio.text != RADIO_LINE:
+		bad.append("radio line missing")
+	elif not view_.encloses(hud._b1_radio.get_global_rect()):
+		bad.append("radio line outside viewport")
 	if not bad.is_empty(): failures.append("%s @%s / feed %d: %s"%[window,scale_,feed,bad])
 	layouts.append({"window":str(window),"scale":scale_,"feed":feed,"logical_viewport":str(view_.size),"feed_rect":str(panel.get_global_rect()),"overlaps":bad})
 

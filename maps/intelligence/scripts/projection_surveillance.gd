@@ -212,7 +212,7 @@ func _process(delta: float) -> void:
 	_panel.visible=shown
 	_viewport.render_target_update_mode=SubViewport.UPDATE_DISABLED
 	if not shown: return
-	var caption: String="CẢNH THẬT  /  "+("CAMERA TRƯỚC" if feed_mode==1 else "C1 · TRÊN CHỐT")
+	var caption := "CẢNH THẬT / TRƯỚC" if feed_mode == 1 else "CẢNH THẬT / C1"
 	if _title.text!=caption: _title.text=caption
 	_tick-=delta
 	if _tick>0: return

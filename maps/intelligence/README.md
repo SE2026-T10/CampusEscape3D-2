@@ -20,6 +20,8 @@ Bản V4 giữ khuôn viên **96 × 108 m**, tám khu chức năng, kho mật **
 
 **V7 — Mật lệnh 04:** HUD B1 gom trạng thái màn chiếu, camera và yêu cầu kiểm tra vào một góc. Đọc dấu **A · Sân** và **B · Bảo trì** trên biển, HUD và minimap trong đoạn rút. Trong phòng hồ sơ, camera tự ẩn để nhìn rõ mặt bàn và vẫn mở lại được bằng **V** trước báo động. Xem [kế hoạch V7](docs/gameplay-v7/PLAN.md).
 
+Khi bảng B1 hiện, lời Lam đang phát nằm cùng bảng với trạng thái màn chiếu và cảm biến. Hết thời gian phát, dòng lời thoại tự ẩn. Rời B1 hoặc bắt đầu rút lui thì bảng trạng thái nhiệm vụ tiếp tục hiển thị lời đang phát.
+
 **V8 — Bản đính chính 04-B:** Sổ bàn giao ở cạnh giấy thông hành gợi ý có phụ lục. Sau khi lấy Mật lệnh 04, ngăn trên bàn mở niêm phong. Giữ **E 3 giây** để lấy 04-B hoặc rút ngay với bản chính. Hai lựa chọn có lời xác nhận riêng ở tập kết. Có thể thu hồi phụ lục và thực hiện V5 trong cùng lượt.
 
 **Cải tiến tháng 11/2026:** HUD phân biệt độ khớp hình chiếu, hướng nhìn của chốt và tuần tra W1/W2. Cảm biến có ký hiệu riêng cho mỗi pha. Lối vòng A xuất hiện trên biển và minimap, B luôn ghi hướng bảo trì phía đông. Sổ bàn giao giải thích vì sao 04-B cần tới đoàn sơ tán. Bóng động của bốn đèn sân mờ dần theo khoảng cách.
