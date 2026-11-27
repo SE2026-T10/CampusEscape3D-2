@@ -64,6 +64,8 @@ Túi ba ô đủ cho giấy thông hành và hai chai rỗng có sẵn trong map
 
 **Rút bảo trì:** từ phòng hồ sơ quay về sảnh **trước S1**, rẽ đông vào hành lang ngầm rồi lên cầu thang thứ hai. Qua các vách kiểm soát của tuyến dịch vụ/xưởng để đến cửa hậu phía đông. Tuyến này có chỗ che và vẫn dùng được sau khi cổng chính khóa.
 
+Biển B ở ngã rẽ B1 và khối giữa hiển thị tình trạng chuẩn bị cửa hậu ngay trên đường vào. Khi rút, biển và HUD cùng báo **Đã chuẩn bị · nhấn E**, **Khóa cơ · giữ E 8 giây** hoặc **Cửa hậu đã mở**. Xem [kiểm thử bốn ca đổi tuyến A/B](docs/ab-fork-2026-11-27/VALIDATION.md).
+
 Radio ở phòng vô tuyến hẹn tiếng rè sau **bốn giây**, phát từ hai loa có vị trí thật và hồi sau 20 giây. Chỉ lính nghe được mới điều tra. Lính đã truy đuổi tiếp tục theo luật AI chung, không tự quên người chơi vì radio.
 
 Bảy vị trí nấp nằm sau xe, cạnh tủ, sau vách hoặc trong hốc kiện hàng ở nhà xe, phòng trực, vô tuyến, trạm điện, khu hồ sơ, B1 và tuyến dịch vụ. Cúi và vào khi chưa bị thấy là điều kiện để được tính đang nấp; **vật che phải thực sự chắn đường nhìn từ người quan sát đến cơ thể**. Lính hoặc camera nhìn qua mặt hở vẫn phát hiện được; đứng trên vùng đánh dấu không tạo khả năng tàng hình. Bản hiện tại bỏ ô màu dưới sàn và nhãn nấp lơ lửng. Lính vẫn có thể vòng vào kiểm tra; camera có đường nhìn rõ sẽ hủy trạng thái HIDDEN trên HUD.
@@ -157,7 +159,7 @@ Khi chạy QA có render trong nền, thêm `--background` để tool tự tiế
 
 `encounters_v4.gd` kiểm tra bốn tình huống với một Guard thật: hai lượt phản ứng sớm khoảng 13 m, vòng vật che rồi nấp ở vô tuyến và cắt tầm nhìn bằng vách ở B1. Fixture tắt các NPC/camera khác để tách truy đuổi; E2E nhiệm vụ giữ đầy đủ AI và lịch tiếp viện. Tuyến sân chạy nhanh có thể thắng trước T+45 nên chỉ gặp đợt một; hai cảnh vệ còn lại xuất hiện nếu người chơi còn trong nhiệm vụ ở T+45. Tuyến bảo trì đã kiểm tra với đủ mười NPC.
 
-`redirect_v4.gd` kiểm tra đoạn đổi sang bảo trì từ khối giữa ở T+70/T+90, với camera bật, mười NPC và cửa hậu đã chuẩn bị. Tool đặt trạng thái đầu của tình huống rồi dùng input/cổng/AI thật để thoát; không thay lượt chơi toàn nhiệm vụ. Cùng tình huống chưa chuẩn bị có thể bị bắt khi giữ khóa cơ.
+`redirect_v4.gd` kiểm tra bốn ca đổi sang bảo trì từ khối giữa ở T+70/T+90, với camera bật, mười NPC và hai trạng thái cửa hậu. Tool kiểm chữ ở biển ngã rẽ trước khi dùng điều khiển, cổng và AI thật. Hai ca cửa đã chuẩn bị phải thoát. Hai ca còn khóa phải tái hiện việc bị Guard3 bắt trong lúc giữ E.
 
 `preview_expansion.gd` chụp góc dàn sẵn để xem mỹ thuật, không thay bằng chứng thắng. `benchmark_v4.gd` đo thời gian thực 30 giây/góc, bốn góc và 6/8/10 NPC với camera ON/OFF. Có cờ `--seconds`, `--counts`, `--views`, `--power=on|off`, `--repeats`, `--out`; không dùng `--headless`/`--fixed-fps` cho số đo renderer.
 

@@ -306,10 +306,17 @@ func route_status(route: int) -> String:
 	match route_state(route):
 		RouteState.LOCKED:
 			if route == 0: return "Đã khóa"
-			return "Đã khóa · mở nhanh" if backdoor_prepared else "Đã khóa · giữ E 8 giây"
+			if backdoor_prepared: return "Đã chuẩn bị · nhấn E"
+			var gate := get_security_node("MaintenanceGate") as K17LockdownGate
+			var hold := gate.get_hold_duration(null)
+			if hold <= 0.0: return "Khóa cơ · nhấn E"
+			return "Khóa cơ · giữ E %s giây" % String.num(hold).trim_suffix(".0")
 		RouteState.CLOSING: return "Đang đóng · chờ trống"
 		RouteState.WARNING:
 			return "Đóng sau %d giây" % maxi(0, ceili(time_left - (escape_duration - courtyard_close_at)))
+	if route == 1:
+		if has_file: return "Cửa hậu đã mở"
+		return "Cửa hậu đã chuẩn bị" if backdoor_prepared else "Cửa hậu chưa chuẩn bị"
 	return "Mở"
 
 

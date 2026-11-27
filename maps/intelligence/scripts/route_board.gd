@@ -1,5 +1,5 @@
 extends Node3D
-## Both boards read the state that controls the gate collider and walking link.
+## Each sign reads the state that controls the gate collider and walking link.
 @export var ground_fork := false
 @export var yard_split := false
 @onready var _mission := MapHudProvider.find_for(self) as K17MissionController
@@ -12,10 +12,9 @@ func _process(_delta: float) -> void:
 	var yard := "A · LÊN SÂN   ↑"
 	if ground_fork: yard = "←   A · VÒNG SÂN"
 	if yard_split: yard = "A · VÒNG MÉP NAM   ↑"
-	var service := "←   B · BẢO TRÌ"
+	var service := "←   B · BẢO TRÌ\n" + _mission.route_status(1)
 	if _mission.has_file:
 		yard += "\n" + _mission.route_status(0)
-		service += "\n" + _mission.route_status(1)
 	_yard.modulate = _mission.route_colour(0)
 	_service.modulate = _mission.route_colour(1)
 	if _yard.text != yard: _yard.text = yard
