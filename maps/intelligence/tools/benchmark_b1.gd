@@ -94,31 +94,43 @@ func _run() -> void:
 	flow.resume()
 	var report := {"device":RenderingServer.get_video_adapter_name(),"renderer":RenderingServer.get_current_rendering_method(),"resolution":"1280x720","conditions":"Six actors frozen. OFF/ON/ON/OFF, 1s warmup + 2.5s sample. One 512x512 projection viewport at 12.5Hz. Frame intervals include CPU and renderer, not an isolated GPU timing or gameplay FPS guarantee.","idle_after_file":idle_after_file,"idle_far_away":idle_far_away,"idle_paused":idle_paused,"samples":samples}
 	var system:=current_scene.get_node("Gameplay/B1Surveillance")
-	system.hack()
+	# The idle-after-file check revoked the channel. Reopen it for actual live feed rendering.
+	system.restore_checkpoint_state({})
+	var feeds_valid: bool=system.hack()
 	player.position=rig.to_global(C.GRIP_OFFSET)
 	player.camera.cull_mask=1048575
 	player.camera.look_at(rig.to_global(Vector3(0,1.3,-4)))
 	var feed_samples: Array[Dictionary]=[]
 	for mode in [0,1,2,0]:
 		system.feed_mode=mode
-		var warm_until:=Time.get_ticks_msec()+1000
-		while Time.get_ticks_msec()<warm_until: await process_frame
-		var times: Array[float]=[]
-		var until:=Time.get_ticks_msec()+2500
-		while Time.get_ticks_msec()<until:
-			if flow.state==GameStateMachine.State.PAUSED: flow.resume()
-			var began:=Time.get_ticks_usec()
-			await process_frame
-			times.append((Time.get_ticks_usec()-began)/1000.0)
-		times.sort()
-		feed_samples.append({"mode":mode,"frames":times.size(),"median_ms":times[times.size()/2],"p95_ms":times[int(times.size()*.95)]})
+		var transition:=await _frame_times(1000)
+		var before_updates: int=system.updates
+		var times:=await _frame_times(2500)
+		var updates: int=system.updates-before_updates
+		feeds_valid=feeds_valid and (updates>0 if mode>0 else updates==0)
+		feed_samples.append({"mode":mode,"frames":times.size(),"median_ms":times[times.size()/2],"p95_ms":times[int(times.size()*.95)],"p99_ms":times[int(times.size()*.99)],"updates":updates,"transition_p99_ms":transition[int(transition.size()*.99)],"transition_max_ms":transition[-1]})
 	report["feed_samples"]=feed_samples
-	report["feed_conditions"]="One actual 480x270 observation viewport at 10Hz; OFF/front/C1/OFF. Six actors frozen. Separate from the projection viewport."
+	report["feed_conditions"]="One actual 480x270 observation viewport at 10Hz; OFF/front/C1/OFF. Six actors frozen. Transition metrics cover the first second after changing mode."
+	ObjectiveManager.find(current_scene).complete(K17MissionController.FILE)
+	var alarm_started := mission.has_file
+	var alarm_times:=await _frame_times(1000)
+	report["seal_alarm"]={"frames":alarm_times.size(),"p99_ms":alarm_times[int(alarm_times.size()*.99)],"max_ms":alarm_times[-1]}
 	FileAccess.open(OUT+"/performance.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
 	current_scene.queue_free()
 	await _frames(25)
 	await preload("res://tests/test_utils.gd").settle_async_audio(self)
-	quit(0 if comparison.passed and idle_after_file and idle_far_away and idle_paused else 1)
+	quit(0 if comparison.passed and idle_after_file and idle_far_away and idle_paused and feeds_valid and alarm_started else 1)
+
+func _frame_times(milliseconds: int) -> Array[float]:
+	var times: Array[float]=[]
+	var until:=Time.get_ticks_msec()+milliseconds
+	while Time.get_ticks_msec()<until:
+		if flow.state==GameStateMachine.State.PAUSED: flow.resume()
+		var began:=Time.get_ticks_usec()
+		await process_frame
+		times.append((Time.get_ticks_usec()-began)/1000.0)
+	times.sort()
+	return times
 
 func _compare(reference: Image,on: Image,off: Image,region: Rect2i) -> Dictionary:
 	var error := 0.0

@@ -211,7 +211,12 @@ func _yard() -> void:
 		for z in [16.0,25.0]:
 			_cylinder("FloodlightPole",Vector3(x,2.8,z),.07,5.6,steel)
 			_model("floodlight",Vector3(x,5.55,z),0 if x<0 else PI)
-			_spot("YardFlood",Vector3(x,5.48,z),Vector3(0,.1,z-4),Color("e4d3ad"),1.7,28, true)
+			var flood := _spot("YardFlood",Vector3(x,5.48,z),Vector3(0,.1,z-4),Color("e4d3ad"),1.7,28, true)
+			# Fade the shadow map before the light, retaining the near-ground cues.
+			flood.distance_fade_enabled = true
+			flood.distance_fade_begin = 150.0
+			flood.distance_fade_shadow = 23.0
+			flood.distance_fade_length = 6.0
 	# A background antenna silhouette, outside playable interior routes.
 	for y in [3.5,5.5,7.5]:
 		_box("RadioAntenna",Vector3(-18,y,-22),Vector3(2.8,.05,.05),steel)
@@ -295,7 +300,7 @@ func _lighting() -> void:
 	_add(scene,lightmap)
 
 
-func _spot(title: String, pos: Vector3, target: Vector3, color: Color, energy: float, distance: float, shadow: bool) -> void:
+func _spot(title: String, pos: Vector3, target: Vector3, color: Color, energy: float, distance: float, shadow: bool) -> SpotLight3D:
 	var light := SpotLight3D.new()
 	light.name = title
 	light.position = pos
@@ -309,6 +314,7 @@ func _spot(title: String, pos: Vector3, target: Vector3, color: Color, energy: f
 	light.light_bake_mode = Light3D.BAKE_STATIC
 	_add(scene,light)
 	light.quaternion = Quaternion(Vector3.FORWARD,(target-pos).normalized())
+	return light
 
 
 func _fixture(pos: Vector3) -> void:
