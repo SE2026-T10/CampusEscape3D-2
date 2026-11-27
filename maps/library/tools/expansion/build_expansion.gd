@@ -52,6 +52,11 @@ const SCRIPTS := {
 	"escape_routes": "res://maps/library/scripts/escape/escape_routes.gd",
 	"mechanism_audio": "res://maps/library/scripts/presentation/mechanism_audio.gd",
 	"checkpoint": "res://features/checkpoints/checkpoint.gd",
+	"locked_door": "res://features/objectives/locked_door.gd",
+	"ambient": "res://shared/scripts/presentation/ambient_emitter.gd",
+	"reserve_shelf": "res://maps/library/scripts/puzzles/reserve_shelf.gd",
+	"reserve_gap": "res://maps/library/scripts/puzzles/reserve_gap.gd",
+	"archive_lights": "res://maps/library/scripts/presentation/archive_power_lights.gd",
 }
 ## Mesh tiles are at most this long, so no mesh is reached by more than the
 ## renderer's 8 lights per mesh (lamps are 8-12 m apart, range 10 m).
@@ -160,6 +165,8 @@ func _build() -> void:
 	audio.name = "MechanismAudio"
 	audio.set_script(load(SCRIPTS.mechanism_audio))
 	_add(gameplay, audio)
+	_add_ambience(_group(_root, "Ambience"))
+	_add_archive_lights(gameplay)
 
 	var dressing := _group(_root, "Dressing")
 	var ceilings := _group(dressing, "Ceilings")
@@ -209,6 +216,8 @@ func _build() -> void:
 	_build_dock_props(_group(_root.get_node("Geometry"), "D_LoadingDock"), _group(dressing, "DockDecor"))
 	# Polish (lobby and reading hall): the desk, S1, G4, details; the hall's lamps, wall bookcases, display.
 	_build_lobby(_group(_root.get_node("Geometry"), "A_LobbyProps"), _group(dressing, "LobbyDecor"))
+	# Wayfinding (approved 2026-10-31): a directory stand, brass floor inlays, hanging signs.
+	_build_wayfinding(_root.get_node("Geometry/A_LobbyProps"), _group(dressing, "Wayfinding"))
 	_build_reading_hall(_group(_root.get_node("Geometry"), "C_ReadingHall"), _group(dressing, "HallDecor"))
 	# Polish (Book Processing): workstations, the noticeboard, solid props, wall details.
 	_build_processing(_group(_root.get_node("Geometry"), "D_Processing"), _group(dressing, "ProcessingDecor"))
@@ -225,7 +234,15 @@ func _build() -> void:
 	var basement_decor := _group(dressing, "BasementDecor")
 	_build_basement(basement_solid, basement_decor)
 	_build_tool_room(basement_solid, basement_decor)
+	_build_storm_drain(_group(basement_decor, "StormDrain"))
+	# Polish (2026-11-03): the east basement and cable bay, the west basement's crate.
+	_build_east_basement(basement_solid, _group(basement_decor, "EastBasement"))
+	_build_basement_crates(basement_solid)
 	_set_layer_meta(basement_decor, Layout.LAYER_BASEMENT)
+	# Polish (2026-11-03): the electrical room, Book Processing's empty floor, the upper floor.
+	_build_electrical_room(_group(_root.get_node("Geometry"), "D_ElectricalProps"), _group(dressing, "ElectricalDecor"))
+	_build_processing_more(_root.get_node("Geometry/D_Processing"), _group(dressing, "ProcessingMore"))
+	_build_upper_more(_root.get_node("Geometry/E_StaffWing"), _group(dressing, "UpperMore"))
 	# Polish (restricted archive): an old rare-books archive; the vault door and G3's leaves.
 	_build_archive(_group(_root.get_node("Geometry"), "F_ArchiveProps"), _group(dressing, "ArchiveDecor"), ceilings)
 	# Polish (study rooms): a modern quiet study.
@@ -420,7 +437,10 @@ func _add_access_door(parent: Node, d: Dictionary) -> void:
 	_add(panel, pshape)
 	if d.has("hatch"):
 		door.set("found_colour", HATCH_COLOUR)
+		door.set("hidden_colour", FALSE_WALL_COLOUR)
+		_dress_false_wall(panel, size)
 		_dress_hatch(panel, size)
+		_hinge_panel(door, panel, size)
 	if d.get("security", false):
 		_dress_security_door(door, d)
 	var noise := Node3D.new()
@@ -503,12 +523,16 @@ func _add_item(parent: Node, it: Dictionary) -> void:
 		item.set("objective_id", StringName(it.objective))
 	if it.has("available"):
 		item.set("available", it.available)
+	if it.has("marker_offset"):
+		item.set("marker_offset", it.marker_offset)
 	item.set_meta("zone_id", it.zone)
 	_add(parent, item)
 	var shape := CollisionShape3D.new()
 	shape.name = "Shape"
-	shape.shape = _box_shape(Vector3(0.5, 0.35, 0.5))
-	shape.position = Vector3(0, 0.175, 0)
+	# "shape_size" / "shape_pos" (local, optional): an interaction box reaching out of a
+	# solid prop (the dock key in the reserve cabinet, fixed 2026-11-02).
+	shape.shape = _box_shape(it.get("shape_size", Vector3(0.5, 0.35, 0.5)))
+	shape.position = it.get("shape_pos", Vector3(0, 0.175, 0))
 	_add(item, shape)
 
 
@@ -759,6 +783,98 @@ func _add_mission(mission: Node3D) -> void:
 	noise.set_script(load(SCRIPTS.noise))
 	noise.set("radius", 6.0)
 	_add(exit, noise)
+	_add_reserve_shelf(mission, m.reserve_shelf)
+
+
+## The Study 4 reserve shelf (approved 2026-10-31; ReserveShelf): the puzzle node at the
+## front of the reserve bookcase's third shelf, its three gaps (ReserveGap; a brass call
+## number card under each), its display (a card on the bookcase's top) and the reserve
+## cabinet's door below (hinged at its left end, swung open by the puzzle). The bookcase
+## itself is static (_reserve_bookcase, in Study 4's geometry).
+func _add_reserve_shelf(mission: Node3D, d: Dictionary) -> void:
+	var shelf := _placed(mission, d, SCRIPTS.reserve_shelf)
+	shelf.set("puzzle_name", "Reserve shelf")
+	shelf.set("objective_id", StringName(d.objective))
+	var books: Array[StringName] = []
+	for b in d.books:
+		books.append(StringName(b))
+	shelf.set("gap_books", books)
+	shelf.set("gap_labels", PackedStringArray(d.labels))
+	var reveals: Array[NodePath] = []
+	for r in d.reveal:
+		reveals.append(shelf.get_path_to(_root.get_node("Gameplay/" + r)))
+	shelf.set("reveal_paths", reveals)
+	for i in d.gap_x.size():
+		var gap := Area3D.new()
+		gap.name = "Gap%d" % i
+		gap.set_script(load(SCRIPTS.reserve_gap))
+		gap.set("index", i)
+		gap.position = Vector3(d.gap_x[i], 0.0, -0.14)
+		_add(shelf, gap)
+		var shape := CollisionShape3D.new()
+		shape.name = "Shape"
+		shape.shape = _box_shape(Vector3(0.32, 0.34, 0.3))
+		# Fixed 2026-11-02: the box reaches 14 cm out past the bookcase's front (x 11.4,
+		# where its solid collider starts), or the player's aim ray stops at the collider
+		# before it reaches the gap.
+		shape.position = Vector3(0, 0.17, 0.15)
+		_add(gap, shape)
+		_add_visual_box(shelf, "Card%d" % i, Vector3(d.gap_x[i], -0.04, 0.012), Vector3(0.34, 0.07, 0.004), "card_white")
+		var label := _add_text(shelf, "CardText%d" % i, Vector3(d.gap_x[i], -0.04, 0.0145), d.labels[i].to_upper(), 22, 0.0012, Color(0.12, 0.08, 0.04))
+		label.no_depth_test = false
+	# No display: the count card on the bookcase's top was removed on request (2026-11-03);
+	# the shelf shows its progress only by the books standing in their gaps.
+	# The reserve cabinet's door (the bookcase's bottom bay, x −0.5…0.5, 0.1…0.52 m up).
+	var door := Node3D.new()
+	door.name = "CabinetDoor"
+	door.position = Vector3(-0.5, 0.31 - 1.05, 0.0)
+	_add(shelf, door)
+	_add_visual_box(door, "Panel", Vector3(0.5, 0.0, -0.012), Vector3(0.98, 0.4, 0.022), "oak")
+	_add_visual_box(door, "Inset", Vector3(0.5, 0.0, -0.0), Vector3(0.84, 0.28, 0.006), "oak_dark")
+	_add_visual_box(door, "Knob", Vector3(0.9, 0.0, 0.012), Vector3(0.03, 0.03, 0.025), "brass")
+	_add_visual_box(door, "Keyhole", Vector3(0.9, -0.05, 0.002), Vector3(0.012, 0.025, 0.004), "tool_dark")
+	shelf.set("cabinet_door_path", shelf.get_path_to(door))
+
+
+## The Study 4 reserve bookcase (approved 2026-10-31): as _study_bookcase (an oak case
+## in a wall unit, local x along the wall, front +z, 0.4 m deep), with four shelves:
+## the bottom bay of the middle is the reserve cabinet (dark inside; its door belongs to
+## the puzzle), and the third shelf (its top 1.05 m) has three empty gaps for the
+## reserve books at `gaps` (local x), the books around them.
+func _reserve_bookcase(u: Node3D, length: float, h: float, gaps: Array, seed: int) -> void:
+	var d := 0.4
+	for e in [-1.0, 1.0]:
+		_add_visual_box(u, "Side%d" % int(e), Vector3(e * (length / 2.0 - 0.015), h / 2.0, 0), Vector3(0.03, h, d), "oak")
+	_add_visual_box(u, "Top", Vector3(0, h - 0.015, 0), Vector3(length, 0.03, d), "oak")
+	_add_visual_box(u, "Plinth", Vector3(0, 0.04, 0.0), Vector3(length - 0.06, 0.08, d - 0.04), "oak_dark")
+	_add_visual_box(u, "Back", Vector3(0, h / 2.0, -d / 2.0 + 0.015), Vector3(length - 0.06, h - 0.03, 0.02), "oak_dark")
+	var shelves := 4
+	var row := (h - 0.11) / shelves
+	for s in shelves:
+		var y := 0.08 + s * row
+		if s > 0:
+			_add_visual_box(u, "Shelf%d" % s, Vector3(0, y + 0.012, 0.01), Vector3(length - 0.06, 0.025, d - 0.02), "oak")
+		var top := y + (0.025 if s > 0 else 0.0)
+		if s == 0:
+			# The cabinet: closed panels either side of its door (x −0.5…0.5), dark inside.
+			for e in [-1.0, 1.0]:
+				var w := length / 2.0 - 0.53
+				_add_visual_box(u, "CabinetSide%d" % int(e), Vector3(e * (0.5 + w / 2.0), top + row / 2.0, d / 2.0 - 0.02), Vector3(w, row - 0.04, 0.022), "oak")
+			_add_visual_box(u, "CabinetInside", Vector3(0, top + row / 2.0, -d / 2.0 + 0.03), Vector3(1.0, row - 0.04, 0.01), "tool_dark")
+			_add_visual_box(u, "CabinetFloor", Vector3(0, top + 0.01, 0.0), Vector3(1.0, 0.02, d - 0.06), "oak_dark")
+			_add_visual_box(u, "CabinetTop", Vector3(0, top + row - 0.01, 0.01), Vector3(length - 0.06, 0.02, d - 0.02), "oak")
+			continue
+		# Book runs, broken at the gaps on the third shelf.
+		var cuts := [-length / 2.0 + 0.05]
+		if s == 2:
+			for g in gaps:
+				cuts.append(g - 0.17)
+				cuts.append(g + 0.17)
+		cuts.append(length / 2.0 - 0.05)
+		for k in range(0, cuts.size(), 2):
+			var run: float = cuts[k + 1] - cuts[k]
+			if run > 0.1:
+				_book_run(u, "B%d_%d_" % [s, k / 2], Vector3(cuts[k], top, 0.02), run, row * 0.8, 0.26, seed + s * 5 + k)
 
 
 ## Polish (code locks): a puzzle's status text (its "Display", found by Puzzle) at `at`.
@@ -1075,6 +1191,7 @@ func _add_escapes(escape: Node3D) -> void:
 	var shutter := _placed(escape, e.dock_shutter, SCRIPTS.dock_shutter)
 	shutter.set("puzzle_name", "Dock shutter")
 	shutter.set("release_path", shutter.get_path_to(release))
+	shutter.set("hand_key", ItemCatalog.DOCK_KEY)   # approved 2026-10-31: the reserve cabinet's reward
 	# The dock ExitDoor is in the level (Gameplay/ExitDoor): ../../../../Gameplay/ExitDoor from here.
 	shutter.set("exit_path", NodePath("../../../../Gameplay/ExitDoor"))
 	# Polish (loading dock): the station, the roller shutter, the props, the yard outside.
@@ -1327,37 +1444,11 @@ func _dress_pump_room(parent: Node, m: Dictionary) -> Dictionary:
 	_add_text(wall, "StarterTitle", Vector3(sx, 0.41, -0.048), "PUMP P-1 STARTER", 16, 0.0018, Color(0.12, 0.12, 0.12))
 	_add_visual_box(wall, "StarterConduit", Vector3(sx, (0.44 + top_y) / 2.0, -0.12), Vector3(0.05, top_y - 0.44, 0.05), "conduit")
 
-	# The storm drain: the grille (slides up), its guide channels, the ceiling slot, streaks, the water.
+	# The storm drain gate (redesigned 2026-11-02): a heavy riveted sluice gate (slides up into
+	# the portal's beam), the concrete portal with its guides, the jammed winch, the depth gauge.
 	var gr: Dictionary = Layout.GRATE
-	var grille := Node3D.new()
-	grille.name = "StormDrainGrille"
-	grille.position = gr.centre
-	_add(parent, grille)
-	var h: float = gr.height
-	var w: float = gr.width
-	_add_visual_box(grille, "RailTop", Vector3(0, h - 0.05, 0), Vector3(w, 0.1, 0.1), "grille_steel")
-	_add_visual_box(grille, "RailBottom", Vector3(0, 0.05, 0), Vector3(w, 0.1, 0.1), "rust")
-	for sx2 in [-1.0, 1.0]:
-		_add_visual_box(grille, "Stile%s" % ("W" if sx2 < 0 else "E"), Vector3(sx2 * (w / 2.0 - 0.05), h / 2.0, 0), Vector3(0.1, h, 0.1), "grille_steel")
-	var bars := 19
-	for i in bars:
-		var bx := -1.62 + i * 0.18
-		_add_visual_box(grille, "Bar%d" % i, Vector3(bx, h / 2.0, 0), Vector3(0.035, h - 0.2, 0.035), "grille_steel")
-	for y in [1.0, 2.0, 3.0]:
-		_add_visual_box(grille, "Flat%d" % int(y), Vector3(0, y, 0.03), Vector3(w - 0.2, 0.06, 0.02), "grille_steel")
-	_add_visual_box(grille, "JammedTag", Vector3(0, GRILLE_TAG_Y, 0.06), Vector3(1.0, 0.12, 0.01), "sign_board")
-	for sx2 in [-0.42, 0.42]:
-		_add_visual_box(grille, "TagWire%d" % int(sx2 * 100), Vector3(sx2, GRILLE_TAG_Y + 0.1, 0.05), Vector3(0.008, 0.1, 0.008), "conduit")
-	var drain := _group(parent, "DrainDressing")
-	for sx2 in [-1.0, 1.0]:
-		_add_visual_box(drain, "Guide%s" % ("W" if sx2 < 0 else "E"), Vector3(sx2 * 1.82, b + Layout._BC / 2.0, gr.centre.z), Vector3(0.06, Layout._BC, 0.24), "keypad_bezel")
-	_add_visual_box(drain, "Lintel", Vector3(0, ceiling - 0.06, gr.centre.z), Vector3(3.7, 0.12, 0.4), "keypad_bezel")
-	_add_visual_box(drain, "Slot", Vector3(0, ceiling - 0.122, gr.centre.z), Vector3(3.64, 0.004, 0.12), "screen_dark")
-	_add_visual_box(drain, "Sill", Vector3(0, b + 0.01, gr.centre.z), Vector3(3.7, 0.02, 0.4), "stone")
-	var streaks := [[-1.2, 0.22, 1.4], [-0.35, 0.3, 2.0], [0.5, 0.18, 1.2], [1.25, 0.26, 1.7]]
-	for i in streaks.size():
-		var st: Array = streaks[i]
-		_add_visual_box(drain, "Streak%d" % i, Vector3(st[0], b + 0.003, gr.centre.z + 0.2 + st[2] / 2.0), Vector3(st[1], 0.006, st[2]), "damp")
+	_drain_gate(parent, gr)
+	_drain_portal(_group(parent, "DrainDressing"), gr, b, ceiling)
 	var water := MeshInstance3D.new()
 	water.name = "CulvertWater"
 	water.mesh = _box_mesh(Vector3(3.7, 0.1, 12.85))
@@ -1365,7 +1456,183 @@ func _dress_pump_room(parent: Node, m: Dictionary) -> Dictionary:
 	water.position = Vector3(0, b + 0.05, -33.575)
 	water.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_add(parent, water)
-	return {"gauge": needle, "motor": motor, "grille": grille, "water": water}
+	return {"gauge": needle, "motor": motor, "grille": parent.get_node("StormDrainGrille"), "water": water}
+
+
+## The storm drain gate: a heavy sluice gate of rusted riveted steel (local: +z towards the
+## culvert, the player's side; y from the floor). Its frame, thick square bars, three
+## channels with rivets, X braces in the lowest bay, silt on its foot, a lifting lug with a
+## chain into the beam, and the GRATE JAMMED tag (the exit's Sign is on it). It slides up
+## 3.7 m into the portal's beam when the pump drains the culvert (PumpControl.grille_path).
+func _drain_gate(parent: Node, gr: Dictionary) -> void:
+	var grille := Node3D.new()
+	grille.name = "StormDrainGrille"
+	grille.position = gr.centre
+	_add(parent, grille)
+	var h: float = gr.height
+	var w: float = gr.width
+	_add_visual_box(grille, "FrameTop", Vector3(0, h - 0.09, 0), Vector3(w, 0.18, 0.12), "grille_steel")
+	_add_visual_box(grille, "FrameBottom", Vector3(0, 0.09, 0), Vector3(w, 0.18, 0.12), "rust")
+	for sx in [-1.0, 1.0]:
+		_add_visual_box(grille, "Stile%s" % ("W" if sx < 0 else "E"), Vector3(sx * (w / 2.0 - 0.08), h / 2.0, 0), Vector3(0.16, h, 0.12), "grille_steel")
+	var bars := 11
+	for i in bars:
+		var bx := -1.5 + i * 0.3
+		_add_visual_box(grille, "Bar%d" % i, Vector3(bx, h / 2.0, 0), Vector3(0.055, h - 0.3, 0.055), "grille_steel")
+	for k in 3:
+		var y := 0.95 + k * 0.9
+		_add_visual_box(grille, "Channel%d" % k, Vector3(0, y, 0.04), Vector3(w - 0.3, 0.12, 0.04), "rust")
+		for i in bars:
+			_add_visual_box(grille, "Rivet%d_%d" % [k, i], Vector3(-1.5 + i * 0.3, y, 0.065), Vector3(0.03, 0.03, 0.012), "keypad_bezel")
+	# X braces in the lowest bay, each half.
+	var bay_h := 0.95 - 0.18
+	var bay_w := w / 2.0 - 0.16
+	var diag := sqrt(bay_h * bay_h + bay_w * bay_w)
+	var ang := atan2(bay_h, bay_w)
+	for sx in [-1.0, 1.0]:
+		for d in [-1.0, 1.0]:
+			_add_box_r(grille, "Brace%d_%d" % [int(sx), int(d)], Vector3(sx * (bay_w / 2.0 + 0.0), 0.18 + bay_h / 2.0, -0.035), Vector3(diag, 0.06, 0.02), "grille_steel", Vector3(0, 0, d * ang))
+	# Silt and rust run on the gate's foot, the culvert side.
+	_add_visual_box(grille, "Silt", Vector3(0, 0.22, 0.062), Vector3(w - 0.34, 0.26, 0.004), "damp")
+	for i in 6:
+		var rx := -1.35 + i * 0.54
+		_add_visual_box(grille, "RustRun%d" % i, Vector3(rx, h - 0.45 - 0.1 * (i % 3), 0.061), Vector3(0.05, 0.5 + 0.12 * (i % 2), 0.003), "rust")
+	# The lifting lug and its chain up into the beam.
+	_add_visual_box(grille, "Lug", Vector3(0, h + 0.06, 0), Vector3(0.12, 0.12, 0.04), "keypad_bezel")
+	for k in 6:
+		var link := Vector3(0.06, 0.1, 0.02) if k % 2 == 0 else Vector3(0.02, 0.1, 0.06)
+		_add_visual_box(grille, "ChainLink%d" % k, Vector3(0, h + 0.16 + k * 0.08, 0), link, "conduit")
+	# The tag (its text is the exit's Sign, at GRILLE_TAG_Y).
+	_add_visual_box(grille, "JammedTag", Vector3(0, GRILLE_TAG_Y, 0.075), Vector3(1.0, 0.12, 0.01), "sign_board")
+	for sx in [-0.42, 0.42]:
+		_add_visual_box(grille, "TagWire%d" % int(sx * 100), Vector3(sx, GRILLE_TAG_Y + 0.1, 0.07), Vector3(0.008, 0.1, 0.008), "conduit")
+
+
+## The gate's concrete portal (local world coordinates; the gate's plane at gr.centre.z):
+## jambs with steel guide channels and hazard stripes, a deep beam the gate slides into with
+## STORM DRAIN · NO ENTRY on it, the steel sill, the jammed winch on the west jamb (its chain
+## to a pulley on the beam), a depth gauge on the east wall, silt streaks before the gate.
+func _drain_portal(drain: Node3D, gr: Dictionary, b: float, ceiling: float) -> void:
+	var gz: float = gr.centre.z
+	var front := gz + 0.3   # the portal's face, on the culvert side
+	for sx in [-1.0, 1.0]:
+		var side := "W" if sx < 0 else "E"
+		_add_visual_box(drain, "Jamb%s" % side, Vector3(sx * 1.74, b + (ceiling - b) / 2.0, gz + 0.06), Vector3(0.22, ceiling - b, 0.48), "concrete_wall")
+		_add_visual_box(drain, "Guide%s" % side, Vector3(sx * 1.62, b + (ceiling - b) / 2.0, gz), Vector3(0.04, ceiling - b, 0.2), "keypad_bezel")
+		for k in 6:   # hazard stripes on the jamb's face, up to head height
+			_add_visual_box(drain, "Stripe%s%d" % [side, k], Vector3(sx * 1.74, b + 0.15 + k * 0.3, front + 0.002), Vector3(0.22, 0.15, 0.004), "hazard_yellow" if k % 2 == 0 else "hazard_black")
+	var beam_h := 0.6
+	_add_visual_box(drain, "Beam", Vector3(0, ceiling - beam_h / 2.0, gz + 0.06), Vector3(3.7, beam_h, 0.48), "concrete_wall")
+	_add_visual_box(drain, "BeamSlot", Vector3(0, ceiling - beam_h - 0.002, gz), Vector3(3.2, 0.004, 0.14), "screen_dark")
+	_add_visual_box(drain, "SignPlate", Vector3(0, ceiling - beam_h / 2.0, front + 0.003), Vector3(1.9, 0.26, 0.006), "sign_red")
+	var sign := _add_text(drain, "SignText", Vector3(0, ceiling - beam_h / 2.0, front + 0.008), "STORM DRAIN · NO ENTRY", 40, 0.0028, Color(0.97, 0.95, 0.9))
+	sign.outline_size = 0
+	_add_visual_box(drain, "Sill", Vector3(0, b + 0.01, gz), Vector3(3.3, 0.02, 0.3), "grille_steel")
+	# The winch on the west jamb's face: a gearbox, a crank wheel, a padlocked pawl, the chain
+	# up to a pulley under the beam.
+	var wx := -1.55
+	var wz := front + 0.08
+	_add_visual_box(drain, "WinchBase", Vector3(wx + 0.05, b + 1.1, wz), Vector3(0.3, 0.42, 0.16), "rust")
+	_add_visual_cyl(drain, "WinchDrum", Vector3(wx + 0.05, b + 1.18, wz + 0.1), 0.09, 0.04, "z", "grille_steel", 12)
+	_add_ring(drain, "WinchWheel", Vector3(wx + 0.05, b + 1.18, wz + 0.12), 0.14, 0.17, "rust")
+	_add_visual_cyl(drain, "WinchHandle", Vector3(wx + 0.05, b + 1.33, wz + 0.16), 0.016, 0.08, "z", "keypad_bezel", 8)
+	_add_visual_box(drain, "WinchPawl", Vector3(wx + 0.17, b + 0.98, wz + 0.09), Vector3(0.06, 0.12, 0.03), "grille_steel")
+	_add_visual_box(drain, "WinchPadlock", Vector3(wx + 0.17, b + 0.88, wz + 0.11), Vector3(0.06, 0.07, 0.03), "brass")
+	_add_visual_box(drain, "WinchChain", Vector3(wx + 0.05, (b + 1.3 + ceiling - beam_h) / 2.0, wz + 0.02), Vector3(0.03, ceiling - beam_h - b - 1.3, 0.03), "conduit")
+	_add_visual_cyl(drain, "Pulley", Vector3(wx + 0.05, ceiling - beam_h - 0.08, wz + 0.02), 0.08, 0.05, "z", "rust", 12)
+	# The depth gauge on the east wall: a white board, black ticks every 0.25 m, red 1.0.
+	var gx := 1.845
+	var gzz := gz + 1.6
+	_add_visual_box(drain, "GaugeBoard", Vector3(gx - 0.008, b + 1.15, gzz), Vector3(0.012, 2.1, 0.22), "card_white")
+	for k in 9:
+		var y := b + 0.15 + k * 0.25
+		_add_visual_box(drain, "GaugeTick%d" % k, Vector3(gx - 0.016, y, gzz + (0.03 if k % 4 == 0 else 0.06)), Vector3(0.004, 0.025, 0.14 if k % 4 == 0 else 0.08), "marker_red" if k == 4 else "wire_black")
+		if k % 4 == 0:
+			_add_text(drain, "GaugeNum%d" % k, Vector3(gx - 0.017, y + 0.06, gzz - 0.06), "%.1f" % (k * 0.25), 28, 0.0018, Color(0.08, 0.08, 0.08), -90.0)
+	# Silt streaks on the floor before the gate.
+	var streaks := [[-1.2, 0.22, 1.4], [-0.35, 0.3, 2.0], [0.5, 0.18, 1.2], [1.25, 0.26, 1.7]]
+	for i in streaks.size():
+		var st: Array = streaks[i]
+		_add_visual_box(drain, "Streak%d" % i, Vector3(st[0], b + 0.003, gz + 0.3 + st[2] / 2.0), Vector3(st[1], 0.006, st[2]), "damp")
+
+
+## The storm culvert's fittings (batched, basement render layers): a gutter channel with
+## steel grating down the middle, formwork seams and tie holes in the concrete, silt and
+## leaves along the walls, a storm main and a conduit overhead, the culvert's stencils, and
+## beyond the gate the way out: iron rungs up the end wall to a manhole, moonlight through
+## its grating.
+func _build_storm_drain(d: Node3D) -> void:
+	var b := Layout.BF
+	var ceiling := b + Layout._BC
+	var z0 := -27.4    # the culvert's south end (past the maintenance panel)
+	var z1 := -39.85   # the end wall's face
+	var face := 1.85   # the side walls' faces (±x)
+	# The gutter: a dark channel, the grating in 1 m panels.
+	_add_visual_box(d, "Gutter", Vector3(0, b + 0.002, (z0 + z1) / 2.0), Vector3(0.46, 0.004, z0 - z1), "screen_dark")
+	var z := z0 - 0.05
+	var k := 0
+	while z - 1.0 > z1:
+		var zc := z - 0.5
+		for sx in [-1.0, 1.0]:
+			_add_visual_box(d, "GrateRail%d_%d" % [k, int(sx)], Vector3(sx * 0.2, b + 0.012, zc), Vector3(0.04, 0.02, 0.98), "grille_steel")
+		for i in 9:
+			_add_visual_box(d, "GrateBar%d_%d" % [k, i], Vector3(0, b + 0.012, zc - 0.44 + i * 0.11), Vector3(0.36, 0.016, 0.02), "grille_steel")
+		z -= 1.0
+		k += 1
+	# Formwork seams (vertical) and tie holes on both walls and the end wall.
+	for sx in [-1.0, 1.0]:
+		var x: float = sx * (face - 0.003)
+		var zz := z0 - 0.6
+		var n := 0
+		while zz > z1 + 0.3:
+			_add_visual_box(d, "Seam%d_%d" % [int(sx), n], Vector3(x, b + Layout._BC / 2.0, zz), Vector3(0.006, Layout._BC, 0.012), "band_paint")
+			for y in [1.5, 2.6, 3.4]:
+				for dz in [-0.3, 0.3]:
+					_add_visual_box(d, "Tie%d_%d_%d_%d" % [int(sx), n, int(y * 10), int(dz * 10)], Vector3(x, b + y, zz + dz), Vector3(0.006, 0.035, 0.035), "keypad_bezel")
+			zz -= 1.2
+			n += 1
+	# Silt banks and leaves along the walls (off the walkable floor), wet floor near them.
+	for sx in [-1.0, 1.0]:
+		_add_visual_box(d, "SiltBank%d" % int(sx), Vector3(sx * (face - 0.18), b + 0.004, (z0 + z1) / 2.0), Vector3(0.36, 0.008, z0 - z1 - 0.2), "damp")
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 2019
+	for i in 46:
+		var sx := -1.0 if i % 2 == 0 else 1.0
+		var at := Vector3(sx * rng.randf_range(face - 0.34, face - 0.04), b + 0.009, rng.randf_range(z1 + 0.15, z0 - 0.1))
+		_add_box_r(d, "Leaf%d" % i, at, Vector3(0.07, 0.004, 0.11), ["leaf_brown", "leaf_dark", "rust"][i % 3], Vector3(0, rng.randf_range(0.0, PI), 0))
+	# Twigs caught at the gate's foot, against the jambs.
+	for i in 5:
+		var sx := -1.0 if i < 3 else 1.0
+		_add_box_r(d, "Twig%d" % i, Vector3(sx * (1.45 - 0.05 * i), b + 0.02, -36.6 + 0.07 * i), Vector3(0.6 - 0.07 * i, 0.025, 0.025), "oak_dark", Vector3(0, 0.3 * (i - 2), 0))
+	# Overhead: the storm main (east) on brackets, a conduit (west).
+	var main_y := ceiling - 0.28
+	_add_visual_cyl(d, "StormMain", Vector3(1.48, main_y, (z0 + z1) / 2.0), 0.15, z0 - z1 - 0.3, "z", "pipe", 16)
+	var fz := z0 - 1.2
+	var f := 0
+	while fz > z1 + 0.5:
+		_add_visual_cyl(d, "MainFlange%d" % f, Vector3(1.48, main_y, fz), 0.19, 0.05, "z", "pipe", 16)
+		_add_visual_box(d, "MainBracket%d" % f, Vector3(1.48, (main_y + ceiling) / 2.0 + 0.06, fz - 0.3), Vector3(0.06, ceiling - main_y - 0.12, 0.06), "keypad_bezel")
+		fz -= 2.5
+		f += 1
+	# (Under the roof, west of the middle: the open maintenance hatch lies along the west wall.)
+	_add_visual_box(d, "Conduit", Vector3(-0.9, ceiling - 0.05, (z0 + z1) / 2.0), Vector3(0.06, 0.06, z0 - z1 - 0.3), "conduit")
+	# Stencils: the culvert's name and the 2019 flood line.
+	_add_text(d, "Stencil", Vector3(-(face - 0.008), b + 2.0, -33.4), "CULVERT  C-2", 64, 0.0045, Color(0.2, 0.21, 0.22), 90.0)
+	_add_text(d, "FloodNote", Vector3(-(face - 0.008), b + 0.86, -32.5), "▲ FLOOD 2019", 32, 0.0028, Color(0.28, 0.2, 0.14), 90.0)
+	# Beyond the gate, the way out: iron rungs up the end wall to a manhole in the roof.
+	var lz := z1 + 0.0
+	for i in 11:
+		var y := b + 0.4 + i * 0.3
+		_add_visual_box(d, "Rung%d" % i, Vector3(0, y, lz + 0.15), Vector3(0.44, 0.03, 0.03), "rust")
+		for sx in [-1.0, 1.0]:
+			_add_visual_box(d, "RungLeg%d_%d" % [i, int(sx)], Vector3(sx * 0.205, y, lz + 0.075), Vector3(0.03, 0.03, 0.15), "rust")
+	var mz := lz + 0.55
+	_add_visual_cyl(d, "ManholeCollar", Vector3(0, ceiling - 0.03, mz), 0.42, 0.06, "y", "concrete_wall", 24)
+	_add_visual_cyl(d, "ManholeFrame", Vector3(0, ceiling - 0.065, mz), 0.36, 0.02, "y", "keypad_bezel", 24)
+	_add_visual_cyl(d, "Moonlight", Vector3(0, ceiling - 0.09, mz), 0.32, 0.004, "y", "glow_moon", 24)
+	for i in 5:
+		_add_visual_box(d, "ManholeBar%d" % i, Vector3(-0.24 + i * 0.12, ceiling - 0.1, mz), Vector3(0.025, 0.012, 0.62 - absf(i - 2) * 0.12), "keypad_bezel")
+	_add_text(d, "OutfallStencil", Vector3(0.65, b + 1.9, z1 + 0.008), "MH-14 ↑", 48, 0.0035, Color(0.2, 0.21, 0.22))
 
 
 func _add_flange(parent: Node, node_name: String, at: Vector3, axis: String, pipe_r: float) -> void:
@@ -1429,6 +1696,57 @@ func _dress_crank(tool: Node3D) -> void:
 	_add(model, tag)
 	_add_visual_box(tag, "Plate", Vector3.ZERO, Vector3(0.15, 0.07, 0.004), "sticker_yellow")
 	_add_text(tag, "Text", Vector3(0, 0, 0.003), "SEIZED", 24, 0.0018, Color(0.08, 0.08, 0.08))
+
+
+## The hidden maintenance panel before it is found (redesigned 2026-11-02): a boarded false
+## wall painted like the tunnel's walls (their colour, the dark band and its yellow line run
+## across it), with the hints an observant player can see: faint board seams and screw
+## heads, a dark gap down its right-hand edge (the latch's side) and a scuffed patch where
+## it is pressed. "Panel/Disguise", hidden by AccessDoor once found.
+const FALSE_WALL_COLOUR := Color(0.6, 0.6, 0.57)
+
+
+func _dress_false_wall(panel: Node3D, size: Vector3) -> void:
+	var g := Node3D.new()
+	g.name = "Disguise"
+	_add(panel, g)
+	var f := size.z / 2.0
+	var w := size.x
+	var h := size.y
+	var floor_y := -h / 2.0
+	_add_visual_box(g, "Band", Vector3(0, floor_y + BAND_H / 2.0, f + 0.004), Vector3(w, BAND_H, 0.008), "band_paint")
+	_add_visual_box(g, "Line", Vector3(0, floor_y + BAND_H + 0.025, f + 0.004), Vector3(w, 0.05, 0.008), "hazard_yellow")
+	var board := w / 3.0
+	for i in 2:   # seams between the three boards, above the band
+		var x := -w / 2.0 + board * (i + 1)
+		var sh := h - BAND_H - 0.05
+		_add_visual_box(g, "Seam%d" % i, Vector3(x, floor_y + BAND_H + 0.05 + sh / 2.0, f + 0.002), Vector3(0.008, sh, 0.004), "concrete_ceiling")
+	_add_visual_box(g, "SeamTop", Vector3(0, h / 2.0 - 0.04, f + 0.002), Vector3(w, 0.008, 0.004), "concrete_ceiling")
+	for i in 4:   # screw heads at the boards' edges
+		var x := -w / 2.0 + 0.06 + i * board - (0.12 if i == 3 else 0.0)
+		for y in [h / 2.0 - 0.15, 0.6, -0.65]:
+			for dx in ([0.0] if i == 0 or i == 3 else [-0.06, 0.06]):
+				_add_visual_box(g, "Screw%d_%d_%d" % [i, int(y * 10), int(dx * 100)], Vector3(x + dx, y, f + 0.003), Vector3(0.018, 0.018, 0.006), "keypad_bezel")
+	# The right-hand edge, where the latch is: a dark gap and a scuffed patch.
+	_add_visual_box(g, "EdgeGap", Vector3(w / 2.0 - 0.012, 0, f + 0.003), Vector3(0.016, h, 0.006), "screen_dark")
+	_add_visual_box(g, "Scuff", Vector3(w / 2.0 - 0.22, floor_y + 1.35, f + 0.003), Vector3(0.22, 0.32, 0.004), "duct_grey")
+
+
+## The maintenance hatch swings open into the culvert on its west hinges (2026-11-02, on
+## request; before, it vanished): the Panel's origin moves to the hinge, at its west edge,
+## HATCH_HINGE_IN inside it and on its culvert face, its parts move the other way, and
+## AccessDoor turns it HATCH_SWING degrees when it opens (swing_angle). Open, it lies along
+## the culvert's west wall (x −1.84…−1.66, z −30.9…−26.9), its collision off as before.
+const HATCH_HINGE_IN := 0.16
+const HATCH_SWING := 90.0
+
+
+func _hinge_panel(door: Node3D, panel: Node3D, size: Vector3) -> void:
+	var pivot := Vector3(-size.x / 2.0 + HATCH_HINGE_IN, 0, -size.z / 2.0)
+	panel.position += pivot
+	for c in panel.get_children():
+		(c as Node3D).position -= pivot
+	door.set("swing_angle", HATCH_SWING)
 
 
 ## The hidden maintenance panel once found: a steel access hatch on its tunnel side
@@ -1767,9 +2085,11 @@ func _door_leaves(holder: Node3D, w: float, style: String) -> Dictionary:
 		angles.append(90.0 if side < 0 else -90.0)
 	var frame := _group(holder, "Frame")
 	var frame_look := "wood_dark" if wood else "keypad_bezel"
+	# The frame stands 1 cm into the opening (fixed 2026-11-02, on request): flush with the
+	# cut opening's faces, the jambs' and the head's inner faces z-fought with the wall.
 	for side in [-1.0, 1.0]:
-		_add_visual_box(frame, "Jamb%s" % ("N" if side < 0 else "S"), Vector3(0, floor_y + (h + 0.06) / 2.0, side * (w / 2.0 + 0.03)), Vector3(0.36, h + 0.06, 0.06), frame_look)
-	_add_visual_box(frame, "Head", Vector3(0, floor_y + h + 0.04, 0), Vector3(0.36, 0.08, w + 0.12), frame_look)
+		_add_visual_box(frame, "Jamb%s" % ("N" if side < 0 else "S"), Vector3(0, floor_y + (h + 0.05) / 2.0, side * (w / 2.0 + 0.02)), Vector3(0.36, h + 0.05, 0.06), frame_look)
+	_add_visual_box(frame, "Head", Vector3(0, floor_y + h + 0.03, 0), Vector3(0.36, 0.08, w + 0.1), frame_look)
 	# The light strip over the door and the card reader's LED (AccessDoor colours both).
 	var strip := MeshInstance3D.new()
 	strip.name = "StatusStrip"
@@ -2109,7 +2429,10 @@ func _build_processing(solid: Node3D, decor: Node3D) -> void:
 		# collider, 3.0 × 1.2 m) and a bin past the table's east end.
 		var chair := _solid_prop(solid, "WorkstationChair%d" % k, [t.x + 0.85, t.z + 0.62, t.x + 1.45, t.z + 1.2], 1.0)
 		_kenney(chair, "Chair", [_kp("chairDesk", Vector3.ZERO, 180.0, 1.6, {"carpet": "keypad_bezel", "metalMedium": "tool_dark"})])
-		var bin := _solid_prop(solid, "WorkstationBin%d" % k, [t.x + 1.6, t.z + 0.65, t.x + 1.9, t.z + 0.95], 0.35)
+		# Its collision 0.5 m tall (the bin 0.35 m): from 0.5 m up the navmesh bake keeps
+		# guards 0.5 m clear of a prop, as of every desk; lower, the walkable area ran up to
+		# it and a guard could snag on it (fixed 2026-11-02).
+		var bin := _solid_prop(solid, "WorkstationBin%d" % k, [t.x + 1.6, t.z + 0.65, t.x + 1.9, t.z + 0.95], LOW_PROP_COLLISION)
 		_kenney(bin, "Bin", [_kp("trashcan", Vector3.ZERO, 0.0, Vector3(1.35, 0.8, 1.25), {"metal": "tool_dark", "metalDark": "tool_steel"})])
 		k += 1
 	# The noticeboard round the wiring chart (the chart keeps its place: (26, 1.4, −27.83)).
@@ -2224,7 +2547,7 @@ const S2_RISE := 4.5
 
 
 ## The storage room: double-sided steel shelving on the racks (inside their colliders),
-## the S2 stair's yellow nosing, handrail, cage and sign, solid wall shelving, aisle
+## the S2 stair as a steel stair and its cage, solid wall shelving, aisle
 ## signs, walkway lines, a book trolley, a step ladder. fixes_x9.gd removed the racks'
 ## old look and recoloured the stair in the level's scene.
 func _build_storage(solid: Node3D, decor: Node3D) -> void:
@@ -2272,10 +2595,9 @@ func _build_storage(solid: Node3D, decor: Node3D) -> void:
 		for end in [-1.0, 1.0]:
 			_add_visual_box(g, "TagPlate%d" % int(end), Vector3(0, 1.72, end * 0.98), Vector3(0.5, 0.22, 0.02), "release_yellow")
 			_add_text(g, "Tag%d" % int(end), Vector3(0, 1.72, end * 0.992), r[2], 64, 0.0028, Color(0.06, 0.06, 0.06), 0.0 if end > 0 else 180.0)
-	# The S2 stair: yellow nosing where the level's cream one was (a BatchedBoxes named
-	# "Nosing": flush on the ramp, like the level's), the handrail along the open side,
-	# the storage cage under it and the sign at the foot.
-	_add_s2_nosing(decor)
+	# The S2 stair: a steel stair (treads, risers, nosing, stringers, guardrail, stripes:
+	# _dress_s2), the storage cage under it.
+	_dress_s2(decor)
 	var cage := Node3D.new()
 	cage.name = "S2Cage"
 	_add(decor, cage)
@@ -2361,27 +2683,60 @@ func _build_storage(solid: Node3D, decor: Node3D) -> void:
 		_add_visual_box(lad, "Step%d" % i, Vector3(0, 0.3 + i * 0.33, 0.01), Vector3(0.44, 0.03, 0.1), "keypad_bezel")
 
 
-## The S2 stair's nosing, yellow: the level's own strips (Ramp/Nosing, hidden by fixes_x9.gd)
-## re-drawn as a BatchedBoxes called "Nosing" with the same boxes and world transform.
-func _add_s2_nosing(parent: Node3D) -> void:
-	var level: Node = (load("res://maps/library/scenes/expanded_library.tscn") as PackedScene).instantiate()
-	var src := level.get_node("NavigationRegion3D/Stairs/S2_S2StaffStair/Ramp/Nosing") as Node3D
-	var xf := Transform3D.IDENTITY
-	var n: Node = src
-	while n and n != level:
-		if n is Node3D:
-			xf = (n as Node3D).transform * xf
-		n = n.get_parent()
-	var nosing := MultiMeshInstance3D.new()
-	nosing.name = "Nosing"
-	nosing.set_script(src.get_script())   # BatchedBoxes
-	nosing.transform = xf
-	nosing.material_override = _look("hazard_yellow")
-	nosing.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	nosing.set_meta("render_layers", (src as GeometryInstance3D).layers)
-	_add(parent, nosing)
-	nosing.set("boxes", src.get("boxes"))
-	level.free()
+## The S2 staff stair as a steel stair (polish, 2026-11-02; its ramp, step fillers and
+## Handrail bodies unchanged): 22 steel treads with safety-yellow nosing and dark risers on
+## the ramp (the walked surface is still the ramp, as S3), on the open (west) side a steel
+## channel stringer and a guardrail (posts, a yellow top rail and a mid rail) in place of
+## the stepped panels (removed by fixes_x31.gd), on the wall side a flush steel stringer,
+## and black-and-yellow hazard stripes at the foot and the top.
+const S2_STEPS := 22
+
+
+func _dress_s2(decor: Node3D) -> void:
+	var s := Node3D.new()
+	s.name = "S2Stair"
+	_add(decor, s)
+	var x0 := S2_X
+	var x1 := S2_X + 3.0
+	var width := x1 - x0
+	var xc := (x0 + x1) / 2.0
+	var run := S2_FOOT - S2_TOP
+	var rise := S2_RISE / S2_STEPS
+	var going := run / S2_STEPS
+	for i in S2_STEPS:
+		var z_front := S2_FOOT - i * going
+		var top := (i + 1) * rise
+		_add_visual_box(s, "Tread%02d" % i, Vector3(xc, top - 0.02, z_front - going / 2.0 + 0.015), Vector3(width - 0.06, 0.04, going + 0.03), "tread_steel")
+		_add_visual_box(s, "Nosing%02d" % i, Vector3(xc, top + 0.002, z_front - 0.01), Vector3(width - 0.1, 0.006, 0.07), "hazard_yellow")
+		_add_visual_box(s, "Riser%02d" % i, Vector3(xc, i * rise + rise / 2.0 - 0.02, z_front - 0.01), Vector3(width - 0.08, rise - 0.04, 0.02), "keypad_bezel")
+	var length := sqrt(run * run + S2_RISE * S2_RISE)
+	var angle := atan2(S2_RISE, run)
+	var zm := (S2_FOOT + S2_TOP) / 2.0
+	var ym := S2_RISE / 2.0
+	var lift := 1.0 / cos(angle)   # height above the slope → the boards' centre offset
+	# Sloped members (rotated about x: local +z runs down the slope towards the foot):
+	# [name, x, height above the slope, depth, thickness, look].
+	for b in [["Stringer", x0 - 0.04, -0.12, 0.42, 0.08, "steel_beam"],
+			["StringerFlange", x0 - 0.08, 0.1, 0.03, 0.16, "steel_beam"],
+			["MidRail", x0 - 0.04, 0.5, 0.04, 0.04, "steel_shelf"],
+			["TopRail", x0 - 0.04, 0.97, 0.055, 0.055, "release_yellow"],
+			["WallStringer", x1 - 0.012, -0.05, 0.32, 0.02, "steel_beam"]]:
+		_add_box_r(s, b[0], Vector3(b[1], ym + float(b[2]) * lift, zm), Vector3(b[4], b[3], length - 0.08), b[5], Vector3(angle, 0, 0))
+	# Guardrail posts on the stringer, foot and top posts taller (they carry the rail's ends).
+	var n := 8
+	for i in n:
+		var z := S2_FOOT - 0.12 - i * (run - 0.24) / (n - 1)
+		var slope_y := S2_RISE * (S2_FOOT - z) / run
+		_add_visual_box(s, "Post%d" % i, Vector3(x0 - 0.04, slope_y + 0.6, z), Vector3(0.05, 0.84, 0.05), "steel_shelf")
+	for e in [[S2_FOOT - 0.06, 0.0], [S2_TOP + 0.06, S2_RISE]]:
+		_add_visual_box(s, "EndPost%d" % int(e[1]), Vector3(x0 - 0.05, float(e[1]) + 0.55, float(e[0])), Vector3(0.07, 1.1, 0.07), "release_yellow")
+		_add_visual_box(s, "EndCap%d" % int(e[1]), Vector3(x0 - 0.05, float(e[1]) + 1.115, float(e[0])), Vector3(0.09, 0.03, 0.09), "keypad_bezel")
+	# Hazard stripes across the foot and the top, as on the service stairs.
+	for st in [[S2_FOOT + 0.175, 0.0, "Foot"], [S2_TOP - 0.175, S2_RISE, "Top"]]:
+		var w := (width - 0.1) / 6.0
+		for i in 6:
+			_add_visual_box(s, "Stripe%s_%d" % [st[2], i], Vector3(x0 + 0.05 + w * (i + 0.5), float(st[1]) + 0.006, float(st[0])),
+				Vector3(w, 0.012, 0.25), "hazard_yellow" if i % 2 == 0 else "hazard_black")
 
 
 ## A solid prop: a StaticBody3D with one box shape over `rect` [x0, z0, x1, z1], `h` high
@@ -2743,7 +3098,8 @@ func _build_stacks(solid: Node3D, decor: Node3D, ceilings: Node3D) -> void:
 		var rect := [face, st[1] - 0.21, face + dir * 0.42, st[1] + 0.21]
 		if dir < 0:
 			rect = [face - 0.42, st[1] - 0.21, face, st[1] + 0.21]
-		var model := _solid_prop(solid, "StepStool%d" % int(absf(st[1])), rect, 0.45)
+		# Collision 0.5 m tall (the stool 0.45 m): see LOW_PROP_COLLISION.
+		var model := _solid_prop(solid, "StepStool%d" % int(absf(st[1])), rect, LOW_PROP_COLLISION)
 		_step_stool(model, dir)
 	var trolley := _solid_prop(solid, "StacksTrolley", [-24.2, -27.8, -22.8, -27.3], 1.0)
 	_book_trolley(trolley, Vector3(1.4, 1.0, 0.5), 3)
@@ -2940,9 +3296,12 @@ func _office(solid: Node3D, d: Node3D, i: int) -> void:
 	_office_door_leaves(o, x0, c, i)
 	_add_visual_box(o, "NumberPlate", Vector3(c, 2.65, -13.786), Vector3(0.5, 0.1, 0.008), "brass")
 	_add_text(o, "NumberText", Vector3(c, 2.65, -13.78), "OFFICE %d" % (i + 1), 22, 0.0016, Color(0.12, 0.08, 0.03))
-	# The bin stays 0.35 m tall: low enough for the navmesh to pass it, which keeps the way
-	# round Office 3's desk to its hiding spot open.
-	var bin := _upper_prop(solid, "Office%dBin" % (i + 1), [c + 1.65, -23.85, c + 1.95, -23.55], 0.35)
+	# The bin (0.35 m: the navmesh bake ignores it) stands against the back wall, beside the
+	# filing cabinets (Office 3: beside the packing boxes), well out of reach of the walkable
+	# area. It used to stand past the desk's east end, in the narrow way between the desk and
+	# the wall, where a chasing guard got stuck on it (moved 2026-11-02, on request).
+	var bin_x: float = [x0 + 1.25, x0 + 1.25, x0 + 4.45][i]
+	var bin := _upper_prop(solid, "Office%dBin" % (i + 1), [bin_x, -27.83, bin_x + 0.3, -27.53], 0.35)
 	_kenney(bin, "Bin", [_kp("trashcan", Vector3.ZERO, 0.0, Vector3(1.35, 0.8, 1.25), {"metal": "tool_dark", "metalDark": "tool_steel"})])
 	if i < 2:
 		var coat := _upper_prop(solid, "Office%dCoatStand" % (i + 1), [x0 + 0.2, -15.15, x0 + 0.8, -14.55], 1.8)
@@ -3467,16 +3826,22 @@ func _basement_props(solid: Node3D) -> void:
 		var cx := -0.42 + k * 0.28
 		_add_visual_cyl(cage, "Cylinder%d" % k, Vector3(cx, 0.7, -0.05), 0.11, 1.3, "y", "pipe_red" if k % 2 == 0 else "motor_dark", 8)
 		_add_visual_box(cage, "CylinderCap%d" % k, Vector3(cx, 1.4, -0.05), Vector3(0.08, 0.1, 0.08), "tool_steel")
-	var bucket := _basement_prop(solid, "MopBucket", [-36.6, -22.6, -36.2, -22.2], 0.4)
+	var bucket := _basement_prop(solid, "MopBucket", [-36.6, -22.6, -36.2, -22.2], LOW_PROP_COLLISION)   # see LOW_PROP_COLLISION
 	_add_visual_box(bucket, "Bucket", Vector3(0, 0.15, 0), Vector3(0.36, 0.3, 0.36), "release_yellow")
 	_add_visual_box(bucket, "Water", Vector3(0, 0.29, 0), Vector3(0.3, 0.01, 0.3), "water")
 	_add_box_r(bucket, "MopHandle", Vector3(0.05, 0.75, -0.02), Vector3(0.03, 1.3, 0.03), "wood", Vector3(0, 0, 0.2))
 	# Tunnel: a ladder leaning on the north wall (off the guard's line at z −25), drums.
+	# Fixed 2026-11-03: it leans with its top against the wall (−z) and the rungs sit
+	# between the rails, in their plane (the rails leaned away from the wall and the rungs
+	# the other way, off the rails).
 	var ladder := _basement_prop(solid, "Ladder", [-19.9, -26.85, -19.3, -26.45], 2.2)
+	var lean := 0.12   # radians from upright, the top towards the wall
+	var rail_z := -0.02
 	for sx in [-0.25, 0.25]:
-		_add_box_r(ladder, "Rail%d" % int(sx * 100), Vector3(sx, 1.08, 0.02), Vector3(0.05, 2.2, 0.06), "release_yellow", Vector3(0.12, 0, 0))
+		_add_box_r(ladder, "Rail%d" % int(sx * 100), Vector3(sx, 1.08, rail_z), Vector3(0.05, 2.2, 0.06), "release_yellow", Vector3(-lean, 0, 0))
 	for k in 7:
-		_add_box_r(ladder, "Rung%d" % k, Vector3(0, 0.25 + k * 0.3, 0.12 - k * 0.036), Vector3(0.5, 0.03, 0.03), "tool_steel", Vector3(0.12, 0, 0))
+		var y := 0.25 + k * 0.3
+		_add_box_r(ladder, "Rung%d" % k, Vector3(0, y, rail_z - (y - 1.08) * tan(lean)), Vector3(0.5, 0.03, 0.03), "tool_steel", Vector3(-lean, 0, 0))
 	_drums(_basement_prop(solid, "TunnelDrums", [25.0, -26.85, 26.3, -26.2], 0.9), 2, false)
 	# East basement and the cable bay: drums by the west wall, a pallet stack.
 	_drums(_basement_prop(solid, "EastDrums", [36.5, -16.5, 37.15, -15.25], 0.9), 2, true)
@@ -4012,7 +4377,8 @@ func _build_study_rooms(solid: Node3D, decor: Node3D, ceilings: Node3D) -> void:
 	# Study 4: a group table, a wall of tall bookcases, a whiteboard.
 	_study_table(_solid_prop(solid, "Study4Table", [7.8, -24.9, 10.2, -22.9], 0.76), 4, 3)
 	_study_bookcase(_wall_unit(_solid_prop(solid, "Study4BookcaseS", [11.4, -25.0, 11.8, -21.2], 2.0), -1.0), 3.8, 2.0, 5, 31)
-	_study_bookcase(_wall_unit(_solid_prop(solid, "Study4BookcaseN", [11.4, -20.8, 11.8, -17.0], 2.0), -1.0), 3.8, 2.0, 5, 37)
+	# Approved 2026-10-31: the north one is the reserve bookcase (the reserve shelf puzzle).
+	_reserve_bookcase(_wall_unit(_solid_prop(solid, "Study4BookcaseN", [11.4, -20.8, 11.8, -17.0], 2.0), -1.0), 3.8, 2.0, Layout.MISSION.reserve_shelf.gap_x, 37)
 	_whiteboard(decor, "Study4Board", Vector3(6.162, 1.75, -20.0), 1.0, 3)
 	_study_ceiling(ceilings)
 
@@ -4508,6 +4874,7 @@ func _build_porch(solid: Node3D, decor: Node3D, ceilings: Node3D) -> void:
 	_add(decor, d)
 	_porch_floor(d)
 	_porch_walls(d)
+	_porch_front_doors(d)
 	_porch_props(solid, d)
 	_porch_ceiling(ceilings)
 
@@ -4581,6 +4948,65 @@ func _porch_walls(d: Node3D) -> void:
 		_add_visual_box(d, "Cornice%s" % ("W" if s < 0 else "E"), Vector3(s * (PORCH_X - dep / 2.0), cy, (PORCH_Z0 + PORCH_Z1) / 2.0), Vector3(dep, h, PORCH_Z1 - PORCH_Z0 - 2.0 * dep), "plaster")
 
 
+## The library's front doors to the street, on the back wall behind the spawn (requested by
+## the owner on 2026-11-02): a pair of panelled oak doors, shut for the night, in a stone
+## surround with the library's name on the lintel; bronze push bars and kick plates, a bronze
+## threshold and a mat inside. Flat on the wall (0.16 m deep at most, like the pilasters),
+## no collision, the wall behind it unchanged. They are locked: a LockedDoor in front of
+## them (Gameplay/FrontDoors) names them so and refuses with a reason and the locked rattle.
+const FRONT_DOOR_W := 2.2
+const FRONT_DOOR_H := 2.7
+
+
+func _porch_front_doors(d: Node3D) -> void:
+	var g := Node3D.new()
+	g.name = "FrontDoors"
+	g.position = Vector3(0, 0, PORCH_Z1)
+	g.rotation_degrees = Vector3(0, 180, 0)   # local +z into the porch, the wall face at z 0
+	_add(d, g)
+	var w := FRONT_DOOR_W
+	var h := FRONT_DOOR_H
+	# The surround: jambs on plinths, a lintel with the name, a cornice.
+	for sx in [-1.0, 1.0]:
+		_add_visual_box(g, "Jamb%d" % int(sx), Vector3(sx * (w / 2.0 + 0.14), h / 2.0 + 0.15, 0.07), Vector3(0.28, h - 0.3, 0.14), "stone_light")
+		_add_visual_box(g, "Plinth%d" % int(sx), Vector3(sx * (w / 2.0 + 0.14), 0.15, 0.08), Vector3(0.32, 0.3, 0.16), "stone_dark")
+	_add_visual_box(g, "Lintel", Vector3(0, h + 0.22, 0.075), Vector3(w + 0.56, 0.44, 0.15), "stone_light")
+	_add_visual_box(g, "Cornice", Vector3(0, h + 0.48, 0.09), Vector3(w + 0.76, 0.08, 0.18), "stone_dark")
+	_add_visual_box(g, "Keystone", Vector3(0, h + 0.22, 0.155), Vector3(0.22, 0.4, 0.012), "stone_dark")
+	for sx in [-1.0, 1.0]:
+		_add_text(g, "Name%d" % int(sx), Vector3(sx * 0.66, h + 0.22, 0.152), ["CAMPUS", "LIBRARY"][int(sx > 0)], 40, 0.0042, Color(0.25, 0.22, 0.18))
+	# The reveal behind the leaves, then the two leaves (panels, push bars, kick plates).
+	_add_visual_box(g, "Reveal", Vector3(0, h / 2.0, 0.005), Vector3(w, h, 0.01), "tool_dark")
+	for sx in [-1.0, 1.0]:
+		var lx: float = sx * w / 4.0
+		var lw := w / 2.0 - 0.03
+		_add_visual_box(g, "Leaf%d" % int(sx), Vector3(lx, (h - 0.02) / 2.0 + 0.01, 0.04), Vector3(lw, h - 0.04, 0.05), "oak")
+		for p in [[0.62, 0.95], [1.86, 1.25]]:   # [centre y, height]: the lower and upper panels
+			_add_visual_box(g, "Panel%d_%d" % [int(sx), int(p[0] * 10)], Vector3(lx, p[0], 0.066), Vector3(lw - 0.24, p[1], 0.012), "oak_dark")
+		_add_visual_box(g, "PushBar%d" % int(sx), Vector3(lx, 1.1, 0.1), Vector3(lw - 0.2, 0.045, 0.045), "bronze")
+		for e in [-1.0, 1.0]:
+			_add_visual_box(g, "Bracket%d_%d" % [int(sx), int(e)], Vector3(lx + e * (lw / 2.0 - 0.14), 1.1, 0.08), Vector3(0.04, 0.06, 0.04), "bronze")
+		_add_visual_box(g, "KickPlate%d" % int(sx), Vector3(lx, 0.14, 0.068), Vector3(lw - 0.06, 0.22, 0.006), "brass")
+	_add_visual_box(g, "MeetingStile", Vector3(0, h / 2.0, 0.07), Vector3(0.04, h - 0.04, 0.012), "bronze")
+	# The threshold and a mat inside the doors.
+	_add_visual_box(g, "Threshold", Vector3(0, 0.005, 0.1), Vector3(w + 0.1, 0.01, 0.2), "bronze")
+	_add_visual_box(g, "MatEdge", Vector3(0, 0.004, 0.55), Vector3(2.5, 0.008, 0.7), "bronze")
+	_add_visual_box(g, "Mat", Vector3(0, 0.006, 0.55), Vector3(2.4, 0.012, 0.6), "mat_dark")
+	# Locked: aiming names them so, E is refused with the reason (and the locked rattle).
+	var lock := Area3D.new()
+	lock.name = "FrontDoors"
+	lock.set_script(load(SCRIPTS.locked_door))
+	lock.set("door_name", "Front doors")
+	lock.set("lock_text", "locked for the night")
+	lock.set("reason", "The front doors are locked for the night.")
+	lock.position = Vector3(0, h / 2.0, PORCH_Z1 - 0.07)
+	_add(_root.get_node("Gameplay"), lock)
+	var shape := CollisionShape3D.new()
+	shape.name = "Shape"
+	shape.shape = _box_shape(Vector3(w, h, 0.14))
+	_add(lock, shape)
+
+
 ## Solid props against the walls (clear of x −2.2…2.2, the walk from the spawn to the doors).
 func _porch_props(solid: Node3D, _d: Node3D) -> void:
 	# Stone benches between the side pilasters (0.45 m deep: no navmesh on the seat).
@@ -4589,7 +5015,8 @@ func _porch_props(solid: Node3D, _d: Node3D) -> void:
 		for z in [[29.68, 30.72], [31.28, 32.32]]:
 			var xa: float = s * (PORCH_X - 0.05)
 			var xb: float = s * (PORCH_X - 0.5)
-			var b := _solid_prop(solid, "PorchBench%d" % k, [minf(xa, xb), z[0], maxf(xa, xb), z[1]], 0.46)
+			# Collision 0.5 m tall (the seat 0.46 m): see LOW_PROP_COLLISION.
+			var b := _solid_prop(solid, "PorchBench%d" % k, [minf(xa, xb), z[0], maxf(xa, xb), z[1]], LOW_PROP_COLLISION)
 			_add_visual_box(b, "Seat", Vector3(0, 0.42, 0), Vector3(0.45, 0.08, 1.04), "stone_light")
 			for e in [-1.0, 1.0]:
 				_add_visual_box(b, "Leg%d" % int(e), Vector3(0, 0.19, e * 0.38), Vector3(0.38, 0.38, 0.14), "stone_dark")
@@ -4997,6 +5424,143 @@ func _kenney_books(length: float, shelves: Array, depth: float, seed: int, fill 
 	return parts
 
 
+## Archive emergency lighting (approved 2026-10-31): Expansion/Gameplay/ArchiveLights
+## switches the level's archive lamps with archive_access; its beacons are a dark
+## housing with a red lens and a red omni light on the archive lamps' cull mask.
+func _add_archive_lights(gameplay: Node3D) -> void:
+	var node := Node3D.new()
+	node.name = "ArchiveLights"
+	node.set_script(load(SCRIPTS.archive_lights))
+	var lamps: Array[NodePath] = []
+	for l in Layout.ARCHIVE_LAMPS:
+		lamps.append(NodePath("../../../Dressing/Lights/%s/Light" % l))
+	node.set("lamps", lamps)
+	_add(gameplay, node)
+	var k := 0
+	for pos in Layout.ARCHIVE_BEACONS:
+		var b := Node3D.new()
+		b.name = "Beacon%d" % k
+		b.position = pos
+		_add(node, b)
+		_add_visual_box(b, "Housing", Vector3(0, 0.27, 0), Vector3(0.34, 0.12, 0.2), "tool_dark", Layout.LAYER_UPPER)
+		_add_visual_box(b, "Lens", Vector3(0, 0.19, 0), Vector3(0.28, 0.05, 0.14), "beacon_red", Layout.LAYER_UPPER)
+		var light := OmniLight3D.new()
+		light.name = "Light"
+		light.position = Vector3(0, 0.0, 0)
+		light.light_color = Color(1.0, 0.16, 0.08)
+		light.light_energy = 3.0
+		light.omni_range = 9.0
+		light.omni_attenuation = 0.6
+		light.light_cull_mask = 9
+		light.shadow_enabled = false
+		_add(b, light)
+		k += 1
+
+
+## Wayfinding (approved by the owner, 2026-10-31; nothing on the walls, as asked):
+##   - a directory stand inside the entrance, west of the entrance screen (solid): a
+##     slanted oak board with the ground floor's plan, its zones in colour and a red
+##     YOU ARE HERE dot, readable by a player coming in from the porch;
+##   - brass floor inlays naming the reading hall (at its doors, read walking north) and
+##     the browsing hall (the stacks' south end, at the lobby's stacks arch, read walking west);
+##   - hanging signs from the ceiling (above the doorway height, no collision) over the
+##     stacks arch and the foot of the main stair S1.
+const DIRECTORY_AT := Vector3(-5.8, 0.0, 25.6)
+## The ground floor plan's zones [x0, z0, x1, z1, look, label] (the porch has no label).
+const DIRECTORY_ZONES := [
+	[-36.0, -28.0, -12.0, 28.0, "oak", "STACKS · BROWSING HALL"],
+	[-12.0, -28.0, 12.0, 10.0, "fabric_green", "READING HALL"],
+	[-12.0, 10.0, 12.0, 28.0, "card_white", "LOBBY"],
+	[12.0, -28.0, 36.0, 28.0, "rack_orange", "SERVICE"],
+	[-5.0, 28.0, 5.0, 34.0, "card_white", ""],
+]
+
+
+func _build_wayfinding(solid: Node3D, decor: Node3D) -> void:
+	var ink := Color(0.12, 0.09, 0.05)
+	# The directory stand: a base, a post and a board tilted 30° towards the entrance (+z).
+	var stand := _solid_prop(solid, "DirectoryStand", [DIRECTORY_AT.x - 0.3, DIRECTORY_AT.z - 0.25, DIRECTORY_AT.x + 0.3, DIRECTORY_AT.z + 0.25], 1.2)
+	_add_visual_box(stand, "Base", Vector3(0, 0.02, 0), Vector3(0.56, 0.04, 0.44), "oak_dark")
+	_add_visual_box(stand, "Post", Vector3(0, 0.47, 0), Vector3(0.1, 0.86, 0.1), "oak_dark")
+	var board := Node3D.new()
+	board.name = "Board"
+	board.position = Vector3(0, 1.0, 0)
+	board.rotation_degrees = Vector3(30, 0, 0)
+	_add(stand, board)
+	_add_visual_box(board, "Frame", Vector3(0, -0.02, 0), Vector3(0.94, 0.04, 0.66), "oak")
+	_add_visual_box(board, "Sheet", Vector3(0, 0.002, 0), Vector3(0.88, 0.004, 0.6), "paper")
+	var plan := Vector2(-4.0, 3.0)   # the plan's centre in level x / z
+	var k := 0.0076                  # metres on the board per metre of the level
+	var top := Node3D.new()          # labels lie on the sheet, their tops to the north
+	top.name = "Labels"
+	top.position = Vector3(0, 0.006, 0)
+	top.rotation_degrees = Vector3(-90, 0, 0)
+	_add(board, top)
+	var n := 0
+	for z in DIRECTORY_ZONES:
+		var c := Vector3(((z[0] + z[2]) / 2.0 - plan.x) * k, 0.006, ((z[1] + z[3]) / 2.0 - plan.y) * k)
+		_add_visual_box(board, "Zone%d" % n, c, Vector3((z[2] - z[0]) * k - 0.004, 0.003, (z[3] - z[1]) * k - 0.004), z[4])
+		if z[5] != "":
+			_add_text(top, "ZoneName%d" % n, Vector3(c.x, -c.z, 0.002), z[5], 20, 0.0011, ink)
+		n += 1
+	var here := Vector3((DIRECTORY_AT.x - plan.x) * k, 0.009, (DIRECTORY_AT.z - plan.y) * k)
+	_add_visual_box(board, "YouAreHere", here, Vector3(0.022, 0.004, 0.022), "pipe_red")
+	_add_text(top, "YouAreHereText", Vector3(here.x + 0.075, -here.z, 0.002), "YOU ARE HERE", 18, 0.0011, Color(0.6, 0.08, 0.05))
+	_add_text(top, "Title", Vector3(0, 0.27, 0.002), "CAMPUS LIBRARY · GROUND FLOOR", 26, 0.0012, ink)
+	_add_text(top, "Upstairs", Vector3(0, -0.27, 0.002), "Upper floor (staff wing, archive): main stair, west of the lobby", 16, 0.0011, ink)
+	# Brass floor inlays (flat, no collision): [centre, size, text, yaw of the text].
+	for inlay in [[Vector3(0.0, 0.006, 10.9), Vector3(4.4, 0.008, 0.5), "READING HALL", 0.0],
+			[Vector3(-11.3, 0.006, 24.0), Vector3(0.5, 0.008, 3.4), "BROWSING HALL", 90.0]]:
+		var g := Node3D.new()
+		g.name = "Inlay" + (inlay[2] as String).replace(" ", "")
+		g.position = inlay[0]
+		_add(decor, g)
+		_add_visual_box(g, "Brass", Vector3.ZERO, inlay[1], "brass")
+		var t := _add_text(g, "Text", Vector3(0, 0.0045, 0), inlay[2], 64, 0.0055, ink)
+		t.rotation_degrees = Vector3(-90, inlay[3], 0)
+	# Hanging signs: a green board on two rods, lettered on both faces: [centre, yaw, text].
+	for sign in [[Vector3(-10.9, 3.2, 24.0), 90.0, "BROWSING HALL · STACKS", "HangingStacks"], [Vector3(-10.35, 3.2, 21.2), 0.0, "UPPER FLOOR · STAFF WING", "HangingStair"]]:
+		var g := Node3D.new()
+		g.name = sign[3]
+		g.position = sign[0]
+		g.rotation_degrees = Vector3(0, sign[1], 0)
+		_add(decor, g)
+		var w := 2.4
+		_add_visual_box(g, "Board", Vector3.ZERO, Vector3(w, 0.42, 0.05), "fabric_green")
+		_add_visual_box(g, "Trim", Vector3(0, -0.225, 0), Vector3(w + 0.04, 0.03, 0.07), "brass")
+		for e in [-1.0, 1.0]:
+			_add_visual_box(g, "Rod%d" % int(e), Vector3(e * (w / 2.0 - 0.15), 0.71, 0), Vector3(0.02, 1.0, 0.02), "keypad_bezel")
+		for f in [1.0, -1.0]:
+			_add_text(g, "Text%s" % ("Front" if f > 0 else "Back"), Vector3(0, 0.0, f * 0.027), sign[2], 48, 0.004, Color(0.95, 0.9, 0.78), 0.0 if f > 0 else 180.0)
+
+
+## Ambient sound (approved 2026-10-31): Layout.AMBIENCE as AmbientEmitters.
+func _add_ambience(parent: Node3D) -> void:
+	for a in Layout.AMBIENCE:
+		var e := AudioStreamPlayer3D.new()
+		e.name = a.name
+		e.position = a.pos
+		e.volume_db = a.db
+		e.unit_size = a.unit
+		e.max_distance = a.max
+		e.set_script(load(SCRIPTS.ambient))
+		if a.has("loop"):
+			e.set("loop_sound", a.loop)
+		else:
+			e.set("sounds", PackedStringArray(a.sounds))
+			e.set("interval_min", a.interval[0])
+			e.set("interval_max", a.interval[1])
+		_add(parent, e)
+
+
+## The collision height of low solid props (bins, stools, buckets, benches; 2026-11-02): the
+## navmesh bake ignores a collider lower than 0.5 m (its cell height is 0.25 m and its step
+## height 0.25 m), so the walkable area ran right up to such props and a guard (radius
+## 0.35 m, no stepping) could snag on them. From 0.5 m up the bake keeps guards 0.5 m clear.
+## A prop below it must stand well away from any walkable area (the improvement tests check).
+const LOW_PROP_COLLISION := 0.5
+
+
 func _solid_prop(parent: Node3D, node_name: String, rect: Array, h: float) -> Node3D:
 	var size := Vector3(rect[2] - rect[0], h, rect[3] - rect[1])
 	var body := _add_box_body(parent, node_name, Vector3((rect[0] + rect[2]) / 2.0, h / 2.0, (rect[1] + rect[3]) / 2.0), size, "crate")
@@ -5366,3 +5930,359 @@ func _box_shape(size: Vector3) -> BoxShape3D:
 		s.size = size
 		_shapes[key] = s
 	return _shapes[key]
+
+
+# --- Polish 2026-11-03: the emptier rooms -----------------------------------------------------
+
+## A cable drum (wooden flanges, black cable wound on its core) with its axle along z.
+func _cable_drum(m: Node3D, node_name: String, at: Vector3, r: float, w: float) -> void:
+	_add_visual_cyl(m, node_name + "FlangeA", at + Vector3(0, 0, -w / 2.0 + 0.025), r, 0.05, "z", "pallet_wood", 16)
+	_add_visual_cyl(m, node_name + "FlangeB", at + Vector3(0, 0, w / 2.0 - 0.025), r, 0.05, "z", "pallet_wood", 16)
+	_add_visual_cyl(m, node_name + "Cable", at, r * 0.8, w - 0.1, "z", "wire_black", 16)
+	_add_visual_cyl(m, node_name + "Hub", at, 0.06, w + 0.04, "z", "tool_steel", 8)
+
+
+## A wall-mounted fire extinguisher on a bracket (local: the wall at z 0, +z into the room).
+func _extinguisher(parent: Node3D, node_name: String, at: Vector3, yaw: float) -> void:
+	var g := Node3D.new()
+	g.name = node_name
+	g.position = at
+	g.rotation_degrees = Vector3(0, yaw, 0)
+	_add(parent, g)
+	_add_visual_box(g, "Bracket", Vector3(0, 0, 0.02), Vector3(0.14, 0.5, 0.04), "keypad_bezel")
+	_add_visual_cyl(g, "Body", Vector3(0, -0.02, 0.1), 0.065, 0.46, "y", "extinguisher_red", 12)
+	_add_visual_box(g, "Valve", Vector3(0, 0.25, 0.1), Vector3(0.05, 0.07, 0.05), "tool_dark")
+	_add_visual_box(g, "Hose", Vector3(0.06, 0.05, 0.14), Vector3(0.02, 0.36, 0.02), "wire_black")
+	_add_visual_box(g, "Label", Vector3(0, 0.0, 0.166), Vector3(0.07, 0.12, 0.004), "card_white")
+
+
+## A steel cable tray (two side rails, rungs) between `a` and `b`, `w` wide, flat.
+func _cable_tray(parent: Node3D, node_name: String, a: Vector3, b: Vector3, w: float, along_x: bool) -> void:
+	var c := (a + b) / 2.0
+	var length := (b - a).length()
+	for s in [-1.0, 1.0]:
+		var off := Vector3(0, 0, s * w / 2.0) if along_x else Vector3(s * w / 2.0, 0, 0)
+		_add_visual_box(parent, "%sRail%d" % [node_name, int(s)], c + off, Vector3(length, 0.06, 0.02) if along_x else Vector3(0.02, 0.06, length), "tool_steel")
+	var n := int(length / 0.3)
+	for i in n:
+		var t := -length / 2.0 + (i + 0.5) * length / n
+		_add_visual_box(parent, "%sRung%d" % [node_name, i], c + (Vector3(t, -0.025, 0) if along_x else Vector3(0, -0.025, t)), Vector3(0.02, 0.01, w) if along_x else Vector3(w, 0.01, 0.02), "tool_steel")
+	_add_visual_box(parent, "%sCables" % node_name, c, Vector3(length, 0.04, w * 0.6) if along_x else Vector3(w * 0.6, 0.04, length), "wire_black")
+
+
+## The east basement (x 36.45…42.2, z −23…−6, the basement guard's line at x 39) and the cable
+## bay: a rack of cable drums, a pallet of cartons and a storage cage along the west wall, a
+## grey distribution board on the stair's side wall with conduits up to a cable tray, an
+## extinguisher; in the cable bay, coils of cable on wall hooks. All solid props against the
+## walls, at least 1.2 m from the guard's line, the stair's foot and the doorways kept clear.
+func _build_east_basement(solid: Node3D, d: Node3D) -> void:
+	var b := Layout.BF
+	var rack := _basement_prop(solid, "CableDrumRack", [36.45, -20.6, 37.35, -18.2], 1.35)
+	for ez in [-1.12, 1.12]:
+		_add_visual_box(rack, "End%d" % int(ez * 10), Vector3(0, 0.6, ez), Vector3(0.8, 1.2, 0.08), "rack_orange")
+		_add_visual_box(rack, "Foot%d" % int(ez * 10), Vector3(0, 0.03, ez), Vector3(0.88, 0.06, 0.14), "keypad_bezel")
+	_add_visual_box(rack, "Axle", Vector3(0, 0.62, 0), Vector3(0.06, 0.06, 2.3), "tool_steel")
+	for k in 3:
+		_cable_drum(rack, "Drum%d" % k, Vector3(0, 0.62, -0.72 + k * 0.72), 0.42 - 0.04 * (k % 2), 0.6)
+	_add_visual_box(rack, "Tag", Vector3(0.41, 1.05, 0.0), Vector3(0.005, 0.14, 0.3), "card_white")
+	# A pallet of cartons.
+	var pal := _basement_prop(solid, "EastPalletStack", [36.45, -13.4, 37.65, -12.2], 1.25)
+	_pallet(pal, "Pallet", Vector3.ZERO, Vector3(1.2, 0.14, 1.2))
+	var cartons := []
+	for k in 4:   # four below, two long ones on top
+		cartons.append(_kp_box(Vector3(-0.29 + (k % 2) * 0.58, 0.14, -0.29 + (k / 2) * 0.58), Vector3(0.54, 0.5, 0.54), "cardboard" if k % 3 else "cardboard_dark"))
+	for k in 2:
+		cartons.append(_kp_box(Vector3(-0.29 + k * 0.58, 0.66, 0.0), Vector3(0.54, 0.48, 1.1), "cardboard_dark" if k == 0 else "cardboard"))
+	_kenney(pal, "Cartons", cartons)
+	# The storage cage at the south end.
+	# (Moved 2026-11-03 into the south-west corner, narrower: the basement guard turns at
+	# (39, −10) and walks to the stair's foot.)
+	var cage := _basement_prop(solid, "StorageCage", [36.45, -9.0, 37.6, -6.2], 2.2)
+	var cw := 1.15
+	var cd := 2.8
+	for px in [-cw / 2.0 + 0.02, cw / 2.0 - 0.02]:
+		for pz in [-cd / 2.0 + 0.02, 0.0, cd / 2.0 - 0.02]:
+			_add_visual_box(cage, "Post%d_%d" % [int(px * 100), int(pz * 100)], Vector3(px, 1.1, pz), Vector3(0.04, 2.2, 0.04), "keypad_bezel")
+	# Wire mesh as rods and rails (an open cage: the boxes inside show through).
+	var rods := int((cd - 0.1) / 0.12)
+	for i in rods:
+		_add_visual_box(cage, "RodFront%d" % i, Vector3(cw / 2.0 - 0.02, 1.1, -cd / 2.0 + 0.1 + i * 0.12), Vector3(0.01, 2.1, 0.01), "conduit")
+	for ez in [-1.0, 1.0]:
+		for i in int((cw - 0.1) / 0.12):
+			_add_visual_box(cage, "RodEnd%d_%d" % [int(ez), i], Vector3(-cw / 2.0 + 0.1 + i * 0.12, 1.1, ez * (cd / 2.0 - 0.02)), Vector3(0.01, 2.1, 0.01), "conduit")
+	for y in [0.06, 0.75, 1.45, 2.12]:
+		_add_visual_box(cage, "RailFront%d" % int(y * 100), Vector3(cw / 2.0 - 0.02, y, 0), Vector3(0.02, 0.02, cd - 0.04), "keypad_bezel")
+		for ez in [-1.0, 1.0]:
+			_add_visual_box(cage, "RailEnd%d_%d" % [int(ez), int(y * 100)], Vector3(0, y, ez * (cd / 2.0 - 0.02)), Vector3(cw - 0.04, 0.02, 0.02), "keypad_bezel")
+	_add_visual_box(cage, "Top", Vector3(0, 2.18, 0), Vector3(cw, 0.03, cd), "keypad_bezel")
+	_add_visual_box(cage, "DoorFrame", Vector3(cw / 2.0 - 0.005, 1.0, 0.65), Vector3(0.03, 1.95, 0.9), "rack_blue")
+	_add_visual_box(cage, "Padlock", Vector3(cw / 2.0 + 0.01, 1.0, 0.24), Vector3(0.03, 0.07, 0.05), "brass")
+	var stored := []
+	for k in 5:
+		stored.append(_kp_box(Vector3(-0.22 + (k % 2) * 0.22, 0.0 + (k / 2) * 0.45, -0.9 + k * 0.42), Vector3(0.42, 0.42, 0.4), ["archive_box", "cardboard", "cardboard_dark"][k % 3]))
+	_kenney(cage, "Stored", stored)
+	_add_visual_box(cage, "Shelf", Vector3(-0.27, 1.3, 0), Vector3(0.5, 0.03, cd - 0.2), "tool_steel")
+	for k in 4:
+		_add_visual_box(cage, "ShelfBox%d" % k, Vector3(-0.27, 1.5, -1.0 + k * 0.62), Vector3(0.42, 0.37, 0.5), "archive_box")
+	# The distribution board on the stair's side wall (x 42.2).
+	var board := _basement_prop(solid, "DistributionBoard", [41.75, -16.4, 42.2, -14.4], 2.0)
+	_add_visual_box(board, "Cabinet", Vector3(0.02, 1.0, 0), Vector3(0.4, 2.0, 2.0), "locker_grey")
+	for k in 2:
+		var dz := -0.5 + k * 1.0
+		_add_visual_box(board, "Door%d" % k, Vector3(-0.185, 1.0, dz), Vector3(0.01, 1.85, 0.95), "panel_grey")
+		_add_visual_box(board, "Handle%d" % k, Vector3(-0.2, 1.05, dz + (0.38 if k == 0 else -0.38)), Vector3(0.02, 0.16, 0.03), "tool_dark")
+		_add_visual_box(board, "Vent%d" % k, Vector3(-0.192, 0.3, dz), Vector3(0.004, 0.18, 0.5), "keypad_bezel")
+	_add_visual_box(board, "Danger", Vector3(-0.193, 1.6, -0.5), Vector3(0.004, 0.22, 0.3), "sticker_yellow")
+	_add_visual_box(board, "DangerBolt", Vector3(-0.196, 1.6, -0.5), Vector3(0.004, 0.14, 0.03), "wire_black")
+	_add_visual_box(board, "Lamp", Vector3(-0.195, 1.75, 0.5), Vector3(0.01, 0.05, 0.05), "led_green")
+	for k in 3:   # conduits from its top up the wall to the tray
+		_add_visual_box(d, "BoardConduit%d" % k, Vector3(42.14, b + 2.0 + (Layout._BC - 2.35) / 2.0, -15.9 + k * 0.5), Vector3(0.05, Layout._BC - 2.35, 0.05), "conduit")
+	_cable_tray(d, "WallTray", Vector3(41.95, b + Layout._BC - 0.35, -22.5), Vector3(41.95, b + Layout._BC - 0.35, -8.5), 0.3, false)
+	_extinguisher(d, "Extinguisher", Vector3(36.45, b + 1.0, -11.0), 90.0)
+	# The cable bay: coils of cable hung on wall hooks (east wall, x 45.85).
+	var coils := _basement_prop(solid, "CableCoils", [45.45, -20.3, 45.85, -18.5], 1.8)
+	_add_visual_box(coils, "Backboard", Vector3(0.17, 1.0, 0), Vector3(0.04, 1.6, 1.7), "pallet_wood")
+	for k in 3:
+		var at := Vector3(0.0, 1.25 - (k % 2) * 0.55, -0.55 + k * 0.55)
+		_add_visual_box(coils, "Hook%d" % k, at + Vector3(0.08, 0.28, 0), Vector3(0.18, 0.03, 0.03), "tool_steel")
+		_add_ring(coils, "Coil%d" % k, at, 0.17, 0.25, ["wire_black", "pipe_red", "sticker_yellow"][k])
+		var ring := coils.get_node("Coil%d" % k) as Node3D
+		ring.rotation = Vector3(0, PI / 2.0, PI / 2.0)
+
+
+## The west basement's crate (AlcoveCrate) as a pallet of strapped cartons, and the cable
+## bay's (CableBayCrate) as a slatted shipping crate with stencils: their colliders unchanged
+## (made "hidden" in the layout), the cable bay crate's top where it was (a bottle lies on it).
+func _build_basement_crates(solid: Node3D) -> void:
+	var by := Layout.BF
+	var g := Node3D.new()
+	g.name = "CrateLooks"
+	_add(solid, g)
+	# AlcoveCrate: x −38.9…−37.1, z −16.6…−15.0, 1.2 m.
+	var a := Node3D.new()
+	a.name = "AlcovePallet"
+	a.position = Vector3(-38.0, by, -15.8)
+	_add(g, a)
+	_pallet(a, "Pallet", Vector3.ZERO, Vector3(1.78, 0.14, 1.58))
+	var parts := []
+	for k in 6:
+		var at := Vector3(-0.6 + (k % 3) * 0.6, 0.14, -0.39 if k < 3 else 0.39)
+		parts.append(_kp_box(at, Vector3(0.56, 0.52, 0.76), "cardboard" if (k + 1) % 3 else "cardboard_dark"))
+	for k in 3:
+		parts.append(_kp_box(Vector3(-0.58 + k * 0.58, 0.66, 0.0), Vector3(0.54, 0.5, 1.5), "archive_box" if k == 1 else "cardboard"))
+	_kenney(a, "Cartons", parts)
+	for sx in [-0.45, 0.45]:
+		_add_visual_box(a, "Strap%d" % int(sx * 100), Vector3(sx, 1.163, 0), Vector3(0.04, 0.006, 1.56), "motor_blue")
+	_add_visual_box(a, "Label", Vector3(0.0, 0.92, 0.776), Vector3(0.3, 0.2, 0.004), "card_white")
+	# CableBayCrate: x 43.2…44.8, z −21.8…−20.2, 1.2 m (the bottle on its top).
+	var c := Node3D.new()
+	c.name = "CableBayShippingCrate"
+	c.position = Vector3(44.0, by, -21.0)
+	_add(g, c)
+	_add_visual_box(c, "Body", Vector3(0, 0.6, 0), Vector3(1.56, 1.16, 1.56), "pallet_dark")
+	_add_visual_box(c, "Lid", Vector3(0, 1.185, 0), Vector3(1.6, 0.03, 1.6), "pallet_wood")
+	for face in 4:
+		var yaw := face * PI / 2.0
+		var n := Vector3(sin(yaw), 0, cos(yaw))
+		for k in 4:
+			var y := 0.17 + k * 0.29
+			_add_box_r(c, "Slat%d_%d" % [face, k], n * 0.79 + Vector3(0, y, 0), Vector3(1.6, 0.2, 0.02), "pallet_wood", Vector3(0, yaw, 0))
+		_add_box_r(c, "Brace%d" % face, n * 0.8 + Vector3(0, 0.6, 0), Vector3(1.55, 0.09, 0.015), "pallet_dark", Vector3(0, yaw, 0.62))
+	_add_text(c, "Stencil", Vector3(0, 0.62, 0.812), "CABLE · 4 × 95 mm²", 40, 0.0032, Color(0.12, 0.1, 0.08))
+	_add_text(c, "StencilUp", Vector3(0.812, 0.85, 0), "↑ THIS WAY UP", 34, 0.003, Color(0.12, 0.1, 0.08), 90.0)
+	_set_layer_meta(g, Layout.LAYER_BASEMENT)
+
+
+## The electrical room (x 36.15…45.85, z −27.85…−18.15; its door at x 36, z −23; the east
+## stair's top at x 42.5…45.85, z −18): a transformer in the north-east corner with its cooling fins
+## and a high-voltage sign, a workbench by the south wall, a rubber mat before the switch
+## cabinets, cable trays from the cabinets' top along the north wall, danger signs, an
+## extinguisher by the door, hazard stripes round the transformer.
+func _build_electrical_room(solid: Node3D, d: Node3D) -> void:
+	# In the north-east corner (moved 2026-11-03 from beside the stair's top, where it changed
+	# the navmesh's polygons over the stair).
+	var tr := _solid_prop(solid, "Transformer", [44.75, -27.6, 45.85, -24.8], 1.8)
+	_add_visual_box(tr, "Tank", Vector3(0.05, 0.9, 0), Vector3(0.9, 1.6, 2.6), "cabinet_green")
+	_add_visual_box(tr, "Plinth", Vector3(0, 0.05, 0), Vector3(1.08, 0.1, 2.78), "keypad_bezel")
+	for k in 9:
+		_add_visual_box(tr, "Fin%d" % k, Vector3(-0.47, 0.85, -1.0 + k * 0.25), Vector3(0.12, 1.3, 0.03), "cabinet_green")
+	for k in 3:
+		_add_visual_cyl(tr, "Bushing%d" % k, Vector3(0.2, 1.75, -0.6 + k * 0.6), 0.05, 0.12, "y", "card_white", 8)
+	_add_visual_box(tr, "Sign", Vector3(-0.402, 1.35, 0.6), Vector3(0.004, 0.3, 0.3), "sticker_yellow")
+	_add_visual_box(tr, "SignBolt", Vector3(-0.405, 1.35, 0.6), Vector3(0.004, 0.2, 0.04), "wire_black")
+	_add_visual_box(tr, "Plate", Vector3(-0.402, 1.0, -0.5), Vector3(0.004, 0.16, 0.3), "brass")
+	_add_text(tr, "PlateText", Vector3(-0.405, 1.0, -0.5), "TX-2  11 kV / 400 V", 22, 0.0016, Color(0.12, 0.1, 0.04), -90.0)
+	for k in 2:   # conduits from its top to the ceiling (inside its footprint)
+		_add_visual_box(d, "TxConduit%d" % k, Vector3(45.5, 1.8 + 1.2, -26.6 + k * 0.6), Vector3(0.08, 2.4, 0.08), "conduit")
+	# Hazard stripes on the floor round it (flat).
+	for k in 8:
+		_add_visual_box(d, "TxStripe%d" % k, Vector3(44.55, 0.004, -27.75 + (k + 0.5) * 3.0 / 8.0), Vector3(0.2, 0.006, 3.0 / 8.0), "hazard_yellow" if k % 2 == 0 else "hazard_black")
+	# The workbench (south wall, west of the shelf).
+	var wb := _solid_prop(solid, "Workbench", [36.45, -18.8, 38.4, -18.15], 0.95)
+	_add_visual_box(wb, "Top", Vector3(0, 0.9, 0), Vector3(1.95, 0.05, 0.65), "oak_dark")
+	for lx in [-0.9, 0.9]:
+		_add_visual_box(wb, "Leg%d" % int(lx * 10), Vector3(lx, 0.44, 0), Vector3(0.06, 0.88, 0.6), "tool_steel")
+	_add_visual_box(wb, "Shelf", Vector3(0, 0.2, 0), Vector3(1.8, 0.03, 0.58), "tool_steel")
+	_add_visual_box(wb, "Meter", Vector3(-0.55, 0.97, 0.05), Vector3(0.16, 0.08, 0.24), "sticker_yellow")
+	_add_visual_box(wb, "MeterScreen", Vector3(-0.55, 1.012, 0.02), Vector3(0.1, 0.004, 0.08), "screen_dark")
+	_add_visual_box(wb, "Toolbox", Vector3(0.45, 1.0, 0.0), Vector3(0.46, 0.16, 0.22), "pipe_red")
+	_add_visual_box(wb, "Reel", Vector3(0.0, 0.32, 0.0), Vector3(0.3, 0.22, 0.3), "wire_black")
+	_add_visual_box(wb, "Gloves", Vector3(0.05, 0.93, 0.15), Vector3(0.18, 0.02, 0.12), "sticker_yellow")
+	# The rubber mat before the cabinets (flat).
+	_add_visual_box(d, "Mat", Vector3(41.0, 0.005, -26.55), Vector3(6.0, 0.01, 1.0), "mat_dark")
+	_add_visual_box(d, "MatEdge", Vector3(41.0, 0.006, -26.03), Vector3(6.0, 0.012, 0.04), "hazard_yellow")
+	# Cable trays: up from the cabinets' top, along the north wall under the ceiling.
+	var wz := -27.6
+	for x in [38.4, 43.6]:
+		_add_visual_box(d, "Riser%d" % int(x), Vector3(x, 3.0, wz), Vector3(0.3, 2.0, 0.04), "tool_steel")
+		_add_visual_box(d, "RiserCables%d" % int(x), Vector3(x, 3.0, wz + 0.03), Vector3(0.18, 2.0, 0.03), "wire_black")
+	_cable_tray(d, "NorthTray", Vector3(36.6, 3.95, -27.45), Vector3(45.5, 3.95, -27.45), 0.4, true)
+	# Danger signs above the cabinets and by the door.
+	for x in [39.2, 42.8]:
+		_add_visual_box(d, "Danger%d" % int(x), Vector3(x, 2.4, -27.83), Vector3(0.36, 0.28, 0.01), "sticker_yellow")
+		_add_text(d, "DangerText%d" % int(x), Vector3(x, 2.4, -27.82), "DANGER\n400 V", 26, 0.0024, Color(0.08, 0.08, 0.08))
+	_extinguisher(d, "Extinguisher", Vector3(36.15, 1.0, -21.4), 90.0)
+
+
+## Book Processing's empty floor (x 17.15…35.85, z −27.85…−6.15): steel sorting shelves on
+## the east wall's south end, a long sorting table south-east, wheeled return bins by the
+## north wall, a shrink-wrap station, and hanging signs over the work areas. The basement
+## guard crosses the room on its way back (from the electrical room's door at z −23 west
+## to the corridor), so the north-east and the middle stay clear.
+func _build_processing_more(solid: Node3D, d: Node3D) -> void:
+	var sh := _solid_prop(solid, "SortingShelfEast", [35.25, -13.5, 35.85, -7.0], 2.0)
+	var bays := 4
+	for i in bays + 1:
+		var z := -3.25 + i * 6.5 / bays
+		_add_visual_box(sh, "Upright%d" % i, Vector3(0, 1.0, z), Vector3(0.58, 2.0, 0.05), "steel_shelf")
+	for y in [0.08, 0.55, 1.02, 1.49, 1.96]:
+		_add_visual_box(sh, "Board%d" % int(y * 100), Vector3(0, y, 0), Vector3(0.56, 0.03, 6.48), "tool_steel")
+	var looks := ["pipe_red", "motor_blue", "cabinet_green", "rack_orange", "keypad_bezel", "oak_dark"]
+	var k := 0
+	for level in 4:
+		var y0: float = [0.095, 0.565, 1.035, 1.505][level]
+		var z := -3.15
+		while z < 3.1:
+			if (k * 7 + level) % 9 == 0:
+				if z + 0.5 > 3.2:
+					break
+				_add_visual_box(sh, "Box%d" % k, Vector3(-0.02, y0 + 0.17, z + 0.25), Vector3(0.44, 0.34, 0.48), "archive_box")
+				z += 0.56
+			else:
+				var n := mini(6 + (k % 5), int((3.2 - z) / 0.06))
+				if n < 2:
+					break
+				var hgt := 0.24 + 0.04 * (k % 3)
+				_add_visual_box(sh, "Books%d" % k, Vector3(-0.04, y0 + hgt / 2.0, z + n * 0.03), Vector3(0.36, hgt, n * 0.06), looks[k % looks.size()])
+				z += n * 0.06 + 0.12
+			k += 1
+	# The sorting table.
+	var tb := _solid_prop(solid, "SortingTable", [32.0, -11.6, 33.2, -7.6], 0.95)
+	_add_visual_box(tb, "Top", Vector3(0, 0.88, 0), Vector3(1.2, 0.05, 4.0), "oak")
+	for lx in [-0.55, 0.55]:
+		for lz in [-1.9, 1.9]:
+			_add_visual_box(tb, "Leg%d_%d" % [int(lx * 10), int(lz * 10)], Vector3(lx, 0.43, lz), Vector3(0.06, 0.86, 0.06), "tool_steel")
+	_add_visual_box(tb, "Undershelf", Vector3(0, 0.2, 0), Vector3(1.1, 0.03, 3.9), "tool_steel")
+	for i in 7:
+		var z := -1.7 + i * 0.55
+		var hgt := 0.08 + 0.05 * (i % 3)
+		_add_visual_box(tb, "Pile%d" % i, Vector3(-0.25 + 0.5 * (i % 2), 0.905 + hgt / 2.0, z), Vector3(0.26, hgt, 0.2), looks[(i + 2) % looks.size()])
+	_add_visual_box(tb, "Crate", Vector3(0.0, 0.32, -1.0), Vector3(0.5, 0.2, 0.7), "rack_blue")
+	_add_visual_box(tb, "SortCards", Vector3(0.3, 0.91, 1.2), Vector3(0.2, 0.01, 0.3), "card_white")
+	# Wheeled return bins by the north wall.
+	var bins := _solid_prop(solid, "ReturnBins", [31.0, -27.8, 33.8, -27.0], 1.0)
+	for i in 3:
+		var x := -0.93 + i * 0.93
+		_add_visual_box(bins, "Frame%d" % i, Vector3(x, 0.55, 0), Vector3(0.86, 0.8, 0.76), "tool_steel")
+		_add_visual_box(bins, "Bag%d" % i, Vector3(x, 0.58, 0), Vector3(0.82, 0.74, 0.72), ["motor_blue", "fabric_green", "rack_blue"][i])
+		_add_visual_box(bins, "Books%d" % i, Vector3(x, 0.96, 0), Vector3(0.6, 0.06, 0.5), looks[i])
+		for wx in [-0.35, 0.35]:
+			_add_visual_cyl(bins, "Wheel%d_%d" % [i, int(wx * 100)], Vector3(x + wx, 0.06, 0.3), 0.06, 0.04, "x", "wire_black", 8)
+	# The shrink-wrap station (north wall, west).
+	var ws := _solid_prop(solid, "WrapStation", [19.6, -27.8, 21.8, -27.1], 1.0)
+	_add_visual_box(ws, "Top", Vector3(0, 0.88, 0), Vector3(2.2, 0.05, 0.7), "tool_steel")
+	_add_visual_box(ws, "Body", Vector3(0, 0.43, 0), Vector3(2.1, 0.84, 0.64), "locker_grey")
+	_add_visual_cyl(ws, "Roll", Vector3(-0.6, 0.98, -0.15), 0.07, 0.6, "x", "wired_glass", 12)
+	_add_visual_box(ws, "Sealer", Vector3(0.3, 0.95, 0.05), Vector3(0.5, 0.09, 0.4), "keypad_bezel")
+	_add_visual_box(ws, "Scale", Vector3(0.85, 0.92, 0.0), Vector3(0.32, 0.03, 0.32), "tool_steel")
+	_add_visual_box(ws, "Parcel", Vector3(0.85, 0.99, 0.0), Vector3(0.26, 0.12, 0.2), "cardboard")
+	# Hanging signs (above head height; no collision).
+	for sg in [["RETURNS", Vector3(25.75, 2.85, -17.0), 90.0], ["CATALOGUING", Vector3(25.5, 2.85, -12.0), 0.0],
+			["DISPATCH", Vector3(32.4, 2.85, -24.5), 0.0], ["SORTING", Vector3(33.9, 2.85, -9.6), 90.0]]:
+		var h := Node3D.new()
+		h.name = "Hanging" + String(sg[0]).capitalize().replace(" ", "")
+		h.position = sg[1]
+		h.rotation_degrees = Vector3(0, sg[2], 0)
+		_add(d, h)
+		var w := maxf(1.0, String(sg[0]).length() * 0.16)
+		_add_visual_box(h, "Board", Vector3.ZERO, Vector3(w, 0.32, 0.03), "sign_board")
+		for side in [-1.0, 1.0]:
+			_add_text(h, "Text%d" % int(side), Vector3(0, 0, side * 0.017), sg[0], 48, 0.0035, Color(0.97, 0.95, 0.9), 0.0 if side > 0 else 180.0)
+			_add_visual_box(h, "Rod%d" % int(side), Vector3(side * (w / 2.0 - 0.08), (4.2 - sg[1].y) / 2.0 + 0.16, 0), Vector3(0.012, 4.2 - sg[1].y - 0.16, 0.012), "conduit")
+
+
+## The upper floor's empty stretches: two reading tables with chairs in the upper stacks'
+## east strip (x −10.2…−7.2, clear of the stacks guard's line at x −12.4; z −18.5 and −24), a green runner down
+## the stacks' cross aisle, potted plants at its ends; on the balcony a reading corner
+## (rug, two armchairs, a side table and a floor lamp) and an exhibition of old books.
+func _build_upper_more(solid: Node3D, d: Node3D) -> void:
+	var uy := STAFF_Y
+	var u := Node3D.new()
+	u.name = "Upper"
+	u.position = Vector3(0, uy, 0)
+	_add(d, u)
+	var solids := Node3D.new()
+	solids.name = "UpperMore"
+	_add(solid, solids)
+	# Two reading tables, along z, with four chairs each.
+	var k := 0
+	for zc in [-18.5, -24.0]:   # clear of the stacks guard's corner cut near z 0
+		# The collider is the table alone (1.5 × 3.1, as the balcony's): a wider box with the
+		# chairs would leave a top big enough for the navmesh bake to walk on.
+		var t := _upper_prop(solids, "StacksReadingTable%d" % k, [-9.45, zc - 1.55, -7.95, zc + 1.55], 0.82)
+		var g := Node3D.new()
+		g.name = "Table"
+		g.rotation_degrees = Vector3(0, 90, 0)
+		_add(t, g)
+		_library_table(g, k + 5)
+		_table_chairs(g, [-0.75, 0.75], 0.64)
+		k += 1
+	# The runner down the cross aisle (flat).
+	_add_visual_box(u, "RunnerBorder", Vector3(-19.75, 0.004, -10.1), Vector3(25.5, 0.004, 1.5), "carpet_gold")
+	_add_visual_box(u, "Runner", Vector3(-19.75, 0.008, -10.1), Vector3(25.3, 0.004, 1.3), "fabric_green")
+	for pl in [Vector3(-6.8, 0, -26.9), Vector3(-6.8, 0, 8.6)]:
+		var pot := _upper_prop(solids, "UpperPlant%d" % int(pl.z), [pl.x - 0.35, pl.z - 0.35, pl.x + 0.35, pl.z + 0.35], 1.4)
+		_kenney(pot, "Plant", [_kp("pottedPlant", Vector3.ZERO, 0.0, 2.4, {"wood": "planter", "woodDark": "planter"})])
+	# Balcony reading corner (x −5.3…0.6, z 6.2…9.2).
+	_kenney(u, "CornerRug", [_kp("rugRectangle", Vector3.ZERO, 0.0, Vector3(1.6, 1.0, 1.2), {"carpet": "rug_red", "carpetDarker": "carpet_gold"})], Vector3(-2.4, 0.006, 7.7))
+	var fabric := {"carpet": "fabric_green", "carpetDarker": "fabric_green"}
+	for c in [[-3.8, 30.0], [-1.0, -30.0]]:
+		var ch := _upper_prop(solids, "BalconyArmchair%d" % int(c[0]), [c[0] - 0.5, 6.9, c[0] + 0.5, 7.9], 0.95)
+		_kenney(ch, "Chair", [_kp("loungeChair", Vector3.ZERO, c[1], 1.9, fabric)])
+	var st := _upper_prop(solids, "BalconySideTable", [-2.7, 7.0, -2.1, 7.6], 0.6)
+	_kenney(st, "Table", [_kp("tableRound", Vector3.ZERO, 0.0, Vector3(1.2, 1.0, 1.2))])
+	_add_visual_box(st, "Books", Vector3(0.05, 0.62, 0.0), Vector3(0.22, 0.06, 0.16), "pipe_red")
+	var lamp := _upper_prop(solids, "BalconyFloorLamp", [-5.1, 8.3, -4.6, 8.8], 1.6)
+	_kenney(lamp, "Lamp", [_kp("lampRoundFloor", Vector3.ZERO, 0.0, 2.0)])
+	# The exhibition: two oak display cases of old books, and a bench (x 6…10.2, z 6.3…7.3).
+	for i in 2:
+		var x0 := 5.8 + i * 1.5
+		var cs := _upper_prop(solids, "DisplayCase%d" % i, [x0, 6.3, x0 + 1.2, 7.3], 1.05)
+		_add_visual_box(cs, "Base", Vector3(0, 0.42, 0), Vector3(1.2, 0.84, 1.0), "oak_dark")
+		_add_visual_box(cs, "Panel", Vector3(0, 0.42, 0.502), Vector3(1.0, 0.64, 0.004), "oak")
+		_add_visual_box(cs, "Felt", Vector3(0, 0.85, 0), Vector3(1.1, 0.02, 0.9), "rug_red")
+		_add_box_r(cs, "OpenBook", Vector3(-0.2, 0.88, 0.0), Vector3(0.42, 0.03, 0.3), "card_white", Vector3(0, 0.2, 0))
+		_add_visual_box(cs, "Spine", Vector3(-0.2, 0.885, 0.0), Vector3(0.02, 0.035, 0.3), "oak_dark")
+		_add_box_r(cs, "OldBook", Vector3(0.28, 0.9, 0.05), Vector3(0.24, 0.07, 0.32), "pipe_red" if i == 0 else "motor_blue", Vector3(0, -0.3, 0))
+		_add_visual_box(cs, "Card", Vector3(0.0, 0.875, 0.35), Vector3(0.24, 0.01, 0.1), "card_white")
+		for cx in [-0.58, 0.58]:
+			for cz in [-0.48, 0.48]:
+				_add_visual_box(cs, "Post%d_%d" % [int(cx * 100), int(cz * 100)], Vector3(cx, 0.95, cz), Vector3(0.03, 0.2, 0.03), "brass")
+		for rz in [-0.48, 0.48]:
+			_add_visual_box(cs, "RailZ%d" % int(rz * 100), Vector3(0, 1.04, rz), Vector3(1.19, 0.02, 0.02), "brass")
+		for rx in [-0.585, 0.585]:
+			_add_visual_box(cs, "RailX%d" % int(rx * 1000), Vector3(rx, 1.04, 0), Vector3(0.02, 0.02, 0.98), "brass")
+	var bench := _upper_prop(solids, "ExhibitionBench", [9.0, 6.4, 10.2, 6.9], LOW_PROP_COLLISION)
+	_kenney(bench, "Bench", [_kp("benchCushion", Vector3.ZERO, 0.0, 2.0, fabric)])
+	_set_layer_meta(u, Layout.LAYER_UPPER)
+	_set_layer_meta(solids, Layout.LAYER_UPPER)

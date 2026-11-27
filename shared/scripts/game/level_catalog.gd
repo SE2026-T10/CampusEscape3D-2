@@ -8,7 +8,6 @@ extends RefCounted
 
 const TUTORIAL := &"library_tutorial"
 const EXPANDED := &"expanded_library"
-const MUSEUM := &"museum"
 const INTELLIGENCE := &"intelligence_k17"
 
 const LEVELS := [
@@ -16,8 +15,6 @@ const LEVELS := [
 		"description": "The original library: one floor, one access card. Learn the ropes."},
 	{"id": EXPANDED, "title": "Expanded Library", "scene": "res://maps/library/scenes/expanded_library.tscn",
 		"description": "Two floors and a basement, seven guards, puzzles and three ways out. Retrieve the rare manuscript."},
-	{"id": MUSEUM, "title": "Museum Heist", "scene": "res://maps/museum/scenes/museum_heist.tscn",
-		"description": "A museum graybox mission: reach the restricted area, take the staff card, and use the main exit."},
 	{"id": INTELLIGENCE, "title": "K17 — 120 giây cuối", "scene": "res://maps/intelligence/scenes/intelligence_k17.tscn",
 		"description": "Tổ hợp tình báo mở rộng, kho mật B1 và cảnh vệ tiếp viện trong 120 giây rút lui.",
 		"test_scene": "res://maps/intelligence/scenes/intelligence_k17_test.tscn",

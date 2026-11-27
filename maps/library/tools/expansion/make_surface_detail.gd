@@ -33,7 +33,7 @@ const RULES := [
 	["666661", 1.0, [16.8, 12.0, 36.2, 28.2], GROUND, "concrete", FLOOR, 3.0, "loading dock floor"],
 	["707370", 1.0, ALL, ANY_Y, "concrete", FLOOR, 3.0, "basement, tunnel and west landing floors"],
 	["4d5461", 1.0, ALL, ANY_Y, "concrete", FLOOR, 3.0, "pump and electrical room floors"],
-	["8c8780", 1.0, ALL, ANY_Y, "stone_blocks", FLOOR, 2.4, "storm drain floor"],
+	["8c8780", 1.0, ALL, ANY_Y, "concrete", FLOOR, 2.0, "storm drain floor (concrete since 2026-11-02)"],
 	["c7b89e", 1.0, ALL, ANY_Y, "plaster", WALL, 3.0, "cream walls everywhere"],
 	["5c3d24", 1.0, ALL, ANY_Y, "wood_grain", WALL, 1.5, "oak wainscot panelling"],
 	["999991", 1.0, ALL, ANY_Y, "concrete", WALL, 3.0, "basement concrete walls"],

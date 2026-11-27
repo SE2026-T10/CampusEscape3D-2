@@ -117,7 +117,7 @@ func _check_navigation() -> void:
 
 func _check_patrols() -> void:
 	var guards := _level_guards()
-	_expect(guards.size() == 7, "Expected seven guards in the Expanded Library, found %d." % guards.size())
+	_expect(guards.size() == 8, "Expected eight guards in the Expanded Library (the staff-corridor guard since 2026-10-31), found %d." % guards.size())
 	var log := {}
 	for g in guards:
 		var entry := {"reached": [], "stuck": 0, "changes": 0, "saw": false, "ymin": INF, "ymax": -INF, "points": g.patrol_route.get_point_count()}
