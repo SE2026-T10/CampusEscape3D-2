@@ -77,6 +77,16 @@ func _run() -> void:
 	post.vision.reset()
 	post.global_position=C.POST
 	post.rotation.y=C.POST_YAW
+	_expect(is_equal_approx(post.natural_left,C.NATURAL_INITIAL_DELAY),"Reset restores the initial post phase")
+	post.natural_left=.1
+	post._physics_process(.05)
+	_expect(post.check_left==0,"Natural check waits until the initial delay has elapsed")
+	post._physics_process(.06)
+	_expect(is_equal_approx(post.check_left,C.NATURAL_DURATION),"The natural check keeps its full look-away duration")
+	_expect(is_equal_approx(post.natural_left,C.NATURAL_INTERVAL),"The next check uses the recurring observation interval")
+	post._clear_projection_memory()
+	post.vision.reset()
+	post.rotation.y=C.POST_YAW
 	_expect(system.request_call(),"Valid post accepts pending request")
 	_expect(not system.request_call(),"Only one call can be pending")
 	_expect(post.check_left==0,"Sending is not instantly treated as looking away")

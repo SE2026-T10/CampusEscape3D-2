@@ -25,7 +25,9 @@ const ROOM_LOCK := Vector3(-15.85,-2.6,-45.55)
 const CCTV := Vector3(-26.45,-1.75,-47)
 const TERMINAL := Vector3(-26.5,-3.1,-48.1)
 const HACK := Vector3(4,-2.6,-52.55)
-const NATURAL_INTERVAL := 30.0
+# Set the first check phase separately from the normal time spent watching the hall.
+const NATURAL_INITIAL_DELAY := 26.0
+const NATURAL_INTERVAL := 18.0
 const NATURAL_DURATION := 9.5
 const CALL_DELAY := 1.5
 const CALL_DURATION := 10.0

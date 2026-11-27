@@ -9,7 +9,7 @@ var _inspect_cooldown := 0.0
 var _alarm_responded := false
 var _hardware_exposed := false
 var check_left := 0.0
-var natural_left := Config.NATURAL_INTERVAL
+var natural_left := Config.NATURAL_INITIAL_DELAY
 var _clear_left := 0.0
 var _terminal_audio: AudioStreamPlayer3D
 
@@ -140,5 +140,5 @@ func _clear_projection_memory() -> void:
 	_alarm_responded = false
 	_hardware_exposed = false
 	check_left=0
-	natural_left=Config.NATURAL_INTERVAL
+	natural_left=Config.NATURAL_INITIAL_DELAY
 	_clear_left=0

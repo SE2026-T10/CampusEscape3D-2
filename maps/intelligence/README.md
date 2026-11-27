@@ -16,6 +16,8 @@ Bản V4 giữ khuôn viên **96 × 108 m**, tám khu chức năng, kho mật **
 
 **B1 hiện hành — K17 V6 B1:** hành lang rộng 2,60 m, màn che kín ngang, hai ô quan sát W1/W2 và hai hốc chữ L có tường che thật. Chiếm kênh tại bảng B1 để xem camera trước/C1 bằng **V**, gửi yêu cầu kiểm tra giả bằng **R**. Chốt quay sang máy trực theo nhịp tự nhiên hoặc khi nhận yêu cầu; tuần tra bên hông vẫn quan sát độc lập. Đẩy màn vượt cửa hồ sơ, giữ E sáu giây mở khóa, lấy tài liệu rồi rút ngược cửa đó. Xem [kế hoạch B1](docs/gameplay-v6/B1_REFINEMENT_PLAN.md) và [kết quả, ảnh, lệnh kiểm thử](docs/b1-refinement/VALIDATION.md).
 
+**Nhịp chốt B1:** Với nhịp tự nhiên, ở đầu lượt hoặc sau khi thử lại, chốt quan sát 26 giây trước lượt nhìn máy đầu tiên. Sau mỗi lần nhìn máy, khoảng quan sát trước lượt kiểm tra tự nhiên tiếp theo là 18 giây. Khi đi qua hốc, dùng C1 và ô quan sát W1/W2 để chọn thời điểm. Xem [so sánh thời gian chờ trước và sau](docs/b1-phase-2026-11-27/VALIDATION.md).
+
 Đợt [sửa camera B1 ngày 29/10](docs/camera-feed-fix/VALIDATION.md) tự bật lại góc trước khi nắm tay đẩy hoặc khôi phục checkpoint đã hack; V/R không bị GUI đang giữ bàn phím chặn. Nhấn V khi chưa kết nối hoặc đã mất quyền có thông báo. Bản không lính vẫn có feed quan sát nhưng không có cảnh vệ.
 
 **V7 — Mật lệnh 04:** HUD B1 gom trạng thái màn chiếu, camera và yêu cầu kiểm tra vào một góc. Đọc dấu **A · Sân** và **B · Bảo trì** trên biển, HUD và minimap trong đoạn rút. Trong phòng hồ sơ, camera tự ẩn để nhìn rõ mặt bàn và vẫn mở lại được bằng **V** trước báo động. Xem [kế hoạch V7](docs/gameplay-v7/PLAN.md).
