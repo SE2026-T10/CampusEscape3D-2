@@ -2,6 +2,12 @@
 
 Ghi các thay đổi đã xác minh, không dùng file này thay cho release notes. Dùng ngày ISO `YYYY-MM-DD`; liệt kê file/module bị ảnh hưởng, test đã chạy và test chưa chạy. Với thay đổi source, cập nhật registry/architecture/flow/testing trước hoặc cùng entry changelog.
 
+## 2026-11-27 — Giải phóng scene sau Museum Heist exit test
+
+- **Nội dung:** `_check_exit_interaction()` xếp hàng giải phóng level sau khi xác minh WIN và chờ hai physics frame để group/node của map không tồn tại khi suite kế tiếp chạy.
+- **Kiểm tra:** `MuseumHeistTests` độc lập — passed; `MapSelectionTests` độc lập — passed; chạy nối tiếp cùng process — passed, không còn node trong group `player`, `game_flow` hoặc `checkpoint_manager`; full `tests/test_scene.tscn` — passed; `tools/ci/validate.sh` — passed (373 scripts, 938 runtime references, map contract).
+- **Giới hạn:** `tools/ci/export_windows.sh` chưa thể export do thiếu Godot 4.7.2 Windows export templates (`windows_debug_x86_64.exe`, `windows_release_x86_64.exe`). Testing Guide đã mô tả lifecycle/group cleanup và không cần chỉnh sửa.
+
 ## 2026-11-27 — Đăng ký và hoàn thiện gameplay Museum Heist
 
 - **Nội dung:** Đăng ký Museum Heist thành level riêng; thêm va chạm và đặt lại `ExitDoor` để raycast tương tác được; rebake navmesh từ static collider, carve footprint của LobbyDisplayCase và thêm công cụ rebake lặp lại. Regression suite chạy route từ spawn qua card tới WIN bằng input thật.

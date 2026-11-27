@@ -180,6 +180,8 @@ func _check_exit_interaction() -> void:
 	await _physics_frames(5)
 	_expect(objectives.is_finished(), "Using the unlocked exit should finish all Museum Heist objectives.")
 	_expect(flow.state == GameStateMachine.State.WIN, "Using E on the unlocked exit should transition GameFlow to WIN.")
+	level.queue_free()
+	await _physics_frames(2)
 
 
 func _check_full_playthrough() -> void:
