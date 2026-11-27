@@ -179,7 +179,7 @@ func _build_feed() -> void:
 	_panel.add_child(column)
 	_title=Label.new()
 	_title.add_theme_font_size_override("font_size",13)
-	_title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	_title.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
 	column.add_child(_title)
 	_image=TextureRect.new()
 	_image.texture=_viewport.get_texture()
@@ -188,10 +188,15 @@ func _build_feed() -> void:
 	column.add_child(_image)
 	_panel.hide()
 
-func place_feed(at: Vector2, width: float) -> void:
+func place_feed(at: Vector2, width: float, available_height: float) -> void:
 	if not _panel: return
 	_panel.position=at
-	var dimensions:=Vector2(width-16.0,(width-16.0)*.5625)
+	var column := _title.get_parent() as VBoxContainer
+	var title_font := _title.get_theme_font("font")
+	var title_height := title_font.get_height(_title.get_theme_font_size("font_size"))
+	var panel_chrome := _panel.get_theme_stylebox("panel").get_minimum_size().y + column.get_theme_constant("separation") + title_height
+	var image_width := clampf((available_height-panel_chrome) * 16.0/9.0,0.0,width-16.0)
+	var dimensions := Vector2(image_width,image_width * 9.0/16.0)
 	if _image.custom_minimum_size!=dimensions:
 		_image.custom_minimum_size=dimensions
 	var minimum := _panel.get_combined_minimum_size()

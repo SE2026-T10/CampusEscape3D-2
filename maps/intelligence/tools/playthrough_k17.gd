@@ -144,7 +144,8 @@ func _run() -> void:
 
 func _approach() -> void:
 	if entry_route=="maintenance":
-		await _route([Vector3(-36,0,53),Vector3(36,0,53),Vector3(36,0,42),Vector3(26,0,42),Vector3(26,0,21),Vector3(-26,0,21),Vector3(-26,0,7),Vector3(-36,0,7),Vector3(-36,0,5.6)])
+		# Approach the inner service lane diagonally around the cargo return.
+		await _route([Vector3(-36,0,53),Vector3(36,0,53),Vector3(36,0,42),Vector3(26,0,28),Vector3(26,0,21),Vector3(-26,0,21),Vector3(-26,0,7),Vector3(-36,0,7),Vector3(-36,0,5.6)])
 	else:
 		await _route([Vector3(-36,0,42),Vector3(-36,0,22),Vector3(-36,0,16),Vector3(-36,0,5.6)])
 	await _use("Gameplay/AccessPass")

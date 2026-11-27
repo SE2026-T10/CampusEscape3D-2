@@ -81,7 +81,12 @@ func _update_projection_panel() -> void:
 		_set_text(_b1_hint,"Ô bên hông vẫn có tuần tra. Nhìn trước khi rẽ.")
 	var panel_size := _projection_panel.get_combined_minimum_size()
 	if _projection_panel.size!=panel_size: _projection_panel.size=panel_size
-	camera.place_feed(Vector2(20,_projection_panel.get_global_rect().end.y+8),_projection_panel.size.x)
+	var feed_top := _projection_panel.get_global_rect().end.y + 8.0
+	var feed_bottom := get_viewport().get_visible_rect().end.y
+	var captions := get_tree().get_first_node_in_group("sound_captions") as SoundCaptions
+	if captions and captions.visible:
+		feed_bottom = captions.get_global_rect().position.y - 8.0
+	camera.place_feed(Vector2(20,feed_top),_projection_panel.size.x,feed_bottom-feed_top)
 
 func open_journal(focus: StringName) -> void:
 	var rig := get_tree().get_first_node_in_group("k17_projection_rigs")
