@@ -5303,7 +5303,7 @@ func _west_landing_services(ceilings: Node3D) -> void:
 
 
 
-## Kenney Furniture Kit 2.0 (CC0, www.kenney.nl; see CREDITS.md): the models are read
+## Kenney Furniture Kit 2.0 (CC0, www.kenney.nl; see docs/CREDITS.md): the models are read
 ## from maps/library/assets/kenney_furniture/ (hidden from the editor by its .gdignore:
 ## they are build input only) and merged here into one ArrayMesh per prop, saved in
 ## the scene, its surfaces grouped by look and coloured with the map's looks (Kenney's
