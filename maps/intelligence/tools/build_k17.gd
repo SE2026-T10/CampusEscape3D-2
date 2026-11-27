@@ -402,6 +402,7 @@ func _systems() -> void:
 		["GameMenus", CanvasLayer.new(), BASE+"scripts/game_menus.gd"],
 		["AudioDirector", Node.new(), BASE+"scripts/audio_director.gd"],
 		["MilitaryAppearance", Node.new(), BASE+"scripts/military_appearance.gd"],
+		["YardOcclusion", Node.new(), BASE+"scripts/yard_occlusion.gd"],
 	]:
 		var node := _script(level, entry[0], entry[1], entry[2])
 		if node is GameMenus:
