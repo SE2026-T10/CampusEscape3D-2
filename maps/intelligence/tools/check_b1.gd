@@ -77,6 +77,16 @@ func _run() -> void:
 	post.vision.reset()
 	post.global_position=C.POST
 	post.rotation.y=C.POST_YAW
+	_expect(is_equal_approx(post.natural_left,C.NATURAL_INITIAL_DELAY),"Reset restores the initial post phase")
+	post.natural_left=.1
+	post._physics_process(.05)
+	_expect(post.check_left==0,"Natural check waits until the initial delay has elapsed")
+	post._physics_process(.06)
+	_expect(is_equal_approx(post.check_left,C.NATURAL_DURATION),"The natural check keeps its full look-away duration")
+	_expect(is_equal_approx(post.natural_left,C.NATURAL_INTERVAL),"The next check uses the recurring observation interval")
+	post._clear_projection_memory()
+	post.vision.reset()
+	post.rotation.y=C.POST_YAW
 	_expect(system.request_call(),"Valid post accepts pending request")
 	_expect(not system.request_call(),"Only one call can be pending")
 	_expect(post.check_left==0,"Sending is not instantly treated as looking away")
@@ -107,6 +117,8 @@ func _run() -> void:
 	system.restore_checkpoint_state({})
 	_expect(not system.hacked and system.pending==0 and system.calls.is_empty(),"Checkpoint clears rights/pending/history to safe baseline")
 	var lock:=level.get_node("Gameplay/ArchiveLock") as Interactable
+	var after_w2 := side.patrol_route.next_index(C.W2_RETURN_POINT)
+	_expect(advance_from_w2_return(side)==after_w2,"Closed archive keeps the normal W2 patrol loop")
 	player.position=Vector3(-14.4,-4,-47)
 	player.camera.look_at(lock.global_position)
 	await frames(4)
@@ -123,6 +135,10 @@ func _run() -> void:
 	await frames(55)
 	_expect(lock.is_open and lock.opening==1,"Six-second E hold opens actual sliding door")
 	_expect(not mission.has_file and is_equal_approx(before_time,mission.time_left),"Unlock does not start extraction clock")
+	_expect(advance_from_w2_return(side)==C.W2_OBSERVATION_POINT,"Opened archive gets one actual W2 return trip")
+	_expect(advance_from_w2_return(side)==after_w2,"W2 guard continues to W1 after the extra pass")
+	side.reset_to_start()
+	_expect(advance_from_w2_return(side)==C.W2_OBSERVATION_POINT,"Reset restores availability of the W2 pass")
 	rig.global_position=C.DOCK
 	rig._set_deployed(true)
 	rig.powered=true
@@ -138,6 +154,8 @@ func _run() -> void:
 	_expect(not StealthDirector.find(level).gather_flags(player,[]).seen,"Spoofed enemy feed does not mark the exposed player as seen by C1")
 	player.position=Vector3(-14,-4,-44)
 	objectives.complete(M.FILE)
+	side.reset_to_start()
+	_expect(advance_from_w2_return(side)==after_w2,"File collection prevents a new extra W2 pass")
 	system.hacked=true
 	system.pending=1
 	system._physics_process(.1)
@@ -171,6 +189,12 @@ func _run() -> void:
 	for failure in failures: printerr(failure)
 	print("K17 B1 REFINEMENT: %d checks; %d failures"%[checks,failures.size()])
 	quit(0 if failures.is_empty() else 1)
+
+func advance_from_w2_return(side: Guard) -> int:
+	var patrol := side.machine.get_state(GuardStateMachine.PATROL) as PatrolState
+	patrol.current_point=C.W2_RETURN_POINT
+	patrol._advance(side)
+	return patrol.current_point
 
 func _expect(ok: bool,message: String) -> void:
 	checks+=1
