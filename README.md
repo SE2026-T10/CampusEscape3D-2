@@ -4,17 +4,18 @@
 
 ## Giới thiệu dự án
 
-Dự án được tổ chức theo các bản đồ độc lập. Mã dùng chung cho nhân vật, NPC và giao diện nằm trong `shared/`; các cơ chế tùy chọn nằm trong `features/`. Mỗi bản đồ quản lý cảnh, mã xử lý, tài nguyên, kiểm thử và công cụ của mình trong `maps/<map_id>/`. Xem [Hướng dẫn làm việc theo bản đồ](docs/architecture/MAP_LAYOUT.md) để biết cấu trúc, giao diện mở rộng HUD và lệnh kiểm tra. Ngân hàng và bảo tàng đang là khung làm việc; menu có Library Tutorial, Expanded Library và bản dựng V1 của map tình báo K17.
+Dự án được tổ chức theo các bản đồ độc lập. Mã dùng chung cho nhân vật, NPC và giao diện nằm trong `shared/`; các cơ chế tùy chọn nằm trong `features/`. Mỗi bản đồ quản lý cảnh, mã xử lý, tài nguyên, kiểm thử và công cụ của mình trong `maps/<map_id>/`. Xem [Hướng dẫn làm việc theo bản đồ](docs/architecture/MAP_LAYOUT.md) để biết cấu trúc, giao diện mở rộng HUD và lệnh kiểm tra. Các thư mục `maps/bank/` và `maps/museum/` là khung mẫu. Xem [nguồn tài nguyên bên thứ ba](docs/CREDITS.md) để tra tác giả và giấy phép.
 
 Ngày 26/10/2026, cấu trúc này được đồng bộ với `main` tại commit `504ce2e`, gồm mô hình, hoạt ảnh cơ cấu, đồ vật va chạm và navmesh mới của thư viện. Phạm vi và kết quả kiểm tra được ghi trong [biên bản đồng bộ với main](docs/architecture/MAIN_SYNC.md).
 
-Campus Escape 3D là trò chơi hành động lén lút 3D góc nhìn thứ nhất, sử dụng phong cách đồ họa ít đa giác. Các bản đồ lấy bối cảnh thư viện đại học vào ban đêm và cơ sở tình báo quân sự K17. Người chơi thâm nhập, lấy vật phẩm mục tiêu rồi trốn thoát, tránh các bảo vệ có khả năng tuần tra, nhìn, nghe, điều tra và truy đuổi.
+Campus Escape 3D là trò chơi hành động lén lút 3D góc nhìn thứ nhất, sử dụng phong cách đồ họa ít đa giác. Các bản đồ lấy bối cảnh thư viện đại học vào ban đêm, cơ sở tình báo quân sự K17 và bảo tàng ISG. Người chơi thâm nhập, lấy vật phẩm mục tiêu rồi trốn thoát, tránh các bảo vệ có khả năng tuần tra, nhìn, nghe, điều tra và truy đuổi.
 
-Người chơi chọn một trong ba bản đồ từ menu chính:
+Menu chính có bốn bản đồ.
 
 - **Library Tutorial** — thư viện hướng dẫn, thuộc phiên bản sản phẩm tối thiểu (MVP): một tầng, ba bảo vệ; lấy thẻ ra vào trong khu Restricted Stacks rồi trốn thoát.
 - **Expanded Library** — thư viện mở rộng: hai tầng và một tầng hầm, bảy bảo vệ, tám nhiệm vụ bắt buộc, ba nhiệm vụ tùy chọn và ba đường thoát. Mục tiêu về thời gian hoàn thành vẫn cần được xác nhận bằng người chơi thử.
 - **K17 — 120 giây cuối** — cơ sở tình báo quân sự với ánh sáng bake và bốn lính dùng AI chung. Vượt cảm biến theo nhịp, giữ E mở niêm phong hồ sơ, hẹn radio gây nhiễu và rút lui trong 120 giây trước các mốc phong tỏa. Có thể chuẩn bị cửa hậu để mở nhanh khi cần đổi tuyến. [Cách chơi, mỹ thuật và kiểm tra](maps/intelligence/README.md).
+- **ISG Museum — Phi vụ bảo tàng** — nhận hợp đồng, lấy hiện vật và tìm đường thoát. Menu có thêm chế độ chỉnh map không bảo vệ. [Hướng dẫn Museum](maps/isg_museum/README.md).
 
 Trò chơi được phát triển bằng Godot và GDScript, dành cho máy tính Windows. Phiên bản hiện tại là **1.2.0**, khai báo tại `application/config/version` trong `project.godot`. Tên bản đồ, nhãn giao diện và định danh kỹ thuật được giữ nguyên để đối chiếu với trò chơi và mã nguồn.
 
@@ -42,7 +43,7 @@ CampusEscape3D-2/
 │   ├── library/                    # Bản đồ thư viện mở rộng hiện có
 │   ├── bank/                       # Khung ví dụ cho bản đồ ngân hàng
 │   ├── museum/                     # Khung ví dụ cho bản đồ bảo tàng
-│   ├── isg_museum/                 # Map bảo tàng riêng của hgmanh (chạy bằng F6)
+│   ├── isg_museum/                 # Map bảo tàng riêng của hgmanh, có trong menu
 │   └── intelligence/               # Map K17 V1: scene, nhiệm vụ và kiểm thử
 ├── templates/map/                  # Khung thư mục để bắt đầu bản đồ mới
 ├── tests/                          # Kiểm thử chung và bộ chạy kiểm thử các bản đồ
@@ -53,7 +54,7 @@ CampusEscape3D-2/
 └── export_presets.cfg              # Cấu hình xuất bản trò chơi
 ```
 
-Hiện có **Library Tutorial**, **Expanded Library** và **K17 V1** chơi được từ menu. `bank/` và `museum/` là khung ví dụ, chưa phải phân công chính thức; `intelligence/` chứa bản dựng V1 của cơ sở tình báo. Các bản đồ còn lại được thêm khi nhóm chốt bối cảnh. Bản đồ hướng dẫn được giữ làm mẫu và kiểm thử, không mặc định tính là một trong năm bản đồ của nhóm.
+Hiện có **Library Tutorial**, **Expanded Library**, **K17 V1** và **ISG Museum** chơi được từ menu. `bank/` và `museum/` là khung ví dụ, chưa phải phân công chính thức; `intelligence/` chứa bản dựng V1 của cơ sở tình báo. Các bản đồ còn lại được thêm khi nhóm chốt bối cảnh. Bản đồ hướng dẫn được giữ làm mẫu và kiểm thử, không mặc định tính là một trong năm bản đồ của nhóm.
 
 ### Phân chia nội dung dùng chung và nội dung riêng
 
