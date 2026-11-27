@@ -39,9 +39,23 @@ class PostedPatrol extends PatrolState:
 	func get_debug_text() -> String: return "giữ chốt / quan sát hành lang"
 
 class SidePatrol extends PatrolState:
+	var archive_rechecked := false
+
 	func update(actor,perception: GuardPerception,delta: float) -> void:
 		super(actor,perception,delta)
 		if waiting and actor.global_position.z< -41: actor.face_yaw(0.0)
+
+	func _advance(actor) -> void:
+		if current_point == Config.W2_RETURN_POINT and not archive_rechecked:
+			var mission := MapHudProvider.find_for(actor) as K17MissionController
+			var archive_lock := actor.get_node_or_null("../../Gameplay/ArchiveLock") as Interactable
+			if mission and not mission.has_file and archive_lock and archive_lock.is_open:
+				# Double-check the opened archive from W2 before continuing to W1.
+				archive_rechecked = true
+				current_point = Config.W2_OBSERVATION_POINT
+				actor.navigate_to(actor.patrol_route.get_point_position(current_point), actor.patrol_speed)
+				return
+		super(actor)
 
 class EvidenceMachine extends GuardStateMachine:
 	func choose_priority_transition(perception: GuardPerception) -> Dictionary:

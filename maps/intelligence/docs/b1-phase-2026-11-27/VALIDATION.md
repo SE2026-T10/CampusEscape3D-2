@@ -18,10 +18,28 @@ Godot 4.7.2, vật lý 60 tick/giây, `playthrough_k17.gd` giữ nguyên. Cột 
 - Bốn lượt mới hoàn thành cả nhiệm vụ với 509 waypoint, 0 lần bị bắt và 0 lần kích hoạt cảm biến S1/S2. Bản không lính lấy 04-B và phá hoại, thoát qua B với 52,2 giây ở cả hai bản.
 - Ca đối chứng bật camera vẫn bị Guard5 bắt trước B1. Ca đổi sang B ở T+70/T+90 vẫn hoàn thành khi cửa hậu đã chuẩn bị và vẫn bị Guard3 bắt ở khóa cơ khi chưa chuẩn bị.
 
+## Kiểm tra lại W2 sau khi mở cửa
+
+Mốc đối chiếu cho đợt này là `b7d0f0f` trên PR #48. Khi lính đến điểm quay đầu phía bắc W2 sau lúc mở khóa phòng hồ sơ, lính quay lại ô W2 một lần nếu Mật lệnh 04 vẫn còn trên bàn. Lính đi theo đường thực và tiếp tục hướng W1 sau lần kiểm tra này. Hành động mở khóa xảy ra sau bốn lần chuyển hốc. Khi đã lấy hồ sơ, lính tiếp tục lịch tuần tra hiện tại. Thử lại checkpoint khôi phục cơ hội kiểm tra W2 cho lượt sau.
+
+Dùng lại các ca và driver ở trên. Hai cột chờ đo theo cùng mốc trước và sau.
+
+| Ca có lính | Chờ chuyển hốc trước → sau (giây) | Chờ lấy hồ sơ trước → sau (giây) | Thời gian còn khi thoát trước → sau (giây) |
+| --- | ---: | ---: | ---: |
+| A vòng sân, chốt theo nhịp tự nhiên | 66,65 → 66,67 | 2,90 → 2,90 | 73,0 → 73,2 |
+| B, dùng R, pha gốc | 74,63 → 74,63 | 29,18 → 5,93 | 66,3 → 67,1 |
+| B, dùng R, +4, cửa hậu chưa chuẩn bị | 76,30 → 76,30 | 29,23 → 5,98 | 64,0 → 64,7 |
+| B, dùng R, +9, lấy 04-B và phá hoại | 65,63 → 65,63 | 25,78 → 2,53 | 56,7 → 57,4 |
+
+- Ba ca dùng R giảm **23,25 giây** chờ lấy hồ sơ mỗi lượt. Trung vị chờ lấy hồ sơ qua cả bốn lượt giảm **27,48 → 4,42 giây**.
+- Trung vị tổng chờ chuyển hốc giữ mức giảm **48%** so với `343fd3d`, từ **70,64 → 70,65 giây** giữa hai bản PR. Lần chờ chuyển hốc dài nhất là **32,73 giây** ở cả hai bản. Khi tính cả đoạn chờ trước hồ sơ, trung vị tổng chờ giảm **97,62 → 75,07 giây**.
+- Bốn lượt có lính hoàn thành qua 509 waypoint, với 0 lần bị bắt và 0 lần kích hoạt S1/S2. Bản không lính thoát với 52,2 giây. Khi thử chỉnh thời gian đứng tại W2 trong cả vòng, mốc 4,5 giây rút được chờ trước hồ sơ trong ca B +9 nhưng tăng chờ chuyển hốc lên 81,57 giây. Cơ chế mở khóa cho phép giới hạn thay đổi vào đoạn trước khi lấy hồ sơ.
+
 ## Kiểm tra hồi quy
 
-- K17 621 phép kiểm, B1 60, projection 118, camera B1 36, V7 61, V8 55 và luồng map 100. Bổ sung bốn phép kiểm cho thời điểm chốt bắt đầu, thời lượng kiểm tra và mốc được dùng lại sau đó. Các ca R bị ngắt do điều tra, hồi yêu cầu, đối chiếu kênh, pause và thử lại vẫn đạt.
-- Kiểm tra tải 269 script, hợp đồng map và 12 ca bố cục B1 có render. Cả hai chế độ tải được từ gói Windows Desktop PCK. Lượt có lính lấy 04-B và phá hoại trong bản PCK cũng hoàn thành 130 waypoint và thoát qua B với 56,7 giây còn lại.
+- K17 621 phép kiểm, B1 65, projection 118, camera B1 36, V7 61, V8 55 và luồng map 100. Năm phép kiểm W2 xác nhận hành vi khi cửa đóng, kiểm tra lại một lần, tiếp tục lộ trình, reset và lấy hồ sơ. Các ca R bị ngắt do điều tra, hồi yêu cầu, đối chiếu kênh, pause và thử lại vẫn đạt.
+- Kiểm tra tải 269 script và 12 ca bố cục B1 có render. Soak tuần tra chạy qua 90 giây mô phỏng ở cả hai mức 6 và 10 NPC. Ca đổi sang B khi cửa hậu đã chuẩn bị vẫn thoát ở T+70/T+90. Cửa hậu còn khóa và ca tiếp cận bật camera tái hiện các điểm bị bắt của mốc trước.
+- Hai chế độ tải được từ gói Windows Desktop PCK. Lượt lấy 04-B và phá hoại từ PCK hoàn thành 130 waypoint và thoát qua B với 57,4 giây còn lại.
 - Các số đo phản ánh điều kiện quan sát của driver. Còn thiếu dữ liệu về thời gian chờ và cách đọc tín hiệu của người chơi lần đầu.
 
 ## Chạy lại các lượt chính
