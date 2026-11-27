@@ -1,0 +1,9 @@
+{
+  "command": [
+    "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+    "-B",
+    "tools/ci/check_layout.py"
+  ],
+  "exit_code": 0,
+  "seconds": 0.874833345413208
+}

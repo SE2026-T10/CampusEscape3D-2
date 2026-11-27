@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://maps/isg_museum/assets/models/characters/low_poly_security_guard/derived/guard_rig.tscn" id="1_tjjqu"]
+[ext_resource type="AnimationLibrary" path="res://maps/isg_museum/assets/animations/mixamo/derived/npc_animations.res" id="2_2ay2t"]
+
+[node name="Visual" type="Node3D" unique_id=522613779]
+metadata/preserve_source_material = true
+
+[node name="VisualPivot" type="Node3D" parent="." unique_id=976931595]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="GuardRig" type="Node3D" parent="VisualPivot" unique_id=1324105512 instance=ExtResource("1_tjjqu")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2032175668]
+libraries/ = ExtResource("2_2ay2t")

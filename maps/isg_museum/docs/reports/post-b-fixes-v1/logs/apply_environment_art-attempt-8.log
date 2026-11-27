@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+Environment art saved: museum_geometry
+Environment art saved: exhibits_expansion
+Environment art saved: service_expansion
+Environment art saved: painting_t1
+Environment art saved: painting_t2
+Environment art saved: painting_demo
+Environment art saved: museum_door
+Environment art saved: entrance_door
+Environment art saved: museum

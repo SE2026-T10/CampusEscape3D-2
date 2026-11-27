@@ -1,0 +1,124 @@
+{
+	"date": "2026-11-15T21:52:23.463680+07:00",
+	"source_front": {
+		"storage_cabinet": "+Z",
+		"g3_chair": "+Z"
+	},
+	"yaw_changes": {
+		"storage_cabinet": [
+			0,
+			180
+		],
+		"g3_chair": [
+			90,
+			-90
+		],
+		"restoration_cabinet": [
+			-90,
+			-90
+		]
+	},
+	"apply": {
+		"exit_code": 0,
+		"log": "furniture-apply.log",
+		"command": "godot --headless --path . --script res://maps/isg_museum/tools/apply_environment_art.gd"
+	},
+	"checks": [
+		{
+			"id": "art-check",
+			"exit_code": 0,
+			"date": "2026-11-15T21:46:48.9664597+07:00",
+			"log": "furniture-check-art.log",
+			"command": "godot --headless --path . --script res://maps/isg_museum/tools/apply_environment_art.gd -- --check"
+		},
+		{
+			"id": "environment_art",
+			"exit_code": 0,
+			"date": "2026-11-15T21:47:31.3853816+07:00",
+			"log": "furniture-verify-environment_art.log",
+			"command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_environment_art.gd",
+			"checks": 93,
+			"failures": 0
+		},
+		{
+			"id": "storage",
+			"exit_code": 0,
+			"date": "2026-11-15T21:47:50.0473931+07:00",
+			"log": "furniture-verify-storage.log",
+			"command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_storage.gd",
+			"checks": 34,
+			"failures": 0
+		},
+		{
+			"id": "staff_room",
+			"exit_code": 0,
+			"date": "2026-11-15T21:49:16.3501299+07:00",
+			"log": "furniture-verify-staff_room.log",
+			"command": "godot --headless --path . --fixed-fps 60 --script res://maps/isg_museum/tools/verify_staff_room.gd",
+			"checks": 55,
+			"failures": 0
+		}
+	],
+	"total_checks": 182,
+	"failures": 0,
+	"compile": {
+		"scripts_exit": 0,
+		"import_exit": 0
+	},
+	"compiled_scripts": 343,
+	"readonly": {
+		"unchanged": true
+	},
+	"navigation": {
+		"rebaked": false,
+		"sha256_before": "9efa7029d1a69b43e70323af30d9119ffb2bd2b3cdbcaaaa8280bacea4cd3bfb",
+		"sha256_after": "9efa7029d1a69b43e70323af30d9119ffb2bd2b3cdbcaaaa8280bacea4cd3bfb",
+		"collision_changed": false
+	},
+	"capture": {
+		"capture_exit": 0
+	},
+	"scene_audit": {
+		"g3_phase": "sleeping",
+		"g3_position": "(34.1, 0.000128, 12.0)",
+		"g3_yaw": 89.9999923706055,
+		"guards": 9,
+		"legacy_visible": {
+			"StaffInterior/ChairBack": false,
+			"StaffInterior/ChairSeat": false,
+			"StorageInterior/CabinetDoor": false,
+			"StorageInterior/CabinetHandle": false,
+			"StorageInterior/SteelCabinet/Mesh": false
+		},
+		"scene": "museum.tscn",
+		"visuals": {
+			"g3_chair": {
+				"normalized_bounds": "[P: (-0.35, 0.0, -0.35), S: (0.7, 1.2, 0.7)]",
+				"pivot": "[X: (-0.0, 0.0, 1.6145), Y: (0.0, 1.232821, 0.0), Z: (-1.214392, 0.0, -0.0), O: (-0.051993, -0.001584, 0.0)]",
+				"position": "(34.1, 0.0, 12.0)",
+				"yaw": -90.0
+			},
+			"restoration_cabinet": {
+				"normalized_bounds": "[P: (-0.65, 0.0, -0.325), S: (1.3, 2.2, 0.65)]",
+				"pivot": "[X: (-0.0, 0.0, 0.544081), Y: (0.0, 1.861457, 0.0), Z: (-2.108214, 0.0, -0.0), O: (0.054656, 0.00069, -0.001432)]",
+				"position": "(35.1, 4.5, 20.2)",
+				"yaw": -90.0
+			},
+			"storage_cabinet": {
+				"normalized_bounds": "[P: (-1.7, 0.0, -0.325), S: (3.4, 2.2, 0.65)]",
+				"pivot": "[X: (-2.845963, 0.0, 0.0), Y: (0.0, 1.861457, 0.0), Z: (-0.0, 0.0, -1.054107), O: (0.007492, 0.00069, 0.027328)]",
+				"position": "(31.5, 0.0, 23.525)",
+				"yaw": 180.0
+			}
+		}
+	},
+	"photos": [
+		"furniture-after-cabinet.png",
+		"furniture-after-g3-side.png",
+		"furniture-after-g3-oblique.png"
+	],
+	"limits": [
+		"Separate QA camera; normal museum scene with real G3 sleeping presentation established before freezing the capture instance.",
+		"Full integrated runner was run for the five visual fixes earlier; only relevant suites rerun for this visual rotation followup."
+	]
+}

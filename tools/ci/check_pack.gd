@@ -12,12 +12,18 @@ func _init() -> void:
 
 func _run() -> void:
 	var failures: Array[String] = []
-	for forbidden in ["tests/test_scene.tscn", "tools/ci/check_pack.gd",
-			"maps/library/tests/expanded_hud_tests.gd", "maps/library/tools/expanded_layout.gd",
-			"maps/intelligence/tests/k17_mission_tests.gd", "maps/intelligence/tools/build_k17.gd",
-			"ci-logs/check-catalog.gd", "ci-logs/capture-menu.gd"]:
-		if FileAccess.file_exists("res://" + forbidden) or FileAccess.file_exists("res://" + forbidden + ".remap"):
-			failures.append("Development-only file in exported pack: " + forbidden)
+	# Check the mounted pack's paths. Asset metadata may name tools that are not packed.
+	var development_dirs: Array[String] = ["res://tests", "res://tools", "res://ci-logs",
+		"res://maps/isg_museum/scenes/previews"]
+	for map_dir in DirAccess.get_directories_at("res://maps"):
+		development_dirs.append("res://maps/%s/tests" % map_dir)
+		development_dirs.append("res://maps/%s/tools" % map_dir)
+	for directory in development_dirs:
+		if DirAccess.dir_exists_absolute(directory):
+			failures.append("Development-only directory in exported pack: " + directory)
+	var preview_script := "res://maps/isg_museum/scripts/courtyard_palette_preview.gd"
+	if FileAccess.file_exists(preview_script) or FileAccess.file_exists(preview_script + ".remap"):
+		failures.append("Development-only file in exported pack: " + preview_script)
 	var scenes: Array[String] = [ProjectSettings.get_setting("application/run/main_scene")]
 	for entry in Catalog.LEVELS:
 		scenes.append(entry.scene)

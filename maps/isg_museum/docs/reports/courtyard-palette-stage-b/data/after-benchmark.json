@@ -1,0 +1,18 @@
+{
+	"conditions": "product scene frozen; same overview, 120 display-frame warmup + 8 seconds, VSync/cap off; process intervals, not GPU time",
+	"cpu": "Intel(R) Core(TM) 5 210H",
+	"draw_calls_p50": 1224.0,
+	"frames": 2717,
+	"gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+	"primitives_p50": 1728753.0,
+	"process_interval_ms": {
+		"p50": 2.84,
+		"p95": 4.03,
+		"p99": 4.859
+	},
+	"render_memory_mib": 461.250725746155,
+	"viewport": [
+		1280,
+		720
+	]
+}

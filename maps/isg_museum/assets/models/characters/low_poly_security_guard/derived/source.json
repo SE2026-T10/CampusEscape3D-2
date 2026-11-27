@@ -1,0 +1,18 @@
+{
+  "source": "../low_poly_security_guard.glb",
+  "source_sha256": "9ca42b4a18c8856bdac8e3bd9e658c4c4687039eea426f33175410754940c38b",
+  "author": "Jose Manuel",
+  "license": "CC-BY-4.0",
+  "source_url": "https://sketchfab.com/3d-models/low-poly-security-guard-abaf0f47b2c4413986919bb5c673face",
+  "tool": "res://maps/isg_museum/tools/prepare_guard_assets.gd",
+  "tool_version": "Godot 4.7.2 stable",
+  "changes": [
+    "uniform metre/foot normalization",
+    "landmark skeleton and smooth geometric skin weights",
+    "garment-restricted influences",
+    "A-pose to T rest conversion",
+    "inverse global rest skin binds"
+  ],
+  "derived_file": "guard_rig.tscn",
+  "date": "2026-11-16"
+}

@@ -1,0 +1,5 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+{ "source_triangles": 2062487, "near_triangles": 18589, "far_triangles": 577, "source": "res://maps/isg_museum/assets/models/vegetation/tree_small_02/source.json", "method": "Godot ImporterMesh.generate_lods; compact referenced vertices; source transforms retained; CC0" }

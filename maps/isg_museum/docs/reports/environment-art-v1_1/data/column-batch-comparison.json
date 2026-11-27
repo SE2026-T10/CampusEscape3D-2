@@ -1,0 +1,6 @@
+{
+	"fraction_bytes_delta_gt_8": 0.00163330078125,
+	"mean_absolute_byte_error": 0.0596142578125,
+	"normal_tangent_changes_made": false,
+	"same_camera_material_light": true
+}

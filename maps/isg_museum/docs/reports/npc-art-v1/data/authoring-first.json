@@ -1,0 +1,685 @@
+[
+	{
+		"layers": [
+			1,
+			1
+		],
+		"path": "contract_teammate/.",
+		"script": "res://maps/isg_museum/scripts/contract_teammate.gd",
+		"transform": "[X: (0.900447, 0.0, 0.434966), Y: (0.0, 1.0, 0.0), Z: (-0.434966, 0.0, 0.900447), O: (20.5, 1.0, 31.5)]",
+		"type": "Area3D"
+	},
+	{
+		"path": "contract_teammate/Interaction",
+		"shape": "BoxShape3D",
+		"size": "(0.8, 1.9, 0.8)",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "CollisionShape3D"
+	},
+	{
+		"path": "contract_teammate/Label",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 1.12, 0.0)]",
+		"type": "Label3D"
+	},
+	{
+		"path": "contract_teammate/Presentation",
+		"script": "res://maps/isg_museum/scripts/museum_npc_presentation.gd",
+		"type": "Node"
+	},
+	{
+		"path": "contract_teammate/Visual",
+		"transform": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (0.0, -1.0, 0.0)]",
+		"type": "Node3D"
+	},
+	{
+		"path": "contract_teammate/Visual/AnimationPlayer",
+		"type": "AnimationPlayer"
+	},
+	{
+		"path": "contract_teammate/Visual/VisualPivot",
+		"transform": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "Node3D"
+	},
+	{
+		"path": "contract_teammate/Visual/VisualPivot/GuardRig",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "Node3D"
+	},
+	{
+		"path": "contract_teammate/Visual/VisualPivot/GuardRig/Skeleton3D",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "Skeleton3D"
+	},
+	{
+		"mesh": "e8b5de013264c760599074e3b52312f372e9aa9a728513ab28922e0e4d990549",
+		"path": "contract_teammate/Visual/VisualPivot/GuardRig/Skeleton3D/Object_10",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "a279de7f3e8d4868b5184d08c4efabcffdbd8f72c31bcc386ed97994da2ebe6a",
+		"path": "contract_teammate/Visual/VisualPivot/GuardRig/Skeleton3D/Object_2",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "27831cdf835c1cc7f6dc5520db0e69cccc8c51b401fd67a8ee18d6fcdd3a85c0",
+		"path": "contract_teammate/Visual/VisualPivot/GuardRig/Skeleton3D/Object_3",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "1b2945ae151f0062ea34178971ad9bc7a5e5678f5e03734e4c6715e16df16701",
+		"path": "contract_teammate/Visual/VisualPivot/GuardRig/Skeleton3D/Object_4",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "8302caf66848ccc98681499f4d7e392893d048a5e2426a760f2a995fbb3a52cc",
+		"path": "contract_teammate/Visual/VisualPivot/GuardRig/Skeleton3D/Object_5",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "e11f5ef4a23bc7beb7b0d43881dd0c3247d17d40304832e1b3d2f0bc8b2958c2",
+		"path": "contract_teammate/Visual/VisualPivot/GuardRig/Skeleton3D/Object_6",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "1f9ddbc6a8bc802f17db4be1ca60da8732dae2f81591c16a467cbd02986434c4",
+		"path": "contract_teammate/Visual/VisualPivot/GuardRig/Skeleton3D/Object_7",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "9dea36eafcf251a606f267b4419e5f498bc3d8dc8351fb12e1e979199cc3e359",
+		"path": "contract_teammate/Visual/VisualPivot/GuardRig/Skeleton3D/Object_8",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "b94a028192d250fbf2ab6805409f110400dbc3e5a490af15ccdacd7ffd83b164",
+		"path": "contract_teammate/Visual/VisualPivot/GuardRig/Skeleton3D/Object_9",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"path": "service_expansion/.",
+		"script": "res://maps/isg_museum/scripts/service_expansion.gd",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "Node3D"
+	},
+	{
+		"mesh": "0b49c9e6e944b1e9561497a1dc7602d455d71d5f7eff4ba241ec435540e6f255",
+		"path": "service_expansion/ChairBack",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (33.35, 0.7, 27.0)]",
+		"type": "MeshInstance3D",
+		"visible": false
+	},
+	{
+		"mesh": "8a80ac8a412ef94cba6fb22fc688e42b8162276060d2d5b9f47d7dbef8c367c4",
+		"path": "service_expansion/CounterTop",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (31.8, 1.04, 27.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"path": "service_expansion/EnvironmentArt",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "Node3D"
+	},
+	{
+		"path": "service_expansion/EnvironmentArt/CeilingLamp",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (32.0, 3.8, 27.0)]",
+		"type": "Node3D"
+	},
+	{
+		"path": "service_expansion/EnvironmentArt/CeilingLamp/VisualPivot",
+		"transform": "[X: (1.853356, 0.0, 0.0), Y: (0.0, 0.36782, 0.0), Z: (0.0, 0.0, 1.853307), O: (-0.000052, -0.081322, -0.002785)]",
+		"type": "Node3D"
+	},
+	{
+		"mesh": "1276b1cf2d2ae92e7bc08d4c710eff3bee4a49210a3db61de59869f0dca7fbd8",
+		"path": "service_expansion/EnvironmentArt/CeilingLamp/VisualPivot/modern_ceiling_lamp_01",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"path": "service_expansion/EnvironmentArt/Chair",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (33.05, 0.0, 27.0)]",
+		"type": "Node3D"
+	},
+	{
+		"path": "service_expansion/EnvironmentArt/Chair/VisualPivot",
+		"transform": "[X: (-0.0, 0.0, 1.6145), Y: (0.0, 1.232821, 0.0), Z: (-1.214392, 0.0, -0.0), O: (-0.051993, -0.001584, 0.0)]",
+		"type": "Node3D"
+	},
+	{
+		"mesh": "3d345bb7d612673427378bb1db1370dce5da37a70bb9b5fe74f5289b8b436c5c",
+		"path": "service_expansion/EnvironmentArt/Chair/VisualPivot/dining_chair_02",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"path": "service_expansion/EnvironmentArt/ServicePlant",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (34.9, 0.0, 29.0)]",
+		"type": "Node3D"
+	},
+	{
+		"path": "service_expansion/EnvironmentArt/ServicePlant/VisualPivot",
+		"transform": "[X: (1.205186, 0.0, 0.0), Y: (0.0, 1.205186, 0.0), Z: (0.0, 0.0, 1.205186), O: (0.053841, 0.0, 0.056519)]",
+		"type": "Node3D"
+	},
+	{
+		"mesh": "e8b0716e17e89030e2fd04ec18d216276efdf3d23d05eee76132a8f5093bc698",
+		"path": "service_expansion/EnvironmentArt/ServicePlant/VisualPivot/potted_plant_01_leaves",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "5fcafa2849b96e74eef70bfe1a73074e722432e8fdedb1479e6450a3c28e116c",
+		"path": "service_expansion/EnvironmentArt/ServicePlant/VisualPivot/potted_plant_01_pebbles",
+		"skin": 0,
+		"transform": "[X: (1.002187, 0.0, 0.0), Y: (0.0, 1.002187, 0.0), Z: (0.0, 0.0, 1.002187), O: (0.0, -0.013707, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "34fd8045ba98c366efeb726fe5276dc2e119685ce6cbb7157de5adfa9dd2e53c",
+		"path": "service_expansion/EnvironmentArt/ServicePlant/VisualPivot/potted_plant_01_pot",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "2c3562bd534c8f498f6b5a052b025fb03dcbac3b9906231d9f05cea5b1770e9b",
+		"path": "service_expansion/EnvironmentArt/ServicePlant/VisualPivot/potted_plant_01_stem",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"layers": [
+			1,
+			1
+		],
+		"path": "service_expansion/EventPoster",
+		"script": "res://maps/isg_museum/scripts/service_document.gd",
+		"transform": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (22.0, 1.7, 29.72)]",
+		"type": "Area3D"
+	},
+	{
+		"path": "service_expansion/EventPoster/Caption",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.035)]",
+		"type": "Label3D"
+	},
+	{
+		"path": "service_expansion/EventPoster/CollisionShape3D",
+		"shape": "BoxShape3D",
+		"size": "(1.8, 1.2, 0.18)",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "CollisionShape3D"
+	},
+	{
+		"mesh": "97ce72564ec73e2594969ee951e27f822cde90d9c36086ff78b4ce2e8931e62c",
+		"path": "service_expansion/EventPoster/Paper",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"layers": [
+			1,
+			0
+		],
+		"path": "service_expansion/ReceptionChair",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (33.05, 0.25, 27.0)]",
+		"type": "StaticBody3D"
+	},
+	{
+		"path": "service_expansion/ReceptionChair/CollisionShape3D",
+		"shape": "BoxShape3D",
+		"size": "(0.6, 0.5, 0.6)",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "CollisionShape3D"
+	},
+	{
+		"mesh": "a28e64fc070e094491b89dc9187ceda77977c3b381c053f09abe96ac7b4ab6d7",
+		"path": "service_expansion/ReceptionChair/Visual",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": false
+	},
+	{
+		"layers": [
+			1,
+			0
+		],
+		"path": "service_expansion/ReceptionCounter",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (31.8, 0.5, 27.0)]",
+		"type": "StaticBody3D"
+	},
+	{
+		"path": "service_expansion/ReceptionCounter/CollisionShape3D",
+		"shape": "BoxShape3D",
+		"size": "(0.8, 1.0, 2.6)",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "CollisionShape3D"
+	},
+	{
+		"mesh": "5da902cfe09d5f963c89009bccf6cb3ddecffa3caa6178c87a21776a265386fe",
+		"path": "service_expansion/ReceptionCounter/Visual",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"layers": [
+			1,
+			1
+		],
+		"path": "service_expansion/ReceptionNotice",
+		"script": "res://maps/isg_museum/scripts/service_document.gd",
+		"transform": "[X: (-0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, -0.0), O: (31.48, 1.23, 26.35)]",
+		"type": "Area3D"
+	},
+	{
+		"mesh": "d88435bdf267102f7fcb9d957b5219798da429304e4c0b145c4c824a792f7523",
+		"path": "service_expansion/ReceptionNotice/Base",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, -0.12, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"path": "service_expansion/ReceptionNotice/Caption",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.03)]",
+		"type": "Label3D"
+	},
+	{
+		"path": "service_expansion/ReceptionNotice/CollisionShape3D",
+		"shape": "BoxShape3D",
+		"size": "(0.65, 0.3, 0.2)",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "CollisionShape3D"
+	},
+	{
+		"mesh": "7b8c0540e37e5ae598114ee738e263fd713cc57237feac3e0c8e5528c03672e9",
+		"path": "service_expansion/ReceptionNotice/Plate",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"layers": [
+			1,
+			1
+		],
+		"path": "service_expansion/Receptionist",
+		"script": "res://maps/isg_museum/scripts/service_npc.gd",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (32.7, 1.15, 27.0)]",
+		"type": "Area3D"
+	},
+	{
+		"path": "service_expansion/Receptionist/CollisionShape3D",
+		"shape": "BoxShape3D",
+		"size": "(0.9, 1.5, 0.9)",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "CollisionShape3D"
+	},
+	{
+		"path": "service_expansion/Receptionist/Name",
+		"transform": "[X: (-0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, -0.0), O: (0.0, 0.65, 0.0)]",
+		"type": "Label3D"
+	},
+	{
+		"path": "service_expansion/Receptionist/Presentation",
+		"script": "res://maps/isg_museum/scripts/museum_npc_presentation.gd",
+		"type": "Node"
+	},
+	{
+		"path": "service_expansion/Receptionist/Visual",
+		"transform": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (0.35, -1.15, 0.0)]",
+		"type": "Node3D"
+	},
+	{
+		"path": "service_expansion/Receptionist/Visual/AnimationPlayer",
+		"type": "AnimationPlayer"
+	},
+	{
+		"path": "service_expansion/Receptionist/Visual/VisualPivot",
+		"transform": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "Node3D"
+	},
+	{
+		"path": "service_expansion/Receptionist/Visual/VisualPivot/GuardRig",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "Node3D"
+	},
+	{
+		"path": "service_expansion/Receptionist/Visual/VisualPivot/GuardRig/Skeleton3D",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "Skeleton3D"
+	},
+	{
+		"mesh": "e8b5de013264c760599074e3b52312f372e9aa9a728513ab28922e0e4d990549",
+		"path": "service_expansion/Receptionist/Visual/VisualPivot/GuardRig/Skeleton3D/Object_10",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "a279de7f3e8d4868b5184d08c4efabcffdbd8f72c31bcc386ed97994da2ebe6a",
+		"path": "service_expansion/Receptionist/Visual/VisualPivot/GuardRig/Skeleton3D/Object_2",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "27831cdf835c1cc7f6dc5520db0e69cccc8c51b401fd67a8ee18d6fcdd3a85c0",
+		"path": "service_expansion/Receptionist/Visual/VisualPivot/GuardRig/Skeleton3D/Object_3",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "1b2945ae151f0062ea34178971ad9bc7a5e5678f5e03734e4c6715e16df16701",
+		"path": "service_expansion/Receptionist/Visual/VisualPivot/GuardRig/Skeleton3D/Object_4",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "8302caf66848ccc98681499f4d7e392893d048a5e2426a760f2a995fbb3a52cc",
+		"path": "service_expansion/Receptionist/Visual/VisualPivot/GuardRig/Skeleton3D/Object_5",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "e11f5ef4a23bc7beb7b0d43881dd0c3247d17d40304832e1b3d2f0bc8b2958c2",
+		"path": "service_expansion/Receptionist/Visual/VisualPivot/GuardRig/Skeleton3D/Object_6",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "1f9ddbc6a8bc802f17db4be1ca60da8732dae2f81591c16a467cbd02986434c4",
+		"path": "service_expansion/Receptionist/Visual/VisualPivot/GuardRig/Skeleton3D/Object_7",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "9dea36eafcf251a606f267b4419e5f498bc3d8dc8351fb12e1e979199cc3e359",
+		"path": "service_expansion/Receptionist/Visual/VisualPivot/GuardRig/Skeleton3D/Object_8",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "b94a028192d250fbf2ab6805409f110400dbc3e5a490af15ccdacd7ffd83b164",
+		"path": "service_expansion/Receptionist/Visual/VisualPivot/GuardRig/Skeleton3D/Object_9",
+		"skin": 65,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"path": "service_expansion/Receptionist/WatchNotice",
+		"transform": "[X: (-0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, -0.0), O: (0.0, 0.85, 0.0)]",
+		"type": "Label3D"
+	},
+	{
+		"layers": [
+			1,
+			1
+		],
+		"path": "service_expansion/TicketGate_A",
+		"script": "res://maps/isg_museum/scripts/service_ticket_door.gd",
+		"transform": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (9.0, 4.5, 27.0)]",
+		"type": "Area3D"
+	},
+	{
+		"path": "service_expansion/TicketGate_A/CollisionShape3D",
+		"shape": "BoxShape3D",
+		"size": "(1.6, 2.8, 0.5)",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 1.4, 0.0)]",
+		"type": "CollisionShape3D"
+	},
+	{
+		"path": "service_expansion/TicketGate_A/Label",
+		"transform": "[X: (-0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, -0.0), O: (0.0, 3.05, 0.0)]",
+		"type": "Label3D"
+	},
+	{
+		"layers": [
+			1,
+			0
+		],
+		"path": "service_expansion/TicketGate_A/Panel",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 1.4, 0.0)]",
+		"type": "StaticBody3D"
+	},
+	{
+		"path": "service_expansion/TicketGate_A/Panel/CollisionShape3D",
+		"shape": "BoxShape3D",
+		"size": "(1.6, 2.8, 0.26)",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "CollisionShape3D"
+	},
+	{
+		"mesh": "12a1fb376765c61e42a2bab4cc4a65e3eda7e1ef28de548d2bee56f742a01c08",
+		"path": "service_expansion/TicketGate_A/Panel/MeshInstance3D",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"path": "service_expansion/TicketGate_A/Passage",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "NavigationLink3D"
+	},
+	{
+		"mesh": "700eca1db31ccaa8189f2d8b6360bbce8ee4792e29e0ed41e26a47ea31dd1755",
+		"path": "service_expansion/TicketGate_A/Reader",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.62, 1.4, -0.24)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"layers": [
+			1,
+			1
+		],
+		"path": "service_expansion/TicketGate_B",
+		"script": "res://maps/isg_museum/scripts/service_ticket_door.gd",
+		"transform": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (27.0, 4.5, 3.0)]",
+		"type": "Area3D"
+	},
+	{
+		"path": "service_expansion/TicketGate_B/CollisionShape3D",
+		"shape": "BoxShape3D",
+		"size": "(2.0, 2.8, 0.5)",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 1.4, 0.0)]",
+		"type": "CollisionShape3D"
+	},
+	{
+		"path": "service_expansion/TicketGate_B/Label",
+		"transform": "[X: (-0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, -0.0), O: (0.0, 3.05, 0.0)]",
+		"type": "Label3D"
+	},
+	{
+		"layers": [
+			1,
+			0
+		],
+		"path": "service_expansion/TicketGate_B/Panel",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 1.4, 0.0)]",
+		"type": "StaticBody3D"
+	},
+	{
+		"path": "service_expansion/TicketGate_B/Panel/CollisionShape3D",
+		"shape": "BoxShape3D",
+		"size": "(2.0, 2.8, 0.26)",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "CollisionShape3D"
+	},
+	{
+		"mesh": "d2687c718499094c614b471026f86ffc3c8c96573f52bdcb26b249cd1d7af54c",
+		"path": "service_expansion/TicketGate_B/Panel/MeshInstance3D",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"path": "service_expansion/TicketGate_B/Passage",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "NavigationLink3D"
+	},
+	{
+		"mesh": "700eca1db31ccaa8189f2d8b6360bbce8ee4792e29e0ed41e26a47ea31dd1755",
+		"path": "service_expansion/TicketGate_B/Reader",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.82, 1.4, -0.24)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"layers": [
+			1,
+			1
+		],
+		"path": "service_expansion/WallMap",
+		"script": "res://maps/isg_museum/scripts/service_map.gd",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (32.0, 1.65, 24.3)]",
+		"type": "Area3D"
+	},
+	{
+		"path": "service_expansion/WallMap/Caption",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.5, 0.16)]",
+		"type": "Label3D"
+	},
+	{
+		"path": "service_expansion/WallMap/CollisionShape3D",
+		"shape": "BoxShape3D",
+		"size": "(2.2, 1.4, 0.22)",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "CollisionShape3D"
+	},
+	{
+		"mesh": "f8c7dcdf2ac4fd057b2c05b7ebb1e04915f4db381e8ce956dd0f2d25eda992db",
+		"path": "service_expansion/WallMap/Courtyard4",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-0.52, 0.0, 0.14)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "f8c7dcdf2ac4fd057b2c05b7ebb1e04915f4db381e8ce956dd0f2d25eda992db",
+		"path": "service_expansion/WallMap/Courtyard6",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.52, 0.0, 0.14)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"path": "service_expansion/WallMap/EnvironmentArt",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "Node3D"
+	},
+	{
+		"path": "service_expansion/WallMap/EnvironmentArt/MapFrame",
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, -0.75, 0.0)]",
+		"type": "Node3D"
+	},
+	{
+		"path": "service_expansion/WallMap/EnvironmentArt/MapFrame/VisualPivot",
+		"transform": "[X: (3.872054, 0.0, 0.0), Y: (0.0, 1.783591, 0.0), Z: (0.0, 0.0, 6.349483), O: (0.0, 0.75, -0.050669)]",
+		"type": "Node3D"
+	},
+	{
+		"mesh": "96b62eb7dc700517150cf2913d447020bbac5d941cabb360e55f6607c833bdd1",
+		"path": "service_expansion/WallMap/EnvironmentArt/MapFrame/VisualPivot/hanging_picture_frame_01",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "0ffb078d5efec3f65144ccfa03f21a58b89cfac845ea913c310448cbb2a0fecd",
+		"path": "service_expansion/WallMap/Floor3",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-0.52, 0.0, 0.12)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "0ffb078d5efec3f65144ccfa03f21a58b89cfac845ea913c310448cbb2a0fecd",
+		"path": "service_expansion/WallMap/Floor5",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.52, 0.0, 0.12)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	},
+	{
+		"mesh": "df60f63874749d1ec9643b63f7727f7e7a8b45856b17e5a9fa64dff18d31c160",
+		"path": "service_expansion/WallMap/Frame",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]",
+		"type": "MeshInstance3D",
+		"visible": false
+	},
+	{
+		"mesh": "77438296d67097f6ec20d2a450f70aab78771560ae20308d5be0ca405e7b16f2",
+		"path": "service_expansion/WallMap/Paper",
+		"skin": 0,
+		"transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.09)]",
+		"type": "MeshInstance3D",
+		"visible": true
+	}
+]

@@ -1,0 +1,71 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: NPC remains an Interactable outside guard groups
+PASS: One skeletal visual per NPC
+PASS: No guard navigation/audio copied into NPC
+PASS: Old box character removed
+PASS: NPC uses real existing 65-bone skin
+PASS: NPC remains an Interactable outside guard groups
+PASS: One skeletal visual per NPC
+PASS: No guard navigation/audio copied into NPC
+PASS: Old box character removed
+PASS: NPC uses real existing 65-bone skin
+PASS: Independent poses and playback
+PASS: Immutable mesh shared
+PASS: N0 floor anchor compensates interaction-root height
+PASS: N0 faces the exterior approach
+PASS: Reception anchor lies at actual chair floor
+PASS: Receptionist faces counter to the west
+PASS: Only private role material overrides are recoloured
+PASS: Skin/face source material retained
+PASS: Talk clip really rotates arm joints
+PASS: Talking N0 does not change receptionist pose
+PASS: Reception talk clip really animates arm joints
+PASS: N0 selectable by actual camera ray
+PASS: Modal rejection never begins talking
+PASS: Gameflow rejection never begins talking
+PASS: Successful direct N0 interaction starts talk
+PASS: Repeated talk flag does not restart clip
+PASS: Accepting contract ends direct conversation
+PASS: Reopen N0 conversation
+PASS: Contract key closes talk: 69
+PASS: Reopen N0 conversation
+PASS: Contract key closes talk: 4194305
+PASS: Reopen N0 conversation
+PASS: Contract key closes talk: 74
+PASS: Contract is not rerolled on repeated conversation
+PASS: Distance ends N0 conversation
+PASS: J reads remotely without N0 talking
+PASS: Receptionist remains selectable above counter
+PASS: Reception modal rejection leaves seated idle
+PASS: Direct quiz starts seated talk
+RECEPTION hips=(33.03523, 0.485354, 27.0) foot=(32.64678, 0.11443, 27.12882)
+PASS: Seated hips/feet align with chair and floor
+PASS: Cooldown selects watching pose during existing session
+PASS: Watch notice and bounded skeletal look actually operate
+PASS: Post-animation modifier changes the rendered head pose
+PASS: Watching never moves pelvis/seat anchor
+PASS: Cooldown expiry resumes current conversation without losing source
+PASS: Two answers never grant ticket
+PASS: Third answer grants ticket and keeps NPC source
+PASS: Quiz to ticket keeps clip, modal ownership and mouse restore mode
+PASS: Button close returns seated idle
+PASS: Service key closes talk: 69
+PASS: Service key closes talk: 4194305
+PASS: Service key closes talk: 86
+PASS: Physical map is not an NPC conversation
+PASS: Remote document never triggers talking: 77
+PASS: Remote document never triggers talking: 86
+PASS: Distance closes reception conversation
+PASS: Pause closes dialogue and freezes animation
+PASS: Earned ticket opens TicketGate_A
+PASS: Earned ticket opens TicketGate_B
+PASS: NPC recolouring leaves guard materials unchanged
+PASS: UI destruction ends conversation before losing source
+PASS: Editing reload retains exactly two NPC visuals and no guard skeleton
+PASS: Reload restores default presentation states
+PASS: Editing mode N0 remains interactive
+PASS: Editing mode receptionist remains interactive
+NPC visual verification: 65 checks, 0 failures

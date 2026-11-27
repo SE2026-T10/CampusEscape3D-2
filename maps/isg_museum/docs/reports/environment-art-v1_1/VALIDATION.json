@@ -1,0 +1,661 @@
+{
+	"schema_version": 1,
+	"generated_at": "2026-11-12T19:20:46.340362+07:00",
+	"baseline_commit": "35fe3f8",
+	"engine": "4.7.2-stable (official)",
+	"renderer": "gl_compatibility",
+	"baseline_layout_rerun": {
+		"date": "2026-11-12",
+		"references": 779,
+		"exit_code": 0,
+		"note": "Initial pre-edit execution recorded in session; v1 report remains unchanged."
+	},
+	"historical_count_correction": {
+		"date": "2026-11-12",
+		"v1_report_total": 652,
+		"v1_actual_log_total": 552,
+		"unchanged_gameplay_checks": 490,
+		"v1_art_checks": 62,
+		"v1_1_art_checks": 87,
+		"note": "Historical report overcounted by 100; v1 files are preserved."
+	},
+	"validation": [
+		{
+			"id": "version",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--version"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T11:59:54.2306790+07:00",
+			"finished": "2026-11-12T11:59:54.8620091+07:00",
+			"log": "version.log",
+			"checks": null,
+			"failures": null,
+			"all_tests_passed": null
+		},
+		{
+			"id": "final-import",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--editor",
+				"--quit"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T11:59:55.2947454+07:00",
+			"finished": "2026-11-12T12:00:46.9833186+07:00",
+			"log": "final-import.log",
+			"checks": null,
+			"failures": null,
+			"all_tests_passed": null
+		},
+		{
+			"id": "check-scripts",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--script",
+				"res://tools/ci/check_scripts.gd"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:28:28.7127426+07:00",
+			"finished": "2026-11-12T18:28:42.1255864+07:00",
+			"log": "check-scripts.log",
+			"checks": null,
+			"failures": null,
+			"all_tests_passed": null
+		},
+		{
+			"id": "check-layout",
+			"executable": "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+			"arguments": [
+				"-B",
+				"tools/ci/check_layout.py"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T12:01:17.9161508+07:00",
+			"finished": "2026-11-12T12:01:19.5567304+07:00",
+			"log": "check-layout.log",
+			"checks": null,
+			"failures": null,
+			"all_tests_passed": null
+		},
+		{
+			"id": "check-art",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--script",
+				"res://maps/isg_museum/tools/apply_environment_art.gd",
+				"--",
+				"--check"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T12:01:20.5318805+07:00",
+			"finished": "2026-11-12T12:02:19.2461106+07:00",
+			"log": "check-art.log",
+			"checks": null,
+			"failures": null,
+			"all_tests_passed": null
+		},
+		{
+			"id": "verify-environment_art",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--fixed-fps",
+				"60",
+				"--script",
+				"res://maps/isg_museum/tools/verify_environment_art.gd"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:28:42.5131802+07:00",
+			"finished": "2026-11-12T18:29:09.1576372+07:00",
+			"log": "verify-environment_art.log",
+			"checks": 87,
+			"failures": 0,
+			"all_tests_passed": null
+		},
+		{
+			"id": "verify-blockout",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--fixed-fps",
+				"60",
+				"--script",
+				"res://maps/isg_museum/tools/verify_blockout.gd"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:29:09.1605976+07:00",
+			"finished": "2026-11-12T18:29:19.7962634+07:00",
+			"log": "verify-blockout.log",
+			"checks": 106,
+			"failures": 0,
+			"all_tests_passed": null
+		},
+		{
+			"id": "verify-contract_variants",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--fixed-fps",
+				"60",
+				"--script",
+				"res://maps/isg_museum/tools/verify_contract_variants.gd"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:29:19.7982691+07:00",
+			"finished": "2026-11-12T18:29:48.7306891+07:00",
+			"log": "verify-contract_variants.log",
+			"checks": 71,
+			"failures": 0,
+			"all_tests_passed": null
+		},
+		{
+			"id": "verify-empty_frame",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--fixed-fps",
+				"60",
+				"--script",
+				"res://maps/isg_museum/tools/verify_empty_frame.gd"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:29:48.7461891+07:00",
+			"finished": "2026-11-12T18:30:13.0352232+07:00",
+			"log": "verify-empty_frame.log",
+			"checks": 48,
+			"failures": 0,
+			"all_tests_passed": null
+		},
+		{
+			"id": "verify-carry",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--fixed-fps",
+				"60",
+				"--script",
+				"res://maps/isg_museum/tools/verify_carry.gd"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:30:13.0352232+07:00",
+			"finished": "2026-11-12T18:30:49.4722272+07:00",
+			"log": "verify-carry.log",
+			"checks": 83,
+			"failures": 0,
+			"all_tests_passed": null
+		},
+		{
+			"id": "verify-staff_room",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--fixed-fps",
+				"60",
+				"--script",
+				"res://maps/isg_museum/tools/verify_staff_room.gd"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:30:49.4722272+07:00",
+			"finished": "2026-11-12T18:31:25.6530174+07:00",
+			"log": "verify-staff_room.log",
+			"checks": 55,
+			"failures": 0,
+			"all_tests_passed": null
+		},
+		{
+			"id": "verify-storage",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--fixed-fps",
+				"60",
+				"--script",
+				"res://maps/isg_museum/tools/verify_storage.gd"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:31:25.6530174+07:00",
+			"finished": "2026-11-12T18:31:33.7696406+07:00",
+			"log": "verify-storage.log",
+			"checks": 34,
+			"failures": 0,
+			"all_tests_passed": null
+		},
+		{
+			"id": "verify-service",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--fixed-fps",
+				"60",
+				"--script",
+				"res://maps/isg_museum/tools/verify_service.gd"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:31:33.7696406+07:00",
+			"finished": "2026-11-12T18:31:38.6370426+07:00",
+			"log": "verify-service.log",
+			"checks": 31,
+			"failures": 0,
+			"all_tests_passed": null
+		},
+		{
+			"id": "verify-exhibits",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--fixed-fps",
+				"60",
+				"--script",
+				"res://maps/isg_museum/tools/verify_exhibits.gd"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:31:38.6370426+07:00",
+			"finished": "2026-11-12T18:31:43.4132167+07:00",
+			"log": "verify-exhibits.log",
+			"checks": 32,
+			"failures": 0,
+			"all_tests_passed": null
+		},
+		{
+			"id": "verify-room_feedback",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--fixed-fps",
+				"60",
+				"--script",
+				"res://maps/isg_museum/tools/verify_room_feedback.gd"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:31:43.4132167+07:00",
+			"finished": "2026-11-12T18:31:48.1902889+07:00",
+			"log": "verify-room_feedback.log",
+			"checks": 30,
+			"failures": 0,
+			"all_tests_passed": null
+		},
+		{
+			"id": "integrated",
+			"executable": "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+			"arguments": [
+				"--headless",
+				"--path",
+				".",
+				"--fixed-fps",
+				"60",
+				"res://tests/test_scene.tscn"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:31:48.1943259+07:00",
+			"finished": "2026-11-12T18:51:57.1065620+07:00",
+			"log": "integrated.log",
+			"checks": null,
+			"failures": null,
+			"all_tests_passed": true
+		}
+	],
+	"rebuild": [
+		{
+			"command": "prepare_environment_modules",
+			"exit_code": 0,
+			"started": "2026-11-12T11:56:39.3197544+07:00",
+			"finished": "2026-11-12T11:56:41.0233954+07:00"
+		},
+		{
+			"command": "build_geometry",
+			"exit_code": 0,
+			"started": "2026-11-12T11:56:41.5428857+07:00",
+			"finished": "2026-11-12T11:56:55.3041036+07:00"
+		},
+		{
+			"command": "build_exhibits",
+			"exit_code": 0,
+			"started": "2026-11-12T11:56:55.3568436+07:00",
+			"finished": "2026-11-12T11:56:57.4229926+07:00"
+		},
+		{
+			"command": "build_service",
+			"exit_code": 0,
+			"started": "2026-11-12T11:56:57.4312708+07:00",
+			"finished": "2026-11-12T11:56:59.1931328+07:00"
+		},
+		{
+			"command": "apply_environment_art",
+			"exit_code": 0,
+			"started": "2026-11-12T11:56:59.2015541+07:00",
+			"finished": "2026-11-12T11:58:27.5255432+07:00"
+		},
+		{
+			"command": "apply_materials",
+			"exit_code": 0,
+			"started": "2026-11-12T11:58:27.5301287+07:00",
+			"finished": "2026-11-12T11:59:01.6367406+07:00"
+		}
+	],
+	"museum_checks": 577,
+	"museum_failures": 0,
+	"readonly_art_check": true,
+	"navmesh": {
+		"rebaked": false,
+		"sha256": "0DB27200B0C97F1B8E1E784C95EBECDF3F1C0FA5DAB2BCC3DD3641BA8C0ACF4E",
+		"matches_v1": true
+	},
+	"source_glb_sha256": {
+		"architecture/gothic_architectural_structures/gothic_architectural_structures.glb": "417DC69A55A53EE25560118C2ED380035C10D4064A5949F53B570C24721B9EEB",
+		"architecture/balustrade_balcony/balustrade_balcony.glb": "208215278D9F15E4D572854C947B1133A4CDD85A0929E1484DF2EBA8F2278A98",
+		"exhibits/terpsichore_lyran/terpsichore_lyran_by_canova.glb": "DD1669CC8564A79682D7BC199581D7CDA700469168AB06E7BFEA48AAAF10000A"
+	},
+	"column_batch_comparison": {
+		"fraction_bytes_delta_gt_8": 0.00163330078125,
+		"mean_absolute_byte_error": 0.0596142578125,
+		"normal_tangent_changes_made": false,
+		"same_camera_material_light": true
+	},
+	"final_integrity": {
+		"script_check": 0,
+		"evidence_summary": 0,
+		"diff_check": 0,
+		"date": "2026-11-12T19:16:46.7978316+07:00"
+	},
+	"benchmark_files": [
+		"before-render.json",
+		"after-render.json",
+		"after-gameplay.json"
+	],
+	"benchmark_commands": [
+		{
+			"id": "before-render",
+			"arguments": [
+				"--path",
+				".",
+				"--rendering-method",
+				"gl_compatibility",
+				"--resolution",
+				"1280x720",
+				"--script",
+				"res://maps/isg_museum/tools/benchmark_environment_art.gd",
+				"--",
+				"--exclusive",
+				"--before"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:53:04.1558635+07:00",
+			"finished": "2026-11-12T18:53:48.9318662+07:00"
+		},
+		{
+			"id": "after-render",
+			"arguments": [
+				"--path",
+				".",
+				"--rendering-method",
+				"gl_compatibility",
+				"--resolution",
+				"1280x720",
+				"--script",
+				"res://maps/isg_museum/tools/benchmark_environment_art.gd",
+				"--",
+				"--exclusive"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T18:53:48.9682752+07:00",
+			"finished": "2026-11-12T18:54:33.1166297+07:00"
+		},
+		{
+			"id": "after-gameplay",
+			"arguments": [
+				"--path",
+				".",
+				"--rendering-method",
+				"gl_compatibility",
+				"--resolution",
+				"1280x720",
+				"--script",
+				"res://maps/isg_museum/tools/benchmark_environment_art.gd",
+				"--",
+				"--exclusive",
+				"--gameplay",
+				"--seconds=240"
+			],
+			"exit_code": 0,
+			"started": "2026-11-12T19:08:13.4653416+07:00",
+			"finished": "2026-11-12T19:12:24.7877682+07:00"
+		}
+	],
+	"course_check": {
+		"file": "course-check.json",
+		"valid": true,
+		"not_a_performance_measurement": true
+	},
+	"benchmark_course_valid": true,
+	"benchmark_settings_restored": true,
+	"render_diagnostics": {
+		"no-fill": {
+			"before": false,
+			"engine": "4.7.2-stable (official)",
+			"gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+			"guards": 9,
+			"low_processor_usage_mode": false,
+			"max_fps": 0,
+			"mode": "render_diagnostic_no-fill",
+			"renderer": "gl_compatibility",
+			"samples": [
+				{
+					"draw_calls": {
+						"p50": 1400.0,
+						"p95": 1400.0
+					},
+					"frame_interval_ms": {
+						"p50": 2.672,
+						"p95": 4.211,
+						"p99": 4.853
+					},
+					"frames": 2098,
+					"gpu_render_ms_p95": 2.16300010681152,
+					"mean_fps": 349.631528698032,
+					"primitives": {
+						"p50": 2070593.0,
+						"p95": 2070593.0
+					},
+					"render_memory_bytes_peak": 501519894.0,
+					"seconds": 6.0,
+					"view": "courtyard"
+				},
+				{
+					"draw_calls": {
+						"p50": 952.0,
+						"p95": 952.0
+					},
+					"frame_interval_ms": {
+						"p50": 1.815,
+						"p95": 3.084,
+						"p99": 3.76
+					},
+					"frames": 3025,
+					"gpu_render_ms_p95": 1.19500005245209,
+					"mean_fps": 504.144316268644,
+					"primitives": {
+						"p50": 1014240.0,
+						"p95": 1014240.0
+					},
+					"render_memory_bytes_peak": 501519894.0,
+					"seconds": 6.0,
+					"view": "staff"
+				}
+			],
+			"settings_restored": true,
+			"viewport": [
+				1280,
+				720
+			],
+			"vsync_mode": 0,
+			"warmup_seconds": 3,
+			"window_mode": 4
+		},
+		"no-new-foliage": {
+			"before": false,
+			"engine": "4.7.2-stable (official)",
+			"gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+			"guards": 9,
+			"low_processor_usage_mode": false,
+			"max_fps": 0,
+			"mode": "render_diagnostic_no-new-foliage",
+			"renderer": "gl_compatibility",
+			"samples": [
+				{
+					"draw_calls": {
+						"p50": 1364.0,
+						"p95": 1364.0
+					},
+					"frame_interval_ms": {
+						"p50": 2.603,
+						"p95": 4.233,
+						"p99": 5.003
+					},
+					"frames": 2128,
+					"gpu_render_ms_p95": 1.71399998664856,
+					"mean_fps": 354.665839113042,
+					"primitives": {
+						"p50": 1673777.0,
+						"p95": 1673777.0
+					},
+					"render_memory_bytes_peak": 473827398.0,
+					"seconds": 6.0,
+					"view": "courtyard"
+				},
+				{
+					"draw_calls": {
+						"p50": 950.0,
+						"p95": 950.0
+					},
+					"frame_interval_ms": {
+						"p50": 1.861,
+						"p95": 3.268,
+						"p99": 4.325
+					},
+					"frames": 2928,
+					"gpu_render_ms_p95": 1.18700003623962,
+					"mean_fps": 487.839663363974,
+					"primitives": {
+						"p50": 998696.0,
+						"p95": 998696.0
+					},
+					"render_memory_bytes_peak": 473827398.0,
+					"seconds": 6.0,
+					"view": "staff"
+				}
+			],
+			"settings_restored": true,
+			"viewport": [
+				1280,
+				720
+			],
+			"vsync_mode": 0,
+			"warmup_seconds": 3,
+			"window_mode": 4
+		},
+		"v1-sun": {
+			"before": false,
+			"engine": "4.7.2-stable (official)",
+			"gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+			"guards": 9,
+			"low_processor_usage_mode": false,
+			"max_fps": 0,
+			"mode": "render_diagnostic_v1-sun",
+			"renderer": "gl_compatibility",
+			"samples": [
+				{
+					"draw_calls": {
+						"p50": 1256.0,
+						"p95": 1256.0
+					},
+					"frame_interval_ms": {
+						"p50": 2.635,
+						"p95": 4.145,
+						"p99": 4.707
+					},
+					"frames": 2123,
+					"gpu_render_ms_p95": 2.03299999237061,
+					"mean_fps": 353.749553647378,
+					"primitives": {
+						"p50": 1731049.0,
+						"p95": 1731049.0
+					},
+					"render_memory_bytes_peak": 521390670.0,
+					"seconds": 6.0,
+					"view": "courtyard"
+				},
+				{
+					"draw_calls": {
+						"p50": 599.0,
+						"p95": 599.0
+					},
+					"frame_interval_ms": {
+						"p50": 1.611,
+						"p95": 2.772,
+						"p99": 3.684
+					},
+					"frames": 3396,
+					"gpu_render_ms_p95": 1.05200004577637,
+					"mean_fps": 565.879090500996,
+					"primitives": {
+						"p50": 478858.0,
+						"p95": 478858.0
+					},
+					"render_memory_bytes_peak": 521390670.0,
+					"seconds": 6.0,
+					"view": "staff"
+				}
+			],
+			"settings_restored": true,
+			"viewport": [
+				1280,
+				720
+			],
+			"vsync_mode": 0,
+			"warmup_seconds": 3,
+			"window_mode": 4
+		}
+	},
+	"not_run": [
+		"Linux/WSL CI",
+		"Windows export",
+		"Lower-spec GPU",
+		"Overdraw heatmap",
+		"Whole-process RAM"
+	],
+	"baseline_diagnostics": [
+		"Windows root certificate store diagnostic persists; exit codes and behavior checks pass.",
+		"Staff suite shutdown resource warnings are also present in v1."
+	]
+}

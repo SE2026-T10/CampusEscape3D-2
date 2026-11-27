@@ -1,0 +1,45 @@
+{
+    "id":  "low_poly_security_guard",
+    "title":  "Low poly security guard",
+    "provider":  "Sketchfab",
+    "provider_model_id":  "abaf0f47b2c4413986919bb5c673face",
+    "source_url":  "https://sketchfab.com/3d-models/low-poly-security-guard-abaf0f47b2c4413986919bb5c673face",
+    "metadata_url":  "https://api.sketchfab.com/v3/models/abaf0f47b2c4413986919bb5c673face",
+    "download_api_url":  "https://api.sketchfab.com/v3/models/abaf0f47b2c4413986919bb5c673face/download",
+    "author":  "Jose Manuel",
+    "author_url":  "https://sketchfab.com/manre",
+    "license":  "CC-BY-4.0",
+    "license_url":  "https://creativecommons.org/licenses/by/4.0/",
+    "attribution_required":  true,
+    "attribution":  "\"Low poly security guard\" by Jose Manuel, https://sketchfab.com/3d-models/low-poly-security-guard-abaf0f47b2c4413986919bb5c673face, licensed under CC BY 4.0.",
+    "checked_on":  "2026-11-10",
+    "status":  "downloaded",
+    "downloaded":  true,
+    "downloadable_on_provider":  true,
+    "triangles":  4776,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "low_poly_security_guard.glb",
+                      "bytes":  316772,
+                      "sha256":  "9ca42b4a18c8856bdac8e3bd9e658c4c4687039eea426f33175410754940c38b"
+                  }
+              ],
+    "downloaded_on":  "2026-11-10",
+    "download_method":  "user_browser_download",
+    "model_file":  "low_poly_security_guard.glb",
+    "format":  "GLB 2.0",
+    "validation":  {
+                       "glb_version":  2,
+                       "mesh_count":  9,
+                       "godot_mesh_instances":  9,
+                       "material_count":  8,
+                       "embedded_image_count":  0,
+                       "external_dependencies":  0,
+                       "skin_count":  0,
+                       "joint_count":  0,
+                       "animation_count":  0,
+                       "godot_version":  "4.7.2",
+                       "godot_parse_passed":  true
+                   }
+}

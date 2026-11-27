@@ -1,0 +1,183 @@
+{
+  "date": "2026-11-17T22:36:37.162095+07:00",
+  "status": "passed",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "branch": "hgmanh-work",
+  "commands": {
+    "import": {
+      "id": "import",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--editor",
+        "--quit"
+      ],
+      "exit_code": 0,
+      "seconds": 20.980697870254517,
+      "date": "2026-11-17T21:50:24.582815+07:00",
+      "log": "logs/import-attempt-1.log"
+    },
+    "scripts": {
+      "id": "scripts",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://tools/ci/check_scripts.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 6.782737970352173,
+      "date": "2026-11-17T22:00:38.408410+07:00",
+      "log": "logs/scripts-attempt-4.log"
+    },
+    "selection": {
+      "id": "selection",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://.local/verify_menu_selection.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 53.06315588951111,
+      "date": "2026-11-17T21:45:35.993446+07:00",
+      "log": "logs/selection.log"
+    },
+    "flow": {
+      "id": "flow",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "res://tools/map_flow.gd"
+      ],
+      "exit_code": 0,
+      "seconds": 157.1595494747162,
+      "date": "2026-11-17T21:48:13.186810+07:00",
+      "log": "logs/flow.log"
+    },
+    "layout": {
+      "id": "layout",
+      "command": [
+        "C:/Users/Gia Manh/AppData/Roaming/uv/python/cpython-3.15-windows-x86_64-none/python.exe",
+        "-B",
+        "tools/ci/check_layout.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.603034496307373,
+      "date": "2026-11-17T21:50:35.609569+07:00",
+      "log": "logs/layout-attempt-1.log"
+    },
+    "runner": {
+      "id": "runner",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "--fixed-fps",
+        "60",
+        "res://tests/test_scene.tscn"
+      ],
+      "exit_code": 0,
+      "seconds": 431.0442934036255,
+      "date": "2026-11-17T21:57:46.684987+07:00",
+      "log": "logs/runner.log"
+    },
+    "runner-requested": {
+      "id": "runner-requested",
+      "command": [
+        "D:\\IT\\SE_GAME_3D\\.local\\godot\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        ".",
+        "res://tests/test_scene.tscn"
+      ],
+      "exit_code": 0,
+      "seconds": 1854.6672377586365,
+      "date": "2026-11-17T22:35:14.718088+07:00",
+      "log": "logs/runner-requested.log"
+    }
+  },
+  "all_attempts": "data/results.json",
+  "native_gui": {
+    "checks": 28,
+    "failures": [],
+    "fixture": "Project F5 entry scene; normal mode selected by GUI mouse, editing mode by Down navigation then Enter. QA anchor moves to N0/receptionist use real interaction/quiz APIs; no guard freezing or saved changes. Resume OS-focus pauses only before scene checks.",
+    "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "renderer": "gl_compatibility",
+    "resolution": [
+      1280,
+      720
+    ],
+    "results": [
+      {
+        "contract_after": 1,
+        "contract_before": 1,
+        "guards": 9,
+        "mode": "normal",
+        "scene": "res://maps/isg_museum/scenes/museum.tscn"
+      },
+      {
+        "contract_after": 4,
+        "contract_before": 2,
+        "guards": 0,
+        "mode": "editing",
+        "scene": "res://maps/isg_museum/scenes/museum_editing.tscn"
+      }
+    ]
+  },
+  "native_command": {
+    "command": [
+      ".local/godot/Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      ".",
+      "--script",
+      "res://maps/isg_museum/tools/capture_menu_integration.gd"
+    ],
+    "exit_code": 0,
+    "seconds": 31.984278440475464,
+    "date": "2026-11-17T22:04:07.619614+07:00"
+  },
+  "protection": {
+    "files": 885,
+    "unchanged": 885,
+    "changed": []
+  },
+  "markdown_broken": [],
+  "menu_flow": {
+    "checks": 184,
+    "loads": 36,
+    "cycles": 3,
+    "nodes": [
+      57,
+      57
+    ],
+    "orphans": [
+      0,
+      0
+    ],
+    "root_children": [
+      1,
+      1
+    ]
+  },
+  "preflight": "data/preflight.json",
+  "limits": [
+    "Windows root certificate-store diagnostic remains in logs.",
+    "Native QA starts the project F5 entry scene through a capture tool, without a physical F5 editor keypress.",
+    "Capture relocates Player only in QA to exercise existing NPC interaction/quiz APIs; it is not a full heist playthrough."
+  ],
+  "commit": false,
+  "push": false
+}

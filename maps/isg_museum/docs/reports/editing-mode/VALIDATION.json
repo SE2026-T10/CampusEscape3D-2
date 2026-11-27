@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "kind": "historical-index-added-during-docs-cleanup",
+  "note": "Index only; no historical timestamp, argv, exit code or check count modified. Actual records remain byte-identical.",
+  "records": [
+    "data/results.json",
+    "data/preflight-results.json"
+  ],
+  "report": "REPORT.md"
+}

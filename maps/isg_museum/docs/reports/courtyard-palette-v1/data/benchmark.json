@@ -1,0 +1,32 @@
+{
+	"after": {
+		"draw_calls_p50": 1215.0,
+		"frames": 2121,
+		"primitives_p50": 1646967.0,
+		"process_interval_ms": {
+			"p50": 3.189,
+			"p95": 7.581,
+			"p99": 12.129
+		},
+		"render_memory_mib": 460.239680290222
+	},
+	"before": {
+		"draw_calls_p50": 1113.0,
+		"frames": 2695,
+		"primitives_p50": 1645615.0,
+		"process_interval_ms": {
+			"p50": 2.724,
+			"p95": 4.582,
+			"p99": 6.512
+		},
+		"render_memory_mib": 460.239680290222
+	},
+	"conditions": "same camera/light, editing map frozen, 120 display-frame warmup and 8 s each, VSync/cap disabled, not GPU timing",
+	"cpu": "Intel(R) Core(TM) 5 210H",
+	"gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+	"renderer": "gl_compatibility",
+	"viewport": [
+		1280,
+		720
+	]
+}

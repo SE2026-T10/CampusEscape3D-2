@@ -1,0 +1,59 @@
+{
+    "id":  "power_box_01",
+    "title":  "Power Box 01",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/power_box_01",
+    "metadata_api":  "https://api.polyhaven.com/info/power_box_01",
+    "download_api":  "https://api.polyhaven.com/files/power_box_01",
+    "authors":  [
+                    "Rico Cilliers",
+                    "Yann Kervran"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "power_box_01_2k.gltf",
+    "original_triangles":  21272,
+    "mesh_count":  2,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "power_box_01_2k.gltf",
+                      "bytes":  4417,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/power_box_01/power_box_01_2k.gltf",
+                      "source_md5":  "d0549520e06ea7437906992f4e9152f3",
+                      "sha256":  "c440e5e7f51cb148a5eb8d00f4d973f806817434a675168110cd2bb9cb0a7060"
+                  },
+                  {
+                      "file":  "textures/power_box_01_nor_gl_2k.jpg",
+                      "bytes":  2733825,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/power_box_01/power_box_01_nor_gl_2k.jpg",
+                      "source_md5":  "453ff402c8af7f09a53644fcdc604e7f",
+                      "sha256":  "fff3e5b9037375226c10e7625b2d7735029cdae4d926ddc90567e02de61420e0"
+                  },
+                  {
+                      "file":  "textures/power_box_01_arm_2k.jpg",
+                      "bytes":  3011906,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/power_box_01/power_box_01_arm_2k.jpg",
+                      "source_md5":  "af49a41c1fa2c50456e3f7c2eaabd3b0",
+                      "sha256":  "792a1e04f9ab4740cbde8a70c1b720f4e411afc42d1359b24ab6602ef52d1c33"
+                  },
+                  {
+                      "file":  "power_box_01.bin",
+                      "bytes":  782096,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/power_box_01/power_box_01.bin",
+                      "source_md5":  "e76df413e15ce8a76eb50971266d2450",
+                      "sha256":  "b46efdf668ec2d4e04ff51604b5f1486caf20df632f442aab62601718058db05"
+                  },
+                  {
+                      "file":  "textures/power_box_01_diff_2k.jpg",
+                      "bytes":  1883678,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/power_box_01/power_box_01_diff_2k.jpg",
+                      "source_md5":  "c911f1ffb29ea558069498a01d5ccc5a",
+                      "sha256":  "045f04100a6a95bf6d43ea0989545b52008c84dd1d1d238ad0d7fa89789f8d0b"
+                  }
+              ]
+}

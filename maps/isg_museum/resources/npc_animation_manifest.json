@@ -1,0 +1,53 @@
+{
+	"blend_seconds": 0.2,
+	"clips": [
+		{
+			"duration": 3.93333333333333,
+			"loop": true,
+			"name": "standing_talk",
+			"root_motion": "fixed XZ; vertical hips retained; seated mean height matched",
+			"sha256": "db01f3e5c6c70627aa505c6259e75d255808042b8e631622f05fcc287139afce",
+			"source": "res://maps/isg_museum/assets/animations/mixamo/clips/npc_talking.fbx",
+			"take": "mixamo_com"
+		},
+		{
+			"duration": 44.0666666666667,
+			"loop": true,
+			"name": "seated_talk",
+			"root_motion": "fixed XZ; vertical hips retained; seated mean height matched",
+			"sha256": "a7df1e0f31873d30fc6f1e6a2fbeb984dc32b0e47bd6a6086ed09d1294e47cbd",
+			"source": "res://maps/isg_museum/assets/animations/mixamo/clips/receptionist_talking.fbx",
+			"take": "mixamo_com"
+		}
+	],
+	"guard_library_sha256": "3e2fff40ee690319c05e1cba918917e927f0c2e0cbbb5375068c14759da6a29b",
+	"library": "res://maps/isg_museum/assets/animations/mixamo/derived/npc_animations.res",
+	"loop_seam_seconds": 0.35,
+	"receptionist": {
+		"chair_yaw_degrees": -90,
+		"offset": [
+			0.35,
+			-1.15,
+			0
+		],
+		"yaw_degrees": 90
+	},
+	"rig": "res://maps/isg_museum/assets/models/characters/low_poly_security_guard/derived/guard_rig.tscn",
+	"rig_sha256": "36b3cfd8ff46c17fe12e1543d9a6b6b8214ef670f0a26bde8a3a646198c661d6",
+	"schema_version": 1,
+	"source_terms": "Jose Manuel CC BY 4.0 rig; Adobe Mixamo animations, original files unchanged",
+	"teammate": {
+		"offset": [
+			0,
+			-1,
+			0
+		],
+		"yaw_degrees": 180
+	},
+	"visual": "res://maps/isg_museum/scenes/npc/museum_npc_visual.tscn",
+	"watch": {
+		"max_pitch": 0.18,
+		"max_yaw": 0.65,
+		"smoothing": 5.0
+	}
+}

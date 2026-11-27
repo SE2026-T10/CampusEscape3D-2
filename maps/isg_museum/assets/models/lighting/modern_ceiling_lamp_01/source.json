@@ -1,0 +1,58 @@
+{
+    "id":  "modern_ceiling_lamp_01",
+    "title":  "Modern Ceiling Lamp 01",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/modern_ceiling_lamp_01",
+    "metadata_api":  "https://api.polyhaven.com/info/modern_ceiling_lamp_01",
+    "download_api":  "https://api.polyhaven.com/files/modern_ceiling_lamp_01",
+    "authors":  [
+                    "James Ray Cock"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "modern_ceiling_lamp_01_2k.gltf",
+    "original_triangles":  5602,
+    "mesh_count":  1,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "modern_ceiling_lamp_01_2k.gltf",
+                      "bytes":  6177,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/modern_ceiling_lamp_01/modern_ceiling_lamp_01_2k.gltf",
+                      "source_md5":  "f82da13a17c9132f29338a04faf4ab32",
+                      "sha256":  "d7417dd85e54626a51632d6eaf93712986ac2620ca3041dadc51a08b8ffa9bc9"
+                  },
+                  {
+                      "file":  "textures/modern_ceiling_lamp_01_arm_2k.jpg",
+                      "bytes":  412296,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/modern_ceiling_lamp_01/modern_ceiling_lamp_01_arm_2k.jpg",
+                      "source_md5":  "ab7c9670ac05907649ab63932ef88b2a",
+                      "sha256":  "53afe6f7b309782f937cd13893ad7cef92ae8d49669fc5b86ddd3bc82b30f14f"
+                  },
+                  {
+                      "file":  "textures/modern_ceiling_lamp_01_nor_gl_2k.jpg",
+                      "bytes":  267241,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/modern_ceiling_lamp_01/modern_ceiling_lamp_01_nor_gl_2k.jpg",
+                      "source_md5":  "242130eeac95d65dc878a20d271faf86",
+                      "sha256":  "80a790f97f096d05358231f9af1d5935a33deff6ce0cfe6ee9690f8130a5c4ef"
+                  },
+                  {
+                      "file":  "modern_ceiling_lamp_01.bin",
+                      "bytes":  146828,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/modern_ceiling_lamp_01/modern_ceiling_lamp_01.bin",
+                      "source_md5":  "48b86e7e6db78e6d3dfd85b765c3ab68",
+                      "sha256":  "ae5140a64e12e639554158901a5e92340bb37c706096ff255804e3220fb96367"
+                  },
+                  {
+                      "file":  "textures/modern_ceiling_lamp_01_diff_2k.jpg",
+                      "bytes":  240872,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/modern_ceiling_lamp_01/modern_ceiling_lamp_01_diff_2k.jpg",
+                      "source_md5":  "55956852d44470d86da29fad4fd38099",
+                      "sha256":  "b0341690dc56eeddd3efa8a91c179a26e163f330907e5483b6903626b600347e"
+                  }
+              ]
+}

@@ -1,0 +1,169 @@
+{
+	"fixture": "Anchor cuts between sections; StealthDirector terminal capture disabled only here. Nine guard AI active; native phase-dependent sensors retained (sleeping G3 vision off). Real NPC/quiz/key/door/T2 APIs, real Player movement; no changes saved.",
+	"guards": [
+		{
+			"ai_active": true,
+			"animation": "walk",
+			"id": "Guard_G1",
+			"vision_active": true
+		},
+		{
+			"ai_active": true,
+			"animation": "walk",
+			"id": "Guard_G2",
+			"vision_active": true
+		},
+		{
+			"ai_active": true,
+			"animation": "sleep",
+			"id": "Guard_G3",
+			"vision_active": false
+		},
+		{
+			"ai_active": true,
+			"animation": "walk",
+			"id": "Guard_G4",
+			"vision_active": true
+		},
+		{
+			"ai_active": true,
+			"animation": "walk",
+			"id": "Guard_G5",
+			"vision_active": true
+		},
+		{
+			"ai_active": true,
+			"animation": "walk",
+			"id": "Guard_G6",
+			"vision_active": true
+		},
+		{
+			"ai_active": true,
+			"animation": "walk",
+			"id": "Guard_G7",
+			"vision_active": true
+		},
+		{
+			"ai_active": true,
+			"animation": "run",
+			"id": "Guard_G8",
+			"vision_active": true
+		},
+		{
+			"ai_active": true,
+			"animation": "walk",
+			"id": "Guard_G9",
+			"vision_active": true
+		}
+	],
+	"results": [
+		{
+			"interaction": "N0",
+			"ok": true
+		},
+		{
+			"interaction": "entrance",
+			"ok": true
+		},
+		{
+			"ok": true,
+			"walk": "lobby"
+		},
+		{
+			"interaction": "receptionist",
+			"ok": true
+		},
+		{
+			"interaction": "ticket_after_three_answers",
+			"ok": true
+		},
+		{
+			"ok": true,
+			"target": "(7.4, 0.0, 28.25)",
+			"walk": "stair_A_and_south_buffer"
+		},
+		{
+			"ok": true,
+			"target": "(1.2, 2.25, 28.25)",
+			"walk": "stair_A_and_south_buffer"
+		},
+		{
+			"ok": true,
+			"target": "(1.2, 2.25, 25.75)",
+			"walk": "stair_A_and_south_buffer"
+		},
+		{
+			"ok": true,
+			"target": "(7.5, 4.5, 25.75)",
+			"walk": "stair_A_and_south_buffer"
+		},
+		{
+			"ok": true,
+			"target": "(8.0, 4.5, 27.0)",
+			"walk": "stair_A_and_south_buffer"
+		},
+		{
+			"ok": true,
+			"target": "(11.0, 4.5, 27.0)",
+			"walk": "stair_A_and_south_buffer"
+		},
+		{
+			"ok": true,
+			"target": "(18.0, 4.5, 27.0)",
+			"walk": "stair_A_and_south_buffer"
+		},
+		{
+			"ok": true,
+			"target": "(28.0, 4.5, 3.0)",
+			"walk": "stair_B_down"
+		},
+		{
+			"ok": true,
+			"target": "(28.0, 4.5, 1.75)",
+			"walk": "stair_B_down"
+		},
+		{
+			"ok": true,
+			"target": "(34.8, 2.25, 1.75)",
+			"walk": "stair_B_down"
+		},
+		{
+			"ok": true,
+			"target": "(34.8, 2.25, 4.25)",
+			"walk": "stair_B_down"
+		},
+		{
+			"ok": true,
+			"target": "(28.0, 0.0, 4.25)",
+			"walk": "stair_B_down"
+		},
+		{
+			"interaction": "key_K",
+			"ok": true
+		},
+		{
+			"interaction": "T2_pickup",
+			"ok": true
+		},
+		{
+			"ok": true,
+			"target": "(31.0, 4.5, 10.0)",
+			"walk": "carry_T2"
+		},
+		{
+			"ok": true,
+			"target": "(28.0, 4.5, 10.0)",
+			"walk": "carry_T2"
+		},
+		{
+			"ok": true,
+			"target": "(25.5, 4.5, 10.0)",
+			"walk": "carry_T2"
+		},
+		{
+			"ok": true,
+			"target": "(25.5, 4.5, 16.5)",
+			"walk": "carry_T2"
+		}
+	]
+}

@@ -1,0 +1,27 @@
+{
+	"checks": 28,
+	"failures": [],
+	"fixture": "Project F5 entry scene; normal mode selected by GUI mouse, editing mode by Down navigation then Enter. QA anchor moves to N0/receptionist use real interaction/quiz APIs; no guard freezing or saved changes. Resume OS-focus pauses only before scene checks.",
+	"gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+	"renderer": "gl_compatibility",
+	"resolution": [
+		1280,
+		720
+	],
+	"results": [
+		{
+			"contract_after": 1,
+			"contract_before": 1,
+			"guards": 9,
+			"mode": "normal",
+			"scene": "res://maps/isg_museum/scenes/museum.tscn"
+		},
+		{
+			"contract_after": 4,
+			"contract_before": 2,
+			"guards": 0,
+			"mode": "editing",
+			"scene": "res://maps/isg_museum/scenes/museum_editing.tscn"
+		}
+	]
+}

@@ -1,0 +1,22 @@
+{
+  "maps/isg_museum/assets/materials/presets/gardner_palette_v1/architectural_stone.tres": "02c650210c5f192edde8f27d301ddfaf3c73c5cbb7611c76df0b0f289a95ee9e",
+  "maps/isg_museum/assets/materials/presets/gardner_palette_v1/balustrade_cap.tres": "21ebdded255caafbf457606a8a93758e291d65a71f75c38f155690b6fd2225bc",
+  "maps/isg_museum/assets/materials/presets/gardner_palette_v1/balustrade_stone.tres": "eb37eb7db6013444ec32b6a38c991b175f1dc5d6c573088f7a6554adf34682c7",
+  "maps/isg_museum/assets/materials/presets/gardner_palette_v1/corridor_border.tres": "2a91e6b9dd8d37353a48768dc836abfa5ce3b1b82929b8137fc1a25e68239078",
+  "maps/isg_museum/assets/materials/presets/gardner_palette_v1/corridor_floor.tres": "076233c324623e637f62306768d8c566ee2a8b1887bb80e4fa7092a520bbf1ae",
+  "maps/isg_museum/assets/materials/presets/gardner_palette_v1/courtyard_plaster.tres": "b825a842a4727878e86cc6940a0698ec9e63a27a594dd77e521f4e17070f89cf",
+  "maps/isg_museum/assets/materials/presets/gardner_palette_v1/dark_metal.tres": "a31c0375f2ef8e2741a757e8e19bf95199d344c753b59d5ce132fbe81f1eedbd",
+  "maps/isg_museum/assets/materials/presets/gardner_palette_v1/garden_wall_stone.tres": "76b0ec50f184faaa97efb28ce6112d2d4e4711c5794e5846898c8a2b19116253",
+  "maps/isg_museum/assets/materials/presets/gardner_palette_v1/sculpture_stone.tres": "242b0526d69e3962b58cc96459fe26c4d8c0ffbf287ef3f440cc9c6faf64287f",
+  "maps/isg_museum/assets/materials/presets/gardner_palette_v1/walnut_wood.tres": "472fdf16edbd21b44f506bb472e6116b95dcb46fbd787e3ede0cba124fe16fb6",
+  "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/architectural_stone.png": "98eea67f0d3931c3e0e7dfb17b7ff75b9b3c98853039c2b569e23e28474385f2",
+  "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/balustrade_cap.png": "99812a9bf875ff3cdb266e1e764aade9ec9a02bfeda04830ef9288ac6e719496",
+  "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/balustrade_stone.png": "9c0bde37ff3d97bc9f104909bf6086008bfc4988c19e33a31aea54c0fca2f638",
+  "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/corridor_border.png": "722df706aadc081b966a3a8a3d679cf0cd3f7acd1e1024cf32f462245a81a6e8",
+  "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/corridor_floor.png": "de04e09aef51c7a61d8bc79a108d97ae313bf27a94b463fffa5e734397dd584c",
+  "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/courtyard_plaster.png": "bc5b9c4b80635b5954cb67f2290d71f218ae492f4f1fd00f1aab58eac81db883",
+  "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/dark_metal.png": "e28dc0fbdf5fe97cd716243fc2dfe94cf00e46b683903d119ff6d9b3f7c3e40d",
+  "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/garden_wall_stone.png": "0bb5e67f03ae75c3fba3633382262208d740ba5234ea815fe3b907eb69b57b43",
+  "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/sculpture_stone.png": "021fae41f714f67ae2b3f7175043e2da3dcd6fe93798db3f2cdc5d673e22d6cd",
+  "maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/walnut_wood.png": "ddbdbbe8e664b4d4a648a271268a4a585e9e149e49db829254814b12f6486b8d"
+}

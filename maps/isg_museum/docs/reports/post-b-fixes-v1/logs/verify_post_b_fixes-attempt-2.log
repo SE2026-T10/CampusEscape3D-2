@@ -1,0 +1,30 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: Every pre-fix body/shape keeps its exact path, transform, layer and shape
+PASS: Exactly 48 new masonry bodies and 56 shapes are permitted; no other collision additions
+PASS: Original columns, spring points and arch joints remain aligned
+PASS: All spandrel plaster is batched separately from ivory ribbons
+PASS: Five thresholds come from the actual A/B/C lintel bounds
+PASS: Both sides and full depth of every gallery threshold have one visible floor surface
+PASS: Wood, stone and thresholds share the physical upper-floor height without a visual step
+PASS: Primitive slab bounds, underside and side faces survive top-face partitioning
+PASS: Numerical corner seals stay strictly inside the visible masonry, above every opening
+FAIL: Rebaked navigation has no roof/spandrel walks or upper courtyard surface
+PASS: Both door faces have lit wood, sixteen trim bars, two lock plates and four handle pieces: museum_door
+PASS: Door detail batches render with body plus three role meshes: museum_door
+PASS: Door trim/handles add no collision: museum_door
+PASS: Door material/art rebuild preserves functional roles: museum_door
+PASS: Both door faces have lit wood, sixteen trim bars, two lock plates and four handle pieces: entrance_door
+PASS: Door detail batches render with body plus three role meshes: entrance_door
+PASS: Door trim/handles add no collision: entrance_door
+PASS: Door material/art rebuild preserves functional roles: entrance_door
+PASS: Actual world sight rays hit new plaster in all forty bays on both floors
+PASS: The opening below every curved ribbon remains ray-open
+PASS: Diagonal corner rays see closed miter joints on both floors
+PASS: K opens B with unchanged collision/link behavior
+PASS: Actual standing/crouched Player crosses all five gallery openings in both directions
+PASS: Occupied B doorway still refuses to close
+PASS: Clear B doorway closes and restores its world body/link
+Post-B fixes verification: 25 checks, 1 failures

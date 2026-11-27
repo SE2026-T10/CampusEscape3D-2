@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 621.14 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 6GB Laptop GPU
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+Movie Maker mode enabled, recording movie in 1280×720 @ 30 FPS...
+Captured before-overview
+Captured a2-overview
+Captured a2-player-eye
+Captured a2-wall-column-closeup
+Captured a2-floor-border
+Captured a2-upper-balustrade
+Captured a2-garden-wall-closeup
+Player input walk: [{ "section": "corridor_to_garden", "reached": true }, { "section": "garden_path", "reached": true }, { "section": "along_column_wall", "reached": true }, { "section": "west_corridor", "reached": true }]
+--------------------------------------------------------------------------------
+Done recording movie at path: D:\IT\SE_GAME_3D\maps\isg_museum\docs\courtyard-palette-v1\revision-a2\a2-preview-walk.avi
+494 frames at 30 FPS (movie length: 00:00:16:14), recorded in 00:00:20 (80% of real-time speed).
+CPU render time: 1.54 seconds (average: 3.12 ms/frame)
+GPU render time: 2.09 seconds (average: 4.22 ms/frame)
+Encoding time: 4.68 seconds (average: 9.47 ms/frame)
+--------------------------------------------------------------------------------
+ERROR: Texture with GL ID of 176: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:82)
+ERROR: Texture with GL ID of 177: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:82)

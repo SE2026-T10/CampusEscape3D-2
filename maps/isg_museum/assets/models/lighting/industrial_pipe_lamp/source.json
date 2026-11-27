@@ -1,0 +1,65 @@
+{
+    "id":  "industrial_pipe_lamp",
+    "title":  "Industrial Pipe Lamp",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/industrial_pipe_lamp",
+    "metadata_api":  "https://api.polyhaven.com/info/industrial_pipe_lamp",
+    "download_api":  "https://api.polyhaven.com/files/industrial_pipe_lamp",
+    "authors":  [
+                    "Mateusz Sadek"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "industrial_pipe_lamp_2k.gltf",
+    "original_triangles":  8626,
+    "mesh_count":  3,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "industrial_pipe_lamp_2k.gltf",
+                      "bytes":  7419,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/industrial_pipe_lamp/industrial_pipe_lamp_2k.gltf",
+                      "source_md5":  "1c31d0c349da80555c176371da5a56a4",
+                      "sha256":  "e525f4b8bf1a7a77b312e65e3a0d6c69c403e221170d8e1424c15178305c7fe5"
+                  },
+                  {
+                      "file":  "textures/industrial_pipe_lamp_emission_2k.jpg",
+                      "bytes":  84333,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/industrial_pipe_lamp/industrial_pipe_lamp_emission_2k.jpg",
+                      "source_md5":  "b026d3d10bbd225806a52a096d5387d6",
+                      "sha256":  "263d49ae2ec0c969132888cee1e4075162bfe81872768f3b0bcf38a155870d50"
+                  },
+                  {
+                      "file":  "textures/industrial_pipe_lamp_nor_gl_2k.jpg",
+                      "bytes":  2458808,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/industrial_pipe_lamp/industrial_pipe_lamp_nor_gl_2k.jpg",
+                      "source_md5":  "7d9b0d4e8638bc70e5aff28215c4204e",
+                      "sha256":  "5aae8bae45d76744f3bbdf322d76c49872e03a349ba7327dde9616220fda68aa"
+                  },
+                  {
+                      "file":  "textures/industrial_pipe_lamp_diff_2k.jpg",
+                      "bytes":  2817767,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/industrial_pipe_lamp/industrial_pipe_lamp_diff_2k.jpg",
+                      "source_md5":  "dba27726198c8d6eaf5f984c69fbc342",
+                      "sha256":  "050658b8db7400f49c1b6d256d7c621be33680c21d260733e1d0e2caf3d331b2"
+                  },
+                  {
+                      "file":  "textures/industrial_pipe_lamp_arm_2k.jpg",
+                      "bytes":  3097914,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/industrial_pipe_lamp/industrial_pipe_lamp_arm_2k.jpg",
+                      "source_md5":  "4ad0cebdd0db9e93a7ff1178fd3b0a17",
+                      "sha256":  "8b350f9faad05b770cc0b63024ac86ab3896ca85aeabfdc49626a055b9837d7f"
+                  },
+                  {
+                      "file":  "industrial_pipe_lamp.bin",
+                      "bytes":  282476,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/industrial_pipe_lamp/industrial_pipe_lamp.bin",
+                      "source_md5":  "57b3afbb3332f86cfb3a693f3759c4f4",
+                      "sha256":  "75690aa977d3bb011633ed649e058eb43ffef283f3a374f4842e411b25f82775"
+                  }
+              ]
+}

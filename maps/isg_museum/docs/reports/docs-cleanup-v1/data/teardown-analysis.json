@@ -1,0 +1,45 @@
+{
+  "reproduced": true,
+  "before_log": "logs/post_verbose_repeat.log",
+  "before_objects": {
+    "AudioStreamWAV": 3,
+    "AudioStreamPlaybackWAV": 5
+  },
+  "before_resources": [
+    "res://shared/assets/audio/guard_keys.wav",
+    "res://shared/assets/audio/guard_radio.wav",
+    "res://shared/assets/audio/guard_step_4.wav"
+  ],
+  "cause": "Test exits while audio mixer still holds active/queued playback references after fixture disposal; weak-reference audit shows nodes/AI objects already freed.",
+  "fix": "Map-local fixture stops audio players, clears streams, frees nodes and observes two mixer ticks with 250 ms wall-clock bound.",
+  "after_logs": [
+    "logs/post_verbose_after.log",
+    "logs/post_verbose_after_repeat.log",
+    "logs/post_verbose_after_final.log",
+    "logs/audit_post_b_teardown-attempt-2.log"
+  ],
+  "remaining_objectdb_or_resource_warnings": false,
+  "audit": {
+    "alive_after_120_physics_frames": [],
+    "alive_immediately_after_fixture": 0,
+    "audio_teardown": [
+      {
+        "audio_players_stopped": 7,
+        "elapsed_wall_ms": 171,
+        "mixes_observed": 2
+      },
+      {
+        "audio_players_stopped": 25,
+        "elapsed_wall_ms": 131,
+        "mixes_observed": 2
+      }
+    ],
+    "observed": {
+      "machine": 9,
+      "node": 7199,
+      "state": 27
+    },
+    "suite_failures": []
+  },
+  "shared_runtime_changed": false
+}

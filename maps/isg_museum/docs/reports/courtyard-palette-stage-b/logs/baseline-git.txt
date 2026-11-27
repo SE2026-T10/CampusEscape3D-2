@@ -1,0 +1,21 @@
+ M tests/test_scene.gd
+?? maps/isg_museum/assets/materials/presets/gardner_palette_v1/
+?? maps/isg_museum/assets/materials/textures/derived/gardner_palette_v1/
+?? maps/isg_museum/docs/courtyard-palette-stage-b/
+?? maps/isg_museum/docs/courtyard-palette-v1/
+?? maps/isg_museum/resources/courtyard_palette.json
+?? maps/isg_museum/scenes/previews/
+?? maps/isg_museum/scripts/courtyard_palette_preview.gd
+?? maps/isg_museum/scripts/courtyard_palette_preview.gd.uid
+?? maps/isg_museum/tests/courtyard_palette_tests.gd
+?? maps/isg_museum/tests/courtyard_palette_tests.gd.uid
+?? maps/isg_museum/tools/build_courtyard_palette_preview.gd
+?? maps/isg_museum/tools/build_courtyard_palette_preview.gd.uid
+?? maps/isg_museum/tools/capture_courtyard_palette.gd
+?? maps/isg_museum/tools/capture_courtyard_palette.gd.uid
+?? maps/isg_museum/tools/courtyard_palette.gd
+?? maps/isg_museum/tools/courtyard_palette.gd.uid
+?? maps/isg_museum/tools/prepare_courtyard_palette.gd
+?? maps/isg_museum/tools/prepare_courtyard_palette.gd.uid
+?? maps/isg_museum/tools/verify_courtyard_palette.gd
+?? maps/isg_museum/tools/verify_courtyard_palette.gd.uid

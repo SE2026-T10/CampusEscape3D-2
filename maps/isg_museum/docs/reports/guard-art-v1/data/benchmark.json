@@ -1,0 +1,70 @@
+{
+	"conditions": "static courtyard camera, 9 AI active, player stationary outside",
+	"cpu": "Intel(R) Core(TM) 5 210H",
+	"draw_calls_p50": 1159.0,
+	"duration_seconds": 30,
+	"frame_cap": 0,
+	"frames": 3073,
+	"gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+	"gpu_timing": "not available; process intervals are not GPU times",
+	"guards": [
+		{
+			"animation": "walk",
+			"name": "Guard_G1",
+			"physics_active": true
+		},
+		{
+			"animation": "walk",
+			"name": "Guard_G2",
+			"physics_active": true
+		},
+		{
+			"animation": "sleep",
+			"name": "Guard_G3",
+			"physics_active": true
+		},
+		{
+			"animation": "walk",
+			"name": "Guard_G4",
+			"physics_active": true
+		},
+		{
+			"animation": "walk",
+			"name": "Guard_G5",
+			"physics_active": true
+		},
+		{
+			"animation": "walk",
+			"name": "Guard_G6",
+			"physics_active": true
+		},
+		{
+			"animation": "walk",
+			"name": "Guard_G7",
+			"physics_active": true
+		},
+		{
+			"animation": "walk",
+			"name": "Guard_G8",
+			"physics_active": true
+		},
+		{
+			"animation": "walk",
+			"name": "Guard_G9",
+			"physics_active": true
+		}
+	],
+	"primitives_p50": 1830188.0,
+	"process_frame_interval_ms": {
+		"p50": 9.724,
+		"p95": 13.414,
+		"p99": 16.888
+	},
+	"render_memory_mib_p50": 457.110203742981,
+	"renderer": "GL Compatibility",
+	"viewport": [
+		1280,
+		720
+	],
+	"vsync": false
+}

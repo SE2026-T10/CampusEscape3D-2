@@ -1,0 +1,47 @@
+{
+	"normalization": "identical source reference bounds for all v1.1 levels",
+	"snapshots": [
+		{
+			"camera": "(6.128995, 2.55, 9.996645)",
+			"image": "after-lod-near-same-camera.png",
+			"lighting": "v1.1 fixed rig",
+			"root_distance": 12.0
+		},
+		{
+			"camera": "(6.128995, 2.55, 9.996645)",
+			"image": "after-lod-mid-same-camera.png",
+			"lighting": "v1.1 fixed rig",
+			"root_distance": 12.0
+		},
+		{
+			"camera": "(6.128995, 2.55, 9.996645)",
+			"image": "after-lod-far-same-camera.png",
+			"lighting": "v1.1 fixed rig",
+			"root_distance": 12.0
+		},
+		{
+			"camera": "(6.128995, 2.55, 9.996645)",
+			"image": "after-lod-auto-12m.png",
+			"lighting": "v1.1 fixed rig",
+			"root_distance": 12.0
+		},
+		{
+			"camera": "(9.313481, 2.55, 15.19067)",
+			"image": "after-lod-auto-18m.png",
+			"lighting": "v1.1 fixed rig",
+			"root_distance": 18.0
+		},
+		{
+			"camera": "(11.42161, 2.55, 18.62912)",
+			"image": "after-lod-auto-22m.png",
+			"lighting": "v1.1 fixed rig",
+			"root_distance": 22.0
+		},
+		{
+			"camera": "(15.62387, 2.55, 25.48318)",
+			"image": "after-lod-auto-30m.png",
+			"lighting": "v1.1 fixed rig",
+			"root_distance": 30.0
+		}
+	]
+}

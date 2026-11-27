@@ -1,0 +1,1 @@
+Attempted python3 tools/ci/check_layout.py. WindowsApps python3.exe could not execute; python.exe has the same unavailable alias. No Python interpreter found in PATH, .local/godot, or Local/Programs/Python/Python313. Layout check not run.

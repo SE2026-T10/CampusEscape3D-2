@@ -1,0 +1,80 @@
+{
+    "id":  "fancy_picture_frame_01",
+    "title":  "Fancy Picture Frame 01",
+    "provider":  "Poly Haven",
+    "source":  "https://polyhaven.com/a/fancy_picture_frame_01",
+    "metadata_api":  "https://api.polyhaven.com/info/fancy_picture_frame_01",
+    "download_api":  "https://api.polyhaven.com/files/fancy_picture_frame_01",
+    "authors":  [
+                    "Rob Tuytel",
+                    "Rico Cilliers"
+                ],
+    "license":  "CC0-1.0",
+    "license_url":  "https://polyhaven.com/license",
+    "status":  "downloaded",
+    "downloaded_on":  "2026-11-10",
+    "format":  "glTF 2.0",
+    "texture_resolution":  "2K",
+    "model_file":  "fancy_picture_frame_01_2k.gltf",
+    "original_triangles":  938,
+    "mesh_count":  2,
+    "animation_count":  0,
+    "files":  [
+                  {
+                      "file":  "fancy_picture_frame_01_2k.gltf",
+                      "bytes":  5059,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/fancy_picture_frame_01/fancy_picture_frame_01_2k.gltf",
+                      "source_md5":  "a29ee77c3ee669596e76dc9d78759e57",
+                      "sha256":  "754637454a0990fc3616d927ba403d05c8dfcfdadf49f390e46141fe45e0060a"
+                  },
+                  {
+                      "file":  "textures/fancy_picture_frame_01_rough_2k.jpg",
+                      "bytes":  392276,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/fancy_picture_frame_01/fancy_picture_frame_01_rough_2k.jpg",
+                      "source_md5":  "6b66d5da493eb2569c4aab33c1ade434",
+                      "sha256":  "5d6bf8f0fcf2303c36744f61ab566e9364cfb8b7fff572566ec85cc37e7f7398"
+                  },
+                  {
+                      "file":  "textures/fancy_picture_frame_01_canvas_nor_gl_2k.jpg",
+                      "bytes":  195305,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/fancy_picture_frame_01/fancy_picture_frame_01_canvas_nor_gl_2k.jpg",
+                      "source_md5":  "7d831364aeff9f6bc82452b24abc3064",
+                      "sha256":  "c6e4f76d1a4670d2a0fbf73d767fb9d0daa61d5ff4f882ec5f7a8439ccd920e8"
+                  },
+                  {
+                      "file":  "textures/fancy_picture_frame_01_diff_2k.jpg",
+                      "bytes":  495698,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/fancy_picture_frame_01/fancy_picture_frame_01_diff_2k.jpg",
+                      "source_md5":  "343abe80bb48b897cb54b0c61c3859ba",
+                      "sha256":  "ea3245d3f7add589ea68cf34f6346afba98aaf54acd8280c37c49b79b068cc01"
+                  },
+                  {
+                      "file":  "fancy_picture_frame_01.bin",
+                      "bytes":  25948,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/fancy_picture_frame_01/fancy_picture_frame_01.bin",
+                      "source_md5":  "aeaeb6fcb58e4fa3cdd8a084d7757072",
+                      "sha256":  "5d5a01ce8b89f1fbea87bac0ca9ab24771f0d2827ab0308f19878007e45f442f"
+                  },
+                  {
+                      "file":  "textures/fancy_picture_frame_01_canvas_rough_2k.jpg",
+                      "bytes":  314020,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/fancy_picture_frame_01/fancy_picture_frame_01_canvas_rough_2k.jpg",
+                      "source_md5":  "6684f73bd84cd759dee85c5b76860e3f",
+                      "sha256":  "31c324faca1055450789ac50dc5fdf1eecd59b84187e2dc8395604f21597ae88"
+                  },
+                  {
+                      "file":  "textures/fancy_picture_frame_01_nor_gl_2k.jpg",
+                      "bytes":  939857,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/fancy_picture_frame_01/fancy_picture_frame_01_nor_gl_2k.jpg",
+                      "source_md5":  "1471419dfd7331227f12bf21bd17d9f8",
+                      "sha256":  "f05c1929e858771cb36df01adbd5698c673aaadf61283dff032aca0a5366ec8f"
+                  },
+                  {
+                      "file":  "textures/fancy_picture_frame_01_canvas_diff_2k.jpg",
+                      "bytes":  330266,
+                      "source_url":  "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/fancy_picture_frame_01/fancy_picture_frame_01_canvas_diff_2k.jpg",
+                      "source_md5":  "41c5bebc486a789e6ff402b0f49ed303",
+                      "sha256":  "367a7f14b6a8f68313a657f31adf150b05a8211caa4768766f8f12ef20ee8521"
+                  }
+              ]
+}
