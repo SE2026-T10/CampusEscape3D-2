@@ -91,9 +91,9 @@ func _run() -> void:
 		var scene := (load(Art.BASE+"scenes/"+id+".tscn") as PackedScene).instantiate()
 		var method: String = {"museum_geometry":"apply_to_geometry","exhibits_expansion":"apply_to_exhibits",
 			"service_expansion":"apply_to_service"}[id]
-		var saved := Apply.signature(scene)
+		var saved := Apply.rebuild_snapshot(scene)
 		builder.call(method,scene,layout)
-		check(saved == Apply.signature(scene),"Saved art matches authoring: "+id)
+		check(Apply.rebuild_matches(saved,scene,true),"Saved art matches authoring: "+id)
 		var once := Apply.signature(scene)
 		builder.call(method,scene,layout)
 		check(once == Apply.signature(scene),"Second art pass preserves nodes, resources and colliders: "+id)
