@@ -92,6 +92,11 @@ func _run() -> void:
 		_expect(audio._ambience.volume_db < -23.0,"Archive room tone fades down before pickup / "+suffix)
 		_expect(system.feed_mode==0,"Archive hides the feed while retaining access with V")
 		await _shot("archive_"+suffix)
+		_expect(_boards_show_service(level,"Cửa hậu chưa chuẩn bị"),"All signs show unprepared B before pickup / "+suffix)
+		mission.backdoor_prepared=true
+		await _frames(3)
+		_expect(_boards_show_service(level,"Cửa hậu đã chuẩn bị"),"All signs update B preparation before pickup / "+suffix)
+		mission.backdoor_prepared=false
 		objectives.complete(M.FILE)
 		_expect(mission.has_file and is_equal_approx(mission.time_left,120.0),"Pickup starts 120 seconds without a cutscene")
 		await _frames(25)
@@ -130,6 +135,7 @@ func _check_routes(level: Node,player: FirstPersonPlayer,mission: K17MissionCont
 	_expect(hud.get("minimap").get("_route_marks").x==M.RouteState.WARNING,"Minimap consumes the same warning")
 	_expect(ObjectiveManager.find(level).get_hint(M.ESCAPE).contains("Theo biển A hoặc B"),"The shipped objective directs players to the new signs")
 	await _shot("b1_fork_"+suffix)
+	await _check_fork_service(level,player,mission,service,"t70_"+suffix)
 	var yard_split := level.get_node("Gameplay/V7Presentation/YardSplit") as Node3D
 	player.position=Vector3(16,0,17)
 	player.camera.look_at(yard_split.global_position)
@@ -147,11 +153,36 @@ func _check_routes(level: Node,player: FirstPersonPlayer,mission: K17MissionCont
 	player.camera.look_at(Vector3(4,2.48,8.9))
 	await _frames(5)
 	_expect(yard.is_closed and board.get_node("Yard").text.contains("Đã khóa"),"Cleared yard gate closes and updates signs")
-	_expect(service.is_closed and service.get_hold_duration(player)==8.0 and board.get_node("Service").text.contains("8 giây"),"Unprepared rear gate reports the real hold")
-	await _shot("ground_fork_"+suffix)
+	await _check_fork_service(level,player,mission,service,"t90_"+suffix)
+	var old_duration := service.release_duration
+	service.release_duration=6.5
+	await _frames(3)
+	_expect(_boards_show_service(level,"Khóa cơ · giữ E 6.5 giây"),"The fork reads the gate's configured hold / "+suffix)
+	service.release_duration=old_duration
+	service.restore_checkpoint_state({"closed":false})
+	await _frames(3)
+	_expect(_boards_show_service(level,"Cửa hậu đã mở"),"All signs report B open after the gate opens / "+suffix)
+
+
+func _check_fork_service(level: Node,player: FirstPersonPlayer,mission: K17MissionController,service: K17LockdownGate,suffix: String) -> void:
+	player.position=Vector3(4,0,5.7)
+	player.camera.look_at(Vector3(4,2.48,8.9))
+	await _frames(3)
+	_expect(service.is_closed and service.get_hold_duration(player)==8.0 and _boards_show_service(level,"Khóa cơ · giữ E 8 giây"),"Unprepared B reports its hold at the forks / "+suffix)
+	await _shot("ground_fork_"+suffix+"_locked")
 	mission.backdoor_prepared=true
 	await _frames(3)
-	_expect(service.get_hold_duration(player)==0.0 and board.get_node("Service").text.contains("mở nhanh"),"Prepared rear gate has immediate interaction and matching text")
+	_expect(service.get_hold_duration(player)==0.0 and _boards_show_service(level,"Đã chuẩn bị · nhấn E"),"Prepared B reports the instant action at the forks / "+suffix)
+	await _shot("ground_fork_"+suffix+"_prepared")
+	mission.backdoor_prepared=false
+
+
+func _boards_show_service(level: Node,status: String) -> bool:
+	for name_ in ["B1Fork","GroundFork","YardSplit"]:
+		var label := level.get_node("Gameplay/V7Presentation/"+name_+"/Service") as Label3D
+		if not label.text.ends_with("\n"+status):
+			return false
+	return true
 
 
 func _frames(count: int) -> void:
@@ -159,6 +190,9 @@ func _frames(count: int) -> void:
 		if is_instance_valid(_flow) and _flow.state==GameStateMachine.State.PAUSED:
 			_flow.resume()
 		await physics_frame
+	# Several physics ticks can run before the signs and HUD get a process tick.
+	await process_frame
+	await process_frame
 
 
 func _shot(name_: String) -> void:
