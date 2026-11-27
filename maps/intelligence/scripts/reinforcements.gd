@@ -83,7 +83,11 @@ func _spawn(index: int,pos: Vector3) -> void:
 	guard.collision_mask|=16
 	guard.checkpoint_snapshot=false
 	preload("res://maps/intelligence/resources/layout/k17_v4.gd").configure_guard(guard)
-	get_parent().get_parent().get_node("Guards").add_child(guard)
+	var level := get_parent().get_parent()
+	level.get_node("Guards").add_child(guard)
+	if guard.debug_label:
+		var overlay := level.get_node_or_null("NavigationDebug") as Node3D
+		guard.debug_label.visible = overlay != null and overlay.visible
 	Appearance.apply(guard)
 	_actors.append(guard)
 	spawned_count+=1

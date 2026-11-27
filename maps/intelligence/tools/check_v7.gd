@@ -52,9 +52,12 @@ func _run() -> void:
 		await _frames(15)
 		_expect(hud._projection_panel.visible and not hud._status_panel.visible and not hud._list.visible,"B1 uses one status column and a compact objective / "+suffix)
 		_expect(hud._b1_hint.visible!=test_mode,"Side-patrol hint is present only with guards / "+suffix)
+		_expect(hud._camera_status.text.contains("V xem C1") and hud._projection_status.text.contains("chốt"),"The panel names the current feed, next action and screen audience / "+suffix)
 		if test_mode:
 			_expect(not system.request_call() and system.call_status().contains("Không có chốt"),"No-guards R reports that there is no post")
 		else:
+			_expect(hud._b1_hint.text.contains("W1/W2") and not hud._call_status.text.begins_with("R"),"The corridor warns of the side patrol without prompting a stationary call")
+			_expect(system.call_status(true).begins_with("R") and not system.call_status(false).begins_with("R"),"An available request is advertised only when the HUD allows it")
 			_expect(system.request_call() and system.call_status().contains("đang chờ"),"R shows a request immediately")
 			await _frames(95)
 			var post: Node3D=system.post()
@@ -125,7 +128,15 @@ func _check_routes(level: Node,player: FirstPersonPlayer,mission: K17MissionCont
 	await _frames(5)
 	_expect(mission.route_state(0)==M.RouteState.WARNING and board.get_node("Yard").text.contains("20 giây"),"Board shows the actual scheduled warning")
 	_expect(hud.get("minimap").get("_route_marks").x==M.RouteState.WARNING,"Minimap consumes the same warning")
+	_expect(ObjectiveManager.find(level).get_hint(M.ESCAPE).contains("Theo biển A hoặc B"),"The shipped objective directs players to the new signs")
 	await _shot("b1_fork_"+suffix)
+	var yard_split := level.get_node("Gameplay/V7Presentation/YardSplit") as Node3D
+	player.position=Vector3(16,0,17)
+	player.camera.look_at(yard_split.global_position)
+	await _frames(5)
+	_expect(yard_split.get_node("Yard").text.contains("VÒNG MÉP NAM") and yard_split.get_node("Yard").text.contains("20 giây"),"The signed yard bypass shows its real closing time")
+	_expect(yard_split.get_node("Service").text.begins_with("←") and mission.get_status_lines()[3].contains("phía đông"),"The sign and HUD point to eastern maintenance")
+	await _shot("yard_split_"+suffix)
 	player.position=Layout.GATES[0]-Vector3.UP*1.1
 	await _frames(3)
 	mission.time_left=30.0

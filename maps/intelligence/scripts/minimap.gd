@@ -87,6 +87,8 @@ func update_marker() -> void:
 		_route_marks=route_marks
 		queue_redraw()
 	_footer.text="A Sân   ·   B Bảo trì   ·   M ẩn" if exfil else ("Cầu thang TRỆT ↔ B1" if _stair else "▲ Bạn   ·   M: ẩn bản đồ")
+	if floor_id==0 and route_marks.x in [K17MissionController.RouteState.OPEN,K17MissionController.RouteState.WARNING]:
+		_footer.text="A Vòng sân  ·  B Bảo trì  ·  M ẩn"
 	if not layout.bounds_for(floor_id).has_point(Vector2(marker_local.x,marker_local.z)):
 		_footer.text="Bạn đang ngoài sơ đồ"
 
@@ -134,6 +136,12 @@ func _draw() -> void:
 			var point:=project_local(p)
 			draw_line(point-Vector2(4,0),point+Vector2(4,0),Color("e3a85b"),2)
 	if _route_marks.x>=0:
+		if floor_id==0 and _route_marks.x in [K17MissionController.RouteState.OPEN,K17MissionController.RouteState.WARNING]:
+			var path := Layout.COURTYARD_BYPASS
+			var colour := _mission.route_colour(0)
+			colour.a = .6
+			for i in range(1,path.size()):
+				draw_dashed_line(project_local(path[i-1]),project_local(path[i]),colour,1.5,3.0)
 		var positions := B1_ROUTES if floor_id==1 else Layout.GATES
 		for route in 2:
 			var point := project_local(positions[route])

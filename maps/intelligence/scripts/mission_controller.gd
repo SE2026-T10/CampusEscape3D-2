@@ -22,10 +22,10 @@ const OBJECTIVES := [
 	{"id": ARCHIVE, "requires": [PASS,CODE], "title": "Đến checkpoint khu mật", "hint": "Qua cửa hồ sơ, đi hành lang phải đến điểm chuẩn bị.", "done": "Đã lưu checkpoint trước kho mật"},
 	{"id": VAULT, "requires": [ARCHIVE], "title": "Giải mã cửa kho B1", "hint": "Đối chiếu bảng ca trực tại checkpoint với chỉ dẫn trong nhật ký. E đổi chữ số và xác nhận.", "done": "Đã mở kho mật B1"},
 	{"id": FILE, "requires": [VAULT], "title": "Thu hồi Mật lệnh 04", "hint": "Qua cảm biến, hiệu chỉnh màn tại hốc B1 rồi tới phòng hồ sơ.", "done": "Đã lấy Mật lệnh 04 — rút lui!"},
-	{"id": ESCAPE, "requires": [FILE], "title": "Đến điểm tập kết", "hint": "Trở ra ngoài qua sân hoặc bảo trì. Tìm đèn xanh trước khi hết giờ.", "done": "Đã đưa hồ sơ ra khỏi K17"},
+	{"id": ESCAPE, "requires": [FILE], "title": "Đến điểm tập kết", "hint": "Rút qua cửa vừa vào. Theo biển A hoặc B tới đèn xanh.", "done": "Đã đưa hồ sơ ra khỏi K17"},
 	{"id": PREPARED, "requires": [ENTER], "optional":true,"title":"Chuẩn bị cửa hậu","hint":"Chốt cơ trong trạm điện.","done":"Cửa hậu đã được chuẩn bị"},
 	{"id": CAMERAS_OFF,"requires": [ENTER],"optional":true,"title":"Ngắt nguồn camera mặt đất","hint":"Công tắc ở trạm điện. CCTV B1 dùng mạch nội bộ riêng.","done":"Đã ngắt camera mặt đất trước hồ sơ"},
-	{"id": ANNEX, "requires": [FILE], "optional": true, "title": "Thu hồi phụ lục 04-B", "hint": "Sau khi lấy bản chính, giữ E 3 giây tại ngăn bên cạnh để lấy giờ phong tỏa đã sửa.", "done": "Đã lấy 04-B · Giờ phong tỏa sớm hơn 20 phút"},
+	{"id": ANNEX, "requires": [FILE], "optional": true, "title": "Thu hồi phụ lục 04-B", "hint": "Giữ E 3 giây tại ngăn cạnh bản chính. 04-B cho đội sơ tán biết giờ phong tỏa đã sửa.", "done": "Đã lấy 04-B · Giờ phong tỏa sớm hơn 20 phút"},
 	{"id": SABOTAGE,"requires": [FILE],"optional":true,"title":"Phá hủy cụm tình báo dự phòng","hint":"Tùy chọn: sau hồ sơ, giữ E 5 giây tại tủ trong xưởng phía đông rồi rút trước khi hết 120 giây. Kích hoạt sau khi thoát.","done":"Đã phá hủy cụm tình báo dự phòng"},
 ]
 
@@ -43,7 +43,7 @@ var radio_uses := 0
 var lockdown_warned := false
 var lockdown_closed := false
 var reinforcement_sent := false
-var radio_message := "Lam: Mật lệnh 04 ở B1. Tìm thẻ và chỉ dẫn kho. Đồng hồ chạy khi lấy hồ sơ."
+var radio_message := "Lam: Mật lệnh 04 ở B1. Lấy bản chính sẽ báo động. Nhớ lối rút trước khi xuống kho."
 var _dialogue_left := 5.0
 var _dialogue_priority := 0
 var _dialogue_queue: Array[Dictionary] = []
@@ -82,7 +82,7 @@ func _on_objective_completed(id: StringName) -> void:
 			queue_radio("Lam: Đọc bảng ca trực bên cạnh, đối chiếu với chỉ dẫn rồi nhập mã tại cửa kho.",2,"archive")
 		VAULT:
 			var hint := "Bản test giữ cảm biến và màn chiếu." if is_test_mode() else "Quan sát tuần tra qua ô bên hông trước khi rẽ."
-			queue_radio("Lam: Qua cảm biến lúc xanh. "+hint,3,"vault")
+			queue_radio("Lam: Qua cảm biến khi bảng ghi QUA. "+hint,3,"vault")
 		FILE:
 			if has_file:
 				return
@@ -91,7 +91,7 @@ func _on_objective_completed(id: StringName) -> void:
 			_dialogue_queue.clear()
 			_dialogue_left = 0.0
 			_dialogue_priority = -1
-			queue_radio("Lam: Rút qua cửa vừa vào. Nếu còn thời gian, lấy 04-B trong ngăn cạnh hồ sơ.",6,"file")
+			queue_radio("Lam: Còn %d giây. Rút qua cửa vừa vào, rồi chọn A hoặc B ở sảnh cảm biến."%ceili(time_left),6,"file")
 			queue_radio("Lam: Tùy chọn: đặt thiết bị ở tủ tình báo trong xưởng phía đông. Đồng hồ vẫn chạy; chỉ kích hoạt khi đã về tập kết!",3,"sabotage_offer")
 			_set_alarm_lights(true)
 			var back_gate := get_security_node("MaintenanceGate")
@@ -119,13 +119,13 @@ func _physics_process(delta: float) -> void:
 	var elapsed := escape_duration - time_left
 	if elapsed >= courtyard_warning_at and not lockdown_warned:
 		lockdown_warned = true
-		queue_radio("Loa K17: Cổng sân đóng sau %d giây. Lam: Nếu không kịp, chuyển sang cửa hậu phía đông!"%ceili(courtyard_close_at-elapsed),7,"warning")
+		queue_radio("Loa K17: Cổng A đóng sau %d giây. Lam: Chưa qua A thì theo biển B về phía đông."%ceili(courtyard_close_at-elapsed),7,"warning")
 		_play_cue("relay")
 	if elapsed >= courtyard_close_at and not lockdown_closed:
 		lockdown_closed = true
 		var gate := get_security_node("CourtyardGate")
 		if gate: gate.call("request_close")
-		queue_radio("Loa K17: Đã phát lệnh đóng cổng sân. Bảo trì ở phía đông.",8,"closed")
+		queue_radio("Loa K17: Cổng A nhận lệnh đóng. Lam: Theo biển B sang tuyến bảo trì phía đông.",8,"closed")
 	if elapsed >= reinforcement_at and not reinforcement_sent and not is_test_mode():
 		reinforcement_sent = true
 		# A real loudspeaker position, heard through the existing hearing rules.
@@ -202,7 +202,7 @@ func get_status_lines() -> Array[String]:
 		var seconds := ceili(time_left)
 		lines.append("CÒN %02d:%02d%s" % [seconds / 60, seconds % 60, _reinforcement_status()])
 		lines.append("A · Sân  /  "+route_status(0))
-		lines.append("B · Cửa hậu  /  "+route_status(1))
+		lines.append("B · Bảo trì phía đông  /  "+route_status(1))
 		var sabotage := get_parent().get_node_or_null("Sabotage")
 		if sabotage and sabotage.armed and not sabotage.detonated:
 			lines.append("V5 · Thiết bị đã đặt")
@@ -212,9 +212,17 @@ func get_status_lines() -> Array[String]:
 			lines.append("Camera mặt đất đã ngắt")
 		if backdoor_prepared:
 			lines.append("Cửa hậu đã chuẩn bị")
+	var sensor := nearby_sensor_status(get_tree().get_first_node_in_group("player") as Node3D)
+	if not sensor.is_empty(): lines.append(sensor)
 	if _dialogue_left > 0.0 and not radio_message.is_empty():
 		lines.append(radio_message)
 	return lines
+
+func nearby_sensor_status(player: Node3D) -> String:
+	if player == null or player.global_position.y >= -2.0: return ""
+	for sensor: K17SensorLane in get_tree().get_nodes_in_group("k17_sensors"):
+		if sensor.is_near_feet(player.global_position): return sensor.status_text()
+	return ""
 
 
 func show_objective_checklist() -> bool:
@@ -226,7 +234,7 @@ func get_result_lines() -> Array[String]:
 	var team:=get_parent().get_node_or_null("Reinforcements")
 	var dispatched: int=int(team.get("spawned_count")) if team else 0
 	var has_annex := objectives.is_completed(ANNEX)
-	var summary := "04-B đã bàn giao · Đoàn sơ tán đã đổi tuyến." if has_annex else "Đã nhận Mật lệnh 04 · Đang xác minh giờ phong tỏa."
+	var summary := "04-B đã bàn giao · Đoàn sơ tán đã đổi tuyến trước giờ mới." if has_annex else "Đã nhận Mật lệnh 04 · Đang xác minh giờ phong tỏa."
 	if is_test_mode(): summary = "TEST MAP · " + summary
 	var sabotage := get_parent().get_node_or_null("Sabotage")
 	var destroyed: bool = sabotage != null and sabotage.detonated
@@ -310,11 +318,12 @@ func route_colour(route: int) -> Color:
 	return Color("a9e5cf")
 
 
-func record_sensor_trip(at: Vector3) -> void:
+func record_sensor_trip(at: Vector3, source := "Cảm biến B1") -> void:
 	sensor_trips += 1
 	var alarm := SecurityAlarm.find(self)
-	if alarm: alarm.raise_alarm(at,"Cắt dải cảm biến phòng hồ sơ",18.0)
-	var hint := "Cảm biến vừa báo động." if is_test_mode() else "Cảm biến vừa báo động. Tìm vật che."
+	if alarm: alarm.raise_alarm(at,source + " vừa báo động",18.0)
+	var hint := source + " vừa báo động."
+	if not is_test_mode(): hint += " Tìm vật che."
 	queue_radio("Lam: "+hint,4,"sensor_"+str(sensor_trips))
 	_play_cue("alarm")
 

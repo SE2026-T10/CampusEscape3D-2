@@ -132,7 +132,8 @@ func _run() -> void:
 	player.global_position=rig.to_global(Vector3(0,0,-1))
 	await frames(3)
 	_expect(system.cctv_sees(player),"C1 sees actual actor who steps in front")
-	_expect(StealthDirector.find(level).gather_flags(player,[]).seen,"Unhacked C1 contributes real visibility to the shared HUD")
+	var director := StealthDirector.find(level)
+	_expect(director.gather_flags(player,[]).seen and director.get("sight_source")=="Camera C1","Unhacked C1 reports its own visibility to the K17 HUD")
 	system.hacked=true
 	_expect(not StealthDirector.find(level).gather_flags(player,[]).seen,"Spoofed enemy feed does not mark the exposed player as seen by C1")
 	player.position=Vector3(-14,-4,-44)

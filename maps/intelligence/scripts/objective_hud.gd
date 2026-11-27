@@ -1,6 +1,7 @@
 extends ObjectiveHud
 const Minimap := preload("res://maps/intelligence/scripts/minimap.gd")
 const Surveillance := preload("res://maps/intelligence/scripts/projection_surveillance.gd")
+const B1 := preload("res://maps/intelligence/resources/layout/k17_projection.gd")
 var minimap: Minimap
 var _layout_key := ""
 var _projection_panel: PanelContainer
@@ -73,12 +74,19 @@ func _update_projection_panel() -> void:
 		_set_text(_projection_status,rig.status_text())
 		_projection_status.modulate=Color("a9e5cf") if rig.powered and rig.calibration_valid(rig.observer_eye()) and not rig.near_calibration_limit() else Color("ffcb81")
 	_set_text(_camera_status,camera.feed_status())
-	var call := camera.call_status()
+	var feet := player.global_position
+	var in_bay := feet.distance_squared_to(B1.PREP)<4.0 or feet.distance_squared_to(B1.BAYS[0])<1.44 or feet.distance_squared_to(B1.BAYS[1])<1.44
+	var call := camera.call_status(in_bay and (near_rig or not rig.deployed))
 	_set_text(_call_status,call)
 	_call_status.visible=not call.is_empty()
-	_b1_hint.visible=near_rig and not mission.is_test_mode()
-	if _b1_hint.visible:
-		_set_text(_b1_hint,"Ô bên hông vẫn có tuần tra. Nhìn trước khi rẽ.")
+	var hint := mission.nearby_sensor_status(player)
+	if hint.is_empty() and near_rig and camera.hacked and rig.deployed:
+		if feet.distance_squared_to(B1.PREP)<4.0 and rig.holder!=player:
+			hint = "E nắm tay đẩy. Theo camera trước."
+		elif not mission.is_test_mode():
+			hint = "W1/W2 · Kiểm tra tuần tra trước khi rẽ."
+	_set_text(_b1_hint,hint)
+	_b1_hint.visible=not hint.is_empty()
 	var panel_size := _projection_panel.get_combined_minimum_size()
 	if _projection_panel.size!=panel_size: _projection_panel.size=panel_size
 	var feed_top := _projection_panel.get_global_rect().end.y + 8.0

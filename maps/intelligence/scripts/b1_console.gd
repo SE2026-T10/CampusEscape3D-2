@@ -7,7 +7,7 @@ func system() -> Node:
 func get_prompt(_by: Node) -> String:
 	var s:=system()
 	if s==null: return "B1 / không có tín hiệu"
-	if action=="hack": return "Kênh B1 đã chiếm · V xem · R gọi chốt" if s.hacked else "Chiếm kênh CCTV B1 — giữ E 3 giây"
+	if action=="hack": return "Camera trước đã bật · V xem C1" if s.hacked else "Chiếm kênh CCTV B1"
 	if action=="feed": return "Đổi góc quan sát — V"
 	return "Yêu cầu kiểm tra giả — R · "+s.call_status()
 
