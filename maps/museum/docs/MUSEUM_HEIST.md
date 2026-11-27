@@ -29,7 +29,7 @@ Scene có sàn chính khoảng 40 × 30 m, bốn tường biên và các cụm p
 
 Các tủ, quầy, bệ, kệ, bench, cột và chậu có collision tương ứng; tranh gắn tường không có collision, còn cả trụ lẫn dây barrier có collision để chặn đường đi. StaticBody prop dùng physics layer mặc định `1`, nằm trong `GuardVision.sight_mask = 3`, nên mesh kính vẫn chặn raycast tầm nhìn dù vật liệu nhìn xuyên được.
 
-Các prop lớn có `NavigationObstacle3D` bật avoidance để hỗ trợ steering cục bộ của guard. Tuy nhiên, `museum_navmesh.tres` vẫn là một polygon thủ công phủ gần hết sàn, không được bake lại quanh từng prop; avoidance không thay thế navmesh obstacle carving/path reroute. Patrol marker hiện tại được giữ ngoài footprint chính của prop, nhưng đường INVESTIGATE/CHASE quanh props cần xác nhận bằng playtest trong Godot.
+Navmesh được bake từ static collider sources thuộc hai nhóm `museum_navmesh_sources`: `NavigationRegion3D` (sàn/tường) và `MuseumDecor` (props nằm ngoài region). Display-case `NavigationObstacle3D` khai báo footprint carve đủ clearance; runtime avoidance của riêng tủ bị tắt để tránh xung đột với route đã carve. `maps/museum/tools/bake_navigation.tscn` rebuilds `resources/museum_navmesh.tres` sau khi collision/layout đổi. Automated suite kiểm tra navmesh fresh bake, detour quanh LobbyDisplayCase và guard movement; vẫn nên xác nhận cảm giác di chuyển/presentation bằng playtest trong Godot.
 
 ## Mục tiêu
 
@@ -69,7 +69,7 @@ Guard dùng AI chung với các trạng thái **PATROL**, **INVESTIGATE** và **
 | Guard tuần tra, thị giác, thính giác | Dùng hệ thống dùng chung |
 | Museum props | Có; các scene riêng cho tủ kính, bust, pedestal, hai tranh, quầy lễ tân, bench, planter, bàn an ninh, kệ hồ sơ, cột và barrier |
 | Collision / tầm nhìn | Có collision cho vật cản chính; static body layer 1 chặn raycast guard vision, kể cả kính trong |
-| Navigation avoidance | Có `NavigationObstacle3D` trên prop cản đường; navmesh thủ công chưa carve quanh prop và chưa được xác nhận runtime |
+| Navigation and obstacle carving | Navmesh bake từ static colliders; display cases carve footprint có clearance; suite kiểm tra detour/pathing và state navigation của guard |
 | Camera an ninh | Chưa triển khai |
 | Puzzle / bảng điện / mã vault | Chưa triển khai |
 | Artifact, vault, clue, vật phẩm đánh lạc hướng | Chưa triển khai |
@@ -84,10 +84,12 @@ Guard dùng AI chung với các trạng thái **PATROL**, **INVESTIGATE** và **
 - `scenes/props/painting.tscn`, `painting_landscape.tscn` — tranh abstract và landscape có khung, canvas và hình khối nghệ thuật.
 - `scenes/props/reception_desk.tscn`, `security_station.tscn` — quầy/bàn nhiều thành phần, màn hình, chi tiết điều khiển và ghế dùng chung.
 - `scenes/props/museum_bench.tscn`, `plant_pot.tscn`, `archive_shelf.tscn`, `rope_barrier.tscn` — nội thất lobby, kệ có hàng, và trụ dây phân cách.
-- `resources/museum_navmesh.tres` — navigation mesh polygon thủ công cho mặt sàn rộng; không tự carve theo prop.
+- `resources/museum_navmesh.tres` — navmesh đã bake, source từ static collider groups; các display cases carve footprint.
+- `tools/bake_navigation.tscn`, `tools/bake_navigation.gd` — tool scene/script để rebake navmesh từ project root.
+- `tests/museum_heist_tests.gd` — suite map-specific được gọi bởi `tests/test_scene.gd`.
 - **Model/material:** Không có model/texture art phù hợp trong Museum, shared hoặc tutorial; ghế nhân viên tái sử dụng `shared/scenes/props/chair.tscn`. Các prop khác dùng primitive mesh và material `StandardMaterial3D` riêng (gỗ, đồng, đá, kính, lá, màn hình); không thêm asset ngoài hoặc phụ thuộc asset map khác.
 - `docs/MUSEUM_HEIST.md` — tài liệu trạng thái map này.
-- `scripts/`, `assets/`, `tests/`, `tools/` — hiện chưa có script, asset, test hay tool riêng cho Museum.
+- `scripts/`, `assets/` — hiện chưa có script hoặc asset riêng cho Museum; gameplay dùng shared systems và primitive/local prop scenes.
 - `shared/` và `features/` — mã nguồn các hệ thống được scene tham chiếu; map không sao chép player hoặc guard AI.
 
 ## Tích hợp với hệ thống chung

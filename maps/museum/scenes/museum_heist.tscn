@@ -61,6 +61,9 @@ size = Vector3(0.5, 4, 30)
 [sub_resource type="BoxShape3D" id="BoxShape_door_panel"]
 size = Vector3(2.6, 2.8, 0.2)
 
+[sub_resource type="BoxShape3D" id="BoxShape_exit_interactable"]
+size = Vector3(2.6, 2.8, 0.6)
+
 [sub_resource type="BoxMesh" id="BoxMesh_door_panel"]
 size = Vector3(2.6, 2.8, 0.2)
 
@@ -100,7 +103,7 @@ transform = Transform3D(0.7, -0.42, 0.58, 0, 0.81, 0.58, -0.72, -0.41, 0.57, 0, 
 light_energy = 0.42
 shadow_enabled = true
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." groups=["museum_navmesh_sources"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 navigation_mesh = ExtResource("3_0ok2u")
 
@@ -204,7 +207,7 @@ light_energy = 1.1
 spot_range = 7.0
 spot_angle = 26.0
 
-[node name="MuseumDecor" type="Node3D" parent="."]
+[node name="MuseumDecor" type="Node3D" parent="." groups=["museum_navmesh_sources"]]
 
 [node name="ReceptionDesk" parent="MuseumDecor" instance=ExtResource("24_reception")]
 position = Vector3(-17.5, 0.225, 0)
@@ -471,7 +474,7 @@ material_override = SubResource("Material_door")
 script = ExtResource("19_h4c2s")
 
 [node name="ExitDoor" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1.4, 15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1.4, 14.5)
 script = ExtResource("18_4u2kq")
 objective_id = &"escape"
 key_objective_id = &"take_card"
@@ -479,6 +482,9 @@ locked_sign = "LOCKED · ACCESS CARD"
 locked_reason = "The museum exit is locked. You need the access card."
 locked_prompt = "Exit locked (access card needed)"
 door_name = "Museum exit"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitDoor"]
+shape = SubResource("BoxShape_exit_interactable")
 
 [node name="Noise" type="Node3D" parent="ExitDoor"]
 script = ExtResource("19_h4c2s")

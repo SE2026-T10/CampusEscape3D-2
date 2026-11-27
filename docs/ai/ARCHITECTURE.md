@@ -12,7 +12,7 @@
 
 ## Khởi động, chọn map và vòng đời scene
 
-`project.godot` mở `shared/scenes/ui/main_menu.tscn`. `MainMenu` đọc `LevelCatalog.LEVELS` và tạo nút theo thứ tự catalog; `start_level(id)` chỉ tải scene có đường dẫn trong catalog. Test scene tùy chọn được đặt trong cùng entry, ví dụ biến thể K17.
+`project.godot` mở `shared/scenes/ui/main_menu.tscn`. `MainMenu` đọc `LevelCatalog.LEVELS` và tạo nút theo thứ tự catalog; `start_level(id)` chỉ tải scene có đường dẫn trong catalog. Test scene tùy chọn được đặt trong cùng entry, ví dụ biến thể K17. ISG Museum (`isg_museum`) và Museum Heist (`museum`) là hai entry/scene riêng.
 
 Mỗi map là một PackedScene riêng. Menu và `GameFlow` chuyển cảnh bằng `SceneTree.change_scene_to_file` (deferred trong runtime); Restart dùng `owner.scene_file_path` để tải lại chính map đó. Trở về menu tải scene menu. Không có scene manager giữ nhiều map song song: node/group của map cũ phải được giải phóng trước khi map mới trở thành runtime scene. `tools/map_flow.gd` kiểm tra scene cũ, group hệ thống, signal connection và số node qua nhiều chu kỳ.
 
@@ -26,7 +26,7 @@ Mỗi map là một PackedScene riêng. Menu và `GameFlow` chuyển cảnh bằ
 
 `shared/scenes/player/player.tscn` gắn `FirstPersonPlayer`, camera, interactor và các thành phần noise/feedback; `Stamina` và `Inventory` có mặt ở scene nhưng được bật/tắt theo cấu hình player (`use_stamina`, `use_inventory`). Scene map chọn giá trị và cấu hình spawn/physics của mình.
 
-`shared/scenes/npc/guard.tscn` là actor dùng chung. `Guard` kết hợp route/navigation với `GuardVision`, `GuardHearing` và `GuardStateMachine`; marker/route do scene map cung cấp. Các cấu hình như `expanded_security` hay `checkpoint_snapshot` được bật theo map, không tạo AI guard khác.
+`shared/scenes/npc/guard.tscn` là actor dùng chung. `Guard` kết hợp route/navigation với `GuardVision`, `GuardHearing` và `GuardStateMachine`; marker/route do scene map cung cấp. Các cấu hình như `expanded_security` hay `checkpoint_snapshot` được bật theo map, không tạo AI guard khác. Museum Heist bake navmesh từ static collider sources của `NavigationRegion3D` và `MuseumDecor`; display-case obstacles cung cấp footprint carve riêng để đường patrol/investigate/chase tránh vật cản.
 
 ## GameFlow, stealth, AI và objectives
 

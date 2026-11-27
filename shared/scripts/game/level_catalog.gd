@@ -10,6 +10,7 @@ const TUTORIAL := &"library_tutorial"
 const EXPANDED := &"expanded_library"
 const INTELLIGENCE := &"intelligence_k17"
 const MUSEUM := &"isg_museum"
+const MUSEUM_HEIST := &"museum"
 
 const LEVELS := [
 	{"id": TUTORIAL, "title": "Library Tutorial", "scene": "res://maps/tutorial/scenes/library_graybox.tscn",
@@ -26,6 +27,8 @@ const LEVELS := [
 		"test_scene": "res://maps/isg_museum/scenes/museum_editing.tscn",
 		"test_title": "ISG Museum — Chỉnh map không bảo vệ",
 		"test_description": "Kiểm tra bố cục và tương tác; đồng đội và nhân viên tiếp đón vẫn hoạt động."},
+	{"id": MUSEUM_HEIST, "title": "Museum Heist", "scene": "res://maps/museum/scenes/museum_heist.tscn",
+		"description": "Sneak through the museum, retrieve the staff card, and escape."},
 ]
 
 

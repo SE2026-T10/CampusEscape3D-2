@@ -8,17 +8,18 @@ Các map là scene độc lập, chạy một map tại một thời điểm. Nh
 
 ## Map có trong source và menu
 
-Danh sách runtime có thẩm quyền là [`LevelCatalog.LEVELS`](../../shared/scripts/game/level_catalog.gd). Hiện tại có bốn map thường và một biến thể test được catalog cung cấp:
+Danh sách runtime có thẩm quyền là [`LevelCatalog.LEVELS`](../../shared/scripts/game/level_catalog.gd). Hiện tại có năm map thường và một biến thể test được catalog cung cấp:
 
 | Map | Scene | Trạng thái đã xác minh trong repository |
 |---|---|---|
 | Library Tutorial (`library_tutorial`) | `maps/tutorial/scenes/library_graybox.tscn` | Map hướng dẫn và fixture của nhiều test dùng chung; luồng nhiệm vụ tuyến tính. |
 | Expanded Library (`expanded_library`) | `maps/library/scenes/expanded_library.tscn` | Map có nội dung gameplay mở rộng, nhiều guard, inventory/stamina, puzzle, an ninh, checkpoint và nhiều đường thoát. Mục tiêu thời gian chơi vẫn cần xác nhận qua playtest. |
-| Museum Heist (`museum`) | `maps/museum/scenes/museum_heist.tscn` | Graybox có thể chơi đã được nâng cấp về cảnh quan: lobby, exhibition hall, restricted archive, security desk, nhiều vật trang trí và chướng ngại vật; vẫn giữ 5 guard, thẻ nhân viên, cửa nhân viên và một cửa thoát; chưa có vault, artifact, camera hay puzzle chuyên biệt. |
 | K17 — 120 giây cuối (`intelligence_k17`) | `maps/intelligence/scenes/intelligence_k17.tscn` | Map tình báo K17 có nhiều khu vực, mission controller riêng, checkpoint, thiết bị an ninh, minimap và nhiệm vụ rút lui; xem `maps/intelligence/README.md` và các test K17. |
-| K17 — Test map không lính gác | `maps/intelligence/scenes/intelligence_k17_test.tscn` | Biến thể test tùy chọn trong catalog của K17; không phải map thứ năm. Kiểm tra scene và `maps/intelligence/tests/k17_test_mode_tests.gd` trước khi dựa vào chi tiết chế độ. |
+| ISG Museum (`isg_museum`) | `maps/isg_museum/scenes/museum.tscn` | Map bảo tàng hiện vật riêng, giữ nguyên entry và test variant hiện có. |
+| Museum Heist (`museum`) | `maps/museum/scenes/museum_heist.tscn` | Graybox có thể chơi với năm guard, thẻ nhân viên và một cửa thoát; navmesh được bake từ static collider sources và carve quanh display cases; có regression suite riêng. Chưa có vault, artifact, camera hay puzzle chuyên biệt. |
+| K17 — Test map không lính gác | `maps/intelligence/scenes/intelligence_k17_test.tscn` | Biến thể test tùy chọn trong catalog của K17; không phải map thứ sáu. Kiểm tra scene và `maps/intelligence/tests/k17_test_mode_tests.gd` trước khi dựa vào chi tiết chế độ. |
 
-`maps/bank/` là khung trống chưa đăng ký. Tài liệu `maps/museum/README.md` đã được cập nhật để mô tả map đang đăng ký và bộ prop hiện tại. Các tài liệu/README khác có thể chưa phản ánh đầy đủ catalog; dùng `LevelCatalog`, scene và test hiện tại làm căn cứ, không tự động coi mọi README/map log cũ là trạng thái runtime.
+`maps/bank/` là khung trống chưa đăng ký. Tài liệu `maps/museum/README.md` mô tả Museum Heist, riêng với ISG Museum. Các tài liệu/README khác có thể chưa phản ánh đầy đủ catalog; dùng `LevelCatalog`, scene và test hiện tại làm căn cứ, không tự động coi mọi README/map log cũ là trạng thái runtime.
 
 ## Các hệ thống cốt lõi
 

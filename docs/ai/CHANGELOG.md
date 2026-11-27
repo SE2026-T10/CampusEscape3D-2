@@ -2,6 +2,13 @@
 
 Ghi các thay đổi đã xác minh, không dùng file này thay cho release notes. Dùng ngày ISO `YYYY-MM-DD`; liệt kê file/module bị ảnh hưởng, test đã chạy và test chưa chạy. Với thay đổi source, cập nhật registry/architecture/flow/testing trước hoặc cùng entry changelog.
 
+## 2026-11-27 — Đăng ký và hoàn thiện gameplay Museum Heist
+
+- **Nội dung:** Đăng ký Museum Heist thành level riêng; thêm va chạm và đặt lại `ExitDoor` để raycast tương tác được; rebake navmesh từ static collider, carve footprint của LobbyDisplayCase và thêm công cụ rebake lặp lại. Regression suite chạy route từ spawn qua card tới WIN bằng input thật.
+- **File/module liên quan:** `shared/scripts/game/level_catalog.gd`, `maps/museum/`, `tests/map_selection_tests.gd`, `tests/test_scene.gd`, `docs/ai/` và tài liệu Museum.
+- **Kiểm tra:** Museum focused suite — passed, gồm route real-input tới WIN, exit lock/unlock, E/raycast, guard patrol/investigation/chase và fresh navmesh bake. `tools/map_flow.gd` — 214 checks, 42 level loads, 3 cycles passed. `tools/qa_flow.gd` — 15 checks, 4 level loads passed. `tools/ci/validate.sh` — passed: 373 scripts, 938 runtime references, map contract và version 1.2.0.
+- **Giới hạn:** Full `tests/test_scene.tscn` được thử nhưng dừng lại sau khi không còn tiến triển ở Expanded Library E2E; log cũng có runtime script errors trong các test Expanded Library. Suite đầy đủ chưa có kết quả pass; các lỗi ngoài phạm vi này không được sửa. Windows export bị chặn vì Godot 4.7.2 export templates chưa cài. Chưa thực hiện visual playtest trong editor.
+
 ## 2026-11-04 — Khởi tạo bộ tài liệu ngữ cảnh AI
 
 - **Nội dung:** Tạo chỉ dẫn agent và tài liệu project context, architecture, module index, data flow, feature registry, testing guide và ADR index dựa trên cấu trúc/source/catalog/test hiện tại.

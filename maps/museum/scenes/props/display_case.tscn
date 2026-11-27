@@ -94,10 +94,13 @@ position = Vector3(0, 0.23, 0)
 shape = SubResource("Shape_case_base")
 
 [node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
-position = Vector3(0, 1.0, 0)
-avoidance_enabled = true
+position = Vector3(0, 0.0, 0)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+avoidance_enabled = false
 radius = 1.5
 height = 2.2
+vertices = PackedVector3Array(-1.8, 0, -1.8, 1.8, 0, -1.8, 1.8, 0, 1.8, -1.8, 0, 1.8)
 
 [node name="BrassPlinth" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.48, 0)

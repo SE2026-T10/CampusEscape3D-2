@@ -38,6 +38,7 @@ CI thực hiện `tools/ci/validate.sh` → `tools/ci/run_tests.sh` → export W
 - Shared: `player_tests`, `navigation_tests`, `guard_tests`, `vision_tests`, `ai_state_tests`, `ai_behavior_tests`, `hearing_tests`, `loop_tests`, `objective_tests`, `game_flow_tests`, `level_design_tests`, `presentation_tests`, `performance_tests`, `qa_playthrough_tests`, `qa_regression_tests`, `hold_interaction_tests`, `map_selection_tests`.
 - Expanded Library: `expanded_graybox_tests`, `expanded_ai_tests`, `expanded_mission_tests`, `expanded_baseline_tests`, `expanded_layout_expansion_tests`, `expanded_mechanics_tests`, `expanded_puzzle_tests`, `expanded_security_tests`, `expanded_escape_tests`, `expanded_hud_tests`, `expanded_e2e_tests`, `expanded_polish_tests`.
 - K17: `k17_mission_tests`, `k17_security_tests`, `k17_test_mode_tests`, `k17_expansion_tests`, `k17_v4_tests`.
+- Museum Heist: `maps/museum/tests/museum_heist_tests.gd` checks a real-input route from map start through the access card to WIN, plus fresh collision bake/pathing, guard patrol/investigation/pursuit, exit lock/unlock, physical E, and raycast.
 
 `tests/map_hud_provider_tests.gd` không nằm trong `tests/test_scene.gd`; CI chạy riêng qua `tools/ci/check_map_contract.gd`. Các file `maps/intelligence/tests/k17_navigation_tests.gd` và `k17_sabotage_tests.gd` hiện cũng không được preload/gọi trong `tests/test_scene.gd`. Không báo chúng là đã chạy khi chỉ chạy full runner; hãy kiểm tra cách gọi phù hợp hoặc đăng ký suite khi sửa runner.
 
@@ -58,7 +59,7 @@ CI thực hiện `tools/ci/validate.sh` → `tools/ci/run_tests.sh` → export W
 3. Chạy `map_flow.gd` để kiểm tra scene catalog, restart và quay về menu nếu map đã đăng ký.
 4. Chạy playthrough/tool chuyên biệt nếu thay đổi mục tiêu, puzzle, security hoặc escape; kiểm tra thủ công hình ảnh/độ khó nếu yêu cầu liên quan UX.
 
-Museum hiện không có `maps/museum/tests/`; `map_flow.gd` vẫn kiểm tra chọn/restart/rời map và một số điều kiện guard, không thay thế gameplay test hoặc playtest thủ công. Khi sửa `maps/museum/scenes/props/`, chạy layout checker và `map_flow.gd`; trong Godot cần kiểm tra vật cản từ player view, raycast vision qua kính/prop, collision tại các điểm tương tác, cùng patrol/investigate/chase quanh `NavigationObstacle3D`. Obstacle avoidance không chứng minh navmesh đã carve hoặc guard có thể tìm đường quanh mọi prop. K17 có suites riêng; chỉ một phần đang được gọi bởi full runner như liệt kê phía trên.
+Museum Heist có `maps/museum/tests/museum_heist_tests.gd`, được đăng ký trong `tests/test_scene.gd`. Suite chạy route thật bằng input từ spawn, lấy card, đi tới cửa và nhấn E để xác minh WIN. Khi sửa prop/navmesh/exit, chạy full test scene và `tools/map_flow.gd`; bake mesh bằng `godot --headless --path . res://maps/museum/tools/bake_navigation.tscn` khi collision geometry thay đổi. Bake sử dụng static collider sources từ group `museum_navmesh_sources`; display-case obstacles cần footprint và bật `affect_navigation_mesh`/`carve_navigation_mesh`, còn runtime avoidance riêng của display case tắt để navmesh điều khiển route. Automated navigation/interaction tests không thay thế visual playtest trong editor. K17 có suites riêng; chỉ một phần đang được gọi bởi full runner như liệt kê phía trên.
 
 ## Chạy riêng một map
 
