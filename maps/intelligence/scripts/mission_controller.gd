@@ -179,7 +179,11 @@ func complete_finale(token: int) -> void:
 	detonate_sabotage(token)
 	finale_pending = false
 	var finale := get_parent().get_node_or_null("ExtractionFinale")
-	if finale: finale.cancel()
+	if finale:
+		if ObjectiveManager.find(self).escape_route == &"maintenance":
+			finale.end_shot() # Keep the workshop behind the results card.
+		else:
+			finale.cancel()
 	_finish_result()
 
 

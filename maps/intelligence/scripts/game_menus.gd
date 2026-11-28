@@ -6,6 +6,9 @@ func _ready() -> void:
 	win_title.add_theme_font_size_override("font_size", 40)
 	_win_stats.add_theme_font_size_override("font_size", 18)
 	_win_objectives.add_theme_font_size_override("font_size", 14)
+	# The results card already has a dark backing; its labels need only the fill glyphs.
+	for label in win_panel.find_children("*", "Label", true, false):
+		label.add_theme_constant_override("outline_size", 0)
 	(play_again_button.get_parent() as VBoxContainer).add_theme_constant_override("separation", 7)
 	play_again_button.text = "Chơi lại"
 	win_menu_button.text = "Về menu"
@@ -15,6 +18,25 @@ func _ready() -> void:
 	settings_button.text = "Cài đặt"
 	for label in pause_panel.find_children("*", "Label", true, false):
 		if label.text == "PAUSED": label.text = "TẠM DỪNG"
+	if DisplayServer.get_name() != "headless":
+		_warm_result_text.call_deferred()
+
+func _warm_result_text() -> void:
+	# Use the real fonts and viewport scale without making the panel visible or focusable.
+	var canvas := RenderingServer.canvas_item_create()
+	for control in win_panel.find_children("*", "Control", true, false):
+		if not (control is Label or control is Button): continue
+		var sample := str(control.text)
+		if control == _win_stats: sample = get_win_text() + " 0123456789"
+		if control == _win_objectives: sample = get_objectives_text()
+		var line := TextLine.new()
+		line.add_string(sample.replace("\n", " "), control.get_theme_font("font"), control.get_theme_font_size("font_size"))
+		line.draw(canvas, Vector2.ZERO, Color.WHITE, get_viewport().get_oversampling())
+	RenderingServer.free_rid(canvas)
+
+func _pop_title() -> void:
+	# The panel already fades in. Keep the heading at its warmed, native font scale.
+	win_title.scale = Vector2.ONE
 
 func get_controls_text() -> String:
 	return "WASD di chuyển · Shift chạy · C/Ctrl cúi · E/giữ E tương tác\nV camera B1 · R gọi chốt · M bản đồ · J nhật ký\n1–3 chọn đồ · F ném chai · Esc/P tạm dừng"

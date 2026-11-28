@@ -35,6 +35,7 @@ func run(parent: Node) -> Array[String]:
 		_expect(flow.state==G.WIN and device.detonated,"Fresh Enter skips through the real finale completion path")
 		_expect(not flow.is_leaving(),"Skip input never activates the focused Play again button")
 		_expect(objectives.escape_route==route,"Cinematic keeps the actual escape route")
+		_expect(player.camera.current == (route == &"courtyard"),"Results use the camera for the extracted route")
 		await _unload()
 	await _load()
 	await _file()
@@ -180,12 +181,17 @@ func _interaction_and_reset() -> void:
 
 func _finale_and_pause() -> void:
 	await _file()
+	var moon := level.get_node("K17Environment/Moon") as DirectionalLight3D
+	var flood := level.get_node("K17Environment/YardFlood4") as SpotLight3D
+	var original_distance := moon.directional_shadow_max_distance
+	var original_fade := flood.distance_fade_shadow
 	device.plant()
 	mission.time_left=.1
 	var remaining := mission.time_left
 	var play_time := flow.play_time
 	_expect(mission.try_extract(&"maintenance","Hành lang bảo trì"),"Positive deadline accepts armed extraction")
 	_expect(flow.state==G.PLAYING and finale.active and mission.finale_pending,"WIN waits for the finale")
+	_expect(moon.directional_shadow_max_distance < original_distance and flood.distance_fade_shadow < original_fade,"B uses the workshop shadow distances")
 	_expect(not mission.try_extract(&"courtyard","Sân") and finale.starts==1,"Repeated extraction creates one finale")
 	var team := level.get_node("Gameplay/Reinforcements")
 	team.wave_times=Vector2.ZERO
@@ -210,6 +216,7 @@ func _finale_and_pause() -> void:
 	flow.resume()
 	await _frames(200)
 	_expect(flow.state==G.WIN and not finale.active and device.detonations==1,"Natural finale reaches WIN once")
+	_expect(host.get_viewport().get_camera_3d() == finale._camera and not level.get_node("ObjectiveHud").visible,"B keeps the final shot behind results with the gameplay HUD hidden")
 	_expect(is_equal_approx(mission.extraction_play_time,play_time),"Results preserve the gameplay time captured at extraction")
 	_expect(level.get_node("GameMenus").get_win_text().contains("phá hủy") and mission.time_left==remaining,"Vietnamese result includes sabotage and frozen remaining time")
 	mission.complete_finale(mission.run_id)
@@ -228,6 +235,9 @@ func _finale_and_pause() -> void:
 	window.size=previous_size
 	GameSettings.hud_scale=previous_scale
 	GameSettings.apply(host.get_tree())
+	mission.restore_checkpoint_state({})
+	_expect(player.camera.current and level.get_node("ObjectiveHud").visible,"Reset restores the player camera and HUD")
+	_expect(moon.directional_shadow_max_distance == original_distance and flood.distance_fade_shadow == original_fade,"Reset restores original lighting")
 
 func _unload() -> void:
 	Input.action_release("interact")
