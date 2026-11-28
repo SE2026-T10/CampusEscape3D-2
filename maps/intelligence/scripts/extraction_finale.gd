@@ -1,6 +1,8 @@
 extends Node3D
 ## A finite presentation, independently pausable from the frozen actors.
 const C := preload("res://maps/intelligence/resources/layout/k17_sabotage.gd")
+const WORKSHOP_SHADOW_DISTANCE := 24.0
+const EAST_FLOOD_SHADOW_DISTANCE := 16.0
 var active := false
 var elapsed := 0.0
 var run_id := -1
@@ -19,6 +21,9 @@ var _warmup: SubViewport
 var _warm_view: SubViewport
 var _warm_camera: Camera3D
 var _warm_frames := 0
+var _shot_moon: DirectionalLight3D
+var _previous_shadow_distance: float
+var _east_floods: Dictionary[SpotLight3D, float] = {}
 
 func _ready() -> void:
 	_camera = Camera3D.new()
@@ -197,6 +202,16 @@ func start(route: StringName, token: int) -> bool:
 	var view: Array = C.VIEWS.get(route, C.VIEWS[&"maintenance"])
 	_camera.position = view[0]
 	_camera.look_at(view[1])
+	if route == &"maintenance":
+		# The workshop is in the foreground. The two east yard lights sit beyond it.
+		var environment := get_node("../../K17Environment")
+		_shot_moon = environment.get_node("Moon")
+		_previous_shadow_distance = _shot_moon.directional_shadow_max_distance
+		_shot_moon.directional_shadow_max_distance = minf(_previous_shadow_distance, WORKSHOP_SHADOW_DISTANCE)
+		for light_name in ["YardFlood3", "YardFlood4"]:
+			var light := environment.get_node(light_name) as SpotLight3D
+			_east_floods[light] = light.distance_fade_shadow
+			light.distance_fade_shadow = minf(light.distance_fade_shadow, EAST_FLOOD_SHADOW_DISTANCE)
 	_camera.make_current()
 	var hud := get_parent().get_parent().get_node_or_null("ObjectiveHud") as ObjectiveHud
 	if hud and hud.is_journal_open(): hud.close_journal()
@@ -243,12 +258,10 @@ func finish() -> void:
 	if not active: return
 	var flow := GameFlow.find(self)
 	if flow == null or flow.is_leaving() or flow.state != GameStateMachine.State.PLAYING: return
-	var token := run_id
 	var m := _mission()
-	cancel()
-	if m: m.complete_finale(token)
+	if m: m.complete_finale(run_id)
 
-func cancel() -> void:
+func end_shot() -> void:
 	active = false
 	if _sound: _sound.stop()
 	if _smoke: _smoke.emitting = false
@@ -256,6 +269,15 @@ func cancel() -> void:
 	if _fire: _fire.emitting = false
 	if _flash: _flash.light_energy = 0
 	if _overlay: _overlay.hide()
+
+func cancel() -> void:
+	end_shot()
+	if _shot_moon:
+		_shot_moon.directional_shadow_max_distance = _previous_shadow_distance
+		_shot_moon = null
+	for light in _east_floods:
+		light.distance_fade_shadow = _east_floods[light]
+	_east_floods.clear()
 	for layer in _hidden:
 		if is_instance_valid(layer): layer.show()
 	_hidden.clear()

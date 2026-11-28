@@ -153,6 +153,8 @@ godot --headless --path . --fixed-fps 60 --max-fps 600 --script res://maps/intel
 
 `preview_sabotage.gd` dựng trạng thái để chụp tủ/hai góc kết thúc, không phải bằng chứng đi nhiệm vụ. `benchmark_sabotage.gd` đo frame time renderer thật của cảnh kết; chạy có cửa sổ, không thêm `--headless` hoặc `--fixed-fps`. Dựng lại map xong cần khởi động lại lượt chơi để tải scene mới.
 
+Dùng `-- --1080p` để đo 1920 × 1080. Mặc định là 1280 × 720. Thêm `--out=...` để lưu kết quả mới và giữ số liệu cũ. Cách đo cùng số liệu trước và sau ở cả hai độ phân giải nằm trong [báo cáo cảnh kết qua B](docs/finale-performance-2026-11-27/VALIDATION.md).
+
 Khi chạy QA có render trong nền, thêm `--background` để tool tự tiếp tục nếu cửa sổ mất focus. Thao tác giữ E bị hủy do pause được thử lại bằng một lần giữ mới. Tùy chọn này chỉ thuộc tool QA; bản chơi thường vẫn pause khi mất focus.
 
 `--camera-off` chọn đi trạm điện trước; bỏ cờ này để thử camera hoạt động, đọc chỉ dẫn từ cạnh bàn có vật che. `--utilities-north` tiếp cận trạm điện từ cửa bắc, quan sát lính trước khi vào. `--watch-patrol` cho tool quan sát tuần tra trước khi rời vô tuyến và ở cầu thang chính khi cần. `--yard-flank` vòng phía nam chốt phản ứng thay vì đi xuyên phòng. `--sprint-exfil` đi nhẹ trong B1, chạy khi lên mặt đất; `--sprint-yard` chỉ chạy đoạn sân phía nam lúc rút. `--natural-post` chỉ dùng nhịp kiểm tra tự nhiên; mặc định tool gửi yêu cầu giả khi cần. `--projection-delay=N` đổi pha bắt đầu tại điểm chuẩn bị B1. Chờ trước khi phá niêm phong là một chiến thuật kiểm thử, không thay đổi AI. Thời điểm vào hành lang vẫn phụ thuộc tuần tra; một chuỗi input thắng không bảo đảm mọi cách đi đều an toàn.
