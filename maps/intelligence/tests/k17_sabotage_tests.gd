@@ -191,7 +191,7 @@ func _finale_and_pause() -> void:
 	var play_time := flow.play_time
 	_expect(mission.try_extract(&"maintenance","Hành lang bảo trì"),"Positive deadline accepts armed extraction")
 	_expect(flow.state==G.PLAYING and finale.active and mission.finale_pending,"WIN waits for the finale")
-	_expect(moon.directional_shadow_max_distance < original_distance and flood.distance_fade_shadow < original_fade,"B uses the workshop shadow distances")
+	_expect(moon.directional_shadow_max_distance < original_distance and flood.distance_fade_shadow == original_fade,"B limits the moon shadow distance and preserves the gameplay light settings")
 	_expect(not mission.try_extract(&"courtyard","Sân") and finale.starts==1,"Repeated extraction creates one finale")
 	var team := level.get_node("Gameplay/Reinforcements")
 	team.wave_times=Vector2.ZERO

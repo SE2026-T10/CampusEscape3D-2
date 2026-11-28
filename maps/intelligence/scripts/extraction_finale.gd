@@ -2,7 +2,7 @@ extends Node3D
 ## A finite presentation, independently pausable from the frozen actors.
 const C := preload("res://maps/intelligence/resources/layout/k17_sabotage.gd")
 const WORKSHOP_SHADOW_DISTANCE := 24.0
-const EAST_FLOOD_SHADOW_DISTANCE := 16.0
+const WORKSHOP_RENDER_HEIGHT := 900.0
 var active := false
 var elapsed := 0.0
 var run_id := -1
@@ -19,11 +19,13 @@ var _sound_caption: Label
 var _hidden: Array[CanvasLayer] = []
 var _warmup: SubViewport
 var _warm_view: SubViewport
-var _warm_camera: Camera3D
+var _warm_cover: CanvasLayer
+var _workshop_view: SubViewport
+var _workshop_layer: CanvasLayer
+var _previous_disable_3d := false
 var _warm_frames := 0
 var _shot_moon: DirectionalLight3D
 var _previous_shadow_distance: float
-var _east_floods: Dictionary[SpotLight3D, float] = {}
 
 func _ready() -> void:
 	_camera = Camera3D.new()
@@ -112,27 +114,81 @@ func _warm_effect_materials() -> void:
 		particle.gravity = Vector3.ZERO
 		_warmup.add_child(particle)
 		particle.emitting = true
-	# Warm the two exterior shots too: the first wide view otherwise uploads
-	# previously unseen roof batches at the moment the cinematic cuts to them.
+	# A keeps the inexpensive offscreen warm-up.
 	_warm_view = SubViewport.new()
-	_warm_view.size = Vector2i(32,32)
+	_warm_view.size = Vector2i(32, 32)
 	_warm_view.world_3d = get_world_3d()
 	_warm_view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	add_child(_warm_view)
-	_warm_camera = Camera3D.new()
-	_warm_view.add_child(_warm_camera)
-	_warm_camera.position = C.VIEWS[&"maintenance"][0]
-	_warm_camera.look_at(C.VIEWS[&"maintenance"][1])
-	_warm_camera.make_current()
+	var courtyard := Camera3D.new()
+	courtyard.fov = _camera.fov
+	_warm_view.add_child(courtyard)
+	_position_camera(courtyard, &"courtyard")
+	courtyard.make_current()
+	_setup_workshop_view()
+	RenderingServer.frame_pre_draw.connect(_warm_workshop, CONNECT_ONE_SHOT)
+
+func _setup_workshop_view() -> void:
+	var viewport := get_viewport()
+	_workshop_view = SubViewport.new()
+	_workshop_view.world_3d = get_world_3d()
+	# The moon draws the foreground shadows. The yard lights still light the shot.
+	_workshop_view.positional_shadow_atlas_size = 0
+	_workshop_view.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	add_child(_workshop_view)
+	var camera := Camera3D.new()
+	camera.fov = _camera.fov
+	_workshop_view.add_child(camera)
+	_position_camera(camera, &"maintenance")
+	camera.make_current()
+	_workshop_layer = CanvasLayer.new()
+	_workshop_layer.layer = 10
+	_workshop_layer.hide()
+	add_child(_workshop_layer)
+	var backdrop := TextureRect.new()
+	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	backdrop.texture = _workshop_view.get_texture()
+	_workshop_layer.add_child(backdrop)
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_resize_workshop_view()
+	viewport.size_changed.connect(_resize_workshop_view)
+
+func _resize_workshop_view() -> void:
+	# The result card can scale its final image without drawing the scene again.
+	if _workshop_layer.visible and not active: return
+	var size := get_viewport().get_texture().get_size().max(Vector2(2, 2))
+	var scale := minf(1.0, WORKSHOP_RENDER_HEIGHT / size.y)
+	_workshop_view.size = Vector2i((size * scale).round())
+
+func _warm_workshop() -> void:
+	if active or not is_inside_tree(): return
+	# Preserve this viewport's render targets until the shot plays.
+	_warm_cover = CanvasLayer.new()
+	_warm_cover.layer = 128
+	var cover := ColorRect.new()
+	cover.color = Color.BLACK
+	cover.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cover.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_warm_cover.add_child(cover)
+	add_child(_warm_cover)
+	_apply_workshop_shadows()
+	_overlay.show()
+	_workshop_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+	RenderingServer.frame_post_draw.connect(_finish_workshop_warmup, CONNECT_ONE_SHOT)
+
+func _finish_workshop_warmup() -> void:
+	_restore_workshop_shadows()
+	_overlay.hide()
+	_warm_cover.queue_free()
+	_warm_cover = null
 
 func _process(_delta: float) -> void:
 	if not is_instance_valid(_warmup):
 		set_process(false)
 		return
 	_warm_frames += 1
-	if _warm_frames == 4:
-		_warm_camera.position = C.VIEWS[&"courtyard"][0]
-		_warm_camera.look_at(C.VIEWS[&"courtyard"][1])
 	if _warm_frames >= 8:
 		_warmup.render_target_update_mode = SubViewport.UPDATE_DISABLED
 		_warmup.queue_free()
@@ -190,6 +246,22 @@ func _particles(amount: int, lifetime: float, colour: Color, minimum: float, max
 func _mission() -> K17MissionController:
 	return get_parent().get_node_or_null("Mission") as K17MissionController
 
+func _position_camera(camera: Camera3D, route: StringName) -> void:
+	var view: Array = C.VIEWS.get(route, C.VIEWS[&"maintenance"])
+	camera.position = view[0]
+	camera.look_at(view[1])
+
+func _apply_workshop_shadows() -> void:
+	var environment := get_node("../../K17Environment")
+	_shot_moon = environment.get_node("Moon")
+	_previous_shadow_distance = _shot_moon.directional_shadow_max_distance
+	_shot_moon.directional_shadow_max_distance = minf(_previous_shadow_distance, WORKSHOP_SHADOW_DISTANCE)
+
+func _restore_workshop_shadows() -> void:
+	if _shot_moon:
+		_shot_moon.directional_shadow_max_distance = _previous_shadow_distance
+		_shot_moon = null
+
 func start(route: StringName, token: int) -> bool:
 	var m := _mission()
 	if active or m == null or not m.escaped or token != m.run_id: return false
@@ -199,19 +271,15 @@ func start(route: StringName, token: int) -> bool:
 	starts += 1
 	effects_played = false
 	_sound_caption.hide()
-	var view: Array = C.VIEWS.get(route, C.VIEWS[&"maintenance"])
-	_camera.position = view[0]
-	_camera.look_at(view[1])
+	_position_camera(_camera, route)
 	if route == &"maintenance":
-		# The workshop is in the foreground. The two east yard lights sit beyond it.
-		var environment := get_node("../../K17Environment")
-		_shot_moon = environment.get_node("Moon")
-		_previous_shadow_distance = _shot_moon.directional_shadow_max_distance
-		_shot_moon.directional_shadow_max_distance = minf(_previous_shadow_distance, WORKSHOP_SHADOW_DISTANCE)
-		for light_name in ["YardFlood3", "YardFlood4"]:
-			var light := environment.get_node(light_name) as SpotLight3D
-			_east_floods[light] = light.distance_fade_shadow
-			light.distance_fade_shadow = minf(light.distance_fade_shadow, EAST_FLOOD_SHADOW_DISTANCE)
+		_apply_workshop_shadows()
+		if _workshop_view:
+			_resize_workshop_view()
+			_previous_disable_3d = get_viewport().disable_3d
+			get_viewport().disable_3d = true
+			_workshop_view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+			_workshop_layer.show()
 	_camera.make_current()
 	var hud := get_parent().get_parent().get_node_or_null("ObjectiveHud") as ObjectiveHud
 	if hud and hud.is_journal_open(): hud.close_journal()
@@ -269,15 +337,15 @@ func end_shot() -> void:
 	if _fire: _fire.emitting = false
 	if _flash: _flash.light_energy = 0
 	if _overlay: _overlay.hide()
+	if _workshop_layer and _workshop_layer.visible:
+		# The natural ending already has the last workshop image. An early skip
+		# needs one more draw to settle the backdrop after stopping the effects.
+		_workshop_view.render_target_update_mode = SubViewport.UPDATE_DISABLED if elapsed >= C.FINALE_SECONDS else SubViewport.UPDATE_ONCE
 
 func cancel() -> void:
 	end_shot()
-	if _shot_moon:
-		_shot_moon.directional_shadow_max_distance = _previous_shadow_distance
-		_shot_moon = null
-	for light in _east_floods:
-		light.distance_fade_shadow = _east_floods[light]
-	_east_floods.clear()
+	_discard_workshop_view()
+	_restore_workshop_shadows()
 	for layer in _hidden:
 		if is_instance_valid(layer): layer.show()
 	_hidden.clear()
@@ -285,6 +353,15 @@ func cancel() -> void:
 		_camera.clear_current()
 		var player := get_tree().get_first_node_in_group("player") as FirstPersonPlayer
 		if player: player.camera.make_current()
+
+func _discard_workshop_view() -> void:
+	if _workshop_layer and _workshop_layer.visible:
+		_workshop_layer.hide()
+		_workshop_view.render_target_update_mode = SubViewport.UPDATE_DISABLED
+		get_viewport().disable_3d = _previous_disable_3d
+
+func _exit_tree() -> void:
+	_discard_workshop_view()
 
 func _flow_changed(_from: GameStateMachine.State, to: GameStateMachine.State) -> void:
 	if _sound: _sound.stream_paused = to == GameStateMachine.State.PAUSED
