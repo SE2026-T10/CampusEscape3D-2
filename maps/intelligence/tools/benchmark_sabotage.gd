@@ -95,23 +95,27 @@ func _sample(repeat: int) -> bool:
 			peak_at = (now - start) / 1000000.0
 		peak_draws = maxi(peak_draws, int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)))
 		if now - start > 8000000 or flow.state == GameStateMachine.State.PAUSED: return false
-	if frames.is_empty() or device.detonations != 1: return false
+	if frames.is_empty(): return false
 	var first_ms: float = frames.front()
 	var win_ms: float = frames.back()
 	var post_until := previous + 750000
-	var post_peak := 0.0
+	var post_frames: Array[float] = []
+	# Keep validation, sorting, device queries, and file I/O outside this window.
 	while previous < post_until:
 		await RenderingServer.frame_post_draw
 		var now := Time.get_ticks_usec()
-		post_peak = maxf(post_peak, (now - previous) / 1000.0)
+		post_frames.append((now - previous) / 1000.0)
 		previous = now
+	if device.detonations != 1: return false
 	frames.sort()
+	post_frames.sort()
 	var entry := {"repeat": repeat, "frames": frames.size(), "actors": actors,
 		"median_ms": frames[ceili(frames.size() * .5) - 1], "p95_ms": frames[ceili(frames.size() * .95) - 1],
 		"p99_ms": frames[ceili(frames.size() * .99) - 1], "max_ms": peak_ms,
 		"max_at_finale_seconds": peak_at, "peak_draw_calls": peak_draws,
 		"first_ms": first_ms, "trigger_ms": trigger_ms, "first_render_ms": first_render_ms,
-		"win_ms": win_ms, "after_win_peak_ms": post_peak}
+		"win_ms": win_ms, "after_win_p95_ms": post_frames[ceili(post_frames.size() * .95) - 1],
+		"after_win_peak_ms": post_frames.back()}
 	samples.append(entry)
 	print("K17 V5 FINALE RENDER ", JSON.stringify(entry))
 	current_scene.queue_free()

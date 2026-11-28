@@ -4,6 +4,8 @@ const C := preload("res://maps/intelligence/resources/layout/k17_sabotage.gd")
 const WORKSHOP_SHADOW_DISTANCE := 24.0
 const WORKSHOP_RENDER_HEIGHT := 900.0
 const WORKSHOP_EFFECT_HEIGHT := 720.0
+const WORKSHOP_RESULTS_LEAD := .25
+const WORKSHOP_RESULTS_TINT := Color(.27, .42, .33)
 var active := false
 var elapsed := 0.0
 var run_id := -1
@@ -23,6 +25,7 @@ var _warm_view: SubViewport
 var _warm_cover: CanvasLayer
 var _workshop_view: SubViewport
 var _workshop_layer: CanvasLayer
+var _workshop_backdrop: TextureRect
 var _workshop_effects: SubViewport
 var _workshop_effect_image: TextureRect
 var _workshop_particles: Array[CPUParticles3D] = []
@@ -151,7 +154,7 @@ func _setup_workshop_view() -> void:
 	_workshop_layer.layer = 10
 	_workshop_layer.hide()
 	add_child(_workshop_layer)
-	_add_workshop_image(_workshop_view)
+	_workshop_backdrop = _add_workshop_image(_workshop_view)
 	_setup_workshop_effects()
 	_resize_workshop_view()
 	viewport.size_changed.connect(_resize_workshop_view)
@@ -357,6 +360,13 @@ func _physics_process(delta: float) -> void:
 	var flash := clampf(1.0 - (elapsed - C.DETONATE_AT) / .35, 0.0, 1.0) if effects_played else 0.0
 	if _workshop_layer and _workshop_layer.visible:
 		_workshop_glow.modulate.a = .5 * flash
+		if elapsed >= C.FINALE_SECONDS - WORKSHOP_RESULTS_LEAD \
+				and flow.applied_mouse_mode == Input.MOUSE_MODE_CAPTURED and OS.get_name() == "Windows":
+			# Actors are frozen. Prepare the interactive card before changing the game state.
+			flow._apply_mouse(Input.MOUSE_MODE_VISIBLE)
+			var menus := get_parent().get_parent().get_node_or_null("GameMenus")
+			if menus and menus.has_method("prepare_workshop_summary"):
+				menus.prepare_workshop_summary()
 	else:
 		_flash.light_energy = 3.5 * flash
 	if elapsed >= C.FINALE_SECONDS: finish()
@@ -385,6 +395,12 @@ func finish() -> void:
 	var m := _mission()
 	if m: m.complete_finale(run_id)
 
+func tint_workshop_result() -> bool:
+	if not _workshop_layer or not _workshop_layer.visible: return false
+	# Dim the fixed shot with the existing canvas material in one draw.
+	_workshop_backdrop.self_modulate = WORKSHOP_RESULTS_TINT
+	return true
+
 func end_shot() -> void:
 	active = false
 	if _sound: _sound.stop()
@@ -400,6 +416,11 @@ func end_shot() -> void:
 
 func cancel() -> void:
 	end_shot()
+	if _workshop_layer and _workshop_layer.visible:
+		var flow := GameFlow.find(self)
+		if flow and flow.state == GameStateMachine.State.PLAYING and not flow.is_leaving() \
+				and flow.applied_mouse_mode == Input.MOUSE_MODE_VISIBLE:
+			flow._apply_mouse(Input.MOUSE_MODE_CAPTURED)
 	_discard_workshop_view()
 	_restore_workshop_shadows()
 	for layer in _hidden:
@@ -413,6 +434,7 @@ func cancel() -> void:
 func _discard_workshop_view() -> void:
 	if _workshop_layer and _workshop_layer.visible:
 		_workshop_layer.hide()
+		_workshop_backdrop.self_modulate = Color.WHITE
 		_workshop_view.render_target_update_mode = SubViewport.UPDATE_DISABLED
 		get_viewport().disable_3d = _previous_disable_3d
 

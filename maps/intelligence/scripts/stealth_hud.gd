@@ -2,6 +2,7 @@ extends StealthHud
 
 
 func _process(delta: float) -> void:
+	if not visible: return
 	super(delta)
 	var mission := MapHudProvider.find_for(self) as K17MissionController
 	var director := StealthDirector.find(self)

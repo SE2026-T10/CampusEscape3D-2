@@ -35,8 +35,25 @@ func _warm_result_text() -> void:
 	RenderingServer.free_rid(canvas)
 
 func _pop_title() -> void:
-	# The panel already fades in. Keep the heading at its warmed, native font scale.
+	# Keep the heading at its warmed, native font scale.
 	win_title.scale = Vector2.ONE
+
+func _fade_in(panel: Control, seconds: float) -> void:
+	if panel == win_panel:
+		panel.self_modulate.a = 1.0
+		var objectives := ObjectiveManager.find(self)
+		if objectives and objectives.escape_route == &"maintenance" \
+				and objectives.is_completed(K17MissionController.SABOTAGE):
+			var finale := get_parent().get_node_or_null("Gameplay/ExtractionFinale")
+			if finale and finale.tint_workshop_result():
+				panel.self_modulate.a = 0.0
+			panel.modulate.a = 1.0
+			return
+	super(panel, seconds)
+
+func prepare_workshop_summary() -> void:
+	_win_stats.text = get_win_text()
+	_win_stats.get_combined_minimum_size()
 
 func get_controls_text() -> String:
 	return "WASD di chuyển · Shift chạy · C/Ctrl cúi · E/giữ E tương tác\nV camera B1 · R gọi chốt · M bản đồ · J nhật ký\n1–3 chọn đồ · F ném chai · Esc/P tạm dừng"

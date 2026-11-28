@@ -214,20 +214,29 @@ func _finale_and_pause() -> void:
 	_expect(not device.get_node("Intact").visible and device.get_node("Damaged").visible,"Destroyed equipment replaces the intact visual")
 	if finale._workshop_effects:
 		_expect(finale._workshop_effect_image.visible and finale._workshop_glow.get_world_3d() != finale.get_world_3d(),"B draws the blast in its separate effect world")
+	var audio := AudioDirector.find(level)
+	var objective_cues := audio.played.count("objective_complete")
 	flow._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
 	await _frames(3)
 	_expect(flow.state==G.PAUSED and finale._sound.stream_paused,"Focus loss pauses cinematic sound and gameplay")
 	flow.resume()
-	await _frames(200)
+	await _frames(165)
+	if finale._workshop_effects and OS.get_name() == "Windows":
+		_expect(flow.state==G.PLAYING and flow.applied_mouse_mode==Input.MOUSE_MODE_VISIBLE,"B releases the Windows cursor before presenting the results")
+	await _frames(35)
 	_expect(flow.state==G.WIN and not finale.active and device.detonations==1,"Natural finale reaches WIN once")
 	_expect(host.get_viewport().get_camera_3d() == finale._camera and not level.get_node("ObjectiveHud").visible,"B keeps the final shot behind results with the gameplay HUD hidden")
 	if finale._workshop_effects:
 		_expect(not finale._workshop_effect_image.visible and finale._workshop_effects.render_target_update_mode == SubViewport.UPDATE_DISABLED,"WIN stops drawing the moving effects")
+	var menus := level.get_node("GameMenus") as GameMenus
+	_expect(menus.win_panel.visible and menus.win_panel.modulate.a == 1.0 and menus.play_again_button.has_focus(),"B results appear at full opacity and keep keyboard focus")
+	if finale._workshop_backdrop:
+		_expect(menus.win_panel.self_modulate.a == 0.0 and finale._workshop_backdrop.self_modulate != Color.WHITE,"WIN dims the cached shot in the backdrop draw")
+	_expect(audio.played.count("victory") == 1 and audio.played.count("objective_complete") == objective_cues,"Extraction plays the victory cue without a second completion sound")
 	_expect(is_equal_approx(mission.extraction_play_time,play_time),"Results preserve the gameplay time captured at extraction")
 	_expect(level.get_node("GameMenus").get_win_text().contains("phá hủy") and mission.time_left==remaining,"Vietnamese result includes sabotage and frozen remaining time")
 	mission.complete_finale(mission.run_id)
 	_expect(device.detonations==1 and flow.state==G.WIN,"Late finish callbacks are harmless")
-	var menus := level.get_node("GameMenus") as GameMenus
 	var window := host.get_window()
 	var previous_scale := GameSettings.hud_scale
 	var previous_size := window.size
