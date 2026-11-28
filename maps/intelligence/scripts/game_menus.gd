@@ -1,5 +1,12 @@
 extends GameMenus
 ## Preserve the shared menus; show the gameplay snapshot instead of cinematic time.
+const WORKSHOP_RESULT_HEIGHT := 900.0
+
+var _result_view: SubViewport
+var _result_ui: CanvasLayer
+var _result_background: TextureRect
+var _result_image: TextureRect
+
 func _ready() -> void:
 	super()
 	win_title.text = "HOÀN THÀNH NHIỆM VỤ"
@@ -19,7 +26,79 @@ func _ready() -> void:
 	for label in pause_panel.find_children("*", "Label", true, false):
 		if label.text == "PAUSED": label.text = "TẠM DỪNG"
 	if DisplayServer.get_name() != "headless":
+		_setup_result_view()
 		_warm_result_text.call_deferred()
+
+func _setup_result_view() -> void:
+	_result_view = SubViewport.new()
+	_result_view.disable_3d = true
+	_result_view.gui_disable_input = true
+	_result_view.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	_result_view.size_2d_override_stretch = true
+	add_child(_result_view)
+	_result_background = _result_texture(_result_view)
+	_result_image = _result_texture(self)
+	_result_image.texture = _result_view.get_texture()
+	_result_image.hide()
+	_result_ui = CanvasLayer.new()
+	_result_ui.layer = layer
+	_result_ui.custom_viewport = _result_view
+	add_child(_result_ui)
+	for button in [play_again_button, win_menu_button]:
+		button.draw.connect(_redraw_result)
+	get_viewport().size_changed.connect(_resize_result_view)
+	_resize_result_view()
+	_result_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+
+func _result_texture(parent: Node) -> TextureRect:
+	var image := TextureRect.new()
+	image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	parent.add_child(image)
+	image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	return image
+
+func _resize_result_view() -> void:
+	var viewport := get_viewport()
+	var pixels := viewport.get_texture().get_size().max(Vector2(2, 2))
+	_result_view.size = Vector2i((pixels * minf(1.0, WORKSHOP_RESULT_HEIGHT / pixels.y)).round())
+	_result_view.size_2d_override = Vector2i(viewport.get_visible_rect().size)
+	_redraw_result()
+
+func _redraw_result() -> void:
+	if _result_image.visible:
+		_result_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+
+func _cache_workshop_result(backdrop: TextureRect) -> void:
+	# The controls remain in the window for native input and keyboard focus.
+	prepare_workshop_result()
+	_set_result_backdrop(backdrop)
+	_result_background.self_modulate = backdrop.self_modulate
+	_result_image.show()
+	backdrop.hide()
+	_redraw_result()
+	if not play_again_button.has_focus():
+		play_again_button.grab_focus()
+
+func prepare_workshop_result() -> void:
+	if _result_ui and win_panel.get_parent() != _result_ui:
+		win_panel.reparent(_result_ui, false)
+
+func _set_result_backdrop(backdrop: TextureRect) -> void:
+	_result_background.texture = backdrop.texture
+	_result_background.stretch_mode = backdrop.stretch_mode
+
+func warm_workshop_result(backdrop: TextureRect) -> void:
+	if not _result_view: return
+	_set_result_backdrop(backdrop)
+	_result_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+
+func cancel_workshop_result() -> void:
+	if not _result_ui or win_panel.get_parent() != _result_ui: return
+	_result_image.hide()
+	_result_background.texture = null
+	_result_view.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	win_panel.reparent(self, false)
 
 func _warm_result_text() -> void:
 	# Use the real fonts and viewport scale without making the panel visible or focusable.
@@ -47,6 +126,8 @@ func _fade_in(panel: Control, seconds: float) -> void:
 			var finale := get_parent().get_node_or_null("Gameplay/ExtractionFinale")
 			if finale and finale.tint_workshop_result():
 				panel.self_modulate.a = 0.0
+				if _result_view:
+					_cache_workshop_result(finale._workshop_backdrop)
 			panel.modulate.a = 1.0
 			return
 	super(panel, seconds)

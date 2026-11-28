@@ -141,3 +141,39 @@ Sau khung đầu `WIN`, đỉnh 750 ms trung vị giảm từ 12,329 xuống 12,
 - Có render. 91/91 kiểm thử phá hoại và 134/134 kiểm thử 04-B đạt. Benchmark từ mã nguồn chạy ở 1080p và 720p. Ảnh và luồng tự động xác nhận góc xưởng, chữ kết quả, focus nút Chơi lại và viewport sau khi chơi lại.
 - Kiểm thử K17, mỹ thuật, kiểm tra tập lệnh, hợp đồng map và luồng chọn map đạt. Cả hai lượt tuyến B có và không có lính đều thắng.
 - Bản Windows release xuất thành công. Kiểm tra PCK cách ly mở được cả hai scene K17.
+
+## Giảm chi phí dựng hình sau WIN
+
+Cảnh B chuẩn bị bộ đệm kết quả trong lúc tải K17. Khi báo thắng, ảnh nền xưởng và bảng kết quả được vẽ vào cùng một bộ đệm. Bộ đệm giới hạn chiều cao 900 pixel, nên cửa sổ 1920 × 1080 dùng ảnh 1600 × 900 và cửa sổ 1280 × 720 dùng ảnh 1280 × 720. Cửa sổ chỉ dựng lại nội dung bộ đệm khi giao diện đổi, chẳng hạn lúc di chuyển focus, rê chuột hoặc đổi kích thước cửa sổ. Nút Chơi lại và Về menu tiếp tục nhận chuột và bàn phím như trước. Khi hủy cảnh hoặc khôi phục checkpoint, bảng kết quả trở về lớp giao diện thông thường.
+
+Trong cảnh B, viewport lửa, khói và tia lửa chỉ dựng ảnh theo nhịp mô phỏng. Sau khi hạt và ánh chớp kết thúc, viewport này ngừng dựng. Trường hợp bấm Enter để bỏ qua cũng tắt viewport hiệu ứng khi vào màn thắng.
+
+Bản đối chứng là `8b47211`. Cùng máy Quadro P1000, tất cả lượt đo dùng Windows release, VSync tắt, 10 NPC trước khi thoát và thư mục cache ứng dụng trống mới cho từng tiến trình. Cache trình điều khiển được giữ lại. Mỗi cặp chạy hai bản ở cùng độ phân giải với thứ tự luân phiên. P95 và đỉnh trong 750 ms được tính từ các khoảng giữa khung bắt đầu ngay sau khung `WIN` đầu tiên, trước khi truy vấn thiết bị hoặc ghi tệp. P95 cảnh B tính riêng, từ lúc xác nhận thoát tới hết khung `WIN` đầu tiên.
+
+Đối chứng bốn cặp tại mỗi độ phân giải. Trong khoảng sau `WIN`, bảng kết quả ở trạng thái chờ và phép đo lấy trọn khung chạm mốc 750 ms. Hai tập lệnh K17 thay đổi trong gói đo trùng SHA-256 với mã nguồn của bản sửa.
+
+| Chỉ số trước → sau (ms) | 1080p | 720p |
+| --- | ---: | ---: |
+| Khung vào B, trung vị | 5,082 → 4,681 | 4,342 → 3,867 |
+| P95 cảnh B, trung vị | 7,572 → 7,075 | 5,066 → 4,592 |
+| Đỉnh cảnh B | 33,283 → 27,598 | 11,263 → 17,059 |
+| Khung đầu `WIN`, trung vị | 23,102 → 21,389 | 5,975 → 6,519 |
+| Đỉnh khung đầu `WIN` | 33,283 → 27,598 | 9,284 → 8,036 |
+| P95 trong 750 ms, trung vị | 9,066 → 8,195 | 3,729 → 3,576 |
+| Đỉnh 750 ms, trung vị | 14,550 → 11,450 | 4,948 → 4,950 |
+| Đỉnh cao nhất trong 750 ms | 19,791 → 11,608 | 6,566 → 5,835 |
+
+Ở 1080p, p95 trung vị trong 750 ms giảm 9,6% và khung chậm nhất giảm 41,3%. Đỉnh sau `WIN` giảm ở cả bốn cặp. P95 cảnh B của bản sửa cao nhất 8,084 ms, đạt mốc 16,7 ms trong cả bốn lượt. Ở 720p, khung đầu `WIN` trung vị tăng 0,544 ms, còn đỉnh khung đầu giảm 1,248 ms. Đỉnh 17,059 ms của cảnh xảy ra tại 710,112 ms sau khi xác nhận thoát, gần lúc nổ.
+
+| Độ phân giải | Cặp | Khung vào B | P95 cảnh B | Đỉnh cảnh B | Khung đầu `WIN` | P95 750 ms | Đỉnh 750 ms |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1080p | 1 | 4,390 → 6,110 | 7,099 → 7,737 | 18,190 → 27,598 | 18,190 → 27,598 | 8,866 → 7,857 | 12,200 → 11,408 |
+| 1080p | 2 | 4,172 → 4,293 | 8,002 → 6,413 | 17,740 → 13,211 | 17,740 → 10,938 | 5,905 → 8,500 | 14,257 → 10,621 |
+| 1080p | 3 | 5,774 → 4,947 | 7,142 → 8,084 | 33,283 → 26,739 | 33,283 → 22,571 | 12,490 → 7,891 | 19,791 → 11,608 |
+| 1080p | 4 | 6,702 → 4,414 | 8,096 → 6,304 | 28,014 → 20,208 | 28,014 → 20,208 | 9,265 → 9,490 | 14,843 → 11,491 |
+| 720p | 1 | 3,960 → 3,523 | 5,174 → 6,374 | 10,158 → 17,059 | 5,760 → 7,108 | 3,773 → 3,681 | 4,434 → 5,835 |
+| 720p | 2 | 4,725 → 4,213 | 5,071 → 4,696 | 11,263 → 9,295 | 6,190 → 5,930 | 5,141 → 3,393 | 6,566 → 4,397 |
+| 720p | 3 | 5,201 → 3,492 | 4,349 → 4,482 | 7,736 → 11,433 | 4,365 → 5,840 | 3,685 → 3,471 | 4,579 → 4,930 |
+| 720p | 4 | 3,366 → 4,212 | 5,062 → 4,488 | 10,336 → 11,346 | 9,284 → 8,036 | 3,668 → 4,081 | 5,317 → 4,969 |
+
+Kiểm thử có render đạt 96/96 ca phá hoại, gồm thao tác Tab và rê chuột làm mới ảnh kết quả, bỏ qua cảnh, tạm dừng và khôi phục checkpoint. Ảnh 1080p xác nhận bộ đệm 1600 × 900, bảng kết quả đầy đủ và Chơi lại trả về góc nhìn người chơi. 134/134 ca 04-B, cả hai lượt đi tuyến B, bộ kiểm tra K17, luồng chọn map, xuất Windows và kiểm tra hai scene từ PCK cách ly đều đạt.

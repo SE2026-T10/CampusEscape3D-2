@@ -4,6 +4,7 @@ const C := preload("res://maps/intelligence/resources/layout/k17_sabotage.gd")
 const WORKSHOP_SHADOW_DISTANCE := 24.0
 const WORKSHOP_RENDER_HEIGHT := 900.0
 const WORKSHOP_EFFECT_HEIGHT := 720.0
+const WORKSHOP_RESULT_SETUP_AT := .25
 const WORKSHOP_RESULTS_LEAD := .25
 const WORKSHOP_RESULTS_TINT := Color(.27, .42, .33)
 var active := false
@@ -29,6 +30,7 @@ var _workshop_backdrop: TextureRect
 var _workshop_effects: SubViewport
 var _workshop_effect_image: TextureRect
 var _workshop_particles: Array[CPUParticles3D] = []
+var _workshop_emitters_left := 0
 var _workshop_glow: Sprite3D
 var _workshop_intro_ready := false
 var _previous_disable_3d := false
@@ -183,6 +185,8 @@ func _setup_workshop_effects() -> void:
 	camera.make_current()
 	for source in [_smoke, _sparks, _fire]:
 		var particle := source.duplicate() as CPUParticles3D
+		particle.fixed_fps = Engine.physics_ticks_per_second
+		particle.finished.connect(_workshop_emitter_finished)
 		_workshop_effects.add_child(particle)
 		_workshop_particles.append(particle)
 	_workshop_glow = Sprite3D.new()
@@ -230,6 +234,9 @@ func _finish_workshop_warmup() -> void:
 	_overlay.hide()
 	_warm_cover.queue_free()
 	_warm_cover = null
+	var menus := get_parent().get_parent().get_node_or_null("GameMenus")
+	if menus and menus.has_method("warm_workshop_result"):
+		menus.warm_workshop_result(_workshop_backdrop)
 
 func _process(_delta: float) -> void:
 	if not is_instance_valid(_warmup):
@@ -359,7 +366,17 @@ func _physics_process(delta: float) -> void:
 			SoundCaptions.cue(self, "k17_sabotage", "Vụ nổ từ khu thiết bị tình báo dự phòng")
 	var flash := clampf(1.0 - (elapsed - C.DETONATE_AT) / .35, 0.0, 1.0) if effects_played else 0.0
 	if _workshop_layer and _workshop_layer.visible:
-		_workshop_glow.modulate.a = .5 * flash
+		if elapsed - delta < WORKSHOP_RESULT_SETUP_AT and elapsed >= WORKSHOP_RESULT_SETUP_AT:
+			var menus := get_parent().get_parent().get_node_or_null("GameMenus")
+			if menus and menus.has_method("prepare_workshop_result"):
+				menus.prepare_workshop_result()
+		if _workshop_effect_image.visible:
+			_workshop_glow.modulate.a = .5 * flash
+			if _workshop_emitters_left > 0 or flash > 0.0:
+				# The fixed camera needs one effect image per simulation tick.
+				_workshop_effects.render_target_update_mode = SubViewport.UPDATE_ONCE
+			else:
+				_stop_workshop_effects()
 		if elapsed >= C.FINALE_SECONDS - WORKSHOP_RESULTS_LEAD \
 				and flow.applied_mouse_mode == Input.MOUSE_MODE_CAPTURED and OS.get_name() == "Windows":
 			# Actors are frozen. Prepare the interactive card before changing the game state.
@@ -375,11 +392,23 @@ func _play_effects() -> void:
 	var particles: Array[CPUParticles3D] = [_smoke, _sparks, _fire]
 	if _workshop_layer and _workshop_layer.visible:
 		particles = _workshop_particles
-		_workshop_effects.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+		_workshop_emitters_left = particles.size()
 		_workshop_effect_image.show()
 	for particle in particles:
+		particle.show()
 		particle.restart()
 		particle.emitting = true
+
+func _workshop_emitter_finished() -> void:
+	_workshop_emitters_left = maxi(0, _workshop_emitters_left - 1)
+
+func _stop_workshop_effects() -> void:
+	for particle in _workshop_particles:
+		particle.emitting = false
+		particle.hide()
+	_workshop_emitters_left = 0
+	_workshop_effects.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	_workshop_effect_image.hide()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if active and elapsed >= .5 and event.is_action_pressed("ui_accept") and not event.is_echo():
@@ -409,14 +438,15 @@ func end_shot() -> void:
 	if _fire: _fire.emitting = false
 	if _flash: _flash.light_energy = 0
 	if _overlay: _overlay.hide()
-	if _workshop_layer and _workshop_layer.visible:
-		for particle in _workshop_particles: particle.emitting = false
-		_workshop_effects.render_target_update_mode = SubViewport.UPDATE_DISABLED
-		_workshop_effect_image.hide()
+	if _workshop_effect_image and _workshop_effect_image.visible:
+		_stop_workshop_effects()
 
 func cancel() -> void:
 	end_shot()
 	if _workshop_layer and _workshop_layer.visible:
+		var menus := get_parent().get_parent().get_node_or_null("GameMenus")
+		if menus and menus.has_method("cancel_workshop_result"):
+			menus.cancel_workshop_result()
 		var flow := GameFlow.find(self)
 		if flow and flow.state == GameStateMachine.State.PLAYING and not flow.is_leaving() \
 				and flow.applied_mouse_mode == Input.MOUSE_MODE_VISIBLE:
@@ -434,6 +464,7 @@ func cancel() -> void:
 func _discard_workshop_view() -> void:
 	if _workshop_layer and _workshop_layer.visible:
 		_workshop_layer.hide()
+		_workshop_backdrop.show()
 		_workshop_backdrop.self_modulate = Color.WHITE
 		_workshop_view.render_target_update_mode = SubViewport.UPDATE_DISABLED
 		get_viewport().disable_3d = _previous_disable_3d
