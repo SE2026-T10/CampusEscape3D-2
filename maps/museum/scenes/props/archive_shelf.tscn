@@ -1,0 +1,136 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_frame"]
+albedo_color = Color(0.22, 0.28, 0.3, 1)
+metallic = 0.7
+roughness = 0.34
+
+[sub_resource type="StandardMaterial3D" id="Material_shelf"]
+albedo_color = Color(0.37, 0.25, 0.15, 1)
+roughness = 0.62
+
+[sub_resource type="StandardMaterial3D" id="Material_box"]
+albedo_color = Color(0.48, 0.36, 0.23, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Material_file"]
+albedo_color = Color(0.34, 0.42, 0.48, 1)
+roughness = 0.86
+
+[sub_resource type="BoxMesh" id="Mesh_post"]
+material = SubResource("Material_frame")
+size = Vector3(0.08, 2.25, 0.08)
+
+[sub_resource type="BoxMesh" id="Mesh_shelf"]
+material = SubResource("Material_shelf")
+size = Vector3(1.75, 0.1, 0.62)
+
+[sub_resource type="BoxMesh" id="Mesh_box"]
+material = SubResource("Material_box")
+size = Vector3(0.36, 0.31, 0.31)
+
+[sub_resource type="BoxMesh" id="Mesh_file"]
+material = SubResource("Material_file")
+size = Vector3(0.18, 0.38, 0.25)
+
+[sub_resource type="BoxShape3D" id="Shape_shelf_board"]
+size = Vector3(1.75, 0.1, 0.62)
+
+[sub_resource type="BoxShape3D" id="Shape_shelf_post"]
+size = Vector3(0.08, 2.25, 0.08)
+
+[node name="ArchiveStorageShelf" type="StaticBody3D"]
+
+[node name="PostLeftFrontCollision" type="CollisionShape3D" parent="."]
+position = Vector3(-0.82, 1.12, 0.26)
+shape = SubResource("Shape_shelf_post")
+
+[node name="PostRightFrontCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0.82, 1.12, 0.26)
+shape = SubResource("Shape_shelf_post")
+
+[node name="PostLeftBackCollision" type="CollisionShape3D" parent="."]
+position = Vector3(-0.82, 1.12, -0.26)
+shape = SubResource("Shape_shelf_post")
+
+[node name="PostRightBackCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0.82, 1.12, -0.26)
+shape = SubResource("Shape_shelf_post")
+
+[node name="LowerShelfCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.28, 0)
+shape = SubResource("Shape_shelf_board")
+
+[node name="MiddleShelfCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.9, 0)
+shape = SubResource("Shape_shelf_board")
+
+[node name="UpperShelfCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.52, 0)
+shape = SubResource("Shape_shelf_board")
+
+[node name="TopShelfCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 2.12, 0)
+shape = SubResource("Shape_shelf_board")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+position = Vector3(0, 1.1, 0)
+avoidance_enabled = true
+radius = 1.0
+height = 2.25
+
+[node name="PostLeftFront" type="MeshInstance3D" parent="."]
+position = Vector3(-0.82, 1.12, 0.26)
+mesh = SubResource("Mesh_post")
+
+[node name="PostRightFront" type="MeshInstance3D" parent="."]
+position = Vector3(0.82, 1.12, 0.26)
+mesh = SubResource("Mesh_post")
+
+[node name="PostLeftBack" type="MeshInstance3D" parent="."]
+position = Vector3(-0.82, 1.12, -0.26)
+mesh = SubResource("Mesh_post")
+
+[node name="PostRightBack" type="MeshInstance3D" parent="."]
+position = Vector3(0.82, 1.12, -0.26)
+mesh = SubResource("Mesh_post")
+
+[node name="LowerShelf" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.28, 0)
+mesh = SubResource("Mesh_shelf")
+
+[node name="MiddleShelf" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.9, 0)
+mesh = SubResource("Mesh_shelf")
+
+[node name="UpperShelf" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.52, 0)
+mesh = SubResource("Mesh_shelf")
+
+[node name="TopShelf" type="MeshInstance3D" parent="."]
+position = Vector3(0, 2.12, 0)
+mesh = SubResource("Mesh_shelf")
+
+[node name="ArchiveBox1" type="MeshInstance3D" parent="."]
+position = Vector3(-0.45, 0.5, 0)
+mesh = SubResource("Mesh_box")
+
+[node name="ArchiveBox2" type="MeshInstance3D" parent="."]
+position = Vector3(0.34, 0.5, 0)
+mesh = SubResource("Mesh_box")
+
+[node name="FileBox1" type="MeshInstance3D" parent="."]
+position = Vector3(-0.46, 1.17, 0)
+mesh = SubResource("Mesh_file")
+
+[node name="FileBox2" type="MeshInstance3D" parent="."]
+position = Vector3(-0.2, 1.17, 0)
+mesh = SubResource("Mesh_file")
+
+[node name="FileBox3" type="MeshInstance3D" parent="."]
+position = Vector3(0.1, 1.17, 0)
+mesh = SubResource("Mesh_file")
+
+[node name="ArchiveBox3" type="MeshInstance3D" parent="."]
+position = Vector3(0.34, 1.72, 0)
+mesh = SubResource("Mesh_box")

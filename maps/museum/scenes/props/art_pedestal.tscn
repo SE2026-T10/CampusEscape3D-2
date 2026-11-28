@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="res://maps/museum/scenes/props/statue_bust.tscn" id="1_statue"]
+
+[sub_resource type="StandardMaterial3D" id="Material_stone"]
+albedo_color = Color(0.83, 0.81, 0.75, 1)
+roughness = 0.36
+
+[sub_resource type="StandardMaterial3D" id="Material_trim"]
+albedo_color = Color(0.6, 0.43, 0.18, 1)
+metallic = 0.72
+roughness = 0.27
+
+[sub_resource type="BoxMesh" id="Mesh_pedestal_foot"]
+material = SubResource("Material_trim")
+size = Vector3(1.12, 0.16, 1.12)
+
+[sub_resource type="BoxMesh" id="Mesh_pedestal_column"]
+material = SubResource("Material_stone")
+size = Vector3(0.82, 0.72, 0.82)
+
+[sub_resource type="BoxMesh" id="Mesh_pedestal_cap"]
+material = SubResource("Material_trim")
+size = Vector3(1.04, 0.12, 1.04)
+
+[sub_resource type="BoxShape3D" id="Shape_pedestal"]
+size = Vector3(0.82, 0.72, 0.82)
+
+[node name="ArtPedestal" type="StaticBody3D"]
+
+[node name="PedestalCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.52, 0)
+shape = SubResource("Shape_pedestal")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+position = Vector3(0, 0.5, 0)
+avoidance_enabled = true
+radius = 0.65
+height = 1.1
+
+[node name="Foot" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.08, 0)
+mesh = SubResource("Mesh_pedestal_foot")
+
+[node name="Column" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.52, 0)
+mesh = SubResource("Mesh_pedestal_column")
+
+[node name="Cap" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.94, 0)
+mesh = SubResource("Mesh_pedestal_cap")
+
+[node name="Bust" parent="." instance=ExtResource("1_statue")]
+position = Vector3(0, 1.06, 0)
+scale = Vector3(0.68, 0.68, 0.68)

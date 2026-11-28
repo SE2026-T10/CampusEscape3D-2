@@ -23,6 +23,7 @@ const NAV_PROBE := {
 	&"expanded_library": Vector3(0, 0.05, 32),
 	&"intelligence_k17": Vector3(-36, 0.05, 51),
 	&"isg_museum": Vector3(18, 0.05, 35),
+	&"museum": Vector3(0, 0.05, 0),
 }
 
 var failures: Array[String] = []
@@ -73,6 +74,8 @@ func _check_catalog() -> void:
 	_expect(unique.size() == LevelCatalog.LEVELS.size(), "Map ids must be unique.")
 	_expect(ids.has(LevelCatalog.MUSEUM) and ids.find(LevelCatalog.MUSEUM)==ids.find(LevelCatalog.INTELLIGENCE)+1,
 		"ISG Museum must follow K17 in the catalog.")
+	_expect(LevelCatalog.scene_of(LevelCatalog.MUSEUM_HEIST) == "res://maps/museum/scenes/museum_heist.tscn",
+		"Museum Heist must be registered with its playable scene.")
 	_expect(LevelCatalog.scene_of(LevelCatalog.TUTORIAL) == MainMenu.LEVEL_SCENE, "The tutorial entry must be the scene the menu always started.")
 	_expect(LevelCatalog.scene_of(&"no_such_map") == "", "An unknown map has no scene.")
 	_expect(LevelCatalog.test_scene_of(&"no_such_map") == "" and LevelCatalog.test_scene_of(LevelCatalog.TUTORIAL) == "", "Unknown maps and maps without a test variant have no test scene.")
@@ -94,6 +97,8 @@ func _check_menu() -> void:
 		_expect(menu.level_buttons[LevelCatalog.MUSEUM].text=="ISG Museum — Phi vụ bảo tàng"
 			and menu.test_buttons[LevelCatalog.MUSEUM].text=="ISG Museum — Chỉnh map không bảo vệ",
 			"Both museum titles must match the catalog's playable modes.")
+		_expect(menu.level_buttons[LevelCatalog.MUSEUM_HEIST].text == "Museum Heist",
+			"Museum Heist must have a playable button in the main menu.")
 		# Derive keyboard navigation from the catalog, including newly added maps.
 		var ordered: Array[Button] = []
 		for entry in LevelCatalog.LEVELS:

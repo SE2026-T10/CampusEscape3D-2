@@ -1,0 +1,77 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_wood"]
+albedo_color = Color(0.3, 0.17, 0.1, 1)
+roughness = 0.55
+
+[sub_resource type="StandardMaterial3D" id="Material_metal"]
+albedo_color = Color(0.24, 0.29, 0.32, 1)
+metallic = 0.68
+roughness = 0.32
+
+[sub_resource type="BoxMesh" id="Mesh_seat"]
+material = SubResource("Material_wood")
+size = Vector3(2.35, 0.12, 0.48)
+
+[sub_resource type="BoxMesh" id="Mesh_back"]
+material = SubResource("Material_wood")
+size = Vector3(2.35, 0.12, 0.12)
+
+[sub_resource type="BoxMesh" id="Mesh_leg"]
+material = SubResource("Material_metal")
+size = Vector3(0.12, 0.48, 0.42)
+
+[sub_resource type="BoxMesh" id="Mesh_slats"]
+material = SubResource("Material_wood")
+size = Vector3(2.35, 0.12, 0.07)
+
+[sub_resource type="BoxShape3D" id="Shape_bench"]
+size = Vector3(2.35, 0.86, 0.55)
+
+[node name="GalleryBench" type="StaticBody3D"]
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.48, 0)
+shape = SubResource("Shape_bench")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+position = Vector3(0, 0.45, 0)
+avoidance_enabled = true
+radius = 1.25
+height = 1.0
+
+[node name="Seat" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.5, 0)
+mesh = SubResource("Mesh_seat")
+
+[node name="LeftLeg" type="MeshInstance3D" parent="."]
+position = Vector3(-0.92, 0.24, 0)
+mesh = SubResource("Mesh_leg")
+
+[node name="RightLeg" type="MeshInstance3D" parent="."]
+position = Vector3(0.92, 0.24, 0)
+mesh = SubResource("Mesh_leg")
+
+[node name="BackFrameLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.92, 0.87, -0.19)
+mesh = SubResource("Mesh_leg")
+
+[node name="BackFrameRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.92, 0.87, -0.19)
+mesh = SubResource("Mesh_leg")
+
+[node name="Back" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.82, -0.2)
+mesh = SubResource("Mesh_back")
+
+[node name="SeatSlat1" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.58, -0.14)
+mesh = SubResource("Mesh_slats")
+
+[node name="SeatSlat2" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.58, 0)
+mesh = SubResource("Mesh_slats")
+
+[node name="SeatSlat3" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.58, 0.14)
+mesh = SubResource("Mesh_slats")
