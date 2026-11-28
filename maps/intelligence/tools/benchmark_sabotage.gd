@@ -73,7 +73,11 @@ func _sample(repeat: int) -> bool:
 	await RenderingServer.frame_post_draw
 	var start := Time.get_ticks_usec()
 	var previous := start
+	var first_pre_draw := [0]
+	RenderingServer.frame_pre_draw.connect(func(): first_pre_draw[0] = Time.get_ticks_usec(), Object.CONNECT_ONE_SHOT)
 	if not mission.try_extract(&"maintenance", "Bảo trì"): return false
+	var trigger_ms := (Time.get_ticks_usec() - start) / 1000.0
+	var first_render_ms := 0.0
 	var frames: Array[float] = []
 	var peak_ms := 0.0
 	var peak_at := 0.0
@@ -83,27 +87,35 @@ func _sample(repeat: int) -> bool:
 		var now := Time.get_ticks_usec()
 		var ms := (now - previous) / 1000.0
 		previous = now
+		if frames.is_empty() and first_pre_draw[0] > start:
+			first_render_ms = (now - first_pre_draw[0]) / 1000.0
 		frames.append(ms)
 		if ms > peak_ms:
 			peak_ms = ms
 			peak_at = (now - start) / 1000000.0
 		peak_draws = maxi(peak_draws, int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)))
 		if now - start > 8000000 or flow.state == GameStateMachine.State.PAUSED: return false
-	if frames.is_empty() or device.detonations != 1: return false
+	if frames.is_empty(): return false
+	var first_ms: float = frames.front()
 	var win_ms: float = frames.back()
 	var post_until := previous + 750000
-	var post_peak := 0.0
+	var post_frames: Array[float] = []
+	# Keep validation, sorting, device queries, and file I/O outside this window.
 	while previous < post_until:
 		await RenderingServer.frame_post_draw
 		var now := Time.get_ticks_usec()
-		post_peak = maxf(post_peak, (now - previous) / 1000.0)
+		post_frames.append((now - previous) / 1000.0)
 		previous = now
+	if device.detonations != 1: return false
 	frames.sort()
+	post_frames.sort()
 	var entry := {"repeat": repeat, "frames": frames.size(), "actors": actors,
 		"median_ms": frames[ceili(frames.size() * .5) - 1], "p95_ms": frames[ceili(frames.size() * .95) - 1],
 		"p99_ms": frames[ceili(frames.size() * .99) - 1], "max_ms": peak_ms,
 		"max_at_finale_seconds": peak_at, "peak_draw_calls": peak_draws,
-		"win_ms": win_ms, "after_win_peak_ms": post_peak}
+		"first_ms": first_ms, "trigger_ms": trigger_ms, "first_render_ms": first_render_ms,
+		"win_ms": win_ms, "after_win_p95_ms": post_frames[ceili(post_frames.size() * .95) - 1],
+		"after_win_peak_ms": post_frames.back()}
 	samples.append(entry)
 	print("K17 V5 FINALE RENDER ", JSON.stringify(entry))
 	current_scene.queue_free()

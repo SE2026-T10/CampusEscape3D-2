@@ -1,0 +1,179 @@
+# Khung đầu cảnh kết qua B trên Windows
+
+Gói Windows từ `ec69243` ghi nhận 1.088,80 ms ở khung cắt sang góc xưởng trong lượt đầu 1080p. Khi tái hiện trên cùng máy bằng một tiến trình mới với thư mục cache ứng dụng trống, bản gốc có khung vào cảnh 726,614 ms. Lệnh xác nhận thoát chiếm 0,440 ms, còn khoảng từ `frame_pre_draw` tới `frame_post_draw` chiếm 724,320 ms. Chạy lại cùng thư mục cache cho khung đầu 12,031 ms. Ở 720p, cặp thăm dò cho 82,072 ms với cache trống và 12,567 ms khi dùng lại.
+
+Các số đo đặt phần chậm trong lần dựng khung đầu ở renderer Compatibility. Bản gốc chuẩn bị góc xưởng qua viewport 32 × 32 rồi giải phóng viewport này. Hai phương án thử dựng trước ở kích thước đầy đủ vẫn có khung đầu chậm khi vào cảnh. Bản cuối giữ lại viewport đã chuẩn bị, dùng lại đúng bộ đệm và camera khi vào cảnh B, rồi giữ khung xưởng cuối phía sau bảng kết quả. Viewport này còn ẩn trong lúc chuẩn bị. Ảnh kiểm tra khi tải K17 ghi nhận góc nhìn người chơi. Tài liệu Godot mô tả việc dựng trước shader trong tầm nhìn khi dùng Compatibility. [Godot về giảm khựng do biên dịch shader](https://docs.godotengine.org/en/stable/tutorials/performance/pipeline_compilations.html)
+
+Góc máy B giữ bóng trăng ở phạm vi 24 m và bỏ lượt đổ bóng của đèn cục bộ trong viewport này. Đèn vẫn chiếu sáng cảnh. Nền 3D có chiều cao tối đa 900 pixel, nên bản xuất 1920 × 1080 dựng nền ở 1600 × 900. Ở 1280 × 720, nền chạy ở kích thước gốc. Giao diện kết quả dùng độ phân giải cửa sổ.
+
+## Phương pháp đối chứng
+
+Đo hai bản Windows release từ `ec69243` và nhánh PR trên Core i7-8850H, Quadro P1000, driver NVIDIA 581.15 và Godot 4.7.2 Compatibility. Mỗi lượt mở một tiến trình mới, dùng thư mục `APPDATA` riêng để Godot tạo cache shader ứng dụng mới, tắt VSync, xác nhận kích thước bộ đệm ảnh của cửa sổ và làm nóng hai giây sau khi dựng trạng thái. Cache trình điều khiển trên đĩa được giữ lại và có thể được dùng lại giữa các lượt. Hai bản dùng chung kịch bản thoát qua B khi có 10 NPC và đổi thứ tự trong ba cặp ở mỗi độ phân giải. [Thiết lập cache Compatibility trong mã nguồn Godot](https://github.com/godotengine/godot/blob/ed1daf0bf/drivers/gles3/rasterizer_gles3.cpp#L311-L338)
+
+Khoảng đo bắt đầu khi xác nhận đường rút và kết thúc sau khung đầu trạng thái `WIN`. Ngưỡng p95 tính theo từng lượt. Đỉnh lúc tải map và đỉnh trong 750 ms sau `WIN` được ghi riêng. Thời gian render ở đây là khoảng giữa hai tín hiệu của engine.
+
+## Kết quả trước và sau
+
+| Độ phân giải đầu ra | Khung vào cảnh, trung vị (ms) | p95, trung vị (ms) | Khung chậm nhất (ms) | Khung đầu `WIN`, trung vị (ms) | Khung đầu `WIN` chậm nhất (ms) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 1080p | 55,305 → 53,116 | 17,286 → 18,312 | 57,965 → 74,305 | 13,994 → 17,235 | 16,831 → 19,744 |
+| 720p | 88,248 → 43,150 | 13,735 → 15,798 | 114,377 → 62,755 | 12,872 → 9,944 | 13,322 → 10,812 |
+
+Ở 720p, cả ba cặp đều giảm khung vào cảnh và khung đầu `WIN`. Khung chậm nhất giảm 45,1% trong khi p95 trung vị tăng 2,063 ms. Ở 1080p, khung vào cảnh trung vị giảm 2,189 ms, đồng thời khung chậm nhất và p95 tăng. P95 1080p của bản sửa nằm trên mốc 16,7 ms ở cả ba lượt.
+
+Đỉnh trong 750 ms sau `WIN` lần lượt là 26,438 → 34,558 ms ở 1080p và 24,526 → 20,610 ms ở 720p. Trung vị của đỉnh lúc tải map là 1.496,296 → 1.402,827 ms ở 1080p và 1.613,724 → 1.352,546 ms ở 720p.
+
+Trong cả 12 lượt đối chứng, khung chậm nhất trùng với khung vào cảnh. Lượt thăm dò có cú khựng 726,614 ms trước khi chạy đợt đối chứng. Số đo lớn nhất trong đợt đối chứng là 114,377 ms, nên kết quả hiện tại chỉ xác nhận hiệu quả với các cú khựng cỡ này. Đánh giá biên dịch shader vẫn dựa trên dấu hiệu cache và thời gian dựng khung trên một cấu hình GPU.
+
+| Độ phân giải | Lượt | Khung vào cảnh và khung chậm nhất trước → sau (ms) | p95 trước → sau (ms) | Khung đầu `WIN` trước → sau (ms) |
+| --- | ---: | ---: | ---: | ---: |
+| 1080p | 1 | 53,136 → 53,116 | 17,286 → 18,167 | 16,831 → 19,744 |
+| 1080p | 2 | 55,305 → 52,912 | 17,750 → 18,312 | 13,002 → 14,580 |
+| 1080p | 3 | 57,965 → 74,305 | 17,010 → 19,233 | 13,994 → 17,235 |
+| 720p | 1 | 88,017 → 43,150 | 12,651 → 14,885 | 13,322 → 10,812 |
+| 720p | 2 | 88,248 → 62,755 | 13,735 → 15,846 | 12,081 → 9,944 |
+| 720p | 3 | 114,377 → 42,173 | 16,472 → 15,798 | 12,872 → 8,167 |
+
+## Đo lại từ mã nguồn
+
+Dùng Godot 4.7.2 và renderer thật. Khi cần đo lần đầu, đặt `APPDATA` của tiến trình Godot vào một thư mục trống riêng cho mỗi lượt. Chạy các lệnh sau từ thư mục dự án.
+
+```text
+godot --path . --script res://maps/intelligence/tools/benchmark_sabotage.gd -- --1080p --repeats=1 --out=user://finale-1080p.json
+godot --path . --script res://maps/intelligence/tools/benchmark_sabotage.gd -- --repeats=1 --out=user://finale-720p.json
+```
+
+## Lần chỉnh tiếp PR #54
+
+Góc máy B đứng yên và các NPC đã bị đóng băng khi xác nhận thoát. Cảnh dùng một ảnh nền ngoại cảnh chuẩn bị lúc tải map, với lượt dựng dự phòng nếu kích thước bộ đệm thay đổi. Nền được giữ trong lúc nổ và khi hiện bảng kết quả. Viewport trong suốt chỉ vẽ lửa, khói và tia lửa ở cùng góc máy. Ánh chớp qua B dùng quầng sáng cục bộ tại điểm nổ. Nền giữ giới hạn 900 px chiều cao từ bản PR trước, còn lớp hiệu ứng có giới hạn 720 px. Bảng kết quả được vẽ ở độ phân giải cửa sổ.
+
+Đối chứng trên ba bản Windows release với cùng công cụ đo và cùng nội dung nhiệm vụ. `feature/twp` ở `ec69243` là mốc tích hợp, `7d1a7fb` là mốc PR #54 trước lần chỉnh này. Hai mốc được đo xen kẽ với một bản thử, sau đó đo bản cuối trong cùng phiên. Mỗi bản có ba lượt ở mỗi độ phân giải. Từng tiến trình dùng thư mục cache ứng dụng trống riêng. Kích thước bộ đệm cửa sổ được xác nhận bằng ảnh render, VSync tắt và có 10 NPC trước khi cắt cảnh. Cache trình điều khiển trên đĩa được giữ lại.
+
+| Độ phân giải | Bản | Khung vào cảnh, trung vị | p95, trung vị | Khung chậm nhất | Khung đầu `WIN`, trung vị | Khung đầu `WIN` chậm nhất |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 1080p | `feature/twp` | 54,865 | 15,895 | 63,057 | 16,593 | 17,594 |
+| 1080p | PR #54 cũ | 51,469 | 15,896 | 52,114 | 16,541 | 17,910 |
+| 1080p | PR #54 mới | 4,725 | 6,524 | 42,804 | 26,521 | 42,804 |
+| 720p | `feature/twp` | 86,124 | 13,988 | 91,976 | 13,421 | 14,048 |
+| 720p | PR #54 cũ | 42,152 | 13,390 | 55,951 | 7,922 | 8,288 |
+| 720p | PR #54 mới | 3,965 | 5,418 | 14,939 | 8,043 | 8,260 |
+
+Tất cả số trong bảng dùng mili giây. P95 1080p cao nhất của bản mới là 10,009 ms, nên cả ba lượt đạt mốc 16,7 ms. P95 720p giảm khoảng 60% và khung vào cảnh giảm khoảng 91% ở cả hai độ phân giải so với PR #54 cũ. Khung chậm nhất trong khoảng đo giảm, còn khung đầu `WIN` 1080p tăng. Hai đỉnh 1080p của bản mới xảy ra ngay khung đầu `WIN`. Ở 720p, ba đỉnh xảy ra khoảng 0,68–0,88 giây sau khi vào cảnh, gần lúc nổ.
+
+Phép đo 750 ms trong đợt này từng ghi đỉnh 31,369 → 85,684 ms ở 1080p và 21,382 → 19,331 ms ở 720p. Công cụ đọc thông tin thiết bị, duyệt thư mục cache và sắp xếp số liệu ngay sau khung `WIN`, nên các đỉnh này gồm chi phí của phép đo. Thay bằng kết quả đo lại ở phần sau. Các cột trong bảng trên dừng tại khung đầu `WIN`.
+
+| Độ phân giải | Bản | Lượt | Khung vào cảnh (ms) | p95 (ms) | Khung chậm nhất (ms) | Khung đầu `WIN` (ms) |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 1080p | `feature/twp` | 1 | 54,865 | 16,653 | 54,865 | 17,594 |
+| 1080p | `feature/twp` | 2 | 53,717 | 15,687 | 53,717 | 16,593 |
+| 1080p | `feature/twp` | 3 | 63,057 | 15,895 | 63,057 | 13,576 |
+| 1080p | PR #54 cũ | 1 | 50,891 | 14,990 | 50,891 | 16,541 |
+| 1080p | PR #54 cũ | 2 | 51,469 | 15,896 | 51,469 | 15,120 |
+| 1080p | PR #54 cũ | 3 | 52,114 | 16,261 | 52,114 | 17,910 |
+| 1080p | PR #54 mới | 1 | 4,644 | 6,440 | 26,521 | 26,521 |
+| 1080p | PR #54 mới | 2 | 4,725 | 6,524 | 42,804 | 42,804 |
+| 1080p | PR #54 mới | 3 | 6,620 | 10,009 | 18,583 | 11,671 |
+| 720p | `feature/twp` | 1 | 64,284 | 13,988 | 64,284 | 13,421 |
+| 720p | `feature/twp` | 2 | 86,124 | 13,969 | 86,124 | 12,280 |
+| 720p | `feature/twp` | 3 | 91,976 | 15,009 | 91,976 | 14,048 |
+| 720p | PR #54 cũ | 1 | 55,951 | 13,390 | 55,951 | 7,464 |
+| 720p | PR #54 cũ | 2 | 41,643 | 14,619 | 41,643 | 8,288 |
+| 720p | PR #54 cũ | 3 | 42,152 | 12,980 | 42,152 | 7,922 |
+| 720p | PR #54 mới | 1 | 3,965 | 5,418 | 14,939 | 8,260 |
+| 720p | PR #54 mới | 2 | 3,936 | 5,490 | 10,061 | 8,043 |
+| 720p | PR #54 mới | 3 | 4,813 | 5,395 | 10,002 | 7,247 |
+
+## Đo lại khung WIN và 750 ms sau WIN
+
+Bản trước là `3d03f46`. Các bản Windows release dùng cùng kịch bản 10 NPC, VSync tắt và thư mục cache ứng dụng trống theo từng tiến trình. Cache trình điều khiển trên đĩa được giữ lại. Mỗi bản có bốn lượt ở mỗi độ phân giải. Đo mốc trong đợt thử đầu rồi đo bản sửa cuối ngay sau đó trong cùng phiên, đổi thứ tự độ phân giải theo lượt.
+
+Cả hai gói đo dùng chung bộ mã thử dựng từ `ec69243`. Tệp kết quả thô giữ mã này trong trường `source_sha`. Phiên bản gameplay được xác định bằng mã lấy từ `3d03f46` ở gói trước và bằng nội dung các tập lệnh K17 của bản sửa ở gói sau. Các tập lệnh thay đổi trong gói sau đã được xác minh trùng SHA-256 với mã nguồn đưa lên PR.
+
+Khoảng đo cảnh bắt đầu từ lúc xác nhận thoát qua B và kết thúc tại `frame_post_draw` đầu tiên ở trạng thái `WIN`. Từ mốc đó, chỉ ghi khoảng giữa các khung cho tới 750 ms kế tiếp. Việc duyệt cache, truy vấn thiết bị, xác nhận mục tiêu và tổng hợp kết quả được thực hiện sau khi thu xong cả hai khoảng. Một lượt thăm dò cho thấy khâu tổng hợp riêng mất khoảng 18 ms ở 1080p. Đỉnh 85,684 ms của báo cáo trước có lẫn công việc này.
+
+Trong khoảng 250 ms cuối cảnh B tự chạy trên Windows, sau khi nhân vật đã đóng băng, trò chơi nhả con trỏ và chuẩn bị chữ kết quả khi bảng vẫn ẩn. Godot quay lại ngay khi chế độ chuột được yêu cầu trùng chế độ đã đặt. [Mã xử lý chế độ chuột trong Godot Windows](https://github.com/godotengine/godot/blob/ed1daf0bf/platform/windows/display_server_windows.cpp#L900-L923)
+
+Khi sang `WIN`, bảng kết quả B hiện ngay và nút Chơi lại nhận focus. Trò chơi giảm sáng trực tiếp trên ảnh nền xưởng thay cho lớp phủ xanh toàn màn hình. HUD mục tiêu, HUD cảnh giới và minimap ngừng cập nhật theo khung khi lớp HUD bị ẩn. K17 nạp trước âm thanh thắng và dùng một âm báo thắng ở điểm tập kết.
+
+### Bốn lượt tại mỗi độ phân giải
+
+Tất cả số trong bảng dùng mili giây. Các cột của cảnh B dừng ở khung đầu `WIN`. Hai cột p95 lấy trung vị của p95 từng lượt. Cột đỉnh lấy giá trị lớn nhất qua tất cả các lượt nếu không ghi trung vị.
+
+| Độ phân giải | Bản | Khung vào B, trung vị | p95 cảnh B | Đỉnh cảnh B | Khung đầu `WIN`, trung vị | Đỉnh khung đầu `WIN` | p95 trong 750 ms | Đỉnh 750 ms, trung vị | Đỉnh 750 ms |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1080p | `3d03f46` | 6,739 | 7,310 | 30,892 | 29,652 | 30,892 | 7,133 | 12,634 | 13,640 |
+| 1080p | Bản sửa | 4,467 | 6,623 | 29,842 | 18,474 | 26,248 | 7,817 | 12,037 | 17,234 |
+| 720p | `3d03f46` | 4,752 | 5,562 | 12,931 | 8,519 | 10,092 | 3,827 | 4,969 | 5,163 |
+| 720p | Bản sửa | 4,298 | 5,596 | 20,079 | 6,115 | 6,727 | 3,755 | 5,377 | 6,416 |
+
+P95 cảnh B ở 1080p đạt mốc 16,7 ms trong cả bốn lượt. Khung đầu `WIN` giảm ở cả hai độ phân giải. Ở 1080p, đỉnh 750 ms trung vị giảm nhẹ, p95 của khoảng này tăng và một lượt có khung 17,234 ms tại 57,786 ms sau `WIN`. Đỉnh 20,079 ms ở 720p xảy ra tại 698,981 ms sau lúc xác nhận thoát, khoảng thời điểm nổ của cảnh.
+
+| Độ phân giải | Lượt | Khung vào B trước → sau | p95 cảnh B trước → sau | Đỉnh cảnh B trước → sau | Khung đầu `WIN` trước → sau | Đỉnh 750 ms trước → sau |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1080p | 1 | 5,206 → 4,209 | 6,763 → 7,708 | 30,318 → 29,842 | 30,318 → 26,248 | 13,430 → 11,778 |
+| 1080p | 2 | 6,534 → 4,255 | 9,229 → 6,382 | 28,986 → 19,255 | 28,986 → 19,255 | 11,837 → 12,295 |
+| 1080p | 3 | 6,943 → 7,116 | 7,857 → 6,865 | 18,779 → 20,227 | 18,779 → 17,694 | 10,119 → 17,234 |
+| 1080p | 4 | 7,715 → 4,680 | 6,614 → 6,191 | 30,892 → 14,738 | 30,892 → 14,738 | 13,640 → 11,237 |
+| 720p | 1 | 4,196 → 3,679 | 5,175 → 4,848 | 9,147 → 14,178 | 7,967 → 4,808 | 4,279 → 4,752 |
+| 720p | 2 | 3,732 → 4,334 | 5,194 → 5,020 | 12,931 → 12,566 | 9,033 → 6,727 | 5,163 → 4,813 |
+| 720p | 3 | 8,144 → 5,356 | 6,659 → 6,182 | 11,169 → 15,844 | 10,092 → 5,948 | 5,079 → 6,416 |
+| 720p | 4 | 5,307 → 4,262 | 5,929 → 6,172 | 11,240 → 20,079 | 8,005 → 6,282 | 4,859 → 5,941 |
+
+### Đối chứng xen kẽ thêm bốn cặp 1080p
+
+Bản chạy đầu được đảo ở mỗi cặp. P95 cảnh B trung vị giảm từ 8,523 xuống 7,825 ms. Khung đầu `WIN` giảm ở cả bốn cặp, với trung vị từ 32,691 xuống 20,996 ms. Khung vào B trung vị tăng từ 4,434 lên 5,168 ms trong đợt này và vẫn thấp hơn đáng kể so với mốc `feature/twp` 54,865 ms.
+
+| Cặp | Khung vào B trước → sau | p95 cảnh B trước → sau | Đỉnh cảnh B trước → sau | Khung đầu `WIN` trước → sau | Đỉnh 750 ms trước → sau |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 4,380 → 5,153 | 8,583 → 7,645 | 46,791 → 22,264 | 46,791 → 19,173 | 10,442 → 12,551 |
+| 2 | 4,259 → 4,422 | 10,111 → 7,812 | 36,983 → 15,123 | 36,983 → 14,493 | 14,898 → 11,677 |
+| 3 | 4,488 → 5,183 | 8,104 → 8,429 | 25,920 → 22,820 | 25,920 → 22,819 | 9,620 → 10,527 |
+| 4 | 7,153 → 7,555 | 8,462 → 7,839 | 28,399 → 28,213 | 28,399 → 28,213 | 12,820 → 16,909 |
+
+### Tổng hợp 1080p
+
+Gộp cả tám lượt mỗi bản, khung vào B trung vị giảm từ 5,870 xuống 4,916 ms. P95 cảnh B trung vị giảm từ 8,283 xuống 7,676 ms và p95 cao nhất của bản sửa là 8,429 ms. Khung đầu `WIN` giảm từ 29,652 xuống 19,214 ms theo trung vị và từ 46,791 xuống 28,213 ms theo đỉnh. Đỉnh toàn cảnh giảm từ 46,791 xuống 29,842 ms, tính cả đoạn chuẩn bị kết quả. Trong hai lượt xen kẽ, đỉnh xảy ra ở khoảng 3,74–3,78 giây, gần lúc chuẩn bị bảng và nhả chuột.
+
+Sau khung đầu `WIN`, đỉnh 750 ms trung vị giảm từ 12,329 xuống 12,037 ms. P95 trung vị của khoảng này tăng từ 7,172 lên 7,998 ms. Đỉnh cao nhất tăng từ 14,898 lên 17,234 ms và bản sửa có ba khung vượt 16,7 ms trong khoảng 750 ms qua tám lượt. Kết quả xác nhận khung chuyển sang `WIN` cải thiện. Mức giảm khựng riêng trong 750 ms chưa ổn định trên cấu hình thử.
+
+### Kiểm thử hồi quy
+
+- Có render. 91/91 kiểm thử phá hoại và 134/134 kiểm thử 04-B đạt. Benchmark từ mã nguồn chạy ở 1080p và 720p. Ảnh và luồng tự động xác nhận góc xưởng, chữ kết quả, focus nút Chơi lại và viewport sau khi chơi lại.
+- Kiểm thử K17, mỹ thuật, kiểm tra tập lệnh, hợp đồng map và luồng chọn map đạt. Cả hai lượt tuyến B có và không có lính đều thắng.
+- Bản Windows release xuất thành công. Kiểm tra PCK cách ly mở được cả hai scene K17.
+
+## Giảm chi phí dựng hình sau WIN
+
+Cảnh B chuẩn bị bộ đệm kết quả trong lúc tải K17. Khi báo thắng, ảnh nền xưởng và bảng kết quả được vẽ vào cùng một bộ đệm. Bộ đệm giới hạn chiều cao 900 pixel, nên cửa sổ 1920 × 1080 dùng ảnh 1600 × 900 và cửa sổ 1280 × 720 dùng ảnh 1280 × 720. Cửa sổ chỉ dựng lại nội dung bộ đệm khi giao diện đổi, chẳng hạn lúc di chuyển focus, rê chuột hoặc đổi kích thước cửa sổ. Nút Chơi lại và Về menu tiếp tục nhận chuột và bàn phím như trước. Khi hủy cảnh hoặc khôi phục checkpoint, bảng kết quả trở về lớp giao diện thông thường.
+
+Trong cảnh B, viewport lửa, khói và tia lửa chỉ dựng ảnh theo nhịp mô phỏng. Sau khi hạt và ánh chớp kết thúc, viewport này ngừng dựng. Trường hợp bấm Enter để bỏ qua cũng tắt viewport hiệu ứng khi vào màn thắng.
+
+Bản đối chứng là `8b47211`. Cùng máy Quadro P1000, tất cả lượt đo dùng Windows release, VSync tắt, 10 NPC trước khi thoát và thư mục cache ứng dụng trống mới cho từng tiến trình. Cache trình điều khiển được giữ lại. Mỗi cặp chạy hai bản ở cùng độ phân giải với thứ tự luân phiên. P95 và đỉnh trong 750 ms được tính từ các khoảng giữa khung bắt đầu ngay sau khung `WIN` đầu tiên, trước khi truy vấn thiết bị hoặc ghi tệp. P95 cảnh B tính riêng, từ lúc xác nhận thoát tới hết khung `WIN` đầu tiên.
+
+Đối chứng bốn cặp tại mỗi độ phân giải. Trong khoảng sau `WIN`, bảng kết quả ở trạng thái chờ và phép đo lấy trọn khung chạm mốc 750 ms. Hai tập lệnh K17 thay đổi trong gói đo trùng SHA-256 với mã nguồn của bản sửa.
+
+| Chỉ số trước → sau (ms) | 1080p | 720p |
+| --- | ---: | ---: |
+| Khung vào B, trung vị | 5,082 → 4,681 | 4,342 → 3,867 |
+| P95 cảnh B, trung vị | 7,572 → 7,075 | 5,066 → 4,592 |
+| Đỉnh cảnh B | 33,283 → 27,598 | 11,263 → 17,059 |
+| Khung đầu `WIN`, trung vị | 23,102 → 21,389 | 5,975 → 6,519 |
+| Đỉnh khung đầu `WIN` | 33,283 → 27,598 | 9,284 → 8,036 |
+| P95 trong 750 ms, trung vị | 9,066 → 8,195 | 3,729 → 3,576 |
+| Đỉnh 750 ms, trung vị | 14,550 → 11,450 | 4,948 → 4,950 |
+| Đỉnh cao nhất trong 750 ms | 19,791 → 11,608 | 6,566 → 5,835 |
+
+Ở 1080p, p95 trung vị trong 750 ms giảm 9,6% và khung chậm nhất giảm 41,3%. Đỉnh sau `WIN` giảm ở cả bốn cặp. P95 cảnh B của bản sửa cao nhất 8,084 ms, đạt mốc 16,7 ms trong cả bốn lượt. Ở 720p, khung đầu `WIN` trung vị tăng 0,544 ms, còn đỉnh khung đầu giảm 1,248 ms. Đỉnh 17,059 ms của cảnh xảy ra tại 710,112 ms sau khi xác nhận thoát, gần lúc nổ.
+
+| Độ phân giải | Cặp | Khung vào B | P95 cảnh B | Đỉnh cảnh B | Khung đầu `WIN` | P95 750 ms | Đỉnh 750 ms |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1080p | 1 | 4,390 → 6,110 | 7,099 → 7,737 | 18,190 → 27,598 | 18,190 → 27,598 | 8,866 → 7,857 | 12,200 → 11,408 |
+| 1080p | 2 | 4,172 → 4,293 | 8,002 → 6,413 | 17,740 → 13,211 | 17,740 → 10,938 | 5,905 → 8,500 | 14,257 → 10,621 |
+| 1080p | 3 | 5,774 → 4,947 | 7,142 → 8,084 | 33,283 → 26,739 | 33,283 → 22,571 | 12,490 → 7,891 | 19,791 → 11,608 |
+| 1080p | 4 | 6,702 → 4,414 | 8,096 → 6,304 | 28,014 → 20,208 | 28,014 → 20,208 | 9,265 → 9,490 | 14,843 → 11,491 |
+| 720p | 1 | 3,960 → 3,523 | 5,174 → 6,374 | 10,158 → 17,059 | 5,760 → 7,108 | 3,773 → 3,681 | 4,434 → 5,835 |
+| 720p | 2 | 4,725 → 4,213 | 5,071 → 4,696 | 11,263 → 9,295 | 6,190 → 5,930 | 5,141 → 3,393 | 6,566 → 4,397 |
+| 720p | 3 | 5,201 → 3,492 | 4,349 → 4,482 | 7,736 → 11,433 | 4,365 → 5,840 | 3,685 → 3,471 | 4,579 → 4,930 |
+| 720p | 4 | 3,366 → 4,212 | 5,062 → 4,488 | 10,336 → 11,346 | 9,284 → 8,036 | 3,668 → 4,081 | 5,317 → 4,969 |
+
+Kiểm thử có render đạt 96/96 ca phá hoại, gồm thao tác Tab và rê chuột làm mới ảnh kết quả, bỏ qua cảnh, tạm dừng và khôi phục checkpoint. Ảnh 1080p xác nhận bộ đệm 1600 × 900, bảng kết quả đầy đủ và Chơi lại trả về góc nhìn người chơi. 134/134 ca 04-B, cả hai lượt đi tuyến B, bộ kiểm tra K17, luồng chọn map, xuất Windows và kiểm tra hai scene từ PCK cách ly đều đạt.

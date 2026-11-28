@@ -2,7 +2,11 @@ extends Node3D
 ## A finite presentation, independently pausable from the frozen actors.
 const C := preload("res://maps/intelligence/resources/layout/k17_sabotage.gd")
 const WORKSHOP_SHADOW_DISTANCE := 24.0
-const EAST_FLOOD_SHADOW_DISTANCE := 16.0
+const WORKSHOP_RENDER_HEIGHT := 900.0
+const WORKSHOP_EFFECT_HEIGHT := 720.0
+const WORKSHOP_RESULT_SETUP_AT := .25
+const WORKSHOP_RESULTS_LEAD := .25
+const WORKSHOP_RESULTS_TINT := Color(.27, .42, .33)
 var active := false
 var elapsed := 0.0
 var run_id := -1
@@ -19,11 +23,20 @@ var _sound_caption: Label
 var _hidden: Array[CanvasLayer] = []
 var _warmup: SubViewport
 var _warm_view: SubViewport
-var _warm_camera: Camera3D
+var _warm_cover: CanvasLayer
+var _workshop_view: SubViewport
+var _workshop_layer: CanvasLayer
+var _workshop_backdrop: TextureRect
+var _workshop_effects: SubViewport
+var _workshop_effect_image: TextureRect
+var _workshop_particles: Array[CPUParticles3D] = []
+var _workshop_emitters_left := 0
+var _workshop_glow: Sprite3D
+var _workshop_intro_ready := false
+var _previous_disable_3d := false
 var _warm_frames := 0
 var _shot_moon: DirectionalLight3D
 var _previous_shadow_distance: float
-var _east_floods: Dictionary[SpotLight3D, float] = {}
 
 func _ready() -> void:
 	_camera = Camera3D.new()
@@ -112,27 +125,124 @@ func _warm_effect_materials() -> void:
 		particle.gravity = Vector3.ZERO
 		_warmup.add_child(particle)
 		particle.emitting = true
-	# Warm the two exterior shots too: the first wide view otherwise uploads
-	# previously unseen roof batches at the moment the cinematic cuts to them.
+	# A keeps the inexpensive offscreen warm-up.
 	_warm_view = SubViewport.new()
-	_warm_view.size = Vector2i(32,32)
+	_warm_view.size = Vector2i(32, 32)
 	_warm_view.world_3d = get_world_3d()
 	_warm_view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	add_child(_warm_view)
-	_warm_camera = Camera3D.new()
-	_warm_view.add_child(_warm_camera)
-	_warm_camera.position = C.VIEWS[&"maintenance"][0]
-	_warm_camera.look_at(C.VIEWS[&"maintenance"][1])
-	_warm_camera.make_current()
+	var courtyard := Camera3D.new()
+	courtyard.fov = _camera.fov
+	_warm_view.add_child(courtyard)
+	_position_camera(courtyard, &"courtyard")
+	courtyard.make_current()
+	_setup_workshop_view()
+	RenderingServer.frame_pre_draw.connect(_warm_workshop, CONNECT_ONE_SHOT)
+
+func _setup_workshop_view() -> void:
+	var viewport := get_viewport()
+	_workshop_view = SubViewport.new()
+	_workshop_view.world_3d = get_world_3d()
+	# The moon draws the foreground shadows. The yard lights still light the shot.
+	_workshop_view.positional_shadow_atlas_size = 0
+	_workshop_view.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	add_child(_workshop_view)
+	var camera := Camera3D.new()
+	camera.fov = _camera.fov
+	_workshop_view.add_child(camera)
+	_position_camera(camera, &"maintenance")
+	camera.make_current()
+	_workshop_layer = CanvasLayer.new()
+	_workshop_layer.layer = 10
+	_workshop_layer.hide()
+	add_child(_workshop_layer)
+	_workshop_backdrop = _add_workshop_image(_workshop_view)
+	_setup_workshop_effects()
+	_resize_workshop_view()
+	viewport.size_changed.connect(_resize_workshop_view)
+
+func _add_workshop_image(viewport: SubViewport) -> TextureRect:
+	var image := TextureRect.new()
+	image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	image.texture = viewport.get_texture()
+	_workshop_layer.add_child(image)
+	image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	return image
+
+func _setup_workshop_effects() -> void:
+	# Draw the moving effects at the same angle in an otherwise empty world.
+	_workshop_effects = SubViewport.new()
+	_workshop_effects.own_world_3d = true
+	_workshop_effects.transparent_bg = true
+	_workshop_effects.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	add_child(_workshop_effects)
+	var camera := Camera3D.new()
+	camera.fov = _camera.fov
+	_workshop_effects.add_child(camera)
+	_position_camera(camera, &"maintenance")
+	camera.make_current()
+	for source in [_smoke, _sparks, _fire]:
+		var particle := source.duplicate() as CPUParticles3D
+		particle.fixed_fps = Engine.physics_ticks_per_second
+		particle.finished.connect(_workshop_emitter_finished)
+		_workshop_effects.add_child(particle)
+		_workshop_particles.append(particle)
+	_workshop_glow = Sprite3D.new()
+	_workshop_glow.position = C.SMOKE
+	_workshop_glow.texture = (_fire.mesh.material as StandardMaterial3D).albedo_texture
+	_workshop_glow.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	_workshop_glow.pixel_size = .045
+	_workshop_glow.modulate = Color(1, .50, .21, .5)
+	_workshop_effects.add_child(_workshop_glow)
+	_workshop_effect_image = _add_workshop_image(_workshop_effects)
+	_workshop_effect_image.hide()
+
+func _resize_workshop_view() -> void:
+	# The result card can scale its final image without drawing the scene again.
+	if _workshop_layer.visible and not active: return
+	var size := get_viewport().get_texture().get_size().max(Vector2(2, 2))
+	var backdrop_size := Vector2i((size * minf(1.0, WORKSHOP_RENDER_HEIGHT / size.y)).round())
+	if _workshop_view.size != backdrop_size:
+		_workshop_view.size = backdrop_size
+		_workshop_intro_ready = false
+		if _workshop_layer.visible:
+			_workshop_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+	_workshop_effects.size = Vector2i((size * minf(1.0, WORKSHOP_EFFECT_HEIGHT / size.y)).round())
+
+func _warm_workshop() -> void:
+	if active or not is_inside_tree(): return
+	# Preserve this viewport's render targets until the shot plays.
+	_warm_cover = CanvasLayer.new()
+	_warm_cover.layer = 128
+	var cover := ColorRect.new()
+	cover.color = Color.BLACK
+	cover.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cover.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_warm_cover.add_child(cover)
+	add_child(_warm_cover)
+	_apply_workshop_shadows()
+	_overlay.show()
+	_workshop_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+	_workshop_effects.render_target_update_mode = SubViewport.UPDATE_ONCE
+	RenderingServer.frame_post_draw.connect(_finish_workshop_warmup, CONNECT_ONE_SHOT)
+
+func _finish_workshop_warmup() -> void:
+	_workshop_intro_ready = true
+	_restore_workshop_shadows()
+	_overlay.hide()
+	_warm_cover.queue_free()
+	_warm_cover = null
+	var menus := get_parent().get_parent().get_node_or_null("GameMenus")
+	if menus and menus.has_method("warm_workshop_result"):
+		menus.warm_workshop_result(_workshop_backdrop)
 
 func _process(_delta: float) -> void:
 	if not is_instance_valid(_warmup):
 		set_process(false)
 		return
 	_warm_frames += 1
-	if _warm_frames == 4:
-		_warm_camera.position = C.VIEWS[&"courtyard"][0]
-		_warm_camera.look_at(C.VIEWS[&"courtyard"][1])
 	if _warm_frames >= 8:
 		_warmup.render_target_update_mode = SubViewport.UPDATE_DISABLED
 		_warmup.queue_free()
@@ -190,6 +300,22 @@ func _particles(amount: int, lifetime: float, colour: Color, minimum: float, max
 func _mission() -> K17MissionController:
 	return get_parent().get_node_or_null("Mission") as K17MissionController
 
+func _position_camera(camera: Camera3D, route: StringName) -> void:
+	var view: Array = C.VIEWS.get(route, C.VIEWS[&"maintenance"])
+	camera.position = view[0]
+	camera.look_at(view[1])
+
+func _apply_workshop_shadows() -> void:
+	var environment := get_node("../../K17Environment")
+	_shot_moon = environment.get_node("Moon")
+	_previous_shadow_distance = _shot_moon.directional_shadow_max_distance
+	_shot_moon.directional_shadow_max_distance = minf(_previous_shadow_distance, WORKSHOP_SHADOW_DISTANCE)
+
+func _restore_workshop_shadows() -> void:
+	if _shot_moon:
+		_shot_moon.directional_shadow_max_distance = _previous_shadow_distance
+		_shot_moon = null
+
 func start(route: StringName, token: int) -> bool:
 	var m := _mission()
 	if active or m == null or not m.escaped or token != m.run_id: return false
@@ -199,19 +325,18 @@ func start(route: StringName, token: int) -> bool:
 	starts += 1
 	effects_played = false
 	_sound_caption.hide()
-	var view: Array = C.VIEWS.get(route, C.VIEWS[&"maintenance"])
-	_camera.position = view[0]
-	_camera.look_at(view[1])
+	_position_camera(_camera, route)
 	if route == &"maintenance":
-		# The workshop is in the foreground. The two east yard lights sit beyond it.
-		var environment := get_node("../../K17Environment")
-		_shot_moon = environment.get_node("Moon")
-		_previous_shadow_distance = _shot_moon.directional_shadow_max_distance
-		_shot_moon.directional_shadow_max_distance = minf(_previous_shadow_distance, WORKSHOP_SHADOW_DISTANCE)
-		for light_name in ["YardFlood3", "YardFlood4"]:
-			var light := environment.get_node(light_name) as SpotLight3D
-			_east_floods[light] = light.distance_fade_shadow
-			light.distance_fade_shadow = minf(light.distance_fade_shadow, EAST_FLOOD_SHADOW_DISTANCE)
+		_apply_workshop_shadows()
+		if _workshop_view:
+			_resize_workshop_view()
+			_previous_disable_3d = get_viewport().disable_3d
+			get_viewport().disable_3d = true
+			# The fixed exterior is ready before the cut.
+			if not _workshop_intro_ready:
+				_workshop_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+			_workshop_intro_ready = false
+			_workshop_layer.show()
 	_camera.make_current()
 	var hud := get_parent().get_parent().get_node_or_null("ObjectiveHud") as ObjectiveHud
 	if hud and hud.is_journal_open(): hud.close_journal()
@@ -236,16 +361,54 @@ func _physics_process(delta: float) -> void:
 	if elapsed >= C.DETONATE_AT and not effects_played:
 		effects_played = true
 		if m.detonate_sabotage(run_id):
-			_smoke.restart()
-			_smoke.emitting = true
-			_sparks.restart()
-			_sparks.emitting = true
-			_fire.restart()
-			_fire.emitting = true
+			_play_effects()
 			_sound.play()
 			SoundCaptions.cue(self, "k17_sabotage", "Vụ nổ từ khu thiết bị tình báo dự phòng")
-	_flash.light_energy = maxf(0, 3.5 * (1.0 - (elapsed-C.DETONATE_AT)/.35)) if effects_played else 0.0
+	var flash := clampf(1.0 - (elapsed - C.DETONATE_AT) / .35, 0.0, 1.0) if effects_played else 0.0
+	if _workshop_layer and _workshop_layer.visible:
+		if elapsed - delta < WORKSHOP_RESULT_SETUP_AT and elapsed >= WORKSHOP_RESULT_SETUP_AT:
+			var menus := get_parent().get_parent().get_node_or_null("GameMenus")
+			if menus and menus.has_method("prepare_workshop_result"):
+				menus.prepare_workshop_result()
+		if _workshop_effect_image.visible:
+			_workshop_glow.modulate.a = .5 * flash
+			if _workshop_emitters_left > 0 or flash > 0.0:
+				# The fixed camera needs one effect image per simulation tick.
+				_workshop_effects.render_target_update_mode = SubViewport.UPDATE_ONCE
+			else:
+				_stop_workshop_effects()
+		if elapsed >= C.FINALE_SECONDS - WORKSHOP_RESULTS_LEAD \
+				and flow.applied_mouse_mode == Input.MOUSE_MODE_CAPTURED and OS.get_name() == "Windows":
+			# Actors are frozen. Prepare the interactive card before changing the game state.
+			flow._apply_mouse(Input.MOUSE_MODE_VISIBLE)
+			var menus := get_parent().get_parent().get_node_or_null("GameMenus")
+			if menus and menus.has_method("prepare_workshop_summary"):
+				menus.prepare_workshop_summary()
+	else:
+		_flash.light_energy = 3.5 * flash
 	if elapsed >= C.FINALE_SECONDS: finish()
+
+func _play_effects() -> void:
+	var particles: Array[CPUParticles3D] = [_smoke, _sparks, _fire]
+	if _workshop_layer and _workshop_layer.visible:
+		particles = _workshop_particles
+		_workshop_emitters_left = particles.size()
+		_workshop_effect_image.show()
+	for particle in particles:
+		particle.show()
+		particle.restart()
+		particle.emitting = true
+
+func _workshop_emitter_finished() -> void:
+	_workshop_emitters_left = maxi(0, _workshop_emitters_left - 1)
+
+func _stop_workshop_effects() -> void:
+	for particle in _workshop_particles:
+		particle.emitting = false
+		particle.hide()
+	_workshop_emitters_left = 0
+	_workshop_effects.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	_workshop_effect_image.hide()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if active and elapsed >= .5 and event.is_action_pressed("ui_accept") and not event.is_echo():
@@ -261,6 +424,12 @@ func finish() -> void:
 	var m := _mission()
 	if m: m.complete_finale(run_id)
 
+func tint_workshop_result() -> bool:
+	if not _workshop_layer or not _workshop_layer.visible: return false
+	# Dim the fixed shot with the existing canvas material in one draw.
+	_workshop_backdrop.self_modulate = WORKSHOP_RESULTS_TINT
+	return true
+
 func end_shot() -> void:
 	active = false
 	if _sound: _sound.stop()
@@ -269,15 +438,21 @@ func end_shot() -> void:
 	if _fire: _fire.emitting = false
 	if _flash: _flash.light_energy = 0
 	if _overlay: _overlay.hide()
+	if _workshop_effect_image and _workshop_effect_image.visible:
+		_stop_workshop_effects()
 
 func cancel() -> void:
 	end_shot()
-	if _shot_moon:
-		_shot_moon.directional_shadow_max_distance = _previous_shadow_distance
-		_shot_moon = null
-	for light in _east_floods:
-		light.distance_fade_shadow = _east_floods[light]
-	_east_floods.clear()
+	if _workshop_layer and _workshop_layer.visible:
+		var menus := get_parent().get_parent().get_node_or_null("GameMenus")
+		if menus and menus.has_method("cancel_workshop_result"):
+			menus.cancel_workshop_result()
+		var flow := GameFlow.find(self)
+		if flow and flow.state == GameStateMachine.State.PLAYING and not flow.is_leaving() \
+				and flow.applied_mouse_mode == Input.MOUSE_MODE_VISIBLE:
+			flow._apply_mouse(Input.MOUSE_MODE_CAPTURED)
+	_discard_workshop_view()
+	_restore_workshop_shadows()
 	for layer in _hidden:
 		if is_instance_valid(layer): layer.show()
 	_hidden.clear()
@@ -285,6 +460,17 @@ func cancel() -> void:
 		_camera.clear_current()
 		var player := get_tree().get_first_node_in_group("player") as FirstPersonPlayer
 		if player: player.camera.make_current()
+
+func _discard_workshop_view() -> void:
+	if _workshop_layer and _workshop_layer.visible:
+		_workshop_layer.hide()
+		_workshop_backdrop.show()
+		_workshop_backdrop.self_modulate = Color.WHITE
+		_workshop_view.render_target_update_mode = SubViewport.UPDATE_DISABLED
+		get_viewport().disable_3d = _previous_disable_3d
+
+func _exit_tree() -> void:
+	_discard_workshop_view()
 
 func _flow_changed(_from: GameStateMachine.State, to: GameStateMachine.State) -> void:
 	if _sound: _sound.stream_paused = to == GameStateMachine.State.PAUSED

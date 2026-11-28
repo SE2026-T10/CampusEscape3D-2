@@ -28,6 +28,7 @@ func _ready() -> void:
 	_layout_minimap()
 
 func _process(delta: float) -> void:
+	if not visible: return
 	super(delta)
 	_update_projection_panel()
 	_layout_minimap()
