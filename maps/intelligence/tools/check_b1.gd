@@ -132,7 +132,8 @@ func _run() -> void:
 	player.global_position=rig.to_global(Vector3(0,0,-1))
 	await frames(3)
 	_expect(system.cctv_sees(player),"C1 sees actual actor who steps in front")
-	_expect(StealthDirector.find(level).gather_flags(player,[]).seen,"Unhacked C1 contributes real visibility to the shared HUD")
+	var director := StealthDirector.find(level)
+	_expect(director.gather_flags(player,[]).seen and director.get("sight_source")=="Camera C1","Unhacked C1 reports its own visibility to the K17 HUD")
 	system.hacked=true
 	_expect(not StealthDirector.find(level).gather_flags(player,[]).seen,"Spoofed enemy feed does not mark the exposed player as seen by C1")
 	player.position=Vector3(-14,-4,-44)
@@ -142,6 +143,13 @@ func _run() -> void:
 	system._physics_process(.1)
 	_expect(system.revoked and system.pending==0 and system.feed_mode==0,"Seal alarm revokes live feed and cancels pending calls")
 	_expect(lock.is_open and not system.request_call(),"Alarm retains opened doorway but refuses forged requests")
+	post.machine.request_transition(GuardStateMachine.PATROL,"fixture")
+	mission.time_left=mission.escape_duration-C.SEAL_VERIFY_SECONDS+.1
+	post._physics_process(0.0)
+	_expect(not post._alarm_responded,"The posted guard verifies the seal before automatically leaving")
+	mission.time_left=mission.escape_duration-C.SEAL_VERIFY_SECONDS
+	post._physics_process(0.0)
+	_expect(post._alarm_responded,"Seal verification leads to a real investigation after four seconds")
 	post.position=Vector3(C.DOCK.x-1.4,-4,-47)
 	_expect(rig.clear_by_guard(post),"Nearby guard physically folds discovered obstacle after alarm")
 	await frames(90)

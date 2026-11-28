@@ -32,6 +32,7 @@ const CALL_DURATION := 10.0
 const CALL_COOLDOWN := 25.0
 const CALL_WINDOW := 60.0
 const CALL_LOCKOUT := 45.0
+const SEAL_VERIFY_SECONDS := 4.0
 const PUSH_SPEED := .85
 const REVERSE_SPEED := .85
 const SIDE_SPEED := .9

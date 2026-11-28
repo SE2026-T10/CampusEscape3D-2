@@ -1,8 +1,15 @@
 extends ObjectiveHud
 const Minimap := preload("res://maps/intelligence/scripts/minimap.gd")
+const Surveillance := preload("res://maps/intelligence/scripts/projection_surveillance.gd")
+const B1 := preload("res://maps/intelligence/resources/layout/k17_projection.gd")
 var minimap: Minimap
 var _layout_key := ""
+var _projection_panel: PanelContainer
 var _projection_status: Label
+var _camera_status: Label
+var _call_status: Label
+var _b1_hint: Label
+var _b1_radio: Label
 
 func _ready() -> void:
 	super()
@@ -13,35 +20,86 @@ func _ready() -> void:
 	_message.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	_message.add_theme_font_size_override("font_size",22)
 	_message.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
+	_list.hide()
+	for child in _list.get_parent().get_children():
+		if child is HSeparator: child.hide()
+	_current.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	_build_projection_panel()
 	_layout_minimap()
-	_projection_status=Label.new()
-	_projection_status.name="ProjectionStatus"
-	_projection_status.set_anchors_preset(Control.PRESET_TOP_LEFT)
-	_projection_status.size=Vector2(224,64)
-	_projection_status.add_theme_font_size_override("font_size",14)
-	_projection_status.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	_projection_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	_projection_status.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	add_child(_projection_status)
 
 func _process(delta: float) -> void:
 	super(delta)
-	_update_projection_status()
+	_update_projection_panel()
 	_layout_minimap()
 
-func _update_projection_status() -> void:
+func _build_projection_panel() -> void:
+	_projection_panel=PanelContainer.new()
+	_projection_panel.name="B1Status"
+	_projection_panel.position=Vector2(20,20)
+	_projection_panel.custom_minimum_size=Vector2(304,0)
+	_projection_panel.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	_projection_panel.add_theme_stylebox_override("panel",_panel.get_theme_stylebox("panel"))
+	add_child(_projection_panel)
+	var column:=VBoxContainer.new()
+	column.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	_projection_panel.add_child(column)
+	for id in ["Alignment","Camera","Request","Hint","Radio"]:
+		var line:=_make_label(14,HORIZONTAL_ALIGNMENT_LEFT)
+		line.name=id
+		line.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		column.add_child(line)
+	_projection_status=column.get_node("Alignment")
+	_camera_status=column.get_node("Camera")
+	_call_status=column.get_node("Request")
+	_b1_hint=column.get_node("Hint")
+	_b1_radio=column.get_node("Radio")
+	_projection_panel.hide()
+
+func _update_projection_panel() -> void:
 	var rig := get_tree().get_first_node_in_group("k17_projection_rigs") as K17ProjectionRig
+	var camera := get_tree().get_first_node_in_group("k17_b1_surveillance") as Surveillance
 	var player := get_tree().get_first_node_in_group("player") as FirstPersonPlayer
 	var flow := GameFlow.find(self)
-	var objectives := ObjectiveManager.find(self)
-	_projection_status.visible=rig!=null and player!=null and flow!=null and objectives!=null and objectives.is_completed(K17MissionController.VAULT) and flow.state==GameStateMachine.State.PLAYING and not _journal.visible and player.global_position.distance_to(rig.global_position)<6.0
-	if not _projection_status.visible: return
 	var mission := MapHudProvider.find_for(self) as K17MissionController
-	if mission and (mission.has_file or mission.finale_pending):
-		_projection_status.visible=false
-		return
-	_projection_status.text=rig.status_text()
-	_projection_status.modulate=Color("72c5ac") if rig.calibration_valid(rig.observer_eye()) and not rig.near_calibration_limit() else Color("e6c487")
+	var playing := flow!=null and flow.state==GameStateMachine.State.PLAYING and not flow.is_leaving()
+	var active := playing and mission!=null and not mission.has_file and camera!=null and rig!=null and player!=null and player.global_position.y< -2.0 and not _journal.visible
+	var near_rig := active and player.global_position.distance_to(rig.global_position)<6.0
+	_projection_panel.visible=active and (near_rig or camera.hacked)
+	var show_objective_hint := not (active and rig.holder==player)
+	if _hint.visible!=show_objective_hint:
+		_hint.visible=show_objective_hint
+		_panel.reset_size()
+	if not _projection_panel.visible: return
+	_status_panel.hide()
+	_projection_status.visible=near_rig
+	if near_rig:
+		_set_text(_projection_status,rig.status_text())
+		_projection_status.modulate=Color("a9e5cf") if rig.powered and rig.calibration_valid(rig.observer_eye()) and not rig.near_calibration_limit() else Color("ffcb81")
+	_set_text(_camera_status,camera.feed_status())
+	var feet := player.global_position
+	var in_bay := feet.distance_squared_to(B1.PREP)<4.0 or feet.distance_squared_to(B1.BAYS[0])<1.44 or feet.distance_squared_to(B1.BAYS[1])<1.44
+	var call := camera.call_status(in_bay and (near_rig or not rig.deployed))
+	_set_text(_call_status,call)
+	_call_status.visible=not call.is_empty()
+	var hint := mission.nearby_sensor_status(player)
+	if hint.is_empty() and near_rig and camera.hacked and rig.deployed:
+		if feet.distance_squared_to(B1.PREP)<4.0 and rig.holder!=player:
+			hint = "E nắm tay đẩy. Theo camera trước."
+		elif not mission.is_test_mode():
+			hint = "W1/W2 · Kiểm tra tuần tra trước khi rẽ."
+	_set_text(_b1_hint,hint)
+	_b1_hint.visible=not hint.is_empty()
+	var radio := mission.get_active_radio_message()
+	_set_text(_b1_radio, radio)
+	_b1_radio.visible = not radio.is_empty()
+	var panel_size := _projection_panel.get_combined_minimum_size()
+	if _projection_panel.size!=panel_size: _projection_panel.size=panel_size
+	var feed_top := _projection_panel.get_global_rect().end.y + 8.0
+	var feed_bottom := get_viewport().get_visible_rect().end.y
+	var captions := get_tree().get_first_node_in_group("sound_captions") as SoundCaptions
+	if captions and captions.visible:
+		feed_bottom = captions.get_global_rect().position.y - 8.0
+	camera.place_feed(Vector2(20,feed_top),_projection_panel.size.x,feed_bottom-feed_top)
 
 func open_journal(focus: StringName) -> void:
 	var rig := get_tree().get_first_node_in_group("k17_projection_rigs")
@@ -52,27 +110,24 @@ func _layout_minimap() -> void:
 	var view := get_viewport().get_visible_rect().size
 	var panel := _panel.get_global_rect()
 	var slots := _slots.get_global_rect()
-	var projection_shown := is_instance_valid(_projection_status) and _projection_status.visible
-	var key := str([view,panel,slots,projection_shown])
+	var key := str([view,panel,slots])
 	if key==_layout_key: return
 	_layout_key=key
 	var top := panel.end.y+12
 	var bottom := minf(view.y-112,slots.position.y-14)
 	minimap.position=Vector2(view.x-244,top)
-	minimap.size=Vector2(224,minf(244,maxf(130,bottom-top-(72 if projection_shown else 0))))
-	if projection_shown:
-		_projection_status.position=minimap.position+Vector2(0,minimap.size.y+8)
-	# Keep messages clear of both the right map and the left radio captions.
+	minimap.size=Vector2(224,minf(244,maxf(130,bottom-top)))
+	# The prompt stays near the crosshair. Notices use the space above the slots.
 	_message.set_anchors_preset(Control.PRESET_TOP_LEFT)
-	_message.position=Vector2(432,view.y-200)
-	var message_width := maxf(100,minimap.position.x-448)
+	var message_width := minf(560,view.x*.48)
+	_message.position=Vector2((view.x-message_width)/2,view.y-172)
 	_message.size=Vector2(message_width,72)
-	_message.add_theme_font_size_override("font_size",14 if message_width<240 else 22)
+	_message.add_theme_font_size_override("font_size",18)
 
 func get_layout_controls() -> Dictionary:
 	var controls := super()
 	controls["minimap"]=minimap
-	controls["projection_status"]=_projection_status
+	controls["projection_status"]=_projection_panel
 	return controls
 
 func get_header_text() -> String:

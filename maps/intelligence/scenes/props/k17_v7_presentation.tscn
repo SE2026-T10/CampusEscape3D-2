@@ -1,0 +1,129 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://maps/intelligence/scenes/props/route_board.tscn" id="1_board"]
+[ext_resource type="Script" path="res://maps/intelligence/scripts/route_board.gd" id="2_board_script"]
+
+[sub_resource type="StandardMaterial3D" id="Material_Lamp"]
+albedo_color = Color(0.14, 0.2, 0.19, 1)
+metallic = 0.45
+roughness = 0.74
+
+[sub_resource type="StandardMaterial3D" id="Material_DeskCard"]
+albedo_color = Color(0.085, 0.115, 0.11, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Mesh_LampBase"]
+material = SubResource("Material_Lamp")
+size = Vector3(0.32, 0.04, 0.23)
+
+[sub_resource type="CylinderMesh" id="Mesh_LampStem"]
+material = SubResource("Material_Lamp")
+top_radius = 0.018
+bottom_radius = 0.018
+height = 0.54
+
+[sub_resource type="BoxMesh" id="Mesh_LampShade"]
+material = SubResource("Material_Lamp")
+size = Vector3(0.65, 0.09, 0.22)
+
+[sub_resource type="BoxMesh" id="Mesh_Card"]
+material = SubResource("Material_DeskCard")
+size = Vector3(0.83, 0.26, 0.04)
+
+[sub_resource type="BoxMesh" id="Mesh_CardStand"]
+material = SubResource("Material_DeskCard")
+size = Vector3(0.24, 0.24, 0.16)
+
+[sub_resource type="StandardMaterial3D" id="Material_RoutePlate"]
+albedo_color = Color(0.075, 0.13, 0.12, 1)
+roughness = 0.84
+
+[sub_resource type="BoxMesh" id="Mesh_YardRoutePlate"]
+material = SubResource("Material_RoutePlate")
+size = Vector3(3.96, 0.48, 0.06)
+
+[node name="V7Presentation" type="Node3D"]
+
+[node name="B1Fork" parent="." instance=ExtResource("1_board")]
+position = Vector3(4, -4, -36.3)
+
+[node name="GroundFork" parent="." instance=ExtResource("1_board")]
+position = Vector3(4, 0, 8.9)
+ground_fork = true
+
+[node name="YardSplit" type="Node3D" parent="."]
+position = Vector3(16, 2.8, 21.89)
+script = ExtResource("2_board_script")
+yard_split = true
+
+[node name="Backplate" type="MeshInstance3D" parent="YardSplit"]
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("Mesh_YardRoutePlate")
+
+[node name="Yard" type="Label3D" parent="YardSplit"]
+position = Vector3(-0.97, 0, -0.034)
+rotation = Vector3(0, 3.141593, 0)
+modulate = Color(0.76, 0.9, 0.85, 1)
+double_sided = false
+text = "A · VÒNG MÉP NAM   ↑"
+font_size = 29
+outline_size = 2
+pixel_size = 0.00385
+
+[node name="Service" type="Label3D" parent="YardSplit"]
+position = Vector3(0.97, 0, -0.034)
+rotation = Vector3(0, 3.141593, 0)
+modulate = Color(0.76, 0.9, 0.85, 1)
+double_sided = false
+text = "←   B · BẢO TRÌ"
+font_size = 29
+outline_size = 2
+pixel_size = 0.00385
+
+[node name="ArchiveDesk" type="Node3D" parent="."]
+position = Vector3(-19, -3.08, -41.2)
+
+[node name="LampBase" type="MeshInstance3D" parent="ArchiveDesk"]
+position = Vector3(0.77, 0.02, -0.24)
+gi_mode = 0
+mesh = SubResource("Mesh_LampBase")
+
+[node name="LampStem" type="MeshInstance3D" parent="ArchiveDesk"]
+position = Vector3(0.77, 0.3, -0.24)
+gi_mode = 0
+mesh = SubResource("Mesh_LampStem")
+
+[node name="LampShade" type="MeshInstance3D" parent="ArchiveDesk"]
+position = Vector3(0.51, 0.58, -0.24)
+gi_mode = 0
+mesh = SubResource("Mesh_LampShade")
+
+[node name="DeskLight" type="SpotLight3D" parent="ArchiveDesk"]
+position = Vector3(0.29, 0.52, -0.24)
+rotation = Vector3(-0.96, 2.22, 0)
+light_color = Color(1, 0.86, 0.61, 1)
+light_energy = 1.65
+light_bake_mode = 0
+spot_range = 2.2
+spot_angle = 43.0
+
+[node name="DeskCard" type="MeshInstance3D" parent="ArchiveDesk"]
+position = Vector3(-0.68, 0.36, 0.29)
+gi_mode = 0
+mesh = SubResource("Mesh_Card")
+
+[node name="DeskCardStand" type="MeshInstance3D" parent="ArchiveDesk"]
+position = Vector3(-0.68, 0.12, 0.33)
+gi_mode = 0
+mesh = SubResource("Mesh_CardStand")
+
+[node name="DeskCardText" type="Label3D" parent="ArchiveDesk"]
+position = Vector3(-0.68, 0.36, 0.267)
+rotation = Vector3(0, 3.141593, 0)
+double_sided = false
+modulate = Color(0.96, 0.87, 0.65, 1)
+pixel_size = 0.0019
+font_size = 25
+outline_size = 1
+text = "K17 / MẬT LỆNH 04\nBẢN CHÍNH · GIỜ PHONG TỎA"

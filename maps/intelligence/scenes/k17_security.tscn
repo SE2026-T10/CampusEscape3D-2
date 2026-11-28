@@ -443,6 +443,7 @@ bus = &"SFX"
 [node name="Sensor1" type="Node3D" parent="." unique_id=1305273162]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -2.8, -42.4)
 script = ExtResource("4_krvw1")
+lane_name = "S2"
 phase_offset = 4.0
 
 [node name="Detection" type="Area3D" parent="Sensor1" unique_id=1294795891]
