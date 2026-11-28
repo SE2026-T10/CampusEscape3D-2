@@ -25,7 +25,7 @@ const OBJECTIVES := [
 	{"id": ESCAPE, "requires": [FILE], "title": "Đến điểm tập kết", "hint": "Rút qua cửa vừa vào. Theo biển A hoặc B tới đèn xanh.", "done": "Đã đưa hồ sơ ra khỏi K17"},
 	{"id": PREPARED, "requires": [ENTER], "optional":true,"title":"Chuẩn bị cửa hậu","hint":"Chốt cơ trong trạm điện.","done":"Cửa hậu đã được chuẩn bị"},
 	{"id": CAMERAS_OFF,"requires": [ENTER],"optional":true,"title":"Ngắt nguồn camera mặt đất","hint":"Công tắc ở trạm điện. CCTV B1 dùng mạch nội bộ riêng.","done":"Đã ngắt camera mặt đất trước hồ sơ"},
-	{"id": ANNEX, "requires": [FILE], "optional": true, "title": "Thu hồi phụ lục 04-B", "hint": "Giữ E 3 giây tại ngăn cạnh bản chính. 04-B cho đội sơ tán biết giờ phong tỏa đã sửa.", "done": "Đã lấy 04-B · Giờ phong tỏa sớm hơn 20 phút"},
+	{"id": ANNEX, "requires": [FILE], "optional": true, "title": "Thu hồi phụ lục 04-B", "hint": "Giữ E 3 giây tại ngăn cạnh bản chính. Tuyến chính đóng sớm 20 phút. Giao 04-B để đoàn sơ tán đi đường dự phòng.", "done": "Đã lấy 04-B · Giờ phong tỏa sớm hơn 20 phút"},
 	{"id": SABOTAGE,"requires": [FILE],"optional":true,"title":"Phá hủy cụm tình báo dự phòng","hint":"Tùy chọn: sau hồ sơ, giữ E 5 giây tại tủ trong xưởng phía đông rồi rút trước khi hết 120 giây. Kích hoạt sau khi thoát.","done":"Đã phá hủy cụm tình báo dự phòng"},
 ]
 
@@ -179,7 +179,11 @@ func complete_finale(token: int) -> void:
 	detonate_sabotage(token)
 	finale_pending = false
 	var finale := get_parent().get_node_or_null("ExtractionFinale")
-	if finale: finale.cancel()
+	if finale:
+		if ObjectiveManager.find(self).escape_route == &"maintenance":
+			finale.end_shot() # Keep the workshop behind the results card.
+		else:
+			finale.cancel()
 	_finish_result()
 
 
@@ -237,7 +241,8 @@ func get_result_lines() -> Array[String]:
 	var team:=get_parent().get_node_or_null("Reinforcements")
 	var dispatched: int=int(team.get("spawned_count")) if team else 0
 	var has_annex := objectives.is_completed(ANNEX)
-	var summary := "04-B đã bàn giao · Đoàn sơ tán đã đổi tuyến trước giờ mới." if has_annex else "Đã nhận Mật lệnh 04 · Đang xác minh giờ phong tỏa."
+	var summary := "04-B đã bàn giao. Tuyến chính đóng sớm 20 phút.\nĐoàn sơ tán đã chuyển sang đường dự phòng." if has_annex \
+		else "Mật lệnh 04 đã bàn giao. Chưa nhận 04-B.\nĐoàn sơ tán chờ xác minh giờ phong tỏa."
 	if is_test_mode(): summary = "TEST MAP · " + summary
 	var sabotage := get_parent().get_node_or_null("Sabotage")
 	var destroyed: bool = sabotage != null and sabotage.detonated
@@ -306,10 +311,17 @@ func route_status(route: int) -> String:
 	match route_state(route):
 		RouteState.LOCKED:
 			if route == 0: return "Đã khóa"
-			return "Đã khóa · mở nhanh" if backdoor_prepared else "Đã khóa · giữ E 8 giây"
+			if backdoor_prepared: return "Đã chuẩn bị · nhấn E"
+			var gate := get_security_node("MaintenanceGate") as K17LockdownGate
+			var hold := gate.get_hold_duration(null)
+			if hold <= 0.0: return "Khóa cơ · nhấn E"
+			return "Khóa cơ · giữ E %s giây" % String.num(hold).trim_suffix(".0")
 		RouteState.CLOSING: return "Đang đóng · chờ trống"
 		RouteState.WARNING:
 			return "Đóng sau %d giây" % maxi(0, ceili(time_left - (escape_duration - courtyard_close_at)))
+	if route == 1:
+		if has_file: return "Cửa hậu đã mở"
+		return "Cửa hậu đã chuẩn bị" if backdoor_prepared else "Cửa hậu chưa chuẩn bị"
 	return "Mở"
 
 

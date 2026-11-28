@@ -46,7 +46,8 @@ func _ready() -> void:
 	update_marker()
 
 func _process(_delta: float) -> void:
-	update_marker()
+	if _hud and _hud.visible:
+		update_marker()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(ACTION) and not event.is_echo() and _can_show():

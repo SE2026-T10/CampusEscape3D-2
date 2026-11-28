@@ -11,6 +11,7 @@ func _expect(condition: bool,message: String) -> void:
 	if not condition: failures.append(message)
 
 func _run() -> void:
+	var previous_occlusion := root.use_occlusion_culling
 	var level: Node3D = (load("res://maps/intelligence/scenes/intelligence_k17.tscn") as PackedScene).instantiate()
 	root.add_child(level)
 	await _frames(30)
@@ -46,6 +47,12 @@ func _run() -> void:
 		_expect(not camera._cone.visible,"K17 camera keeps perception without a floating translucent cone")
 		_expect(camera.get_children().filter(func(child): return child is Label3D and child.visible).is_empty(),"Camera labels are physical equipment signs, not floating billboards")
 	var sectors:=level.get_node("NavigationRegion3D/Sectors")
+	_expect(root.use_occlusion_culling, "K17 enables occlusion in its viewport")
+	var occluders := sectors.find_children("*", "OccluderInstance3D", true, false)
+	_expect(not occluders.is_empty(), "Solid sector walls and roofs supply occluders")
+	_expect(occluders.all(_occluder_fits_solid_box), "Every occluder fits inside a static solid wall or roof")
+	_expect(sectors.get_node("perimeter").find_children("*", "OccluderInstance3D", true, false).is_empty(), "Perimeter fences stay transparent to rendering")
+	_expect(sectors.get_node("secure_vault/SideObservationGlass").find_children("*", "OccluderInstance3D", true, false).is_empty(), "Observation glass stays transparent to rendering")
 	_expect(sectors.get_node("command").has_node("CameraCeilingPlate") and sectors.get_node("records").has_node("CameraCeilingPlate"),"Both indoor cameras have ceiling support")
 	_expect(sectors.get_node("service_route").has_node("CameraMast") and sectors.get_node("service_route").has_node("CameraMastBase"),"Outdoor camera has a grounded mast and base")
 	_expect(not sectors.get_node("guard_post/PassDesk/Mesh").visible and not sectors.get_node("secure_vault/FileDesk/Mesh").visible,"Detailed desks are not hidden under solid placeholder cubes")
@@ -83,10 +90,22 @@ func _run() -> void:
 	baked=null
 	level.queue_free()
 	await _frames(30)
+	_expect(root.use_occlusion_culling == previous_occlusion, "Leaving K17 restores the viewport's previous occlusion setting")
 	await preload("res://tests/test_utils.gd").settle_async_audio(self)
 	for failure in failures: printerr(failure)
 	print("K17 ART CHECKS: ",checks," checks; ",failures.size()," failures")
 	quit(0 if failures.is_empty() else 1)
+
+func _occluder_fits_solid_box(instance: OccluderInstance3D) -> bool:
+	var collider := instance.get_parent() as CollisionShape3D
+	if collider == null or not collider.get_parent() is StaticBody3D:
+		return false
+	var body_name := str(collider.get_parent().name).rstrip("0123456789")
+	var box := collider.shape as BoxShape3D
+	var shape := instance.occluder as BoxOccluder3D
+	return body_name in ["Wall", "Roof"] and box != null and shape != null \
+		and instance.transform.is_equal_approx(Transform3D.IDENTITY) \
+		and (box.size - shape.size).is_equal_approx(Vector3.ONE * 0.08)
 
 func _frames(count: int) -> void:
 	for i in count: await physics_frame

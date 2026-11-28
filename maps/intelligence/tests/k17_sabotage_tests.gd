@@ -35,6 +35,7 @@ func run(parent: Node) -> Array[String]:
 		_expect(flow.state==G.WIN and device.detonated,"Fresh Enter skips through the real finale completion path")
 		_expect(not flow.is_leaving(),"Skip input never activates the focused Play again button")
 		_expect(objectives.escape_route==route,"Cinematic keeps the actual escape route")
+		_expect(player.camera.current == (route == &"courtyard"),"Results use the camera for the extracted route")
 		await _unload()
 	await _load()
 	await _file()
@@ -180,12 +181,19 @@ func _interaction_and_reset() -> void:
 
 func _finale_and_pause() -> void:
 	await _file()
+	var moon := level.get_node("K17Environment/Moon") as DirectionalLight3D
+	var flood := level.get_node("K17Environment/YardFlood4") as SpotLight3D
+	var original_distance := moon.directional_shadow_max_distance
+	var original_fade := flood.distance_fade_shadow
 	device.plant()
 	mission.time_left=.1
 	var remaining := mission.time_left
 	var play_time := flow.play_time
 	_expect(mission.try_extract(&"maintenance","Hành lang bảo trì"),"Positive deadline accepts armed extraction")
 	_expect(flow.state==G.PLAYING and finale.active and mission.finale_pending,"WIN waits for the finale")
+	if finale._workshop_effects:
+		_expect(not finale._workshop_effect_image.visible,"B starts with the cached workshop backdrop")
+	_expect(moon.directional_shadow_max_distance < original_distance and flood.distance_fade_shadow == original_fade,"B limits the moon shadow distance and preserves the gameplay light settings")
 	_expect(not mission.try_extract(&"courtyard","Sân") and finale.starts==1,"Repeated extraction creates one finale")
 	var team := level.get_node("Gameplay/Reinforcements")
 	team.wave_times=Vector2.ZERO
@@ -204,17 +212,49 @@ func _finale_and_pause() -> void:
 	_expect(device.detonated and device.detonations==1 and objectives.is_completed(M.SABOTAGE),"Logical detonation completes the optional objective once")
 	_expect(flow.state==G.PLAYING and mission.time_left==remaining,"Committed escape never times out during the scene")
 	_expect(not device.get_node("Intact").visible and device.get_node("Damaged").visible,"Destroyed equipment replaces the intact visual")
+	if finale._workshop_effects:
+		_expect(finale._workshop_effect_image.visible and finale._workshop_glow.get_world_3d() != finale.get_world_3d(),"B draws the blast in its separate effect world")
+		_expect(finale._workshop_effects.render_target_update_mode == SubViewport.UPDATE_ONCE,"B schedules the effect image one simulation tick at a time")
+	var audio := AudioDirector.find(level)
+	var objective_cues := audio.played.count("objective_complete")
 	flow._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
 	await _frames(3)
 	_expect(flow.state==G.PAUSED and finale._sound.stream_paused,"Focus loss pauses cinematic sound and gameplay")
 	flow.resume()
-	await _frames(200)
+	await _frames(165)
+	if finale._workshop_effects and OS.get_name() == "Windows":
+		_expect(flow.state==G.PLAYING and flow.applied_mouse_mode==Input.MOUSE_MODE_VISIBLE,"B releases the Windows cursor before presenting the results")
+	await _frames(35)
 	_expect(flow.state==G.WIN and not finale.active and device.detonations==1,"Natural finale reaches WIN once")
+	_expect(host.get_viewport().get_camera_3d() == finale._camera and not level.get_node("ObjectiveHud").visible,"B keeps the final shot behind results with the gameplay HUD hidden")
+	if finale._workshop_effects:
+		_expect(not finale._workshop_effect_image.visible and finale._workshop_effects.render_target_update_mode == SubViewport.UPDATE_DISABLED,"WIN stops drawing the moving effects")
+	var menus := level.get_node("GameMenus") as GameMenus
+	_expect(menus.win_panel.visible and menus.win_panel.modulate.a == 1.0 and menus.play_again_button.has_focus(),"B results appear at full opacity and keep keyboard focus")
+	if finale._workshop_backdrop:
+		_expect(menus.win_panel.self_modulate.a == 0.0 and finale._workshop_backdrop.self_modulate != Color.WHITE,"WIN dims the cached shot in the backdrop draw")
+	_expect(audio.played.count("victory") == 1 and audio.played.count("objective_complete") == objective_cues,"Extraction plays the victory cue without a second completion sound")
 	_expect(is_equal_approx(mission.extraction_play_time,play_time),"Results preserve the gameplay time captured at extraction")
 	_expect(level.get_node("GameMenus").get_win_text().contains("phá hủy") and mission.time_left==remaining,"Vietnamese result includes sabotage and frozen remaining time")
+	var result_view := menus.get("_result_view") as SubViewport
+	if result_view:
+		var result_image := menus.get("_result_image") as TextureRect
+		_expect(result_image.visible and not finale._workshop_backdrop.visible,"WIN displays the composed image instead of drawing its source layers in the window")
+		var initial_pixels := result_view.get_texture().get_image().get_data()
+		var tab := InputEventAction.new()
+		tab.action = &"ui_focus_next"
+		tab.pressed = true
+		host.get_viewport().push_input(tab)
+		await _frames(3)
+		var focused_pixels := result_view.get_texture().get_image().get_data()
+		_expect(menus.win_menu_button.has_focus() and initial_pixels != focused_pixels,"Keyboard focus redraws the cached results")
+		var mouse := InputEventMouseMotion.new()
+		mouse.position = menus.play_again_button.get_global_rect().get_center()
+		host.get_viewport().push_input(mouse, true)
+		await _frames(3)
+		_expect(menus.play_again_button.is_hovered() and focused_pixels != result_view.get_texture().get_image().get_data(),"Pointer hover redraws the cached results")
 	mission.complete_finale(mission.run_id)
 	_expect(device.detonations==1 and flow.state==G.WIN,"Late finish callbacks are harmless")
-	var menus := level.get_node("GameMenus") as GameMenus
 	var window := host.get_window()
 	var previous_scale := GameSettings.hud_scale
 	var previous_size := window.size
@@ -228,6 +268,11 @@ func _finale_and_pause() -> void:
 	window.size=previous_size
 	GameSettings.hud_scale=previous_scale
 	GameSettings.apply(host.get_tree())
+	mission.restore_checkpoint_state({})
+	_expect(player.camera.current and level.get_node("ObjectiveHud").visible,"Reset restores the player camera and HUD")
+	if result_view:
+		_expect(not menus.get("_result_image").visible and menus.win_panel.get_parent() == menus,"Reset releases the cached results and restores the regular menu")
+	_expect(moon.directional_shadow_max_distance == original_distance and flood.distance_fade_shadow == original_fade,"Reset restores original lighting")
 
 func _unload() -> void:
 	Input.action_release("interact")

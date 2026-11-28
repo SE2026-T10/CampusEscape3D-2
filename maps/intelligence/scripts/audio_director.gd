@@ -1,8 +1,14 @@
 extends AudioDirector
 
+const VICTORY_CUE := preload("res://shared/assets/audio/victory.wav")
+
 @onready var _room: Area3D = $"../Gameplay/ProjectionRoom"
 @onready var _mission: K17MissionController = $"../Gameplay/Mission"
 @onready var _listener: FirstPersonPlayer = $"../Player"
+
+func _ready() -> void:
+	super()
+	_ui.stream = VICTORY_CUE
 
 
 func _process(delta: float) -> void:
@@ -15,6 +21,6 @@ func _process(delta: float) -> void:
 
 
 func _on_objective_completed(id: StringName) -> void:
-	# The mission's alarm is the cue for acquiring the file.
-	if id != K17MissionController.FILE:
+	# The mission alarm and the victory cue already cover these two objectives.
+	if id != K17MissionController.FILE and id != K17MissionController.ESCAPE:
 		super(id)
