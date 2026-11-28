@@ -3,6 +3,7 @@ extends Node3D
 const C := preload("res://maps/intelligence/resources/layout/k17_sabotage.gd")
 const WORKSHOP_SHADOW_DISTANCE := 24.0
 const WORKSHOP_RENDER_HEIGHT := 900.0
+const WORKSHOP_EFFECT_HEIGHT := 720.0
 var active := false
 var elapsed := 0.0
 var run_id := -1
@@ -22,6 +23,11 @@ var _warm_view: SubViewport
 var _warm_cover: CanvasLayer
 var _workshop_view: SubViewport
 var _workshop_layer: CanvasLayer
+var _workshop_effects: SubViewport
+var _workshop_effect_image: TextureRect
+var _workshop_particles: Array[CPUParticles3D] = []
+var _workshop_glow: Sprite3D
+var _workshop_intro_ready := false
 var _previous_disable_3d := false
 var _warm_frames := 0
 var _shot_moon: DirectionalLight3D
@@ -145,22 +151,58 @@ func _setup_workshop_view() -> void:
 	_workshop_layer.layer = 10
 	_workshop_layer.hide()
 	add_child(_workshop_layer)
-	var backdrop := TextureRect.new()
-	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	backdrop.texture = _workshop_view.get_texture()
-	_workshop_layer.add_child(backdrop)
-	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_add_workshop_image(_workshop_view)
+	_setup_workshop_effects()
 	_resize_workshop_view()
 	viewport.size_changed.connect(_resize_workshop_view)
+
+func _add_workshop_image(viewport: SubViewport) -> TextureRect:
+	var image := TextureRect.new()
+	image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	image.texture = viewport.get_texture()
+	_workshop_layer.add_child(image)
+	image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	return image
+
+func _setup_workshop_effects() -> void:
+	# Draw the moving effects at the same angle in an otherwise empty world.
+	_workshop_effects = SubViewport.new()
+	_workshop_effects.own_world_3d = true
+	_workshop_effects.transparent_bg = true
+	_workshop_effects.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	add_child(_workshop_effects)
+	var camera := Camera3D.new()
+	camera.fov = _camera.fov
+	_workshop_effects.add_child(camera)
+	_position_camera(camera, &"maintenance")
+	camera.make_current()
+	for source in [_smoke, _sparks, _fire]:
+		var particle := source.duplicate() as CPUParticles3D
+		_workshop_effects.add_child(particle)
+		_workshop_particles.append(particle)
+	_workshop_glow = Sprite3D.new()
+	_workshop_glow.position = C.SMOKE
+	_workshop_glow.texture = (_fire.mesh.material as StandardMaterial3D).albedo_texture
+	_workshop_glow.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	_workshop_glow.pixel_size = .045
+	_workshop_glow.modulate = Color(1, .50, .21, .5)
+	_workshop_effects.add_child(_workshop_glow)
+	_workshop_effect_image = _add_workshop_image(_workshop_effects)
+	_workshop_effect_image.hide()
 
 func _resize_workshop_view() -> void:
 	# The result card can scale its final image without drawing the scene again.
 	if _workshop_layer.visible and not active: return
 	var size := get_viewport().get_texture().get_size().max(Vector2(2, 2))
-	var scale := minf(1.0, WORKSHOP_RENDER_HEIGHT / size.y)
-	_workshop_view.size = Vector2i((size * scale).round())
+	var backdrop_size := Vector2i((size * minf(1.0, WORKSHOP_RENDER_HEIGHT / size.y)).round())
+	if _workshop_view.size != backdrop_size:
+		_workshop_view.size = backdrop_size
+		_workshop_intro_ready = false
+		if _workshop_layer.visible:
+			_workshop_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+	_workshop_effects.size = Vector2i((size * minf(1.0, WORKSHOP_EFFECT_HEIGHT / size.y)).round())
 
 func _warm_workshop() -> void:
 	if active or not is_inside_tree(): return
@@ -176,9 +218,11 @@ func _warm_workshop() -> void:
 	_apply_workshop_shadows()
 	_overlay.show()
 	_workshop_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+	_workshop_effects.render_target_update_mode = SubViewport.UPDATE_ONCE
 	RenderingServer.frame_post_draw.connect(_finish_workshop_warmup, CONNECT_ONE_SHOT)
 
 func _finish_workshop_warmup() -> void:
+	_workshop_intro_ready = true
 	_restore_workshop_shadows()
 	_overlay.hide()
 	_warm_cover.queue_free()
@@ -278,7 +322,10 @@ func start(route: StringName, token: int) -> bool:
 			_resize_workshop_view()
 			_previous_disable_3d = get_viewport().disable_3d
 			get_viewport().disable_3d = true
-			_workshop_view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+			# The fixed exterior is ready before the cut.
+			if not _workshop_intro_ready:
+				_workshop_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+			_workshop_intro_ready = false
 			_workshop_layer.show()
 	_camera.make_current()
 	var hud := get_parent().get_parent().get_node_or_null("ObjectiveHud") as ObjectiveHud
@@ -304,16 +351,25 @@ func _physics_process(delta: float) -> void:
 	if elapsed >= C.DETONATE_AT and not effects_played:
 		effects_played = true
 		if m.detonate_sabotage(run_id):
-			_smoke.restart()
-			_smoke.emitting = true
-			_sparks.restart()
-			_sparks.emitting = true
-			_fire.restart()
-			_fire.emitting = true
+			_play_effects()
 			_sound.play()
 			SoundCaptions.cue(self, "k17_sabotage", "Vụ nổ từ khu thiết bị tình báo dự phòng")
-	_flash.light_energy = maxf(0, 3.5 * (1.0 - (elapsed-C.DETONATE_AT)/.35)) if effects_played else 0.0
+	var flash := clampf(1.0 - (elapsed - C.DETONATE_AT) / .35, 0.0, 1.0) if effects_played else 0.0
+	if _workshop_layer and _workshop_layer.visible:
+		_workshop_glow.modulate.a = .5 * flash
+	else:
+		_flash.light_energy = 3.5 * flash
 	if elapsed >= C.FINALE_SECONDS: finish()
+
+func _play_effects() -> void:
+	var particles: Array[CPUParticles3D] = [_smoke, _sparks, _fire]
+	if _workshop_layer and _workshop_layer.visible:
+		particles = _workshop_particles
+		_workshop_effects.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+		_workshop_effect_image.show()
+	for particle in particles:
+		particle.restart()
+		particle.emitting = true
 
 func _unhandled_input(event: InputEvent) -> void:
 	if active and elapsed >= .5 and event.is_action_pressed("ui_accept") and not event.is_echo():
@@ -338,9 +394,9 @@ func end_shot() -> void:
 	if _flash: _flash.light_energy = 0
 	if _overlay: _overlay.hide()
 	if _workshop_layer and _workshop_layer.visible:
-		# The natural ending already has the last workshop image. An early skip
-		# needs one more draw to settle the backdrop after stopping the effects.
-		_workshop_view.render_target_update_mode = SubViewport.UPDATE_DISABLED if elapsed >= C.FINALE_SECONDS else SubViewport.UPDATE_ONCE
+		for particle in _workshop_particles: particle.emitting = false
+		_workshop_effects.render_target_update_mode = SubViewport.UPDATE_DISABLED
+		_workshop_effect_image.hide()
 
 func cancel() -> void:
 	end_shot()

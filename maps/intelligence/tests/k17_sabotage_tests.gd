@@ -191,6 +191,8 @@ func _finale_and_pause() -> void:
 	var play_time := flow.play_time
 	_expect(mission.try_extract(&"maintenance","Hành lang bảo trì"),"Positive deadline accepts armed extraction")
 	_expect(flow.state==G.PLAYING and finale.active and mission.finale_pending,"WIN waits for the finale")
+	if finale._workshop_effects:
+		_expect(not finale._workshop_effect_image.visible,"B starts with the cached workshop backdrop")
 	_expect(moon.directional_shadow_max_distance < original_distance and flood.distance_fade_shadow == original_fade,"B limits the moon shadow distance and preserves the gameplay light settings")
 	_expect(not mission.try_extract(&"courtyard","Sân") and finale.starts==1,"Repeated extraction creates one finale")
 	var team := level.get_node("Gameplay/Reinforcements")
@@ -210,6 +212,8 @@ func _finale_and_pause() -> void:
 	_expect(device.detonated and device.detonations==1 and objectives.is_completed(M.SABOTAGE),"Logical detonation completes the optional objective once")
 	_expect(flow.state==G.PLAYING and mission.time_left==remaining,"Committed escape never times out during the scene")
 	_expect(not device.get_node("Intact").visible and device.get_node("Damaged").visible,"Destroyed equipment replaces the intact visual")
+	if finale._workshop_effects:
+		_expect(finale._workshop_effect_image.visible and finale._workshop_glow.get_world_3d() != finale.get_world_3d(),"B draws the blast in its separate effect world")
 	flow._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
 	await _frames(3)
 	_expect(flow.state==G.PAUSED and finale._sound.stream_paused,"Focus loss pauses cinematic sound and gameplay")
@@ -217,6 +221,8 @@ func _finale_and_pause() -> void:
 	await _frames(200)
 	_expect(flow.state==G.WIN and not finale.active and device.detonations==1,"Natural finale reaches WIN once")
 	_expect(host.get_viewport().get_camera_3d() == finale._camera and not level.get_node("ObjectiveHud").visible,"B keeps the final shot behind results with the gameplay HUD hidden")
+	if finale._workshop_effects:
+		_expect(not finale._workshop_effect_image.visible and finale._workshop_effects.render_target_update_mode == SubViewport.UPDATE_DISABLED,"WIN stops drawing the moving effects")
 	_expect(is_equal_approx(mission.extraction_play_time,play_time),"Results preserve the gameplay time captured at extraction")
 	_expect(level.get_node("GameMenus").get_win_text().contains("phá hủy") and mission.time_left==remaining,"Vietnamese result includes sabotage and frozen remaining time")
 	mission.complete_finale(mission.run_id)

@@ -42,3 +42,43 @@ Dùng Godot 4.7.2 và renderer thật. Khi cần đo lần đầu, đặt `APPDA
 godot --path . --script res://maps/intelligence/tools/benchmark_sabotage.gd -- --1080p --repeats=1 --out=user://finale-1080p.json
 godot --path . --script res://maps/intelligence/tools/benchmark_sabotage.gd -- --repeats=1 --out=user://finale-720p.json
 ```
+
+## Lần chỉnh tiếp PR #54
+
+Góc máy B đứng yên và các NPC đã bị đóng băng khi xác nhận thoát. Cảnh dùng một ảnh nền ngoại cảnh chuẩn bị lúc tải map, với lượt dựng dự phòng nếu kích thước bộ đệm thay đổi. Nền được giữ trong lúc nổ và khi hiện bảng kết quả. Viewport trong suốt chỉ vẽ lửa, khói và tia lửa ở cùng góc máy. Ánh chớp qua B dùng quầng sáng cục bộ tại điểm nổ. Nền giữ giới hạn 900 px chiều cao từ bản PR trước, còn lớp hiệu ứng có giới hạn 720 px. Bảng kết quả được vẽ ở độ phân giải cửa sổ.
+
+Đối chứng trên ba bản Windows release với cùng công cụ đo và cùng nội dung nhiệm vụ. `feature/twp` ở `ec69243` là mốc tích hợp, `7d1a7fb` là mốc PR #54 trước lần chỉnh này. Hai mốc được đo xen kẽ với một bản thử, sau đó đo bản cuối trong cùng phiên. Mỗi bản có ba lượt ở mỗi độ phân giải. Từng tiến trình dùng thư mục cache ứng dụng trống riêng. Kích thước bộ đệm cửa sổ được xác nhận bằng ảnh render, VSync tắt và có 10 NPC trước khi cắt cảnh. Cache trình điều khiển trên đĩa được giữ lại.
+
+| Độ phân giải | Bản | Khung vào cảnh, trung vị | p95, trung vị | Khung chậm nhất | Khung đầu `WIN`, trung vị | Khung đầu `WIN` chậm nhất |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 1080p | `feature/twp` | 54,865 | 15,895 | 63,057 | 16,593 | 17,594 |
+| 1080p | PR #54 cũ | 51,469 | 15,896 | 52,114 | 16,541 | 17,910 |
+| 1080p | PR #54 mới | 4,725 | 6,524 | 42,804 | 26,521 | 42,804 |
+| 720p | `feature/twp` | 86,124 | 13,988 | 91,976 | 13,421 | 14,048 |
+| 720p | PR #54 cũ | 42,152 | 13,390 | 55,951 | 7,922 | 8,288 |
+| 720p | PR #54 mới | 3,965 | 5,418 | 14,939 | 8,043 | 8,260 |
+
+Tất cả số trong bảng dùng mili giây. P95 1080p cao nhất của bản mới là 10,009 ms, nên cả ba lượt đạt mốc 16,7 ms. P95 720p giảm khoảng 60% và khung vào cảnh giảm khoảng 91% ở cả hai độ phân giải so với PR #54 cũ. Khung chậm nhất trong khoảng đo giảm, còn khung đầu `WIN` 1080p tăng. Hai đỉnh 1080p của bản mới xảy ra ngay khung đầu `WIN`. Ở 720p, ba đỉnh xảy ra khoảng 0,68–0,88 giây sau khi vào cảnh, gần lúc nổ.
+
+Trong 750 ms sau khung `WIN`, đỉnh tăng từ 31,369 lên 85,684 ms ở 1080p và giảm từ 21,382 còn 19,331 ms ở 720p. Khoảng 750 ms này nằm ngoài p95 và khung chậm nhất trong bảng.
+
+| Độ phân giải | Bản | Lượt | Khung vào cảnh (ms) | p95 (ms) | Khung chậm nhất (ms) | Khung đầu `WIN` (ms) |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 1080p | `feature/twp` | 1 | 54,865 | 16,653 | 54,865 | 17,594 |
+| 1080p | `feature/twp` | 2 | 53,717 | 15,687 | 53,717 | 16,593 |
+| 1080p | `feature/twp` | 3 | 63,057 | 15,895 | 63,057 | 13,576 |
+| 1080p | PR #54 cũ | 1 | 50,891 | 14,990 | 50,891 | 16,541 |
+| 1080p | PR #54 cũ | 2 | 51,469 | 15,896 | 51,469 | 15,120 |
+| 1080p | PR #54 cũ | 3 | 52,114 | 16,261 | 52,114 | 17,910 |
+| 1080p | PR #54 mới | 1 | 4,644 | 6,440 | 26,521 | 26,521 |
+| 1080p | PR #54 mới | 2 | 4,725 | 6,524 | 42,804 | 42,804 |
+| 1080p | PR #54 mới | 3 | 6,620 | 10,009 | 18,583 | 11,671 |
+| 720p | `feature/twp` | 1 | 64,284 | 13,988 | 64,284 | 13,421 |
+| 720p | `feature/twp` | 2 | 86,124 | 13,969 | 86,124 | 12,280 |
+| 720p | `feature/twp` | 3 | 91,976 | 15,009 | 91,976 | 14,048 |
+| 720p | PR #54 cũ | 1 | 55,951 | 13,390 | 55,951 | 7,464 |
+| 720p | PR #54 cũ | 2 | 41,643 | 14,619 | 41,643 | 8,288 |
+| 720p | PR #54 cũ | 3 | 42,152 | 12,980 | 42,152 | 7,922 |
+| 720p | PR #54 mới | 1 | 3,965 | 5,418 | 14,939 | 8,260 |
+| 720p | PR #54 mới | 2 | 3,936 | 5,490 | 10,061 | 8,043 |
+| 720p | PR #54 mới | 3 | 4,813 | 5,395 | 10,002 | 7,247 |
